@@ -1,4 +1,0 @@
-procedure foo(a,b,c)
-{
-	var i,j,k;
-}

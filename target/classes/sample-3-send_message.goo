@@ -1,6 +1,0 @@
-procedure foo(a,b,c)
-{
-	b.foo();
-	a = b.foo(this.getX(true),y,z);	
-	
-}
