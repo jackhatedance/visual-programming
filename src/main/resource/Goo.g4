@@ -38,24 +38,28 @@ statement
 //varDeclare : 'var' varList;
 //varList : ID (',' ID)*;
                      
-assignment : assignee '=' expr ;
+assignment : assignee assign_op expr ;
+
+assign_op : REF_ASSIGN
+          | OWN_ASSIGN
+          | AUTO_ASSIGN;
+
 
 assignee : ID		#AssigneeVariable
 	| expr DOT field	#AssigneeField
 	;
 
-expr: constant				#Constant
-	| expr DOT field              #AccessField
+expr: constant				#ConstantExpr
+    | variable                          #VariableExpr
+    | expr DOT field              #AccessField
     | expr DOT messgeName '(' paramList? ')' #sendMessage
     ;
 
-constant :ID                                #Variable
-	| NUMBER			#Number
+constant : NUMBER			#Number
 	| STRING			#String
 	| BOOLEAN                      #Boolean 
-
-
-
+         ;
+variable : ID;
 field   :   ID;
 messgeName : ID;
 
@@ -91,6 +95,12 @@ LINE_COMMENT : '//' .*? '\r'? '\n';
 BLOCK_COMMENT : '/*' .*? '*/';
 
 
+REF_ASSIGN : '->';
+OWN_ASSIGN : '=>';
+AUTO_ASSIGN: '=';
+    
+    
+    
 ID : [a-zA-Z][a-zA-Z0-9]*;
 
 NUMBER : [0-9]+

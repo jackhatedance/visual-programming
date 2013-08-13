@@ -4,4 +4,6 @@ procedure foo(a,b,c)
 	a = 1;
 	a = "string";
 	a = true;
+	
+	self.getFoo().bar = b;
 }
