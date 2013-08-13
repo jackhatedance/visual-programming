@@ -1,0 +1,11 @@
+procedure foo(a,b,c)
+{
+
+		
+	
+	for(i=0;i.lt(100);i.inc()){
+		bar.foo();		
+	}	
+	
+	out.print(i);
+}

@@ -1,0 +1,17 @@
+#no package
+#no class
+#just procedure
+
+
+void main(Array args)	{
+	i=0;
+	
+	//hard link
+	DebugConsole = com.bluesky.my4gl.io.DebugConsole;
+	
+	for(;i.lt(10);i.increase(1)){
+		s = i.toString();
+		DebugConsole.println(s);
+		DebugConsole$.println("Hello 世界!");			 
+	}
+}

@@ -1,0 +1,7 @@
+no more classes. but you can clone existing objects.
+no more packages, but you can access object via path.
+
+it is like javascript, and message driven.
+it's code is based on flowchart.
+xx
+d
