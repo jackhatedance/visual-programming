@@ -1,1 +1,0 @@
-antlr4 -o ../java/com/bluesky/visualprogramming/goo/parser -package com.bluesky.visualprogramming.goo.parser -visitor Goo.g4

@@ -9,6 +9,39 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface GooListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link GooParser#ConstantExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstantExpr(@NotNull GooParser.ConstantExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#ConstantExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstantExpr(@NotNull GooParser.ConstantExprContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#AssigneeField}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#AssigneeField}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#VariableExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableExpr(@NotNull GooParser.VariableExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#VariableExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableExpr(@NotNull GooParser.VariableExprContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#forStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -18,17 +51,6 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitForStatement(@NotNull GooParser.ForStatementContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link GooParser#Variable}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariable(@NotNull GooParser.VariableContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GooParser#Variable}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariable(@NotNull GooParser.VariableContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#Number}.
@@ -141,17 +163,6 @@ public interface GooListener extends ParseTreeListener {
 	void exitField(@NotNull GooParser.FieldContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link GooParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatement(@NotNull GooParser.StatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GooParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatement(@NotNull GooParser.StatementContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link GooParser#sendMessage}.
 	 * @param ctx the parse tree
 	 */
@@ -161,6 +172,17 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSendMessage(@NotNull GooParser.SendMessageContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(@NotNull GooParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(@NotNull GooParser.StatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#assignment}.
@@ -218,6 +240,17 @@ public interface GooListener extends ParseTreeListener {
 	void exitComment(@NotNull GooParser.CommentContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GooParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(@NotNull GooParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(@NotNull GooParser.VariableContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#procedure}.
 	 * @param ctx the parse tree
 	 */
@@ -227,4 +260,26 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProcedure(@NotNull GooParser.ProcedureContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#AssigneeVariable}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssigneeVariable(@NotNull GooParser.AssigneeVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#AssigneeVariable}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssigneeVariable(@NotNull GooParser.AssigneeVariableContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#assign_op}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssign_op(@NotNull GooParser.Assign_opContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#assign_op}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssign_op(@NotNull GooParser.Assign_opContext ctx);
 }

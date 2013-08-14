@@ -8,10 +8,14 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AccessFieldContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.Assign_opContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeFieldContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeVariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssignmentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BooleanContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.CommentContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ConstantExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.FieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.HeaderContext;
@@ -26,6 +30,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.SendMessageContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StringContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
 
@@ -172,6 +177,36 @@ public class GooExecutor implements GooVisitor<_Object>{
 
 	@Override
 	public _Object visitProcedure(ProcedureContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public _Object visitConstantExpr(ConstantExprContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public _Object visitAssigneeField(AssigneeFieldContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public _Object visitVariableExpr(VariableExprContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public _Object visitAssigneeVariable(AssigneeVariableContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public _Object visitAssign_op(Assign_opContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
