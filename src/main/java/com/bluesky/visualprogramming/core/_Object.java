@@ -338,5 +338,9 @@ public class _Object implements Serializable {
 		else
 			return this.context;
 	}
+	
+	public void addToMessageQueue(Message msg){
+		messageQueue.add(msg);		
+	}
 
 }

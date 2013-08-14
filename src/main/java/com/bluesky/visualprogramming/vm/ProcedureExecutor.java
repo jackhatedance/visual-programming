@@ -2,18 +2,20 @@ package com.bluesky.visualprogramming.vm;
 
 import java.util.List;
 
+import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.vm.exceptions.AlreadyHasOwnerException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
-import com.bluesky.visualprogramming.vm.instruction.Assignment;
+import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
 import com.bluesky.visualprogramming.vm.instruction.Goto;
 import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
+import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public class ProcedureExecutor implements InstructionExecutor {
 	CompiledProcedure procedure;
@@ -94,42 +96,65 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 	@Override
 	public void executeSendMessage(SendMessage instruction) {
-
+		_Object receiverObj = ctx.getObject(instruction.receiverVar);
+		
+		_Object sender = ctx.getObject("self");
+		_Object receiver = ctx.getObject(instruction.receiverVar);
+		Message msg = new Message(instruction.sync,sender,receiver,instruction.messageSubject,instruction.messageBody);
+		
+		receiverObj.addToMessageQueue(msg);
 	}
 
 	@Override
-	public void executeAssignment(Assignment instruction) {
-		// if is var
-		_Object right = ctx.getObject(instruction.right);
-		_Object left = ctx.getObject(instruction.left);
+	public void executeFieldAssignment(FieldAssignment instruction) {
 
-		_Object leftOwner = left.getOwner();
+		_Object rightObject = ctx.getObject(instruction.rightVar);
 
+		_Object leftObject = ctx.getObject(instruction.ownerVar);
+
+		_Object oldFieldObject = null;
 		// ownership
 		switch (instruction.type) {
 		case OWN:
-			if (!right.isContext())
+			if (!rightObject.isContext())
 				throw new AlreadyHasOwnerException();
 
-			ctx.setObject(instruction.left, right);
+			oldFieldObject = leftObject.getChild(instruction.fieldName);
+
+			// move to execution context
+			if (oldFieldObject != null)
+				ctx.putTempObject(oldFieldObject);
+
+			leftObject.addChild(rightObject, instruction.fieldName);
 
 			break;
 
 		case REF:
-			ctx.setObject(instruction.left, right);
+			leftObject.addPointer(rightObject, instruction.fieldName);
 
 			break;
 		default:
 			// auto
+			if (rightObject.isContext()) {
+				oldFieldObject = leftObject.getChild(instruction.fieldName);
 
-			ctx.setObject(instruction.left, right);
-			if (right.isContext() && !left.isContext())
-				leftOwner.addChild(right, left.getName());
-			else
-				leftOwner.addPointer(right, left.getName());
+				// move to execution context
+				if (oldFieldObject != null)
+					ctx.putTempObject(oldFieldObject);
+
+				leftObject.addChild(rightObject, instruction.fieldName);
+			} else {
+				leftObject.addPointer(rightObject, instruction.fieldName);
+			}
 
 		}
 
 	}
 
+	@Override
+	public void executeVariableAssignment(VariableAssignment instruction) {
+		_Object right = ctx.getObject(instruction.right);
+		ctx.setVariable(instruction.left, right);
+
+	}
 }

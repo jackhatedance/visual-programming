@@ -97,7 +97,7 @@ BLOCK_COMMENT : '/*' .*? '*/';
 
 REF_ASSIGN : '->';
 OWN_ASSIGN : '=>';
-AUTO_ASSIGN: '=';
+AUTO_ASSIGN: '='| '~>';
     
     
     
