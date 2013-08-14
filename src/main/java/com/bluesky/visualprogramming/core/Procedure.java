@@ -23,7 +23,7 @@ public class Procedure extends _Object {
 
 		String attributes = "";
 		if (this._native)
-			attributes = String.format("[native=%b, classname=%s]", _native,
+			attributes = String.format("[native=%b, native-class=%s]", _native,
 					nativeProcedureClassName);
 		else
 			attributes = "[native=false, language=goo]";
@@ -37,7 +37,7 @@ public class Procedure extends _Object {
 		String[] attrArray = str.split(",");
 		for (String s : attrArray) {
 			String[] kv = s.split("=");
-			map.put(kv[0], kv[1]);
+			map.put(kv[0].trim(), kv[1].trim());
 		}
 		return map;
 
@@ -49,7 +49,7 @@ public class Procedure extends _Object {
 		String code;
 		if (index1 >= 0) {// has attributes
 			int index2 = value.indexOf(']');
-			String attrStr = value.substring(index1, index2);
+			String attrStr = value.substring(index1+1, index2);
 			Map<String, String> map = parseAttributes(attrStr);
 
 			if (map.containsKey("native"))
@@ -63,7 +63,7 @@ public class Procedure extends _Object {
 			if (map.containsKey("language"))
 				language = map.get("language");
 
-			code = value.substring(index2);
+			code = value.substring(index2+1);
 		} else
 			code = value;
 
@@ -78,5 +78,11 @@ public class Procedure extends _Object {
 
 	public boolean isNative() {
 		return _native;
+	}
+	
+	public static void main(String[] args) {
+		Procedure  p = new Procedure(1);
+		p.setValue("[native=true, native-class=com.Foo]");
+		
 	}
 }
