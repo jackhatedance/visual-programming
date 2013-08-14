@@ -5,5 +5,5 @@ procedure foo(a,b,c)
 	a = "string";
 	a = true;
 	
-	self.getFoo().bar = b;
+	self.getFoo().bar = "boo";
 }
