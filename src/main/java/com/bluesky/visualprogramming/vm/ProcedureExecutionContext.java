@@ -11,6 +11,8 @@ import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
 public class ProcedureExecutionContext {
 
+	final static String VAR_RESULT = "result";
+
 	Map<String, _Object> localVariables;
 
 	Instruction currentInstruction;
@@ -41,6 +43,14 @@ public class ProcedureExecutionContext {
 
 	public void setVariable(String name, _Object value) {
 		localVariables.put(name, value);
+	}
+
+	public _Object getResult() {
+		return localVariables.get(VAR_RESULT);
+	}
+
+	public void setResult(_Object value) {
+		localVariables.put(VAR_RESULT, value);
 	}
 
 	public void putTempObject(_Object obj) {

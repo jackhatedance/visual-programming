@@ -44,6 +44,8 @@ public class _Object implements Serializable {
 	private Map<String, _Object> childrenMap = new HashMap<String, _Object>();
 
 	private Deque<Message> messageQueue;
+	private boolean awake=true;
+	private Worker worker=null;
 
 	/**
 	 * the max value of height and width is 1000;
@@ -339,8 +341,22 @@ public class _Object implements Serializable {
 			return this.context;
 	}
 	
-	public void addToMessageQueue(Message msg){
-		messageQueue.add(msg);		
+	public synchronized int addToMessageQueue(Message msg){
+		messageQueue.add(msg);
+		return messageQueue.size();
 	}
 
+	public boolean isAwake(){
+		return awake;
+				
+	}
+	public void setAwake(boolean awake){
+		this.awake = awake;
+	}
+	
+	
+	
+	public boolean hasWorker(){
+		return this.worker!=null;
+	}
 }

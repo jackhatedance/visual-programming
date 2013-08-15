@@ -65,7 +65,7 @@ public class MainWindow extends JPanel {
 
 	JSplitPane splitPane;
 
-	JPopupMenu popupMenu;
+	JPopupMenu parentPopupMenu;	
 
 	
 	private Point cursorOffset;	
@@ -156,7 +156,7 @@ public class MainWindow extends JPanel {
 		Dimension minimumSize = new Dimension(200, 150);
 		scrollDiagramPanel.setMinimumSize(minimumSize);
 
-		popupMenu = new JPopupMenu();
+		parentPopupMenu = new JPopupMenu();
 		JMenuItem eMenuItem = new JMenuItem("New Object");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -166,7 +166,7 @@ public class MainWindow extends JPanel {
 			}
 
 		});
-		popupMenu.add(eMenuItem);
+		parentPopupMenu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New Integer");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -179,7 +179,7 @@ public class MainWindow extends JPanel {
 			}
 
 		});
-		popupMenu.add(eMenuItem);
+		parentPopupMenu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New String");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -191,7 +191,7 @@ public class MainWindow extends JPanel {
 			}
 
 		});
-		popupMenu.add(eMenuItem);
+		parentPopupMenu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ public class MainWindow extends JPanel {
 			}
 
 		});
-		popupMenu.add(eMenuItem);
+		parentPopupMenu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("Delete");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -234,7 +234,31 @@ public class MainWindow extends JPanel {
 			}
 
 		});
-		popupMenu.add(eMenuItem);
+		parentPopupMenu.add(eMenuItem);
+
+
+		eMenuItem = new JMenuItem("Execute");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagram.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (activeChildObject != null) {
+					int result = JOptionPane.showConfirmDialog(owner, String
+							.format("Are you sure to execute '%s'?",
+									activeChildObject.getName()),
+							"Confirmation", JOptionPane.YES_NO_OPTION);
+					if (result == 0)// yes
+					{
+						
+						
+												
+						
+					}
+				}
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
 
 		// diagram.setComponentPopupMenu(popupMenu);
 
@@ -265,7 +289,7 @@ public class MainWindow extends JPanel {
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if (!popupMenu.isVisible()) {
+				if (!parentPopupMenu.isVisible()) {
 					// hovering, indicate the underlying object with red color.
 					updateSelectedChildObject(e.getPoint(),
 							SelectedStatus.Preselected);
@@ -328,7 +352,7 @@ public class MainWindow extends JPanel {
 				updateSelectedChildObject(e.getPoint(), SelectedStatus.Selected);
 
 				if (SwingUtilities.isRightMouseButton(e)) {
-					popupMenu.show(e.getComponent(), e.getX(), e.getY());
+					parentPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 				} else {
 					if (activeChildObject != null) {
 						ObjectPropertyDialog dialog = new ObjectPropertyDialog();

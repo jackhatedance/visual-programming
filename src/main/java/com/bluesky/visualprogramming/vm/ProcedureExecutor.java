@@ -21,18 +21,19 @@ public class ProcedureExecutor implements InstructionExecutor {
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
 
-	void executeNativeProcedure(String name, _Object[] parameters) {
+	private ExecutionStatus executionStatus = ExecutionStatus.COMPLETED;
 
-	}
-
-	public void execute(CompiledProcedure procedure,
+	public ExecutionStatus execute(CompiledProcedure procedure,
 			ProcedureExecutionContext ctx) {
 		List<Instruction> instructions = procedure.getInstructions();
 
 		while (true) {
 			executeOneStep(instructions, ctx);
-		}
 
+			if (executionStatus == ExecutionStatus.WAIT)
+				break;
+		}
+		return executionStatus;
 	}
 
 	void executeOneStep(List<Instruction> instructions,
@@ -97,11 +98,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 	@Override
 	public void executeSendMessage(SendMessage instruction) {
 		_Object receiverObj = ctx.getObject(instruction.receiverVar);
-		
+
 		_Object sender = ctx.getObject("self");
 		_Object receiver = ctx.getObject(instruction.receiverVar);
-		Message msg = new Message(instruction.sync,sender,receiver,instruction.messageSubject,instruction.messageBody);
-		
+		Message msg = new Message(instruction.sync, sender, receiver,
+				instruction.messageSubject, instruction.messageBody);
+
 		receiverObj.addToMessageQueue(msg);
 	}
 
@@ -157,4 +159,6 @@ public class ProcedureExecutor implements InstructionExecutor {
 		ctx.setVariable(instruction.left, right);
 
 	}
+
+	 
 }

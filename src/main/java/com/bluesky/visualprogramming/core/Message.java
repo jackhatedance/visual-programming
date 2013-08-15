@@ -21,6 +21,7 @@ public class Message {
 
 	/**
 	 * sync or aync
+	 * 
 	 * @param sync
 	 * @param sender
 	 * @param receiver
@@ -39,6 +40,7 @@ public class Message {
 
 	/**
 	 * async call with callback
+	 * 
 	 * @param callback
 	 * @param sender
 	 * @param receiver
@@ -53,5 +55,9 @@ public class Message {
 		this.subject = subject;
 		this.body = body;
 
+	}
+
+	public boolean needCallback(){
+		return callback!=null && (!callback.isEmpty());
 	}
 }
