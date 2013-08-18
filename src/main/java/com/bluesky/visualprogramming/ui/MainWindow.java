@@ -44,12 +44,14 @@ import javax.swing.tree.TreeSelectionModel;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.PostService;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.ui.diagram.DiagramPanel;
 import com.bluesky.visualprogramming.ui.diagram.Painter;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 import com.bluesky.visualprogramming.ui.selection.MouseOperation;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MainWindow extends JPanel {
 
@@ -65,17 +67,23 @@ public class MainWindow extends JPanel {
 
 	JSplitPane splitPane;
 
-	JPopupMenu parentPopupMenu;	
+	JPopupMenu parentPopupMenu;
 
-	
-	private Point cursorOffset;	
-	//the object that hovered by mouse
+	private Point cursorOffset;
+	// the object that hovered by mouse
 	private _Object activeChildObject;
-	//either move or resize,depends on mouse position.
+	// either move or resize,depends on mouse position.
 	private MouseOperation mouseOperation;
+
+	ObjectRepository objectRepository;
+	PostService postService;
 
 	public MainWindow(JFrame frame) {
 		super(new GridLayout(1, 0));
+		
+		
+		objectRepository = VirtualMachine.getInstance().getObjectRepository();
+		postService = VirtualMachine.getInstance().getPostService();
 
 		owner = frame;
 
@@ -93,12 +101,13 @@ public class MainWindow extends JPanel {
 
 		// Add the split pane to this panel.
 		add(splitPane);
+
+		
 	}
 
 	private void createTreePanel() {
 
-		TreeNode rootNode = createTreeNode(ObjectRepository.getInstance()
-				.getRootObject());
+		TreeNode rootNode = createTreeNode(objectRepository.getRootObject());
 
 		treeModel = new DefaultTreeModel(rootNode);
 
@@ -160,8 +169,8 @@ public class MainWindow extends JPanel {
 		JMenuItem eMenuItem = new JMenuItem("New Object");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = ObjectRepository.getInstance().createObject(
-						getSelectedTreeObject());
+				_Object obj = objectRepository
+						.createObject(getSelectedTreeObject());
 				addChildObject(obj);
 			}
 
@@ -172,7 +181,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 
-				_Object obj = ObjectRepository.getInstance().createObject(
+				_Object obj = objectRepository.createObject(
 						getSelectedTreeObject(), ObjectType.INTEGER);
 
 				addChildObject(obj);
@@ -184,7 +193,7 @@ public class MainWindow extends JPanel {
 		eMenuItem = new JMenuItem("New String");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = ObjectRepository.getInstance().createObject(
+				_Object obj = objectRepository.createObject(
 						getSelectedTreeObject(), ObjectType.STRING);
 				addChildObject(obj);
 
@@ -196,7 +205,7 @@ public class MainWindow extends JPanel {
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = ObjectRepository.getInstance().createObject(
+				_Object obj = objectRepository.createObject(
 						getSelectedTreeObject(), ObjectType.PROCEDURE);
 				addChildObject(obj);
 
@@ -225,8 +234,7 @@ public class MainWindow extends JPanel {
 						treeModel.removeNodeFromParent(selectedChildNode);
 
 						// remove from object repository
-						ObjectRepository.getInstance().destroyObject(
-								activeChildObject);
+						objectRepository.destroyObject(activeChildObject);
 
 						diagram.repaint();
 					}
@@ -235,7 +243,6 @@ public class MainWindow extends JPanel {
 
 		});
 		parentPopupMenu.add(eMenuItem);
-
 
 		eMenuItem = new JMenuItem("Execute");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -249,10 +256,11 @@ public class MainWindow extends JPanel {
 							"Confirmation", JOptionPane.YES_NO_OPTION);
 					if (result == 0)// yes
 					{
-						
-						
-												
-						
+
+						postService.sendMessageFromNobody(
+								activeChildObject.getOwner(),
+								activeChildObject.getName());
+
 					}
 				}
 			}
@@ -276,7 +284,7 @@ public class MainWindow extends JPanel {
 
 	public void load(String fileName) {
 
-		ObjectRepository.getInstance().load(fileName);
+		objectRepository.load(fileName);
 
 		createTreePanel();
 
@@ -293,7 +301,7 @@ public class MainWindow extends JPanel {
 					// hovering, indicate the underlying object with red color.
 					updateSelectedChildObject(e.getPoint(),
 							SelectedStatus.Preselected);
-					
+
 				}
 			}
 
@@ -305,10 +313,8 @@ public class MainWindow extends JPanel {
 				Point rawCursorPos = CanvasUtils.scaleBack(e.getPoint(),
 						getSelectedTreeObject().scaleRate);
 
-				activeChildObject.getArea().x = rawCursorPos.x
-						- cursorOffset.x;
-				activeChildObject.getArea().y = rawCursorPos.y
-						- cursorOffset.y;
+				activeChildObject.getArea().x = rawCursorPos.x - cursorOffset.x;
+				activeChildObject.getArea().y = rawCursorPos.y - cursorOffset.y;
 
 				diagram.repaint();
 			}
@@ -420,23 +426,21 @@ public class MainWindow extends JPanel {
 				getSelectedTreeObject().scaleRate);
 
 		for (_Object c : obj.getChildrenList()) {
-			//set all to notSelected
+			// set all to notSelected
 			c.selectedStatus = SelectedStatus.NotSelected;
-			
-			//keep the last hovered object, the last has highest z order
+
+			// keep the last hovered object, the last has highest z order
 			if (c.area.contains(p))
 				activeChildObject = c;
 		}
 
-		if(activeChildObject!=null)
-		{
+		if (activeChildObject != null) {
 			activeChildObject.selectedStatus = newStatus;
-			
-			//check if cursor is near borders, adjust to resize cursor
-			
-		
+
+			// check if cursor is near borders, adjust to resize cursor
+
 		}
-		
+
 		if (oldSelectedChildObject != activeChildObject)
 			diagram.repaint();
 	}

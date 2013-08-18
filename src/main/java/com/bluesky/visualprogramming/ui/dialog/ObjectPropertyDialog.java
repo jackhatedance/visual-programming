@@ -19,14 +19,15 @@ import javax.swing.border.EmptyBorder;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class ObjectPropertyDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	
+
 	private _Object object;
-	private boolean updated=false;
-		
+	private boolean updated = false;
+
 	private JTextField textFieldId;
 	private JTextField textFieldName;
 	private JTextArea textAreaValue;
@@ -37,8 +38,6 @@ public class ObjectPropertyDialog extends JDialog {
 	private JLabel label;
 	private JLabel lblColor;
 	private JButton btnSetBorderColor;
-	
-	
 
 	/**
 	 * Launch the application.
@@ -111,17 +110,18 @@ public class ObjectPropertyDialog extends JDialog {
 			btnSetBorderColor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Color newColor = JColorChooser.showDialog(
-		                     ObjectPropertyDialog.this,
-		                     "Choose Background Color",
-		                     object.borderColor);
-					if(newColor!=null){						
+							ObjectPropertyDialog.this,
+							"Choose Background Color", object.borderColor);
+					if (newColor != null) {
 						btnSetBorderColor.setForeground(newColor);
 					}
 				}
 			});
 			contentPanel.add(btnSetBorderColor);
 		}
-		//contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, textFieldId, lblName, textFieldName, lblValue, textFieldType, label, textAreaValue}));
+		// contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new
+		// Component[]{lblNewLabel, textFieldId, lblName, textFieldName,
+		// lblValue, textFieldType, label, textAreaValue}));
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -131,8 +131,8 @@ public class ObjectPropertyDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						updateObject();
-						updated=true;
-						dispose();						
+						updated = true;
+						dispose();
 					}
 				});
 				buttonPane.add(okButton);
@@ -142,7 +142,8 @@ public class ObjectPropertyDialog extends JDialog {
 				JButton btnDelete = new JButton("Delete");
 				btnDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						ObjectRepository.getInstance().destroyObject(object);
+						VirtualMachine.getInstance().getObjectRepository()
+								.destroyObject(object);
 						dispose();
 					}
 				});
@@ -155,28 +156,26 @@ public class ObjectPropertyDialog extends JDialog {
 						dispose();
 					}
 				});
-				
+
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
 
-	
-	
-	public void setObject(_Object obj){
+	public void setObject(_Object obj) {
 		this.object = obj;
-		
-		textFieldId.setText(String.valueOf( obj.getId()));
+
+		textFieldId.setText(String.valueOf(obj.getId()));
 		textFieldName.setText(obj.getName());
 		textFieldType.setText(obj.getType().toString());
 		textAreaValue.setText(obj.getValue());
 		btnSetBorderColor.setForeground(obj.borderColor);
 	}
-	
-	private void updateObject(){		
+
+	private void updateObject() {
 		object.setName(textFieldName.getText());
-		object.setValue(textAreaValue.getText());	
+		object.setValue(textAreaValue.getText());
 		object.borderColor = btnSetBorderColor.getForeground();
 	}
 

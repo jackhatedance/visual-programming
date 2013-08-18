@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
@@ -44,8 +45,8 @@ public class _Object implements Serializable {
 	private Map<String, _Object> childrenMap = new HashMap<String, _Object>();
 
 	private Deque<Message> messageQueue;
-	private boolean awake=true;
-	private Worker worker=null;
+	private boolean awake = true;
+	private Worker worker = null;
 
 	/**
 	 * the max value of height and width is 1000;
@@ -123,7 +124,7 @@ public class _Object implements Serializable {
 
 		childrenMap.remove(child);
 	}
-	
+
 	public void removeChild(_Object child) {
 
 		if (child == null)
@@ -327,7 +328,9 @@ public class _Object implements Serializable {
 	}
 
 	public Procedure getProcedure(String name) {
-		return null;
+		Procedure p = (Procedure) childrenMap.get(name);
+
+		return p;
 	}
 
 	public CompiledProcedure getCompiledProcedure(String name) {
@@ -340,23 +343,25 @@ public class _Object implements Serializable {
 		else
 			return this.context;
 	}
-	
-	public synchronized int addToMessageQueue(Message msg){
+
+	public synchronized int addToMessageQueue(Message msg) {
+		if (messageQueue == null)
+			messageQueue = new ArrayDeque<Message>();
+
 		messageQueue.add(msg);
 		return messageQueue.size();
 	}
 
-	public boolean isAwake(){
+	public boolean isAwake() {
 		return awake;
-				
+
 	}
-	public void setAwake(boolean awake){
+
+	public void setAwake(boolean awake) {
 		this.awake = awake;
 	}
-	
-	
-	
-	public boolean hasWorker(){
-		return this.worker!=null;
+
+	public boolean hasWorker() {
+		return this.worker != null;
 	}
 }

@@ -15,8 +15,8 @@ public class ProcedureExecutionContext {
 
 	Map<String, _Object> localVariables;
 
-	Instruction currentInstruction;
-	int currentInstructionIndex;
+	//Instruction currentInstruction;
+	int currentInstructionIndex=0;
 
 	public Stack<BlockStackItem> blockStacks;
 

@@ -19,6 +19,8 @@ public class Message {
 	 */
 	public String callback;
 
+	public MessageStatus status=MessageStatus.NOT_STARTED;
+
 	/**
 	 * sync or aync
 	 * 
@@ -54,10 +56,16 @@ public class Message {
 		this.receiver = receiver;
 		this.subject = subject;
 		this.body = body;
-
+		// TODO Auto-generated method stub
+	}
+	
+	public void initExecutionContext(){
+		executionContext = new ProcedureExecutionContext();
 	}
 
-	public boolean needCallback(){
-		return callback!=null && (!callback.isEmpty());
+	public boolean needCallback() {
+		return callback != null && (!callback.isEmpty());
 	}
+
+	
 }

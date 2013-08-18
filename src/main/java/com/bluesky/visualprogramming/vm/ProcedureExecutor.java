@@ -23,6 +23,13 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 	private ExecutionStatus executionStatus = ExecutionStatus.COMPLETED;
 
+	/**
+	 * move forward one step
+	 * 
+	 * @param procedure
+	 * @param ctx
+	 * @return
+	 */
 	public ExecutionStatus execute(CompiledProcedure procedure,
 			ProcedureExecutionContext ctx) {
 		List<Instruction> instructions = procedure.getInstructions();
@@ -160,5 +167,4 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 	}
 
-	 
 }

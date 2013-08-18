@@ -15,8 +15,12 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
+
 import javax.swing.JToolBar;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -27,8 +31,11 @@ public class MainFrame extends JFrame {
 	String DEFAULT_IMAGE_FILE_NAME = "visual-programming.txt";
 
 	MainWindow mainWindow = null;
+	ObjectRepository objectRepository;
 
 	public MainFrame() {
+		objectRepository = VirtualMachine.getInstance().getObjectRepository();
+
 		initMenu();
 
 		// Add content to the window.
@@ -47,7 +54,8 @@ public class MainFrame extends JFrame {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setEditable(true);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1000", "500", "200", "100", "75", "50", "25", "10"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "1000",
+				"500", "200", "100", "75", "50", "25", "10" }));
 		comboBox.setSelectedIndex(3);
 		toolBar.add(comboBox);
 		comboBox.addItemListener(new ItemListener() {
@@ -55,11 +63,11 @@ public class MainFrame extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == e.SELECTED) {
-					
-//					System.out.println("scale changed to:"
-//							+ (String) e.getItem());
-					Double rate=1d;
-					rate = Integer.valueOf((String)e.getItem())/100d;
+
+					// System.out.println("scale changed to:"
+					// + (String) e.getItem());
+					Double rate = 1d;
+					rate = Integer.valueOf((String) e.getItem()) / 100d;
 					mainWindow.setDiagramScaleRate(rate);
 				}
 			}
@@ -80,8 +88,8 @@ public class MainFrame extends JFrame {
 		file.setMnemonic(KeyEvent.VK_F);
 
 		// Load
-		JMenuItem eMenuItem =null;
-		
+		JMenuItem eMenuItem = null;
+
 		eMenuItem = new JMenuItem("Load Sample");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -105,22 +113,22 @@ public class MainFrame extends JFrame {
 		eMenuItem = new JMenuItem("Save");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				ObjectRepository.getInstance().save(DEFAULT_IMAGE_FILE_NAME);
+				objectRepository.save(DEFAULT_IMAGE_FILE_NAME);
 			}
 
 		});
 		file.add(eMenuItem);
 
 		menubar.add(file);
-		
-				 eMenuItem = new JMenuItem("Exit");
-				eMenuItem.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-						System.exit(0);
-					}
 
-				});
-				file.add(eMenuItem);
+		eMenuItem = new JMenuItem("Exit");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+			}
+
+		});
+		file.add(eMenuItem);
 
 		setJMenuBar(menubar);
 
@@ -133,7 +141,7 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args) {
 
 		// init Object Repository
-		ObjectRepository.getInstance().loadSampleObjects();
+		VirtualMachine.getInstance().getObjectRepository().loadSampleObjects();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

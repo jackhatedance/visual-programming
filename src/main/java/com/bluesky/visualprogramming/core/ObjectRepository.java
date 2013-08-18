@@ -27,13 +27,8 @@ public class ObjectRepository {
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();;
 	_Object rootObject;
 
-	private static ObjectRepository instance = new ObjectRepository();
-
-	public static ObjectRepository getInstance() {
-		return instance;
-	}
-
-	private ObjectRepository() {
+	 
+	public ObjectRepository() {
 		// start from 0
 		objectId = 0;
 

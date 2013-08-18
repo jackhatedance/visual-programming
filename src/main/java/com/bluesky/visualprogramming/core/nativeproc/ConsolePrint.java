@@ -8,9 +8,12 @@ public class ConsolePrint implements NativeProcedure {
 			com.bluesky.visualprogramming.core._Object self,
 			com.bluesky.visualprogramming.core.Message msg) {
 
-		StringValue str = (StringValue) msg.body.getChild("str");
+		StringValue content = (StringValue) msg.body.getChild("content");
 
-		System.out.println(str.getValue());
+		if(content==null)
+			System.out.println("nothing");	
+		
+		System.out.println(content.getValue());
 
 		return null;
 	};
