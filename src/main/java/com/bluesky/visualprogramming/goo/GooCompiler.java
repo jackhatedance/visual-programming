@@ -1,5 +1,8 @@
 package com.bluesky.visualprogramming.goo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -33,8 +36,17 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
+import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
-public class GooExecutor implements GooVisitor<_Object>{
+/**
+ * convert goo code to VM instructions
+ * 
+ * @author jackding
+ * 
+ */
+public class GooCompiler implements GooVisitor<_Object> {
+
+	private List<Instruction> instructions = new ArrayList<Instruction>();
 
 	@Override
 	public _Object visit(@NotNull ParseTree tree) {
@@ -111,7 +123,7 @@ public class GooExecutor implements GooVisitor<_Object>{
 	@Override
 	public _Object visitAccessField(AccessFieldContext ctx) {
 		// TODO Auto-generated method stub
-		
+
 		return null;
 	}
 
@@ -210,5 +222,9 @@ public class GooExecutor implements GooVisitor<_Object>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	public List<Instruction> getInstructions() {
+		return instructions;
+	}
+
 }

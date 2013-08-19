@@ -25,7 +25,7 @@ public class Main {
 		ParseTree tree = parser.procedure(); 
 		System.out.println(tree.toStringTree(parser)); // print tree as text
 		
-		GooExecutor visitor = new GooExecutor();
+		GooCompiler visitor = new GooCompiler();
 		visitor.visit(tree);
 	}
 }
