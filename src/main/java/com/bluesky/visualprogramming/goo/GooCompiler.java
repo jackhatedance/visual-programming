@@ -1,15 +1,23 @@
 package com.bluesky.visualprogramming.goo;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.goo.parser.GooLexer;
+import com.bluesky.visualprogramming.goo.parser.GooParser;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AccessFieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.Assign_opContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeFieldContext;
@@ -36,7 +44,11 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
+import com.bluesky.visualprogramming.vm.instruction.CreateValueObject;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
+import com.bluesky.visualprogramming.vm.instruction.PopBlock;
+import com.bluesky.visualprogramming.vm.instruction.PushBlock;
+import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 /**
  * convert goo code to VM instructions
@@ -48,15 +60,56 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
+	// private Map<Object,String> tempVarNames = new HashMap<Object, String>();
+	private Stack<String> assigneeVarNames = new Stack<String>();
+
+	private int tempVarCount = 0;
+
+	private String getNextTempVar() {
+		String name = "tempVar" + tempVarCount;
+
+		tempVarCount++;
+
+		return name;
+	}
+
+	private void addInstruction(Instruction ins) {
+		instructions.add(ins);
+	}
+
+	public void compile(InputStream is) {
+
+		ANTLRInputStream input;
+		try {
+			input = new ANTLRInputStream(is);
+		} catch (IOException e) {
+
+			throw new RuntimeException(e);
+		}
+
+		GooLexer lexer = new GooLexer(input);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		GooParser parser = new GooParser(tokens);
+		ParseTree tree = parser.procedure();
+		// System.out.println(tree.toStringTree(parser)); // print tree as text
+
+		visit(tree);
+
+	}
+
 	@Override
 	public _Object visit(@NotNull ParseTree tree) {
-		// TODO Auto-generated method stub
+		// System.out.println("visit tree");
+		tree.accept(this);
+
 		return null;
 	}
 
 	@Override
 	public _Object visitChildren(@NotNull RuleNode node) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < node.getChildCount(); i++)
+			node.getChild(i).accept(this);
+
 		return null;
 	}
 
@@ -86,7 +139,15 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitNumber(NumberContext ctx) {
-		// TODO Auto-generated method stub
+		
+		
+		CreateValueObject ins = new CreateValueObject();
+		
+		ins.varName = assigneeVarNames.pop();
+		ins.type = ObjectType.INTEGER;
+		ins.literalValue = ctx.getText();
+		
+		addInstruction(ins);
 		return null;
 	}
 
@@ -110,13 +171,28 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitBlock(BlockContext ctx) {
-		// TODO Auto-generated method stub
+		System.out.println("block");
+
+		addInstruction(new PushBlock());
+
+		visitChildren(ctx);
+
+		addInstruction(new PopBlock());
+
 		return null;
 	}
 
 	@Override
 	public _Object visitBoolean(BooleanContext ctx) {
-		// TODO Auto-generated method stub
+		
+		
+		CreateValueObject ins = new CreateValueObject();
+		
+		ins.varName = assigneeVarNames.pop();
+		ins.type = ObjectType.BOOLEAN;
+		ins.literalValue = ctx.getText();
+		
+		addInstruction(ins);
 		return null;
 	}
 
@@ -129,7 +205,7 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitHeader(HeaderContext ctx) {
-		// TODO Auto-generated method stub
+		System.out.println("header");
 		return null;
 	}
 
@@ -153,13 +229,42 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitStatement(StatementContext ctx) {
-		// TODO Auto-generated method stub
+		// System.out.println("statement");
+		visitChildren(ctx);
 		return null;
 	}
 
 	@Override
 	public _Object visitAssignment(AssignmentContext ctx) {
-		// TODO Auto-generated method stub
+
+		ctx.assign_op();
+
+		if (ctx.assignee() instanceof AssigneeVariableContext) {
+			VariableAssignment ins = new VariableAssignment();
+			ins.left = ctx.assignee().getText();
+
+			if (ctx.expr() instanceof VariableExprContext) {
+				ins.right = ctx.expr().getText();
+
+			} else {
+				String tempVar = getNextTempVar();
+				ins.right = tempVar;
+
+				assigneeVarNames.push(tempVar);
+				ctx.expr().accept(this);
+
+			}
+
+			addInstruction(ins);
+		} else {
+
+		}
+		// ctx.assignee().
+		// ctx.expr().
+		System.out.println("assignment");
+
+		// ctx.assignee().
+
 		return null;
 	}
 
@@ -177,7 +282,15 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitString(StringContext ctx) {
-		// TODO Auto-generated method stub
+		System.out.println("visitString");
+			
+		CreateValueObject ins = new CreateValueObject();
+		
+		ins.varName = assigneeVarNames.pop();
+		ins.type = ObjectType.STRING;
+		ins.literalValue = ctx.getText();
+		
+		addInstruction(ins);
 		return null;
 	}
 
@@ -189,13 +302,18 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitProcedure(ProcedureContext ctx) {
-		// TODO Auto-generated method stub
+		// System.out.println("visit procedure");
+
+		ctx.block().accept(this);
+
 		return null;
 	}
 
 	@Override
 	public _Object visitConstantExpr(ConstantExprContext ctx) {
-		// TODO Auto-generated method stub
+		//System.out.println("visitConstantExpr");
+		visitChildren(ctx);
+		
 		return null;
 	}
 
@@ -213,7 +331,7 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitAssigneeVariable(AssigneeVariableContext ctx) {
-		// TODO Auto-generated method stub
+		System.out.println("visitAssigneeVariable");
 		return null;
 	}
 
@@ -227,4 +345,14 @@ public class GooCompiler implements GooVisitor<_Object> {
 		return instructions;
 	}
 
+	public static void main(String[] args) {
+		InputStream is = GooCompiler.class
+				.getResourceAsStream("/sample-code/sample-2-assignment.goo");
+		GooCompiler compiler = new GooCompiler();
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			System.out.println(ins.toString());
+		}
+	}
 }
