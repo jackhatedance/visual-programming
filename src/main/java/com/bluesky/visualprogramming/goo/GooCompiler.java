@@ -57,7 +57,6 @@ import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
-import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 /**
@@ -238,19 +237,6 @@ public class GooCompiler implements GooVisitor<_Object> {
 	@Override
 	public _Object visitSendMessage(SendMessageContext ctx) {
 		// System.out.println("visitSendMessage");
-		SendMessage ins = new SendMessage();
-		
-		String objVar = getNextTempVar();
-		stack.push(objVar);
-		
-		ctx.expr().accept(this);
-		
-		ins.receiverVar = objVar;
-		ins.messageSubject = ctx.messgeName().getText();
-		ins.sync =true;
-		
-		
-		addInstruction(ins);
 
 		return null;
 	}
@@ -415,7 +401,7 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 	@Override
 	public _Object visitNameValue(NameValueContext ctx) {
-
+		 
 		return null;
 	}
 }
