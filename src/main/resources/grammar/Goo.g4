@@ -38,11 +38,12 @@ statement
 //varDeclare : 'var' varList;
 //varList : ID (',' ID)*;
                      
-assignment : assignee assign_op expr ;
+assignment : assignee assignOperator expr ;
 
-assign_op : REF_ASSIGN
-          | OWN_ASSIGN
-          | AUTO_ASSIGN;
+assignOperator : REF_ASSIGN  #RefAssignOperator
+          | OWN_ASSIGN      #OwnAssignOperator
+          | AUTO_ASSIGN     #AutoAssignOperator
+          ;
 
 
 assignee : ID		#AssigneeVariable
@@ -52,7 +53,7 @@ assignee : ID		#AssigneeVariable
 expr: constant				#ConstantExpr
     | variable                          #VariableExpr
     | expr DOT field              #AccessField
-    | expr DOT messgeName '(' paramList? ')' #sendMessage
+    | expr DOT messgeName '(' paramList? ')' #SendMessage
     ;
 
 constant : NUMBER			#Number
@@ -63,7 +64,12 @@ variable : ID;
 field   :   ID;
 messgeName : ID;
 
-paramList : expr (',' expr)*;
+paramList : expr (',' expr)*            #orderedParamList  
+          | nameValue (',' nameValue)*  #namedParamList
+          ;
+
+nameValue : ID ':' expr;
+
 
 ifStatement : IF '(' expr ')' block (ELSE block)?;
 whileStatement : WHILE '(' expr ')' block;

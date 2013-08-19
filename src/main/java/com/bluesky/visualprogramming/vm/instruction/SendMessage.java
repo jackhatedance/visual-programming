@@ -9,4 +9,11 @@ public class SendMessage extends Instruction {
 	public String receiverVar;
 	public String messageSubject;
 	public _Object messageBody;
+
+	@Override
+	public String toString() {
+
+		return String.format("[send_message] %s %s.%s()", sync, receiverVar,
+				messageSubject);
+	}
 }

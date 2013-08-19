@@ -17,6 +17,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterConstantExpr(@NotNull GooParser.ConstantExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -37,6 +50,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterNameValue(@NotNull GooParser.NameValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitNameValue(@NotNull GooParser.NameValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -95,6 +121,32 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterSendMessage(@NotNull GooParser.SendMessageContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitSendMessage(@NotNull GooParser.SendMessageContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterReturnStatement(@NotNull GooParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -108,19 +160,6 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterParamList(@NotNull GooParser.ParamListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitParamList(@NotNull GooParser.ParamListContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterBlock(@NotNull GooParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -128,6 +167,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitBlock(@NotNull GooParser.BlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterAutoAssignOperator(@NotNull GooParser.AutoAssignOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitAutoAssignOperator(@NotNull GooParser.AutoAssignOperatorContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -199,19 +251,6 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterSendMessage(@NotNull GooParser.SendMessageContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitSendMessage(@NotNull GooParser.SendMessageContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterStatement(@NotNull GooParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -225,6 +264,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterAssignment(@NotNull GooParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -232,6 +284,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAssignment(@NotNull GooParser.AssignmentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterOrderedParamList(@NotNull GooParser.OrderedParamListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitOrderedParamList(@NotNull GooParser.OrderedParamListContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -323,19 +388,6 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAssigneeVariable(@NotNull GooParser.AssigneeVariableContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterAssign_op(@NotNull GooParser.Assign_opContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitAssign_op(@NotNull GooParser.Assign_opContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
