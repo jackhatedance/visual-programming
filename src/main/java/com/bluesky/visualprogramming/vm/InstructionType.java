@@ -4,17 +4,18 @@ import com.bluesky.visualprogramming.vm.instruction.AccessField;
 import com.bluesky.visualprogramming.vm.instruction.Goto;
 import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
+import com.bluesky.visualprogramming.vm.instruction.NoOperation;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 
 public enum InstructionType {
-	CREATE_VALUE_OBJECT{
+	CREATE_OBJECT {
 		@Override
 		public void execute(InstructionExecutor executor,
 				Instruction instruction) {
 			executor.executeAccessField((AccessField) instruction);
-			
+
 		}
 	},
 	ACCESS_FIELD {
@@ -73,6 +74,13 @@ public enum InstructionType {
 				Instruction instruction) {
 			executor.executeSendMessage((SendMessage) instruction);
 
+		}
+	},
+	NO_OPERATION {
+		@Override
+		public void execute(InstructionExecutor executor,
+				Instruction instruction) {
+			executor.executeNoOperation((NoOperation) instruction);
 		}
 	};
 

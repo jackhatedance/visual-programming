@@ -1,11 +1,11 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
 public class Goto extends Instruction {
-	public String label;
+	public String destinationLabel;
 	
 	@Override
 	public String toString() {
 	
-		return String.format("[goto] %s",label);
+		return String.format("[goto] %s",destinationLabel);
 	}
 }

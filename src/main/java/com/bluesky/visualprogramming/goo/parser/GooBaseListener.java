@@ -56,6 +56,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterReturnStatement(@NotNull GooParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -102,6 +115,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitFalseBlock(@NotNull GooParser.FalseBlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -232,6 +258,32 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAutoAssignOperator(@NotNull GooParser.AutoAssignOperatorContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterForCondition(@NotNull GooParser.ForConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitForCondition(@NotNull GooParser.ForConditionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterContinueStatement(@NotNull GooParser.ContinueStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitContinueStatement(@NotNull GooParser.ContinueStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -375,6 +427,32 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitString(@NotNull GooParser.StringContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterBreakStatement(@NotNull GooParser.BreakStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitBreakStatement(@NotNull GooParser.BreakStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterForInit(@NotNull GooParser.ForInitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitForInit(@NotNull GooParser.ForInitContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

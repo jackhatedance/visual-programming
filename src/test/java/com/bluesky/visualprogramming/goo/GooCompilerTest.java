@@ -53,12 +53,13 @@ public class GooCompilerTest {
 		compiler.compile(is);
 
 		for (Instruction ins : compiler.getInstructions()) {
-			String lbl = ins.label==null? "\t": ins.label;
+			String lbl = ins.label == null ? "\t" : ins.label;
 			System.out.println(lbl + "\t\t" + ins.toString());
 		}
 
 	}
-	
+
+	@Ignore
 	@Test
 	public void testWhile() {
 		InputStream is = GooCompilerTest.class
@@ -66,8 +67,40 @@ public class GooCompilerTest {
 		compiler.compile(is);
 
 		for (Instruction ins : compiler.getInstructions()) {
-			String lbl = ins.label==null? "\t": ins.label;
+			String lbl = ins.label == null ? "\t" : ins.label;
 			System.out.println(lbl + "\t\t" + ins.toString());
+		}
+
+	}
+
+	@Ignore
+	@Test
+	public void testFor() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-6-for.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			String lbl = ins.label == null ? "" : ins.label;
+			String comment = ins.comment == null ? "" : ins.comment;
+			
+			System.out
+					.println(String.format("%1$-20s%2$-50s%3$-50s", lbl,ins,comment));
+		}
+
+	}
+	@Test
+	public void testReturn() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-7-return.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			String lbl = ins.label == null ? "" : ins.label;
+			String comment = ins.comment == null ? "" : ins.comment;
+			
+			System.out
+					.println(String.format("%1$-20s%2$-50s%3$-50s", lbl,ins,comment));
 		}
 
 	}

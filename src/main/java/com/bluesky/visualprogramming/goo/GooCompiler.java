@@ -15,13 +15,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import com.bluesky.my4gl.core.instruction.CreateObjectInstruction;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.goo.parser.GooLexer;
 import com.bluesky.visualprogramming.goo.parser.GooParser;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AccessFieldContext;
-import com.bluesky.visualprogramming.goo.parser.GooParser.AssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeFieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeVariableContext;
@@ -29,10 +26,16 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.AssignmentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AutoAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BooleanContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.BreakStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.CommentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ConstantExprContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ContinueStatementContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ExpressionStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.FalseBlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.FieldContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ForAfterthoughtContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ForConditionContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ForInitContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.HeaderContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.IfStatementContext;
@@ -43,7 +46,6 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.NumberContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OrderedParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OwnAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ParamDeclareListContext;
-import com.bluesky.visualprogramming.goo.parser.GooParser.ParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ProcedureContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.RefAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ReturnStatementContext;
@@ -58,6 +60,7 @@ import com.bluesky.visualprogramming.goo.parser.GooVisitor;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
+import com.bluesky.visualprogramming.vm.instruction.Goto;
 import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.NoOperation;
@@ -76,8 +79,9 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
-	// used to pass data between child node and parent node
-	// private Stack<Object> stack = new Stack<Object>();
+	// let the child node know the current block name, so that it knows how to
+	// goto begin/end of block
+	private Stack<String> blockStack = new Stack<String>();
 
 	private int tempVarCount = 0;
 	private int blockCount = 0;
@@ -98,8 +102,22 @@ public class GooCompiler implements GooVisitor<Object> {
 		return name;
 	}
 
+	private Instruction getLastInstruction() {
+		return instructions.get(instructions.size() - 1);
+	}
+
 	private void addInstruction(Instruction ins) {
 		instructions.add(ins);
+	}
+
+	private void pushBlock(String blockName) {
+		instructions.add(new PushBlock());
+		blockStack.push(blockName);
+	}
+
+	private void popBlock() {
+		instructions.add(new PopBlock());
+		blockStack.pop();
 	}
 
 	public void compile(InputStream is) {
@@ -167,7 +185,39 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitForStatement(ForStatementContext ctx) {
-		// TODO Auto-generated method stub
+		String blockName = getNextBlockName("For");
+
+		pushBlock(blockName);
+
+		getLastInstruction().comment = String.format("for(%s;%s;%s)", ctx
+				.forInit().getText(), ctx.forCondition().getText(), ctx
+				.forAfterthought().getText());
+
+		ctx.forInit().accept(this);
+		
+		NoOperation entry = new NoOperation();
+		entry.label = blockName + "Entry";
+		addInstruction(entry);
+
+		String conditionVar = (String) ctx.forCondition().accept(this);
+
+		GotoIf gotoEnd = new GotoIf();
+		gotoEnd.expected = false;
+		gotoEnd.actualVarName = conditionVar;
+		gotoEnd.destinationLabel = blockName + "End";
+
+		addInstruction(gotoEnd);
+
+		ctx.block().accept(this);
+
+		ctx.forAfterthought().accept(this);
+
+		NoOperation end = new NoOperation();
+		end.label = blockName + "End";
+		addInstruction(end);
+
+		popBlock();
+
 		return null;
 	}
 
@@ -198,7 +248,21 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitReturnStatement(ReturnStatementContext ctx) {
-		// TODO Auto-generated method stub
+		
+		String  var = (String)ctx.expr().accept(this);
+		
+		VariableAssignment ins = new VariableAssignment();
+		ins.left = "result";
+		ins.right=var;
+		ins.comment = "return "+ctx.expr().getText();
+		
+		addInstruction(ins);
+		
+		Goto gotoEnd = new Goto();
+		gotoEnd.destinationLabel = "procedureEnd";
+		
+		addInstruction(gotoEnd);
+		
 		return null;
 	}
 
@@ -250,7 +314,7 @@ public class GooCompiler implements GooVisitor<Object> {
 			String paramVar = (String) paramVars[i];
 			FieldAssignment ins2 = new FieldAssignment();
 			ins2.ownerVar = parametersVarName;
-			ins2.fieldName = "ele" + i;
+			ins2.fieldName = "idx_" + i;
 			ins2.rightVar = paramVar;
 			ins2.type = AssignmentType.AUTO;
 
@@ -262,13 +326,9 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitBlock(BlockContext ctx) {
-		//System.out.println("block");
-
-		//addInstruction(new PushBlock());
+		// System.out.println("block");
 
 		visitChildren(ctx);
-
-		//addInstruction(new PopBlock());
 
 		return null;
 	}
@@ -304,8 +364,8 @@ public class GooCompiler implements GooVisitor<Object> {
 		// System.out.println("if");
 
 		String blockName = getNextBlockName("If");
-		
-		addInstruction(new PushBlock());
+
+		pushBlock(blockName);
 
 		String conditionVar = (String) ctx.expr().accept(this);
 
@@ -316,41 +376,40 @@ public class GooCompiler implements GooVisitor<Object> {
 		gotoFalse.destinationLabel = blockName + "FalseBegin";
 
 		addInstruction(gotoFalse);
-		
+
 		// true begin
 		ctx.trueBlock().accept(this);
-		
-		
-		//label
+
+		// label
 		NoOperation trueEnd = new NoOperation();
-		trueEnd.label = blockName + "TrueEnd";		
+		trueEnd.label = blockName + "TrueEnd";
 		addInstruction(trueEnd);
-		
-		//label
+
+		// label
 		NoOperation falseBegin = new NoOperation();
-		falseBegin.label = blockName + "FalseBegin";		
+		falseBegin.label = blockName + "FalseBegin";
 		addInstruction(falseBegin);
-		
-		
+
 		ctx.falseBlock().accept(this);
-		
-		//label
+
+		// label
 		NoOperation falseEnd = new NoOperation();
-		falseEnd.label = blockName + "FalseEnd";		
+		falseEnd.label = blockName + "FalseEnd";
 		addInstruction(falseEnd);
-		
-		addInstruction(new PopBlock());
+
+		popBlock();
+
 		return null;
 	}
 
 	@Override
 	public Object visitFalseBlock(FalseBlockContext ctx) {
-		return visitChildren(ctx);		
+		return visitChildren(ctx);
 	}
 
 	@Override
 	public Object visitTrueBlock(TrueBlockContext ctx) {
-		return visitChildren(ctx);		
+		return visitChildren(ctx);
 	}
 
 	@Override
@@ -377,6 +436,9 @@ public class GooCompiler implements GooVisitor<Object> {
 		String tempVar2 = getNextTempVar("sendMsgReply");
 		ins.replyVar = tempVar2;
 		addInstruction(ins);
+		
+		getLastInstruction().comment =  ctx.getText();
+
 
 		return tempVar2;
 	}
@@ -385,6 +447,7 @@ public class GooCompiler implements GooVisitor<Object> {
 	public Object visitStatement(StatementContext ctx) {
 		// System.out.println("statement");
 		visitChildren(ctx);
+
 		return null;
 	}
 
@@ -438,7 +501,37 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitWhileStatement(WhileStatementContext ctx) {
-		// TODO Auto-generated method stub
+
+		// System.out.println("while");
+
+		String blockName = getNextBlockName("While");
+
+		pushBlock(blockName);
+
+		NoOperation entry = new NoOperation();
+		entry.label = blockName + "Entry";
+		addInstruction(entry);
+
+		String conditionVar = (String) ctx.expr().accept(this);
+
+		// goto FalseBegin
+		GotoIf gotoFalse = new GotoIf();
+		gotoFalse.expected = false;
+		gotoFalse.actualVarName = conditionVar;
+		gotoFalse.destinationLabel = blockName + "Begin";
+
+		addInstruction(gotoFalse);
+
+		// true begin
+		ctx.block().accept(this);
+
+		// label
+		NoOperation trueEnd = new NoOperation();
+		trueEnd.label = blockName + "End";
+		addInstruction(trueEnd);
+
+		popBlock();
+
 		return null;
 	}
 
@@ -467,6 +560,11 @@ public class GooCompiler implements GooVisitor<Object> {
 		// System.out.println("visit procedure");
 
 		ctx.block().accept(this);
+		
+		NoOperation end = new NoOperation();
+		end.label = "ProcedureEnd";
+		
+		addInstruction(end);
 
 		return null;
 	}
@@ -547,5 +645,54 @@ public class GooCompiler implements GooVisitor<Object> {
 		addInstruction(ins);
 
 		return tempVar;
+	}
+
+	@Override
+	public Object visitExpressionStatement(ExpressionStatementContext ctx) {
+
+		return ctx.expr().accept(this);
+	}
+
+	@Override
+	public Object visitContinueStatement(ContinueStatementContext ctx) {
+		String block = blockStack.peek();
+
+		Goto ins = new Goto();
+		ins.destinationLabel = block + "Entry";
+
+		addInstruction(ins);
+
+		return null;
+	}
+
+	@Override
+	public Object visitBreakStatement(BreakStatementContext ctx) {
+		String block = blockStack.peek();
+
+		Goto ins = new Goto();
+		ins.destinationLabel = block + "End";
+
+		addInstruction(ins);
+
+		return null;
+	}
+
+	@Override
+	public Object visitForAfterthought(ForAfterthoughtContext ctx) {
+		return ctx.expr().accept(this);
+
+	}
+
+	@Override
+	public Object visitForCondition(ForConditionContext ctx) {
+		String var = (String) ctx.expr().accept(this);
+
+		return var;
+	}
+
+	@Override
+	public Object visitForInit(ForInitContext ctx) {
+		return visitChildren(ctx);
+
 	}
 }

@@ -42,6 +42,17 @@ public interface GooListener extends ParseTreeListener {
 	void exitTrueBlock(@NotNull GooParser.TrueBlockContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GooParser#expressionStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#expressionStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -84,6 +95,17 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFalseBlock(@NotNull GooParser.FalseBlockContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#forAfterthought}.
+	 * @param ctx the parse tree
+	 */
+	void enterForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#forAfterthought}.
+	 * @param ctx the parse tree
+	 */
+	void exitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#procedure}.
@@ -194,6 +216,28 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAutoAssignOperator(@NotNull GooParser.AutoAssignOperatorContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterForCondition(@NotNull GooParser.ForConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitForCondition(@NotNull GooParser.ForConditionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#continueStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterContinueStatement(@NotNull GooParser.ContinueStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#continueStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitContinueStatement(@NotNull GooParser.ContinueStatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#Boolean}.
@@ -315,6 +359,28 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitString(@NotNull GooParser.StringContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#breakStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBreakStatement(@NotNull GooParser.BreakStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#breakStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBreakStatement(@NotNull GooParser.BreakStatementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#forInit}.
+	 * @param ctx the parse tree
+	 */
+	void enterForInit(@NotNull GooParser.ForInitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#forInit}.
+	 * @param ctx the parse tree
+	 */
+	void exitForInit(@NotNull GooParser.ForInitContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#comment}.
