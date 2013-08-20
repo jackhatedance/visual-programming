@@ -71,7 +71,10 @@ paramList : expr (',' expr)*            #orderedParamList
 nameValue : ID ':' expr;
 
 
-ifStatement : IF '(' expr ')' block (ELSE block)?;
+ifStatement : IF '(' expr ')' trueBlock (ELSE falseBlock)?;
+trueBlock : block;
+falseBlock: block;
+
 whileStatement : WHILE '(' expr ')' block;
 forStatement : FOR '(' (assignment|expr)';'expr ';' expr ')' block;
 returnStatement : RETURN expr;

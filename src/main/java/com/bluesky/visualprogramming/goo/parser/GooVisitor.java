@@ -12,39 +12,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link GooParser#namedParamList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNamedParamList(@NotNull GooParser.NamedParamListContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#ConstantExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstantExpr(@NotNull GooParser.ConstantExprContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#AssigneeField}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link GooParser#nameValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNameValue(@NotNull GooParser.NameValueContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#VariableExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariableExpr(@NotNull GooParser.VariableExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#forStatement}.
@@ -54,32 +26,11 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitForStatement(@NotNull GooParser.ForStatementContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link GooParser#Number}.
+	 * Visit a parse tree produced by {@link GooParser#trueBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumber(@NotNull GooParser.NumberContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#messgeName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#SendMessage}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSendMessage(@NotNull GooParser.SendMessageContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#RefAssignOperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx);
+	T visitTrueBlock(@NotNull GooParser.TrueBlockContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#returnStatement}.
@@ -94,6 +45,83 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBlock(@NotNull GooParser.BlockContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#paramDeclareList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#falseBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFalseBlock(@NotNull GooParser.FalseBlockContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#procedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedure(@NotNull GooParser.ProcedureContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#ConstantExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstantExpr(@NotNull GooParser.ConstantExprContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#namedParamList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamedParamList(@NotNull GooParser.NamedParamListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#AssigneeField}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#VariableExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableExpr(@NotNull GooParser.VariableExprContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#Number}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(@NotNull GooParser.NumberContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#RefAssignOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#SendMessage}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSendMessage(@NotNull GooParser.SendMessageContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#messgeName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#AutoAssignOperator}.
@@ -131,11 +159,11 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitIfStatement(@NotNull GooParser.IfStatementContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link GooParser#field}.
+	 * Visit a parse tree produced by {@link GooParser#OwnAssignOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitField(@NotNull GooParser.FieldContext ctx);
+	T visitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#statement}.
@@ -145,11 +173,11 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitStatement(@NotNull GooParser.StatementContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link GooParser#OwnAssignOperator}.
+	 * Visit a parse tree produced by {@link GooParser#field}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx);
+	T visitField(@NotNull GooParser.FieldContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#assignment}.
@@ -164,13 +192,6 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOrderedParamList(@NotNull GooParser.OrderedParamListContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#paramDeclareList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#whileStatement}.
@@ -199,13 +220,6 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(@NotNull GooParser.VariableContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#procedure}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitProcedure(@NotNull GooParser.ProcedureContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#AssigneeVariable}.

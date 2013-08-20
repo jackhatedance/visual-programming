@@ -1,11 +1,9 @@
-procedure foo(a,b,c)
+procedure foo(b)
 {
 
-	//b = true;
-	a= b.foo(1,x.y(zz.z(x)));
 	if(b){
 		b.foo();
-		a=100.plus(2);
+		
 	}
 	else
 	{

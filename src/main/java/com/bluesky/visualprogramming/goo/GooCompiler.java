@@ -31,6 +31,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.BlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BooleanContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.CommentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ConstantExprContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.FalseBlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.FieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.HeaderContext;
@@ -49,6 +50,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ReturnStatementContext
 import com.bluesky.visualprogramming.goo.parser.GooParser.SendMessageContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StringContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.TrueBlockContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
@@ -56,7 +58,9 @@ import com.bluesky.visualprogramming.goo.parser.GooVisitor;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
+import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
+import com.bluesky.visualprogramming.vm.instruction.NoOperation;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
@@ -76,11 +80,20 @@ public class GooCompiler implements GooVisitor<Object> {
 	// private Stack<Object> stack = new Stack<Object>();
 
 	private int tempVarCount = 0;
+	private int blockCount = 0;
 
 	private String getNextTempVar(String type) {
-		//String name = "temp_" + type + "_" + tempVarCount;
+		// String name = "temp_" + type + "_" + tempVarCount;
 		String name = "t_" + tempVarCount;
 		tempVarCount++;
+
+		return name;
+	}
+
+	private String getNextBlockName(String type) {
+		// String name = "temp_" + type + "_" + tempVarCount;
+		String name = "blk_" + blockCount;
+		blockCount++;
 
 		return name;
 	}
@@ -249,13 +262,13 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitBlock(BlockContext ctx) {
-		System.out.println("block");
+		//System.out.println("block");
 
-		addInstruction(new PushBlock());
+		//addInstruction(new PushBlock());
 
 		visitChildren(ctx);
 
-		addInstruction(new PopBlock());
+		//addInstruction(new PopBlock());
 
 		return null;
 	}
@@ -288,8 +301,56 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitIfStatement(IfStatementContext ctx) {
-		// TODO Auto-generated method stub
+		// System.out.println("if");
+
+		String blockName = getNextBlockName("If");
+		
+		addInstruction(new PushBlock());
+
+		String conditionVar = (String) ctx.expr().accept(this);
+
+		// goto FalseBegin
+		GotoIf gotoFalse = new GotoIf();
+		gotoFalse.expected = false;
+		gotoFalse.actualVarName = conditionVar;
+		gotoFalse.destinationLabel = blockName + "FalseBegin";
+
+		addInstruction(gotoFalse);
+		
+		// true begin
+		ctx.trueBlock().accept(this);
+		
+		
+		//label
+		NoOperation trueEnd = new NoOperation();
+		trueEnd.label = blockName + "TrueEnd";		
+		addInstruction(trueEnd);
+		
+		//label
+		NoOperation falseBegin = new NoOperation();
+		falseBegin.label = blockName + "FalseBegin";		
+		addInstruction(falseBegin);
+		
+		
+		ctx.falseBlock().accept(this);
+		
+		//label
+		NoOperation falseEnd = new NoOperation();
+		falseEnd.label = blockName + "FalseEnd";		
+		addInstruction(falseEnd);
+		
+		addInstruction(new PopBlock());
 		return null;
+	}
+
+	@Override
+	public Object visitFalseBlock(FalseBlockContext ctx) {
+		return visitChildren(ctx);		
+	}
+
+	@Override
+	public Object visitTrueBlock(TrueBlockContext ctx) {
+		return visitChildren(ctx);		
 	}
 
 	@Override
@@ -478,13 +539,13 @@ public class GooCompiler implements GooVisitor<Object> {
 	@Override
 	public Object visitNameValue(NameValueContext ctx) {
 		String tempVar = getNextTempVar("namedParamExpr");
-		
+
 		VariableAssignment ins = new VariableAssignment();
-		ins.left=tempVar;
-		ins.right = (String)ctx.expr().accept(this);
-		
+		ins.left = tempVar;
+		ins.right = (String) ctx.expr().accept(this);
+
 		addInstruction(ins);
-		
+
 		return tempVar;
 	}
 }

@@ -18,39 +18,7 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitConstantExpr(@NotNull GooParser.ConstantExprContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitNameValue(@NotNull GooParser.NameValueContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitVariableExpr(@NotNull GooParser.VariableExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -66,31 +34,7 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitNumber(@NotNull GooParser.NumberContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitSendMessage(@NotNull GooParser.SendMessageContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTrueBlock(@NotNull GooParser.TrueBlockContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -107,6 +51,94 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitBlock(@NotNull GooParser.BlockContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitFalseBlock(@NotNull GooParser.FalseBlockContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitProcedure(@NotNull GooParser.ProcedureContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConstantExpr(@NotNull GooParser.ConstantExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitAssigneeField(@NotNull GooParser.AssigneeFieldContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitVariableExpr(@NotNull GooParser.VariableExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitNumber(@NotNull GooParser.NumberContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSendMessage(@NotNull GooParser.SendMessageContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -154,7 +186,7 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitField(@NotNull GooParser.FieldContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -170,7 +202,7 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitField(@NotNull GooParser.FieldContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -187,14 +219,6 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitOrderedParamList(@NotNull GooParser.OrderedParamListContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -227,14 +251,6 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitVariable(@NotNull GooParser.VariableContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitProcedure(@NotNull GooParser.ProcedureContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
