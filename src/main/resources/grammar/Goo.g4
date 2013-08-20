@@ -22,23 +22,23 @@ paramDeclareList : ID (',' ID)*;
 
 block : '{' statement* '}';
 
-statement 
-         : assignment ';'       
-	| expr ';'             
-        |  ifStatement     
-        |   whileStatement 
-        |   forStatement   
-        |   returnStatement ';'  
-        |   BREAK ';'   
-        |   CONTINUE ';' 
+statement : 
+          assignment ';'       
+	| expressionStatement            
+        | ifStatement     
+        | whileStatement 
+        | forStatement   
+        | returnStatement   
+        | breakStatement    
+        | continueStatement  
         | comment           
         | ';'               
 	;
 	
 //varDeclare : 'var' varList;
 //varList : ID (',' ID)*;
-                     
-assignment : assignee assignOperator expr ;
+expressionStatement : expr ';';                     
+assignment : assignee assignOperator expr;
 
 assignOperator : REF_ASSIGN  #RefAssignOperator
           | OWN_ASSIGN      #OwnAssignOperator
@@ -76,9 +76,17 @@ trueBlock : block;
 falseBlock: block;
 
 whileStatement : WHILE '(' expr ')' block;
-forStatement : FOR '(' (assignment|expr)';'expr ';' expr ')' block;
-returnStatement : RETURN expr;
+forStatement : FOR '(' forInit ';' forCondition ';' forAfterthought ')' block;
 
+
+forInit: assignment|expr;
+forCondition : expr;
+forAfterthought : expr;
+
+returnStatement : RETURN expr ';';
+
+breakStatement : BREAK ';';
+continueStatement : CONTINUE ';';
                    
 comment : LINE_COMMENT
         | BLOCK_COMMENT;

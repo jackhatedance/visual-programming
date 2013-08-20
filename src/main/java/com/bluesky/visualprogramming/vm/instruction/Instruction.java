@@ -7,4 +7,6 @@ public class Instruction {
 	public InstructionType type;
 	
 	public String label;
+	
+	public String comment;
 }

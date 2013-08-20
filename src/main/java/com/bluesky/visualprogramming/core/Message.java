@@ -59,8 +59,12 @@ public class Message {
 		// TODO Auto-generated method stub
 	}
 	
-	public void initExecutionContext(){
+	public void initExecutionContext(_Object root){
 		executionContext = new ProcedureExecutionContext();
+		
+		executionContext.setObject("root", root);
+		executionContext.setObject("self", receiver);
+		executionContext.setObject("param", body);
 	}
 
 	public boolean needCallback() {

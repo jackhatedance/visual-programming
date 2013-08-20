@@ -3,21 +3,25 @@ package com.bluesky.visualprogramming.vm;
 import java.util.List;
 
 import com.bluesky.visualprogramming.core.Message;
+import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.vm.exceptions.AlreadyHasOwnerException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
+import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
 import com.bluesky.visualprogramming.vm.instruction.Goto;
 import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
+import com.bluesky.visualprogramming.vm.instruction.NoOperation;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public class ProcedureExecutor implements InstructionExecutor {
+	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
 
@@ -63,6 +67,14 @@ public class ProcedureExecutor implements InstructionExecutor {
 		_Object result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
+	}
+
+	@Override
+	public void executeCreateObject(CreateObject instruction) {
+		//owner is execution context
+		objectRepository.createObject(null, "noname",instruction.type,instruction.literal);
+		
+
 	}
 
 	@Override
@@ -165,6 +177,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public void executeVariableAssignment(VariableAssignment instruction) {
 		_Object right = ctx.getObject(instruction.right);
 		ctx.setVariable(instruction.left, right);
+
+	}
+
+	@Override
+	public void executeNoOperation(NoOperation instruction) {
+		// intend to do nothing
 
 	}
 

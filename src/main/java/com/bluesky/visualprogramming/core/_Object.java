@@ -31,7 +31,8 @@ public class _Object implements Serializable {
 	private long id;
 
 	/*
-	 * the name called by its owner.
+	 * the name called by itself, such as Tom. but i could be called son by its owner.
+	 *
 	 */
 	private String name;
 
@@ -42,6 +43,10 @@ public class _Object implements Serializable {
 
 	// in Z order
 	private List<_Object> childrenList = new ArrayList<_Object>();
+	
+	/**
+	 * not all child has name in its owner's mind. 
+	 */
 	private Map<String, _Object> childrenMap = new HashMap<String, _Object>();
 
 	private Deque<Message> messageQueue;

@@ -1,7 +1,5 @@
 procedure foo(a,b,c)
-{
-
-		
+{		
 	i = 0;
 	while(i.lt(100)){
 		

@@ -54,12 +54,14 @@ public class Worker implements Runnable {
 			Procedure proc) {
 		ExecutionStatus es;
 		if (proc.isNative()) {
-			msg.initExecutionContext();
+			msg.initExecutionContext(objectRepository.getRootObject());
 			es = executeNativeProcedure(msg, obj, proc);
 		} else {
 
 			if (msg.status == MessageStatus.NOT_STARTED) {
-				msg.initExecutionContext();
+				msg.initExecutionContext(objectRepository.getRootObject());
+				
+				
 				msg.status = MessageStatus.IN_PROGRESS;
 			}
 
