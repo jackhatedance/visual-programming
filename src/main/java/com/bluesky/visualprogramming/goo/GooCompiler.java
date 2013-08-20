@@ -8,12 +8,14 @@ import java.util.Stack;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import com.bluesky.my4gl.core.instruction.CreateObjectInstruction;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.goo.parser.GooLexer;
@@ -52,11 +54,12 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
-import com.bluesky.visualprogramming.vm.instruction.CreateValueObject;
+import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
+import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 /**
@@ -65,18 +68,18 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
  * @author jackding
  * 
  */
-public class GooCompiler implements GooVisitor<_Object> {
+public class GooCompiler implements GooVisitor<Object> {
 
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
 	// used to pass data between child node and parent node
-	private Stack<Object> stack = new Stack<Object>();
+	// private Stack<Object> stack = new Stack<Object>();
 
 	private int tempVarCount = 0;
 
-	private String getNextTempVar() {
-		String name = "tempVar" + tempVarCount;
-
+	private String getNextTempVar(String type) {
+		//String name = "temp_" + type + "_" + tempVarCount;
+		String name = "t_" + tempVarCount;
 		tempVarCount++;
 
 		return name;
@@ -107,7 +110,7 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visit(@NotNull ParseTree tree) {
+	public Object visit(@NotNull ParseTree tree) {
 		// System.out.println("visit tree");
 		tree.accept(this);
 
@@ -115,76 +118,137 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visitChildren(@NotNull RuleNode node) {
-		for (int i = 0; i < node.getChildCount(); i++)
-			node.getChild(i).accept(this);
+	public Object[] visitChildren(@NotNull RuleNode node) {
 
-		return null;
+		List<Object> results = new ArrayList<Object>();
+		for (int i = 0; i < node.getChildCount(); i++) {
+			Object result = node.getChild(i).accept(this);
+			results.add(result);
+		}
+
+		return results.toArray(new Object[0]);
+	}
+
+	public Object[] visitEach(@NotNull List<? extends RuleContext> nodeList) {
+
+		List<Object> results = new ArrayList<Object>();
+		for (int i = 0; i < nodeList.size(); i++) {
+			Object result = nodeList.get(i).accept(this);
+			results.add(result);
+		}
+
+		return results.toArray(new Object[0]);
 	}
 
 	@Override
-	public _Object visitTerminal(@NotNull TerminalNode node) {
+	public Object visitTerminal(@NotNull TerminalNode node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitErrorNode(@NotNull ErrorNode node) {
+	public Object visitErrorNode(@NotNull ErrorNode node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitForStatement(ForStatementContext ctx) {
+	public Object visitForStatement(ForStatementContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitVariable(VariableContext ctx) {
-		// TODO Auto-generated method stub
+	public Object visitVariable(VariableContext ctx) {
+		System.out.println("visitVariableExpr");
 		return null;
 	}
 
 	@Override
-	public _Object visitNumber(NumberContext ctx) {
+	public Object visitNumber(NumberContext ctx) {
 
-		CreateValueObject ins = new CreateValueObject();
+		CreateObject ins = new CreateObject();
 
-		ins.varName = (String) stack.pop();
+		ins.varName = getNextTempVar("number");
 		ins.type = ObjectType.INTEGER;
-		ins.literalValue = ctx.getText();
+		ins.literal = ctx.getText();
 
 		addInstruction(ins);
-		return null;
+		return ins.varName;
 	}
 
 	@Override
-	public _Object visitMessgeName(MessgeNameContext ctx) {
+	public Object visitMessgeName(MessgeNameContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitReturnStatement(ReturnStatementContext ctx) {
+	public Object visitReturnStatement(ReturnStatementContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitNamedParamList(NamedParamListContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object visitNamedParamList(NamedParamListContext ctx) {
+		String parametersVarName = getNextTempVar("namedParam");
+
+		// create the root parameter object
+		CreateObject ins = new CreateObject();
+		ins.type = ObjectType.DEFAULT;
+		ins.varName = parametersVarName;
+
+		addInstruction(ins);
+
+		for (int i = 0; i < ctx.nameValue().size(); i++) {
+			NameValueContext nvc = ctx.nameValue(i);
+
+			String paramVar = (String) nvc.accept(this);
+
+			FieldAssignment ins2 = new FieldAssignment();
+			ins2.ownerVar = parametersVarName;
+			ins2.fieldName = nvc.ID().getText();
+			ins2.rightVar = paramVar;
+			ins2.type = AssignmentType.AUTO;
+
+			addInstruction(ins2);
+		}
+
+		return parametersVarName;
 	}
 
 	@Override
-	public _Object visitOrderedParamList(OrderedParamListContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object visitOrderedParamList(OrderedParamListContext ctx) {
+
+		String parametersVarName = getNextTempVar("orderedParam");
+
+		Object[] paramVars = (Object[]) visitEach(ctx.expr());
+
+		// create the root parameter object
+		CreateObject ins = new CreateObject();
+		ins.type = ObjectType.DEFAULT;
+		ins.varName = parametersVarName;
+
+		addInstruction(ins);
+
+		// add parameters one by one
+
+		for (int i = 0; i < paramVars.length; i++) {
+			String paramVar = (String) paramVars[i];
+			FieldAssignment ins2 = new FieldAssignment();
+			ins2.ownerVar = parametersVarName;
+			ins2.fieldName = "ele" + i;
+			ins2.rightVar = paramVar;
+			ins2.type = AssignmentType.AUTO;
+
+			addInstruction(ins2);
+		}
+
+		return parametersVarName;
 	}
 
 	@Override
-	public _Object visitBlock(BlockContext ctx) {
+	public Object visitBlock(BlockContext ctx) {
 		System.out.println("block");
 
 		addInstruction(new PushBlock());
@@ -197,59 +261,74 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visitBoolean(BooleanContext ctx) {
+	public Object visitBoolean(BooleanContext ctx) {
 
-		CreateValueObject ins = new CreateValueObject();
+		CreateObject ins = new CreateObject();
 
-		ins.varName = (String) stack.pop();
+		ins.varName = getNextTempVar("boolean");
 		ins.type = ObjectType.BOOLEAN;
-		ins.literalValue = ctx.getText();
+		ins.literal = ctx.getText();
 
 		addInstruction(ins);
-		return null;
+		return ins.varName;
 	}
 
 	@Override
-	public _Object visitAccessField(AccessFieldContext ctx) {
+	public Object visitAccessField(AccessFieldContext ctx) {
 		// TODO Auto-generated method stub
 
 		return null;
 	}
 
 	@Override
-	public _Object visitHeader(HeaderContext ctx) {
+	public Object visitHeader(HeaderContext ctx) {
 		System.out.println("header");
 		return null;
 	}
 
 	@Override
-	public _Object visitIfStatement(IfStatementContext ctx) {
+	public Object visitIfStatement(IfStatementContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitField(FieldContext ctx) {
+	public Object visitField(FieldContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitSendMessage(SendMessageContext ctx) {
+	public Object visitSendMessage(SendMessageContext ctx) {
 		// System.out.println("visitSendMessage");
+		String paramVar = null;
+		if (ctx.paramList() != null)
+			paramVar = (String) ctx.paramList().accept(this);
 
-		return null;
+		SendMessage ins = new SendMessage();
+
+		String tempVar = (String) ctx.expr().accept(this);
+
+		ins.receiverVar = tempVar;
+		ins.messageSubject = ctx.messgeName().getText();
+		ins.messageBodyVar = paramVar;
+
+		String tempVar2 = getNextTempVar("sendMsgReply");
+		ins.replyVar = tempVar2;
+		addInstruction(ins);
+
+		return tempVar2;
 	}
 
 	@Override
-	public _Object visitStatement(StatementContext ctx) {
+	public Object visitStatement(StatementContext ctx) {
 		// System.out.println("statement");
 		visitChildren(ctx);
 		return null;
 	}
 
 	@Override
-	public _Object visitAssignment(AssignmentContext ctx) {
+	public Object visitAssignment(AssignmentContext ctx) {
 		// System.out.println("assignment");
 
 		AssigneeContext assignee = ctx.assignee();
@@ -261,11 +340,8 @@ public class GooCompiler implements GooVisitor<_Object> {
 				ins.right = ctx.expr().getText();
 
 			} else {
-				String tempVar = getNextTempVar();
-				ins.right = tempVar;
 
-				stack.push(tempVar);
-				ctx.expr().accept(this);
+				ins.right = (String) ctx.expr().accept(this);
 
 			}
 
@@ -275,21 +351,16 @@ public class GooCompiler implements GooVisitor<_Object> {
 
 			// visitAssigneeField
 
-			String tempVar2 = getNextTempVar();
-			stack.push(tempVar2);
-			ctx.expr().accept(this);
+			String tempVar2 = (String) ctx.expr().accept(this);
 
-			String tempVar = getNextTempVar();
-			stack.push(tempVar);
-			assigneeFieldContext.expr().accept(this);
+			String tempVar = (String) assigneeFieldContext.expr().accept(this);
 
 			FieldAssignment ins = new FieldAssignment();
 			ins.ownerVar = tempVar;
 			ins.fieldName = assigneeFieldContext.field().getText();
 			ins.rightVar = tempVar2;
 
-			ctx.assignOperator().accept(this);
-			ins.type = (AssignmentType) stack.pop();
+			ins.type = (AssignmentType) ctx.assignOperator().accept(this);
 
 			addInstruction(ins);
 
@@ -299,39 +370,39 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visitParamDeclareList(ParamDeclareListContext ctx) {
+	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitWhileStatement(WhileStatementContext ctx) {
+	public Object visitWhileStatement(WhileStatementContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitString(StringContext ctx) {
+	public Object visitString(StringContext ctx) {
 		// System.out.println("visitString");
 
-		CreateValueObject ins = new CreateValueObject();
+		CreateObject ins = new CreateObject();
 
-		ins.varName = (String) stack.pop();
+		ins.varName = getNextTempVar("string");
 		ins.type = ObjectType.STRING;
-		ins.literalValue = ctx.getText();
+		ins.literal = ctx.getText();
 
 		addInstruction(ins);
-		return null;
+		return ins.varName;
 	}
 
 	@Override
-	public _Object visitComment(CommentContext ctx) {
+	public Object visitComment(CommentContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public _Object visitProcedure(ProcedureContext ctx) {
+	public Object visitProcedure(ProcedureContext ctx) {
 		// System.out.println("visit procedure");
 
 		ctx.block().accept(this);
@@ -340,27 +411,33 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visitConstantExpr(ConstantExprContext ctx) {
+	public Object visitConstantExpr(ConstantExprContext ctx) {
 		// System.out.println("visitConstantExpr");
-		visitChildren(ctx);
 
-		return null;
+		return visitChildren(ctx)[0];
 	}
 
 	@Override
-	public _Object visitAssigneeField(AssigneeFieldContext ctx) {
+	public Object visitAssigneeField(AssigneeFieldContext ctx) {
 		System.out.println("visitAssigneeField");
 		return null;
 	}
 
 	@Override
-	public _Object visitVariableExpr(VariableExprContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object visitVariableExpr(VariableExprContext ctx) {
+		// System.out.println("visitVariableExpr");
+
+		// VariableAssignment ins = new VariableAssignment();
+		// ins.left = (String) stack.pop();
+		// ins.right = ctx.getText();
+		//
+		// addInstruction(ins);
+
+		return ctx.getText();
 	}
 
 	@Override
-	public _Object visitAssigneeVariable(AssigneeVariableContext ctx) {
+	public Object visitAssigneeVariable(AssigneeVariableContext ctx) {
 		System.out.println("visitAssigneeVariable");
 		return null;
 	}
@@ -381,27 +458,33 @@ public class GooCompiler implements GooVisitor<_Object> {
 	}
 
 	@Override
-	public _Object visitRefAssignOperator(RefAssignOperatorContext ctx) {
+	public Object visitRefAssignOperator(RefAssignOperatorContext ctx) {
 
-		stack.push(AssignmentType.REF);
-		return null;
+		return AssignmentType.REF;
 	}
 
 	@Override
-	public _Object visitAutoAssignOperator(AutoAssignOperatorContext ctx) {
-		stack.push(AssignmentType.AUTO);
-		return null;
+	public Object visitAutoAssignOperator(AutoAssignOperatorContext ctx) {
+
+		return AssignmentType.AUTO;
 	}
 
 	@Override
-	public _Object visitOwnAssignOperator(OwnAssignOperatorContext ctx) {
-		stack.push(AssignmentType.OWN);
-		return null;
+	public Object visitOwnAssignOperator(OwnAssignOperatorContext ctx) {
+
+		return AssignmentType.OWN;
 	}
 
 	@Override
-	public _Object visitNameValue(NameValueContext ctx) {
-		 
-		return null;
+	public Object visitNameValue(NameValueContext ctx) {
+		String tempVar = getNextTempVar("namedParamExpr");
+		
+		VariableAssignment ins = new VariableAssignment();
+		ins.left=tempVar;
+		ins.right = (String)ctx.expr().accept(this);
+		
+		addInstruction(ins);
+		
+		return tempVar;
 	}
 }

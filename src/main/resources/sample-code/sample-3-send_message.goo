@@ -1,6 +1,9 @@
 procedure foo(a,b,c)
 {
-	b.foo();
-	a = b.foo(this.getX(true),y,z);	
+	//b.foo(x,1);
+	//ordered parameters
+	//a = b.foo(this.getX(true),y,z);
+	//named parameters
+	c = self.foo(a:true,b:y,c:b.foo());
 	
 }

@@ -108,8 +108,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		_Object sender = ctx.getObject("self");
 		_Object receiver = ctx.getObject(instruction.receiverVar);
+		_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 		Message msg = new Message(instruction.sync, sender, receiver,
-				instruction.messageSubject, instruction.messageBody);
+				instruction.messageSubject, messageBody);
 
 		receiverObj.addToMessageQueue(msg);
 	}

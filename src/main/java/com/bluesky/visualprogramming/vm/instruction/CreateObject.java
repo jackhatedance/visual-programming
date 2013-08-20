@@ -8,11 +8,11 @@ import com.bluesky.visualprogramming.core.ObjectType;
  * @author jack
  * 
  */
-public class CreateValueObject extends Instruction {
+public class CreateObject extends Instruction {
 
 	public String varName;
 	public ObjectType type;
-	public String literalValue;
+	public String literal;
 
 	// self.create('a',bar) hard link (by pointer/id)
 	// self.link('a','bar') : self.a => bar;
@@ -24,8 +24,8 @@ public class CreateValueObject extends Instruction {
 
 	@Override
 	public String toString() {
-		return String.format("[create_value_object] %s -> [%s] %s", varName,
-				type, literalValue);
+		return String.format("[create_object] %s -> [%s] %s", varName,
+				type, literal);
 	}
 
 }
