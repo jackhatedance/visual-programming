@@ -170,12 +170,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 			if (oldFieldObject != null)
 				ctx.putTempObject(oldFieldObject);
 
-			leftObject.addChild(rightObject, instruction.fieldName);
+			leftObject.addChild(rightObject, instruction.fieldName,true);
 
 			break;
 
 		case REF:
-			leftObject.addPointer(rightObject, instruction.fieldName);
+			leftObject.addChild(rightObject, instruction.fieldName,false);
 
 			break;
 		default:
@@ -187,7 +187,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 				if (oldFieldObject != null)
 					ctx.putTempObject(oldFieldObject);
 
-				leftObject.addChild(rightObject, instruction.fieldName);
+				leftObject.addChild(rightObject, instruction.fieldName,true);
 			} else {
 				leftObject.addPointer(rightObject, instruction.fieldName);
 			}

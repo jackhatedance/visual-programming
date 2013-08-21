@@ -81,15 +81,15 @@ public class Worker implements Runnable {
 			if (msg.sync) {
 				if (msg.sender.isAwake())
 					throw new RuntimeException(
-							"assert error: sender should be sleeping.");
+							String.format("assert error: sender [%s] should be sleeping.",msg.sender));
 
 				msg.sender.setAwake(true);
 				workerManager.addCustomer(msg.sender);
 			} else {
 				if (msg.needCallback()) {
 					_Object newBody = objectRepository.createObject(null);
-					newBody.addChild(msg.body, "body");
-					newBody.addChild(msg.reply, "reply");
+					newBody.addChild(msg.body, "body",true);
+					newBody.addChild(msg.reply, "reply",true);
 					Message replyMsg = new Message(false, msg.receiver,
 							msg.sender, msg.callback, newBody, ParameterStyle.ByName);
 					postService.sendMessage(replyMsg);

@@ -27,15 +27,17 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 			Message msg) {
 		Map<String, _Object> map = new HashMap<String, _Object>();
 
-		if (msg.parameterStyle == ParameterStyle.ByOrder)
-		{
+		if (msg.parameterStyle == ParameterStyle.ByOrder) {
 			for (int i = 0; i < parameterNames.length; i++) {
 				String name = parameterNames[i];
 				map.put(name, msg.body.getChild(i));
 			}
-		} else
-			map = msg.body.getChildrenMap();
-		
+		} else {
+			for (String name : msg.body.getChildrenNames()) 
+				map.put(name, msg.body.getChild(name));
+			
+		}
+
 		return map;
 	}
 }

@@ -81,7 +81,7 @@ public class ObjectRepository {
 		newObject.setValue(value);
 
 		if (owner != null)
-			owner.addChild(newObject, name);
+			owner.addChild(newObject, name, true);
 
 		objects.put(newObject.getId(), newObject);
 
@@ -175,8 +175,8 @@ public class ObjectRepository {
 
 	public void load(List<String> lines) {
 		objects.clear();
-		
-		long maxObjectId=0;
+
+		long maxObjectId = 0;
 
 		for (String line : lines) {
 
@@ -190,25 +190,25 @@ public class ObjectRepository {
 
 			if (newObject.getId() == 0)
 				rootObject = newObject;
-			
-			if(newObject.getId()> maxObjectId)
+
+			if (newObject.getId() > maxObjectId)
 				maxObjectId = newObject.getId();
-			
+
 		}
-		
-		//reset object id
-		objectId = maxObjectId+1;
-		
+
+		// reset object id
+		objectId = maxObjectId + 1;
 
 		// linking
 		for (_Object o : objects.values()) {
 
 			_Object owner = objects.get(o.getOwner().getId());
 
-			o.setOwner(owner);
-
+			//remove the owner holder
+			o.setOwner(null);
+			
 			if (owner != null)
-				owner.addChild(o, o.getName());
+				owner.addChild(o, o.getName(), true);
 		}
 	}
 

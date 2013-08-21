@@ -44,12 +44,9 @@ public class _Object implements Serializable {
 	private boolean context = false;
 
 	// in Z order
-	private List<_Object> childrenList = new ArrayList<_Object>();
-
-	/**
-	 * not all child has name in its owner's mind.
-	 */
-	private Map<String, _Object> childrenMap = new HashMap<String, _Object>();
+	private List<Pointer> childrenList = new ArrayList<Pointer>();
+	// index names to accelerate access speed
+	private Map<String, Integer> childrenMap = new HashMap<String, Integer>();
 
 	private Deque<Message> messageQueue;
 	private boolean awake = true;
@@ -96,45 +93,64 @@ public class _Object implements Serializable {
 		this.owner = owner;
 	}
 
-	public Map<String, _Object> getChildrenMap() {
+	public Map<String, Integer> getChildrenMap() {
 		return childrenMap;
 	}
-	
+
 	/**
 	 * if there is no named field. then it become an array.
+	 * 
 	 * @return
 	 */
-	public boolean hasNamedField(){
-		return !childrenMap.isEmpty();		
+	public boolean hasNamedField() {
+		return !childrenMap.isEmpty();
 	}
-	
-	/**
-	 * no name is linked
-	 * @param child
-	 */
-	public void addChild(_Object child) {
-		childrenList.add(child);		
-		child.setOwner(this);
+
+	public _Object getChild(int index) {
+		return childrenList.get(index).target;
 	}
-	
-	public _Object getChild(int index){
-		return childrenList.get(index);
-	}
-	
-	public int getChildCount(){
+
+	public int getChildCount() {
 		return childrenList.size();
 	}
-	
-	public void addChild(_Object child, String name) {
-		childrenList.add(child);
-		childrenMap.put(name, child);
-		child.setOwner(this);
+
+	public void addPointer(_Object child, String name) {
+		addChild(child, name, false);
+	}
+
+	/**
+	 * no name
+	 * 
+	 * @param child
+	 */
+	public void addChild(_Object child, boolean owner) {
+		addChild(child, null, owner);
+	}
+
+	public void addChild(_Object child, String name, boolean owner) {
+		Pointer p = new Pointer(child, name, owner);
+		childrenList.add(p);
+		childrenMap.put(name, childrenList.size()-1);
+
+		if (owner) {
+			if (child.hasOwner())
+				throw new RuntimeException(
+						"the child object already has owner: id="
+								+ child.owner.id);
+
+			child.setOwner(this);
+		}
+	}
+
+	private boolean hasOwner() {
+
+		return owner != null;
 	}
 
 	public void renameField(String old, String _new) {
 
-		_Object obj = childrenMap.get(old);
-		if (obj == null)
+		Integer oldIndex = childrenMap.get(old);
+		if (oldIndex == null)
 			throw new RuntimeException("source field not exist:" + old);
 
 		if (childrenMap.containsKey(_new)) {
@@ -144,41 +160,34 @@ public class _Object implements Serializable {
 
 		childrenMap.remove(old);
 
-		childrenMap.put(_new, obj);
-
-	}
-
-	public void addPointer(_Object child, String name) {
-
-		childrenMap.put(name, child);
+		childrenMap.put(_new, oldIndex);
 
 	}
 
 	public void removeChild(String name) {
-		_Object child = childrenMap.get(name);
-		if (child == null)
+		Integer childIndex = childrenMap.get(name);
+		if (childIndex == null)
 			throw new RuntimeException("child not found:" + name);
 
-		removeChild(child);
+		removeChild(childIndex);
 	}
 
-	public void removePointer(String name) {
-		_Object child = childrenMap.get(name);
-		if (child == null)
-			throw new RuntimeException("child not found:" + name);
+	public void removeChild(Integer index) {
 
-		childrenMap.remove(child);
-	}
-
-	public void removeChild(_Object child) {
-
-		if (child == null)
+		if (index == null)
 			return;
 
-		childrenList.remove(child);
-		childrenMap.remove(child);
+		Pointer p = childrenList.get(index);
+		childrenList.remove(index);
 
-		child.setOwner(null);
+		if (p.hasName())
+			childrenMap.remove(p.name);
+
+		p.target.setOwner(null);
+	}
+
+	public void removeChild(_Object obj) {
+
 	}
 
 	public void clearChildren() {
@@ -348,23 +357,26 @@ public class _Object implements Serializable {
 
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom) {
 
-		for (_Object c : childrenList) {
-			c.draw(g, canvasOffset, zoom);
+		for (Pointer p : childrenList) {
+			if (p.owner)
+				p.target.draw(g, canvasOffset, zoom);
 		}
 	}
 
 	public void drawInternal(Graphics g, Point canvasOffset) {
-
-		for (_Object c : childrenList) {
-			c.draw(g, canvasOffset, scaleRate);
+		for (Pointer p : childrenList) {
+			if (p.owner)
+				p.target.draw(g, canvasOffset, scaleRate);
 		}
 	}
 
 	public _Object getChild(String name) {
-		return childrenMap.get(name);
+		Integer index = childrenMap.get(name);
+
+		return childrenList.get(index).target;
 	}
-	
-	public String[] getFieldNames(){
+
+	public String[] getChildrenNames() {
 		return childrenMap.keySet().toArray(new String[0]);
 	}
 
@@ -377,14 +389,19 @@ public class _Object implements Serializable {
 	}
 
 	public Procedure getProcedure(String name) {
-		Procedure p = (Procedure) childrenMap.get(name);
+		Integer index = childrenMap.get(name);
+		if (index == null)
+			throw new RuntimeException("procedure not found:" + name);
+
+		Procedure p = (Procedure) (childrenList.get(index).target);
 
 		return p;
 	}
 
 	public CompiledProcedure getCompiledProcedure(String name) {
 
-		Procedure p = (Procedure) childrenMap.get(name);
+		Procedure p = getProcedure(name);
+
 		if (p.compiled == null) {
 			LanguageType type = LanguageType.valueOf(p.language.toUpperCase());
 			if (type == null)
@@ -421,20 +438,20 @@ public class _Object implements Serializable {
 		return messageQueue.size();
 	}
 
-	public boolean isAwake() {
+	public synchronized boolean isAwake() {
 		return awake;
 
 	}
 
-	public void setAwake(boolean awake) {
+	public synchronized void setAwake(boolean awake) {
 		this.awake = awake;
 	}
 
-	public boolean hasWorker() {
+	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
 
-	public void sleep() {
+	public synchronized void sleep() {
 		this.awake = false;
 
 	}
