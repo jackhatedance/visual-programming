@@ -136,7 +136,8 @@ public class MainWindow extends JPanel {
 	private DefaultMutableTreeNode createTreeNode(_Object obj) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(obj);
 
-		for (_Object childObj : obj.getChildrenList()) {
+		for(int i=0;i<obj.getChildCount();i++){		
+			_Object childObj = obj.getChild(i);
 			DefaultMutableTreeNode childNode = createTreeNode(childObj);
 			node.add(childNode);
 		}
@@ -425,7 +426,9 @@ public class MainWindow extends JPanel {
 		Point p = CanvasUtils.scaleBack(mousePos,
 				getSelectedTreeObject().scaleRate);
 
-		for (_Object c : obj.getChildrenList()) {
+		for(int i=0;i<obj.getChildCount();i++)
+		{
+			_Object c = obj.getChild(i);
 			// set all to notSelected
 			c.selectedStatus = SelectedStatus.NotSelected;
 

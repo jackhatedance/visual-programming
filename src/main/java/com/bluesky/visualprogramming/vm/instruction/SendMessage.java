@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
+import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.vm.InstructionType;
 
 public class SendMessage extends Instruction {
@@ -10,6 +11,7 @@ public class SendMessage extends Instruction {
 	public String receiverVar;
 	public String messageSubject;
 	public String messageBodyVar;
+	public ParameterStyle paramStyle;
 
 	public SendMessage() {
 		this.type = InstructionType.SEND_MESSAGE;

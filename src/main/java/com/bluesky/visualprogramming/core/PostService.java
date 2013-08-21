@@ -19,7 +19,7 @@ public class PostService {
 
 	public void sendMessageFromNobody(_Object receiver, String subject) {
 
-		Message msg = new Message(false, null, receiver, subject, null);
+		Message msg = new Message(false, null, receiver, subject, null,ParameterStyle.ByName);
 		sendMessage(msg);
 	}
 }

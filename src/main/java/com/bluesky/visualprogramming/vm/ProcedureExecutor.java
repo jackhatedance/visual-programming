@@ -144,7 +144,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 		Message msg = new Message(instruction.sync, sender, receiver,
-				instruction.messageSubject, messageBody);
+				instruction.messageSubject, messageBody,instruction.paramStyle);
 
 		sender.sleep();
 		postService.sendMessage(msg);		

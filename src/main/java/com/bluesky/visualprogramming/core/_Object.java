@@ -96,14 +96,35 @@ public class _Object implements Serializable {
 		this.owner = owner;
 	}
 
-	public List<_Object> getChildrenList() {
-		return childrenList;
-	}
-
 	public Map<String, _Object> getChildrenMap() {
 		return childrenMap;
 	}
-
+	
+	/**
+	 * if there is no named field. then it become an array.
+	 * @return
+	 */
+	public boolean hasNamedField(){
+		return !childrenMap.isEmpty();		
+	}
+	
+	/**
+	 * no name is linked
+	 * @param child
+	 */
+	public void addChild(_Object child) {
+		childrenList.add(child);		
+		child.setOwner(this);
+	}
+	
+	public _Object getChild(int index){
+		return childrenList.get(index);
+	}
+	
+	public int getChildCount(){
+		return childrenList.size();
+	}
+	
 	public void addChild(_Object child, String name) {
 		childrenList.add(child);
 		childrenMap.put(name, child);
@@ -341,6 +362,10 @@ public class _Object implements Serializable {
 
 	public _Object getChild(String name) {
 		return childrenMap.get(name);
+	}
+	
+	public String[] getFieldNames(){
+		return childrenMap.keySet().toArray(new String[0]);
 	}
 
 	public Deque<Message> getMessageQueue() {

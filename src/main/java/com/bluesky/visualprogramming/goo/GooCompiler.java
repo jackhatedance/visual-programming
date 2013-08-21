@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.goo.parser.GooLexer;
 import com.bluesky.visualprogramming.goo.parser.GooParser;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AccessFieldContext;
@@ -209,10 +210,12 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		pushBlock(blockName);
 
 		getLastInstruction().comment = String.format("for(%s;%s;%s)", ctx
-				.forInit().getText(), ctx.forCondition().getText(), ctx
-				.forAfterthought().getText());
+				.forInit() == null ? "" : ctx.forInit().getText(), ctx
+				.forCondition().getText(), ctx.forAfterthought() == null ? ""
+				: ctx.forAfterthought().getText());
 
-		ctx.forInit().accept(this);
+		if (ctx.forInit() != null)
+			ctx.forInit().accept(this);
 
 		NoOperation entry = new NoOperation();
 		entry.label = blockName + "Entry";
@@ -229,7 +232,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ctx.block().accept(this);
 
-		ctx.forAfterthought().accept(this);
+		if (ctx.forAfterthought() != null)
+			ctx.forAfterthought().accept(this);
 
 		NoOperation end = new NoOperation();
 		end.label = blockName + "End";
@@ -367,14 +371,14 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitAccessField(AccessFieldContext ctx) {
-		
+
 		String var = getNextTempVar("accessField");
-		
+
 		AccessField ins = new AccessField();
-		ins.objName =	(String) ctx.expr().accept(this); 
+		ins.objName = (String) ctx.expr().accept(this);
 		ins.fieldName = ctx.field().getText();
 		ins.varName = var;
-		
+
 		addInstruction(ins);
 
 		return var;
@@ -449,8 +453,18 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitSendMessage(SendMessageContext ctx) {
 		// System.out.println("visitSendMessage");
 		String paramVar = null;
-		if (ctx.paramList() != null)
+
+		// default
+		ParameterStyle paramStyle = ParameterStyle.ByName;
+
+		if (ctx.paramList() != null) {
 			paramVar = (String) ctx.paramList().accept(this);
+
+			if (ctx.paramList() instanceof OrderedParamListContext)
+				paramStyle = ParameterStyle.ByOrder;
+			else
+				paramStyle = ParameterStyle.ByName;
+		}
 
 		SendMessage ins = new SendMessage();
 
@@ -462,6 +476,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
 		ins.replyVar = tempVar2;
+		
+		ins.paramStyle = paramStyle;
+		
 		addInstruction(ins);
 
 		getLastInstruction().comment = ctx.getText();
@@ -510,7 +527,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ins.fieldName = assigneeFieldContext.field().getText();
 			ins.rightVar = tempVar2;
 
-			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(this);
+			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(
+					this);
 
 			addInstruction(ins);
 
@@ -592,8 +610,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		addInstruction(end);
 
-
-				
 		return null;
 	}
 

@@ -76,7 +76,7 @@ trueBlock : block;
 falseBlock: block;
 
 whileStatement : WHILE '(' expr ')' block;
-forStatement : FOR '(' forInit ';' forCondition ';' forAfterthought ')' block;
+forStatement : FOR '(' forInit? ';' forCondition ';' forAfterthought? ')' block;
 
 
 forInit: assignment|expr;

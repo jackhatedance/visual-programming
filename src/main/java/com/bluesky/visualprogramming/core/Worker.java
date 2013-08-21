@@ -91,7 +91,7 @@ public class Worker implements Runnable {
 					newBody.addChild(msg.body, "body");
 					newBody.addChild(msg.reply, "reply");
 					Message replyMsg = new Message(false, msg.receiver,
-							msg.sender, msg.callback, newBody);
+							msg.sender, msg.callback, newBody, ParameterStyle.ByName);
 					postService.sendMessage(replyMsg);
 				}
 			}
@@ -119,7 +119,7 @@ public class Worker implements Runnable {
 			return es;
 		} catch (Exception e) {
 			throw new RuntimeException(
-					"error during executing native procedure." + e);
+					"error during executing native procedure." , e);
 		}
 	}
 

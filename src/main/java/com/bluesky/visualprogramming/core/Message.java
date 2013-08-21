@@ -9,6 +9,7 @@ public class Message {
 	public _Object receiver;
 	public String subject;
 	public _Object body;
+	public ParameterStyle parameterStyle;
 
 	public ProcedureExecutionContext executionContext;
 
@@ -19,7 +20,7 @@ public class Message {
 	 */
 	public String callback;
 
-	public MessageStatus status=MessageStatus.NOT_STARTED;
+	public MessageStatus status = MessageStatus.NOT_STARTED;
 
 	/**
 	 * sync or aync
@@ -31,13 +32,13 @@ public class Message {
 	 * @param body
 	 */
 	public Message(boolean sync, _Object sender, _Object receiver,
-			String subject, _Object body) {
+			String subject, _Object body, ParameterStyle parameterStyle) {
 		this.sync = sync;
 		this.sender = sender;
 		this.receiver = receiver;
 		this.subject = subject;
 		this.body = body;
-
+		this.parameterStyle = parameterStyle;
 	}
 
 	/**
@@ -50,18 +51,19 @@ public class Message {
 	 * @param body
 	 */
 	public Message(String callback, _Object sender, _Object receiver,
-			String subject, _Object body) {
+			String subject, _Object body, ParameterStyle paramStyle) {
 		this.callback = callback;
 		this.sender = sender;
 		this.receiver = receiver;
 		this.subject = subject;
 		this.body = body;
-		// TODO Auto-generated method stub
+		this.parameterStyle = paramStyle;
+
 	}
-	
-	public void initExecutionContext(_Object root){
+
+	public void initExecutionContext(_Object root) {
 		executionContext = new ProcedureExecutionContext();
-		
+
 		executionContext.setObject("root", root);
 		executionContext.setObject("self", receiver);
 		executionContext.setObject("param", body);
@@ -71,5 +73,4 @@ public class Message {
 		return callback != null && (!callback.isEmpty());
 	}
 
-	
 }

@@ -1,9 +1,7 @@
 procedure foo(a,b,c)
 {
 
-		
-	
-	for(i=0;i.lt(100);i.inc()){
+	for(i=0;i.lt(100);){
 		bar.foo();		
 	}	
 	
