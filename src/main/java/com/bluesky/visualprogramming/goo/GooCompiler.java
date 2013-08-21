@@ -1,7 +1,9 @@
 package com.bluesky.visualprogramming.goo;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -57,6 +59,9 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
+import com.bluesky.visualprogramming.vm.CompiledProcedure;
+import com.bluesky.visualprogramming.vm.Compiler;
+import com.bluesky.visualprogramming.vm.instruction.AccessField;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
@@ -65,6 +70,7 @@ import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.NoOperation;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
+import com.bluesky.visualprogramming.vm.instruction.ProcedureEnd;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
@@ -75,7 +81,7 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
  * @author jackding
  * 
  */
-public class GooCompiler implements GooVisitor<Object> {
+public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
@@ -120,7 +126,18 @@ public class GooCompiler implements GooVisitor<Object> {
 		blockStack.pop();
 	}
 
-	public void compile(InputStream is) {
+	public CompiledProcedure compile(String code) {
+		InputStream stream = null;
+		try {
+			stream = new ByteArrayInputStream(code.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+
+		}
+		return compile(stream);
+	}
+
+	public CompiledProcedure compile(InputStream is) {
 
 		ANTLRInputStream input;
 		try {
@@ -138,6 +155,8 @@ public class GooCompiler implements GooVisitor<Object> {
 
 		visit(tree);
 
+		CompiledProcedure cp = new CompiledProcedure(instructions);
+		return cp;
 	}
 
 	@Override
@@ -194,7 +213,7 @@ public class GooCompiler implements GooVisitor<Object> {
 				.forAfterthought().getText());
 
 		ctx.forInit().accept(this);
-		
+
 		NoOperation entry = new NoOperation();
 		entry.label = blockName + "Entry";
 		addInstruction(entry);
@@ -233,7 +252,7 @@ public class GooCompiler implements GooVisitor<Object> {
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("number");
-		ins.type = ObjectType.INTEGER;
+		ins.objType = ObjectType.INTEGER;
 		ins.literal = ctx.getText();
 
 		addInstruction(ins);
@@ -248,21 +267,21 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitReturnStatement(ReturnStatementContext ctx) {
-		
-		String  var = (String)ctx.expr().accept(this);
-		
+
+		String var = (String) ctx.expr().accept(this);
+
 		VariableAssignment ins = new VariableAssignment();
 		ins.left = "result";
-		ins.right=var;
-		ins.comment = "return "+ctx.expr().getText();
-		
+		ins.right = var;
+		ins.comment = "return " + ctx.expr().getText();
+
 		addInstruction(ins);
-		
+
 		Goto gotoEnd = new Goto();
 		gotoEnd.destinationLabel = "procedureEnd";
-		
+
 		addInstruction(gotoEnd);
-		
+
 		return null;
 	}
 
@@ -272,7 +291,7 @@ public class GooCompiler implements GooVisitor<Object> {
 
 		// create the root parameter object
 		CreateObject ins = new CreateObject();
-		ins.type = ObjectType.DEFAULT;
+		ins.objType = ObjectType.DEFAULT;
 		ins.varName = parametersVarName;
 
 		addInstruction(ins);
@@ -286,7 +305,7 @@ public class GooCompiler implements GooVisitor<Object> {
 			ins2.ownerVar = parametersVarName;
 			ins2.fieldName = nvc.ID().getText();
 			ins2.rightVar = paramVar;
-			ins2.type = AssignmentType.AUTO;
+			ins2.assignmenType = AssignmentType.AUTO;
 
 			addInstruction(ins2);
 		}
@@ -303,7 +322,7 @@ public class GooCompiler implements GooVisitor<Object> {
 
 		// create the root parameter object
 		CreateObject ins = new CreateObject();
-		ins.type = ObjectType.DEFAULT;
+		ins.objType = ObjectType.DEFAULT;
 		ins.varName = parametersVarName;
 
 		addInstruction(ins);
@@ -316,7 +335,7 @@ public class GooCompiler implements GooVisitor<Object> {
 			ins2.ownerVar = parametersVarName;
 			ins2.fieldName = "idx_" + i;
 			ins2.rightVar = paramVar;
-			ins2.type = AssignmentType.AUTO;
+			ins2.assignmenType = AssignmentType.AUTO;
 
 			addInstruction(ins2);
 		}
@@ -339,7 +358,7 @@ public class GooCompiler implements GooVisitor<Object> {
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("boolean");
-		ins.type = ObjectType.BOOLEAN;
+		ins.objType = ObjectType.BOOLEAN;
 		ins.literal = ctx.getText();
 
 		addInstruction(ins);
@@ -348,9 +367,17 @@ public class GooCompiler implements GooVisitor<Object> {
 
 	@Override
 	public Object visitAccessField(AccessFieldContext ctx) {
-		// TODO Auto-generated method stub
+		
+		String var = getNextTempVar("accessField");
+		
+		AccessField ins = new AccessField();
+		ins.objName =	(String) ctx.expr().accept(this); 
+		ins.fieldName = ctx.field().getText();
+		ins.varName = var;
+		
+		addInstruction(ins);
 
-		return null;
+		return var;
 	}
 
 	@Override
@@ -436,9 +463,8 @@ public class GooCompiler implements GooVisitor<Object> {
 		String tempVar2 = getNextTempVar("sendMsgReply");
 		ins.replyVar = tempVar2;
 		addInstruction(ins);
-		
-		getLastInstruction().comment =  ctx.getText();
 
+		getLastInstruction().comment = ctx.getText();
 
 		return tempVar2;
 	}
@@ -484,7 +510,7 @@ public class GooCompiler implements GooVisitor<Object> {
 			ins.fieldName = assigneeFieldContext.field().getText();
 			ins.rightVar = tempVar2;
 
-			ins.type = (AssignmentType) ctx.assignOperator().accept(this);
+			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(this);
 
 			addInstruction(ins);
 
@@ -542,7 +568,7 @@ public class GooCompiler implements GooVisitor<Object> {
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("string");
-		ins.type = ObjectType.STRING;
+		ins.objType = ObjectType.STRING;
 		ins.literal = ctx.getText();
 
 		addInstruction(ins);
@@ -560,12 +586,14 @@ public class GooCompiler implements GooVisitor<Object> {
 		// System.out.println("visit procedure");
 
 		ctx.block().accept(this);
-		
-		NoOperation end = new NoOperation();
+
+		ProcedureEnd end = new ProcedureEnd();
 		end.label = "ProcedureEnd";
-		
+
 		addInstruction(end);
 
+
+				
 		return null;
 	}
 

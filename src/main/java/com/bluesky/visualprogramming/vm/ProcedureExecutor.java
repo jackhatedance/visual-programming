@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.PostService;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.vm.exceptions.AlreadyHasOwnerException;
@@ -16,6 +17,7 @@ import com.bluesky.visualprogramming.vm.instruction.GotoIf;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 import com.bluesky.visualprogramming.vm.instruction.NoOperation;
 import com.bluesky.visualprogramming.vm.instruction.PopBlock;
+import com.bluesky.visualprogramming.vm.instruction.ProcedureEnd;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
@@ -24,8 +26,18 @@ public class ProcedureExecutor implements InstructionExecutor {
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
+	PostService postService;
 
-	private ExecutionStatus executionStatus = ExecutionStatus.COMPLETED;
+	private ExecutionStatus instructionExecutionStatus = ExecutionStatus.COMPLETE;
+
+	public ProcedureExecutor(ObjectRepository objectRepository,PostService postService,
+			CompiledProcedure procedure, ProcedureExecutionContext ctx) {
+
+		this.objectRepository = objectRepository;
+		this.postService = postService;
+		this.procedure = procedure;
+		this.ctx = ctx;
+	}
 
 	/**
 	 * move forward one step
@@ -34,25 +46,30 @@ public class ProcedureExecutor implements InstructionExecutor {
 	 * @param ctx
 	 * @return
 	 */
-	public ExecutionStatus execute(CompiledProcedure procedure,
-			ProcedureExecutionContext ctx) {
+	public ExecutionStatus execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
 		while (true) {
-			executeOneStep(instructions, ctx);
+			executeOneStep(instructions);
 
-			if (executionStatus == ExecutionStatus.WAIT)
+			if (instructionExecutionStatus == ExecutionStatus.WAITING)
 				break;
+			
+			if (ctx.isProcedureEnd()){
+				instructionExecutionStatus = ExecutionStatus.COMPLETE;
+				break;
+			}
+
 		}
-		return executionStatus;
+		return instructionExecutionStatus;
 	}
 
-	void executeOneStep(List<Instruction> instructions,
-			ProcedureExecutionContext ctx) {
+	void executeOneStep(List<Instruction> instructions) {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
 		// execute it
+		System.out.println(instruction.toString());
 		instruction.type.execute(this, instruction);
 
 		if (!instruction.type.updateInstructionIndex())
@@ -71,10 +88,11 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 	@Override
 	public void executeCreateObject(CreateObject instruction) {
-		//owner is execution context
-		objectRepository.createObject(null, "noname",instruction.type,instruction.literal);
-		
+		// owner is execution context
+		_Object obj = objectRepository.createObject(null, instruction.varName,
+				instruction.objType, instruction.literal);
 
+		ctx.setVariable(instruction.varName, obj);
 	}
 
 	@Override
@@ -120,11 +138,16 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		_Object sender = ctx.getObject("self");
 		_Object receiver = ctx.getObject(instruction.receiverVar);
+		if (receiver == null)
+			throw new RuntimeException("receiver object not exist:"
+					+ instruction.receiverVar);
+
 		_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 		Message msg = new Message(instruction.sync, sender, receiver,
 				instruction.messageSubject, messageBody);
 
-		receiverObj.addToMessageQueue(msg);
+		sender.sleep();
+		postService.sendMessage(msg);		
 	}
 
 	@Override
@@ -136,7 +159,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		_Object oldFieldObject = null;
 		// ownership
-		switch (instruction.type) {
+		switch (instruction.assignmenType) {
 		case OWN:
 			if (!rightObject.isContext())
 				throw new AlreadyHasOwnerException();
@@ -183,6 +206,13 @@ public class ProcedureExecutor implements InstructionExecutor {
 	@Override
 	public void executeNoOperation(NoOperation instruction) {
 		// intend to do nothing
+
+	}
+
+	@Override
+	public void executeProcedureEnd(ProcedureEnd instruction) {
+		// set flag
+		ctx.setProcedureEnd(true);
 
 	}
 

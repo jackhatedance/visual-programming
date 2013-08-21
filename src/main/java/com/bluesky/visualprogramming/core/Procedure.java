@@ -3,6 +3,8 @@ package com.bluesky.visualprogramming.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bluesky.visualprogramming.vm.CompiledProcedure;
+
 public class Procedure extends _Object {
 
 	public Procedure(long id) {
@@ -18,6 +20,11 @@ public class Procedure extends _Object {
 	public String language;
 	String code;
 
+	/**
+	 * lazy compile
+	 */
+	public CompiledProcedure compiled;
+	
 	@Override
 	public String getValue() {
 
@@ -28,7 +35,7 @@ public class Procedure extends _Object {
 		else
 			attributes = "[native=false, language=goo]";
 
-		return attributes + "\r\n" + code;
+		return attributes  + code;
 	}
 
 	private Map<String, String> parseAttributes(String str) {
@@ -63,6 +70,7 @@ public class Procedure extends _Object {
 			if (map.containsKey("language"))
 				language = map.get("language");
 
+			
 			code = value.substring(index2+1);
 		} else
 			code = value;

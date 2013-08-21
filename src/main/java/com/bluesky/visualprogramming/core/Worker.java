@@ -42,7 +42,7 @@ public class Worker implements Runnable {
 			
 			ExecutionStatus es = executeProcedure(msg, obj, proc);
 
-			if (es == ExecutionStatus.WAIT) {
+			if (es == ExecutionStatus.WAITING) {
 				obj.setAwake(false);
 
 				break;
@@ -67,14 +67,14 @@ public class Worker implements Runnable {
 
 			CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
 
-			ProcedureExecutor executor = new ProcedureExecutor();
+			ProcedureExecutor executor = new ProcedureExecutor(objectRepository,postService,cp, msg.executionContext);
 			// e.setPolicy(step);
 
-			es = executor.execute(cp, msg.executionContext);
+			es = executor.execute();
 
 		}
 
-		if (es == ExecutionStatus.COMPLETED) {
+		if (es == ExecutionStatus.COMPLETE) {
 			// remove from queue
 			obj.getMessageQueue().removeFirst();
 
@@ -114,7 +114,7 @@ public class Worker implements Runnable {
 
 			msg.status = MessageStatus.FINISHED;
 
-			ExecutionStatus es = ExecutionStatus.COMPLETED;
+			ExecutionStatus es = ExecutionStatus.COMPLETE;
 
 			return es;
 		} catch (Exception e) {

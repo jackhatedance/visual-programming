@@ -27,7 +27,6 @@ public class ObjectRepository {
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();;
 	_Object rootObject;
 
-	 
 	public ObjectRepository() {
 		// start from 0
 		objectId = 0;
@@ -98,12 +97,11 @@ public class ObjectRepository {
 	}
 
 	public void destroyObject(_Object obj) {
-		if(obj.getOwner()!=null)
-		{
+		if (obj.getOwner() != null) {
 			obj.getOwner().removeChild(obj);
 			obj.setOwner(null);
 		}
-		
+
 		objects.remove(obj);
 	}
 
@@ -171,10 +169,14 @@ public class ObjectRepository {
 
 		load(lines);
 
+		// set object id
+
 	}
 
 	public void load(List<String> lines) {
 		objects.clear();
+		
+		long maxObjectId=0;
 
 		for (String line : lines) {
 
@@ -188,7 +190,15 @@ public class ObjectRepository {
 
 			if (newObject.getId() == 0)
 				rootObject = newObject;
+			
+			if(newObject.getId()> maxObjectId)
+				maxObjectId = newObject.getId();
+			
 		}
+		
+		//reset object id
+		objectId = maxObjectId+1;
+		
 
 		// linking
 		for (_Object o : objects.values()) {

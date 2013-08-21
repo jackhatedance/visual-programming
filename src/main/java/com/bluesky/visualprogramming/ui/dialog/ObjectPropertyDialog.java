@@ -174,9 +174,17 @@ public class ObjectPropertyDialog extends JDialog {
 	}
 
 	private void updateObject() {
-		object.setName(textFieldName.getText());
+
+		String oldName = object.getName();
+		String newName = textFieldName.getText();
+
+		if (!oldName.equals(newName))
+			object.getOwner().renameField(oldName, newName);
+
+		object.setName(newName);
 		object.setValue(textAreaValue.getText());
 		object.borderColor = btnSetBorderColor.getForeground();
+
 	}
 
 	public boolean isUpdated() {

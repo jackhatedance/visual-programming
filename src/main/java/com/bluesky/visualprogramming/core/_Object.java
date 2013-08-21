@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
+import com.bluesky.visualprogramming.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
 public class _Object implements Serializable {
@@ -31,8 +34,7 @@ public class _Object implements Serializable {
 	private long id;
 
 	/*
-	 * the name called by itself, such as Tom. but i could be called son by its owner.
-	 *
+	 * the name called by owner
 	 */
 	private String name;
 
@@ -43,9 +45,9 @@ public class _Object implements Serializable {
 
 	// in Z order
 	private List<_Object> childrenList = new ArrayList<_Object>();
-	
+
 	/**
-	 * not all child has name in its owner's mind. 
+	 * not all child has name in its owner's mind.
 	 */
 	private Map<String, _Object> childrenMap = new HashMap<String, _Object>();
 
@@ -108,6 +110,23 @@ public class _Object implements Serializable {
 		child.setOwner(this);
 	}
 
+	public void renameField(String old, String _new) {
+
+		_Object obj = childrenMap.get(old);
+		if (obj == null)
+			throw new RuntimeException("source field not exist:" + old);
+
+		if (childrenMap.containsKey(_new)) {
+			throw new RuntimeException("destination field already exist:"
+					+ _new);
+		}
+
+		childrenMap.remove(old);
+
+		childrenMap.put(_new, obj);
+
+	}
+
 	public void addPointer(_Object child, String name) {
 
 		childrenMap.put(name, child);
@@ -156,7 +175,7 @@ public class _Object implements Serializable {
 
 	public void setValue(String value) {
 		// it is not a value object, the value must be null;
-		if (!value.isEmpty())
+		if (value != null && !value.isEmpty())
 			throw new RuntimeException("param 'value' is not empty.");
 	}
 
@@ -339,7 +358,27 @@ public class _Object implements Serializable {
 	}
 
 	public CompiledProcedure getCompiledProcedure(String name) {
-		return null;
+
+		Procedure p = (Procedure) childrenMap.get(name);
+		if (p.compiled == null) {
+			LanguageType type = LanguageType.valueOf(p.language.toUpperCase());
+			if (type == null)
+				throw new RuntimeException("unsupported language:" + p.language);
+
+			try {
+				CompiledProcedure cp = type.getCompiler().compile(p.code);
+
+				System.out.println(cp.getInstructionText());
+
+				p.compiled = cp;
+
+			} catch (Exception e) {
+				throw new RuntimeException("compile failed", e);
+
+			}
+		}
+
+		return p.compiled;
 	}
 
 	public boolean isContext() {
@@ -368,5 +407,10 @@ public class _Object implements Serializable {
 
 	public boolean hasWorker() {
 		return this.worker != null;
+	}
+
+	public void sleep() {
+		this.awake = false;
+
 	}
 }

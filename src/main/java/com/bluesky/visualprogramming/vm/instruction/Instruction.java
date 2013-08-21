@@ -5,8 +5,13 @@ import com.bluesky.visualprogramming.vm.InstructionType;
 public class Instruction {
 
 	public InstructionType type;
-	
+
 	public String label;
-	
+
 	public String comment;
+
+	public boolean hasLabel() {
+
+		return label != null && !label.isEmpty();
+	}
 }

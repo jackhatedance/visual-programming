@@ -89,10 +89,28 @@ public class GooCompilerTest {
 		}
 
 	}
+	
+	@Ignore
 	@Test
 	public void testReturn() {
 		InputStream is = GooCompilerTest.class
 				.getResourceAsStream("/sample-code/sample-7-return.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			String lbl = ins.label == null ? "" : ins.label;
+			String comment = ins.comment == null ? "" : ins.comment;
+			
+			System.out
+					.println(String.format("%1$-20s%2$-50s%3$-50s", lbl,ins,comment));
+		}
+
+	}
+	
+	@Test
+	public void testFieldAccess() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-8-field_access.goo");
 		compiler.compile(is);
 
 		for (Instruction ins : compiler.getInstructions()) {

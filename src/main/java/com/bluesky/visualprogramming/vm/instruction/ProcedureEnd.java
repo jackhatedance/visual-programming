@@ -8,14 +8,14 @@ import com.bluesky.visualprogramming.vm.InstructionType;
  * @author jackding
  * 
  */
-public class NoOperation extends Instruction {
+public class ProcedureEnd extends Instruction {
 
-	public NoOperation() {
-		this.type = InstructionType.NO_OPERATION;
+	public ProcedureEnd() {
+		this.type = InstructionType.PROCEDURE_END;
 	}
 	@Override
 	public String toString() {
-		return "[no_op]";
+		return "[procedure_end]";
 
 	}
 }

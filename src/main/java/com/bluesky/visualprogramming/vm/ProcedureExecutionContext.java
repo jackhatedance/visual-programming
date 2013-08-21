@@ -17,6 +17,10 @@ public class ProcedureExecutionContext {
 
 	//Instruction currentInstruction;
 	int currentInstructionIndex=0;
+	/**
+	 * the code reaches the end of procedure.
+	 */
+	boolean procedureEnd=false;
 
 	public Stack<BlockStackItem> blockStacks;
 
@@ -56,4 +60,14 @@ public class ProcedureExecutionContext {
 	public void putTempObject(_Object obj) {
 		tempObjects.add(obj);
 	}
+
+	public boolean isProcedureEnd() {
+		return procedureEnd;
+	}
+
+	public void setProcedureEnd(boolean procedureEnd) {
+		this.procedureEnd = procedureEnd;
+	}
+	
+	
 }

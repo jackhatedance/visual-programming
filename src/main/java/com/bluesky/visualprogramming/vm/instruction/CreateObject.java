@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.vm.InstructionType;
 
 /**
  * create value object
@@ -11,9 +12,12 @@ import com.bluesky.visualprogramming.core.ObjectType;
 public class CreateObject extends Instruction {
 
 	public String varName;
-	public ObjectType type;
+	public ObjectType objType;
 	public String literal;
 
+	public CreateObject() {
+		this.type = InstructionType.CREATE_OBJECT;
+	}
 	// self.create('a',bar) hard link (by pointer/id)
 	// self.link('a','bar') : self.a => bar;
 	// self.a=>bar; or self.a.link(bar);
@@ -25,7 +29,7 @@ public class CreateObject extends Instruction {
 	@Override
 	public String toString() {
 		return String.format("[create_object] %s -> [%s] %s", varName,
-				type, literal);
+				objType, literal);
 	}
 
 }
