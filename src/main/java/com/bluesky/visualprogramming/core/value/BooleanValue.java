@@ -9,26 +9,32 @@ public class BooleanValue extends _Object {
 		type = ObjectType.BOOLEAN;
 	}
 
-	Boolean value;
+	Boolean booleanValue;
 
 	@Override
 	public String getValue() {
 
-		return String.valueOf(value);
+		return String.valueOf(booleanValue);
 	}
 
 	@Override
 	public void setValue(String value) {
 		try {
-			this.value = Boolean.valueOf(value);
+			this.booleanValue = Boolean.valueOf(value);
 		} catch (Exception e) {
-			this.value = null;
+			this.booleanValue = null;
 
 		}
 
 	}
 	
 	public Boolean getBooleanValue(){
-		return this.value;
+		return this.booleanValue;
 	}
+
+	public void setBooleanValue(Boolean booleanValue) {
+		this.booleanValue = booleanValue;
+	}
+	
+	
 }

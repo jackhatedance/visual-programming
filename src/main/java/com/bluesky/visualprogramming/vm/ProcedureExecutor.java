@@ -103,8 +103,11 @@ public class ProcedureExecutor implements InstructionExecutor {
 	@Override
 	public ExecutionStatus executeCreateObject(CreateObject instruction) {
 		// owner is execution context
+
+		// remove the quotation marks
+		String strValue = instruction.objType.extractValue(instruction.literal);
 		_Object obj = objectRepository.createObject(null, instruction.varName,
-				instruction.objType, instruction.literal);
+				instruction.objType, strValue);
 
 		ctx.setVariable(instruction.varName, obj);
 
@@ -113,7 +116,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 	@Override
 	public ExecutionStatus executeGoto(Goto instruction) {
-		Integer index = procedure.getLabelIndex(instruction.label);
+		Integer index = procedure.getLabelIndex(instruction.destinationLabel);
 
 		if (index == null)
 			throw new LabelNotFoundException();
@@ -129,16 +132,19 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		BooleanValue b = (BooleanValue) actualObject;
 		if (b.getBooleanValue() == instruction.expected) {
-			Integer index = procedure.getLabelIndex(instruction.label);
+			logger.debug("condition meets, goto");
+
+			Integer index = procedure
+					.getLabelIndex(instruction.destinationLabel);
 			if (index == null)
 				throw new LabelNotFoundException();
 
 			ctx.currentInstructionIndex = index;
 
-		}
+		} else
+			ctx.currentInstructionIndex++;
 
 		return ExecutionStatus.COMPLETE;
-
 	}
 
 	@Override
@@ -178,11 +184,16 @@ public class ProcedureExecutor implements InstructionExecutor {
 			// sender.sleep();
 			postService.sendMessage(msg);
 
+			logger.debug("executeSendMessage, step 1 end; waiting...");
+
 			return ExecutionStatus.WAITING;
 		} else if (ctx.step == 1) {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;
-			ctx.setObject(instruction.receiverVar, reply);
+
+			logger.debug("executeSendMessage, step 2.");
+
+			ctx.setObject(instruction.replyVar, reply);
 
 			// reset to 0
 			ctx.step = 0;

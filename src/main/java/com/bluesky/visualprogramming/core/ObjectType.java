@@ -46,11 +46,26 @@ public enum ObjectType {
 		public _Object create(long id) {
 			return new BooleanValue(id);
 		}
+		@Override
+		public String getPrototypeEL() {
+			
+			return "root.prototype.value.bool";
+		}
 	},
 	STRING {
 		@Override
 		public _Object create(long id) {
 			return new StringValue(id);
+		}
+		@Override
+		public String getPrototypeEL() {
+			
+			return "root.prototype.value.string";
+		}
+		@Override
+		public String extractValue(String literal) {
+			String str = literal.substring(1,literal.length()-1);
+			return str;
 		}
 	},
 	PROCEDURE {
@@ -63,6 +78,9 @@ public enum ObjectType {
 	abstract public _Object create(long id);
 	public String getPrototypeEL(){
 		return null;
+	}
+	public String extractValue(String literal){
+		return literal;
 	}
 
 }

@@ -239,6 +239,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		if (ctx.forAfterthought() != null)
 			ctx.forAfterthought().accept(this);
 
+		//goto begin
+		Goto gotoEntry = new Goto();
+		gotoEntry.destinationLabel = blockName + "Entry";
+		addInstruction(gotoEntry);
+		
 		NoOperation end = new NoOperation();
 		end.label = blockName + "End";
 		addInstruction(end);

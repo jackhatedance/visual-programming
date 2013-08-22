@@ -17,9 +17,6 @@ public class ConsolePrint extends BaseNativeProcedure implements
 	protected _Object execute(_Object self, Map<String, _Object> params) {
 		StringValue content = (StringValue) params.get("content");
 
-		if (content == null)
-			System.out.println("nothing");
-
 		System.out.println(content.getValue());
 
 		return null;

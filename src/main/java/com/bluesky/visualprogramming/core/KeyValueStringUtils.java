@@ -14,7 +14,10 @@ public class KeyValueStringUtils {
 		Map<String, String> map = new HashMap<String, String>();
 		for (String seg : segments) {
 			String[] keyvalue = seg.split("=");
-			map.put(keyvalue[0], keyvalue[1]);
+			
+			String value = keyvalue.length==2? keyvalue[1]:"";
+			
+			map.put(keyvalue[0], value);
 		}
 		
 		String encValue = text.substring(idx + "value=".length());

@@ -27,4 +27,12 @@ public class IntegerValue extends _Object {
 		}
 
 	}
+
+	public int getIntValue() {
+		return value;
+	}
+
+	public void setIntValue(int i) {
+		this.value = i;
+	}
 }

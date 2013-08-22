@@ -102,6 +102,8 @@ public class ObjectRepository {
 		}
 
 		newObject.setName(name);
+		
+		//String value = type.extractValue(literal);
 		newObject.setValue(value);
 
 		if (owner != null)
@@ -239,6 +241,7 @@ public class ObjectRepository {
 
 		for (String line : lines) {
 
+			logger.debug("parse line:"+line);
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
 			ObjectType type = ObjectType.valueOf(typeLiteral);

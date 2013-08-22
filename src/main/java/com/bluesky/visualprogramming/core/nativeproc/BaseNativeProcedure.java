@@ -1,18 +1,20 @@
 package com.bluesky.visualprogramming.core.nativeproc;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 
 public abstract class BaseNativeProcedure implements NativeProcedure {
 
-	String[] parameterNams;
+	protected String[] parameterNams;
+	
+	protected _Object msgBody;
 
 	public BaseNativeProcedure() {
 		//this.parameterNams = new String[] { "content" };
@@ -36,6 +38,9 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 	 */
 	protected Map<String, _Object> processParameters(String[] parameterNames,
 			Message msg) {
+		if(parameterNames.length==0)
+			return null;
+		
 		Map<String, _Object> map = new HashMap<String, _Object>();
 
 		if (msg.parameterStyle == ParameterStyle.ByOrder) {
@@ -48,7 +53,13 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 				map.put(name, msg.body.getChild(name));
 
 		}
+		
+		msgBody = msg.body;
 
 		return map;
+	}
+	
+	protected _Object getUniqueParameter(){
+		return msgBody.getChild(0);
 	}
 }
