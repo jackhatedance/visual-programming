@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
@@ -60,6 +61,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
+import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.Compiler;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -83,6 +85,8 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
  * 
  */
 public class GooCompiler implements GooVisitor<Object>, Compiler {
+	
+	static Logger logger = Logger.getLogger(GooCompiler.class);
 
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 

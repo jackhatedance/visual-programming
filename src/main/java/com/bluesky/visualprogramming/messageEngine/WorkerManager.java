@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core;
+package com.bluesky.visualprogramming.messageEngine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.log4j.Logger;
+
 import com.bluesky.my4gl.core.flow.node.OneInPortNode;
+import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core._Object;
 
 public class WorkerManager implements Runnable {
+
+	static Logger logger = Logger.getLogger(WorkerManager.class);
 
 	private ExecutorService executorServie;
 
@@ -48,7 +54,7 @@ public class WorkerManager implements Runnable {
 
 		if (customer.hasWorker())
 			throw new RuntimeException(
-					"customer alreadt has worker, cannot be added.");
+					"customer already has worker, cannot be added.");
 
 		customers.add(customer);
 	}
@@ -65,8 +71,11 @@ public class WorkerManager implements Runnable {
 
 				// check if available worker there, or just wait for that
 
-				Runnable worker = new Worker(objectRepository, this,
-						postService, cust);
+				logger.debug("assign worker for " + cust.getName());
+
+				Worker worker = new Worker(objectRepository, this, postService,
+						cust);
+				cust.setWorker(worker);
 
 				executorServie.execute(worker);
 
