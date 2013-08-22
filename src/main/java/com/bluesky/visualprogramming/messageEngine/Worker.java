@@ -6,6 +6,7 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.core._Object;
@@ -79,13 +80,16 @@ public class Worker implements Runnable {
 							"sender [%s] wakeup, added to workManager queue.",
 							msg.sender));
 
+					//pass the reply value to sender, hwo is waiting for it.
+					msg.sender.takeReply(msg.reply);
+					
 					msg.sender.wake();
 					workerManager.addCustomer(msg.sender);
 				} else {
 					// notify the sender
 
 					if (msg.needCallback()) {
-						_Object newBody = objectRepository.createObject(null);
+						_Object newBody = objectRepository.createObject(ObjectType.DEFAULT);
 						newBody.addChild(msg.body, "body", true);
 						newBody.addChild(msg.reply, "reply", true);
 						Message replyMsg = new Message(false, msg.receiver,
@@ -120,6 +124,10 @@ public class Worker implements Runnable {
 		} else
 			procedureExecutionStatus = executeNormalProcedure(msg, obj, proc);
 
+		msg.reply = msg.executionContext.getResult();
+		
+		//msg.status = MessageStatus.FINISHED;
+		
 		return procedureExecutionStatus;
 
 	}
@@ -148,13 +156,10 @@ public class Worker implements Runnable {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			_Object result = nativeP.execute(obj, msg);
-
-			msg.executionContext.setResult(result);
-
+			ExecutionStatus es = nativeP.execute(obj, msg);
+			
 			msg.status = MessageStatus.FINISHED;
-
-			ExecutionStatus es = ExecutionStatus.COMPLETE;
+		
 
 			return es;
 		} catch (Exception e) {

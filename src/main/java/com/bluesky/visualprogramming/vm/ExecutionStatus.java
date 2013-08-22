@@ -7,5 +7,5 @@ package com.bluesky.visualprogramming.vm;
  * 
  */
 public enum ExecutionStatus {
-	COMPLETE, WAITING;
+	ON_GOING, WAITING, COMPLETE;
 }

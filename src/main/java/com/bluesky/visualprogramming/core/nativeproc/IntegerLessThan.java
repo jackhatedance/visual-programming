@@ -24,7 +24,7 @@ public class IntegerLessThan extends BaseNativeProcedure implements
 		IntegerValue selfInt = (IntegerValue) self;
 
 		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(null, ObjectType.BOOLEAN);
+				.getObjectRepository().createObject(ObjectType.BOOLEAN);
 
 		return bv;
 	}

@@ -1,6 +1,8 @@
 package com.bluesky.visualprogramming.core;
 
+import com.bluesky.visualprogramming.vm.ExecutionStatus;
+
 public interface NativeProcedure {
 
-	public _Object execute(_Object self, Message msg);
+	public ExecutionStatus execute(_Object self, Message msg);
 }

@@ -13,25 +13,25 @@ import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public interface InstructionExecutor {
-	void executeAccessField(AccessField instruction);
+	ExecutionStatus executeAccessField(AccessField instruction);
 	
-	void executeCreateObject(CreateObject instruction);
+	ExecutionStatus executeCreateObject(CreateObject instruction);
 
-	void executeGoto(Goto instruction);
+	ExecutionStatus executeGoto(Goto instruction);
 
-	void executeGotoIf(GotoIf instruction);
+	ExecutionStatus executeGotoIf(GotoIf instruction);
 
-	void executePushBlock(PushBlock instruction);
+	ExecutionStatus executePushBlock(PushBlock instruction);
 
-	void executePopBlock(PopBlock instruction);
+	ExecutionStatus executePopBlock(PopBlock instruction);
 
-	void executeSendMessage(SendMessage instruction);
+	ExecutionStatus executeSendMessage(SendMessage instruction);
 
-	void executeFieldAssignment(FieldAssignment instruction);
+	ExecutionStatus executeFieldAssignment(FieldAssignment instruction);
 
-	void executeVariableAssignment(VariableAssignment instruction);
+	ExecutionStatus executeVariableAssignment(VariableAssignment instruction);
 	
-	void executeNoOperation(NoOperation instruction);
+	ExecutionStatus executeNoOperation(NoOperation instruction);
 
-	void executeProcedureEnd(ProcedureEnd instruction);
+	ExecutionStatus executeProcedureEnd(ProcedureEnd instruction);
 }

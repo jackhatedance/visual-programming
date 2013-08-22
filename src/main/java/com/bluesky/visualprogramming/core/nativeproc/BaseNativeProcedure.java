@@ -8,6 +8,7 @@ import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.vm.ExecutionStatus;
 
 public abstract class BaseNativeProcedure implements NativeProcedure {
 
@@ -17,11 +18,15 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 		//this.parameterNams = new String[] { "content" };
 	}
 
-	public _Object execute(_Object self, Message msg) {
+	public ExecutionStatus execute(_Object self, Message msg) {
 
 		Map<String, _Object> params = processParameters(parameterNams, msg);
 
-		return execute(self, params);
+		_Object reply = execute(self, params);
+		
+		msg.executionContext.setResult(reply);
+		
+		return ExecutionStatus.COMPLETE;
 	};
 
 	protected abstract _Object execute(_Object self, Map<String, _Object> params);

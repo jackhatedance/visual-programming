@@ -533,4 +533,13 @@ public class _Object implements Serializable {
 		return this.worker != null;
 	}
 
+	/**
+	 * reply from sync message
+	 * 
+	 * @param reply
+	 */
+	public void takeReply(_Object reply) {
+		messageQueue.peekFirst().executionContext.reply = reply;
+	}
+
 }

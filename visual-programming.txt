@@ -36,7 +36,7 @@ type=DEFAULT,id=42,name=unnamed,owner=-1,x=156,y=125,width=100,height=100,scale=
 type=DEFAULT,id=43,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=
 type=STRING,id=40,name=name,owner=1,x=203,y=70,width=100,height=100,scale=1.000000,color=-13369549,value=jack
 type=PROCEDURE,id=41,name=unnamed,owner=-1,x=462,y=344,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dfalse%2C+language%3Dgoo%5D%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A
-type=PROCEDURE,id=46,name=sayName,owner=1,x=158,y=293,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dfalse%2C+language%3Dgoo%5D%0A%0Aprocedure+foo%28%29%0A%7B%0A%09%2F%2Ffor%28i%3D0%3Bi.lt%2810%29%3B%29%0A%09%2F%2F%7B%0A%09%09root.console.print%28content%3Aself.name%29%3B%0A%09%09root.console.print%28self.name%29%3B%0A%09%2F%2F%7D%0A%7D
+type=PROCEDURE,id=46,name=sayName,owner=1,x=159,y=293,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dfalse%2C+language%3Dgoo%5D%0A%0Aprocedure+foo%28%29%0A%7B%0A%09for%28i%3D0%3Bi.lt%2810%29%3B%29%0A%09%7B%0A%09%09root.console.print%28content%3Aself.name%29%3B%0A%09%09root.console.print%28self.name%29%3B%0A%09%7D%0A%7D
 type=DEFAULT,id=47,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=
 type=DEFAULT,id=44,name=console,owner=0,x=158,y=231,width=100,height=100,scale=1.000000,color=-16777216,value=
 type=PROCEDURE,id=45,name=print,owner=44,x=133,y=249,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dtrue%2C+native-class%3Dcom.bluesky.visualprogramming.core.nativeproc.ConsolePrint%5D%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A
@@ -48,3 +48,9 @@ type=STRING,id=55,name=string,owner=53,x=322,y=109,width=100,height=100,scale=1.
 type=INTEGER,id=54,name=integer,owner=53,x=133,y=109,width=100,height=100,scale=1.000000,color=-13421569,value=0
 type=DEFAULT,id=53,name=value,owner=52,x=102,y=131,width=100,height=100,scale=1.000000,color=-16777216,value=
 type=DEFAULT,id=52,name=prototype,owner=0,x=202,y=440,width=100,height=100,scale=1.000000,color=-16777216,value=
+type=INTEGER,id=59,name=t_2,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=10
+type=INTEGER,id=58,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=0
+type=DEFAULT,id=57,name=t_5,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=
+type=DEFAULT,id=56,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=
+type=PROCEDURE,id=61,name=lt,owner=54,x=271,y=263,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dtrue%2C+native-class%3Dcom.bluesky.visualprogramming.core.nativeproc.IntegerLessThan%5D
+type=DEFAULT,id=60,name=t_1,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=

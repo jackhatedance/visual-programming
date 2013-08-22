@@ -25,6 +25,15 @@ public class ProcedureExecutionContext {
 	public Stack<BlockStackItem> blockStacks;
 
 	private Set<_Object> tempObjects;
+	
+	ExecutionStatus executionStatus;
+	
+	//used for multi-step instructions(such as SendMessage)
+	public int step=0;
+	/**
+	 * used for sync message. the reply store here. 
+	 */
+	public _Object reply;
 
 	public ProcedureExecutionContext() {
 		localVariables = new HashMap<String, _Object>();

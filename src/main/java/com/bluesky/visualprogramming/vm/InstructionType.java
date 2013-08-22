@@ -16,102 +16,102 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 public enum InstructionType {
 	CREATE_OBJECT {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeCreateObject((CreateObject) instruction);
+			return executor.executeCreateObject((CreateObject) instruction);
 
 		}
 	},
 	ACCESS_FIELD {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeAccessField((AccessField) instruction);
+			return executor.executeAccessField((AccessField) instruction);
 
 		}
 	},
 	GOTO {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeGoto((Goto) instruction);
+			return executor.executeGoto((Goto) instruction);
 
 		}
 
 		@Override
-		public boolean updateInstructionIndex() {
+		public boolean updatedInstructionIndex() {
 			return true;
 		}
 	},
 	GOTO_IF {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeGotoIf((GotoIf) instruction);
+			return executor.executeGotoIf((GotoIf) instruction);
 
 		}
 
 		@Override
-		public boolean updateInstructionIndex() {
+		public boolean updatedInstructionIndex() {
 			return true;
 		}
 	},
 	PUSH_BLOCK {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executePushBlock((PushBlock) instruction);
+			return executor.executePushBlock((PushBlock) instruction);
 
 		}
 	},
 	POP_BLOCK {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executePopBlock((PopBlock) instruction);
+			return executor.executePopBlock((PopBlock) instruction);
 
 		}
 	},
 	SEND_MESSAGE {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeSendMessage((SendMessage) instruction);
+			return executor.executeSendMessage((SendMessage) instruction);
 
 		}
 	},
 	NO_OPERATION {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeNoOperation((NoOperation) instruction);
+			return executor.executeNoOperation((NoOperation) instruction);
 		}
 	},
 	FIELD_ASSIGNMENT {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeFieldAssignment((FieldAssignment) instruction);
+			return executor.executeFieldAssignment((FieldAssignment) instruction);
 		}
 	},
 	VARIABLE_ASSIGNMENT {
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeVariableAssignment((VariableAssignment) instruction);
+			return executor.executeVariableAssignment((VariableAssignment) instruction);
 		}
 	}, PROCEDURE_END{
 		@Override
-		public void execute(InstructionExecutor executor,
+		public ExecutionStatus execute(InstructionExecutor executor,
 				Instruction instruction) {
-			executor.executeProcedureEnd((ProcedureEnd) instruction);
+			return executor.executeProcedureEnd((ProcedureEnd) instruction);
 		}
 	};
 
-	abstract public void execute(InstructionExecutor executor,
+	abstract public ExecutionStatus execute(InstructionExecutor executor,
 			Instruction instruction);
 
-	public boolean updateInstructionIndex() {
+	public boolean updatedInstructionIndex() {
 		return false;
 	}
 }

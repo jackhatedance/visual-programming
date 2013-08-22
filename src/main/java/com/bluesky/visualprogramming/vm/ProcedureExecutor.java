@@ -27,17 +27,15 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public class ProcedureExecutor implements InstructionExecutor {
 	static Logger logger = Logger.getLogger(ProcedureExecutor.class);
-	
-	
+
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
 	PostService postService;
 
-	private ExecutionStatus instructionExecutionStatus = ExecutionStatus.COMPLETE;
-
-	public ProcedureExecutor(ObjectRepository objectRepository,PostService postService,
-			CompiledProcedure procedure, ProcedureExecutionContext ctx) {
+	public ProcedureExecutor(ObjectRepository objectRepository,
+			PostService postService, CompiledProcedure procedure,
+			ProcedureExecutionContext ctx) {
 
 		this.objectRepository = objectRepository;
 		this.postService = postService;
@@ -55,17 +53,17 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
-		ExecutionStatus procedureExecutionStatus =null;
+		ExecutionStatus procedureExecutionStatus = null;
 		while (true) {
-			executeOneStep(instructions);
+			ExecutionStatus instructionExecutionStatus = executeOneStep(instructions);
 
-			if (instructionExecutionStatus == ExecutionStatus.WAITING){
-				procedureExecutionStatus= ExecutionStatus.WAITING;
+			if (instructionExecutionStatus == ExecutionStatus.WAITING) {
+				procedureExecutionStatus = ExecutionStatus.WAITING;
 				break;
 			}
-			
-			if (ctx.isProcedureEnd()){				
-				procedureExecutionStatus= ExecutionStatus.COMPLETE;
+
+			if (ctx.isProcedureEnd()) {
+				procedureExecutionStatus = ExecutionStatus.COMPLETE;
 				break;
 			}
 
@@ -73,49 +71,60 @@ public class ProcedureExecutor implements InstructionExecutor {
 		return procedureExecutionStatus;
 	}
 
-	void executeOneStep(List<Instruction> instructions) {
+	public ExecutionStatus executeOneStep(List<Instruction> instructions) {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
 		// execute it
 		logger.debug(instruction.toString());
-		instruction.type.execute(this, instruction);
+		ExecutionStatus es = instruction.type.execute(this, instruction);
 
-		if (!instruction.type.updateInstructionIndex())
-			ctx.currentInstructionIndex++;
+		// goto instruction update index by them self
+		if (!instruction.type.updatedInstructionIndex()) {
+			//
+			if (es == ExecutionStatus.COMPLETE)
+				ctx.currentInstructionIndex++;
+		}
 
+		return es;
 	}
 
 	@Override
-	public void executeAccessField(AccessField instruction) {
+	public ExecutionStatus executeAccessField(AccessField instruction) {
 
 		_Object obj = ctx.getObject(instruction.objName);
 		_Object result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
+
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeCreateObject(CreateObject instruction) {
+	public ExecutionStatus executeCreateObject(CreateObject instruction) {
 		// owner is execution context
 		_Object obj = objectRepository.createObject(null, instruction.varName,
 				instruction.objType, instruction.literal);
 
 		ctx.setVariable(instruction.varName, obj);
+
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeGoto(Goto instruction) {
+	public ExecutionStatus executeGoto(Goto instruction) {
 		Integer index = procedure.getLabelIndex(instruction.label);
 
 		if (index == null)
 			throw new LabelNotFoundException();
 
 		ctx.currentInstructionIndex = index;
+
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeGotoIf(GotoIf instruction) {
+	public ExecutionStatus executeGotoIf(GotoIf instruction) {
 		_Object actualObject = ctx.getObject(instruction.actualVarName);
 
 		BooleanValue b = (BooleanValue) actualObject;
@@ -125,44 +134,67 @@ public class ProcedureExecutor implements InstructionExecutor {
 				throw new LabelNotFoundException();
 
 			ctx.currentInstructionIndex = index;
+
 		}
+
+		return ExecutionStatus.COMPLETE;
 
 	}
 
 	@Override
-	public void executePushBlock(PushBlock instruction) {
+	public ExecutionStatus executePushBlock(PushBlock instruction) {
 		BlockStackItem item = new BlockStackItem();
 		item.type = item.type;
 		ctx.blockStacks.push(item);
+
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executePopBlock(PopBlock instruction) {
+	public ExecutionStatus executePopBlock(PopBlock instruction) {
 		ctx.blockStacks.pop();
+
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeSendMessage(SendMessage instruction) {
-		_Object receiverObj = ctx.getObject(instruction.receiverVar);
+	public ExecutionStatus executeSendMessage(SendMessage instruction) {
+		if (ctx.step == 0) {
+			_Object receiverObj = ctx.getObject(instruction.receiverVar);
 
-		_Object sender = ctx.getObject("self");
-		_Object receiver = ctx.getObject(instruction.receiverVar);
-		if (receiver == null)
-			throw new RuntimeException("receiver object not exist:"
-					+ instruction.receiverVar);
+			_Object sender = ctx.getObject("self");
+			_Object receiver = ctx.getObject(instruction.receiverVar);
+			if (receiver == null)
+				throw new RuntimeException("receiver object not exist:"
+						+ instruction.receiverVar);
 
-		_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-		Message msg = new Message(instruction.sync, sender, receiver,
-				instruction.messageSubject, messageBody,instruction.paramStyle);
+			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
+			Message msg = new Message(instruction.sync, sender, receiver,
+					instruction.messageSubject, messageBody,
+					instruction.paramStyle);
 
-		//sender.sleep();
-		postService.sendMessage(msg);	
-		
-		instructionExecutionStatus = ExecutionStatus.WAITING;
+			ctx.step = 1;
+
+			// sender.sleep();
+			postService.sendMessage(msg);
+
+			return ExecutionStatus.WAITING;
+		} else if (ctx.step == 1) {
+			// it is the reply(return value) from the call.
+			_Object reply = ctx.reply;
+			ctx.setObject(instruction.receiverVar, reply);
+
+			// reset to 0
+			ctx.step = 0;
+
+			return ExecutionStatus.COMPLETE;
+		} else
+			throw new RuntimeException("invalid step:" + ctx.step);
+
 	}
 
 	@Override
-	public void executeFieldAssignment(FieldAssignment instruction) {
+	public ExecutionStatus executeFieldAssignment(FieldAssignment instruction) {
 
 		_Object rightObject = ctx.getObject(instruction.rightVar);
 
@@ -181,12 +213,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 			if (oldFieldObject != null)
 				ctx.putTempObject(oldFieldObject);
 
-			leftObject.addChild(rightObject, instruction.fieldName,true);
+			leftObject.addChild(rightObject, instruction.fieldName, true);
 
 			break;
 
 		case REF:
-			leftObject.addChild(rightObject, instruction.fieldName,false);
+			leftObject.addChild(rightObject, instruction.fieldName, false);
 
 			break;
 		default:
@@ -198,33 +230,36 @@ public class ProcedureExecutor implements InstructionExecutor {
 				if (oldFieldObject != null)
 					ctx.putTempObject(oldFieldObject);
 
-				leftObject.addChild(rightObject, instruction.fieldName,true);
+				leftObject.addChild(rightObject, instruction.fieldName, true);
 			} else {
 				leftObject.addPointer(rightObject, instruction.fieldName);
 			}
 
 		}
 
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeVariableAssignment(VariableAssignment instruction) {
+	public ExecutionStatus executeVariableAssignment(
+			VariableAssignment instruction) {
 		_Object right = ctx.getObject(instruction.right);
 		ctx.setVariable(instruction.left, right);
 
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeNoOperation(NoOperation instruction) {
+	public ExecutionStatus executeNoOperation(NoOperation instruction) {
 		// intend to do nothing
-
+		return ExecutionStatus.COMPLETE;
 	}
 
 	@Override
-	public void executeProcedureEnd(ProcedureEnd instruction) {
+	public ExecutionStatus executeProcedureEnd(ProcedureEnd instruction) {
 		// set flag
 		ctx.setProcedureEnd(true);
-
+		return ExecutionStatus.COMPLETE;
 	}
 
 }

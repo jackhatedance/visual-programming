@@ -17,7 +17,13 @@ import java.util.Map;
 
 import javax.imageio.stream.FileImageInputStream;
 
+import org.apache.log4j.Logger;
+
+import com.bluesky.visualprogramming.messageEngine.Worker;
+
 public class ObjectRepository {
+	
+	static Logger logger = Logger.getLogger(ObjectRepository.class);
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
@@ -60,6 +66,10 @@ public class ObjectRepository {
 				ObjectType.DEFAULT);
 	}
 
+	public _Object createObject(ObjectType type) {
+		return createObject(null, "", type, "");
+	}
+
 	public _Object createObject(_Object owner, String name) {
 
 		return createObject(owner, name, ObjectType.DEFAULT);
@@ -81,8 +91,14 @@ public class ObjectRepository {
 		String prototypeEl = type.getPrototypeEL();
 		if (prototypeEl != null) {
 
-			_Object prototype = getObjectByEl(prototypeEl);
-			newObject.addChild(prototype, _Object.PROTOTYPE, false);
+			try {
+				_Object prototype = getObjectByEl(prototypeEl);
+				if (prototype != null)
+					newObject.addChild(prototype, _Object.PROTOTYPE, false);
+			} catch (InvalidELException e) {
+				
+				logger.warn("the prototype object is not loaded. if it is in loading process, then it is ok.");
+			}
 		}
 
 		newObject.setName(name);
@@ -98,21 +114,23 @@ public class ObjectRepository {
 
 	/**
 	 * e.g. root.abc.xyz
+	 * 
 	 * @param el
 	 * @return
 	 */
 	private _Object getObjectByEl(String el) {
-		String[] ss = el.split(".");
+		String[] ss = el.split("\\.");
 
-		// ss[0] must be 'root'
+		if (!ss[0].equals("root"))
+			throw new RuntimeException("the first object must be 'root':" + el);
+
 		_Object obj = getRootObject();
 
 		for (int i = 1; i < ss.length; i++) {
 			obj = obj.getChild(ss[i]);
 
 			if (obj == null)
-				throw new RuntimeException(String.format(
-						"field '%s' not found of %s", ss[i], el));
+				throw new InvalidELException(ss[i], el);
 		}
 
 		return obj;

@@ -13,6 +13,7 @@ public class SendMessage extends Instruction {
 	public String messageBodyVar;
 	public ParameterStyle paramStyle;
 
+
 	public SendMessage() {
 		this.type = InstructionType.SEND_MESSAGE;
 	}
