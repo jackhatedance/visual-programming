@@ -44,3 +44,7 @@ type=DEFAULT,id=51,name=t_1,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000
 type=INTEGER,id=50,name=t_2,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=10
 type=INTEGER,id=49,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=0
 type=INTEGER,id=48,name=t_0,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=0
+type=STRING,id=55,name=string,owner=53,x=322,y=109,width=100,height=100,scale=1.000000,color=-65536,value=
+type=INTEGER,id=54,name=integer,owner=53,x=133,y=109,width=100,height=100,scale=1.000000,color=-13421569,value=0
+type=DEFAULT,id=53,name=value,owner=52,x=102,y=131,width=100,height=100,scale=1.000000,color=-16777216,value=
+type=DEFAULT,id=52,name=prototype,owner=0,x=202,y=440,width=100,height=100,scale=1.000000,color=-16777216,value=

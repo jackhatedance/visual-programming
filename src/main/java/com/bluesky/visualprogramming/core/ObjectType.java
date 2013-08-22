@@ -10,8 +10,8 @@ public enum ObjectType {
 	DEFAULT {
 		@Override
 		public _Object create(long id) {
-
-			return new _Object(id);
+			_Object obj = new _Object(id);
+			return obj;
 		}
 	},
 	SOFT_LINK {
@@ -29,8 +29,17 @@ public enum ObjectType {
 	INTEGER {
 		@Override
 		public _Object create(long id) {
-			return new IntegerValue(id);
+			IntegerValue intValue =new IntegerValue(id);
+			//set prototype
+			return intValue;
 		}
+		
+		@Override
+		public String getPrototypeEL() {
+			
+			return "root.prototype.value.integer";
+		}
+		
 	},
 	BOOLEAN {
 		@Override
@@ -52,5 +61,8 @@ public enum ObjectType {
 	};
 
 	abstract public _Object create(long id);
+	public String getPrototypeEL(){
+		return null;
+	}
 
 }

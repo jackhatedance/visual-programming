@@ -8,6 +8,11 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 
 public class ConsolePrint extends BaseNativeProcedure implements
 		NativeProcedure {
+	
+	public ConsolePrint() {
+		this.parameterNams = new String[]{"content"};
+	}
+	
 	@Override
 	protected _Object execute(_Object self, Map<String, _Object> params) {
 		StringValue content = (StringValue) params.get("content");

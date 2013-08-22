@@ -28,6 +28,9 @@ import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
+
+	static public final String PROTOTYPE = "_prototype";
+
 	/**
 	 * 
 	 */
@@ -70,6 +73,43 @@ public class _Object implements Serializable {
 		area = new Rectangle(0, 0, 100, 100);
 		borderColor = Color.BLACK;
 
+	}
+
+	/**
+	 * copy constructor
+	 * 
+	 * @param newObj
+	 */
+	public _Object(long id, _Object src) {
+		this.id = id;
+
+		this.type = src.type;
+		// this.id
+		this.name = src.name;
+		// this.owner
+		this.context = src.context;
+
+		for (Pointer p : src.childrenList) {
+			// TODO
+
+			addChild(p.target, p.name, p.owner);
+		}
+
+		// messageQueue is skipped
+
+		// always sleep
+		this.awake = false;
+
+		// always idle
+		this.worker = null;
+
+		this.area = new Rectangle(src.area);
+
+		this.selectedStatus = SelectedStatus.NotSelected;
+
+		this.scaleRate = src.scaleRate;
+		this.borderColor = src.borderColor;
+		this.borderWidth = src.borderWidth;
 	}
 
 	public long getId() {
@@ -375,8 +415,10 @@ public class _Object implements Serializable {
 
 	public _Object getChild(String name) {
 		Integer index = childrenMap.get(name);
-
-		return childrenList.get(index).target;
+		if (index == null)
+			return null;
+		else
+			return childrenList.get(index).target;
 	}
 
 	public String[] getChildrenNames() {
@@ -399,6 +441,32 @@ public class _Object implements Serializable {
 		Procedure p = (Procedure) (childrenList.get(index).target);
 
 		return p;
+	}
+
+	/**
+	 * support prototype
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Procedure lookupProcedure(String name) {
+		Procedure p = null;
+		if (hasPrototype()) {
+			_Object prototype = getPrototypeObject();
+			return prototype.lookupProcedure(name);
+
+		} else
+			p = getProcedure(name);
+		return p;
+	}
+
+	private _Object getPrototypeObject() {
+
+		return getChild(PROTOTYPE);
+	}
+
+	private boolean hasPrototype() {
+		return getChild(PROTOTYPE) != null;
 	}
 
 	public CompiledProcedure getCompiledProcedure(String name) {
@@ -457,10 +525,10 @@ public class _Object implements Serializable {
 
 	}
 
-	public void setWorker(Worker worker){
+	public void setWorker(Worker worker) {
 		this.worker = worker;
 	}
-	
+
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}

@@ -77,6 +77,14 @@ public class ObjectRepository {
 			String value) {
 		_Object newObject = type.create(objectId++);
 
+		// set prototype for value objects
+		String prototypeEl = type.getPrototypeEL();
+		if (prototypeEl != null) {
+
+			_Object prototype = getObjectByEl(prototypeEl);
+			newObject.addChild(prototype, _Object.PROTOTYPE, false);
+		}
+
 		newObject.setName(name);
 		newObject.setValue(value);
 
@@ -86,6 +94,39 @@ public class ObjectRepository {
 		objects.put(newObject.getId(), newObject);
 
 		return newObject;
+	}
+
+	/**
+	 * e.g. root.abc.xyz
+	 * @param el
+	 * @return
+	 */
+	private _Object getObjectByEl(String el) {
+		String[] ss = el.split(".");
+
+		// ss[0] must be 'root'
+		_Object obj = getRootObject();
+
+		for (int i = 1; i < ss.length; i++) {
+			obj = obj.getChild(ss[i]);
+
+			if (obj == null)
+				throw new RuntimeException(String.format(
+						"field '%s' not found of %s", ss[i], el));
+		}
+
+		return obj;
+	}
+
+	/**
+	 * copy fields only. procedures are not copied. 'prototype' field point to
+	 * the prototype
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public _Object clone(_Object src) {
+		return new _Object(objectId++, src);
 	}
 
 	public void destroyObject(long id) {
@@ -204,9 +245,9 @@ public class ObjectRepository {
 
 			_Object owner = objects.get(o.getOwner().getId());
 
-			//remove the owner holder
+			// remove the owner holder
 			o.setOwner(null);
-			
+
 			if (owner != null)
 				owner.addChild(o, o.getName(), true);
 		}

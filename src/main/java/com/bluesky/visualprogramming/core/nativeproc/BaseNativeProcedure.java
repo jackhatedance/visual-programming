@@ -10,10 +10,16 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
 
 public abstract class BaseNativeProcedure implements NativeProcedure {
+
+	String[] parameterNams;
+
+	public BaseNativeProcedure() {
+		//this.parameterNams = new String[] { "content" };
+	}
+
 	public _Object execute(_Object self, Message msg) {
 
-		Map<String, _Object> params = processParameters(
-				new String[] { "content" }, msg);
+		Map<String, _Object> params = processParameters(parameterNams, msg);
 
 		return execute(self, params);
 	};
@@ -33,9 +39,9 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 				map.put(name, msg.body.getChild(i));
 			}
 		} else {
-			for (String name : msg.body.getChildrenNames()) 
+			for (String name : msg.body.getChildrenNames())
 				map.put(name, msg.body.getChild(name));
-			
+
 		}
 
 		return map;

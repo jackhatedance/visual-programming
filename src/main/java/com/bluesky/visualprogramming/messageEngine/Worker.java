@@ -15,8 +15,7 @@ import com.bluesky.visualprogramming.vm.ProcedureExecutor;
 
 public class Worker implements Runnable {
 	static Logger logger = Logger.getLogger(Worker.class);
-	
-	
+
 	private ObjectRepository objectRepository;
 
 	private WorkerManager workerManager;
@@ -50,7 +49,7 @@ public class Worker implements Runnable {
 			if (msg == null)
 				break;
 
-			Procedure proc = obj.getProcedure(msg.subject);
+			Procedure proc = obj.lookupProcedure(msg.subject);
 			if (proc == null)
 				throw new RuntimeException("message not understand:"
 						+ msg.subject);
@@ -76,13 +75,15 @@ public class Worker implements Runnable {
 										"assert error: sender [%s] should has no worker assigned.",
 										msg.sender));
 
-					logger.debug(String.format("sender [%s] wakeup, added to workManager queue.",msg.sender));
-					
+					logger.debug(String.format(
+							"sender [%s] wakeup, added to workManager queue.",
+							msg.sender));
+
 					msg.sender.wake();
 					workerManager.addCustomer(msg.sender);
 				} else {
-					//notify the sender
-					
+					// notify the sender
+
 					if (msg.needCallback()) {
 						_Object newBody = objectRepository.createObject(null);
 						newBody.addChild(msg.body, "body", true);
@@ -96,15 +97,15 @@ public class Worker implements Runnable {
 				}
 
 			} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
-				logger.debug(String.format("[%s] is waiting for reply",obj));
+				logger.debug(String.format("[%s] is waiting for reply", obj));
 				break;
 			}
 		}
-		
-		//job done, worker leaves
-		obj.setWorker(null);		
+
+		// job done, worker leaves
+		obj.setWorker(null);
 		obj.sleep();
-		logger.debug(String.format("job for [%s] is done, worker leaves",obj));
+		logger.debug(String.format("job for [%s] is done, worker leaves", obj));
 	}
 
 	private ExecutionStatus executeProcedure(Message msg, _Object obj,
