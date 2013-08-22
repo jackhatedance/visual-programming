@@ -1,4 +1,9 @@
-package com.bluesky.visualprogramming.core;
+package com.bluesky.visualprogramming.messageEngine;
+
+import com.bluesky.visualprogramming.core.Message;
+import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ParameterStyle;
+import com.bluesky.visualprogramming.core._Object;
 
 public class PostService {
 
@@ -14,7 +19,10 @@ public class PostService {
 	public void sendMessage(Message msg) {
 		int size = msg.receiver.addToMessageQueue(msg);
 		if (size == 1)
+		{
+			msg.receiver.wake();
 			workerManager.addCustomer(msg.receiver);
+		}
 	}
 
 	public void sendMessageFromNobody(_Object receiver, String subject) {

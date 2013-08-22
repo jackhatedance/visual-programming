@@ -20,11 +20,14 @@ import java.util.Map;
 
 import javax.management.RuntimeErrorException;
 
+import org.apache.log4j.Logger;
+
 import com.bluesky.visualprogramming.goo.GooCompiler;
+import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
 public class _Object implements Serializable {
-
+	static Logger logger = Logger.getLogger(_Object.class);
 	/**
 	 * 
 	 */
@@ -130,7 +133,7 @@ public class _Object implements Serializable {
 	public void addChild(_Object child, String name, boolean owner) {
 		Pointer p = new Pointer(child, name, owner);
 		childrenList.add(p);
-		childrenMap.put(name, childrenList.size()-1);
+		childrenMap.put(name, childrenList.size() - 1);
 
 		if (owner) {
 			if (child.hasOwner())
@@ -410,7 +413,7 @@ public class _Object implements Serializable {
 			try {
 				CompiledProcedure cp = type.getCompiler().compile(p.code);
 
-				System.out.println(cp.getInstructionText());
+				logger.debug(cp.getInstructionText());
 
 				p.compiled = cp;
 
@@ -443,16 +446,23 @@ public class _Object implements Serializable {
 
 	}
 
-	public synchronized void setAwake(boolean awake) {
-		this.awake = awake;
+	public synchronized void wake() {
+		logger.debug(name + " wake");
+		this.awake = true;
 	}
 
+	public synchronized void sleep() {
+		logger.debug(name + " sleep");
+		this.awake = false;
+
+	}
+
+	public void setWorker(Worker worker){
+		this.worker = worker;
+	}
+	
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
 
-	public synchronized void sleep() {
-		this.awake = false;
-
-	}
 }

@@ -2,11 +2,14 @@ package com.bluesky.visualprogramming.vm;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.PostService;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.goo.GooCompiler;
+import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.vm.exceptions.AlreadyHasOwnerException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -23,6 +26,9 @@ import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public class ProcedureExecutor implements InstructionExecutor {
+	static Logger logger = Logger.getLogger(ProcedureExecutor.class);
+	
+	
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
@@ -49,19 +55,22 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
+		ExecutionStatus procedureExecutionStatus =null;
 		while (true) {
 			executeOneStep(instructions);
 
-			if (instructionExecutionStatus == ExecutionStatus.WAITING)
+			if (instructionExecutionStatus == ExecutionStatus.WAITING){
+				procedureExecutionStatus= ExecutionStatus.WAITING;
 				break;
+			}
 			
-			if (ctx.isProcedureEnd()){
-				instructionExecutionStatus = ExecutionStatus.COMPLETE;
+			if (ctx.isProcedureEnd()){				
+				procedureExecutionStatus= ExecutionStatus.COMPLETE;
 				break;
 			}
 
 		}
-		return instructionExecutionStatus;
+		return procedureExecutionStatus;
 	}
 
 	void executeOneStep(List<Instruction> instructions) {
@@ -69,7 +78,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
 		// execute it
-		System.out.println(instruction.toString());
+		logger.debug(instruction.toString());
 		instruction.type.execute(this, instruction);
 
 		if (!instruction.type.updateInstructionIndex())
@@ -146,8 +155,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 		Message msg = new Message(instruction.sync, sender, receiver,
 				instruction.messageSubject, messageBody,instruction.paramStyle);
 
-		sender.sleep();
-		postService.sendMessage(msg);		
+		//sender.sleep();
+		postService.sendMessage(msg);	
+		
+		instructionExecutionStatus = ExecutionStatus.WAITING;
 	}
 
 	@Override

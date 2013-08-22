@@ -3,8 +3,8 @@ package com.bluesky.visualprogramming.vm;
 import org.antlr.v4.runtime.tree.gui.PostScriptDocument;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.PostService;
-import com.bluesky.visualprogramming.core.WorkerManager;
+import com.bluesky.visualprogramming.messageEngine.PostService;
+import com.bluesky.visualprogramming.messageEngine.WorkerManager;
 
 public class VirtualMachine {
 	private ObjectRepository objectRepository;

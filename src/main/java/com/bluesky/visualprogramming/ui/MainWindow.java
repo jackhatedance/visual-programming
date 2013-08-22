@@ -44,9 +44,9 @@ import javax.swing.tree.TreeSelectionModel;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core.PostService;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.ui.diagram.DiagramPanel;
 import com.bluesky.visualprogramming.ui.diagram.Painter;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
