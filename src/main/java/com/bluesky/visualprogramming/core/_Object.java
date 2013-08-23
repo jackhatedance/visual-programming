@@ -54,9 +54,12 @@ public class _Object implements Serializable {
 	// index names to accelerate access speed
 	private Map<String, Integer> childrenMap = new HashMap<String, Integer>();
 
-	private Deque<Message> messageQueue;
-	private boolean awake = true;
+	private Deque<Message> messageQueue;	
 	private Worker worker = null;
+	/**
+	 * registered itself to the worker manager, set to true if worker assigned.
+	 */
+	private boolean needWorker=false;
 
 	/**
 	 * the max value of height and width is 1000;
@@ -96,9 +99,6 @@ public class _Object implements Serializable {
 		}
 
 		// messageQueue is skipped
-
-		// always sleep
-		this.awake = false;
 
 		// always idle
 		this.worker = null;
@@ -501,45 +501,34 @@ public class _Object implements Serializable {
 			return this.context;
 	}
 
-	public synchronized int addToMessageQueue(Message msg) {
+	/**
+	 * 
+	 * @param msg
+	 * @return true if need a worker
+	 */
+	public synchronized boolean addToMessageQueue(Message msg) {
 		if (messageQueue == null)
 			messageQueue = new ArrayDeque<Message>();
 
-		messageQueue.add(msg);
-		return messageQueue.size();
-	}
-
-	public synchronized boolean isAwake() {
-		return awake;
-
-	}
-
-	public synchronized void wake() {
-		logger.debug(name + " wake");
-		this.awake = true;
-	}
-
-	public synchronized void sleep() {
-		logger.debug(name + " sleep");
-		this.awake = false;
-
+		if(!msg.urgent)
+			messageQueue.addLast(msg);
+		else
+			messageQueue.addFirst(msg);
+		
+		if(worker==null && !needWorker)
+			needWorker = true;
+			
+		
+		return needWorker;
 	}
 
 	public void setWorker(Worker worker) {
 		this.worker = worker;
+		this.needWorker = false;
 	}
 
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
-
-	/**
-	 * reply from sync message
-	 * 
-	 * @param reply
-	 */
-	public void takeReply(_Object reply) {
-		messageQueue.peekFirst().executionContext.reply = reply;
-	}
-
+	
 }

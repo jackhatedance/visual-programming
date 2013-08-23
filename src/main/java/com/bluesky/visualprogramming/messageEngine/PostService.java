@@ -17,17 +17,16 @@ public class PostService {
 	}
 
 	public void sendMessage(Message msg) {
-		int size = msg.receiver.addToMessageQueue(msg);
-		if (size == 1)
-		{
-			msg.receiver.wake();
+		boolean needWorker = msg.receiver.addToMessageQueue(msg);
+		if (needWorker)
+		{			
 			workerManager.addCustomer(msg.receiver);
 		}
 	}
 
 	public void sendMessageFromNobody(_Object receiver, String subject) {
 
-		Message msg = new Message(false, null, receiver, subject, null,ParameterStyle.ByName);
+		Message msg = new Message(false, null, receiver, subject, null,ParameterStyle.ByName,null);
 		sendMessage(msg);
 	}
 }

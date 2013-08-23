@@ -177,7 +177,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 			Message msg = new Message(instruction.sync, sender, receiver,
 					instruction.messageSubject, messageBody,
-					instruction.paramStyle);
+					instruction.paramStyle,null);
 
 			ctx.step = 1;
 

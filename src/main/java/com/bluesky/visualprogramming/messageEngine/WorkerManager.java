@@ -49,9 +49,7 @@ public class WorkerManager implements Runnable {
 		if (customers.contains(customer))
 			throw new RuntimeException("customer is already added.");
 
-		if (!customer.isAwake())
-			throw new RuntimeException("customer is sleep, cannot be added.");
-
+		
 		if (customer.hasWorker())
 			throw new RuntimeException(
 					"customer already has worker, cannot be added.");
