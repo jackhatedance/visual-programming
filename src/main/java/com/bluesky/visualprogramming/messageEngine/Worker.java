@@ -30,7 +30,8 @@ public class Worker implements Runnable {
 		this.workerManager = workerManager;
 		this.postService = postService;
 		this.customer = customer;
-
+		
+		customer.setWorker(this);
 	}
 
 	/**
@@ -38,13 +39,19 @@ public class Worker implements Runnable {
 	 * will work until message queue empty or customer need sleep(wait for
 	 * reply).
 	 * 
-	 * once a reply is coming, a worker will be dispatch again, continue work.
+	 * once a reply is coming, a worker will be dispatched again, continue work.
 	 * 
 	 * @param obj
 	 */
 	public void processMessages(_Object obj) {
 
 		while (true) {
+			
+			//lock the customer when processing messages
+			synchronized (obj) {
+				
+			}
+			
 			Message msg = obj.getMessageQueue().peekFirst();
 
 			if (msg == null)
@@ -62,39 +69,25 @@ public class Worker implements Runnable {
 
 				// remove from queue
 				obj.getMessageQueue().removeFirst();
-
+	
 				if (msg.sync) {// wake up the sender, let it continue.
-					if (msg.sender.isAwake())
-						throw new RuntimeException(
-								String.format(
-										"assert error: sender [%s] should be sleeping.",
-										msg.sender));
-
-					if (msg.sender.hasWorker())
-						throw new RuntimeException(
-								String.format(
-										"assert error: sender [%s] should has no worker assigned.",
-										msg.sender));
-
-					logger.debug(String.format(
-							"sender [%s] wakeup, added to workManager queue.",
-							msg.sender));
-
-					//pass the reply value to sender, hwo is waiting for it.
-					msg.sender.takeReply(msg.reply);
 					
-					msg.sender.wake();
-					workerManager.addCustomer(msg.sender);
+					Message replyMsg = new Message(false, msg.receiver,
+							msg.sender, "_REPLY", msg.reply,
+							ParameterStyle.ByName,msg);
+
+					replyMsg.urgent = true;
+
+					postService.sendMessage(replyMsg);
+					
 				} else {
 					// notify the sender
 
 					if (msg.needCallback()) {
-						_Object newBody = objectRepository.createObject(ObjectType.DEFAULT);
-						newBody.addChild(msg.body, "body", true);
-						newBody.addChild(msg.reply, "reply", true);
+						
 						Message replyMsg = new Message(false, msg.receiver,
-								msg.sender, msg.callback, newBody,
-								ParameterStyle.ByName);
+								msg.sender, msg.callback, msg.reply,
+								ParameterStyle.ByName,msg);
 
 						postService.sendMessage(replyMsg);
 					}
@@ -102,13 +95,17 @@ public class Worker implements Runnable {
 
 			} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
 				logger.debug(String.format("[%s] is waiting for reply", obj));
+				// TODO let the worker thread wait for a while, maybe the reply
+				// come very soon. so that we can reuse current worker for the
+				// same customer.
+
 				break;
 			}
 		}
 
 		// job done, worker leaves
 		obj.setWorker(null);
-		obj.sleep();
+		
 		logger.debug(String.format("job for [%s] is done, worker leaves", obj));
 	}
 
@@ -125,9 +122,9 @@ public class Worker implements Runnable {
 			procedureExecutionStatus = executeNormalProcedure(msg, obj, proc);
 
 		msg.reply = msg.executionContext.getResult();
-		
-		//msg.status = MessageStatus.FINISHED;
-		
+
+		// msg.status = MessageStatus.FINISHED;
+
 		return procedureExecutionStatus;
 
 	}
@@ -157,9 +154,8 @@ public class Worker implements Runnable {
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
 			ExecutionStatus es = nativeP.execute(obj, msg);
-			
+
 			msg.status = MessageStatus.FINISHED;
-		
 
 			return es;
 		} catch (Exception e) {
