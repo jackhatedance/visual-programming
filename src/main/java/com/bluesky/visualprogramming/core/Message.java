@@ -14,12 +14,12 @@ public class Message {
 	public ProcedureExecutionContext executionContext;
 
 	public _Object reply;
-
-	// used only when it is a reply.
+	
+	//used only when it is a reply.
 	public Message previous;
-
-	// usually will goes to the head of the message queue.
-	public boolean urgent = false;
+	
+	//usually will goes to the head of the message queue.
+	public boolean urgent=false;
 
 	/**
 	 * if async, the callback procedure name, pass the reply or message
@@ -38,8 +38,7 @@ public class Message {
 	 * @param body
 	 */
 	public Message(boolean sync, _Object sender, _Object receiver,
-			String subject, _Object body, ParameterStyle parameterStyle,
-			Message previousMessage) {
+			String subject, _Object body, ParameterStyle parameterStyle,Message previousMessage) {
 		this.sync = sync;
 		this.sender = sender;
 		this.receiver = receiver;
@@ -48,7 +47,7 @@ public class Message {
 		this.parameterStyle = parameterStyle;
 		this.previous = previousMessage;
 	}
-
+	
 	/**
 	 * async call with callback
 	 * 
@@ -81,7 +80,5 @@ public class Message {
 		return callback != null && (!callback.isEmpty());
 	}
 
-	public boolean isReply() {
-		return reply != null;
-	}
+	 
 }

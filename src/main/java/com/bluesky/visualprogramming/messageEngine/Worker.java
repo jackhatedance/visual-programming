@@ -56,11 +56,6 @@ public class Worker implements Runnable {
 
 			if (msg == null)
 				break;
-			
-			if(msg.isReply()){
-				//set the reply to corresponding request.
-				msg.previous.reply = msg.body;
-			}
 
 			Procedure proc = obj.lookupProcedure(msg.subject);
 			if (proc == null)
