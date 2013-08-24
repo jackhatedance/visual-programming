@@ -80,5 +80,15 @@ public class Message {
 		return callback != null && (!callback.isEmpty());
 	}
 
-	 
+	public boolean isReply(){
+		return previous!=null;
+	}
+	
+	/**
+	 * a reply of a sync invoke
+	 * @return
+	 */
+	public boolean isSyncReply(){
+		return previous!=null && previous.sync;
+	}
 }

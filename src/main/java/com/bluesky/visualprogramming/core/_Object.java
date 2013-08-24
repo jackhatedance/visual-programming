@@ -54,12 +54,13 @@ public class _Object implements Serializable {
 	// index names to accelerate access speed
 	private Map<String, Integer> childrenMap = new HashMap<String, Integer>();
 
-	private Deque<Message> messageQueue;	
+	private Deque<Message> messageQueue;
 	private Worker worker = null;
+	private boolean hasNewSyncReplyArrived = false;
 	/**
 	 * registered itself to the worker manager, set to true if worker assigned.
 	 */
-	private boolean needWorker=false;
+	private boolean needWorker = false;
 
 	/**
 	 * the max value of height and width is 1000;
@@ -510,15 +511,17 @@ public class _Object implements Serializable {
 		if (messageQueue == null)
 			messageQueue = new ArrayDeque<Message>();
 
-		if(!msg.urgent)
-			messageQueue.addLast(msg);
-		else
+		if (msg.isSyncReply())
+			hasNewSyncReplyArrived = true;
+
+		if (msg.urgent || msg.isReply())
 			messageQueue.addFirst(msg);
-		
-		if(worker==null && !needWorker)
+		else
+			messageQueue.addLast(msg);
+
+		if (worker == null && !needWorker)
 			needWorker = true;
-			
-		
+
 		return needWorker;
 	}
 
@@ -530,5 +533,15 @@ public class _Object implements Serializable {
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
-	
+
+	public boolean hasNewSyncReplyArrived() {
+
+		return hasNewSyncReplyArrived;
+	}
+
+	public void clearNewSyncReplyArrivedFlag() {
+		this.hasNewSyncReplyArrived = false;
+
+	}
+
 }

@@ -31,7 +31,7 @@ public class ProcedureExecutionContext {
 	//used for multi-step instructions(such as SendMessage)
 	public int step=0;
 	/**
-	 * used for sync message. the reply store here. 
+	 * the reply stores here after the sync invoke returns.
 	 */
 	public _Object reply;
 

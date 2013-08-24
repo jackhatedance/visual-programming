@@ -30,7 +30,7 @@ public class Worker implements Runnable {
 		this.workerManager = workerManager;
 		this.postService = postService;
 		this.customer = customer;
-		
+
 		customer.setWorker(this);
 	}
 
@@ -46,16 +46,25 @@ public class Worker implements Runnable {
 	public void processMessages(_Object obj) {
 
 		while (true) {
-			
-			//lock the customer when processing messages
-			synchronized (obj) {
-				
-			}
-			
+
 			Message msg = obj.getMessageQueue().peekFirst();
 
 			if (msg == null)
 				break;
+
+			if (msg.isReply() && msg.previous.sync) {
+				/**
+				 * pick the reply body from current message, put into the
+				 * pending procedure.
+				 */
+				_Object reply = msg.body;
+				obj.getMessageQueue().removeFirst();
+				obj.clearNewSyncReplyArrivedFlag();
+				
+				msg = obj.getMessageQueue().peekFirst();
+				msg.executionContext.reply = reply;
+				
+			}
 
 			Procedure proc = obj.lookupProcedure(msg.subject);
 			if (proc == null)
@@ -69,43 +78,58 @@ public class Worker implements Runnable {
 
 				// remove from queue
 				obj.getMessageQueue().removeFirst();
-	
+
 				if (msg.sync) {// wake up the sender, let it continue.
-					
+
 					Message replyMsg = new Message(false, msg.receiver,
 							msg.sender, "_REPLY", msg.reply,
-							ParameterStyle.ByName,msg);
+							ParameterStyle.ByName, msg);
 
 					replyMsg.urgent = true;
 
 					postService.sendMessage(replyMsg);
-					
+
 				} else {
 					// notify the sender
 
 					if (msg.needCallback()) {
-						
+
 						Message replyMsg = new Message(false, msg.receiver,
 								msg.sender, msg.callback, msg.reply,
-								ParameterStyle.ByName,msg);
+								ParameterStyle.ByName, msg);
 
 						postService.sendMessage(replyMsg);
 					}
 				}
-
+				
+				synchronized (obj) {
+					// job done, worker leaves
+					obj.setWorker(null);
+				}
+				
 			} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
 				logger.debug(String.format("[%s] is waiting for reply", obj));
-				// TODO let the worker thread wait for a while, maybe the reply
-				// come very soon. so that we can reuse current worker for the
-				// same customer.
+				/*
+				 * TODO let the worker thread wait for a while, maybe the reply
+				 * come very soon. so that we can reuse current worker for the
+				 * same customer.
+				 */
+				synchronized (obj) {
+					// check if the reply has come
+					if (obj.hasNewSyncReplyArrived()) {
+						// continue work on reply
+						logger.debug("reply arrived before worker leaves");
+					} else {
+						// worker leaves
+						obj.setWorker(null);
+						break;
 
-				break;
+					}
+				}
 			}
+
 		}
 
-		// job done, worker leaves
-		obj.setWorker(null);
-		
 		logger.debug(String.format("job for [%s] is done, worker leaves", obj));
 	}
 

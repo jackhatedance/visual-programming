@@ -49,7 +49,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 			
-			return "root.prototype.value.bool";
+			return "root.prototype.value.boolean";
 		}
 	},
 	STRING {
