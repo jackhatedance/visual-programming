@@ -15,7 +15,8 @@ public class Procedure extends _Object {
 	public String name;
 
 	boolean _native = false;
-	public String nativeProcedureClassName;
+	public String nativeProcedureClassName = "";
+	public String nativeProcedureParameters = "";
 
 	public String language;
 	String code;
@@ -24,18 +25,20 @@ public class Procedure extends _Object {
 	 * lazy compile
 	 */
 	public CompiledProcedure compiled;
-	
+
 	@Override
 	public String getValue() {
 
 		String attributes = "";
 		if (this._native)
-			attributes = String.format("[native=%b, native-class=%s]", _native,
-					nativeProcedureClassName);
+			attributes = String
+					.format("[native=%b, native-class=%s, native-procedure-parameters=%s]",
+							_native, nativeProcedureClassName,
+							nativeProcedureParameters);
 		else
 			attributes = "[native=false, language=goo]";
 
-		return attributes  + code;
+		return attributes + code;
 	}
 
 	private Map<String, String> parseAttributes(String str) {
@@ -44,7 +47,14 @@ public class Procedure extends _Object {
 		String[] attrArray = str.split(",");
 		for (String s : attrArray) {
 			String[] kv = s.split("=");
-			map.put(kv[0].trim(), kv[1].trim());
+			
+			String value="";
+			if (kv.length == 2) {
+				value = kv[1];
+				if (value != null)
+					value = value.trim();
+			}
+			map.put(kv[0].trim(), value);
 		}
 		return map;
 
@@ -56,7 +66,7 @@ public class Procedure extends _Object {
 		String code;
 		if (index1 >= 0) {// has attributes
 			int index2 = value.indexOf(']');
-			String attrStr = value.substring(index1+1, index2);
+			String attrStr = value.substring(index1 + 1, index2);
 			Map<String, String> map = parseAttributes(attrStr);
 
 			if (map.containsKey("native"))
@@ -67,11 +77,14 @@ public class Procedure extends _Object {
 			if (map.containsKey("native-class"))
 				nativeProcedureClassName = map.get("native-class");
 
+			if (map.containsKey("native-procedure-parameters"))
+				nativeProcedureParameters = map
+						.get("native-procedure-parameters");
+
 			if (map.containsKey("language"))
 				language = map.get("language");
 
-			
-			code = value.substring(index2+1);
+			code = value.substring(index2 + 1);
 		} else
 			code = value;
 
@@ -87,10 +100,17 @@ public class Procedure extends _Object {
 	public boolean isNative() {
 		return _native;
 	}
-	
+
 	public static void main(String[] args) {
-		Procedure  p = new Procedure(1);
+		Procedure p = new Procedure(1);
 		p.setValue("[native=true, native-class=com.Foo]");
-		
+
+	}
+
+	public String[] getNativeProcedureParameterNames() {
+		if(nativeProcedureParameters!=null && !nativeProcedureParameters.trim().isEmpty())
+			return nativeProcedureParameters.split("\\|");
+		else
+			return new String[0];
 	}
 }

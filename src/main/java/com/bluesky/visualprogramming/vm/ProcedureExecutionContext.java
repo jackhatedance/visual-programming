@@ -15,21 +15,21 @@ public class ProcedureExecutionContext {
 
 	Map<String, _Object> localVariables;
 
-	//Instruction currentInstruction;
-	int currentInstructionIndex=0;
+	// Instruction currentInstruction;
+	int currentInstructionIndex = 0;
 	/**
 	 * the code reaches the end of procedure.
 	 */
-	boolean procedureEnd=false;
+	boolean procedureEnd = false;
 
 	public Stack<BlockStackItem> blockStacks;
 
 	private Set<_Object> tempObjects;
-	
+
 	ExecutionStatus executionStatus;
-	
-	//used for multi-step instructions(such as SendMessage)
-	public int step=0;
+
+	// used for multi-step instructions(such as SendMessage)
+	public int step = 0;
 	/**
 	 * the reply stores here after the sync invoke returns.
 	 */
@@ -39,6 +39,10 @@ public class ProcedureExecutionContext {
 		localVariables = new HashMap<String, _Object>();
 		blockStacks = new Stack<BlockStackItem>();
 		tempObjects = new HashSet<_Object>();
+	}
+
+	public _Object get(String name) {
+		return this.getObject(name);
 	}
 
 	public _Object getObject(String name) {
@@ -77,6 +81,5 @@ public class ProcedureExecutionContext {
 	public void setProcedureEnd(boolean procedureEnd) {
 		this.procedureEnd = procedureEnd;
 	}
-	
-	
+
 }

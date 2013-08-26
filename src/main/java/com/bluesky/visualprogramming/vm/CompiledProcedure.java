@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.vm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +15,12 @@ import com.bluesky.visualprogramming.vm.instruction.Instruction;
  */
 public class CompiledProcedure {
 
+	List<String> parameters= new ArrayList<>();
 	List<Instruction> instructions;
 
 	Map<String, Integer> labels = new HashMap<String, Integer>();
 
-	public CompiledProcedure(List<Instruction> instructions) {
+	public CompiledProcedure(List<String> parameters, List<Instruction> instructions) {
 		this.instructions = instructions;
 		
 		createLabelIndex();
@@ -56,4 +58,9 @@ public class CompiledProcedure {
 		
 		return sb.toString();
 	}
+
+	public List<String> getParameters() {
+		return parameters;
+	}
+	
 }

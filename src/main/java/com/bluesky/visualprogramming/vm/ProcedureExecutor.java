@@ -40,7 +40,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 		this.objectRepository = objectRepository;
 		this.postService = postService;
 		this.procedure = procedure;
-		this.ctx = ctx;
+		this.ctx = ctx;		
 	}
 
 	/**

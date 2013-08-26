@@ -9,17 +9,16 @@ import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Modulus extends BaseNativeProcedure implements NativeProcedure {
 
-	public Modulus() {
-		this.parameterNams = new String[] { "num" };
-	}
+ 
 
 	@Override
-	protected _Object execute(_Object self, Map<String, _Object> params) {
-		IntegerValue num = (IntegerValue) params.get("num");
+	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+		IntegerValue num = (IntegerValue) ctx.get("num");
 
 		IntegerValue selfInt = (IntegerValue) self;
 

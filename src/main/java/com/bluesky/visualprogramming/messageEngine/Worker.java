@@ -60,10 +60,10 @@ public class Worker implements Runnable {
 				_Object reply = msg.body;
 				obj.getMessageQueue().removeFirst();
 				obj.clearNewSyncReplyArrivedFlag();
-				
+
 				msg = obj.getMessageQueue().peekFirst();
 				msg.executionContext.reply = reply;
-				
+
 			}
 
 			Procedure proc = obj.lookupProcedure(msg.subject);
@@ -101,12 +101,12 @@ public class Worker implements Runnable {
 						postService.sendMessage(replyMsg);
 					}
 				}
-				
+
 				synchronized (obj) {
 					// job done, worker leaves
 					obj.setWorker(null);
 				}
-				
+
 			} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
 				logger.debug(String.format("[%s] is waiting for reply", obj));
 				/*
@@ -138,7 +138,6 @@ public class Worker implements Runnable {
 		ExecutionStatus procedureExecutionStatus;
 
 		if (proc.isNative()) {
-			msg.initExecutionContext(objectRepository.getRootObject());
 
 			// native procedure always complete
 			procedureExecutionStatus = executeNativeProcedure(msg, obj, proc);
@@ -155,13 +154,15 @@ public class Worker implements Runnable {
 
 	private ExecutionStatus executeNormalProcedure(Message msg, _Object obj,
 			Procedure proc) {
+
+		CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
+
 		if (msg.status == MessageStatus.NOT_STARTED) {
-			msg.initExecutionContext(objectRepository.getRootObject());
+			msg.initExecutionContext(objectRepository.getRootObject(), cp
+					.getParameters().toArray(new String[0]));
 
 			msg.status = MessageStatus.IN_PROGRESS;
 		}
-
-		CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
 
 		ProcedureExecutor executor = new ProcedureExecutor(objectRepository,
 				postService, cp, msg.executionContext);
@@ -173,11 +174,15 @@ public class Worker implements Runnable {
 
 	private ExecutionStatus executeNativeProcedure(Message msg, _Object obj,
 			Procedure proc) {
+		
+		msg.initExecutionContext(objectRepository.getRootObject(),
+				proc.getNativeProcedureParameterNames());
+		
 		try {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			ExecutionStatus es = nativeP.execute(obj, msg);
+			ExecutionStatus es = nativeP.execute(obj, msg.executionContext, msg);
 
 			msg.status = MessageStatus.FINISHED;
 

@@ -85,9 +85,10 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
  * 
  */
 public class GooCompiler implements GooVisitor<Object>, Compiler {
-	
+
 	static Logger logger = Logger.getLogger(GooCompiler.class);
 
+	private List<String> parameters = new ArrayList<>();
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
 	// let the child node know the current block name, so that it knows how to
@@ -160,7 +161,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		visit(tree);
 
-		CompiledProcedure cp = new CompiledProcedure(instructions);
+		CompiledProcedure cp = new CompiledProcedure(parameters,instructions);
 		return cp;
 	}
 
@@ -239,11 +240,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		if (ctx.forAfterthought() != null)
 			ctx.forAfterthought().accept(this);
 
-		//goto begin
+		// goto begin
 		Goto gotoEntry = new Goto();
 		gotoEntry.destinationLabel = blockName + "Entry";
 		addInstruction(gotoEntry);
-		
+
 		NoOperation end = new NoOperation();
 		end.label = blockName + "End";
 		addInstruction(end);
@@ -485,9 +486,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
 		ins.replyVar = tempVar2;
-		
+
 		ins.paramStyle = paramStyle;
-		
+
 		addInstruction(ins);
 
 		getLastInstruction().comment = ctx.getText();
@@ -548,7 +549,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
-		// TODO Auto-generated method stub
+		for (TerminalNode node : ctx.ID()) {
+			parameters.add(node.getText());
+			
+			logger.debug("procedure parameter:"+ node.getText());
+		}
 		return null;
 	}
 

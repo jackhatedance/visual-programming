@@ -9,17 +9,15 @@ import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Concatenate extends BaseNativeProcedure implements NativeProcedure {
 
-	public Concatenate() {
-		this.parameterNams = new String[] {"str"};
-	}
-
+	 
 	@Override
-	protected _Object execute(_Object self, Map<String, _Object> params) {
-		StringValue str = (StringValue) params.get("str");
+	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+		StringValue str = (StringValue) ctx.get("str");
 
 		StringValue selfStr = (StringValue) self;
 

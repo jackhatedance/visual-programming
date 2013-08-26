@@ -9,16 +9,14 @@ import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Not extends BaseNativeProcedure implements NativeProcedure {
 
-	public Not() {
-		this.parameterNams = new String[] {};
-	}
-
+ 
 	@Override
-	protected _Object execute(_Object self, Map<String, _Object> params) {
+	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
 
 		BooleanValue selfValue = (BooleanValue) self;
 
