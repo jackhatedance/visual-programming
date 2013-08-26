@@ -44,90 +44,94 @@ public class Worker implements Runnable {
 	 * @param obj
 	 */
 	public void processMessages(_Object obj) {
+		Message msg = null;
+		while ((msg = obj.getMessageQueue().peekFirst()) != null) {
+			logger.debug(String.format(
+					"start processing msg '%s', msg.count %d ", msg.subject,
+					obj.getMessageQueue().size()));
 
-		while (true) {
-
-			Message msg = obj.getMessageQueue().peekFirst();
-
-			if (msg == null)
-				break;
-
-			if (msg.isReply() && msg.previous.sync) {
+			if (msg.isSyncReply()) {
+				logger.debug("comes reply of " + msg.previous.subject);
 				/**
 				 * pick the reply body from current message, put into the
 				 * pending procedure.
 				 */
 				_Object reply = msg.body;
+
 				obj.getMessageQueue().removeFirst();
 				obj.clearNewSyncReplyArrivedFlag();
 
-				msg = obj.getMessageQueue().peekFirst();
-				msg.executionContext.reply = reply;
+				// push reply to next message
+				obj.getMessageQueue().peekFirst().executionContext.reply = reply;
 
-			}
+			} else {
 
-			Procedure proc = obj.lookupProcedure(msg.subject);
-			if (proc == null)
-				throw new RuntimeException("message not understand:"
-						+ msg.subject);
+				Procedure proc = obj.lookupProcedure(msg.subject);
+				if (proc == null)
+					throw new RuntimeException("message not understand:"
+							+ msg.subject);
 
-			ExecutionStatus procedureExecutionStatus = executeProcedure(msg,
-					obj, proc);
+				ExecutionStatus procedureExecutionStatus = executeProcedure(
+						msg, obj, proc);
 
-			if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
+				if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
 
-				// remove from queue
-				obj.getMessageQueue().removeFirst();
+					// remove from queue
+					obj.getMessageQueue().removeFirst();
 
-				if (msg.sync) {// wake up the sender, let it continue.
-
-					Message replyMsg = new Message(false, msg.receiver,
-							msg.sender, "_REPLY", msg.reply,
-							ParameterStyle.ByName, msg);
-
-					replyMsg.urgent = true;
-
-					postService.sendMessage(replyMsg);
-
-				} else {
-					// notify the sender
-
-					if (msg.needCallback()) {
+					if (msg.sync) {// wake up the sender, let it continue.
 
 						Message replyMsg = new Message(false, msg.receiver,
-								msg.sender, msg.callback, msg.reply,
+								msg.sender, "_REPLY", msg.reply,
 								ParameterStyle.ByName, msg);
 
+						replyMsg.urgent = true;
+
 						postService.sendMessage(replyMsg);
-					}
-				}
 
-				synchronized (obj) {
-					// job done, worker leaves
-					obj.setWorker(null);
-				}
-
-			} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
-				logger.debug(String.format("[%s] is waiting for reply", obj));
-				/*
-				 * TODO let the worker thread wait for a while, maybe the reply
-				 * come very soon. so that we can reuse current worker for the
-				 * same customer.
-				 */
-				synchronized (obj) {
-					// check if the reply has come
-					if (obj.hasNewSyncReplyArrived()) {
-						// continue work on reply
-						logger.debug("reply arrived before worker leaves");
 					} else {
-						// worker leaves
-						obj.setWorker(null);
-						break;
+						// notify the sender
 
+						if (msg.needCallback()) {
+
+							Message replyMsg = new Message(false, msg.receiver,
+									msg.sender, msg.callback, msg.reply,
+									ParameterStyle.ByName, msg);
+
+							postService.sendMessage(replyMsg);
+						}
+					}
+
+					synchronized (obj) {
+						// job done, worker leaves
+						obj.setWorker(null);
+					}
+
+				} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
+					logger.debug(String
+							.format("[%s] is waiting for reply", obj));
+					/*
+					 * TODO let the worker thread wait for a while, maybe the
+					 * reply come very soon. so that we can reuse current worker
+					 * for the same customer.
+					 */
+					synchronized (obj) {
+						// check if the reply has come
+						if (obj.hasNewSyncReplyArrived()) {
+							// continue work on reply
+							logger.debug("reply arrived before worker leaves");
+						} else {
+							// worker leaves
+							obj.setWorker(null);
+							break;
+
+						}
 					}
 				}
 			}
 
+			logger.debug(String.format("end processing msg '%s', msg.count %d",
+					msg.subject, obj.getMessageQueue().size()));
 		}
 
 		logger.debug(String.format("job for [%s] is done, worker leaves", obj));
@@ -174,15 +178,16 @@ public class Worker implements Runnable {
 
 	private ExecutionStatus executeNativeProcedure(Message msg, _Object obj,
 			Procedure proc) {
-		
+
 		msg.initExecutionContext(objectRepository.getRootObject(),
 				proc.getNativeProcedureParameterNames());
-		
+
 		try {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			ExecutionStatus es = nativeP.execute(obj, msg.executionContext, msg);
+			ExecutionStatus es = nativeP
+					.execute(obj, msg.executionContext, msg);
 
 			msg.status = MessageStatus.FINISHED;
 

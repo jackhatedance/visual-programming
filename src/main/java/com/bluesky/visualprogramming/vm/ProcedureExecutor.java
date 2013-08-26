@@ -132,8 +132,8 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		BooleanValue b = (BooleanValue) actualObject;
 		if (b.getBooleanValue() == instruction.expected) {
-			logger.debug("condition meets, goto");
 
+			logger.debug("condition meets, goto");
 			Integer index = procedure
 					.getLabelIndex(instruction.destinationLabel);
 			if (index == null)
