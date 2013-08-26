@@ -54,6 +54,7 @@ public class WorkerManager implements Runnable {
 			throw new RuntimeException(
 					"customer already has worker, cannot be added.");
 
+		logger.debug(String.format("customer '%s' is requesting for a worker, wait in queue.",customer.getName()));
 		customers.add(customer);
 	}
 
@@ -73,8 +74,7 @@ public class WorkerManager implements Runnable {
 
 				Worker worker = new Worker(objectRepository, this, postService,
 						cust);
-				cust.setWorker(worker);
-
+				
 				executorServie.execute(worker);
 
 			}

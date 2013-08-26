@@ -56,11 +56,11 @@ public class _Object implements Serializable {
 
 	private Deque<Message> messageQueue;
 	private Worker worker = null;
-	private boolean hasNewSyncReplyArrived = false;
+
 	/**
 	 * registered itself to the worker manager, set to true if worker assigned.
 	 */
-	private boolean needWorker = false;
+	private boolean applyingWorker = false;
 
 	/**
 	 * the max value of height and width is 1000;
@@ -511,37 +511,49 @@ public class _Object implements Serializable {
 		if (messageQueue == null)
 			messageQueue = new ArrayDeque<Message>();
 
-		if (msg.isSyncReply())
-			hasNewSyncReplyArrived = true;
-
-		if (msg.urgent || msg.isReply())
+		String pos = "";
+		if (msg.urgent || msg.isReply() || msg.sender==this) {
+			pos = "head";
 			messageQueue.addFirst(msg);
-		else
+		} else {
+			pos = "tail";
 			messageQueue.addLast(msg);
+		}
 
-		if (worker == null && !needWorker)
-			needWorker = true;
+		boolean applyWorkerForMe = false;
+		
+		if (worker == null && !applyingWorker)
+		{
+			applyingWorker=true;
+			applyWorkerForMe = true;
+		}
+		
+		logger.debug(String.format("a message added to queue %s, subject: %s, need-worker:%s",
+				pos, msg.subject,applyWorkerForMe));
 
-		return needWorker;
+		return applyWorkerForMe;
 	}
 
-	public void setWorker(Worker worker) {
-		this.worker = worker;
-		this.needWorker = false;
+	public synchronized void assignWorkerIfNot(Worker worker) {
+		if(this.worker!=null)
+			throw new RuntimeException("worker already assigned");
+		
+		this.worker = worker;	
+		
+		this.applyingWorker = false;
 	}
 
+	public synchronized void removeWorker() {
+		this.worker = null;		
+	}
+	
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
 
-	public boolean hasNewSyncReplyArrived() {
+	public boolean hasNewerUrgentMessageArrived(Message currentWorkingMessage) {
 
-		return hasNewSyncReplyArrived;
-	}
-
-	public void clearNewSyncReplyArrivedFlag() {
-		this.hasNewSyncReplyArrived = false;
-
+		return messageQueue.peekFirst() != currentWorkingMessage;
 	}
 
 }

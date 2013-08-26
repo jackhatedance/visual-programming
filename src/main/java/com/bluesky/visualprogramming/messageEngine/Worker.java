@@ -31,7 +31,10 @@ public class Worker implements Runnable {
 		this.postService = postService;
 		this.customer = customer;
 
-		customer.setWorker(this);
+		if(customer.hasWorker())
+			throw new RuntimeException("customer already has worker.");
+		
+		customer.assignWorkerIfNot(this);
 	}
 
 	/**
@@ -59,7 +62,6 @@ public class Worker implements Runnable {
 				_Object reply = msg.body;
 
 				obj.getMessageQueue().removeFirst();
-				obj.clearNewSyncReplyArrivedFlag();
 
 				// push reply to next message
 				obj.getMessageQueue().peekFirst().executionContext.reply = reply;
@@ -82,7 +84,7 @@ public class Worker implements Runnable {
 					if (msg.sync) {// wake up the sender, let it continue.
 
 						Message replyMsg = new Message(false, msg.receiver,
-								msg.sender, "_REPLY", msg.reply,
+								msg.sender, "RE:" + msg.subject, msg.reply,
 								ParameterStyle.ByName, msg);
 
 						replyMsg.urgent = true;
@@ -104,7 +106,7 @@ public class Worker implements Runnable {
 
 					synchronized (obj) {
 						// job done, worker leaves
-						obj.setWorker(null);
+						obj.removeWorker();
 					}
 
 				} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
@@ -116,13 +118,12 @@ public class Worker implements Runnable {
 					 * for the same customer.
 					 */
 					synchronized (obj) {
-						// check if the reply has come
-						if (obj.hasNewSyncReplyArrived()) {
+						if (obj.hasNewerUrgentMessageArrived(msg)) {
 							// continue work on reply
-							logger.debug("reply arrived before worker leaves");
+							logger.debug("newer urgent messages arrived before worker leaves");
 						} else {
 							// worker leaves
-							obj.setWorker(null);
+							obj.removeWorker();
 							break;
 
 						}

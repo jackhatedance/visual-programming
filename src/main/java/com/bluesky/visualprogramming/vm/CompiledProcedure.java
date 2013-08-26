@@ -15,12 +15,13 @@ import com.bluesky.visualprogramming.vm.instruction.Instruction;
  */
 public class CompiledProcedure {
 
-	List<String> parameters= new ArrayList<>();
+	List<String> parameters= new ArrayList<String>();
 	List<Instruction> instructions;
 
 	Map<String, Integer> labels = new HashMap<String, Integer>();
 
 	public CompiledProcedure(List<String> parameters, List<Instruction> instructions) {
+		this.parameters = parameters;
 		this.instructions = instructions;
 		
 		createLabelIndex();

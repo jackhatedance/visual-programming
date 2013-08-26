@@ -1,11 +1,14 @@
 package com.bluesky.visualprogramming.messageEngine;
 
+import org.apache.log4j.Logger;
+
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 
 public class PostService {
+	static Logger logger = Logger.getLogger(PostService.class);
 
 	private ObjectRepository objectRepository;
 	private WorkerManager workerManager;
@@ -17,16 +20,19 @@ public class PostService {
 	}
 
 	public void sendMessage(Message msg) {
-		boolean needWorker = msg.receiver.addToMessageQueue(msg);
-		if (needWorker)
-		{			
+		boolean applyWorkerForMe = msg.receiver.addToMessageQueue(msg);
+		logger.debug(String.format(
+				"post office send message from '%s' to '%s' subject '%s'",
+				msg.sender, msg.receiver, msg.subject));
+		if (applyWorkerForMe) {
 			workerManager.addCustomer(msg.receiver);
 		}
 	}
 
 	public void sendMessageFromNobody(_Object receiver, String subject) {
 
-		Message msg = new Message(false, null, receiver, subject, null,ParameterStyle.ByName,null);
+		Message msg = new Message(false, null, receiver, subject, null,
+				ParameterStyle.ByName, null);
 		sendMessage(msg);
 	}
 }

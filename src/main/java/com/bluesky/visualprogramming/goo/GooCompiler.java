@@ -90,7 +90,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	static Logger logger = Logger.getLogger(GooCompiler.class);
 
-	private List<String> parameters = new ArrayList<>();
+	private List<String> parameters = new ArrayList<String>();
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
 	// let the child node know the current block name, so that it knows how to
@@ -398,7 +398,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitHeader(HeaderContext ctx) {
-		System.out.println("header");
+		//System.out.println("header");
 		if (ctx.paramDeclareList() != null)
 			return ctx.paramDeclareList().accept(this);
 
@@ -430,6 +430,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		NoOperation trueEnd = new NoOperation();
 		trueEnd.label = blockName + "TrueEnd";
 		addInstruction(trueEnd);
+
+		// goto FalseBegin
+		Goto gotoFalseEnd = new Goto();
+		gotoFalseEnd.destinationLabel = blockName + "FalseEnd";
+		addInstruction(gotoFalseEnd);
 
 		// label
 		NoOperation falseBegin = new NoOperation();
