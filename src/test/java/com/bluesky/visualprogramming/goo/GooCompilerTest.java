@@ -45,7 +45,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testIf() {
 		InputStream is = GooCompilerTest.class
@@ -73,7 +73,7 @@ public class GooCompilerTest {
 
 	}
 
-	
+	@Ignore
 	@Test
 	public void testFor() {
 		InputStream is = GooCompilerTest.class

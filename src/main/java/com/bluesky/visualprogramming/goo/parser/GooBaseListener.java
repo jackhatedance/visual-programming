@@ -43,19 +43,6 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterTrueBlock(@NotNull GooParser.TrueBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitTrueBlock(@NotNull GooParser.TrueBlockContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,6 +82,32 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterFalseBranch(@NotNull GooParser.FalseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitFalseBranch(@NotNull GooParser.FalseBranchContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterBlockOrStatment(@NotNull GooParser.BlockOrStatmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitBlockOrStatment(@NotNull GooParser.BlockOrStatmentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -102,19 +115,6 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterFalseBlock(@NotNull GooParser.FalseBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitFalseBlock(@NotNull GooParser.FalseBlockContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -147,6 +147,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterConstantExpr(@NotNull GooParser.ConstantExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -160,13 +173,13 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+	@Override public void enterTrueBranch(@NotNull GooParser.TrueBranchContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitNamedParamList(@NotNull GooParser.NamedParamListContext ctx) { }
+	@Override public void exitTrueBranch(@NotNull GooParser.TrueBranchContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -316,6 +329,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterAssignmentStatement(@NotNull GooParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitAssignmentStatement(@NotNull GooParser.AssignmentStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterHeader(@NotNull GooParser.HeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -336,6 +362,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitIfStatement(@NotNull GooParser.IfStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterEmptyStatement(@NotNull GooParser.EmptyStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitEmptyStatement(@NotNull GooParser.EmptyStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

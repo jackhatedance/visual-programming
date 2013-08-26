@@ -23,21 +23,25 @@ paramDeclareList : ID (',' ID)*;
 block : '{' statement* '}';
 
 statement : 
-          assignment ';'       
+          assignmentStatement        
 	| expressionStatement            
         | ifStatement     
         | whileStatement 
         | forStatement   
         | returnStatement   
-        | breakStatement    
+        | breakStatement   
         | continueStatement  
-        | comment           
-        | ';'               
+        | comment               
+        | emptyStatement
 	;
 	
+emptyStatement : ';';
+    
 //varDeclare : 'var' varList;
 //varList : ID (',' ID)*;
 expressionStatement : expr ';';                     
+
+assignmentStatement : assignment ';';
 assignment : assignee assignOperator expr;
 
 assignOperator : REF_ASSIGN  #RefAssignOperator
@@ -71,17 +75,19 @@ paramList : expr (',' expr)*            #orderedParamList
 nameValue : ID ':' expr;
 
 
-ifStatement : IF '(' expr ')' trueBlock (ELSE falseBlock)?;
-trueBlock : block;
-falseBlock: block;
+ifStatement : IF '(' expr ')' trueBranch (ELSE falseBranch)?;
+trueBranch : blockOrStatment;
+falseBranch: blockOrStatment;
 
-whileStatement : WHILE '(' expr ')' block;
-forStatement : FOR '(' forInit? ';' forCondition ';' forAfterthought? ')' block;
+whileStatement : WHILE '(' expr ')' blockOrStatment;
+forStatement : FOR '(' forInit? ';' forCondition ';' forAfterthought? ')' blockOrStatment;
 
 
 forInit: assignment|expr;
 forCondition : expr;
 forAfterthought : expr;
+
+blockOrStatment : block | statement;
 
 returnStatement : RETURN expr ';';
 

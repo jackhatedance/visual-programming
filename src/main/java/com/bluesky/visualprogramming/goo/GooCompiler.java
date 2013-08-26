@@ -27,15 +27,18 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeFieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssigneeVariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AssignmentContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.AssignmentStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.AutoAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BlockContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.BlockOrStatmentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BooleanContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.BreakStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.CommentContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ConstantExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ContinueStatementContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.EmptyStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ExpressionStatementContext;
-import com.bluesky.visualprogramming.goo.parser.GooParser.FalseBlockContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.FalseBranchContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.FieldContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForAfterthoughtContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForConditionContext;
@@ -56,12 +59,11 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ReturnStatementContext
 import com.bluesky.visualprogramming.goo.parser.GooParser.SendMessageContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StringContext;
-import com.bluesky.visualprogramming.goo.parser.GooParser.TrueBlockContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.TrueBranchContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.WhileStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooVisitor;
-import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.Compiler;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -161,7 +163,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		visit(tree);
 
-		CompiledProcedure cp = new CompiledProcedure(parameters,instructions);
+		CompiledProcedure cp = new CompiledProcedure(parameters, instructions);
 		return cp;
 	}
 
@@ -235,7 +237,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		addInstruction(gotoEnd);
 
-		ctx.block().accept(this);
+		ctx.blockOrStatment().accept(this);
 
 		if (ctx.forAfterthought() != null)
 			ctx.forAfterthought().accept(this);
@@ -397,6 +399,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitHeader(HeaderContext ctx) {
 		System.out.println("header");
+		if (ctx.paramDeclareList() != null)
+			return ctx.paramDeclareList().accept(this);
+
 		return null;
 	}
 
@@ -419,7 +424,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		addInstruction(gotoFalse);
 
 		// true begin
-		ctx.trueBlock().accept(this);
+		ctx.trueBranch().accept(this);
 
 		// label
 		NoOperation trueEnd = new NoOperation();
@@ -431,7 +436,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		falseBegin.label = blockName + "FalseBegin";
 		addInstruction(falseBegin);
 
-		ctx.falseBlock().accept(this);
+		ctx.falseBranch().accept(this);
 
 		// label
 		NoOperation falseEnd = new NoOperation();
@@ -441,16 +446,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		popBlock();
 
 		return null;
-	}
-
-	@Override
-	public Object visitFalseBlock(FalseBlockContext ctx) {
-		return visitChildren(ctx);
-	}
-
-	@Override
-	public Object visitTrueBlock(TrueBlockContext ctx) {
-		return visitChildren(ctx);
 	}
 
 	@Override
@@ -551,8 +546,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
 		for (TerminalNode node : ctx.ID()) {
 			parameters.add(node.getText());
-			
-			logger.debug("procedure parameter:"+ node.getText());
+
+			logger.debug("procedure parameter:" + node.getText());
 		}
 		return null;
 	}
@@ -581,7 +576,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		addInstruction(gotoFalse);
 
 		// true begin
-		ctx.block().accept(this);
+		ctx.blockOrStatment().accept(this);
 
 		// label
 		NoOperation trueEnd = new NoOperation();
@@ -616,6 +611,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitProcedure(ProcedureContext ctx) {
 		// System.out.println("visit procedure");
+
+		ctx.header().accept(this);
 
 		ctx.block().accept(this);
 
@@ -752,5 +749,34 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitForInit(ForInitContext ctx) {
 		return visitChildren(ctx);
 
+	}
+
+	@Override
+	public Object visitFalseBranch(FalseBranchContext ctx) {
+
+		return visitChildren(ctx);
+	}
+
+	@Override
+	public Object visitTrueBranch(TrueBranchContext ctx) {
+		return visitChildren(ctx);
+	}
+
+	@Override
+	public Object visitAssignmentStatement(AssignmentStatementContext ctx) {
+
+		return ctx.assignment().accept(this);
+	}
+
+	@Override
+	public Object visitEmptyStatement(EmptyStatementContext ctx) {
+
+		return null;
+	}
+
+	@Override
+	public Object visitBlockOrStatment(BlockOrStatmentContext ctx) {
+
+		return visitChildren(ctx);
 	}
 }

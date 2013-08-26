@@ -1,10 +1,8 @@
 procedure foo(b)
 {
 
-	if(b){
-		b.foo();
-		
-	}
+	if(b)
+		b.foo();	
 	else
 	{
 		a=true;

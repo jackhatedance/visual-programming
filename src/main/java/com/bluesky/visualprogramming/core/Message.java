@@ -1,8 +1,13 @@
 package com.bluesky.visualprogramming.core;
 
+import org.apache.log4j.Logger;
+
+import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
 public class Message {
+
+	static Logger logger = Logger.getLogger(Message.class);
 
 	public boolean sync;
 	public _Object sender;
@@ -84,14 +89,24 @@ public class Message {
 
 		if (parameterStyle == ParameterStyle.ByName) {
 			for (String name : paramNames) {
+
+				logger.debug("push parameter to context:" + name);
+
 				_Object p = body.getChild(name);
 				executionContext.setObject(name, p);
 			}
 		} else {
 			// by order
-			for (int i = 0; i < body.getChildCount(); i++) {
+			int minCount = body.getChildCount() < paramNames.length ? body
+					.getChildCount() : paramNames.length;
+			for (int i = 0; i < minCount; i++) {
+
+				String name = paramNames[i];
 				_Object p = body.getChild(i);
-				executionContext.setObject(paramNames[i], p);
+
+				logger.debug("push parameter to context:" + name);
+
+				executionContext.setObject(name, p);
 			}
 		}
 	}
