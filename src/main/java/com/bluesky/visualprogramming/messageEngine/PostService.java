@@ -1,8 +1,6 @@
 package com.bluesky.visualprogramming.messageEngine;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
@@ -18,6 +16,7 @@ public class PostService implements Runnable {
 
 	private ObjectRepository objectRepository;
 	private WorkerManager workerManager;
+	private Communicator communicator;
 
 	private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
 
