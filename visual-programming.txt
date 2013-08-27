@@ -4619,7 +4619,9 @@ type=BOOLEAN,id=4618,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,
 type=INTEGER,id=4628,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=55
 type=STRING,id=4629,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=55
 type=DEFAULT,id=4630,name=t_5,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=
+type=PROCEDURE,id=4631,name=sum,owner=281,x=467,y=265,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dfalse%2C+language%3Dgoo%5D%0Aprocedure+sum%28n%29%0A%7B%0A%09if%28n.equals%281%29%29%0A%09%09result+%3D+1%3B%0A%09else%0A%09%7B%0A%09%09n2+%3D+n.min%281%29%3B%0A%09%09s2+%3D+self.sum%28n2%29%3B%0A%09%09result+%3D+n.plus%28s2%29%3B%0A%09%7D%0A%7D
 type=INTEGER,id=4624,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=8
 type=INTEGER,id=4625,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=13
 type=INTEGER,id=4626,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=21
 type=INTEGER,id=4627,name=,owner=-1,x=0,y=0,width=100,height=100,scale=1.000000,color=-16777216,value=34
+type=PROCEDURE,id=4632,name=sumtest,owner=275,x=594,y=256,width=100,height=100,scale=1.000000,color=-16777216,value=%5Bnative%3Dfalse%2C+language%3Dgoo%5D%0Aprocedure+sumt%28%29%0A%7B%0A%09n+%3D+10%3B%0A%09sum+%3D+root.lib.math.sum%28n%29%3B%0A%09root.console.print%28sum.toString%28%29%29%3B%0A%7D
