@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.messageEngine.Worker;
+import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
 public class Message {
@@ -85,6 +86,8 @@ public class Message {
 	 */
 	public void initExecutionContext(_Object root, String[] paramNames) {
 		executionContext = new ProcedureExecutionContext();
+		
+		executionContext.setExecutionStatus(ExecutionStatus.ON_GOING);
 
 		executionContext.setObject("root", root);
 		executionContext.setObject("self", receiver);

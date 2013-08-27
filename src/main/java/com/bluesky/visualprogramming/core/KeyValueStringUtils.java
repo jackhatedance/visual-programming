@@ -9,20 +9,24 @@ public class KeyValueStringUtils {
 		// the content of value could be anything, so it is safe to cut it
 		// before split
 		int idx = text.indexOf("value=");
-
-		String[] segments = text.substring(0, idx).split(",");
+		String[] segments ;
+		try {
+			 segments = text.substring(0, idx).split(",");
+		} catch (Exception e) {
+			throw new RuntimeException(text);
+		}
 		Map<String, String> map = new HashMap<String, String>();
 		for (String seg : segments) {
 			String[] keyvalue = seg.split("=");
-			
-			String value = keyvalue.length==2? keyvalue[1]:"";
-			
+
+			String value = keyvalue.length == 2 ? keyvalue[1] : "";
+
 			map.put(keyvalue[0], value);
 		}
-		
+
 		String encValue = text.substring(idx + "value=".length());
 		map.put("value", encValue);
-		
+
 		return map;
 	}
 }

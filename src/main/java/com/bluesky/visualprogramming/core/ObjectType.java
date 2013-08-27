@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core;
 import com.bluesky.visualprogramming.core.link.HardLink;
 import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 
@@ -38,6 +39,21 @@ public enum ObjectType {
 		public String getPrototypeEL() {
 			
 			return "root.prototype.value.integer";
+		}
+		
+	},
+	FLOAT {
+		@Override
+		public _Object create(long id) {
+			FloatValue floatValue =new FloatValue(id);
+			//set prototype
+			return floatValue;
+		}
+		
+		@Override
+		public String getPrototypeEL() {
+			
+			return "root.prototype.value._float";
 		}
 		
 	},

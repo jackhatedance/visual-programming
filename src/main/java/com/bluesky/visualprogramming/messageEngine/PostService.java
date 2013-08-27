@@ -31,8 +31,8 @@ public class PostService implements Runnable {
 		try {
 			messageQueue.put(msg);
 			logger.debug(String.format(
-					"post office receieved request message from '%s' to '%s' subject '%s'",
-					msg.sender, msg.receiver, msg.subject));
+					"post office receieved request message from '%s' to '%s' content '%s'",
+					msg.sender, msg.receiver, msg.toString()));
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
@@ -41,8 +41,8 @@ public class PostService implements Runnable {
 	private void _sendMessage(Message msg) {
 		boolean applyWorkerForMe = msg.receiver.addToMessageQueue(msg);
 		logger.debug(String.format(
-				"post office send message from '%s' to '%s' subject '%s'",
-				msg.sender, msg.receiver, msg.subject));
+				"post office send message from: '%s' to: '%s' content: %s",
+				msg.sender, msg.receiver,msg.toString() ));
 		if (applyWorkerForMe) {
 			workerManager.addCustomer(msg.receiver);
 		}

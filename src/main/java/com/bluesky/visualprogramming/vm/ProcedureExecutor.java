@@ -51,25 +51,24 @@ public class ProcedureExecutor implements InstructionExecutor {
 	 * @param ctx
 	 * @return
 	 */
-	public ExecutionStatus execute() {
+	public void execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
-		ExecutionStatus procedureExecutionStatus = null;
 		while (true) {
 			ExecutionStatus instructionExecutionStatus = executeOneStep(instructions);
 
 			if (instructionExecutionStatus == ExecutionStatus.WAITING) {
-				procedureExecutionStatus = ExecutionStatus.WAITING;
+				ctx.executionStatus = ExecutionStatus.WAITING;
 				break;
 			}
 
 			if (ctx.isProcedureEnd()) {
-				procedureExecutionStatus = ExecutionStatus.COMPLETE;
+				ctx.executionStatus = ExecutionStatus.COMPLETE;
 				break;
 			}
 
 		}
-		return procedureExecutionStatus;
+
 	}
 
 	public ExecutionStatus executeOneStep(List<Instruction> instructions) {
@@ -199,10 +198,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 			String replyValue = "";
 			if (reply != null)
-				replyValue = reply.getName();
+				replyValue = reply.getValue();
 
 			logger.debug(String.format("executeSendMessage, step 2; %s=%s",
-					instruction.replyVar,replyValue));
+					instruction.replyVar, replyValue));
 
 			ctx.setObject(instruction.replyVar, reply);
 

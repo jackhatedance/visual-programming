@@ -66,28 +66,44 @@ public class Worker implements Runnable {
 
 				// obj.checkMessageType(msg.messageType);
 
+				if (msg.executionContext != null
+						&& msg.executionContext.getExecutionStatus() == ExecutionStatus.WAITING) {
+					obj.removeWorker();
+					break;
+				}
+
 				logger.debug(String.format(
 						"start processing msg '%s', msg.count %d ",
 						msg.toString(), obj.getMessageQueueSize()));
 
+				// could be void
+				String replyValue = "";
+				if (msg.body != null)
+					replyValue = msg.body.getValue();
+
 				if (msg.isSyncReply()) {
-					logger.debug("comes reply of " + msg.previous.toString());
+					logger.debug(String.format(
+							"comes reply of '%s', value: %s",
+							msg.previous.toString(), replyValue));
 					/**
 					 * pick the reply body from current message, put into the
 					 * pending procedure.
 					 */
 					_Object reply = msg.body;
 
-					obj.printMessageQueue();
-					
-					System.out.println("remove the sync reply message");
-					
+					if (logger.isDebugEnabled())
+						obj.printMessageQueue();
+
+					if (logger.isDebugEnabled())
+						System.out.println("remove the sync reply message");
+
 					if (!obj.removeMessage(msg))
 						throw new RuntimeException("remove message failed:"
 								+ msg.toString());
-					
-					obj.printMessageQueue();
-					
+
+					if (logger.isDebugEnabled())
+						obj.printMessageQueue();
+
 					// push reply to next message
 					Message lastMessage = obj.peekFirstMessage();
 					logger.debug("last message:" + lastMessage.toString());
@@ -96,6 +112,8 @@ public class Worker implements Runnable {
 								"error: last message's execution context is null.");
 
 					obj.peekFirstMessage().executionContext.reply = reply;
+					obj.peekFirstMessage().executionContext
+							.setExecutionStatus(ExecutionStatus.ON_GOING);
 
 				} else {
 
@@ -104,21 +122,27 @@ public class Worker implements Runnable {
 						throw new RuntimeException("message not understand:"
 								+ msg.subject);
 
-					ExecutionStatus procedureExecutionStatus = executeProcedure(
-							msg, obj, proc);
+					executeProcedure(msg, obj, proc);
 
-					logger.debug("procedureExecutionStatus"+procedureExecutionStatus);
-					
+					ExecutionStatus procedureExecutionStatus = msg.executionContext
+							.getExecutionStatus();
+
+					logger.debug("procedureExecutionStatus "
+							+ procedureExecutionStatus);
+
 					if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
 
-						obj.printMessageQueue();
-						
-						System.out.println("remove the sync reply message");
-						
+						if (logger.isDebugEnabled())
+							obj.printMessageQueue();
+
+						if (logger.isDebugEnabled())
+							System.out.println("remove the sync reply message");
+
 						// remove from queue
 						obj.removeMessage(msg);
-						
-						obj.printMessageQueue();
+
+						if (logger.isDebugEnabled())
+							obj.printMessageQueue();
 
 						if (msg.sync) {// wake up the sender, let it continue.
 
@@ -173,37 +197,33 @@ public class Worker implements Runnable {
 							}
 						}
 					}
-				}// end of process message
-			}
+				}
+			}// end of process one message
 
-			logger.debug(String.format("end processing msg '%s', msg.count %d",
-					msg.toString(), obj.getMessageQueueSize()));
+			logger.debug(String.format(
+					"after processing msg '%s', msg.count %d", msg.toString(),
+					obj.getMessageQueueSize()));
 		}
 
 		logger.debug("finish work for customer:" + obj.getName());
 	}
 
-	private ExecutionStatus executeProcedure(Message msg, _Object obj,
-			Procedure proc) {
-		ExecutionStatus procedureExecutionStatus;
+	private void executeProcedure(Message msg, _Object obj, Procedure proc) {
 
 		if (proc.isNative()) {
 
 			// native procedure always complete
-			procedureExecutionStatus = executeNativeProcedure(msg, obj, proc);
+			executeNativeProcedure(msg, obj, proc);
 		} else
-			procedureExecutionStatus = executeNormalProcedure(msg, obj, proc);
+			executeNormalProcedure(msg, obj, proc);
 
 		msg.reply = msg.executionContext.getResult();
 
 		// msg.status = MessageStatus.FINISHED;
 
-		return procedureExecutionStatus;
-
 	}
 
-	private ExecutionStatus executeNormalProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private void executeNormalProcedure(Message msg, _Object obj, Procedure proc) {
 
 		CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
 
@@ -218,12 +238,11 @@ public class Worker implements Runnable {
 				postService, cp, msg.executionContext);
 		// e.setPolicy(step);
 
-		return executor.execute();
+		executor.execute();
 
 	}
 
-	private ExecutionStatus executeNativeProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private void executeNativeProcedure(Message msg, _Object obj, Procedure proc) {
 
 		msg.initExecutionContext(objectRepository.getRootObject(),
 				proc.getNativeProcedureParameterNames());
@@ -232,12 +251,8 @@ public class Worker implements Runnable {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			ExecutionStatus es = nativeP
-					.execute(obj, msg.executionContext, msg);
+			nativeP.execute(obj, msg.executionContext, msg);
 
-			msg.status = MessageStatus.FINISHED;
-
-			return es;
 		} catch (Exception e) {
 			throw new RuntimeException(
 					"error during executing native procedure.", e);

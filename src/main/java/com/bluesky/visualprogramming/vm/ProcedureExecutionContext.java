@@ -70,6 +70,15 @@ public class ProcedureExecutionContext {
 		localVariables.put(VAR_RESULT, value);
 	}
 
+	
+	public ExecutionStatus getExecutionStatus() {
+		return executionStatus;
+	}
+
+	public void setExecutionStatus(ExecutionStatus executionStatus) {
+		this.executionStatus = executionStatus;
+	}
+
 	public void putTempObject(_Object obj) {
 		tempObjects.add(obj);
 	}

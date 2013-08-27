@@ -18,14 +18,13 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 		// this.parameterNams = new String[] { "content" };
 	}
 
-	public ExecutionStatus execute(_Object self, ProcedureExecutionContext ctx,
+	public void execute(_Object self, ProcedureExecutionContext ctx,
 			Message msg) {
 
 		_Object reply = execute(self, ctx);
 
 		msg.executionContext.setResult(reply);
-
-		return ExecutionStatus.COMPLETE;
+		msg.executionContext.setExecutionStatus( ExecutionStatus.COMPLETE);		
 	};
 
 	protected abstract _Object execute(_Object self,

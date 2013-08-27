@@ -184,7 +184,7 @@ public class _Object implements Serializable {
 		}
 	}
 
-	private boolean hasOwner() {
+	public boolean hasOwner() {
 
 		return owner != null;
 	}
