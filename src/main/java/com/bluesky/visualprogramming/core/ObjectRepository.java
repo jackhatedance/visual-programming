@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.messageEngine.Worker;
 
 public class ObjectRepository {
-	
+
 	static Logger logger = Logger.getLogger(ObjectRepository.class);
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
@@ -96,14 +96,15 @@ public class ObjectRepository {
 				if (prototype != null)
 					newObject.addChild(prototype, _Object.PROTOTYPE, false);
 			} catch (InvalidELException e) {
-				
-				logger.warn("the prototype object is not loaded. if it is in loading process, then it is ok."+prototypeEl);
+
+				logger.warn("the prototype object is not loaded. if it is in loading process, then it is ok."
+						+ prototypeEl);
 			}
 		}
 
 		newObject.setName(name);
-		
-		//String value = type.extractValue(literal);
+
+		// String value = type.extractValue(literal);
 		newObject.setValue(value);
 
 		if (owner != null)
@@ -190,8 +191,12 @@ public class ObjectRepository {
 
 		try {
 			for (_Object obj : objects.values()) {
-				writer.write(obj.toText());
-				writer.write("\n");
+
+				if (obj == getRootObject() ||  obj.hasOwner()) {
+
+					writer.write(obj.toText());
+					writer.write("\n");
+				}
 			}
 			writer.flush();
 		} catch (Exception e) {
@@ -241,7 +246,7 @@ public class ObjectRepository {
 
 		for (String line : lines) {
 
-			logger.debug("parse line:"+line);
+			logger.debug("parse line:" + line);
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
 			ObjectType type = ObjectType.valueOf(typeLiteral);

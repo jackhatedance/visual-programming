@@ -79,15 +79,15 @@ public class Worker implements Runnable {
 					_Object reply = msg.body;
 
 					obj.printMessageQueue();
-					
+
 					System.out.println("remove the sync reply message");
-					
+
 					if (!obj.removeMessage(msg))
 						throw new RuntimeException("remove message failed:"
 								+ msg.toString());
-					
+
 					obj.printMessageQueue();
-					
+
 					// push reply to next message
 					Message lastMessage = obj.peekFirstMessage();
 					logger.debug("last message:" + lastMessage.toString());
@@ -95,29 +95,39 @@ public class Worker implements Runnable {
 						throw new RuntimeException(
 								"error: last message's execution context is null.");
 
-					obj.peekFirstMessage().executionContext.reply = reply;
+					Message previousMsg = obj.peekFirstMessage();
+					// fill the reply value and set the status
+					previousMsg.executionContext.reply = reply;
+					previousMsg.executionContext.executionStatus = ExecutionStatus.ON_GOING;
 
 				} else {
+
+					if (msg.executionContext != null
+							&& msg.executionContext.executionStatus == ExecutionStatus.WAITING) {
+						obj.removeWorker();
+						break;
+					}
 
 					Procedure proc = obj.lookupProcedure(msg.subject);
 					if (proc == null)
 						throw new RuntimeException("message not understand:"
 								+ msg.subject);
 
-					ExecutionStatus procedureExecutionStatus = executeProcedure(
-							msg, obj, proc);
+					executeProcedure(msg, obj, proc);
 
-					logger.debug("procedureExecutionStatus"+procedureExecutionStatus);
-					
+					ExecutionStatus procedureExecutionStatus = msg.executionContext.executionStatus;
+					logger.debug("procedureExecutionStatus: "
+							+ procedureExecutionStatus);
+
 					if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
 
 						obj.printMessageQueue();
-						
+
 						System.out.println("remove the sync reply message");
-						
+
 						// remove from queue
 						obj.removeMessage(msg);
-						
+
 						obj.printMessageQueue();
 
 						if (msg.sync) {// wake up the sender, let it continue.
@@ -183,27 +193,21 @@ public class Worker implements Runnable {
 		logger.debug("finish work for customer:" + obj.getName());
 	}
 
-	private ExecutionStatus executeProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private void executeProcedure(Message msg, _Object obj, Procedure proc) {
 		ExecutionStatus procedureExecutionStatus;
 
 		if (proc.isNative()) {
 
 			// native procedure always complete
-			procedureExecutionStatus = executeNativeProcedure(msg, obj, proc);
+			executeNativeProcedure(msg, obj, proc);
 		} else
-			procedureExecutionStatus = executeNormalProcedure(msg, obj, proc);
+			executeNormalProcedure(msg, obj, proc);
 
 		msg.reply = msg.executionContext.getResult();
 
-		// msg.status = MessageStatus.FINISHED;
-
-		return procedureExecutionStatus;
-
 	}
 
-	private ExecutionStatus executeNormalProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private void executeNormalProcedure(Message msg, _Object obj, Procedure proc) {
 
 		CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
 
@@ -218,12 +222,11 @@ public class Worker implements Runnable {
 				postService, cp, msg.executionContext);
 		// e.setPolicy(step);
 
-		return executor.execute();
+		executor.execute();
 
 	}
 
-	private ExecutionStatus executeNativeProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private void executeNativeProcedure(Message msg, _Object obj, Procedure proc) {
 
 		msg.initExecutionContext(objectRepository.getRootObject(),
 				proc.getNativeProcedureParameterNames());
@@ -232,12 +235,10 @@ public class Worker implements Runnable {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			ExecutionStatus es = nativeP
-					.execute(obj, msg.executionContext, msg);
+			nativeP.execute(obj, msg.executionContext, msg);
 
 			msg.status = MessageStatus.FINISHED;
 
-			return es;
 		} catch (Exception e) {
 			throw new RuntimeException(
 					"error during executing native procedure.", e);

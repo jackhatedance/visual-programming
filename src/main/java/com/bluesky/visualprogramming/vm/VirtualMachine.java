@@ -31,10 +31,10 @@ public class VirtualMachine {
 		workerManager.init(objectRepository, postService);
 		postService.init(objectRepository, workerManager);
 
-		Thread t = new Thread(workerManager);
+		Thread t = new Thread(workerManager,"WorkerManager");
 		t.start();
 		
-		Thread t2 = new Thread(postService);
+		Thread t2 = new Thread(postService,"PostService");
 		t2.start();
 		
 	}

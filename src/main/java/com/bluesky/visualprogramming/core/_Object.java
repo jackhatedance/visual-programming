@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
+import com.bluesky.visualprogramming.vm.ExecutionStatus;
 
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
@@ -184,7 +185,7 @@ public class _Object implements Serializable {
 		}
 	}
 
-	private boolean hasOwner() {
+	public boolean hasOwner() {
 
 		return owner != null;
 	}
@@ -503,7 +504,9 @@ public class _Object implements Serializable {
 
 		String pos = "";
 		if (msg.urgent || msg.isReply() || msg.sender == this) {
+
 			pos = "head";
+
 			messageQueue.addFirst(msg);
 		} else {
 			pos = "tail";

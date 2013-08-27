@@ -199,7 +199,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 			String replyValue = "";
 			if (reply != null)
-				replyValue = reply.getName();
+				replyValue = reply.getValue();
 
 			logger.debug(String.format("executeSendMessage, step 2; %s=%s",
 					instruction.replyVar,replyValue));
