@@ -3,12 +3,16 @@ package com.bluesky.visualprogramming.messageEngine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import org.antlr.v4.parse.ANTLRParser.sync_return;
 import org.apache.log4j.Logger;
 
 import com.bluesky.my4gl.core.flow.node.OneInPortNode;
+import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 
@@ -21,7 +25,7 @@ public class WorkerManager implements Runnable {
 	/**
 	 * awake customers with messages in queue.
 	 */
-	private List<_Object> customers;
+	private BlockingQueue<_Object> customers;
 
 	private boolean running;
 
@@ -29,7 +33,7 @@ public class WorkerManager implements Runnable {
 	private PostService postService;
 
 	public WorkerManager() {
-		customers = Collections.synchronizedList(new ArrayList<_Object>());
+		customers = new LinkedBlockingQueue<_Object>();
 
 		executorServie = Executors.newFixedThreadPool(5);
 	}
@@ -49,38 +53,44 @@ public class WorkerManager implements Runnable {
 		if (customers.contains(customer))
 			throw new RuntimeException("customer is already added.");
 
-		
 		if (customer.hasWorker())
 			throw new RuntimeException(
 					"customer already has worker, cannot be added.");
 
-		logger.debug(String.format("customer '%s' is requesting for a worker, wait in queue.",customer.getName()));
-		customers.add(customer);
+		logger.debug(String.format(
+				"customer '%s' is requesting for a worker, wait in queue.",
+				customer.getName()));
+
+		try {
+			customers.put(customer);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
-	/**
-	 * assign all worker to customers
-	 */
 	@Override
 	public void run() {
-
 		while (true) {
-			if (!customers.isEmpty()) {
-				_Object cust = customers.remove(0);
-
-				// check if available worker there, or just wait for that
-
-				logger.debug("assign worker for " + cust.getName());
-
-				Worker worker = new Worker(objectRepository, this, postService,
-						cust);
-				
-				executorServie.execute(worker);
+			_Object cust;
+			try {
+				cust = customers.take();
+				assign(cust);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
 
 			}
 
 		}
 
+	}
+
+	private void assign(_Object cust) {
+		logger.debug("assign worker for " + cust.getName());
+
+		Worker worker = new Worker(objectRepository, this, postService, cust);
+
+		executorServie.execute(worker);
 	}
 
 }

@@ -23,6 +23,8 @@ public class Message {
 	// used only when it is a reply.
 	public Message previous;
 
+	public MessageType messageType;
+
 	// usually will goes to the head of the message queue.
 	public boolean urgent = false;
 
@@ -44,7 +46,7 @@ public class Message {
 	 */
 	public Message(boolean sync, _Object sender, _Object receiver,
 			String subject, _Object body, ParameterStyle parameterStyle,
-			Message previousMessage) {
+			Message previousMessage, MessageType messageType) {
 		this.sync = sync;
 		this.sender = sender;
 		this.receiver = receiver;
@@ -52,6 +54,7 @@ public class Message {
 		this.body = body;
 		this.parameterStyle = parameterStyle;
 		this.previous = previousMessage;
+		this.messageType = messageType;
 	}
 
 	/**
@@ -126,5 +129,33 @@ public class Message {
 	 */
 	public boolean isSyncReply() {
 		return previous != null && previous.sync;
+	}
+
+	public String toString() {
+
+		if (messageType == MessageType.SyncReply) {
+			return String.format("RE:%s", previous.toString());
+		} else {
+			StringBuilder sb = new StringBuilder();
+
+			if (body != null) {
+				for (int i = 0; i < body.getChildCount(); i++) {
+					if (i > 0)
+						sb.append(",");
+
+					sb.append(body.getChild(i).getValue());
+
+				}
+			}
+			String parameters = sb.toString();
+
+			String executionStatus = "";
+			if (executionContext != null
+					&& executionContext.executionStatus != null)
+				executionStatus = executionContext.executionStatus.toString();
+
+			return String.format("%s(%s) -- %s", subject, parameters,
+					executionStatus);
+		}
 	}
 }

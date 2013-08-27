@@ -33,6 +33,10 @@ public class VirtualMachine {
 
 		Thread t = new Thread(workerManager);
 		t.start();
+		
+		Thread t2 = new Thread(postService);
+		t2.start();
+		
 	}
 
 	public ObjectRepository getObjectRepository() {

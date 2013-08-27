@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
+import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.core._Object;
@@ -31,9 +31,9 @@ public class Worker implements Runnable {
 		this.postService = postService;
 		this.customer = customer;
 
-		if(customer.hasWorker())
+		if (customer.hasWorker())
 			throw new RuntimeException("customer already has worker.");
-		
+
 		customer.assignWorkerIfNot(this);
 	}
 
@@ -47,95 +47,140 @@ public class Worker implements Runnable {
 	 * @param obj
 	 */
 	public void processMessages(_Object obj) {
-		Message msg = null;
-		while ((msg = obj.getMessageQueue().peekFirst()) != null) {
-			logger.debug(String.format(
-					"start processing msg '%s', msg.count %d ", msg.subject,
-					obj.getMessageQueue().size()));
 
-			if (msg.isSyncReply()) {
-				logger.debug("comes reply of " + msg.previous.subject);
-				/**
-				 * pick the reply body from current message, put into the
-				 * pending procedure.
-				 */
-				_Object reply = msg.body;
+		logger.debug("start work for customer:" + obj.getName());
 
-				obj.getMessageQueue().removeFirst();
+		while (true) {
+			Message msg = null;
 
-				// push reply to next message
-				obj.getMessageQueue().peekFirst().executionContext.reply = reply;
+			// a message could arrive at any time
+			synchronized (obj) {
 
-			} else {
+				msg = obj.peekFirstMessage();
+				if (msg == null) {
+					// work is leaving the customer
+					obj.removeWorker();
 
-				Procedure proc = obj.lookupProcedure(msg.subject);
-				if (proc == null)
-					throw new RuntimeException("message not understand:"
-							+ msg.subject);
+					break;
+				}
 
-				ExecutionStatus procedureExecutionStatus = executeProcedure(
-						msg, obj, proc);
+				// obj.checkMessageType(msg.messageType);
 
-				if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
+				logger.debug(String.format(
+						"start processing msg '%s', msg.count %d ",
+						msg.toString(), obj.getMessageQueueSize()));
 
-					// remove from queue
-					obj.getMessageQueue().removeFirst();
+				if (msg.isSyncReply()) {
+					logger.debug("comes reply of " + msg.previous.toString());
+					/**
+					 * pick the reply body from current message, put into the
+					 * pending procedure.
+					 */
+					_Object reply = msg.body;
 
-					if (msg.sync) {// wake up the sender, let it continue.
+					obj.printMessageQueue();
+					
+					System.out.println("remove the sync reply message");
+					
+					if (!obj.removeMessage(msg))
+						throw new RuntimeException("remove message failed:"
+								+ msg.toString());
+					
+					obj.printMessageQueue();
+					
+					// push reply to next message
+					Message lastMessage = obj.peekFirstMessage();
+					logger.debug("last message:" + lastMessage.toString());
+					if (lastMessage.executionContext == null)
+						throw new RuntimeException(
+								"error: last message's execution context is null.");
 
-						Message replyMsg = new Message(false, msg.receiver,
-								msg.sender, "RE:" + msg.subject, msg.reply,
-								ParameterStyle.ByName, msg);
+					obj.peekFirstMessage().executionContext.reply = reply;
 
-						replyMsg.urgent = true;
+				} else {
 
-						postService.sendMessage(replyMsg);
+					Procedure proc = obj.lookupProcedure(msg.subject);
+					if (proc == null)
+						throw new RuntimeException("message not understand:"
+								+ msg.subject);
 
-					} else {
-						// notify the sender
+					ExecutionStatus procedureExecutionStatus = executeProcedure(
+							msg, obj, proc);
 
-						if (msg.needCallback()) {
+					logger.debug("procedureExecutionStatus"+procedureExecutionStatus);
+					
+					if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
+
+						obj.printMessageQueue();
+						
+						System.out.println("remove the sync reply message");
+						
+						// remove from queue
+						obj.removeMessage(msg);
+						
+						obj.printMessageQueue();
+
+						if (msg.sync) {// wake up the sender, let it continue.
 
 							Message replyMsg = new Message(false, msg.receiver,
-									msg.sender, msg.callback, msg.reply,
-									ParameterStyle.ByName, msg);
+									msg.sender, "RE:" + msg.subject, msg.reply,
+									ParameterStyle.ByName, msg,
+									MessageType.SyncReply);
+
+							replyMsg.urgent = true;
 
 							postService.sendMessage(replyMsg);
-						}
-					}
 
-					synchronized (obj) {
-						// job done, worker leaves
-						obj.removeWorker();
-					}
-
-				} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
-					logger.debug(String
-							.format("[%s] is waiting for reply", obj));
-					/*
-					 * TODO let the worker thread wait for a while, maybe the
-					 * reply come very soon. so that we can reuse current worker
-					 * for the same customer.
-					 */
-					synchronized (obj) {
-						if (obj.hasNewerUrgentMessageArrived(msg)) {
-							// continue work on reply
-							logger.debug("newer urgent messages arrived before worker leaves");
 						} else {
-							// worker leaves
-							obj.removeWorker();
-							break;
+							// notify the sender
 
+							if (msg.needCallback()) {
+
+								Message replyMsg = new Message(false,
+										msg.receiver, msg.sender, msg.callback,
+										msg.reply, ParameterStyle.ByName, msg,
+										MessageType.AsyncReply);
+
+								postService.sendMessage(replyMsg);
+
+							}
+						}
+
+					} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
+						logger.debug(String.format("[%s] is waiting for reply",
+								obj));
+						obj.setExpectMessageType(MessageType.SyncReply);
+						/*
+						 * TODO let the worker thread wait for a while, maybe
+						 * the reply come very soon. so that we can reuse
+						 * current worker for the same customer.
+						 */
+						synchronized (obj) {
+							if (obj.hasNewerMessageArrived(msg)) {
+								// continue work on reply
+								logger.debug("newer messages arrived before worker leaves");
+
+								// check
+								// if(obj.peekFirstMessage().previous!=msg)
+								// throw new
+								// RuntimeException("the newer message is not the SYNC-REPLY.");
+
+							} else {
+								// worker leaves
+								obj.removeWorker();
+								break;
+
+							}
 						}
 					}
-				}
+				}// end of process message
 			}
 
 			logger.debug(String.format("end processing msg '%s', msg.count %d",
-					msg.subject, obj.getMessageQueue().size()));
+					msg.toString(), obj.getMessageQueueSize()));
 		}
 
-		logger.debug(String.format("job for [%s] is done, worker leaves", obj));
+		logger.debug("finish work for customer:" + obj.getName());
 	}
 
 	private ExecutionStatus executeProcedure(Message msg, _Object obj,

@@ -26,7 +26,7 @@ public class ProcedureExecutionContext {
 
 	private Set<_Object> tempObjects;
 
-	ExecutionStatus executionStatus;
+	public ExecutionStatus executionStatus;
 
 	// used for multi-step instructions(such as SendMessage)
 	public int step = 0;

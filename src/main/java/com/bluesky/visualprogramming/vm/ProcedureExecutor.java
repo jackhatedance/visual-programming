@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
+import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
@@ -40,7 +41,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 		this.objectRepository = objectRepository;
 		this.postService = postService;
 		this.procedure = procedure;
-		this.ctx = ctx;		
+		this.ctx = ctx;
 	}
 
 	/**
@@ -175,9 +176,14 @@ public class ProcedureExecutor implements InstructionExecutor {
 						+ instruction.receiverVar);
 
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
+
+			MessageType msgType = MessageType.Normal;
+			if (sender == receiver)
+				msgType = MessageType.Recursive;
+
 			Message msg = new Message(instruction.sync, sender, receiver,
 					instruction.messageSubject, messageBody,
-					instruction.paramStyle,null);
+					instruction.paramStyle, null, msgType);
 
 			ctx.step = 1;
 
@@ -191,7 +197,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;
 
-			logger.debug("executeSendMessage, step 2.");
+			String replyValue = "";
+			if (reply != null)
+				replyValue = reply.getName();
+
+			logger.debug(String.format("executeSendMessage, step 2; %s=%s",
+					instruction.replyVar,replyValue));
 
 			ctx.setObject(instruction.replyVar, reply);
 

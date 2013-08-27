@@ -15,14 +15,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.goo.GooCompiler;
 import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
@@ -426,14 +424,6 @@ public class _Object implements Serializable {
 		return childrenMap.keySet().toArray(new String[0]);
 	}
 
-	public Deque<Message> getMessageQueue() {
-		return messageQueue;
-	}
-
-	public void setMessageQueue(Deque<Message> messageQueue) {
-		this.messageQueue = messageQueue;
-	}
-
 	public Procedure getProcedure(String name) {
 		Integer index = childrenMap.get(name);
 		if (index == null)
@@ -512,7 +502,7 @@ public class _Object implements Serializable {
 			messageQueue = new ArrayDeque<Message>();
 
 		String pos = "";
-		if (msg.urgent || msg.isReply() || msg.sender==this) {
+		if (msg.urgent || msg.isReply() || msg.sender == this) {
 			pos = "head";
 			messageQueue.addFirst(msg);
 		} else {
@@ -521,39 +511,87 @@ public class _Object implements Serializable {
 		}
 
 		boolean applyWorkerForMe = false;
-		
-		if (worker == null && !applyingWorker)
-		{
-			applyingWorker=true;
+
+		if (worker == null && !applyingWorker) {
+			applyingWorker = true;
 			applyWorkerForMe = true;
 		}
-		
-		logger.debug(String.format("a message added to queue %s, subject: %s, need-worker:%s",
-				pos, msg.subject,applyWorkerForMe));
+
+		logger.debug(String.format(
+				"a message added to queue %s, subject: %s, need-worker:%s",
+				pos, msg.subject, applyWorkerForMe));
 
 		return applyWorkerForMe;
 	}
 
 	public synchronized void assignWorkerIfNot(Worker worker) {
-		if(this.worker!=null)
+		if (this.worker != null)
 			throw new RuntimeException("worker already assigned");
-		
-		this.worker = worker;	
-		
+
+		this.worker = worker;
+
 		this.applyingWorker = false;
 	}
 
 	public synchronized void removeWorker() {
-		this.worker = null;		
+		this.worker = null;
 	}
-	
+
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
 
-	public boolean hasNewerUrgentMessageArrived(Message currentWorkingMessage) {
+	public synchronized boolean hasNewerMessageArrived(
+			Message currentWorkingMessage) {
 
 		return messageQueue.peekFirst() != currentWorkingMessage;
+	}
+
+	public synchronized Message peekFirstMessage() {
+		return messageQueue.peekFirst();
+	}
+
+	public synchronized boolean removeMessage(Message msg) {
+		return messageQueue.remove(msg);
+	}
+
+	public synchronized void addFirstMessage(Message msg) {
+		messageQueue.addFirst(msg);
+	}
+
+	public synchronized void addLastMessage(Message msg) {
+		messageQueue.addLast(msg);
+	}
+
+	public synchronized int getMessageQueueSize() {
+		return messageQueue.size();
+	}
+
+	private MessageType expectMessageType;
+
+	public void setExpectMessageType(MessageType type) {
+		this.expectMessageType = type;
+	}
+
+	public void checkMessageType(MessageType type) {
+		if (expectMessageType == null)
+			return;
+
+		if (expectMessageType != type)
+			throw new RuntimeException(String.format(
+					"expected %s but comes %s", expectMessageType, type));
+		else
+			expectMessageType = null;
+
+	}
+
+	public synchronized void printMessageQueue() {
+		Iterator<Message> it = messageQueue.iterator();
+
+		while (it.hasNext()) {
+			Message m = it.next();
+			System.out.println(m.toString());
+		}
 	}
 
 }
