@@ -46,10 +46,12 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ForInitContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.HeaderContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.IfStatementContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.LinkContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.MessgeNameContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NameValueContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NamedParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NumberContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ObjectLinkContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OrderedParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OwnAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ParamDeclareListContext;
@@ -784,5 +786,24 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitBlockOrStatment(BlockOrStatmentContext ctx) {
 
 		return visitChildren(ctx);
+	}
+
+	@Override
+	public Object visitObjectLink(ObjectLinkContext ctx) {
+		return ctx.link().accept(this);
+		
+	}
+
+	@Override
+	public Object visitLink(LinkContext ctx) {
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("link");
+		ins.objType = ObjectType.SOFT_LINK;
+		ins.literal = ctx.getText();
+
+		addInstruction(ins);
+		return ins.varName;
+
 	}
 }

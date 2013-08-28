@@ -1,37 +1,58 @@
 package com.bluesky.visualprogramming.protocol.xmpp;
 
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
 
 public class Test {
 	public static void main(String[] args) {
 
-		XMPPConnection connection = new XMPPConnection("jabber.me");
+		XMPPConnection connection = new XMPPConnection("getonsip.com");
 
 		try {
 			// Connect
 			connection.connect();
 
 			// Login with appropriate credentials
-			connection.login("jackhatedance", "HTpw1234");
+			connection.login("jackhatedance", "pw12#$");
 
-			// Get the user's roster
-			Roster roster = connection.getRoster();
+			ChatManager chatManager = connection.getChatManager();
+			Chat chat = chatManager.createChat("jackding@cisco.com",
+					new MessageListener() {
 
-			// Print the number of contacts
-			System.out.println("Number of contacts: " + roster.getEntryCount());
+						@Override
+						public void processMessage(Chat chat, Message msg) {
 
-			// Enumerate all contacts in the user's roster
-			for (RosterEntry entry : roster.getEntries()) {
-				System.out.println("User: " + entry.getUser());
-			}
+							try {
+
+								chat.sendMessage(String.format(
+										"why did you say '%s'", msg.getBody()));
+							} catch (XMPPException e) {
+
+								e.printStackTrace();
+							}
+						}
+					});
+			chat.sendMessage("hi");
+
 		} catch (XMPPException e) {
 			// Do something better than this!
 			e.printStackTrace();
 		} finally {
-			connection.disconnect();
+			//connection.disconnect();
+		}
+
+		boolean isRunning = true;
+		while (isRunning) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

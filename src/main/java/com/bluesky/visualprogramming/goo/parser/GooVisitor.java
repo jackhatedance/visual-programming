@@ -33,6 +33,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#link}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLink(@NotNull GooParser.LinkContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#returnStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,6 +131,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitNumber(@NotNull GooParser.NumberContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#messgeName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#RefAssignOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -136,13 +150,6 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSendMessage(@NotNull GooParser.SendMessageContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#messgeName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#AutoAssignOperator}.
@@ -208,6 +215,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitEmptyStatement(@NotNull GooParser.EmptyStatementContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#field}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitField(@NotNull GooParser.FieldContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#OwnAssignOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -222,11 +236,11 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitStatement(@NotNull GooParser.StatementContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link GooParser#field}.
+	 * Visit a parse tree produced by {@link GooParser#ObjectLink}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitField(@NotNull GooParser.FieldContext ctx);
+	T visitObjectLink(@NotNull GooParser.ObjectLinkContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#assignment}.

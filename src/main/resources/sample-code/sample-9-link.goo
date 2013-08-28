@@ -1,9 +1,8 @@
 procedure foo(a,b,c)
 {
-	a = b;	
-	a = 1;
-	a = "string";
-	a = true;	
+	 
+	a = true;
+	a = xmpp://jackding@123abc.com;
 	
 	self.getFoo().bar = "boo";
 }

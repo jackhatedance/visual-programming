@@ -60,10 +60,16 @@ expr: constant				#ConstantExpr
     | expr DOT messgeName '(' paramList? ')' #SendMessage
     ;
 
-constant : NUMBER			#Number
+constant : 
+ 
+         NUMBER			#Number
 	| STRING			#String
 	| BOOLEAN                      #Boolean 
+        | link            #ObjectLink
          ;
+
+link : LINK_PROTOCOL  LINK_ADDRESS;
+
 variable : ID;
 field   :   ID;
 messgeName : ID;
@@ -122,14 +128,21 @@ REF_ASSIGN : '->';
 OWN_ASSIGN : '=>';
 AUTO_ASSIGN: '='| '~>';
     
-    
-    
+
+//LINK : [a-zA-Z0-9]+ '://' [a-zA-Z0-9.]+ '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;   
+LINK_PROTOCOL : [a-zA-Z0-9]+ '://';
+LINK_ADDRESS : [a-zA-Z0-9.]+ '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
+//LINK_ID : [a-zA-Z0-9.]+;
+//LINK_DOMAIN : [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
+
 ID : [_a-zA-Z][a-zA-Z0-9]*;
 
 NUMBER : [0-9]+
 	| [0-9]+ '.' [0-9]+;
 	
 STRING : '"' ('\\"'|~["])* '"';	
+
+
 
 WS : [ \t\n\r]+ -> skip ;
 	

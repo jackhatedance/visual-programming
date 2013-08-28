@@ -56,6 +56,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterLink(@NotNull GooParser.LinkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLink(@NotNull GooParser.LinkContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterReturnStatement(@NotNull GooParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -225,6 +238,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterRefAssignOperator(@NotNull GooParser.RefAssignOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -245,19 +271,6 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitSendMessage(@NotNull GooParser.SendMessageContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -381,6 +394,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterField(@NotNull GooParser.FieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitField(@NotNull GooParser.FieldContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -407,13 +433,13 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterField(@NotNull GooParser.FieldContext ctx) { }
+	@Override public void enterObjectLink(@NotNull GooParser.ObjectLinkContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitField(@NotNull GooParser.FieldContext ctx) { }
+	@Override public void exitObjectLink(@NotNull GooParser.ObjectLinkContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

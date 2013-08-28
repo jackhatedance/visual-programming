@@ -13,7 +13,13 @@ import com.bluesky.visualprogramming.core._Object;
  */
 public class Communicator {
 
-	public void register(String protocol, String id, _Object obj) {
+	public void register(String protocol, String address, _Object obj) {
 
 	}
+	
+	public boolean isLocal(String protocol, String address){
+		
+		return false;
+	}
+	
 }

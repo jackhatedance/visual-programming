@@ -1,7 +1,6 @@
 package com.bluesky.visualprogramming.core;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,11 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.stream.FileImageInputStream;
-
 import org.apache.log4j.Logger;
-
-import com.bluesky.visualprogramming.messageEngine.Worker;
 
 public class ObjectRepository {
 
@@ -30,8 +25,12 @@ public class ObjectRepository {
 	static String DUMP_FILE = "objects";
 
 	long objectId;
-	Map<Long, _Object> objects = new HashMap<Long, _Object>();;
+	Map<Long, _Object> objects = new HashMap<Long, _Object>();
 	_Object rootObject;
+	
+	Map<String, _Object> objectUriMap = new HashMap<String, _Object>();
+	
+	
 
 	public ObjectRepository() {
 		// start from 0
@@ -175,6 +174,10 @@ public class ObjectRepository {
 		return objects.get(id);
 	}
 
+	public _Object getObjectByUri(String uri) {
+		return objectUriMap.get(uri);
+	}
+
 	public void save(String fileName) {
 
 		try {
@@ -296,4 +299,6 @@ public class ObjectRepository {
 		desc.area.y += 300;
 
 	}
+	
+	
 }
