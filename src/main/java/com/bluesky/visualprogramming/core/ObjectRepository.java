@@ -246,7 +246,9 @@ public class ObjectRepository {
 			if (line.trim().isEmpty())
 				continue;
 
-			logger.debug("parse line:" + line);
+			if (logger.isDebugEnabled())
+				logger.debug("parse line:" + line);
+
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
 			ObjectType type = ObjectType.valueOf(typeLiteral);

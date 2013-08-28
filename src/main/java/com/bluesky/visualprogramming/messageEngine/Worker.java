@@ -48,7 +48,8 @@ public class Worker implements Runnable {
 	 */
 	public void processMessages(_Object obj) {
 
-		logger.debug("start work for customer:" + obj.getName());
+		if (logger.isDebugEnabled())
+			logger.debug("start work for customer:" + obj.getName());
 
 		while (true) {
 			Message msg = null;
@@ -72,9 +73,10 @@ public class Worker implements Runnable {
 					break;
 				}
 
-				logger.debug(String.format(
-						"start processing msg '%s', msg.count %d ",
-						msg.toString(), obj.getMessageQueueSize()));
+				if (logger.isDebugEnabled())
+					logger.debug(String.format(
+							"start processing msg '%s', msg.count %d ",
+							msg.toString(), obj.getMessageQueueSize()));
 
 				// could be void
 				String replyValue = "";
@@ -82,9 +84,11 @@ public class Worker implements Runnable {
 					replyValue = msg.body.getValue();
 
 				if (msg.isSyncReply()) {
-					logger.debug(String.format(
-							"comes reply of '%s', value: %s",
-							msg.previous.toString(), replyValue));
+
+					if (logger.isDebugEnabled())
+						logger.debug(String.format(
+								"comes reply of '%s', value: %s",
+								msg.previous.toString(), replyValue));
 					/**
 					 * pick the reply body from current message, put into the
 					 * pending procedure.
@@ -106,7 +110,9 @@ public class Worker implements Runnable {
 
 					// push reply to next message
 					Message lastMessage = obj.peekFirstMessage();
-					logger.debug("last message:" + lastMessage.toString());
+
+					if (logger.isDebugEnabled())
+						logger.debug("last message:" + lastMessage.toString());
 					if (lastMessage.executionContext == null)
 						throw new RuntimeException(
 								"error: last message's execution context is null.");
@@ -127,8 +133,9 @@ public class Worker implements Runnable {
 					ExecutionStatus procedureExecutionStatus = msg.executionContext
 							.getExecutionStatus();
 
-					logger.debug("procedureExecutionStatus "
-							+ procedureExecutionStatus);
+					if (logger.isDebugEnabled())
+						logger.debug("procedureExecutionStatus "
+								+ procedureExecutionStatus);
 
 					if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
 
@@ -171,8 +178,10 @@ public class Worker implements Runnable {
 						}
 
 					} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
-						logger.debug(String.format("[%s] is waiting for reply",
-								obj));
+
+						if (logger.isDebugEnabled())
+							logger.debug(String.format(
+									"[%s] is waiting for reply", obj));
 						obj.setExpectMessageType(MessageType.SyncReply);
 						/*
 						 * TODO let the worker thread wait for a while, maybe
@@ -182,7 +191,9 @@ public class Worker implements Runnable {
 						synchronized (obj) {
 							if (obj.hasNewerMessageArrived(msg)) {
 								// continue work on reply
-								logger.debug("newer messages arrived before worker leaves");
+
+								if (logger.isDebugEnabled())
+									logger.debug("newer messages arrived before worker leaves");
 
 								// check
 								// if(obj.peekFirstMessage().previous!=msg)
@@ -200,12 +211,14 @@ public class Worker implements Runnable {
 				}
 			}// end of process one message
 
-			logger.debug(String.format(
-					"after processing msg '%s', msg.count %d", msg.toString(),
-					obj.getMessageQueueSize()));
+			if (logger.isDebugEnabled())
+				logger.debug(String.format(
+						"after processing msg '%s', msg.count %d",
+						msg.toString(), obj.getMessageQueueSize()));
 		}
 
-		logger.debug("finish work for customer:" + obj.getName());
+		if (logger.isDebugEnabled())
+			logger.debug("finish work for customer:" + obj.getName());
 	}
 
 	private void executeProcedure(Message msg, _Object obj, Procedure proc) {

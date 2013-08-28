@@ -86,7 +86,7 @@ public class Message {
 	 */
 	public void initExecutionContext(_Object root, String[] paramNames) {
 		executionContext = new ProcedureExecutionContext();
-		
+
 		executionContext.setExecutionStatus(ExecutionStatus.ON_GOING);
 
 		executionContext.setObject("root", root);
@@ -96,7 +96,8 @@ public class Message {
 		if (parameterStyle == ParameterStyle.ByName) {
 			for (String name : paramNames) {
 
-				logger.debug("push parameter to context:" + name);
+				if (logger.isDebugEnabled())
+					logger.debug("push parameter to context:" + name);
 
 				_Object p = body.getChild(name);
 				executionContext.setObject(name, p);
@@ -110,7 +111,8 @@ public class Message {
 				String name = paramNames[i];
 				_Object p = body.getChild(i);
 
-				logger.debug("push parameter to context:" + name);
+				if (logger.isDebugEnabled())
+					logger.debug("push parameter to context:" + name);
 
 				executionContext.setObject(name, p);
 			}

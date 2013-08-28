@@ -110,7 +110,7 @@ public class TreeParser {
 			// String separator = matcher.group(2);
 			tokens.add(token);
 			// tokens.add(separator);
-
+			if(logger.isDebugEnabled())
 			logger.debug(token);
 		}
 

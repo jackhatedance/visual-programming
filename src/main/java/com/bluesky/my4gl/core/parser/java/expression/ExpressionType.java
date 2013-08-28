@@ -141,7 +141,8 @@ public enum ExpressionType {
 	Constant {
 		@Override
 		public String getPattern() {
-			String s=String.format("(true|false|\\d+|\\d\\.\\d|\\'\\w\\'|\\\".*\\\")");
+			String s = String
+					.format("(true|false|\\d+|\\d\\.\\d|\\'\\w\\'|\\\".*\\\")");
 			return s;
 		}
 
@@ -168,8 +169,8 @@ public enum ExpressionType {
 	};
 
 	public abstract String getPattern();
-	
-	public String getLinePattern(){
+
+	public String getLinePattern() {
 		String linePattern = "^[\\t\\s]*" + getPattern() + ";?[\\t\\s]*$";
 		return linePattern;
 	}
@@ -188,8 +189,8 @@ public enum ExpressionType {
 	public Expression parse(String expression) {
 		try {
 			Expression exp = getExpressionClass().newInstance();
-
-			logger.debug("parsing:" + expression + ", as " + this);
+			if (logger.isDebugEnabled())
+				logger.debug("parsing:" + expression + ", as " + this);
 
 			exp.parse(expression);
 			return exp;
@@ -209,8 +210,7 @@ public enum ExpressionType {
 		String pInvocation = "";
 		String pConstant = "";
 		String pVariable = "";
-		
-		
+
 	}
 
 	public static ExpressionType getType(String s) {
@@ -233,14 +233,14 @@ public enum ExpressionType {
 
 	public static void main(String[] args) {
 
-//		String s1 = "Foo foo = a.b.c.bar.x(a,b.foo(x,y.getz()).getBar(),c);";
-//		ExpressionType et = ExpressionType.getType(s1);
-//		Expression e = et.createExpression(s1);
+		// String s1 = "Foo foo = a.b.c.bar.x(a,b.foo(x,y.getz()).getBar(),c);";
+		// ExpressionType et = ExpressionType.getType(s1);
+		// Expression e = et.createExpression(s1);
 
 		String[] ss = new String[] { "String s;", "Pattern p=b;",
 				"foo = new Foo(a,b,c);", "Integer i;", "//abc def",
 				"Foo foo = a.b.c.bar.x(a,b.foo(x,y.getz()).getBar(),c);",
-				"DebugConsole$.println(s2);","Object$.assign(1)"};
+				"DebugConsole$.println(s2);", "Object$.assign(1)" };
 		for (String s : ss) {
 			ExpressionType tt = ExpressionType.getType(s);
 			System.out.println(s + "  --  " + tt);

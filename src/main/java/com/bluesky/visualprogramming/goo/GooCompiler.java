@@ -398,7 +398,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitHeader(HeaderContext ctx) {
-		//System.out.println("header");
+		// System.out.println("header");
 		if (ctx.paramDeclareList() != null)
 			return ctx.paramDeclareList().accept(this);
 
@@ -552,7 +552,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		for (TerminalNode node : ctx.ID()) {
 			parameters.add(node.getText());
 
-			logger.debug("procedure parameter:" + node.getText());
+			if (logger.isDebugEnabled())
+				logger.debug("procedure parameter:" + node.getText());
 		}
 		return null;
 	}

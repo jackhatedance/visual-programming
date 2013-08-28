@@ -76,7 +76,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
 		// execute it
-		logger.debug(instruction.toString());
+		if (logger.isDebugEnabled())
+			logger.debug(instruction.toString());
+
 		ExecutionStatus es = instruction.type.execute(this, instruction);
 
 		// goto instruction update index by them self
@@ -133,7 +135,8 @@ public class ProcedureExecutor implements InstructionExecutor {
 		BooleanValue b = (BooleanValue) actualObject;
 		if (b.getBooleanValue() == instruction.expected) {
 
-			logger.debug("condition meets, goto");
+			if (logger.isDebugEnabled())
+				logger.debug("condition meets, goto");
 			Integer index = procedure
 					.getLabelIndex(instruction.destinationLabel);
 			if (index == null)
@@ -189,7 +192,8 @@ public class ProcedureExecutor implements InstructionExecutor {
 			// sender.sleep();
 			postService.sendMessage(msg);
 
-			logger.debug("executeSendMessage, step 1 end; waiting...");
+			if (logger.isDebugEnabled())
+				logger.debug("executeSendMessage, step 1 end; waiting...");
 
 			return ExecutionStatus.WAITING;
 		} else if (ctx.step == 1) {
@@ -200,8 +204,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 			if (reply != null)
 				replyValue = reply.getValue();
 
-			logger.debug(String.format("executeSendMessage, step 2; %s=%s",
-					instruction.replyVar, replyValue));
+			if (logger.isDebugEnabled())
+				logger.debug(String.format("executeSendMessage, step 2; %s=%s",
+						instruction.replyVar, replyValue));
 
 			ctx.setObject(instruction.replyVar, reply);
 

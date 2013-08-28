@@ -76,7 +76,9 @@ public class Parser {
 
 		// parse the package name
 		result.setDomain(getPackageName(line));
-		logger.debug("find package:" + result.getDomain());
+
+		if (logger.isDebugEnabled())
+			logger.debug("find package:" + result.getDomain());
 
 		// find imports
 		while (true) {
@@ -90,8 +92,9 @@ public class Parser {
 					String fullClassName = imports[1];
 					result.getImports().put(className, fullClassName);
 
-					logger.debug("find import:" + className + ",["
-							+ fullClassName + "]");
+					if (logger.isDebugEnabled())
+						logger.debug("find import:" + className + ",["
+								+ fullClassName + "]");
 				} else {
 					break;
 
@@ -113,7 +116,8 @@ public class Parser {
 		if (ClassTokenType.getType(line) != ClassTokenType.Class)
 			throw new RuntimeException("it is not a class:" + line);
 
-		logger.debug("find class:" + line);
+		if (logger.isDebugEnabled())
+			logger.debug("find class:" + line);
 		// find the end of the class
 		int blockEndLineNumber = endOfBlock(codeLines, lineNumber, true);
 		parseClassBody(codeLines.subList(lineNumber, blockEndLineNumber + 1),
@@ -167,8 +171,12 @@ public class Parser {
 				clazz.setName(className);
 				clazz.setSuperClass(ClassLibrary
 						.getClass(ClassLibrary.CLASS_NAME_Object));
-				logger.debug("class:" + className);
-				logger.debug("super class:" + superClassName);
+
+				if (logger.isDebugEnabled())
+					logger.debug("class:" + className);
+
+				if (logger.isDebugEnabled())
+					logger.debug("super class:" + superClassName);
 			} else
 				throw new RuntimeException("unknown class declaration.");
 		}
@@ -199,7 +207,8 @@ public class Parser {
 							varName);
 					clazz.getFields().add(field);
 
-					logger.debug("find field:" + field);
+					if (logger.isDebugEnabled())
+						logger.debug("find field:" + field);
 
 				} else
 					break;
@@ -215,10 +224,11 @@ public class Parser {
 
 				int endIndex = endOfBlock(codeLines, lineNumber, false);
 
-				Method method = parseMethod(codeLines.subList(lineNumber,
-						endIndex + 1), clazz);
+				Method method = parseMethod(
+						codeLines.subList(lineNumber, endIndex + 1), clazz);
 
-				logger.debug("got method:" + method.getName());
+				if (logger.isDebugEnabled())
+					logger.debug("got method:" + method.getName());
 
 				clazz.addMethod(method);
 
@@ -264,12 +274,13 @@ public class Parser {
 
 					String[] ss = p.split(" ");
 					String fullClassName = clazz.getFullClassName(ss[0]);
-					method.addParameter(ss[1], ClassLibrary
-							.getClass(fullClassName));
+					method.addParameter(ss[1],
+							ClassLibrary.getClass(fullClassName));
 				}
 			}
 
-			logger.debug("find method:" + method);
+			if (logger.isDebugEnabled())
+				logger.debug("find method:" + method);
 		} else
 			throw new RuntimeException("it is not a method:" + line);
 
@@ -337,7 +348,7 @@ public class Parser {
 			// following
 			if (endLine
 					.matches("[\\t\\s]*\\}[\\t\\s]*else[\\t\\s]*\\{[\\t\\s]*")) {
-				 
+
 				int endIndexOfElseBlock = endOfBlock(codeLines,
 						endIndexOfIf + 1, false);
 				endBlockCodeLines = codeLines.subList(endIndexOfIf + 1,
@@ -374,8 +385,8 @@ public class Parser {
 			DeclarationAssignmentExpression dae = (DeclarationAssignmentExpression) exp;
 
 			TreeParser treeParser = new TreeParser();
-			List<String> primitiveInstructions = treeParser.parse(dae
-					.getRightExpression(), dae.getReturnName());
+			List<String> primitiveInstructions = treeParser.parse(
+					dae.getRightExpression(), dae.getReturnName());
 
 			// add a local variable declaration instruction on top
 
@@ -387,8 +398,8 @@ public class Parser {
 			NormalAssignmentExpression nae = (NormalAssignmentExpression) exp;
 
 			TreeParser treeParser = new TreeParser();
-			List<String> primitiveInstructions = treeParser.parse(nae
-					.getRightExpression(), nae.getLeftExpression());
+			List<String> primitiveInstructions = treeParser.parse(
+					nae.getRightExpression(), nae.getLeftExpression());
 
 			// the root node is a single-value node. like 'a=b'
 			if (primitiveInstructions.isEmpty()) {
@@ -516,7 +527,7 @@ public class Parser {
 				 */
 				if (line.matches("[\\t\\s]*\\}.*"))
 					depth--;
-				
+
 				if (line.matches(".*\\{[\\t\\s]*"))
 					depth++;
 
@@ -543,9 +554,9 @@ public class Parser {
 		return i;
 	}
 
-	public Class parseAndCompile(InputStream stream,String charEncodingName) {
+	public Class parseAndCompile(InputStream stream, String charEncodingName) {
 		try {
-			Reader reader = new InputStreamReader(stream,charEncodingName);
+			Reader reader = new InputStreamReader(stream, charEncodingName);
 
 			BufferedReader input = new BufferedReader(reader);
 
@@ -578,8 +589,8 @@ public class Parser {
 		interpreter.run("com.bluesky.my4gl.example.HelloWorld2", "mainFib",
 				new String[] { "10" });
 
-//		interpreter.run("com.bluesky.my4gl.example.HelloWorld2", "testInt",
-//				new String[] { "5" });
+		// interpreter.run("com.bluesky.my4gl.example.HelloWorld2", "testInt",
+		// new String[] { "5" });
 
 		NativeObject<String> so = (NativeObject<String>) ClassLibrary.getClass(
 				PrimitiveType.String).createObject();

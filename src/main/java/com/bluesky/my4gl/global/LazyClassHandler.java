@@ -38,11 +38,17 @@ public class LazyClassHandler implements InvocationHandler {
 			throw new RuntimeException("class not found:" + fullClassName);
 
 		try {
+			
+			if(logger.isDebugEnabled())
 			logger.debug("method starts..." + method);
 			o = method.invoke(delegate, args);
+			
+			if(logger.isDebugEnabled())
 			logger.debug("method ends..." + method);
 		} catch (Exception e) {
-			logger.debug("Exception happends...+"+e.getMessage());
+			
+			if(logger.isDebugEnabled())
+				logger.debug("Exception happends...+"+e.getMessage());
 			throw e;
 		}
 		return o;

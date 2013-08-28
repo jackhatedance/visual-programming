@@ -108,8 +108,9 @@ public class Interpreter {
 
 			ctx.setCurrentNode(currentNode);
 
-			logger.debug("begin execute ctx:" + ctx + "; stack depth:"
-					+ stack.size());
+			if (logger.isDebugEnabled())
+				logger.debug("begin execute ctx:" + ctx + "; stack depth:"
+						+ stack.size());
 			// logger.debug("begin execute node:" + currentNode.toString());
 
 			nextNode = executeNode(currentNode);
@@ -129,9 +130,7 @@ public class Interpreter {
 		String statisticsInfo = String.format(
 				"%d nodes executed in %d milliseconds, %f milliseconds/node",
 				count, timeCost, timePerNode);
-		logger
-				.info("my4gl interpreter execution statistics: "
-						+ statisticsInfo);
+		logger.info("my4gl interpreter execution statistics: " + statisticsInfo);
 
 		if (initCtx.method.getReturnClassName() != null)
 			return initCtx.getReturnValue();
@@ -306,8 +305,8 @@ public class Interpreter {
 
 	protected com.bluesky.my4gl.core.Object executeInstruction_MethodInvoke(
 			MethodInvocationInstruction instruction) {
-
-		logger.debug("execute invocattion:" + instruction);
+		if (logger.isDebugEnabled())
+			logger.debug("execute invocattion:" + instruction);
 
 		ExceutionContext ctx = getCurrentInvocation();
 
@@ -341,8 +340,8 @@ public class Interpreter {
 		if (method.isNativeMethod()) {
 			NativeClass nc = method.getClazz().getNativeClass();
 
-			result = nc.invoke(ctx, obj, method.getName(), getObjectArray(ctx,
-					mii.getParameters()));
+			result = nc.invoke(ctx, obj, method.getName(),
+					getObjectArray(ctx, mii.getParameters()));
 
 			// has return value
 			if (mii.getReturnName() != null) {
@@ -363,8 +362,8 @@ public class Interpreter {
 				throw new RuntimeException("unknow message:"
 						+ mii.getMethodName());
 
-			newInv.parameters = getObjectMap(ctx, newInv.method, mii
-					.getParameters());
+			newInv.parameters = getObjectMap(ctx, newInv.method,
+					mii.getParameters());
 
 			initLocalVariables(newInv.method, newInv);
 

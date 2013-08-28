@@ -472,7 +472,8 @@ public class _Object implements Serializable {
 			try {
 				CompiledProcedure cp = type.getCompiler().compile(p.code);
 
-				logger.debug(cp.getInstructionText());
+				if (logger.isDebugEnabled())
+					logger.debug(cp.getInstructionText());
 
 				p.compiled = cp;
 
@@ -517,9 +518,10 @@ public class _Object implements Serializable {
 			applyWorkerForMe = true;
 		}
 
-		logger.debug(String.format(
-				"a message added to queue %s, subject: %s, need-worker:%s",
-				pos, msg.subject, applyWorkerForMe));
+		if (logger.isDebugEnabled())
+			logger.debug(String.format(
+					"a message added to queue %s, subject: %s, need-worker:%s",
+					pos, msg.subject, applyWorkerForMe));
 
 		return applyWorkerForMe;
 	}
