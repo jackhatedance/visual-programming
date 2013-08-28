@@ -7,8 +7,7 @@ import org.jivesoftware.smack.XMPPException;
 
 public class Test {
 	public static void main(String[] args) {
-		// Create XMPP connection to gmail.com server
-		//XMPPConnection connection = new XMPPConnection("gmail.com");
+
 		XMPPConnection connection = new XMPPConnection("jabber.me");
 
 		try {
@@ -16,10 +15,8 @@ public class Test {
 			connection.connect();
 
 			// Login with appropriate credentials
-			//connection.login("jackding", "HTpw1234b");
-			//connection.login("jackhatedance", "2085764");
 			connection.login("jackhatedance", "HTpw1234");
-			
+
 			// Get the user's roster
 			Roster roster = connection.getRoster();
 
@@ -33,6 +30,8 @@ public class Test {
 		} catch (XMPPException e) {
 			// Do something better than this!
 			e.printStackTrace();
+		} finally {
+			connection.disconnect();
 		}
 	}
 }
