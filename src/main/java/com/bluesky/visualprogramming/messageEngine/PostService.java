@@ -137,13 +137,8 @@ public class PostService implements Runnable {
 
 	}
 
-	/**
-	 * create remote agents for all objects in repo.
-	 * 
-	 * @param objectRepository2
-	 */
 	public void recreateAgents(ObjectRepository objectRepository2) {
 		// TODO Auto-generated method stub
-
+		
 	}
 }

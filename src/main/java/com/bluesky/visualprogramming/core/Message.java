@@ -13,7 +13,7 @@ public class Message {
 	public boolean sync;
 	public _Object sender;
 	/**
-	 * receiver could be real object or link(URI)
+	 * receiver could be real object or link(UOI)
 	 */
 	public _Object receiver;	
 	

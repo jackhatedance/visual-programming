@@ -23,6 +23,10 @@ public class VirtualMachine {
 
 	private static VirtualMachine instance = null;
 
+//	public static void setInstance(VirtualMachine inst) {
+//		instance = inst;
+//	}
+
 	public static VirtualMachine getInstance() {
 		if(instance==null)
 			instance = new VirtualMachine();
