@@ -13,6 +13,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutor;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Worker implements Runnable {
 	static Logger logger = Logger.getLogger(Worker.class);
@@ -264,7 +265,9 @@ public class Worker implements Runnable {
 			Class cls = Class.forName(proc.nativeProcedureClassName);
 			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
 
-			nativeP.execute(obj, msg.executionContext, msg);
+			VirtualMachine vm = VirtualMachine.getInstance();
+
+			nativeP.execute(vm, obj, msg.executionContext, msg);
 
 		} catch (Exception e) {
 			throw new RuntimeException(

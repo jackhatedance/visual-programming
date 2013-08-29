@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,6 @@ public class ObjectRepository {
 	long objectId;
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();
 	_Object rootObject;
-	
-	Map<String, _Object> objectUriMap = new HashMap<String, _Object>();
-	
-	
 
 	public ObjectRepository() {
 		// start from 0
@@ -174,10 +171,6 @@ public class ObjectRepository {
 		return objects.get(id);
 	}
 
-	public _Object getObjectByUri(String uri) {
-		return objectUriMap.get(uri);
-	}
-
 	public void save(String fileName) {
 
 		try {
@@ -255,7 +248,7 @@ public class ObjectRepository {
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
 			ObjectType type = ObjectType.valueOf(typeLiteral);
-			_Object newObject = type.create(objectId++);
+			_Object newObject = type.create(-1);
 
 			newObject.fromText(line);
 			objects.put(newObject.getId(), newObject);
@@ -282,6 +275,9 @@ public class ObjectRepository {
 			if (owner != null)
 				owner.addChild(o, o.getName(), true);
 		}
+
+		
+
 	}
 
 	public void loadSampleObjects() {
@@ -299,6 +295,8 @@ public class ObjectRepository {
 		desc.area.y += 300;
 
 	}
-	
-	
+
+	public Collection<_Object> getAllObjects(){
+		return objects.values();
+	}
 }

@@ -1,42 +1,92 @@
 package com.bluesky.visualprogramming.vm;
 
-import org.antlr.v4.runtime.tree.gui.PostScriptDocument;
-
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.messageEngine.WorkerManager;
 
+/**
+ * one vm start with one image.
+ * 
+ * @author jack
+ * 
+ */
 public class VirtualMachine {
 	private ObjectRepository objectRepository;
-	private WorkerManager workerManager;
-	private PostService postService;
 
-	private static VirtualMachine instance;
+	private WorkerManager workerManager;
+	private Thread workerManagerThread;
+
+	private PostService postService;
+	private Thread postServiceThread;
+
+	private boolean running = false;
+
+	private static VirtualMachine instance = null;
 
 	public static VirtualMachine getInstance() {
+		if(instance==null)
+			instance = new VirtualMachine();
+		
 		return instance;
-	}
-
-	static {
-		instance = new VirtualMachine();
-
 	}
 
 	public VirtualMachine() {
 		objectRepository = new ObjectRepository();
+		
 
-		workerManager = new WorkerManager();
 		postService = new PostService();
+		workerManager = new WorkerManager();
 
+		/*
+		 * workerManager and postService only need each other at runtime.
+		 */
 		workerManager.init(objectRepository, postService);
 		postService.init(objectRepository, workerManager);
 
-		Thread t = new Thread(workerManager,"WorkerManager");
-		t.start();
+		workerManagerThread = new Thread(workerManager, "WorkerManager");
+
+		postServiceThread = new Thread(postService, "PostService");
+	}
+	
+	public void loadFromImage(String file){
+		objectRepository.load(file);
 		
-		Thread t2 = new Thread(postService,"PostService");
-		t2.start();
-		
+		postService.recreateAgents(objectRepository);
+	}
+
+	public void start() {
+
+		workerManagerThread.start();
+		postServiceThread.start();
+
+		running = true;
+	}
+
+	public void pause() {
+
+		try {
+			workerManager.stop();
+
+			workerManagerThread.join();
+
+			postService.stop();
+
+			postServiceThread.join();
+
+			running = false;
+		} catch (InterruptedException e) {
+
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	public void resume() {
+
+		workerManagerThread.start();
+		postServiceThread.start();
+
+		running = true;
 	}
 
 	public ObjectRepository getObjectRepository() {

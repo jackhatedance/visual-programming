@@ -18,12 +18,12 @@ public class GreaterThan extends BaseNativeProcedure implements
 	 
 
 	@Override
-	protected _Object execute(_Object self,ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self,ProcedureExecutionContext ctx) {
 		IntegerValue num = (IntegerValue) ctx.get("num");
 
 		IntegerValue selfInt = (IntegerValue) self;
 
-		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
+		BooleanValue bv = (BooleanValue) virtualMachine
 				.getObjectRepository().createObject(ObjectType.BOOLEAN);
 
 		bv.setBooleanValue(selfInt.getIntValue() > num.getIntValue());

@@ -22,7 +22,8 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class ObjectPropertyDialog extends JDialog {
-
+	
+	
 	private final JPanel contentPanel = new JPanel();
 
 	private _Object object;

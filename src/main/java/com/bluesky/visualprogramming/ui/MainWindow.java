@@ -80,8 +80,7 @@ public class MainWindow extends JPanel {
 
 	public MainWindow(JFrame frame) {
 		super(new GridLayout(1, 0));
-		
-		
+
 		objectRepository = VirtualMachine.getInstance().getObjectRepository();
 		postService = VirtualMachine.getInstance().getPostService();
 
@@ -102,7 +101,6 @@ public class MainWindow extends JPanel {
 		// Add the split pane to this panel.
 		add(splitPane);
 
-		
 	}
 
 	private void createTreePanel() {
@@ -136,7 +134,7 @@ public class MainWindow extends JPanel {
 	private DefaultMutableTreeNode createTreeNode(_Object obj) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(obj);
 
-		for(int i=0;i<obj.getChildCount();i++){		
+		for (int i = 0; i < obj.getChildCount(); i++) {
 			_Object childObj = obj.getChild(i);
 			DefaultMutableTreeNode childNode = createTreeNode(childObj);
 			node.add(childNode);
@@ -286,6 +284,7 @@ public class MainWindow extends JPanel {
 	public void load(String fileName) {
 
 		objectRepository.load(fileName);
+		//VirtualMachine.getInstance().getPostService().init(objectRepository, workerManager)
 
 		createTreePanel();
 
@@ -426,8 +425,7 @@ public class MainWindow extends JPanel {
 		Point p = CanvasUtils.scaleBack(mousePos,
 				getSelectedTreeObject().scaleRate);
 
-		for(int i=0;i<obj.getChildCount();i++)
-		{
+		for (int i = 0; i < obj.getChildCount(); i++) {
 			_Object c = obj.getChild(i);
 			// set all to notSelected
 			c.selectedStatus = SelectedStatus.NotSelected;

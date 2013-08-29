@@ -11,13 +11,13 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class ToString extends BaseNativeProcedure implements NativeProcedure {
 
-	 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine, _Object self,
+			ProcedureExecutionContext ctx) {
 		TimeValue selfTime = (TimeValue) self;
 
-		StringValue result = (StringValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.STRING);
+		StringValue result = (StringValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.STRING);
 
 		result.setValue(String.valueOf(selfTime.getTextValue()));
 

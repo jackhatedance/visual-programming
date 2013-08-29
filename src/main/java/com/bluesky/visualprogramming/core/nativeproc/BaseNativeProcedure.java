@@ -10,25 +10,20 @@ import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public abstract class BaseNativeProcedure implements NativeProcedure {
 
+	public void execute(VirtualMachine virtualMachine, _Object self,
+			ProcedureExecutionContext ctx, Message msg) {
 
-	public BaseNativeProcedure() {
-		// this.parameterNams = new String[] { "content" };
-	}
-
-	public void execute(_Object self, ProcedureExecutionContext ctx,
-			Message msg) {
-
-		_Object reply = execute(self, ctx);
+		_Object reply = execute(virtualMachine, self, ctx);
 
 		msg.executionContext.setResult(reply);
-		msg.executionContext.setExecutionStatus( ExecutionStatus.COMPLETE);		
+		msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
 	};
 
-	protected abstract _Object execute(_Object self,
-			ProcedureExecutionContext ctx);
+	protected abstract _Object execute(VirtualMachine virtualMachine,
+			_Object self, ProcedureExecutionContext ctx);
 
-	
 }

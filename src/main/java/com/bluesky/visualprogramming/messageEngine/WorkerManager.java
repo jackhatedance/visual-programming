@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
@@ -21,7 +23,7 @@ public class WorkerManager implements Runnable {
 	 */
 	private BlockingQueue<_Object> customers;
 
-	private boolean running;
+	private volatile boolean running = true;
 
 	private ObjectRepository objectRepository;
 	private PostService postService;
@@ -66,16 +68,14 @@ public class WorkerManager implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
+		while (running) {
 			_Object cust;
 			try {
 				cust = customers.take();
 				assign(cust);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
-
 			}
-
 		}
 
 	}
@@ -88,6 +88,10 @@ public class WorkerManager implements Runnable {
 		Worker worker = new Worker(objectRepository, this, postService, cust);
 
 		executorServie.execute(worker);
+	}
+
+	public synchronized void stop() {
+		running = false;
 	}
 
 }

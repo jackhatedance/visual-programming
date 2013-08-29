@@ -17,12 +17,12 @@ public class Equals extends BaseNativeProcedure implements
 
 	 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		BooleanValue bValue = (BooleanValue) ctx.get("b");
 
 		BooleanValue selfValue = (BooleanValue) self;
 
-		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
+		BooleanValue bv = (BooleanValue) virtualMachine
 				.getObjectRepository().createObject(ObjectType.BOOLEAN);
 
 		bv.setBooleanValue(selfValue.getBooleanValue() == bValue.getBooleanValue());

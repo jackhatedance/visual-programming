@@ -15,15 +15,14 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class GreaterThanOrEqualTo extends BaseNativeProcedure implements
 		NativeProcedure {
 
-	 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		IntegerValue num = (IntegerValue) ctx.get("num");
 
 		IntegerValue selfInt = (IntegerValue) self;
 
-		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.BOOLEAN);
+		BooleanValue bv = (BooleanValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.BOOLEAN);
 
 		bv.setBooleanValue(selfInt.getIntValue() >= num.getIntValue());
 

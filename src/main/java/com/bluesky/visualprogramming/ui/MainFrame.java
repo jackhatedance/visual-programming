@@ -31,15 +31,14 @@ public class MainFrame extends JFrame {
 	String DEFAULT_IMAGE_FILE_NAME = "visual-programming.txt";
 
 	MainWindow mainWindow = null;
-	ObjectRepository objectRepository;
 
 	public MainFrame() {
-		objectRepository = VirtualMachine.getInstance().getObjectRepository();
 
 		initMenu();
 
 		// Add content to the window.
 		mainWindow = new MainWindow(this);
+
 		getContentPane().add(mainWindow);
 
 		JToolBar toolBar = new JToolBar();
@@ -113,7 +112,11 @@ public class MainFrame extends JFrame {
 		eMenuItem = new JMenuItem("Save");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				objectRepository.save(DEFAULT_IMAGE_FILE_NAME);
+				VirtualMachine vm = VirtualMachine.getInstance();
+
+				vm.pause();
+				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME);
+				vm.resume();
 			}
 
 		});
@@ -141,7 +144,9 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args) {
 
 		// init Object Repository
-		VirtualMachine.getInstance().getObjectRepository().loadSampleObjects();
+		VirtualMachine vm = new VirtualMachine();
+
+		vm.getObjectRepository().loadSampleObjects();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

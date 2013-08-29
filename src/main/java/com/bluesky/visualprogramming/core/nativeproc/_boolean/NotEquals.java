@@ -12,20 +12,19 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class NotEquals extends BaseNativeProcedure implements
-		NativeProcedure {
+public class NotEquals extends BaseNativeProcedure implements NativeProcedure {
 
- 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		BooleanValue bValue = (BooleanValue) ctx.get("b");
 
 		BooleanValue selfValue = (BooleanValue) self;
 
-		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.BOOLEAN);
+		BooleanValue bv = (BooleanValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.BOOLEAN);
 
-		bv.setBooleanValue(selfValue.getBooleanValue() != bValue.getBooleanValue());
+		bv.setBooleanValue(selfValue.getBooleanValue() != bValue
+				.getBooleanValue());
 
 		return bv;
 	}

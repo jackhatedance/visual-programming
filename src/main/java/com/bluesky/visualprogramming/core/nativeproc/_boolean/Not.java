@@ -14,14 +14,13 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Not extends BaseNativeProcedure implements NativeProcedure {
 
- 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 
 		BooleanValue selfValue = (BooleanValue) self;
 
-		BooleanValue bv = (BooleanValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.BOOLEAN);
+		BooleanValue bv = (BooleanValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.BOOLEAN);
 
 		bv.setBooleanValue(!selfValue.getBooleanValue());
 

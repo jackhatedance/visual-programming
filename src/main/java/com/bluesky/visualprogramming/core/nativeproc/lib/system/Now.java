@@ -13,10 +13,10 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class Now extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 
-		TimeValue result = (TimeValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.TIME);
+		TimeValue result = (TimeValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.TIME);
 
 		return result;
 	}

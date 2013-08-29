@@ -16,10 +16,10 @@ public class ToString extends BaseNativeProcedure implements NativeProcedure {
 
 	 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		IntegerValue selfInt = (IntegerValue) self;
 
-		StringValue result = (StringValue) VirtualMachine.getInstance()
+		StringValue result = (StringValue) virtualMachine
 				.getObjectRepository().createObject(ObjectType.STRING);
 
 		result.setValue(String.valueOf(selfInt.getIntValue()));

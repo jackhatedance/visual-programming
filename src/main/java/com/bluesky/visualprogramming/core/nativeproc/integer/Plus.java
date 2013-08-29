@@ -14,15 +14,14 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Plus extends BaseNativeProcedure implements NativeProcedure {
 
-	 
-
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine, _Object self,
+			ProcedureExecutionContext ctx) {
 		IntegerValue num = (IntegerValue) ctx.get("num");
 
 		IntegerValue selfInt = (IntegerValue) self;
 
-		IntegerValue result = (IntegerValue) VirtualMachine.getInstance()
+		IntegerValue result = (IntegerValue) virtualMachine
 				.getObjectRepository().createObject(ObjectType.INTEGER);
 
 		result.setIntValue(selfInt.getIntValue() + num.getIntValue());

@@ -12,7 +12,11 @@ public class Message {
 
 	public boolean sync;
 	public _Object sender;
-	public _Object receiver;
+	/**
+	 * receiver could be real object or link(URI)
+	 */
+	public _Object receiver;	
+	
 	public String subject;
 	public _Object body;
 	public ParameterStyle parameterStyle;

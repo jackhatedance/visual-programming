@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.core.nativeproc.string;
 
 import java.util.Map;
 
+import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
@@ -14,18 +15,18 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Concatenate extends BaseNativeProcedure implements NativeProcedure {
 
-	 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine, _Object self,
+			ProcedureExecutionContext ctx) {
 		StringValue str = (StringValue) ctx.get("str");
 
 		StringValue selfStr = (StringValue) self;
 
-		StringValue result = (StringValue) VirtualMachine.getInstance()
-				.getObjectRepository().createObject(ObjectType.STRING);
+		StringValue result = (StringValue) virtualMachine.getObjectRepository()
+				.createObject(ObjectType.STRING);
 
-		String newStr = selfStr.getValue().concat(str.getValue()); 
-		
+		String newStr = selfStr.getValue().concat(str.getValue());
+
 		result.setValue(newStr);
 
 		return result;

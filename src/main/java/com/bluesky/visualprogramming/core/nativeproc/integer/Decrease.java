@@ -17,7 +17,7 @@ public class Decrease extends BaseNativeProcedure implements NativeProcedure {
 	
 
 	@Override
-	protected _Object execute(_Object self, ProcedureExecutionContext ctx) {
+	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		
 		IntegerValue selfInt = (IntegerValue) self;
 		IntegerValue num = (IntegerValue) ctx.get("num");
