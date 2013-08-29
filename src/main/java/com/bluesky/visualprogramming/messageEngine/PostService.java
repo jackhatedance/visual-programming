@@ -12,6 +12,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.link.SoftLink;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
 
@@ -28,6 +29,34 @@ public class PostService implements Runnable {
 			WorkerManager workerManager) {
 		this.objectRepository = objectRepository;
 		this.workerManager = workerManager;
+
+		createCommunicationAgents();
+	}
+
+	private void createCommunicationAgents() {
+		// create agent for alias
+		// linking
+		for (_Object o : objectRepository.getAllObjects()) {
+
+			System.out.println(o.getName());
+			_Object aliases = o.getChild("_aliases");
+			if (aliases != null) {        
+				for (int i = 0; i < aliases.getChildCount(); i++) {
+					_Object alias = aliases.getChild(i);
+
+					ProtocolType pt = ProtocolType.valueOf(((StringValue) alias
+							.getChild("protocol")).getValue().toUpperCase());
+					StringValue address = (StringValue) alias
+							.getChild("address");
+					StringValue connectionOptions = (StringValue) alias
+							.getChild("connectionOptions");
+
+					remoteCommunicationService.register(pt, address.getValue(),
+							o, connectionOptions.getValue());
+				}
+			}
+
+		}
 	}
 
 	public void sendMessage(Message msg) {

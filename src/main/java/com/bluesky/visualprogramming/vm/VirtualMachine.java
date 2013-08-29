@@ -9,7 +9,10 @@ import com.bluesky.visualprogramming.messageEngine.WorkerManager;
 public class VirtualMachine {
 	private ObjectRepository objectRepository;
 	private WorkerManager workerManager;
+	private Thread workerManagerThread;
+
 	private PostService postService;
+	private Thread postServiceThread;
 
 	private static VirtualMachine instance;
 
@@ -23,6 +26,14 @@ public class VirtualMachine {
 	}
 
 	public VirtualMachine() {
+
+	}
+
+	public void loadImage(String file){
+		objectRepository.load(file);
+	}
+	
+	public void start() {
 		objectRepository = new ObjectRepository();
 
 		workerManager = new WorkerManager();
@@ -31,12 +42,15 @@ public class VirtualMachine {
 		workerManager.init(objectRepository, postService);
 		postService.init(objectRepository, workerManager);
 
-		Thread t = new Thread(workerManager,"WorkerManager");
-		t.start();
-		
-		Thread t2 = new Thread(postService,"PostService");
-		t2.start();
-		
+		workerManagerThread = new Thread(workerManager, "WorkerManager");
+		workerManagerThread.start();
+
+		postServiceThread = new Thread(postService, "PostService");
+		postServiceThread.start();
+	}
+
+	public void stop() {
+
 	}
 
 	public ObjectRepository getObjectRepository() {

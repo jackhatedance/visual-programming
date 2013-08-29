@@ -12,7 +12,10 @@ public class Message {
 
 	public boolean sync;
 	public _Object sender;
-	public _Object receiver;
+	
+	//public _Object receiver;
+	public 
+	
 	public String subject;
 	public _Object body;
 	public ParameterStyle parameterStyle;

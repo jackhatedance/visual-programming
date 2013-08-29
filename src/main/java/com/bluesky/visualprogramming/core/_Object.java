@@ -229,7 +229,8 @@ public class _Object implements Serializable {
 	}
 
 	public void removeChild(_Object obj) {
-
+		Integer index = childrenList.indexOf(obj);
+		removeChild(index);
 	}
 
 	public void clearChildren() {
