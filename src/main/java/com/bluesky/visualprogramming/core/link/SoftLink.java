@@ -35,6 +35,14 @@ public class SoftLink extends Link {
 
 	}
 
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
 	public static void main(String[] args) {
 		String value = "xmpp://jack@abc.com";
 		int idx1 = value.indexOf(':');
