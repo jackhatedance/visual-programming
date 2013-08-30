@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.protocol.xmpp;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -20,6 +21,15 @@ public class Test {
 			connection.login("jackhatedance", "pw12#$");
 
 			ChatManager chatManager = connection.getChatManager();
+			chatManager.addChatListener(new ChatManagerListener() {
+				
+				@Override
+				public void chatCreated(Chat chat, boolean createdLocally) {
+			
+					
+				}
+			});
+			
 			Chat chat = chatManager.createChat("jackding@cisco.com",
 					new MessageListener() {
 

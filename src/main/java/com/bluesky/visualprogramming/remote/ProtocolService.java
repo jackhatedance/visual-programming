@@ -19,7 +19,7 @@ public interface ProtocolService {
 	 * @param id
 	 * @return local client
 	 */
-	_Object query(String address);
+	_Object getLocalObject(String address);
 
 	void send(String receiverId, Message message);
 

@@ -74,9 +74,11 @@ public class WorkerManager implements Runnable {
 				cust = customers.take();
 				assign(cust);
 			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+				logger.debug("interrupted.");
+				
 			}
 		}
+		logger.debug("thread terminated.");
 
 	}
 
@@ -91,7 +93,7 @@ public class WorkerManager implements Runnable {
 	}
 
 	public synchronized void stop() {
-		running = false;
+		running = false;		
 	}
 
 }

@@ -27,12 +27,15 @@ public class SoftLink extends Link {
 
 	@Override
 	public void setValue(String value) {
-		super.setValue(value);
 
-		int idx1 = value.indexOf(':');
-		protocol = value.substring(0, idx1);
-		address = value.substring(idx1 + 3);
-
+		try {
+			int idx1 = value.indexOf(':');
+			protocol = value.substring(0, idx1);
+			address = value.substring(idx1 + 3);
+		} catch (Exception e) {
+			protocol =null;
+			address = null;
+		}
 	}
 
 	public String getProtocol() {

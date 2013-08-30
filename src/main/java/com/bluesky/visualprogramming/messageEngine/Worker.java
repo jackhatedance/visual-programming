@@ -86,10 +86,14 @@ public class Worker implements Runnable {
 
 				if (msg.isSyncReply()) {
 
-					if (logger.isDebugEnabled())
+					if (logger.isDebugEnabled()) {
+						String previousMessage = "n/a";
+						if (msg.previous != null)
+							previousMessage = msg.previous.toString();
 						logger.debug(String.format(
 								"comes reply of '%s', value: %s",
-								msg.previous.toString(), replyValue));
+								previousMessage, replyValue));
+					}
 					/**
 					 * pick the reply body from current message, put into the
 					 * pending procedure.

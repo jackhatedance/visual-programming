@@ -75,14 +75,12 @@ public class MainWindow extends JPanel {
 	// either move or resize,depends on mouse position.
 	private MouseOperation mouseOperation;
 
-	ObjectRepository objectRepository;
-	PostService postService;
+	protected VirtualMachine getVM() {
+		return VirtualMachine.getInstance();
+	}
 
 	public MainWindow(JFrame frame) {
 		super(new GridLayout(1, 0));
-
-		objectRepository = VirtualMachine.getInstance().getObjectRepository();
-		postService = VirtualMachine.getInstance().getPostService();
 
 		owner = frame;
 
@@ -105,7 +103,8 @@ public class MainWindow extends JPanel {
 
 	private void createTreePanel() {
 
-		TreeNode rootNode = createTreeNode(objectRepository.getRootObject());
+		TreeNode rootNode = createTreeNode(getVM().getObjectRepository()
+				.getRootObject());
 
 		treeModel = new DefaultTreeModel(rootNode);
 
@@ -168,8 +167,8 @@ public class MainWindow extends JPanel {
 		JMenuItem eMenuItem = new JMenuItem("New Object");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = objectRepository
-						.createObject(getSelectedTreeObject());
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeObject());
 				addChildObject(obj);
 			}
 
@@ -180,7 +179,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 
-				_Object obj = objectRepository.createObject(
+				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeObject(), ObjectType.INTEGER);
 
 				addChildObject(obj);
@@ -192,7 +191,7 @@ public class MainWindow extends JPanel {
 		eMenuItem = new JMenuItem("New String");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = objectRepository.createObject(
+				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeObject(), ObjectType.STRING);
 				addChildObject(obj);
 
@@ -204,7 +203,7 @@ public class MainWindow extends JPanel {
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object obj = objectRepository.createObject(
+				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeObject(), ObjectType.PROCEDURE);
 				addChildObject(obj);
 
@@ -233,7 +232,8 @@ public class MainWindow extends JPanel {
 						treeModel.removeNodeFromParent(selectedChildNode);
 
 						// remove from object repository
-						objectRepository.destroyObject(activeChildObject);
+						getVM().getObjectRepository().destroyObject(
+								activeChildObject);
 
 						diagram.repaint();
 					}
@@ -256,7 +256,7 @@ public class MainWindow extends JPanel {
 					if (result == 0)// yes
 					{
 
-						postService.sendMessageFromNobody(
+						getVM().getPostService().sendMessageFromNobody(
 								activeChildObject.getOwner(),
 								activeChildObject.getName());
 
@@ -283,8 +283,7 @@ public class MainWindow extends JPanel {
 
 	public void load(String fileName) {
 
-		objectRepository.load(fileName);
-		//VirtualMachine.getInstance().getPostService().init(objectRepository, workerManager)
+		getVM().loadFromImage(fileName);
 
 		createTreePanel();
 

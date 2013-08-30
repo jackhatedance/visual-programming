@@ -1,7 +1,10 @@
 package com.bluesky.visualprogramming.vm;
 
+import org.apache.log4j.Logger;
+
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.messageEngine.PostService;
+import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.messageEngine.WorkerManager;
 
 /**
@@ -11,6 +14,8 @@ import com.bluesky.visualprogramming.messageEngine.WorkerManager;
  * 
  */
 public class VirtualMachine {
+	static Logger logger = Logger.getLogger(VirtualMachine.class);
+
 	private ObjectRepository objectRepository;
 
 	private WorkerManager workerManager;
@@ -23,20 +28,19 @@ public class VirtualMachine {
 
 	private static VirtualMachine instance = null;
 
-//	public static void setInstance(VirtualMachine inst) {
-//		instance = inst;
-//	}
+	public static void setInstance(VirtualMachine inst) {
+		instance = inst;
+	}
 
 	public static VirtualMachine getInstance() {
-		if(instance==null)
+		if (instance == null)
 			instance = new VirtualMachine();
-		
+
 		return instance;
 	}
 
 	public VirtualMachine() {
 		objectRepository = new ObjectRepository();
-		
 
 		postService = new PostService();
 		workerManager = new WorkerManager();
@@ -50,47 +54,71 @@ public class VirtualMachine {
 		workerManagerThread = new Thread(workerManager, "WorkerManager");
 
 		postServiceThread = new Thread(postService, "PostService");
-	}
-	
-	public void loadFromImage(String file){
-		objectRepository.load(file);
-		
-		postService.recreateAgents(objectRepository);
+
+		logger.info("VM initialized");
 	}
 
+	public void loadFromImage(String file) {
+		if(running)
+			throw new RuntimeException("cannot load while running");
+		//pause();
+		
+		objectRepository.load(file);
+
+		//resume();
+		
+		logger.info("VM loaded image file:" + file);
+	}
+
+	/**
+	 * start internal service threads
+	 */
 	public void start() {
 
 		workerManagerThread.start();
 		postServiceThread.start();
 
 		running = true;
+
+		logger.info("VM started");
 	}
 
 	public void pause() {
 
 		try {
+			// logger.info("VM pause begin...");
 			workerManager.stop();
+			workerManagerThread.interrupt();
 
 			workerManagerThread.join();
 
 			postService.stop();
+			postServiceThread.interrupt();
 
 			postServiceThread.join();
 
 			running = false;
+
+			logger.info("VM paused");
 		} catch (InterruptedException e) {
 
 			throw new RuntimeException(e);
 		}
 
 	}
-	
+
 	public void resume() {
+
+		workerManagerThread = new Thread(workerManager, "WorkerManager");
+
+		postServiceThread = new Thread(postService, "PostService");
 
 		workerManagerThread.start();
 		postServiceThread.start();
 
 		running = true;
+
+		logger.info("VM resumed");
 	}
 
 	public ObjectRepository getObjectRepository() {

@@ -28,7 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class MainFrame extends JFrame {
-	String DEFAULT_IMAGE_FILE_NAME = "visual-programming.txt";
+	static String DEFAULT_IMAGE_FILE_NAME = "visual-programming.txt";
 
 	MainWindow mainWindow = null;
 
@@ -88,16 +88,7 @@ public class MainFrame extends JFrame {
 
 		// Load
 		JMenuItem eMenuItem = null;
-
-		eMenuItem = new JMenuItem("Load Sample");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				mainWindow.load(DEFAULT_IMAGE_FILE_NAME);
-			}
-
-		});
-		file.add(eMenuItem);
-
+		
 		// Load
 		eMenuItem = new JMenuItem("Load");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -145,8 +136,11 @@ public class MainFrame extends JFrame {
 
 		// init Object Repository
 		VirtualMachine vm = new VirtualMachine();
+		VirtualMachine.setInstance(vm);
 
-		vm.getObjectRepository().loadSampleObjects();
+		vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
+
+		vm.start();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

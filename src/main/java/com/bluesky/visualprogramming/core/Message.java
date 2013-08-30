@@ -15,8 +15,8 @@ public class Message {
 	/**
 	 * receiver could be real object or link(UOI)
 	 */
-	public _Object receiver;	
-	
+	public _Object receiver;
+
 	public String subject;
 	public _Object body;
 	public ParameterStyle parameterStyle;
@@ -137,13 +137,18 @@ public class Message {
 	 * @return
 	 */
 	public boolean isSyncReply() {
-		return previous != null && previous.sync;
+		return this.messageType == MessageType.SyncReply;
 	}
 
 	public String toString() {
 
 		if (messageType == MessageType.SyncReply) {
-			return String.format("RE:%s", previous.toString());
+			// remote communication may lost previous message.
+			String previousMsg = "n/a";
+			if (previous != null)
+				previousMsg = previous.toString();
+
+			return String.format("RE:%s", previousMsg);
 		} else {
 			StringBuilder sb = new StringBuilder();
 

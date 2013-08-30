@@ -9,10 +9,12 @@ import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.protocol.xmpp.XmppService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
 
@@ -32,33 +34,11 @@ public class PostService implements Runnable {
 		this.objectRepository = objectRepository;
 		this.workerManager = workerManager;
 
-		createCommunicationAgents();
-	}
+		remoteCommunicationService = new RemoteCommunicationService(
+				objectRepository);
 
-	private void createCommunicationAgents() {
-		// create agent for alias
-		// linking
-		for (_Object o : objectRepository.getAllObjects()) {
-
-			System.out.println(o.getName());
-			_Object aliases = o.getChild("_aliases");
-			if (aliases != null) {
-				for (int i = 0; i < aliases.getChildCount(); i++) {
-					_Object alias = aliases.getChild(i);
-
-					ProtocolType pt = ProtocolType.valueOf(((StringValue) alias
-							.getChild("protocol")).getValue().toUpperCase());
-					StringValue address = (StringValue) alias
-							.getChild("address");
-					StringValue connectionOptions = (StringValue) alias
-							.getChild("connectionOptions");
-
-					remoteCommunicationService.register(pt, address.getValue(),
-							o, connectionOptions.getValue());
-				}
-			}
-
-		}
+		XmppService xmppService = new XmppService();
+		remoteCommunicationService.addProtocolService(xmppService);
 	}
 
 	public void sendMessage(Message msg) {
@@ -81,19 +61,22 @@ public class PostService implements Runnable {
 
 			ProtocolType protocol = ProtocolType.valueOf(receiverLink
 					.getProtocol().toUpperCase());
-			_Object localObject = remoteCommunicationService.query(protocol,
-					receiverLink.getAddress());
+			_Object localObject = remoteCommunicationService.getLocalObject(
+					protocol, receiverLink.getAddress());
 
-			if (localObject != null)
+			logger.debug("receiver is link:" + receiverLink.getValue());
+
+			if (localObject != null) {
+				logger.debug("localObject is not null");
 				sendLocalMessage(msg, localObject);
-			else {
+			} else {
+				logger.debug("localObject is null");
 				remoteCommunicationService.send(protocol,
 						receiverLink.getAddress(), msg);
 
 			}
-		}
-
-		sendLocalMessage(msg, msg.receiver);
+		} else
+			sendLocalMessage(msg, msg.receiver);
 	}
 
 	private void sendLocalMessage(Message msg, _Object receiver) {
@@ -105,7 +88,7 @@ public class PostService implements Runnable {
 					msg.sender, msg.receiver, msg.toString()));
 
 		if (applyWorkerForMe) {
-			workerManager.addCustomer(msg.receiver);
+			workerManager.addCustomer(receiver);
 		}
 
 	}
@@ -126,10 +109,12 @@ public class PostService implements Runnable {
 				msg = messageQueue.take();
 				_sendMessage(msg);
 			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+
 			}
 
 		}
+
+		logger.debug("thread terminated.");
 	}
 
 	public void stop() {
@@ -137,8 +122,4 @@ public class PostService implements Runnable {
 
 	}
 
-	public void recreateAgents(ObjectRepository objectRepository2) {
-		// TODO Auto-generated method stub
-		
-	}
 }

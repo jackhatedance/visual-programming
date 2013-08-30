@@ -29,6 +29,8 @@ public class ObjectRepository {
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();
 	_Object rootObject;
 
+	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
+
 	public ObjectRepository() {
 		// start from 0
 		objectId = 0;
@@ -107,6 +109,10 @@ public class ObjectRepository {
 			owner.addChild(newObject, name, true);
 
 		objects.put(newObject.getId(), newObject);
+
+		for (ObjectRepositoryListener l : listeners) {
+			l.afterCreate(newObject);
+		}
 
 		return newObject;
 	}
@@ -276,11 +282,19 @@ public class ObjectRepository {
 				owner.addChild(o, o.getName(), true);
 		}
 
+		logger.info("objects loaded");
 		
+		// notify
+		for (_Object o : objects.values()) {
+			for (ObjectRepositoryListener l : listeners)
+				l.afterLoad(o);
+		}
 
+		
+		
 	}
 
-	public void loadSampleObjects() {
+	public void loadSampleObjects1() {
 
 		_Object user = createObject(rootObject, "user");
 
@@ -296,7 +310,15 @@ public class ObjectRepository {
 
 	}
 
-	public Collection<_Object> getAllObjects(){
+	public Collection<_Object> getAllObjects() {
 		return objects.values();
+	}
+
+	public void addListener(ObjectRepositoryListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(ObjectRepositoryListener listener) {
+		listeners.remove(listener);
 	}
 }
