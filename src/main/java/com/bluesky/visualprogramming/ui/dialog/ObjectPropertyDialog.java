@@ -100,6 +100,8 @@ public class ObjectPropertyDialog extends JDialog {
 		{
 			textAreaValue = new JTextArea();
 			textAreaValue.setLineWrap(true);
+			//textAreaValue.setRows(10);
+			//textAreaValue.setAutoscrolls(true);
 			contentPanel.add(textAreaValue);
 		}
 		{

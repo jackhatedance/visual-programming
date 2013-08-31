@@ -45,12 +45,11 @@ public class _Object implements Serializable {
 	// this is a pointer, set after linking.
 	private _Object owner;
 
-	private boolean context = false;
-
 	// in Z order
-	private List<Pointer> childrenList = new ArrayList<Pointer>();
+	private List<Field> childrenList = new ArrayList<Field>();
 	// index names to accelerate access speed
-	private Map<String, Integer> childrenMap = new HashMap<String, Integer>();
+	private Map<String, Integer> childrenNameMap = new HashMap<String, Integer>();
+	private Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
 
 	private Deque<Message> messageQueue;
 	private Worker worker = null;
@@ -89,9 +88,8 @@ public class _Object implements Serializable {
 		// this.id
 		this.name = src.name;
 		// this.owner
-		this.context = src.context;
 
-		for (Pointer p : src.childrenList) {
+		for (Field p : src.childrenList) {
 			// TODO
 
 			addChild(p.target, p.name, p.owner);
@@ -135,17 +133,13 @@ public class _Object implements Serializable {
 		this.owner = owner;
 	}
 
-	public Map<String, Integer> getChildrenMap() {
-		return childrenMap;
-	}
-
 	/**
 	 * if there is no named field. then it become an array.
 	 * 
 	 * @return
 	 */
 	public boolean hasNamedField() {
-		return !childrenMap.isEmpty();
+		return !childrenNameMap.isEmpty();
 	}
 
 	public _Object getChild(int index) {
@@ -160,19 +154,18 @@ public class _Object implements Serializable {
 		addChild(child, name, false);
 	}
 
-	/**
-	 * no name
-	 * 
-	 * @param child
-	 */
-	public void addChild(_Object child, boolean owner) {
-		addChild(child, null, owner);
-	}
+	
 
 	public void addChild(_Object child, String name, boolean owner) {
-		Pointer p = new Pointer(child, name, owner);
+
+		Field p = new Field(child, name, owner);
+
+		// have a new name
+		child.setName(name);
+
 		childrenList.add(p);
-		childrenMap.put(name, childrenList.size() - 1);
+		childrenNameMap.put(name, childrenList.size() - 1);
+		childrenObjectMap.put(child, childrenList.size() - 1);
 
 		if (owner) {
 			if (child.hasOwner())
@@ -184,6 +177,25 @@ public class _Object implements Serializable {
 		}
 	}
 
+	/**
+	 * take care of the old field if exists.
+	 * 
+	 * @param name
+	 * @param child
+	 * @param owner
+	 */
+	public void setChild(String name, _Object child, boolean owner) {
+		if(name==null){
+			throw new RuntimeException("field name cannot be null.");
+		}
+		
+		_Object oldChild = getChild(name);
+		if (oldChild != null)
+			removeChild(name);
+
+		addChild(child,name, owner);
+	}
+
 	public boolean hasOwner() {
 
 		return owner != null;
@@ -191,23 +203,23 @@ public class _Object implements Serializable {
 
 	public void renameField(String old, String _new) {
 
-		Integer oldIndex = childrenMap.get(old);
+		Integer oldIndex = childrenNameMap.get(old);
 		if (oldIndex == null)
 			throw new RuntimeException("source field not exist:" + old);
 
-		if (childrenMap.containsKey(_new)) {
+		if (childrenNameMap.containsKey(_new)) {
 			throw new RuntimeException("destination field already exist:"
 					+ _new);
 		}
 
-		childrenMap.remove(old);
+		childrenNameMap.remove(old);
 
-		childrenMap.put(_new, oldIndex);
+		childrenNameMap.put(_new, oldIndex);
 
 	}
 
 	public void removeChild(String name) {
-		Integer childIndex = childrenMap.get(name);
+		Integer childIndex = childrenNameMap.get(name);
 		if (childIndex == null)
 			throw new RuntimeException("child not found:" + name);
 
@@ -219,23 +231,30 @@ public class _Object implements Serializable {
 		if (index == null)
 			return;
 
-		Pointer p = childrenList.get(index);
+		Field p = childrenList.get(index);
 		childrenList.remove(index);
 
 		if (p.hasName())
-			childrenMap.remove(p.name);
+			childrenNameMap.remove(p.name);
+
+		if (p.target != null)
+			childrenObjectMap.remove(p.target);
 
 		p.target.setOwner(null);
 	}
 
-	public void removeChild(_Object obj) {
-		Integer index = childrenList.indexOf(obj);
-		removeChild(index);
+	public void removeChild(_Object object) {
+		Integer idx = childrenObjectMap.get(object);
+		if (idx == null)
+			throw new RuntimeException("field not exist");
+
+		removeChild(idx);
 	}
 
 	public void clearChildren() {
 		childrenList.clear();
-		childrenMap.clear();
+		childrenNameMap.clear();
+		childrenObjectMap.clear();
 	}
 
 	public boolean hasChildren() {
@@ -369,7 +388,9 @@ public class _Object implements Serializable {
 		g.drawRect(x, y, width, height);
 
 		g.setColor(Color.BLACK);
-		g.drawString(this.name, x, (int) (y + 10));
+
+		if (this.name != null)
+			g.drawString(this.name, x + 5, (int) (y + 15));
 
 		// draw selector box
 		Color selectorColor = null;
@@ -400,21 +421,21 @@ public class _Object implements Serializable {
 
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom) {
 
-		for (Pointer p : childrenList) {
+		for (Field p : childrenList) {
 			if (p.owner)
 				p.target.draw(g, canvasOffset, zoom);
 		}
 	}
 
 	public void drawInternal(Graphics g, Point canvasOffset) {
-		for (Pointer p : childrenList) {
+		for (Field p : childrenList) {
 			if (p.owner)
 				p.target.draw(g, canvasOffset, scaleRate);
 		}
 	}
 
 	public _Object getChild(String name) {
-		Integer index = childrenMap.get(name);
+		Integer index = childrenNameMap.get(name);
 		if (index == null)
 			return null;
 		else
@@ -422,17 +443,7 @@ public class _Object implements Serializable {
 	}
 
 	public String[] getChildrenNames() {
-		return childrenMap.keySet().toArray(new String[0]);
-	}
-
-	public Procedure getProcedure(String name) {
-		Integer index = childrenMap.get(name);
-		if (index == null)
-			return null;
-
-		Procedure p = (Procedure) (childrenList.get(index).target);
-
-		return p;
+		return childrenNameMap.keySet().toArray(new String[0]);
 	}
 
 	/**
@@ -448,7 +459,7 @@ public class _Object implements Serializable {
 			return prototype.lookupProcedure(name);
 
 		} else
-			p = getProcedure(name);
+			p = (Procedure) getChild(name);
 		return p;
 	}
 
@@ -463,7 +474,7 @@ public class _Object implements Serializable {
 
 	public CompiledProcedure getCompiledProcedure(String name) {
 
-		Procedure p = getProcedure(name);
+		Procedure p = (Procedure) getChild(name);
 
 		if (p.compiled == null) {
 			LanguageType type = LanguageType.valueOf(p.language.toUpperCase());
@@ -485,13 +496,6 @@ public class _Object implements Serializable {
 		}
 
 		return p.compiled;
-	}
-
-	public boolean isContext() {
-		if (owner != null)
-			return owner.isContext();
-		else
-			return this.context;
 	}
 
 	/**

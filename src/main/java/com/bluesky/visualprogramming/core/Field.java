@@ -1,12 +1,12 @@
 package com.bluesky.visualprogramming.core;
 
-public class Pointer {
+public class Field {
 
 	public boolean owner;
 	public String name;
 	public _Object target;
 
-	public Pointer(_Object targetObject, String name, boolean owner) {
+	public Field(_Object targetObject, String name, boolean owner) {
 		this.target = targetObject;
 		this.name = name;
 		this.owner = owner;

@@ -50,6 +50,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.LinkContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.MessgeNameContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NameValueContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NamedParamListContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.NullValueContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NumberContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ObjectLinkContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OrderedParamListContext;
@@ -805,5 +806,12 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		addInstruction(ins);
 		return ins.varName;
 
+	}
+	
+	@Override
+	public Object visitNullValue(NullValueContext ctx) {
+
+		
+		return "null";
 	}
 }

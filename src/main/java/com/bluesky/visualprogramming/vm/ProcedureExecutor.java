@@ -2,6 +2,8 @@ package com.bluesky.visualprogramming.vm;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
@@ -95,6 +97,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus executeAccessField(AccessField instruction) {
 
 		_Object obj = ctx.getObject(instruction.objName);
+		if(obj==null)
+			throw new RuntimeException("object not exist:"+instruction.toString());
+			
 		_Object result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
@@ -230,17 +235,25 @@ public class ProcedureExecutor implements InstructionExecutor {
 		// ownership
 		switch (instruction.assignmenType) {
 		case OWN:
-			if (!rightObject.isContext())
-				throw new AlreadyHasOwnerException();
+			if (rightObject == null) {
+				oldFieldObject = leftObject.getChild(instruction.fieldName);
 
-			oldFieldObject = leftObject.getChild(instruction.fieldName);
+				// move to execution context
+				if (oldFieldObject != null)
+					leftObject.removeChild(oldFieldObject);
 
-			// move to execution context
-			if (oldFieldObject != null)
-				ctx.putTempObject(oldFieldObject);
+			} else {
+				if (rightObject.hasOwner())
+					throw new AlreadyHasOwnerException();
 
-			leftObject.addChild(rightObject, instruction.fieldName, true);
+				oldFieldObject = leftObject.getChild(instruction.fieldName);
 
+				// move to execution context
+				if (oldFieldObject != null)
+					leftObject.removeChild(oldFieldObject);
+
+				leftObject.addChild(rightObject, instruction.fieldName, true);
+			}
 			break;
 
 		case REF:
@@ -249,14 +262,16 @@ public class ProcedureExecutor implements InstructionExecutor {
 			break;
 		default:
 			// auto
-			if (rightObject.isContext()) {
+			if (rightObject == null) {
 				oldFieldObject = leftObject.getChild(instruction.fieldName);
 
 				// move to execution context
 				if (oldFieldObject != null)
-					ctx.putTempObject(oldFieldObject);
+					leftObject.removeChild(oldFieldObject);
+			} else if (!rightObject.hasOwner()) {
 
-				leftObject.addChild(rightObject, instruction.fieldName, true);
+
+				leftObject.setChild(instruction.fieldName, rightObject, true);
 			} else {
 				leftObject.addPointer(rightObject, instruction.fieldName);
 			}

@@ -65,6 +65,7 @@ constant :
          NUMBER			#Number
 	| STRING			#String
 	| BOOLEAN                      #Boolean 
+	| NULL				#NullValue
         | link            #ObjectLink
          ;
 
@@ -118,6 +119,8 @@ BOOLEAN : 'true' | 'false';
 BREAK: 'break';
 CONTINUE : 'continue';
 
+
+
 DOT : '.';
           
 LINE_COMMENT : '//' .*? '\r'? '\n';
@@ -135,14 +138,16 @@ LINK_ADDRESS : [a-zA-Z0-9.]+ '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
 //LINK_ID : [a-zA-Z0-9.]+;
 //LINK_DOMAIN : [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
 
-ID : [_a-zA-Z][a-zA-Z0-9]*;
+
 
 NUMBER : [0-9]+
 	| [0-9]+ '.' [0-9]+;
 	
 STRING : '"' ('\\"'|~["])* '"';	
 
+NULL : 'null';
 
+ID : [_a-zA-Z][a-zA-Z0-9]*;
 
 WS : [ \t\n\r]+ -> skip ;
 	

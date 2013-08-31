@@ -253,11 +253,16 @@ public class ObjectRepository {
 
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
-			
+
 			ObjectType type = ObjectType.valueOf(typeLiteral);
 			_Object newObject = type.create(-1);
 
-			newObject.fromText(line);
+			try {
+				newObject.fromText(line);
+			} catch (Exception e) {
+				throw new RuntimeException("error loading " + line);
+			}
+
 			objects.put(newObject.getId(), newObject);
 
 			if (newObject.getId() == 0)

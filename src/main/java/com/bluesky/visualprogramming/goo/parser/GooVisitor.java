@@ -152,6 +152,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitSendMessage(@NotNull GooParser.SendMessageContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#NullValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNullValue(@NotNull GooParser.NullValueContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#AutoAssignOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

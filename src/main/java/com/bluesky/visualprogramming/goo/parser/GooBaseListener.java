@@ -277,6 +277,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterNullValue(@NotNull GooParser.NullValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitNullValue(@NotNull GooParser.NullValueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterAutoAssignOperator(@NotNull GooParser.AutoAssignOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
