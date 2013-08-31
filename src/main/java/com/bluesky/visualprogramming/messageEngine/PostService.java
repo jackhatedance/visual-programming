@@ -5,15 +5,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.link.SoftLink;
-import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.protocol.xmpp.XmppService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
@@ -56,7 +53,7 @@ public class PostService implements Runnable {
 
 	private void _sendMessage(Message msg) {
 		// add support of link object
-		if (msg.receiver instanceof Link) {
+		if (msg.receiver instanceof SoftLink) {
 			SoftLink receiverLink = (SoftLink) msg.receiver;
 
 			ProtocolType protocol = ProtocolType.valueOf(receiverLink
@@ -68,6 +65,10 @@ public class PostService implements Runnable {
 
 			if (localObject != null) {
 				logger.debug("localObject is not null");
+				
+				//update link with pointer
+				msg.receiver = localObject;
+				
 				sendLocalMessage(msg, localObject);
 			} else {
 				logger.debug("localObject is null");

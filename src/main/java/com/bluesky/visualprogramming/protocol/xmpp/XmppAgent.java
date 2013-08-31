@@ -35,7 +35,11 @@ public class XmppAgent {
 	MessageListener messageListener;
 
 	// private SessionStatus sessionStatus=SessionStatus.Normal;
-	MessageType nextMessageType = MessageType.Normal;
+
+	/**
+	 * it is a sync request.
+	 */
+	Message lastRequestMessage;
 
 	public XmppAgent(String address, _Object obj, String connectionOptions) {
 
@@ -68,7 +72,6 @@ public class XmppAgent {
 
 				if (msg.getBody() != null && !msg.getBody().trim().isEmpty()) {
 					receivedMessage(msg);
-					logger.debug("received message from a chat start by others.");
 				}
 			}
 
@@ -104,18 +107,34 @@ public class XmppAgent {
 	}
 
 	public void send(String receiverAddress, Message msg) throws XMPPException {
-		if (msg.sync)
-			nextMessageType = MessageType.SyncReply;
-		else if (!msg.sync && msg.needCallback())
-			nextMessageType = MessageType.AsyncReply;
-		else
-			nextMessageType = MessageType.Normal;
+
+		if (msg.messageType.isRequest())
+			lastRequestMessage = msg;
 
 		ChatManager chatManager = connection.getChatManager();
 		Chat chat = chatManager.createChat(receiverAddress,
 				getMessageListener());
 
-		chat.sendMessage(String.format("%s", msg.toString()));
+		// TODO convert body to hierarchical text
+		String msgBody = "";
+		if (msg.body != null) {
+			if (msg.body.getType() == ObjectType.NORMAL) {
+				for (int i = 0; i < msg.body.getChildCount(); i++) {
+					if (i != 0)
+						msgBody += ";";
+
+					_Object param = msg.body.getChild(i);
+					msgBody += param.getName() + ":" + param.getValue();
+
+				}
+			} else if (msg.body.getType().isValueObject()) {
+				msgBody = msg.body.getValue();
+
+			}
+
+		}
+
+		chat.sendMessage(String.format("[%s] %s", msg.subject, msgBody));
 	}
 
 	private String reviseAddress(String addr) {
@@ -138,43 +157,56 @@ public class XmppAgent {
 			ObjectRepository repo = vm.getObjectRepository();
 			StringValue returnValue = (StringValue) repo
 					.createObject(ObjectType.STRING);
+
+			// TODO convert msg.Body to _Object.
 			returnValue.setValue(msg.getBody());
-			// new Message(sync, sender, receiver, subject, body,
-			// parameterStyle,
-			// previousMessage, messageType);
 
-			SoftLink receiver = (SoftLink) repo
-					.createObject(ObjectType.SOFT_LINK);
-			receiver.setValue("xmpp://" + reviseAddress(msg.getTo()));
-			receiver.setName("receiver#" + receiver.getAddress());
+			String senderAddress = reviseAddress(reviseAddress(msg.getFrom()));
 
-			SoftLink sender = (SoftLink) repo
-					.createObject(ObjectType.SOFT_LINK);
-			sender.setValue("xmpp://"
-					+ reviseAddress(reviseAddress(msg.getFrom())));
-			sender.setName("sender#" + sender.getAddress());
+			if (lastRequestMessage != null
+					&& lastRequestMessage.receiver instanceof SoftLink
+					&& ((SoftLink) lastRequestMessage.receiver).getAddress()
+							.equals(senderAddress)) {
+				// address match. it must be reply.
+				if (logger.isDebugEnabled())
+					logger.debug("it is a reply");
 
-			String subject;
-			if (nextMessageType == MessageType.SyncReply
-					|| nextMessageType == MessageType.AsyncReply)
-				subject = "RE:" + msg.getSubject();
-			else{
-			
-				if(msg.getSubject()==null || msg.getSubject().trim().isEmpty())
-					subject = msg.getBody();
-				else
-					subject = msg.getSubject();
+				Message replyMsg = new Message(false, lastRequestMessage.receiver,
+						lastRequestMessage.sender,
+						"RE:" + lastRequestMessage.subject, returnValue,
+						ParameterStyle.ByName, null, MessageType.SyncReply);
+
+				replyMsg.urgent = true;
+
+				// it can only be replied once.
+				lastRequestMessage = null;
+
+				vm.getPostService().sendMessage(replyMsg);
+			} else {// not a reply
+				if (logger.isDebugEnabled())
+					logger.debug("it is not a reply");
+
+				SoftLink senderLink = (SoftLink) repo
+						.createObject(ObjectType.LINK);
+				senderLink.setValue("xmpp://"
+						+ reviseAddress(reviseAddress(msg.getFrom())));
+
+				SoftLink receiverLink = (SoftLink) repo
+						.createObject(ObjectType.LINK);
+				receiverLink.setValue("xmpp://"
+						+ reviseAddress(reviseAddress(msg.getTo())));
+
+				// TODO convert msg.body to _Object
+				Message normalMsg = new Message(true, senderLink, receiverLink,
+						msg.getBody(), returnValue, ParameterStyle.ByName,
+						null, MessageType.Normal);
+
+				normalMsg.urgent = false;
+
+				vm.getPostService().sendMessage(normalMsg);
+
 			}
 
-			Message replyMsg = new Message(false, sender, receiver, subject,
-					returnValue, ParameterStyle.ByName, null, nextMessageType);
-
-			// reset
-			nextMessageType = MessageType.Normal;
-
-			replyMsg.urgent = true;
-
-			vm.getPostService().sendMessage(replyMsg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

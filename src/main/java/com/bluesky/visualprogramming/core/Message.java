@@ -139,7 +139,6 @@ public class Message {
 	public boolean isSyncReply() {
 		return this.messageType == MessageType.SyncReply;
 	}
-
 	public String toString() {
 
 		if (messageType == MessageType.SyncReply) {
@@ -172,4 +171,8 @@ public class Message {
 					executionStatus);
 		}
 	}
+	
+	 
+	
+	
 }

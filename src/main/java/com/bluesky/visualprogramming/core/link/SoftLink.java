@@ -1,23 +1,16 @@
 package com.bluesky.visualprogramming.core.link;
 
-import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 
-public class SoftLink extends Link {
+public class SoftLink extends _Object {
 	public SoftLink(long id) {
 		super(id);
-		type = ObjectType.SOFT_LINK;
+		type = ObjectType.LINK;
 	}
 
 	String protocol;
 	String address;
-
-	@Override
-	public _Object getTarget() {
-		// TODO query the naming service
-		return null;
-	}
 
 	@Override
 	public String getValue() {
@@ -33,7 +26,7 @@ public class SoftLink extends Link {
 			protocol = value.substring(0, idx1);
 			address = value.substring(idx1 + 3);
 		} catch (Exception e) {
-			protocol =null;
+			protocol = null;
 			address = null;
 		}
 	}

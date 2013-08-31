@@ -61,7 +61,7 @@ public class ObjectRepository {
 	public _Object createObject(_Object owner) {
 
 		return createObject(owner, generateNewChildName(owner),
-				ObjectType.DEFAULT);
+				ObjectType.NORMAL);
 	}
 
 	public _Object createObject(ObjectType type) {
@@ -70,7 +70,7 @@ public class ObjectRepository {
 
 	public _Object createObject(_Object owner, String name) {
 
-		return createObject(owner, name, ObjectType.DEFAULT);
+		return createObject(owner, name, ObjectType.NORMAL);
 	}
 
 	public _Object createObject(_Object owner, ObjectType type) {
@@ -253,6 +253,7 @@ public class ObjectRepository {
 
 			Map<String, String> map = KeyValueStringUtils.parse(line);
 			String typeLiteral = map.get("type");
+			
 			ObjectType type = ObjectType.valueOf(typeLiteral);
 			_Object newObject = type.create(-1);
 
@@ -283,15 +284,13 @@ public class ObjectRepository {
 		}
 
 		logger.info("objects loaded");
-		
+
 		// notify
 		for (_Object o : objects.values()) {
 			for (ObjectRepositoryListener l : listeners)
 				l.afterLoad(o);
 		}
 
-		
-		
 	}
 
 	public void loadSampleObjects1() {

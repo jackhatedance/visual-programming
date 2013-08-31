@@ -47,8 +47,8 @@ public class Procedure extends _Object {
 		String[] attrArray = str.split(",");
 		for (String s : attrArray) {
 			String[] kv = s.split("=");
-			
-			String value="";
+
+			String value = "";
 			if (kv.length == 2) {
 				value = kv[1];
 				if (value != null)
@@ -88,13 +88,10 @@ public class Procedure extends _Object {
 		} else
 			code = value;
 
-		try {
-			this.code = code;
-		} catch (Exception e) {
-			this.code = null;
+		this.code = code;
 
-		}
-
+		// clean the compiled procedure. any change to code need re-compile.
+		this.compiled = null;
 	}
 
 	public boolean isNative() {
@@ -108,7 +105,8 @@ public class Procedure extends _Object {
 	}
 
 	public String[] getNativeProcedureParameterNames() {
-		if(nativeProcedureParameters!=null && !nativeProcedureParameters.trim().isEmpty())
+		if (nativeProcedureParameters != null
+				&& !nativeProcedureParameters.trim().isEmpty())
 			return nativeProcedureParameters.split("\\|");
 		else
 			return new String[0];

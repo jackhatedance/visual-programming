@@ -34,7 +34,7 @@ public class _Object implements Serializable {
 	 */
 	private static final long serialVersionUID = 1809740541459285761L;
 
-	protected ObjectType type = ObjectType.DEFAULT;
+	protected ObjectType type = ObjectType.NORMAL;
 	private long id;
 
 	/*
@@ -428,7 +428,7 @@ public class _Object implements Serializable {
 	public Procedure getProcedure(String name) {
 		Integer index = childrenMap.get(name);
 		if (index == null)
-			throw new RuntimeException("procedure not found:" + name);
+			return null;
 
 		Procedure p = (Procedure) (childrenList.get(index).target);
 

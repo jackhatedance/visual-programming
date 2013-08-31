@@ -7,9 +7,11 @@ import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutor;
@@ -129,11 +131,13 @@ public class Worker implements Runnable {
 				} else {
 
 					Procedure proc = obj.lookupProcedure(msg.subject);
-					if (proc == null)
-						throw new RuntimeException("message not understand:"
-								+ msg.subject);
+					if (proc == null) {
+						logger.warn("message not understand:" + msg.subject);
 
-					executeProcedure(msg, obj, proc);
+						executeUnknowMessage(msg, obj, proc);
+
+					} else
+						executeProcedure(msg, obj, proc);
 
 					ExecutionStatus procedureExecutionStatus = msg.executionContext
 							.getExecutionStatus();
@@ -158,7 +162,7 @@ public class Worker implements Runnable {
 
 						if (msg.sync) {// wake up the sender, let it continue.
 
-							Message replyMsg = new Message(false, msg.receiver,
+							Message replyMsg = new Message(false, obj,
 									msg.sender, "RE:" + msg.subject, msg.reply,
 									ParameterStyle.ByName, msg,
 									MessageType.SyncReply);
@@ -224,6 +228,21 @@ public class Worker implements Runnable {
 
 		if (logger.isDebugEnabled())
 			logger.debug("finish work for customer:" + obj.getName());
+	}
+
+	private void executeUnknowMessage(Message msg, _Object obj, Procedure proc) {
+
+		msg.initExecutionContext(objectRepository.getRootObject(),
+				new String[0]);
+
+		StringValue result = (StringValue) objectRepository
+				.createObject(ObjectType.STRING);
+		result.setValue("message not understand:" + msg.subject);
+
+		msg.reply = result;
+
+		msg.executionContext.executionStatus = ExecutionStatus.COMPLETE;
+
 	}
 
 	private void executeProcedure(Message msg, _Object obj, Procedure proc) {

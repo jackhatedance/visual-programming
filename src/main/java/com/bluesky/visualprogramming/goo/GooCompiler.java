@@ -309,7 +309,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		// create the root parameter object
 		CreateObject ins = new CreateObject();
-		ins.objType = ObjectType.DEFAULT;
+		ins.objType = ObjectType.NORMAL;
 		ins.varName = parametersVarName;
 
 		addInstruction(ins);
@@ -340,7 +340,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		// create the root parameter object
 		CreateObject ins = new CreateObject();
-		ins.objType = ObjectType.DEFAULT;
+		ins.objType = ObjectType.NORMAL;
 		ins.varName = parametersVarName;
 
 		addInstruction(ins);
@@ -799,7 +799,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("link");
-		ins.objType = ObjectType.SOFT_LINK;
+		ins.objType = ObjectType.LINK;
 		ins.literal = ctx.getText();
 
 		addInstruction(ins);
