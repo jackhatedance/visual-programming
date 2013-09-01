@@ -161,7 +161,8 @@ public class _Object implements Serializable {
 		Field p = new Field(child, name, owner);
 
 		// have a new name
-		child.setName(name);
+		if(owner)
+			child.setName(name);
 
 		childrenList.add(p);
 		childrenNameMap.put(name, childrenList.size() - 1);
@@ -226,11 +227,13 @@ public class _Object implements Serializable {
 		removeChild(childIndex);
 	}
 
-	public void removeChild(Integer index) {
+	public void removeChild(Integer indexObject) {
 
-		if (index == null)
+		if (indexObject == null)
 			return;
 
+		int index  = indexObject.intValue();
+		
 		Field p = childrenList.get(index);
 		childrenList.remove(index);
 
