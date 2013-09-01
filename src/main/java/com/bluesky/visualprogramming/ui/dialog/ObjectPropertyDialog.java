@@ -20,6 +20,20 @@ import javax.swing.border.EmptyBorder;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import java.awt.CardLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JScrollBar;
 
 public class ObjectPropertyDialog extends JDialog {
 	
@@ -59,55 +73,103 @@ public class ObjectPropertyDialog extends JDialog {
 	public ObjectPropertyDialog() {
 		setModal(true);
 		setTitle("Object Property");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 583, 420);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
-		{
-			lblNewLabel = new JLabel("ID");
-			contentPanel.add(lblNewLabel);
-		}
-		{
-			textFieldId = new JTextField();
-			textFieldId.setEditable(false);
-			contentPanel.add(textFieldId);
-			textFieldId.setColumns(10);
-		}
-		{
-			lblName = new JLabel("Name");
-			contentPanel.add(lblName);
-		}
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.columnWidths = new int[]{107, 219, 0};
+		gbl_contentPanel.rowHeights = new int[] {45, 45, 45, 68, 45, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gbl_contentPanel);
 		{
 			textFieldName = new JTextField();
 			textFieldName.setColumns(10);
-			contentPanel.add(textFieldName);
 		}
 		{
-			lblValue = new JLabel("Type");
-			contentPanel.add(lblValue);
+			lblNewLabel = new JLabel("ID");
 		}
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		contentPanel.add(lblNewLabel, gbc_lblNewLabel);
+		{
+			textFieldId = new JTextField();
+			textFieldId.setEditable(false);
+			textFieldId.setColumns(10);
+		}
+		GridBagConstraints gbc_textFieldId = new GridBagConstraints();
+		gbc_textFieldId.fill = GridBagConstraints.BOTH;
+		gbc_textFieldId.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldId.gridx = 1;
+		gbc_textFieldId.gridy = 0;
+		contentPanel.add(textFieldId, gbc_textFieldId);
+		{
+			lblName = new JLabel("Name");
+		}
+		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.fill = GridBagConstraints.BOTH;
+		gbc_lblName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblName.gridx = 0;
+		gbc_lblName.gridy = 1;
+		contentPanel.add(lblName, gbc_lblName);
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.fill = GridBagConstraints.BOTH;
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 1;
+		contentPanel.add(textFieldName, gbc_textFieldName);
+		{
+			lblValue = new JLabel("Type");
+		}
+		GridBagConstraints gbc_lblValue = new GridBagConstraints();
+		gbc_lblValue.fill = GridBagConstraints.BOTH;
+		gbc_lblValue.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValue.gridx = 0;
+		gbc_lblValue.gridy = 2;
+		contentPanel.add(lblValue, gbc_lblValue);
 		{
 			textFieldType = new JTextField();
 			textFieldType.setEditable(false);
 			textFieldType.setColumns(10);
-			contentPanel.add(textFieldType);
 		}
+		GridBagConstraints gbc_textFieldType = new GridBagConstraints();
+		gbc_textFieldType.fill = GridBagConstraints.BOTH;
+		gbc_textFieldType.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldType.gridx = 1;
+		gbc_textFieldType.gridy = 2;
+		contentPanel.add(textFieldType, gbc_textFieldType);
 		{
 			label = new JLabel("Value");
-			contentPanel.add(label);
+		}
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.fill = GridBagConstraints.BOTH;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 3;
+		contentPanel.add(label, gbc_label);
+		{
+			lblColor = new JLabel("Color");
 		}
 		{
 			textAreaValue = new JTextArea();
 			textAreaValue.setLineWrap(true);
-			//textAreaValue.setRows(10);
-			//textAreaValue.setAutoscrolls(true);
-			contentPanel.add(textAreaValue);
 		}
-		{
-			lblColor = new JLabel("Color");
-			contentPanel.add(lblColor);
-		}
+		GridBagConstraints gbc_textAreaValue = new GridBagConstraints();
+		gbc_textAreaValue.fill = GridBagConstraints.BOTH;
+		gbc_textAreaValue.insets = new Insets(0, 0, 5, 0);
+		gbc_textAreaValue.gridx = 1;
+		gbc_textAreaValue.gridy = 3;
+		contentPanel.add(textAreaValue, gbc_textAreaValue);
+		GridBagConstraints gbc_lblColor = new GridBagConstraints();
+		gbc_lblColor.fill = GridBagConstraints.BOTH;
+		gbc_lblColor.insets = new Insets(0, 0, 0, 5);
+		gbc_lblColor.gridx = 0;
+		gbc_lblColor.gridy = 4;
+		contentPanel.add(lblColor, gbc_lblColor);
 		{
 			btnSetBorderColor = new JButton("New button");
 			btnSetBorderColor.addActionListener(new ActionListener() {
@@ -120,8 +182,12 @@ public class ObjectPropertyDialog extends JDialog {
 					}
 				}
 			});
-			contentPanel.add(btnSetBorderColor);
 		}
+		GridBagConstraints gbc_btnSetBorderColor = new GridBagConstraints();
+		gbc_btnSetBorderColor.fill = GridBagConstraints.BOTH;
+		gbc_btnSetBorderColor.gridx = 1;
+		gbc_btnSetBorderColor.gridy = 4;
+		contentPanel.add(btnSetBorderColor, gbc_btnSetBorderColor);
 		// contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new
 		// Component[]{lblNewLabel, textFieldId, lblName, textFieldName,
 		// lblValue, textFieldType, label, textAreaValue}));
