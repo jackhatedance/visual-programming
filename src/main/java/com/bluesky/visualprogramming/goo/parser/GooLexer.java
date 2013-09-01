@@ -39,6 +39,10 @@ public class GooLexer extends Lexer {
 	};
 
 
+	    public static final int WHITESPACE = 1;
+	    public static final int COMMENTS = 2;
+
+
 	public GooLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
@@ -67,7 +71,7 @@ public class GooLexer extends Lexer {
 	}
 	private void WS_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 0: skip();  break;
+		case 0: _channel = WHITESPACE;  break;
 		}
 	}
 

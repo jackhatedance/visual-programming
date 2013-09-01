@@ -563,6 +563,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterProcedureConst(@NotNull GooParser.ProcedureConstContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitProcedureConst(@NotNull GooParser.ProcedureConstContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterAssigneeVariable(@NotNull GooParser.AssigneeVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}

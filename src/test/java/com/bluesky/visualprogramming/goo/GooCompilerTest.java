@@ -124,11 +124,27 @@ public class GooCompilerTest {
 
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testLink() {
 		InputStream is = GooCompilerTest.class
 				.getResourceAsStream("/sample-code/sample-9-link.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			String lbl = ins.label == null ? "" : ins.label;
+			String comment = ins.comment == null ? "" : ins.comment;
+			
+			System.out
+					.println(String.format("%1$-20s%2$-50s%3$-50s", lbl,ins,comment));
+		}
+
+	}
+	
+	@Test
+	public void testProcedureConst() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-10-nested-procedure.goo");
 		compiler.compile(is);
 
 		for (Instruction ins : compiler.getInstructions()) {

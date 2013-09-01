@@ -36,7 +36,7 @@ public class Procedure extends _Object {
 							_native, nativeProcedureClassName,
 							nativeProcedureParameters);
 		else
-			attributes = "[native=false, language=goo]";
+			attributes = "[native=false, language=goo]\n";
 
 		return attributes + code;
 	}

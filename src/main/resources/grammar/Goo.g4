@@ -12,6 +12,12 @@
 */
 grammar Goo;
 
+
+@lexer::members {
+    public static final int WHITESPACE = 1;
+    public static final int COMMENTS = 2;
+}
+
 //this language don't support class
 
 procedure : header block;	
@@ -67,6 +73,7 @@ constant :
 	| BOOLEAN                      #Boolean 
 	| NULL				#NullValue
         | link            #ObjectLink
+        | procedure         #ProcedureConst
          ;
 
 link : LINK_PROTOCOL  LINK_ADDRESS;
@@ -149,6 +156,7 @@ NULL : 'null';
 
 ID : [_a-zA-Z][a-zA-Z0-9]*;
 
-WS : [ \t\n\r]+ -> skip ;
+//WS : [ \t\n\r]+ -> skip ;
+ WS : [ \t\n\r]+ -> channel(WHITESPACE);
 	
 	

@@ -471,6 +471,17 @@ public interface GooListener extends ParseTreeListener {
 	void exitVariable(@NotNull GooParser.VariableContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GooParser#ProcedureConst}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedureConst(@NotNull GooParser.ProcedureConstContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#ProcedureConst}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedureConst(@NotNull GooParser.ProcedureConstContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#AssigneeVariable}.
 	 * @param ctx the parse tree
 	 */

@@ -11,6 +11,8 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -56,6 +58,7 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ObjectLinkContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OrderedParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.OwnAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ParamDeclareListContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.ProcedureConstContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ProcedureContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.RefAssignOperatorContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ReturnStatementContext;
@@ -792,7 +795,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitObjectLink(ObjectLinkContext ctx) {
 		return ctx.link().accept(this);
-		
+
 	}
 
 	@Override
@@ -807,11 +810,35 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return ins.varName;
 
 	}
-	
+
 	@Override
 	public Object visitNullValue(NullValueContext ctx) {
 
-		
 		return "null";
+	}
+
+	@Override
+	public Object visitProcedureConst(ProcedureConstContext ctx) {
+
+		Token startToken = ctx.getStart();
+		Token stopToken = ctx.getStop();
+
+		// we need skipped token, such as WhiteSpace
+		String rawText = stopToken
+				.getTokenSource()
+				.getInputStream()
+				.getText(
+						Interval.of(startToken.getStartIndex(),
+								stopToken.getStopIndex()));
+
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("link");
+		ins.objType = ObjectType.PROCEDURE;
+		ins.literal = rawText;
+
+		addInstruction(ins);
+		return ins.varName;
+
 	}
 }

@@ -306,6 +306,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVariable(@NotNull GooParser.VariableContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#ProcedureConst}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedureConst(@NotNull GooParser.ProcedureConstContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#AssigneeVariable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
