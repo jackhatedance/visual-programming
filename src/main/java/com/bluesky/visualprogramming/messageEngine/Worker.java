@@ -7,6 +7,7 @@ import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
@@ -235,8 +236,8 @@ public class Worker implements Runnable {
 		msg.initExecutionContext(objectRepository.getRootObject(),
 				new String[0]);
 
-		StringValue result = (StringValue) objectRepository
-				.createObject(ObjectType.STRING);
+		StringValue result = (StringValue) objectRepository.createObject(
+				ObjectType.STRING, ObjectScope.ExecutionContext);
 		result.setValue("message not understand:" + msg.subject);
 
 		msg.reply = result;

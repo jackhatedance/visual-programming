@@ -60,6 +60,12 @@ public class Message {
 		this.parameterStyle = parameterStyle;
 		this.previous = previousMessage;
 		this.messageType = messageType;
+
+		/**
+		 * message body is always stand alone, temporarily
+		 */
+		if(body!=null)
+			body.setScope(ObjectScope.ExecutionContext);
 	}
 
 	/**
@@ -139,6 +145,7 @@ public class Message {
 	public boolean isSyncReply() {
 		return this.messageType == MessageType.SyncReply;
 	}
+
 	public String toString() {
 
 		if (messageType == MessageType.SyncReply) {
@@ -171,8 +178,5 @@ public class Message {
 					executionStatus);
 		}
 	}
-	
-	 
-	
-	
+
 }

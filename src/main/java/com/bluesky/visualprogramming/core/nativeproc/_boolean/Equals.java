@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core.nativeproc._boolean;
 import java.util.Map;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
@@ -23,7 +24,9 @@ public class Equals extends BaseNativeProcedure implements
 		BooleanValue selfValue = (BooleanValue) self;
 
 		BooleanValue bv = (BooleanValue) virtualMachine
-				.getObjectRepository().createObject(ObjectType.BOOLEAN);
+				.getObjectRepository().createObject(ObjectType.BOOLEAN,ObjectScope.ExecutionContext);
+		
+		
 
 		bv.setBooleanValue(selfValue.getBooleanValue() == bValue.getBooleanValue());
 

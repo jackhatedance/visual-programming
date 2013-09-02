@@ -1,9 +1,9 @@
-package com.bluesky.visualprogramming.core.nativeproc._boolean;
+package com.bluesky.visualprogramming.core.nativeproc.object;
 
 import java.util.Map;
+import java.util.UUID;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
@@ -13,21 +13,24 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class NotEquals extends BaseNativeProcedure implements NativeProcedure {
+/**
+ * every object is a map.
+ * 
+ * @author Administrator
+ * 
+ */
+public class Set extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
-		BooleanValue bValue = (BooleanValue) ctx.get("b");
+		StringValue nameSV = (StringValue) ctx.get("name");
+		_Object value = ctx.get("value");
 
-		BooleanValue selfValue = (BooleanValue) self;
+		boolean canIOwn = value.hasOwner() ? false : true;
+		self.setChild(nameSV.getValue(), value, canIOwn);
 
-		BooleanValue bv = (BooleanValue) virtualMachine.getObjectRepository()
-				.createObject(ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
-
-		bv.setBooleanValue(selfValue.getBooleanValue() != bValue
-				.getBooleanValue());
-
-		return bv;
+		return null;
 	}
+
 }

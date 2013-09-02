@@ -64,8 +64,10 @@ public class ObjectRepository {
 				ObjectType.NORMAL);
 	}
 
-	public _Object createObject(ObjectType type) {
-		return createObject(null, "", type, "");
+	public _Object createObject(ObjectType type, ObjectScope scope) {
+		_Object o = createObject(null, "", type, "");
+		o.setScope(scope);
+		return o;
 	}
 
 	public _Object createObject(_Object owner, String name) {
@@ -260,13 +262,15 @@ public class ObjectRepository {
 			try {
 				newObject.fromText(line);
 			} catch (Exception e) {
-				throw new RuntimeException("error loading " + line);
+				throw new RuntimeException("error loading " + line, e);
 			}
 
 			objects.put(newObject.getId(), newObject);
 
-			if (newObject.getId() == 0)
+			if (newObject.getId() == 0) {
 				rootObject = newObject;
+				rootObject.scope = ObjectScope.Persistent;
+			}
 
 			if (newObject.getId() > maxObjectId)
 				maxObjectId = newObject.getId();
@@ -282,10 +286,14 @@ public class ObjectRepository {
 			_Object owner = objects.get(o.getOwner().getId());
 
 			// remove the owner holder
-			o.setOwner(null);
+			o.setOwner(owner);
 
-			if (owner != null)
-				owner.addChild(o, o.getName(), true);
+			for (Field f : o.getFields()) {
+				_Object target = objects.get(f.target.getId());
+				f.target = target;
+			}
+
+			o.updateFieldIndexes();
 		}
 
 		logger.info("objects loaded");
@@ -295,22 +303,6 @@ public class ObjectRepository {
 			for (ObjectRepositoryListener l : listeners)
 				l.afterLoad(o);
 		}
-
-	}
-
-	public void loadSampleObjects1() {
-
-		_Object user = createObject(rootObject, "user");
-
-		_Object name = createObject(user, "name", ObjectType.STRING, "jack");
-		name.area.x += 200;
-
-		_Object age = createObject(user, "age", ObjectType.INTEGER, "10");
-		age.area.y += 200;
-
-		_Object desc = createObject(user, "desc", ObjectType.STRING,
-				"I'm a programmer that name=,./=-0@#$%^^&*&*((");
-		desc.area.y += 300;
 
 	}
 

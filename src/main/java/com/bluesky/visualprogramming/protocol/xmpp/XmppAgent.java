@@ -15,6 +15,7 @@ import org.jivesoftware.smackx.workgroup.agent.AgentSession;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
@@ -155,8 +156,8 @@ public class XmppAgent {
 
 			VirtualMachine vm = VirtualMachine.getInstance();
 			ObjectRepository repo = vm.getObjectRepository();
-			StringValue returnValue = (StringValue) repo
-					.createObject(ObjectType.STRING);
+			StringValue returnValue = (StringValue) repo.createObject(
+					ObjectType.STRING, ObjectScope.ExecutionContext);
 
 			// TODO convert msg.Body to _Object.
 			returnValue.setValue(msg.getBody());
@@ -171,8 +172,8 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is a reply");
 
-				Message replyMsg = new Message(false, lastRequestMessage.receiver,
-						lastRequestMessage.sender,
+				Message replyMsg = new Message(false,
+						lastRequestMessage.receiver, lastRequestMessage.sender,
 						"RE:" + lastRequestMessage.subject, returnValue,
 						ParameterStyle.ByName, null, MessageType.SyncReply);
 
@@ -186,13 +187,13 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
-				SoftLink senderLink = (SoftLink) repo
-						.createObject(ObjectType.LINK);
+				SoftLink senderLink = (SoftLink) repo.createObject(
+						ObjectType.LINK, ObjectScope.ExecutionContext);
 				senderLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getFrom())));
 
-				SoftLink receiverLink = (SoftLink) repo
-						.createObject(ObjectType.LINK);
+				SoftLink receiverLink = (SoftLink) repo.createObject(
+						ObjectType.LINK, ObjectScope.ExecutionContext);
 				receiverLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getTo())));
 

@@ -135,6 +135,7 @@ public class MainWindow extends JPanel {
 
 		for (int i = 0; i < obj.getChildCount(); i++) {
 			_Object childObj = obj.getChild(i);
+						
 			DefaultMutableTreeNode childNode = createTreeNode(childObj);
 			node.add(childNode);
 		}

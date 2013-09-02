@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
@@ -23,7 +24,7 @@ public class Concatenate extends BaseNativeProcedure implements NativeProcedure 
 		StringValue selfStr = (StringValue) self;
 
 		StringValue result = (StringValue) virtualMachine.getObjectRepository()
-				.createObject(ObjectType.STRING);
+				.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
 
 		String newStr = selfStr.getValue().concat(str.getValue());
 

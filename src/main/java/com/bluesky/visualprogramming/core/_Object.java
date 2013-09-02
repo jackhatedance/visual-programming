@@ -38,12 +38,18 @@ public class _Object implements Serializable {
 	private long id;
 
 	/*
-	 * the name called by owner
+	 * the called by itself. maybe it is the type name.
 	 */
 	private String name;
 
 	// this is a pointer, set after linking.
 	private _Object owner;
+
+	/**
+	 * only those has root in persistent repository are persistent. messages are
+	 * not persistent.
+	 */
+	public ObjectScope scope = null;
 
 	// in Z order
 	private List<Field> childrenList = new ArrayList<Field>();
@@ -90,9 +96,9 @@ public class _Object implements Serializable {
 		// this.owner
 
 		for (Field p : src.childrenList) {
-			// TODO
+			boolean owns = p.target.owner == this;
 
-			addChild(p.target, p.name, p.owner);
+			addChild(p.target, p.name, owns);
 		}
 
 		// messageQueue is skipped
@@ -133,6 +139,16 @@ public class _Object implements Serializable {
 		this.owner = owner;
 	}
 
+	public void updateFieldIndexes() {
+		childrenNameMap = new HashMap<String, Integer>();
+		childrenObjectMap = new HashMap<_Object, Integer>();
+		for (int i = 0; i < childrenList.size(); i++) {
+			Field f = childrenList.get(i);
+			childrenNameMap.put(f.name, i);
+			childrenObjectMap.put(f.target, i);
+		}
+	}
+
 	/**
 	 * if there is no named field. then it become an array.
 	 * 
@@ -154,19 +170,18 @@ public class _Object implements Serializable {
 		addChild(child, name, false);
 	}
 
-	
+	public void addChild(_Object child, String name) {
 
-	public void addChild(_Object child, String name, boolean owner) {
-
-		Field p = new Field(child, name, owner);
-
-		// have a new name
-		if(owner)
-			child.setName(name);
+		Field p = new Field(child, name);
 
 		childrenList.add(p);
 		childrenNameMap.put(name, childrenList.size() - 1);
 		childrenObjectMap.put(child, childrenList.size() - 1);
+	}
+
+	public void addChild(_Object child, String name, boolean owner) {
+
+		addChild(child, name);
 
 		if (owner) {
 			if (child.hasOwner())
@@ -178,6 +193,19 @@ public class _Object implements Serializable {
 		}
 	}
 
+	public ObjectScope getScope() {
+		if (scope != null)
+			return scope;
+		else if (hasOwner())
+			return owner.getScope();
+		else
+			throw new RuntimeException("object neither has scope nor has owner:"+id);
+	}
+	
+	public void setScope(ObjectScope scope){
+		this.scope = scope;
+	}
+
 	/**
 	 * take care of the old field if exists.
 	 * 
@@ -186,15 +214,15 @@ public class _Object implements Serializable {
 	 * @param owner
 	 */
 	public void setChild(String name, _Object child, boolean owner) {
-		if(name==null){
+		if (name == null) {
 			throw new RuntimeException("field name cannot be null.");
 		}
-		
+
 		_Object oldChild = getChild(name);
 		if (oldChild != null)
 			removeChild(name);
 
-		addChild(child,name, owner);
+		addChild(child, name, owner);
 	}
 
 	public boolean hasOwner() {
@@ -232,8 +260,8 @@ public class _Object implements Serializable {
 		if (indexObject == null)
 			return;
 
-		int index  = indexObject.intValue();
-		
+		int index = indexObject.intValue();
+
 		Field p = childrenList.get(index);
 		childrenList.remove(index);
 
@@ -262,6 +290,10 @@ public class _Object implements Serializable {
 
 	public boolean hasChildren() {
 		return !childrenList.isEmpty();
+	}
+
+	public List<Field> getFields() {
+		return this.childrenList;
 	}
 
 	public String getValue() {
@@ -303,6 +335,16 @@ public class _Object implements Serializable {
 		if (owner != null)
 			ownerId = owner.getId();
 
+		// children=son:12|dad:23
+		StringBuilder childrenSb = new StringBuilder();
+		for (int i = 0; i < childrenList.size(); i++) {
+			if (i != 0)
+				childrenSb.append('|');
+
+			Field f = childrenList.get(i);
+			childrenSb.append(String.format("%s:%d", f.name, f.target.getId()));
+		}
+
 		String encValue = getValue();
 
 		try {
@@ -312,9 +354,10 @@ public class _Object implements Serializable {
 		}
 
 		return String
-				.format("type=%s,id=%d,name=%s,owner=%d,x=%d,y=%d,width=%d,height=%d,scale=%f,color=%d,value=%s",
-						type, id, name, ownerId, area.x, area.y, area.width,
-						area.height, scaleRate, borderColor.getRGB(), encValue);
+				.format("type=%s,id=%d,name=%s,owner=%d,children=%s,x=%d,y=%d,width=%d,height=%d,scale=%f,color=%d,value=%s",
+						type, id, name, ownerId, childrenSb.toString(), area.x,
+						area.y, area.width, area.height, scaleRate,
+						borderColor.getRGB(), encValue);
 	}
 
 	public void fromText(String text) {
@@ -327,6 +370,25 @@ public class _Object implements Serializable {
 		this.type = ObjectType.valueOf(map.get("type").toUpperCase());
 		this.id = Long.parseLong(map.get("id"));
 		this.name = map.get("name");
+
+		String childrenStr = map.get("children");
+		// System.out.println(childrenStr);
+		if (childrenStr != null && !childrenStr.trim().isEmpty()) {
+			String[] childrenKV = childrenStr.split("\\|");
+
+			for (String childKV : childrenKV) {
+
+				// System.out.println(childKV);
+
+				String[] kv = childKV.split(":");
+				String name = kv[0];
+				String idStr = kv[1];
+				long id = Long.valueOf(idStr);
+
+				addChild(new _Object(id), name);
+			}
+		}
+
 		long ownerId = Long.parseLong(map.get("owner"));
 
 		// ID holder
@@ -365,7 +427,8 @@ public class _Object implements Serializable {
 
 	}
 
-	public void draw(Graphics g, Point canvasOffset, double zoom) {
+	public void draw(Graphics g, Point canvasOffset, double zoom, boolean own,
+			String name) {
 		// System.out.println("draw:"+getName());
 
 		// draw border
@@ -378,13 +441,20 @@ public class _Object implements Serializable {
 
 		Graphics2D g2 = (Graphics2D) g;
 
+		int finalBorderWidth = -1;
+		if (own)
+			finalBorderWidth = this.borderWidth;
+		else
+			finalBorderWidth = this.borderWidth / 2;
+
 		Stroke borderStroke = null;
 		if (selectedStatus == SelectedStatus.Preselected
 				|| selectedStatus == SelectedStatus.Selected)
-			borderStroke = new BasicStroke(borderWidth, BasicStroke.CAP_BUTT,
-					BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
+			borderStroke = new BasicStroke(finalBorderWidth,
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+					new float[] { 9 }, 0);
 		else
-			borderStroke = new BasicStroke(borderWidth);
+			borderStroke = new BasicStroke(finalBorderWidth);
 
 		g2.setStroke(borderStroke);
 
@@ -392,8 +462,8 @@ public class _Object implements Serializable {
 
 		g.setColor(Color.BLACK);
 
-		if (this.name != null)
-			g.drawString(this.name, x + 5, (int) (y + 15));
+		if (name != null)
+			g.drawString(name, x + 5, (int) (y + 15));
 
 		// draw selector box
 		Color selectorColor = null;
@@ -418,22 +488,26 @@ public class _Object implements Serializable {
 
 		if (internalScale > 0.1f) {
 			Point internalOffset = new Point(x, y);
-			drawInternal(g, internalOffset, internalScale);
+			drawInternal(g, internalOffset, internalScale, name);
 		}
 	}
 
-	protected void drawInternal(Graphics g, Point canvasOffset, double zoom) {
+	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
+			String name) {
 
 		for (Field p : childrenList) {
-			if (p.owner)
-				p.target.draw(g, canvasOffset, zoom);
+			boolean owns = p.target.owner == this;
+			p.target.draw(g, canvasOffset, zoom, owns, name);
 		}
 	}
 
 	public void drawInternal(Graphics g, Point canvasOffset) {
-		for (Field p : childrenList) {
-			if (p.owner)
-				p.target.draw(g, canvasOffset, scaleRate);
+		for (Field field : childrenList) {
+			boolean owns = field.target.owner == this;
+
+			String objName = String.format("%s<%s>", field.name,
+					field.target.getName());
+			field.target.draw(g, canvasOffset, scaleRate, owns, objName);
 		}
 	}
 
@@ -456,13 +530,14 @@ public class _Object implements Serializable {
 	 * @return
 	 */
 	public Procedure lookupProcedure(String name) {
-		Procedure p = null;
-		if (hasPrototype()) {
-			_Object prototype = getPrototypeObject();
-			return prototype.lookupProcedure(name);
+		Procedure p = (Procedure) getChild(name);
+		if (p == null) {
+			if (hasPrototype()) {
+				_Object prototype = getPrototypeObject();
+				p = prototype.lookupProcedure(name);
+			}
+		}
 
-		} else
-			p = (Procedure) getChild(name);
 		return p;
 	}
 

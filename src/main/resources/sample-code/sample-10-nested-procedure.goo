@@ -1,0 +1,7 @@
+procedure foo(a,b,c)
+{
+	 
+	a = procedure bar(a,b){
+	//comment
+	};
+}

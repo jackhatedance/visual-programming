@@ -9,11 +9,12 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.goo.GooCompiler;
 import com.bluesky.visualprogramming.messageEngine.PostService;
-import com.bluesky.visualprogramming.vm.exceptions.AlreadyHasOwnerException;
+import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
@@ -97,9 +98,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus executeAccessField(AccessField instruction) {
 
 		_Object obj = ctx.getObject(instruction.objName);
-		if(obj==null)
-			throw new RuntimeException("object not exist:"+instruction.toString());
-			
+		if (obj == null)
+			throw new RuntimeException("object not exist:"
+					+ instruction.toString());
+
 		_Object result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
@@ -243,8 +245,8 @@ public class ProcedureExecutor implements InstructionExecutor {
 					leftObject.removeChild(oldFieldObject);
 
 			} else {
-				if (rightObject.hasOwner())
-					throw new AlreadyHasOwnerException();
+				if (rightObject.getScope() != ObjectScope.ExecutionContext)
+					throw new CannotObtainOwnershipException();
 
 				oldFieldObject = leftObject.getChild(instruction.fieldName);
 
@@ -268,8 +270,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 				// move to execution context
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
-			} else if (!rightObject.hasOwner()) {
-
+			} else if (rightObject.getScope() == ObjectScope.ExecutionContext) {
 
 				leftObject.setChild(instruction.fieldName, rightObject, true);
 			} else {
