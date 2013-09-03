@@ -20,7 +20,7 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 		_Object reply = execute(virtualMachine, self, ctx);
 
 		msg.executionContext.setResult(reply);
-		msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
+		
 	};
 
 	protected abstract _Object execute(VirtualMachine virtualMachine,

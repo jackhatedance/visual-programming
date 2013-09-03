@@ -37,6 +37,11 @@ public class TimeValue extends _Object {
 	public void setLongValue(long l) {
 		this.value.setTime(l);
 	}
+	
+	public Date getDateValue() {
+		return value;
+	}
+
 
 	public String getTextValue() {
 		return value.toString();

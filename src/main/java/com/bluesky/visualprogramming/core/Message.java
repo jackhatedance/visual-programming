@@ -29,6 +29,11 @@ public class Message {
 	public Message previous;
 
 	public MessageType messageType;
+	
+	/**
+	 * only used when message type is reply.
+	 */
+	public ReplyStatus replyStatus;
 
 	// usually will goes to the head of the message queue.
 	public boolean urgent = false;
@@ -102,6 +107,7 @@ public class Message {
 		executionContext.setObject("root", root);
 		executionContext.setObject("self", receiver);
 		executionContext.setObject("_parameters", body);
+		//executionContext.setObject("sender", receiver);
 
 		if (parameterStyle == ParameterStyle.ByName) {
 			for (String name : paramNames) {

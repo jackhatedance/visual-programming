@@ -69,7 +69,7 @@ public class _Object implements Serializable {
 	 * the max value of height and width is 1000;
 	 */
 	public Rectangle area = new Rectangle();
-	
+
 	public double scaleRate = 1d;
 	public Color borderColor;
 	static int borderWidth = 5;
@@ -107,8 +107,6 @@ public class _Object implements Serializable {
 		this.worker = null;
 
 		this.area = new Rectangle(src.area);
-
-		
 
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
@@ -183,15 +181,21 @@ public class _Object implements Serializable {
 		childrenObjectMap.put(child, childrenList.size() - 1);
 	}
 
+	public int getChildIndex(_Object child) {
+		Integer indexObject = childrenObjectMap.get(child);
+		return indexObject.intValue();
+	}
+
 	public void addChild(_Object child, String name, boolean owner) {
 
 		addChild(child, name);
 
 		if (owner) {
-			if (child.hasOwner())
+			if (child.getScope() != ObjectScope.ExecutionContext)
 				throw new RuntimeException(
-						"the child object already has owner: id="
-								+ child.owner.id);
+						String.format(
+								"cannot obtain ownership from object id=%d because it's scope is not ExecutionContext",
+								child.owner.id));
 
 			child.setOwner(this);
 		}
@@ -203,8 +207,7 @@ public class _Object implements Serializable {
 		else if (hasOwner())
 			return owner.getScope();
 		else
-			throw new RuntimeException(
-					"object neither has scope nor has owner:" + id);
+			return null;
 	}
 
 	public void setScope(ObjectScope scope) {
@@ -237,8 +240,8 @@ public class _Object implements Serializable {
 
 	public void renameField(String old, String _new) {
 
-		Integer oldIndex = childrenNameMap.get(old);
-		if (oldIndex == null)
+		Integer index = childrenNameMap.get(old);
+		if (index == null)
 			throw new RuntimeException("source field not exist:" + old);
 
 		if (childrenNameMap.containsKey(_new)) {
@@ -246,9 +249,10 @@ public class _Object implements Serializable {
 					+ _new);
 		}
 
-		childrenNameMap.remove(old);
+		childrenList.get(index).setName(_new);
 
-		childrenNameMap.put(_new, oldIndex);
+		childrenNameMap.remove(old);
+		childrenNameMap.put(_new, index);
 
 	}
 
@@ -493,16 +497,16 @@ public class _Object implements Serializable {
 
 		if (internalScale > 0.1f) {
 			Point internalOffset = new Point(x, y);
-			drawInternal(g, internalOffset, internalScale, name,selectedStatus);
+			drawInternal(g, internalOffset, internalScale, name, selectedStatus);
 		}
 	}
 
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
-			String name,SelectedStatus selectedStatus) {
+			String name, SelectedStatus selectedStatus) {
 
 		for (Field p : childrenList) {
 			boolean owns = p.target.owner == this;
-			p.target.draw(g, canvasOffset, zoom, owns, name,selectedStatus);
+			p.target.draw(g, canvasOffset, zoom, owns, name, selectedStatus);
 		}
 	}
 
@@ -517,7 +521,8 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(g, canvasOffset, scaleRate, owns, objName,field.selectedStatus);
+			field.target.draw(g, canvasOffset, scaleRate, owns, objName,
+					field.getSelectedStatus());
 		}
 	}
 

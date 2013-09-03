@@ -107,7 +107,7 @@ public class MainWindow extends JPanel {
 
 		Field rootField = new Field(getVM().getObjectRepository()
 				.getRootObject(), "root");
-		TreeNode rootNode = createTreeNode(rootField);
+		TreeNode rootNode = createTreeNode(null, rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);
 
@@ -133,19 +133,23 @@ public class MainWindow extends JPanel {
 
 	}
 
-	private DefaultMutableTreeNode createTreeNode(Field field) {
+	private DefaultMutableTreeNode createTreeNode(_Object owner, Field field) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(field);
 
 		_Object obj = field.target;
 		if (obj == null)
-			throw new RuntimeException("field is null:" + field.name);
+			throw new RuntimeException(String.format(
+					"owner id %d field %s is null:", owner.getId(), field.name));
 
-		for (int i = 0; i < obj.getFields().size(); i++) {
+		if (field.target.getOwner() == owner) {
+			for (int i = 0; i < obj.getFields().size(); i++) {
 
-			Field childField = obj.getFields().get(i);
+				Field childField = obj.getFields().get(i);
 
-			DefaultMutableTreeNode childNode = createTreeNode(childField);
-			node.add(childNode);
+				DefaultMutableTreeNode childNode = createTreeNode(obj,
+						childField);
+				node.add(childNode);
+			}
 		}
 
 		return node;
@@ -161,9 +165,11 @@ public class MainWindow extends JPanel {
 				Field field = getSelectedTreeField();
 
 				if (field != null) {
-					System.out.println(String.format(
-							"draw field %s  status:%s", field.name,
-							field.selectedStatus));
+
+					if (logger.isDebugEnabled())
+						logger.debug(String.format("draw field %s  status:%s",
+								field.name, field.getSelectedStatus()));
+
 					field.target.drawInternal(g, new Point(0, 0));
 				}
 			}
@@ -183,7 +189,8 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.NORMAL);
-				addChildObject(obj);
+
+				addChildObjectToTree(obj);
 			}
 
 		});
@@ -196,7 +203,7 @@ public class MainWindow extends JPanel {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.INTEGER);
 
-				addChildObject(obj);
+				addChildObjectToTree(obj);
 			}
 
 		});
@@ -207,7 +214,7 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.STRING);
-				addChildObject(obj);
+				addChildObjectToTree(obj);
 
 			}
 
@@ -219,7 +226,7 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.PROCEDURE);
-				addChildObject(obj);
+				addChildObjectToTree(obj);
 
 			}
 
@@ -285,11 +292,13 @@ public class MainWindow extends JPanel {
 
 	}
 
-	private void addChildObject(_Object obj) {
+	private void addChildObjectToTree(_Object obj) {
 		obj.getArea().setLocation(diagram.getMousePosition());
 
 		// add to tree
-		treeModel.insertNodeInto(new DefaultMutableTreeNode(obj),
+		int index = obj.getOwner().getChildIndex(obj);
+		Field f = obj.getOwner().getField(index);
+		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
 		diagram.repaint();
@@ -437,6 +446,16 @@ public class MainWindow extends JPanel {
 			return;
 
 		Field oldActiveChildField = activeChildField;
+
+		if (activeChildField != null) {
+			if (activeChildField.getName().equals("helloWorld")
+					&& activeChildField.getSelectedStatus() == SelectedStatus.NotSelected)
+				System.out
+						.println(String.format(
+								"old active child field %s status %s",
+								activeChildField,
+								activeChildField.getSelectedStatus()));
+		}
 		activeChildField = null;
 		Point p = CanvasUtils.scaleBack(mousePos,
 				getSelectedTreeField().target.scaleRate);
@@ -450,16 +469,21 @@ public class MainWindow extends JPanel {
 				activeChildField = f;
 		}
 
+		boolean sameActiveChildField = (oldActiveChildField == activeChildField);
+
 		// step 2: save old status
 		SelectedStatus oldStatus = null;
 		if (activeChildField != null)
-			oldStatus = activeChildField.selectedStatus;
+			oldStatus = activeChildField.getSelectedStatus();
 
-		// step 3: clear all status
+		// step 3: update status
 		for (int i = 0; i < obj.getChildCount(); i++) {
 			Field f = obj.getField(i);
-			// set all to notSelected
-			f.selectedStatus = SelectedStatus.NotSelected;
+
+			if (f == activeChildField)
+				f.setSelectedStatus(newStatus);
+			else
+				f.setSelectedStatus(SelectedStatus.NotSelected);
 		}
 
 		// step 4: update status of new active field.
@@ -467,29 +491,30 @@ public class MainWindow extends JPanel {
 
 			if (oldStatus != newStatus) {
 				if (logger.isDebugEnabled())
-					System.out.println(String.format(
+					logger.debug(String.format(
 							"field %s's status from %s to %s",
 							activeChildField.getName(), oldStatus, newStatus));
 
-				activeChildField.selectedStatus = newStatus;
 			}
-
 			// check if cursor is near borders, adjust to resize cursor
-
 		}
 
-		if ((oldActiveChildField != activeChildField)
-				|| (oldActiveChildField == activeChildField && activeChildField!=null && oldStatus != newStatus)) {
+		if ((oldActiveChildField != activeChildField)) {
 			String oldField = oldActiveChildField == null ? ""
 					: oldActiveChildField.name;
 			String newField = activeChildField == null ? ""
 					: activeChildField.name;
-			System.out.println(String.format(
-					"active child field changed from %s to %s", oldField,
-					newField));
-			System.out.println(String.format(
-					"status changed from %s to %s", oldStatus,
-					newStatus));
+
+			if (logger.isDebugEnabled())
+				logger.debug(String.format(
+						"active child field changed from %s to %s", oldField,
+						newField));
+
+			diagram.repaint();
+		} else if ((sameActiveChildField && activeChildField != null && oldStatus != newStatus)) {
+			if (logger.isDebugEnabled())
+				logger.debug(String.format("status changed from %s to %s",
+						oldStatus, newStatus));
 			diagram.repaint();
 		}
 	}

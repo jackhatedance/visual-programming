@@ -63,6 +63,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 			if (instructionExecutionStatus == ExecutionStatus.WAITING) {
 				ctx.executionStatus = ExecutionStatus.WAITING;
 				break;
+			} else if (instructionExecutionStatus == ExecutionStatus.ERROR) {
+				ctx.executionStatus = ExecutionStatus.ERROR;
+				break;
 			}
 
 			if (ctx.isProcedureEnd()) {
@@ -82,13 +85,18 @@ public class ProcedureExecutor implements InstructionExecutor {
 		if (logger.isDebugEnabled())
 			logger.debug(instruction.toString());
 
-		ExecutionStatus es = instruction.type.execute(this, instruction);
-
-		// goto instruction update index by them self
-		if (!instruction.type.updatedInstructionIndex()) {
-			//
-			if (es == ExecutionStatus.COMPLETE)
-				ctx.currentInstructionIndex++;
+		ExecutionStatus es;
+		try {
+			es = instruction.type.execute(this, instruction);
+			// goto instruction update index by them self
+			if (!instruction.type.updatedInstructionIndex()) {
+				//
+				if (es == ExecutionStatus.COMPLETE)
+					ctx.currentInstructionIndex++;
+			}
+		} catch (Exception e) {
+			es = ExecutionStatus.ERROR;
+			e.printStackTrace();
 		}
 
 		return es;
@@ -115,10 +123,11 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		// remove the quotation marks
 		String strValue = instruction.objType.extractValue(instruction.literal);
-		_Object obj = objectRepository.createObject(instruction.objType, ObjectScope.ExecutionContext);
-		obj.setName(instruction.varName );
+		_Object obj = objectRepository.createObject(instruction.objType,
+				ObjectScope.ExecutionContext);
+		obj.setName(instruction.varName);
 		obj.setValue(strValue);
-				
+
 		ctx.setVariable(instruction.varName, obj);
 
 		return ExecutionStatus.COMPLETE;

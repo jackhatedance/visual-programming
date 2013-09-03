@@ -1,6 +1,4 @@
-package com.bluesky.visualprogramming.core.nativeproc.time;
-
-import java.text.SimpleDateFormat;
+package com.bluesky.visualprogramming.core.nativeproc.string;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectScope;
@@ -8,29 +6,25 @@ import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.core.value.TimeValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class ToString extends BaseNativeProcedure implements NativeProcedure {
+public class ReplaceAll extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
-		TimeValue selfTime = (TimeValue) self;
+		StringValue oldSV = (StringValue) ctx.get("old");
+		StringValue newSV = (StringValue) ctx.get("new");
 
-		StringValue formatSV = (StringValue) ctx.get("format");
-
-		String format = "yyMMddHHmmssZ";
-		if (formatSV != null)
-			format = formatSV.getValue();
-
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		StringValue selfStr = (StringValue) self;
 
 		StringValue result = (StringValue) virtualMachine.getObjectRepository()
 				.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
 
-		result.setValue(String.valueOf(sdf.format(selfTime.getDateValue())));
+		String newStr = selfStr.getValue().replaceAll(oldSV.getValue(), newSV.getValue());
+
+		result.setValue(newStr);
 
 		return result;
 	}

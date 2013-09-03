@@ -11,6 +11,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
+import com.bluesky.visualprogramming.core.ReplyStatus;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
@@ -125,9 +126,16 @@ public class Worker implements Runnable {
 						throw new RuntimeException(
 								"error: last message's execution context is null.");
 
+					// put return value
 					obj.peekFirstMessage().executionContext.reply = reply;
-					obj.peekFirstMessage().executionContext
-							.setExecutionStatus(ExecutionStatus.ON_GOING);
+
+					// set flag
+					if (msg.replyStatus == ReplyStatus.Normal)
+						obj.peekFirstMessage().executionContext
+								.setExecutionStatus(ExecutionStatus.ON_GOING);
+					else
+						obj.peekFirstMessage().executionContext
+								.setExecutionStatus(ExecutionStatus.ERROR);
 
 				} else {
 
@@ -147,7 +155,8 @@ public class Worker implements Runnable {
 						logger.debug("procedureExecutionStatus "
 								+ procedureExecutionStatus);
 
-					if (procedureExecutionStatus == ExecutionStatus.COMPLETE) {
+					if (procedureExecutionStatus == ExecutionStatus.COMPLETE
+							|| procedureExecutionStatus == ExecutionStatus.ERROR) {
 
 						if (logger.isDebugEnabled())
 							obj.printMessageQueue();
@@ -168,6 +177,12 @@ public class Worker implements Runnable {
 									ParameterStyle.ByName, msg,
 									MessageType.SyncReply);
 
+							if (procedureExecutionStatus == ExecutionStatus.ERROR) {
+								replyMsg.subject = "Error " + replyMsg.subject;
+								replyMsg.replyStatus = ReplyStatus.Error;
+							} else
+								replyMsg.replyStatus = ReplyStatus.Normal;
+
 							replyMsg.urgent = true;
 
 							postService.sendMessage(replyMsg);
@@ -181,6 +196,11 @@ public class Worker implements Runnable {
 										msg.receiver, msg.sender, msg.callback,
 										msg.reply, ParameterStyle.ByName, msg,
 										MessageType.AsyncReply);
+
+								if (procedureExecutionStatus == ExecutionStatus.ERROR)
+									replyMsg.replyStatus = ReplyStatus.Error;
+								else
+									replyMsg.replyStatus = ReplyStatus.Normal;
 
 								postService.sendMessage(replyMsg);
 
@@ -293,9 +313,10 @@ public class Worker implements Runnable {
 
 			nativeP.execute(vm, obj, msg.executionContext, msg);
 
+			msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"error during executing native procedure.", e);
+			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
+			e.printStackTrace();
 		}
 	}
 

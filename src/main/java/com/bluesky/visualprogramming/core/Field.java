@@ -6,8 +6,8 @@ public class Field {
 	public _Object target;
 
 	// public boolean owner;
-	public SelectedStatus selectedStatus = SelectedStatus.NotSelected;
-	
+	private SelectedStatus selectedStatus = SelectedStatus.NotSelected;
+
 	public Field(_Object targetObject, String name) {
 		this.target = targetObject;
 		this.name = name;
@@ -41,6 +41,15 @@ public class Field {
 		this.target = target;
 	}
 
-	
-	
+	public SelectedStatus getSelectedStatus() {
+		return selectedStatus;
+	}
+
+	public void setSelectedStatus(SelectedStatus selectedStatus) {
+		this.selectedStatus = selectedStatus;
+	}
+
+	public static boolean isValidFieldName(String name) {
+		return name.matches("[_a-zA-Z][_a-zA-Z0-9]*");
+	}
 }

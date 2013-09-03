@@ -77,6 +77,7 @@ public class ObjectRepository {
 	private _Object _createObject(ObjectType type, ObjectScope scope) {
 
 		_Object newObject = type.create(objectId++);
+		newObject.setScope(scope);
 
 		// set prototype for value objects
 		String prototypeEl = type.getPrototypeEL();
@@ -122,7 +123,7 @@ public class ObjectRepository {
 	private _Object createObject(_Object owner, String name, ObjectType type,
 			String value) {
 		// scope is null, means it obliges owner's value
-		_Object newObject = _createObject(type, null);
+		_Object newObject = _createObject(type, ObjectScope.ExecutionContext);
 
 		newObject.setName(name);
 

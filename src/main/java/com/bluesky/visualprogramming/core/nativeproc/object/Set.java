@@ -3,7 +3,9 @@ package com.bluesky.visualprogramming.core.nativeproc.object;
 import java.util.Map;
 import java.util.UUID;
 
+import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
@@ -25,9 +27,14 @@ public class Set extends BaseNativeProcedure implements NativeProcedure {
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 		StringValue nameSV = (StringValue) ctx.get("name");
+
+		if (!Field.isValidFieldName(nameSV.getValue()))
+			throw new RuntimeException("invalid field name:"
+					+ nameSV.getValue());
+
 		_Object value = ctx.get("value");
 
-		boolean canIOwn = value.hasOwner() ? false : true;
+		boolean canIOwn = value.getScope() == ObjectScope.ExecutionContext;
 		self.setChild(nameSV.getValue(), value, canIOwn);
 
 		return null;

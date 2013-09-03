@@ -242,7 +242,7 @@ public class ObjectPropertyDialog extends JDialog {
 		if (!oldName.equals(newName))
 			object.getOwner().renameField(oldName, newName);
 
-		object.setName(newName);
+		//object.setName(newName);
 		object.setValue(textAreaValue.getText());
 		object.borderColor = btnSetBorderColor.getForeground();
 

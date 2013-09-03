@@ -1,12 +1,13 @@
-package com.bluesky.visualprogramming.core.nativeproc;
+package com.bluesky.visualprogramming.core.nativeproc.console;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class ConsolePrint extends BaseNativeProcedure implements
+public class Print extends BaseNativeProcedure implements
 		NativeProcedure {
 	
 	
