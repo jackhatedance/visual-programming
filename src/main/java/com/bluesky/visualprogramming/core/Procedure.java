@@ -85,7 +85,11 @@ public class Procedure extends _Object {
 				language = map.get("language");
 
 			int endOflineIndex = value.indexOf('\n', index2);
-			code = value.substring(endOflineIndex + 1);
+			if(endOflineIndex>=0)
+				code = value.substring(endOflineIndex + 1);
+			else
+				code = "";
+			
 		} else
 			code = value;
 

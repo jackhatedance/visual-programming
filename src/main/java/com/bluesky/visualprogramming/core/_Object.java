@@ -199,10 +199,11 @@ public class _Object implements Serializable {
 		else if (hasOwner())
 			return owner.getScope();
 		else
-			throw new RuntimeException("object neither has scope nor has owner:"+id);
+			throw new RuntimeException(
+					"object neither has scope nor has owner:" + id);
 	}
-	
-	public void setScope(ObjectScope scope){
+
+	public void setScope(ObjectScope scope) {
 		this.scope = scope;
 	}
 
@@ -505,8 +506,13 @@ public class _Object implements Serializable {
 		for (Field field : childrenList) {
 			boolean owns = field.target.owner == this;
 
-			String objName = String.format("%s<%s>", field.name,
-					field.target.getName());
+			_Object proto = field.target.getPrototypeObject();
+			String objName = null;
+			if (proto != null) {
+				objName = String.format("%s<%s>", field.name, proto.name);
+			} else
+				objName = field.name;
+
 			field.target.draw(g, canvasOffset, scaleRate, owns, objName);
 		}
 	}

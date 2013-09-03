@@ -169,7 +169,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeObject());
+						getSelectedTreeObject(),ObjectType.NORMAL);
 				addChildObject(obj);
 			}
 

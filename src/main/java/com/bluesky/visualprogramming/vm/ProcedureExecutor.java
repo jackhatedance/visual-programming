@@ -115,9 +115,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 
 		// remove the quotation marks
 		String strValue = instruction.objType.extractValue(instruction.literal);
-		_Object obj = objectRepository.createObject(null, instruction.varName,
-				instruction.objType, strValue);
-
+		_Object obj = objectRepository.createObject(instruction.objType, ObjectScope.ExecutionContext);
+		obj.setName(instruction.varName );
+		obj.setValue(strValue);
+				
 		ctx.setVariable(instruction.varName, obj);
 
 		return ExecutionStatus.COMPLETE;

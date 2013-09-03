@@ -35,7 +35,8 @@ public class ObjectRepository {
 		// start from 0
 		objectId = 0;
 
-		rootObject = createObject(null, "root");
+		rootObject = createObject(ObjectType.NORMAL, ObjectScope.Persistent);
+		rootObject.setName("root");
 	}
 
 	private String generateNewChildName(_Object owner) {
@@ -58,33 +59,23 @@ public class ObjectRepository {
 		return name;
 	}
 
-	public _Object createObject(_Object owner) {
-
-		return createObject(owner, generateNewChildName(owner),
-				ObjectType.NORMAL);
-	}
-
 	public _Object createObject(ObjectType type, ObjectScope scope) {
-		_Object o = createObject(null, "", type, "");
-		o.setScope(scope);
-		return o;
+		if (scope == null)
+			throw new RuntimeException("scope cannot be null.");
+
+		return _createObject(type, scope);
 	}
 
-	public _Object createObject(_Object owner, String name) {
+	/**
+	 * create object without owner. mostly it belongs to runtime execution
+	 * context.
+	 * 
+	 * @param type
+	 * @param scope
+	 * @return
+	 */
+	private _Object _createObject(ObjectType type, ObjectScope scope) {
 
-		return createObject(owner, name, ObjectType.NORMAL);
-	}
-
-	public _Object createObject(_Object owner, ObjectType type) {
-		return createObject(owner, generateNewChildName(owner), type, "");
-	}
-
-	public _Object createObject(_Object owner, String name, ObjectType type) {
-		return createObject(owner, name, type, "");
-	}
-
-	public _Object createObject(_Object owner, String name, ObjectType type,
-			String value) {
 		_Object newObject = type.create(objectId++);
 
 		// set prototype for value objects
@@ -102,13 +93,46 @@ public class ObjectRepository {
 			}
 		}
 
+		objects.put(newObject.getId(), newObject);
+
+		for (ObjectRepositoryListener l : listeners) {
+			l.afterCreate(newObject);
+		}
+
+		return newObject;
+	}
+
+	public _Object createObject(_Object owner, ObjectType type) {
+		return createObject(owner, generateNewChildName(owner), type, "");
+	}
+
+	public _Object createObject(_Object owner, String name, ObjectType type) {
+		return createObject(owner, name, type, "");
+	}
+
+	/**
+	 * create field for owner object
+	 * 
+	 * @param owner
+	 * @param name
+	 * @param type
+	 * @param value
+	 * @return
+	 */
+	private _Object createObject(_Object owner, String name, ObjectType type,
+			String value) {
+		// scope is null, means it obliges owner's value
+		_Object newObject = _createObject(type, null);
+
 		newObject.setName(name);
 
 		// String value = type.extractValue(literal);
 		newObject.setValue(value);
 
-		if (owner != null)
-			owner.addChild(newObject, name, true);
+		if (owner == null)
+			throw new RuntimeException("owner must not be null");
+
+		owner.addChild(newObject, name, true);
 
 		objects.put(newObject.getId(), newObject);
 
