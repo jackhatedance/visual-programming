@@ -12,7 +12,6 @@ package com.bluesky.visualprogramming.ui;
  *    tutorialcont.html
  *    vm.html
  */
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -42,11 +41,12 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import com.bluesky.visualprogramming.core.ObjectRepository;
+import org.apache.log4j.Logger;
+
+import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.ui.diagram.DiagramPanel;
 import com.bluesky.visualprogramming.ui.diagram.Painter;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
@@ -54,6 +54,8 @@ import com.bluesky.visualprogramming.ui.selection.MouseOperation;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MainWindow extends JPanel {
+
+	static Logger logger = Logger.getLogger(MainWindow.class);
 
 	private JFrame owner;
 
@@ -71,7 +73,7 @@ public class MainWindow extends JPanel {
 
 	private Point cursorOffset;
 	// the object that hovered by mouse
-	private _Object activeChildObject;
+	private Field activeChildField;
 	// either move or resize,depends on mouse position.
 	private MouseOperation mouseOperation;
 
@@ -103,8 +105,9 @@ public class MainWindow extends JPanel {
 
 	private void createTreePanel() {
 
-		TreeNode rootNode = createTreeNode(getVM().getObjectRepository()
-				.getRootObject());
+		Field rootField = new Field(getVM().getObjectRepository()
+				.getRootObject(), "root");
+		TreeNode rootNode = createTreeNode(rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);
 
@@ -130,13 +133,18 @@ public class MainWindow extends JPanel {
 
 	}
 
-	private DefaultMutableTreeNode createTreeNode(_Object obj) {
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode(obj);
+	private DefaultMutableTreeNode createTreeNode(Field field) {
+		DefaultMutableTreeNode node = new DefaultMutableTreeNode(field);
 
-		for (int i = 0; i < obj.getChildCount(); i++) {
-			_Object childObj = obj.getChild(i);
-						
-			DefaultMutableTreeNode childNode = createTreeNode(childObj);
+		_Object obj = field.target;
+		if (obj == null)
+			throw new RuntimeException("field is null:" + field.name);
+
+		for (int i = 0; i < obj.getFields().size(); i++) {
+
+			Field childField = obj.getFields().get(i);
+
+			DefaultMutableTreeNode childNode = createTreeNode(childField);
 			node.add(childNode);
 		}
 
@@ -150,9 +158,14 @@ public class MainWindow extends JPanel {
 			@Override
 			public void paint(Graphics g) {
 
-				_Object obj = getSelectedTreeObject();
-				if (obj != null)
-					obj.drawInternal(g, new Point(0, 0));
+				Field field = getSelectedTreeField();
+
+				if (field != null) {
+					System.out.println(String.format(
+							"draw field %s  status:%s", field.name,
+							field.selectedStatus));
+					field.target.drawInternal(g, new Point(0, 0));
+				}
 			}
 		});
 
@@ -169,7 +182,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeObject(),ObjectType.NORMAL);
+						getSelectedTreeField().target, ObjectType.NORMAL);
 				addChildObject(obj);
 			}
 
@@ -181,7 +194,7 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeObject(), ObjectType.INTEGER);
+						getSelectedTreeField().target, ObjectType.INTEGER);
 
 				addChildObject(obj);
 			}
@@ -193,7 +206,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeObject(), ObjectType.STRING);
+						getSelectedTreeField().target, ObjectType.STRING);
 				addChildObject(obj);
 
 			}
@@ -205,7 +218,7 @@ public class MainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeObject(), ObjectType.PROCEDURE);
+						getSelectedTreeField().target, ObjectType.PROCEDURE);
 				addChildObject(obj);
 
 			}
@@ -218,23 +231,23 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				Point p = diagram.getMousePosition();
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
-				if (activeChildObject != null) {
+				if (activeChildField != null) {
 					int result = JOptionPane.showConfirmDialog(owner, String
 							.format("Are you sure to delete '%s'?",
-									activeChildObject.getName()),
+									activeChildField.getName()),
 							"Confirmation", JOptionPane.YES_NO_OPTION);
 					if (result == 0)// yes
 					{
 						// search
 						DefaultMutableTreeNode selectedChildNode = findChildNode(
-								getSelectedTreeNode(), activeChildObject);
+								getSelectedTreeNode(), activeChildField);
 
 						// remove tree model
 						treeModel.removeNodeFromParent(selectedChildNode);
 
 						// remove from object repository
 						getVM().getObjectRepository().destroyObject(
-								activeChildObject);
+								activeChildField.target);
 
 						diagram.repaint();
 					}
@@ -249,17 +262,17 @@ public class MainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				Point p = diagram.getMousePosition();
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
-				if (activeChildObject != null) {
+				if (activeChildField != null) {
 					int result = JOptionPane.showConfirmDialog(owner, String
 							.format("Are you sure to execute '%s'?",
-									activeChildObject.getName()),
+									activeChildField.getName()),
 							"Confirmation", JOptionPane.YES_NO_OPTION);
 					if (result == 0)// yes
 					{
 
 						getVM().getPostService().sendMessageFromNobody(
-								activeChildObject.getOwner(),
-								activeChildObject.getName());
+								activeChildField.target.getOwner(),
+								activeChildField.target.getName());
 
 					}
 				}
@@ -307,14 +320,16 @@ public class MainWindow extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (activeChildObject == null)
+				if (activeChildField == null)
 					return;
 
 				Point rawCursorPos = CanvasUtils.scaleBack(e.getPoint(),
-						getSelectedTreeObject().scaleRate);
+						getSelectedTreeField().target.scaleRate);
 
-				activeChildObject.getArea().x = rawCursorPos.x - cursorOffset.x;
-				activeChildObject.getArea().y = rawCursorPos.y - cursorOffset.y;
+				activeChildField.target.getArea().x = rawCursorPos.x
+						- cursorOffset.x;
+				activeChildField.target.getArea().y = rawCursorPos.y
+						- cursorOffset.y;
 
 				diagram.repaint();
 			}
@@ -325,19 +340,20 @@ public class MainWindow extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 
-				activeChildObject = null;
+				activeChildField = null;
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				updateSelectedChildObject(e.getPoint(), SelectedStatus.Selected);
 				// save the offset for drag
-				if (activeChildObject != null) {
+				if (activeChildField != null) {
 					Point rawMousePt = CanvasUtils.scaleBack(e.getPoint(),
-							getSelectedTreeObject().scaleRate);
+							getSelectedTreeField().target.scaleRate);
 
 					cursorOffset = CanvasUtils.getOffset(
-							activeChildObject.area.getLocation(), rawMousePt);
+							activeChildField.target.area.getLocation(),
+							rawMousePt);
 
 				}
 			}
@@ -360,19 +376,19 @@ public class MainWindow extends JPanel {
 				if (SwingUtilities.isRightMouseButton(e)) {
 					parentPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 				} else {
-					if (activeChildObject != null) {
+					if (activeChildField != null) {
 						ObjectPropertyDialog dialog = new ObjectPropertyDialog();
 						dialog.setLocationRelativeTo(owner);
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						dialog.setObject(activeChildObject);
+						dialog.setField(activeChildField);
 
 						dialog.setVisible(true);
 
 						if (dialog.isUpdated()) {
 							TreeNode selectedChildNode = findChildNode(
-									getSelectedTreeNode(), activeChildObject);
+									getSelectedTreeNode(), activeChildField);
 							treeModel.valueForPathChanged(new TreePath(
-									selectedChildNode), activeChildObject);
+									selectedChildNode), activeChildField);
 							// diagram.repaint();
 						}
 					}
@@ -382,15 +398,15 @@ public class MainWindow extends JPanel {
 	}
 
 	private DefaultMutableTreeNode findChildNode(DefaultMutableTreeNode node,
-			_Object childObj) {
+			Field childField) {
 		// search
 		DefaultMutableTreeNode selectedChildNode = null;
 		Enumeration en = node.children();
 		while (en.hasMoreElements()) {
 			DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) en
 					.nextElement();
-			_Object curChildObj = (_Object) childNode.getUserObject();
-			if (curChildObj == childObj) {
+			Field curChildField = (Field) childNode.getUserObject();
+			if (curChildField == childField) {
 				selectedChildNode = childNode;
 				break;
 			}
@@ -404,51 +420,83 @@ public class MainWindow extends JPanel {
 		return node;
 	}
 
-	protected _Object getSelectedTreeObject() {
+	protected Field getSelectedTreeField() {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 				.getLastSelectedPathComponent();
 
 		if (node == null)
 			return null;
 
-		return (_Object) node.getUserObject();
+		return (Field) node.getUserObject();
 	}
 
 	protected void updateSelectedChildObject(Point mousePos,
 			SelectedStatus newStatus) {
-		_Object obj = getSelectedTreeObject();
-		if (obj == null)
+		Field field = getSelectedTreeField();
+		if (field == null)
 			return;
 
-		_Object oldSelectedChildObject = activeChildObject;
-		activeChildObject = null;
+		Field oldActiveChildField = activeChildField;
+		activeChildField = null;
 		Point p = CanvasUtils.scaleBack(mousePos,
-				getSelectedTreeObject().scaleRate);
+				getSelectedTreeField().target.scaleRate);
 
+		_Object obj = field.target;
+		// step 1. find the hovering child field
 		for (int i = 0; i < obj.getChildCount(); i++) {
-			_Object c = obj.getChild(i);
-			// set all to notSelected
-			c.selectedStatus = SelectedStatus.NotSelected;
-
+			Field f = obj.getField(i);
 			// keep the last hovered object, the last has highest z order
-			if (c.area.contains(p))
-				activeChildObject = c;
+			if (f.target.area.contains(p))
+				activeChildField = f;
 		}
 
-		if (activeChildObject != null) {
-			activeChildObject.selectedStatus = newStatus;
+		// step 2: save old status
+		SelectedStatus oldStatus = null;
+		if (activeChildField != null)
+			oldStatus = activeChildField.selectedStatus;
+
+		// step 3: clear all status
+		for (int i = 0; i < obj.getChildCount(); i++) {
+			Field f = obj.getField(i);
+			// set all to notSelected
+			f.selectedStatus = SelectedStatus.NotSelected;
+		}
+
+		// step 4: update status of new active field.
+		if (activeChildField != null) {
+
+			if (oldStatus != newStatus) {
+				if (logger.isDebugEnabled())
+					System.out.println(String.format(
+							"field %s's status from %s to %s",
+							activeChildField.getName(), oldStatus, newStatus));
+
+				activeChildField.selectedStatus = newStatus;
+			}
 
 			// check if cursor is near borders, adjust to resize cursor
 
 		}
 
-		if (oldSelectedChildObject != activeChildObject)
+		if ((oldActiveChildField != activeChildField)
+				|| (oldActiveChildField == activeChildField && activeChildField!=null && oldStatus != newStatus)) {
+			String oldField = oldActiveChildField == null ? ""
+					: oldActiveChildField.name;
+			String newField = activeChildField == null ? ""
+					: activeChildField.name;
+			System.out.println(String.format(
+					"active child field changed from %s to %s", oldField,
+					newField));
+			System.out.println(String.format(
+					"status changed from %s to %s", oldStatus,
+					newStatus));
 			diagram.repaint();
+		}
 	}
 
 	public void setDiagramScaleRate(double diagramScaleRate) {
 		// this.diagramScaleRate =diagramScaleRate;
-		getSelectedTreeObject().scaleRate = diagramScaleRate;
+		getSelectedTreeField().target.scaleRate = diagramScaleRate;
 		diagram.repaint();
 	}
 }

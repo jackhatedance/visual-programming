@@ -89,7 +89,7 @@ public class ObjectRepository {
 			} catch (InvalidELException e) {
 
 				logger.warn("the prototype object is not loaded. if it is in loading process, then it is ok."
-						+ prototypeEl);
+						+ prototypeEl,e);
 			}
 		}
 

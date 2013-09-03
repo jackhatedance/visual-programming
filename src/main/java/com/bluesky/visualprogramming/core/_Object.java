@@ -69,7 +69,7 @@ public class _Object implements Serializable {
 	 * the max value of height and width is 1000;
 	 */
 	public Rectangle area = new Rectangle();
-	public SelectedStatus selectedStatus = SelectedStatus.NotSelected;
+	
 	public double scaleRate = 1d;
 	public Color borderColor;
 	static int borderWidth = 5;
@@ -108,7 +108,7 @@ public class _Object implements Serializable {
 
 		this.area = new Rectangle(src.area);
 
-		this.selectedStatus = SelectedStatus.NotSelected;
+		
 
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
@@ -160,6 +160,10 @@ public class _Object implements Serializable {
 
 	public _Object getChild(int index) {
 		return childrenList.get(index).target;
+	}
+
+	public Field getField(int index) {
+		return childrenList.get(index);
 	}
 
 	public int getChildCount() {
@@ -429,7 +433,7 @@ public class _Object implements Serializable {
 	}
 
 	public void draw(Graphics g, Point canvasOffset, double zoom, boolean own,
-			String name) {
+			String name, SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
 		// draw border
@@ -489,16 +493,16 @@ public class _Object implements Serializable {
 
 		if (internalScale > 0.1f) {
 			Point internalOffset = new Point(x, y);
-			drawInternal(g, internalOffset, internalScale, name);
+			drawInternal(g, internalOffset, internalScale, name,selectedStatus);
 		}
 	}
 
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
-			String name) {
+			String name,SelectedStatus selectedStatus) {
 
 		for (Field p : childrenList) {
 			boolean owns = p.target.owner == this;
-			p.target.draw(g, canvasOffset, zoom, owns, name);
+			p.target.draw(g, canvasOffset, zoom, owns, name,selectedStatus);
 		}
 	}
 
@@ -513,7 +517,7 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(g, canvasOffset, scaleRate, owns, objName);
+			field.target.draw(g, canvasOffset, scaleRate, owns, objName,field.selectedStatus);
 		}
 	}
 
