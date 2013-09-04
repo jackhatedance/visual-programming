@@ -24,6 +24,9 @@ procedure foo(a,b,c)
 			a=b.bar();
 		}
 	}
+	
+	result = "我的名字是".concat(self.name);
+	result = self.name;
 
 
 }

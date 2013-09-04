@@ -6,5 +6,5 @@ procedure foo(a,b,c)
 	a = true;	
 	a = null;
 	
-	self.getFoo().bar = "boo";
+	self.getFoo()."foo bar?" = "boo";
 }

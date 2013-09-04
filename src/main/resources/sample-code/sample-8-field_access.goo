@@ -1,4 +1,4 @@
 procedure foo()
 {
-	root.console.print(self.name);
+	root.console.print(self."1 2,3");
 }

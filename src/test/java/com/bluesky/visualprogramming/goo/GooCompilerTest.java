@@ -32,7 +32,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testSendMessage() {
 		InputStream is = GooCompilerTest.class
@@ -141,6 +141,7 @@ public class GooCompilerTest {
 
 	}
 	
+	@Ignore
 	@Test
 	public void testProcedureConst() {
 		InputStream is = GooCompilerTest.class

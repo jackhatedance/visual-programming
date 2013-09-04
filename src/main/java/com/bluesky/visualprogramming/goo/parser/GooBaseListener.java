@@ -134,6 +134,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterStringField(@NotNull GooParser.StringFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitStringField(@NotNull GooParser.StringFieldContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -141,6 +154,32 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterStringMessageSubject(@NotNull GooParser.StringMessageSubjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitStringMessageSubject(@NotNull GooParser.StringMessageSubjectContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterIdMessageSubject(@NotNull GooParser.IdMessageSubjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitIdMessageSubject(@NotNull GooParser.IdMessageSubjectContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -238,13 +277,13 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
+	@Override public void enterIdField(@NotNull GooParser.IdFieldContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitMessgeName(@NotNull GooParser.MessgeNameContext ctx) { }
+	@Override public void exitIdField(@NotNull GooParser.IdFieldContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -401,19 +440,6 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitEmptyStatement(@NotNull GooParser.EmptyStatementContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterField(@NotNull GooParser.FieldContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitField(@NotNull GooParser.FieldContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

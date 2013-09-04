@@ -75,11 +75,32 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParamDeclareList(@NotNull GooParser.ParamDeclareListContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#StringField}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringField(@NotNull GooParser.StringFieldContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#forAfterthought}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#StringMessageSubject}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringMessageSubject(@NotNull GooParser.StringMessageSubjectContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#IdMessageSubject}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdMessageSubject(@NotNull GooParser.IdMessageSubjectContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#procedure}.
@@ -131,11 +152,11 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitNumber(@NotNull GooParser.NumberContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link GooParser#messgeName}.
+	 * Visit a parse tree produced by {@link GooParser#IdField}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMessgeName(@NotNull GooParser.MessgeNameContext ctx);
+	T visitIdField(@NotNull GooParser.IdFieldContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#RefAssignOperator}.
@@ -220,13 +241,6 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEmptyStatement(@NotNull GooParser.EmptyStatementContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link GooParser#field}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitField(@NotNull GooParser.FieldContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#OwnAssignOperator}.

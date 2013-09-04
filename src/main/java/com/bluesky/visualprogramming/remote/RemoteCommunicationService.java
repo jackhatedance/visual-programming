@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.messageEngine.Worker;
 
 /**
  * all in one service
@@ -43,10 +44,21 @@ public class RemoteCommunicationService {
 			public void afterLoad(_Object obj) {
 				_Object aliases = obj;
 				_Object owner = obj.getOwner();
+				
+				if(owner==null)
+					return;
+				
+				int index = owner.getChildIndex(obj);
+				Field field = owner.getField(index);
 
-				if (obj.getName().equals("_aliases")) {
+				if (field.getName().equals("_aliases")) {
 					for (int i = 0; i < aliases.getChildCount(); i++) {
 						_Object alias = aliases.getChild(i);
+
+						BooleanValue enabled = (BooleanValue) alias
+								.getChild("enabled");
+						if (!enabled.getBooleanValue())
+							continue;
 
 						ProtocolType pt = ProtocolType
 								.valueOf(((StringValue) alias
@@ -60,8 +72,8 @@ public class RemoteCommunicationService {
 						register(pt, address.getValue(), owner,
 								connectionOptions.getValue());
 
-						if (logger.isDebugEnabled())
-							logger.debug("create remote agent for "
+						if (logger.isInfoEnabled())
+							logger.info("create remote agent for "
 									+ owner.getName() + " binding address is "
 									+ address.getValue());
 					}

@@ -221,6 +221,18 @@ public class MainWindow extends JPanel {
 		});
 		parentPopupMenu.add(eMenuItem);
 
+		eMenuItem = new JMenuItem("New Boolean");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.BOOLEAN);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+		
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {

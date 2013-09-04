@@ -4,6 +4,8 @@ procedure foo(a,b,c)
 	//ordered parameters
 	//a = b.foo(this.getX(true),y,z);
 	//named parameters
-	c = self.foo(a:true,b:y,c:b.foo());
+	c = self."foo bar"(a);
+	//result = "我的名字是";
+	result = "ab c".concat(self.name);
 	
 }

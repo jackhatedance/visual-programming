@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -47,9 +48,10 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ForConditionContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForInitContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.ForStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.HeaderContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.IdFieldContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.IdMessageSubjectContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.IfStatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.LinkContext;
-import com.bluesky.visualprogramming.goo.parser.GooParser.MessgeNameContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NameValueContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NamedParamListContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.NullValueContext;
@@ -65,6 +67,8 @@ import com.bluesky.visualprogramming.goo.parser.GooParser.ReturnStatementContext
 import com.bluesky.visualprogramming.goo.parser.GooParser.SendMessageContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StatementContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.StringContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.StringFieldContext;
+import com.bluesky.visualprogramming.goo.parser.GooParser.StringMessageSubjectContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.TrueBranchContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.goo.parser.GooParser.VariableExprContext;
@@ -282,12 +286,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	}
 
 	@Override
-	public Object visitMessgeName(MessgeNameContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object visitReturnStatement(ReturnStatementContext ctx) {
 
 		String var = (String) ctx.expr().accept(this);
@@ -460,12 +458,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	}
 
 	@Override
-	public Object visitField(FieldContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object visitSendMessage(SendMessageContext ctx) {
 		// System.out.println("visitSendMessage");
 		String paramVar = null;
@@ -487,7 +479,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String tempVar = (String) ctx.expr().accept(this);
 
 		ins.receiverVar = tempVar;
-		ins.messageSubject = ctx.messgeName().getText();
+
+		// only one child, either Id or String. return procedure name
+		ins.messageSubject = (String) ctx.messgeSubject().accept(this);
 		ins.messageBodyVar = paramVar;
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
@@ -840,5 +834,34 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		addInstruction(ins);
 		return ins.varName;
 
+	}
+
+	@Override
+	public Object visitStringField(StringFieldContext ctx) {
+
+		String wrapped = ctx.getText();
+		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
+		return StringEscapeUtils.unescapeJava(unwrapped);
+
+	}
+
+	@Override
+	public Object visitStringMessageSubject(StringMessageSubjectContext ctx) {
+		String wrapped = ctx.getText();
+		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
+		return StringEscapeUtils.unescapeJava(unwrapped);
+
+	}
+	
+	@Override
+	public Object visitIdMessageSubject(IdMessageSubjectContext ctx) {
+
+		return ctx.getText();
+	}
+
+	@Override
+	public Object visitIdField(IdFieldContext ctx) {
+
+		return ctx.getText();
 	}
 }
