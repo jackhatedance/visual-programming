@@ -12,7 +12,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
-import com.bluesky.visualprogramming.goo.GooCompiler;
+import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;

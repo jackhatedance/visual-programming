@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
 public class GooCompilerTest {

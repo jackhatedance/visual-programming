@@ -1,6 +1,6 @@
 package com.bluesky.visualprogramming.core;
 
-import com.bluesky.visualprogramming.goo.GooCompiler;
+import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.Compiler;
 
 /**

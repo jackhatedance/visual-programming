@@ -11,9 +11,9 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.link.SoftLink;
-import com.bluesky.visualprogramming.protocol.xmpp.XmppService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
+import com.bluesky.visualprogramming.remote.protocol.xmpp.XmppService;
 
 public class PostService implements Runnable {
 	static Logger logger = Logger.getLogger(PostService.class);
