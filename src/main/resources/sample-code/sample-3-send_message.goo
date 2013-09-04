@@ -1,4 +1,4 @@
-procedure foo(a,b,c)
+procedure (a,b,c)
 {
 	//b.foo(x,1);
 	//ordered parameters

@@ -22,7 +22,7 @@ grammar Goo;
 
 procedure : header block;	
 
-header : PROCEDURE ID '(' paramDeclareList? ')';	
+header : PROCEDURE ID? '(' paramDeclareList? ')';	
 
 paramDeclareList : ID (',' ID)*;
 
