@@ -1,6 +1,8 @@
 package com.bluesky.visualprogramming.core;
 
 import static org.junit.Assert.*;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import junit.framework.Assert;
 
 import org.junit.Ignore;
@@ -20,6 +22,18 @@ public class _ObjectTest {
 		obj.fromText(text);
 		
 		Assert.assertEquals(obj.getValue(),decValue);
+	}
+	
+	@Test
+	public void testGroovy(){
+		Binding binding = new Binding();
+		binding.setVariable("str", "你好！");
+		binding.setVariable("keyword", "你好");
+		GroovyShell shell = new GroovyShell(binding);
+
+		Object value = shell
+				.evaluate("return str.contains(keyword)");
+		Assert.assertEquals(true, value);
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.bluesky.visualprogramming.core;
 
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,6 +24,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
@@ -28,6 +33,8 @@ public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
 
 	static public final String PROTOTYPE = "_prototype";
+	static public final String ENABLE_SUBJECT_MATCH_RULE = "_enableSubjectMatchRule";
+	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
 
 	/**
 	 * 
@@ -271,16 +278,13 @@ public class _Object implements Serializable {
 
 		int index = indexObject.intValue();
 
-		Field p = childrenList.get(index);
+		Field field = childrenList.get(index);
 		childrenList.remove(index);
 
-		if (p.hasName())
-			childrenNameMap.remove(p.name);
+		childrenNameMap.remove(field.name);
+		childrenObjectMap.remove(field.target);
 
-		if (p.target != null)
-			childrenObjectMap.remove(p.target);
-
-		p.target.setOwner(null);
+		field.target.setOwner(null);
 	}
 
 	public void removeChild(_Object object) {
@@ -544,12 +548,51 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @return
 	 */
-	public Procedure lookupProcedure(String name) {
-		Procedure p = (Procedure) getChild(name);
+	public Procedure lookupProcedure(String subject) {
+
+		// first try match the procedure name
+		Procedure p = (Procedure) getChild(subject);
+
+		// not found, try match rule
+		if (p == null) {
+			BooleanValue enableMatchRule = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH_RULE);
+			if (enableMatchRule != null
+					&& enableMatchRule.getBooleanValue() == true) {
+				Binding binding = new Binding();
+				binding.setVariable("subject", subject);
+				GroovyShell shell = new GroovyShell(binding);
+
+				for (Field field : childrenList) {
+					_Object child = field.target;
+
+					StringValue messageSubjectMatchRule = (StringValue) child
+							.getChild(SUBJECT_MATCH_RULE);
+					if (messageSubjectMatchRule != null) {
+
+						try {
+							Boolean value = (Boolean) shell.evaluate("return "
+									+ messageSubjectMatchRule.getValue());
+
+							if (value == true) {
+								p = (Procedure) child;
+								break;
+							}
+						} catch (Exception e) {
+							// error when evaluate:
+							logger.warn("failed to evaluate message subject match rule."
+									+ e.getMessage());
+							continue;
+						}
+					}
+				}
+			}
+		}
+
+		// still not found, try prototype
 		if (p == null) {
 			if (hasPrototype()) {
 				_Object prototype = getPrototypeObject();
-				p = prototype.lookupProcedure(name);
+				p = prototype.lookupProcedure(subject);
 			}
 		}
 
@@ -565,22 +608,23 @@ public class _Object implements Serializable {
 		return getChild(PROTOTYPE) != null;
 	}
 
-	public CompiledProcedure getCompiledProcedure(String name) {
+	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
 
-		Procedure p = (Procedure) getChild(name);
-
-		if (p.compiled == null) {
-			LanguageType type = LanguageType.valueOf(p.language.toUpperCase());
+		if (procedure.compiled == null) {
+			LanguageType type = LanguageType.valueOf(procedure.language
+					.toUpperCase());
 			if (type == null)
-				throw new RuntimeException("unsupported language:" + p.language);
+				throw new RuntimeException("unsupported language:"
+						+ procedure.language);
 
 			try {
-				CompiledProcedure cp = type.getCompiler().compile(p.code);
+				CompiledProcedure cp = type.getCompiler().compile(
+						procedure.code);
 
 				if (logger.isDebugEnabled())
 					logger.debug(cp.getInstructionText());
 
-				p.compiled = cp;
+				procedure.compiled = cp;
 
 			} catch (Exception e) {
 				throw new RuntimeException("compile failed", e);
@@ -588,7 +632,7 @@ public class _Object implements Serializable {
 			}
 		}
 
-		return p.compiled;
+		return procedure.compiled;
 	}
 
 	/**

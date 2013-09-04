@@ -283,7 +283,7 @@ public class Worker implements Runnable {
 
 	private void executeNormalProcedure(Message msg, _Object obj, Procedure proc) {
 
-		CompiledProcedure cp = obj.getCompiledProcedure(msg.subject);
+		CompiledProcedure cp = obj.getCompiledProcedure(proc);
 
 		if (msg.status == MessageStatus.NOT_STARTED) {
 			msg.initExecutionContext(objectRepository.getRootObject(), cp
