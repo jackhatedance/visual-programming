@@ -1,10 +1,8 @@
-package com.bluesky.visualprogramming.core.link;
+package com.bluesky.visualprogramming.core;
 
-import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core._Object;
 
-public class SoftLink extends _Object {
-	public SoftLink(long id) {
+public class Link extends _Object {
+	public Link(long id) {
 		super(id);
 		type = ObjectType.LINK;
 	}

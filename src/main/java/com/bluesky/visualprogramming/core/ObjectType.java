@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.core;
 
-import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.message.ObjectTreeVisitor;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.FloatValue;
@@ -25,12 +24,12 @@ public enum ObjectType {
 	LINK {
 		@Override
 		public _Object create(long id) {
-			return new SoftLink(id);
+			return new Link(id);
 		}
 
 		@Override
 		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitLink((SoftLink) object);
+			visitor.visitLink((Link) object);
 		}
 	},
 	INTEGER {

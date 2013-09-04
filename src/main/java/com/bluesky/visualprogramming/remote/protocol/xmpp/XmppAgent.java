@@ -18,8 +18,8 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
+import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -165,8 +165,8 @@ public class XmppAgent {
 			String senderAddress = reviseAddress(reviseAddress(msg.getFrom()));
 
 			if (lastRequestMessage != null
-					&& lastRequestMessage.receiver instanceof SoftLink
-					&& ((SoftLink) lastRequestMessage.receiver).getAddress()
+					&& lastRequestMessage.receiver instanceof Link
+					&& ((Link) lastRequestMessage.receiver).getAddress()
 							.equals(senderAddress)) {
 				// address match. it must be reply.
 				if (logger.isDebugEnabled())
@@ -187,12 +187,13 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
-				SoftLink senderLink = (SoftLink) repo.createObject(
+				Link senderLink = (Link) repo.createObject(
 						ObjectType.LINK, ObjectScope.ExecutionContext);
 				senderLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getFrom())));
 
-				SoftLink receiverLink = (SoftLink) repo.createObject(
+				Link receiverLink = (Link) repo.createObject(
+
 						ObjectType.LINK, ObjectScope.ExecutionContext);
 				receiverLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getTo())));

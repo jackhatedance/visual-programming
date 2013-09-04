@@ -9,8 +9,8 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
+import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
 import com.bluesky.visualprogramming.remote.protocol.xmpp.XmppService;
@@ -53,8 +53,8 @@ public class PostService implements Runnable {
 
 	private void _sendMessage(Message msg) {
 		// add support of link object
-		if (msg.receiver instanceof SoftLink) {
-			SoftLink receiverLink = (SoftLink) msg.receiver;
+		if (msg.receiver instanceof Link) {
+			Link receiverLink = (Link) msg.receiver;
 
 			ProtocolType protocol = ProtocolType.valueOf(receiverLink
 					.getProtocol().toUpperCase());

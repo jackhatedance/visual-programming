@@ -1,8 +1,8 @@
 package com.bluesky.visualprogramming.core.message;
 
 import com.bluesky.visualprogramming.core.Procedure;
+import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -29,7 +29,7 @@ public interface ObjectTreeVisitor {
 
 	void visitFloat(FloatValue object);
 
-	void visitLink(SoftLink object);
+	void visitLink(Link object);
 
 	void visitTime(TimeValue object);
 

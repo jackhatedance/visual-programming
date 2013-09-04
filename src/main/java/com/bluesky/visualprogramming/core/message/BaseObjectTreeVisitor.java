@@ -1,8 +1,8 @@
 package com.bluesky.visualprogramming.core.message;
 
 import com.bluesky.visualprogramming.core.Procedure;
+import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.link.SoftLink;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -48,7 +48,7 @@ public class BaseObjectTreeVisitor implements ObjectTreeVisitor {
 	}
 
 	@Override
-	public void visitLink(SoftLink object) {
+	public void visitLink(Link object) {
 		// TODO Auto-generated method stub
 		
 	}
