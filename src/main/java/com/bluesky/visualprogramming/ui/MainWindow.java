@@ -106,7 +106,7 @@ public class MainWindow extends JPanel {
 	private void createTreePanel() {
 
 		Field rootField = new Field(getVM().getObjectRepository()
-				.getRootObject(), "root");
+				.getRootObject(), "root",true);
 		TreeNode rootNode = createTreeNode(null, rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);

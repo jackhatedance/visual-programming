@@ -28,10 +28,7 @@ public class Set extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		StringValue nameSV = (StringValue) ctx.get("name");
 
-		if (!Field.isValidFieldName(nameSV.getValue()))
-			throw new RuntimeException("invalid field name:"
-					+ nameSV.getValue());
-
+		
 		_Object value = ctx.get("value");
 
 		boolean canIOwn = value.getScope() == ObjectScope.ExecutionContext;

@@ -106,7 +106,7 @@ public class MainFrame extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME);
+				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME+".xml");
 				vm.resume();
 			}
 

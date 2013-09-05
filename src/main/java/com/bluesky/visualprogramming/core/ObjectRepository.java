@@ -17,6 +17,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.serialization.SerializationService;
+import com.bluesky.visualprogramming.core.serialization.SerializerType;
+
 public class ObjectRepository {
 
 	static Logger logger = Logger.getLogger(ObjectRepository.class);
@@ -89,8 +92,9 @@ public class ObjectRepository {
 					newObject.addChild(prototype, _Object.PROTOTYPE, false);
 			} catch (InvalidELException e) {
 
-				logger.warn("the prototype object is not loaded. if it is in loading process, then it is ok."
-						+ prototypeEl,e);
+				logger.warn(
+						"the prototype object is not loaded. if it is in loading process, then it is ok."
+								+ prototypeEl, e);
 			}
 		}
 
@@ -216,7 +220,7 @@ public class ObjectRepository {
 		}
 	}
 
-	public void save(Writer writer) {
+	public void save2(Writer writer) {
 
 		try {
 			for (_Object obj : objects.values()) {
@@ -225,6 +229,16 @@ public class ObjectRepository {
 					writer.write("\n");
 				}
 			}
+			writer.flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void save(Writer writer) {
+		SerializationService svc = new SerializationService();
+		try {
+			svc.serialize(getRootObject(), SerializerType.Xml, true);
 			writer.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);

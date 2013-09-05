@@ -59,9 +59,9 @@ public class _Object implements Serializable {
 	public ObjectScope scope = null;
 
 	// in Z order
-	private List<Field> childrenList = new ArrayList<Field>();
+	private List<Field> fieldList = new ArrayList<Field>();
 	// index names to accelerate access speed
-	private Map<String, Integer> childrenNameMap = new HashMap<String, Integer>();
+	private Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
 	private Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
 
 	private Deque<Message> messageQueue;
@@ -102,7 +102,7 @@ public class _Object implements Serializable {
 		this.name = src.name;
 		// this.owner
 
-		for (Field p : src.childrenList) {
+		for (Field p : src.fieldList) {
 			boolean owns = p.target.owner == this;
 
 			addChild(p.target, p.name, owns);
@@ -145,11 +145,11 @@ public class _Object implements Serializable {
 	}
 
 	public void updateFieldIndexes() {
-		childrenNameMap = new HashMap<String, Integer>();
+		fieldNameMap = new HashMap<String, Integer>();
 		childrenObjectMap = new HashMap<_Object, Integer>();
-		for (int i = 0; i < childrenList.size(); i++) {
-			Field f = childrenList.get(i);
-			childrenNameMap.put(f.name, i);
+		for (int i = 0; i < fieldList.size(); i++) {
+			Field f = fieldList.get(i);
+			fieldNameMap.put(f.name, i);
 			childrenObjectMap.put(f.target, i);
 		}
 	}
@@ -160,32 +160,23 @@ public class _Object implements Serializable {
 	 * @return
 	 */
 	public boolean hasNamedField() {
-		return !childrenNameMap.isEmpty();
+		return !fieldNameMap.isEmpty();
 	}
 
 	public _Object getChild(int index) {
-		return childrenList.get(index).target;
+		return fieldList.get(index).target;
 	}
 
 	public Field getField(int index) {
-		return childrenList.get(index);
+		return fieldList.get(index);
 	}
 
 	public int getChildCount() {
-		return childrenList.size();
+		return fieldList.size();
 	}
 
 	public void addPointer(_Object child, String name) {
 		addChild(child, name, false);
-	}
-
-	public void addChild(_Object child, String name) {
-
-		Field p = new Field(child, name);
-
-		childrenList.add(p);
-		childrenNameMap.put(name, childrenList.size() - 1);
-		childrenObjectMap.put(child, childrenList.size() - 1);
 	}
 
 	public int getChildIndex(_Object child) {
@@ -195,14 +186,18 @@ public class _Object implements Serializable {
 
 	public void addChild(_Object child, String name, boolean owner) {
 
-		addChild(child, name);
+		Field p = new Field(child, name, owner);
+
+		fieldList.add(p);
+		fieldNameMap.put(name, fieldList.size() - 1);
+		childrenObjectMap.put(child, fieldList.size() - 1);
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
 				throw new RuntimeException(
 						String.format(
-								"cannot obtain ownership from object id=%d because it's scope is not ExecutionContext",
-								child.owner.id));
+								"cannot own object(#%d) because it's scope is not ExecutionContext",
+								child.id));
 
 			child.setOwner(this);
 		}
@@ -247,24 +242,24 @@ public class _Object implements Serializable {
 
 	public void renameField(String old, String _new) {
 
-		Integer index = childrenNameMap.get(old);
+		Integer index = fieldNameMap.get(old);
 		if (index == null)
 			throw new RuntimeException("source field not exist:" + old);
 
-		if (childrenNameMap.containsKey(_new)) {
+		if (fieldNameMap.containsKey(_new)) {
 			throw new RuntimeException("destination field already exist:"
 					+ _new);
 		}
 
-		childrenList.get(index).setName(_new);
+		fieldList.get(index).setName(_new);
 
-		childrenNameMap.remove(old);
-		childrenNameMap.put(_new, index);
+		fieldNameMap.remove(old);
+		fieldNameMap.put(_new, index);
 
 	}
 
 	public void removeChild(String name) {
-		Integer childIndex = childrenNameMap.get(name);
+		Integer childIndex = fieldNameMap.get(name);
 		if (childIndex == null)
 			throw new RuntimeException("child not found:" + name);
 
@@ -278,10 +273,10 @@ public class _Object implements Serializable {
 
 		int index = indexObject.intValue();
 
-		Field field = childrenList.get(index);
-		childrenList.remove(index);
+		Field field = fieldList.get(index);
+		fieldList.remove(index);
 
-		childrenNameMap.remove(field.name);
+		fieldNameMap.remove(field.name);
 		childrenObjectMap.remove(field.target);
 
 		field.target.setOwner(null);
@@ -296,17 +291,17 @@ public class _Object implements Serializable {
 	}
 
 	public void clearChildren() {
-		childrenList.clear();
-		childrenNameMap.clear();
+		fieldList.clear();
+		fieldNameMap.clear();
 		childrenObjectMap.clear();
 	}
 
 	public boolean hasChildren() {
-		return !childrenList.isEmpty();
+		return !fieldList.isEmpty();
 	}
 
 	public List<Field> getFields() {
-		return this.childrenList;
+		return this.fieldList;
 	}
 
 	public String getValue() {
@@ -350,11 +345,11 @@ public class _Object implements Serializable {
 
 		// children=son:12|dad:23
 		StringBuilder childrenSb = new StringBuilder();
-		for (int i = 0; i < childrenList.size(); i++) {
+		for (int i = 0; i < fieldList.size(); i++) {
 			if (i != 0)
 				childrenSb.append('|');
 
-			Field f = childrenList.get(i);
+			Field f = fieldList.get(i);
 			childrenSb.append(String.format("%s:%d", f.name, f.target.getId()));
 		}
 
@@ -398,7 +393,7 @@ public class _Object implements Serializable {
 				String idStr = kv[1];
 				long id = Long.valueOf(idStr);
 
-				addChild(new _Object(id), name);
+				addChild(new _Object(id), name, false);
 			}
 		}
 
@@ -508,14 +503,14 @@ public class _Object implements Serializable {
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
 			String name, SelectedStatus selectedStatus) {
 
-		for (Field p : childrenList) {
+		for (Field p : fieldList) {
 			boolean owns = p.target.owner == this;
 			p.target.draw(g, canvasOffset, zoom, owns, name, selectedStatus);
 		}
 	}
 
 	public void drawInternal(Graphics g, Point canvasOffset) {
-		for (Field field : childrenList) {
+		for (Field field : fieldList) {
 			boolean owns = field.target.owner == this;
 
 			_Object proto = field.target.getPrototypeObject();
@@ -531,15 +526,15 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getChild(String name) {
-		Integer index = childrenNameMap.get(name);
+		Integer index = fieldNameMap.get(name);
 		if (index == null)
 			return null;
 		else
-			return childrenList.get(index).target;
+			return fieldList.get(index).target;
 	}
 
 	public String[] getChildrenNames() {
-		return childrenNameMap.keySet().toArray(new String[0]);
+		return fieldNameMap.keySet().toArray(new String[0]);
 	}
 
 	/**
@@ -562,7 +557,7 @@ public class _Object implements Serializable {
 				binding.setVariable("subject", subject);
 				GroovyShell shell = new GroovyShell(binding);
 
-				for (Field field : childrenList) {
+				for (Field field : fieldList) {
 					_Object child = field.target;
 
 					StringValue messageSubjectMatchRule = (StringValue) child

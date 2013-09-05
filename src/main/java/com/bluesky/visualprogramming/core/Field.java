@@ -5,18 +5,14 @@ public class Field {
 	public String name;
 	public _Object target;
 
-	// public boolean owner;
+	public boolean owner;
+
 	private SelectedStatus selectedStatus = SelectedStatus.NotSelected;
 
-	public Field(_Object targetObject, String name) {
+	public Field(_Object targetObject, String name, boolean owner) {
 		this.target = targetObject;
 		this.name = name;
-		// this.owner = owner;
-	}
-
-	public boolean hasName() {
-
-		return name != null && !name.isEmpty();
+		this.owner = owner;
 	}
 
 	@Override
@@ -49,7 +45,4 @@ public class Field {
 		this.selectedStatus = selectedStatus;
 	}
 
-	public static boolean isValidFieldName(String name) {
-		return name.matches("[_a-zA-Z][_a-zA-Z0-9]*");
-	}
 }
