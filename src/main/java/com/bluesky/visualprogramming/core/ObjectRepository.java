@@ -212,7 +212,7 @@ public class ObjectRepository {
 
 		try {
 			Writer w = new OutputStreamWriter(new FileOutputStream(fileName));
-			save(w);
+			saveXml(w);
 
 		} catch (FileNotFoundException e) {
 
@@ -220,121 +220,55 @@ public class ObjectRepository {
 		}
 	}
 
-	public void save2(Writer writer) {
-
-		try {
-			for (_Object obj : objects.values()) {
-				if (getRootObject() == obj || obj.hasOwner()) {
-					writer.write(obj.toText());
-					writer.write("\n");
-				}
-			}
-			writer.flush();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void save(Writer writer) {
+	public void saveXml(Writer writer) {
 		SerializationService svc = new SerializationService();
 		try {
-			svc.serialize(getRootObject(), SerializerType.Xml, true);
+			svc.serialize(getRootObject(), SerializerType.Xml, true, writer);
 			writer.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void load(String fileName) {
-
+	public void loadXml(String fileName) {
+		SerializationService svc = new SerializationService();
 		try {
 			Reader r = new InputStreamReader(new FileInputStream(fileName));
-			load(r);
-		} catch (FileNotFoundException e) {
 
+			_Object root = svc.deserialize(r, SerializerType.Xml);
+			rootObject = root;
+
+			registerObject(rootObject);
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+		afterProcessOfLoadingXml();
 	}
 
-	public void load(Reader reader) {
-		BufferedReader br = new BufferedReader(reader);
-		List<String> lines = new ArrayList<String>();
-		while (true) {
-
-			String line = null;
-			try {
-				line = br.readLine();
-			} catch (IOException e) {
-
-				throw new RuntimeException(e);
+	private void registerObject(_Object obj) {
+		objects.put(obj.getId(), obj);
+		if (obj.hasChildren()) {
+			for (Field f : obj.getFields()) {
+				if (obj.owns(f.target))
+					registerObject(f.target);
 			}
-			if (line == null)
-				break;
-			lines.add(line);
 		}
-
-		load(lines);
-
-		// set object id
-
 	}
 
-	public void load(List<String> lines) {
-		objects.clear();
+	private void afterProcessOfLoadingXml() {
 
 		long maxObjectId = 0;
 
-		for (String line : lines) {
-			if (line.trim().isEmpty())
-				continue;
-
-			if (logger.isDebugEnabled())
-				logger.debug("parse line:" + line);
-
-			Map<String, String> map = KeyValueStringUtils.parse(line);
-			String typeLiteral = map.get("type");
-
-			ObjectType type = ObjectType.valueOf(typeLiteral);
-			_Object newObject = type.create(-1);
-
-			try {
-				newObject.fromText(line);
-			} catch (Exception e) {
-				throw new RuntimeException("error loading " + line, e);
-			}
-
-			objects.put(newObject.getId(), newObject);
-
-			if (newObject.getId() == 0) {
-				rootObject = newObject;
-				rootObject.scope = ObjectScope.Persistent;
-			}
-
-			if (newObject.getId() > maxObjectId)
-				maxObjectId = newObject.getId();
-
-		}
-
-		// reset object id
-		objectId = maxObjectId + 1;
-
-		// linking
 		for (_Object o : objects.values()) {
-
-			_Object owner = objects.get(o.getOwner().getId());
-
-			// remove the owner holder
-			o.setOwner(owner);
-
-			for (Field f : o.getFields()) {
-				_Object target = objects.get(f.target.getId());
-				f.target = target;
-			}
+			if (o.getId() > maxObjectId)
+				maxObjectId = o.getId();
 
 			o.updateFieldIndexes();
 		}
 
+		// reset object id
+		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
 
 		// notify

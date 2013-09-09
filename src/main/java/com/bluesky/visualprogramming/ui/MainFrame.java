@@ -28,7 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class MainFrame extends JFrame {
-	static String DEFAULT_IMAGE_FILE_NAME = "visual-programming.txt";
+	static String DEFAULT_IMAGE_FILE_NAME = "visual-programming.xml";
 
 	MainWindow mainWindow = null;
 
@@ -88,7 +88,7 @@ public class MainFrame extends JFrame {
 
 		// Load
 		JMenuItem eMenuItem = null;
-		
+
 		// Load
 		eMenuItem = new JMenuItem("Load");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -106,7 +106,7 @@ public class MainFrame extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME+".xml");
+				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME );
 				vm.resume();
 			}
 
@@ -138,6 +138,7 @@ public class MainFrame extends JFrame {
 		VirtualMachine vm = new VirtualMachine();
 		VirtualMachine.setInstance(vm);
 
+		//vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
 		vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
 
 		vm.start();

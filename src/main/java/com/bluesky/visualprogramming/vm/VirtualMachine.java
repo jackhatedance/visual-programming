@@ -63,7 +63,7 @@ public class VirtualMachine {
 			throw new RuntimeException("cannot load while running");
 		//pause();
 		
-		objectRepository.load(file);
+		objectRepository.loadXml(file);
 
 		//resume();
 		

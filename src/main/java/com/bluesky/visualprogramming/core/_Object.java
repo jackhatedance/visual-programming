@@ -186,7 +186,7 @@ public class _Object implements Serializable {
 
 	public void addChild(_Object child, String name, boolean owner) {
 
-		Field p = new Field(child, name, owner);
+		Field p = new Field(child, name);
 
 		fieldList.add(p);
 		fieldNameMap.put(name, fieldList.size() - 1);
@@ -733,4 +733,7 @@ public class _Object implements Serializable {
 		}
 	}
 
+	public boolean owns(_Object child) {
+		return child.getOwner() == this;
+	}
 }

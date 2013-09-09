@@ -1,0 +1,3704 @@
+<object id="1">
+  <type>NORMAL</type>
+  <id>0</id>
+  <name>root</name>
+  <scope>Persistent</scope>
+  <fieldList id="2">
+    <field id="3">
+      <name>test</name>
+      <target id="4">
+        <type>NORMAL</type>
+        <id>275</id>
+        <name>test</name>
+        <owner reference="1"/>
+        <fieldList id="5">
+          <field id="6">
+            <name>fib</name>
+            <target class="procedure" id="7">
+              <type>PROCEDURE</type>
+              <id>276</id>
+              <name defined-in="object">fib</name>
+              <owner reference="4"/>
+              <fieldList id="8"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="9">
+                <x>511</x>
+                <y>256</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="10">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure fib()
+{
+	t1 = root.lib.system.now();
+	root.console.print(t1.toString());
+
+	n = 20;
+	fib = root.lib.math.fibonacci(n);
+	root.console.print(fib.toString());
+
+	t2 = root.lib.system.now();
+	root.console.print(t2.toString());
+
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="11">
+            <name>sumtest</name>
+            <target class="procedure" id="12">
+              <type>PROCEDURE</type>
+              <id>4632</id>
+              <name defined-in="object">sumtest</name>
+              <owner reference="4"/>
+              <fieldList id="13"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="14">
+                <x>549</x>
+                <y>36</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="15">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure sumt()
+{
+	n = 50;
+	sum = root.lib.math.sum(n);
+	root.console.print(sum.toString());
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="16">
+            <name>testxmpp</name>
+            <target class="procedure" id="17">
+              <type>PROCEDURE</type>
+              <id>4643</id>
+              <name defined-in="object">testxmpp</name>
+              <owner reference="4"/>
+              <fieldList id="18"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="19">
+                <x>310</x>
+                <y>234</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="20">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure foo()
+{
+//pointer
+tom = &quot;abc123&quot;;
+
+//link
+jack = xmpp://jackding@cisco.com;
+
+
+age = jack.getAge();
+
+root.console.print(age.toString());
+
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="21">
+            <name>addFieldTest</name>
+            <target class="procedure" id="22">
+              <type>PROCEDURE</type>
+              <id>4685</id>
+              <name defined-in="object">addFieldTest</name>
+              <owner reference="4"/>
+              <fieldList id="23"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="24">
+                <x>723</x>
+                <y>50</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="25">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure foo()
+{
+	time = root.lib.system.now();
+	self.bar=time;
+	
+
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="26">
+            <name>helloWorld</name>
+            <target class="procedure" id="27">
+              <type>PROCEDURE</type>
+              <id>4703</id>
+              <name defined-in="object">helloWorld</name>
+              <owner reference="4"/>
+              <fieldList id="28"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="29">
+                <x>84</x>
+                <y>192</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="30">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>procedure hello()
+{
+	root.console.print(&quot;hello world.&quot;);
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="31">
+            <name>testGetSet</name>
+            <target class="procedure" id="32">
+              <type>PROCEDURE</type>
+              <id>4707</id>
+              <name defined-in="object">testGetSet</name>
+              <owner reference="4"/>
+              <fieldList id="33"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="34">
+                <x>792</x>
+                <y>414</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="35">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>procedure foo()
+{
+	//self.x=1;
+	//self._prototype =1;
+	//self._prototype=root.prototype.object;
+	self.set(&quot;x_x&quot;,1);
+
+
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="36">
+            <name>_prototype</name>
+            <target id="37">
+              <type>NORMAL</type>
+              <id>4704</id>
+              <name>object</name>
+              <owner id="38">
+                <type>NORMAL</type>
+                <id>52</id>
+                <name>prototype</name>
+                <owner reference="1"/>
+                <fieldList id="39">
+                  <field id="40">
+                    <name>value</name>
+                    <target id="41">
+                      <type>NORMAL</type>
+                      <id>53</id>
+                      <name>value</name>
+                      <owner reference="38"/>
+                      <fieldList id="42">
+                        <field id="43">
+                          <name>boolean</name>
+                          <target id="44">
+                            <type>NORMAL</type>
+                            <id>136</id>
+                            <name>boolean</name>
+                            <owner reference="41"/>
+                            <fieldList id="45">
+                              <field id="46">
+                                <name>notEquals</name>
+                                <target class="procedure" id="47">
+                                  <type>PROCEDURE</type>
+                                  <id>139</id>
+                                  <name defined-in="object">notEquals</name>
+                                  <owner reference="44"/>
+                                  <fieldList id="48"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="49">
+                                    <x>480</x>
+                                    <y>193</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="50">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.NotEquals</nativeProcedureClassName>
+                                  <nativeProcedureParameters>b</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="51">
+                                <name>equals</name>
+                                <target class="procedure" id="52">
+                                  <type>PROCEDURE</type>
+                                  <id>138</id>
+                                  <name defined-in="object">equals</name>
+                                  <owner reference="44"/>
+                                  <fieldList id="53"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="54">
+                                    <x>309</x>
+                                    <y>195</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="55">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.Equals</nativeProcedureClassName>
+                                  <nativeProcedureParameters>b</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="56">
+                                <name>not</name>
+                                <target class="procedure" id="57">
+                                  <type>PROCEDURE</type>
+                                  <id>140</id>
+                                  <name defined-in="object">not</name>
+                                  <owner reference="44"/>
+                                  <fieldList id="58"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="59">
+                                    <x>97</x>
+                                    <y>198</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="60">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.Not</nativeProcedureClassName>
+                                  <nativeProcedureParameters></nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                            </fieldList>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="61">
+                              <x>338</x>
+                              <y>110</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="62">
+                              <red>0</red>
+                              <green>0</green>
+                              <blue>0</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                        <field id="63">
+                          <name>float</name>
+                          <target id="64">
+                            <type>NORMAL</type>
+                            <id>4633</id>
+                            <name>float</name>
+                            <owner reference="41"/>
+                            <fieldList id="65">
+                              <field id="66">
+                                <name>lt</name>
+                                <target class="procedure" id="67">
+                                  <type>PROCEDURE</type>
+                                  <id>4634</id>
+                                  <name defined-in="object">lt</name>
+                                  <owner reference="64"/>
+                                  <fieldList id="68"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="69">
+                                    <x>234</x>
+                                    <y>244</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="70">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.float.LessThan</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                            </fieldList>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="71">
+                              <x>134</x>
+                              <y>257</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="72">
+                              <red>51</red>
+                              <green>51</green>
+                              <blue>255</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                        <field id="73">
+                          <name>string</name>
+                          <target class="string" id="74">
+                            <type>STRING</type>
+                            <id>55</id>
+                            <name>string</name>
+                            <owner reference="41"/>
+                            <fieldList id="75">
+                              <field id="76">
+                                <name>toString</name>
+                                <target class="procedure" id="77">
+                                  <type>PROCEDURE</type>
+                                  <id>4662</id>
+                                  <name defined-in="object">toString</name>
+                                  <owner class="string" reference="74"/>
+                                  <fieldList id="78"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="79">
+                                    <x>288</x>
+                                    <y>409</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="80">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.string.ToString</nativeProcedureClassName>
+                                  <nativeProcedureParameters></nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="81">
+                                <name>equals</name>
+                                <target class="procedure" id="82">
+                                  <type>PROCEDURE</type>
+                                  <id>4661</id>
+                                  <name defined-in="object">equals</name>
+                                  <owner class="string" reference="74"/>
+                                  <fieldList id="83"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="84">
+                                    <x>281</x>
+                                    <y>168</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="85">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.string.Equals</nativeProcedureClassName>
+                                  <nativeProcedureParameters>str</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="86">
+                                <name>concat</name>
+                                <target class="procedure" id="87">
+                                  <type>PROCEDURE</type>
+                                  <id>73</id>
+                                  <name defined-in="object">concat</name>
+                                  <owner class="string" reference="74"/>
+                                  <fieldList id="88"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="89">
+                                    <x>96</x>
+                                    <y>169</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="90">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.string.Concatenate</nativeProcedureClassName>
+                                  <nativeProcedureParameters>str</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="91">
+                                <name>replaceAll</name>
+                                <target class="procedure" id="92">
+                                  <type>PROCEDURE</type>
+                                  <id>4710</id>
+                                  <name defined-in="object">unnamed</name>
+                                  <owner class="string" reference="74"/>
+                                  <fieldList id="93"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="94">
+                                    <x>531</x>
+                                    <y>244</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="95">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.string.ReplaceAll</nativeProcedureClassName>
+                                  <nativeProcedureParameters>old|new</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                            </fieldList>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="96">
+                              <x>496</x>
+                              <y>116</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="97">
+                              <red>255</red>
+                              <green>0</green>
+                              <blue>0</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                            <value></value>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                        <field id="98">
+                          <name>integer</name>
+                          <target class="integer" id="99">
+                            <type>INTEGER</type>
+                            <id>54</id>
+                            <name>integer</name>
+                            <owner reference="41"/>
+                            <fieldList id="100">
+                              <field id="101">
+                                <name>le</name>
+                                <target class="procedure" id="102">
+                                  <type>PROCEDURE</type>
+                                  <id>63</id>
+                                  <name defined-in="object">le</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="103"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="104">
+                                    <x>97</x>
+                                    <y>211</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="105">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.LessThanOrEqualTo</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="106">
+                                <name>gt</name>
+                                <target class="procedure" id="107">
+                                  <type>PROCEDURE</type>
+                                  <id>62</id>
+                                  <name defined-in="object">gt</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="108"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="109">
+                                    <x>390</x>
+                                    <y>87</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="110">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.GreatThan</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="111">
+                                <name>lt</name>
+                                <target class="procedure" id="112">
+                                  <type>PROCEDURE</type>
+                                  <id>61</id>
+                                  <name defined-in="object">lt</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="113"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="114">
+                                    <x>99</x>
+                                    <y>88</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="115">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.LessThan</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="116">
+                                <name>min</name>
+                                <target class="procedure" id="117">
+                                  <type>PROCEDURE</type>
+                                  <id>68</id>
+                                  <name defined-in="object">min</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="118"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="119">
+                                    <x>250</x>
+                                    <y>409</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="120">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Minus</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="121">
+                                <name>mul</name>
+                                <target class="procedure" id="122">
+                                  <type>PROCEDURE</type>
+                                  <id>69</id>
+                                  <name defined-in="object">mul</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="123"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="124">
+                                    <x>406</x>
+                                    <y>403</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="125">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Multiply</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="126">
+                                <name>div</name>
+                                <target class="procedure" id="127">
+                                  <type>PROCEDURE</type>
+                                  <id>70</id>
+                                  <name defined-in="object">div</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="128"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="129">
+                                    <x>556</x>
+                                    <y>400</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="130">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Divide</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="131">
+                                <name>mod</name>
+                                <target class="procedure" id="132">
+                                  <type>PROCEDURE</type>
+                                  <id>71</id>
+                                  <name defined-in="object">mod</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="133"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="134">
+                                    <x>728</x>
+                                    <y>399</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="135">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Modulus</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="136">
+                                <name>ge</name>
+                                <target class="procedure" id="137">
+                                  <type>PROCEDURE</type>
+                                  <id>64</id>
+                                  <name defined-in="object">ge</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="138"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="139">
+                                    <x>389</x>
+                                    <y>219</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="140">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.GreaterThanOrEqualTo</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="141">
+                                <name>equals</name>
+                                <target class="procedure" id="142">
+                                  <type>PROCEDURE</type>
+                                  <id>65</id>
+                                  <name defined-in="object">equals</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="143"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="144">
+                                    <x>247</x>
+                                    <y>91</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="145">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Equals</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="146">
+                                <name>notEquals</name>
+                                <target class="procedure" id="147">
+                                  <type>PROCEDURE</type>
+                                  <id>66</id>
+                                  <name defined-in="object">notEquals</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="148"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="149">
+                                    <x>248</x>
+                                    <y>222</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="150">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.NotEquals</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="151">
+                                <name>plus</name>
+                                <target class="procedure" id="152">
+                                  <type>PROCEDURE</type>
+                                  <id>67</id>
+                                  <name defined-in="object">plus</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="153"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="154">
+                                    <x>96</x>
+                                    <y>408</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="155">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Plus</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="156">
+                                <name>toString</name>
+                                <target class="procedure" id="157">
+                                  <type>PROCEDURE</type>
+                                  <id>72</id>
+                                  <name defined-in="object">toString</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="158"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="159">
+                                    <x>97</x>
+                                    <y>550</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="160">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.ToString</nativeProcedureClassName>
+                                  <nativeProcedureParameters></nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="161">
+                                <name>inc</name>
+                                <target class="procedure" id="162">
+                                  <type>PROCEDURE</type>
+                                  <id>104</id>
+                                  <name defined-in="object">inc</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="163"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="164">
+                                    <x>271</x>
+                                    <y>547</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="165">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Increase</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                              <field id="166">
+                                <name>dec</name>
+                                <target class="procedure" id="167">
+                                  <type>PROCEDURE</type>
+                                  <id>105</id>
+                                  <name defined-in="object">dec</name>
+                                  <owner class="integer" reference="99"/>
+                                  <fieldList id="168"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="169">
+                                    <x>416</x>
+                                    <y>545</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="170">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.integer.Decrease</nativeProcedureClassName>
+                                  <nativeProcedureParameters>num</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                            </fieldList>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="171">
+                              <x>133</x>
+                              <y>109</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="172">
+                              <red>51</red>
+                              <green>51</green>
+                              <blue>255</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                            <value>0</value>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                        <field id="173">
+                          <name>time</name>
+                          <target id="174">
+                            <type>NORMAL</type>
+                            <id>4708</id>
+                            <name>time</name>
+                            <owner reference="41"/>
+                            <fieldList id="175">
+                              <field id="176">
+                                <name>toString</name>
+                                <target class="procedure" id="177">
+                                  <type>PROCEDURE</type>
+                                  <id>4709</id>
+                                  <name defined-in="object">toString</name>
+                                  <owner reference="174"/>
+                                  <fieldList id="178"/>
+                                  <applyingWorker>false</applyingWorker>
+                                  <area id="179">
+                                    <x>224</x>
+                                    <y>278</y>
+                                    <width>100</width>
+                                    <height>100</height>
+                                  </area>
+                                  <scaleRate>1.0</scaleRate>
+                                  <borderColor id="180">
+                                    <red>0</red>
+                                    <green>0</green>
+                                    <blue>0</blue>
+                                    <alpha>255</alpha>
+                                  </borderColor>
+                                  <__native>true</__native>
+                                  <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.time.ToString</nativeProcedureClassName>
+                                  <nativeProcedureParameters>format</nativeProcedureParameters>
+                                  <code></code>
+                                </target>
+                                <selectedStatus>NotSelected</selectedStatus>
+                              </field>
+                            </fieldList>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="181">
+                              <x>339</x>
+                              <y>256</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="182">
+                              <red>0</red>
+                              <green>0</green>
+                              <blue>0</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                      </fieldList>
+                      <applyingWorker>false</applyingWorker>
+                      <area id="183">
+                        <x>102</x>
+                        <y>131</y>
+                        <width>100</width>
+                        <height>100</height>
+                      </area>
+                      <scaleRate>1.0</scaleRate>
+                      <borderColor id="184">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                        <alpha>255</alpha>
+                      </borderColor>
+                    </target>
+                    <selectedStatus>NotSelected</selectedStatus>
+                  </field>
+                  <field id="185">
+                    <name>collection</name>
+                    <target id="186">
+                      <type>NORMAL</type>
+                      <id>4700</id>
+                      <name>collection</name>
+                      <owner reference="38"/>
+                      <fieldList id="187">
+                        <field id="188">
+                          <name>addElement</name>
+                          <target class="procedure" id="189">
+                            <type>PROCEDURE</type>
+                            <id>4701</id>
+                            <name defined-in="object">addElement</name>
+                            <owner reference="186"/>
+                            <fieldList id="190"/>
+                            <applyingWorker>false</applyingWorker>
+                            <area id="191">
+                              <x>362</x>
+                              <y>295</y>
+                              <width>100</width>
+                              <height>100</height>
+                            </area>
+                            <scaleRate>1.0</scaleRate>
+                            <borderColor id="192">
+                              <red>0</red>
+                              <green>0</green>
+                              <blue>0</blue>
+                              <alpha>255</alpha>
+                            </borderColor>
+                            <__native>false</__native>
+                            <nativeProcedureClassName></nativeProcedureClassName>
+                            <nativeProcedureParameters></nativeProcedureParameters>
+                            <language>goo</language>
+                            <code>
+
+
+
+
+
+</code>
+                          </target>
+                          <selectedStatus>NotSelected</selectedStatus>
+                        </field>
+                      </fieldList>
+                      <applyingWorker>false</applyingWorker>
+                      <area id="193">
+                        <x>260</x>
+                        <y>319</y>
+                        <width>100</width>
+                        <height>100</height>
+                      </area>
+                      <scaleRate>1.0</scaleRate>
+                      <borderColor id="194">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                        <alpha>255</alpha>
+                      </borderColor>
+                    </target>
+                    <selectedStatus>NotSelected</selectedStatus>
+                  </field>
+                  <field id="195">
+                    <name>object</name>
+                    <target reference="37"/>
+                    <selectedStatus>NotSelected</selectedStatus>
+                  </field>
+                </fieldList>
+                <applyingWorker>false</applyingWorker>
+                <area id="196">
+                  <x>202</x>
+                  <y>440</y>
+                  <width>100</width>
+                  <height>100</height>
+                </area>
+                <scaleRate>1.0</scaleRate>
+                <borderColor id="197">
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                  <alpha>255</alpha>
+                </borderColor>
+              </owner>
+              <fieldList id="198">
+                <field id="199">
+                  <name>set</name>
+                  <target class="procedure" id="200">
+                    <type>PROCEDURE</type>
+                    <id>4706</id>
+                    <name defined-in="object">set</name>
+                    <owner reference="37"/>
+                    <fieldList id="201"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="202">
+                      <x>577</x>
+                      <y>336</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="203">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>true</__native>
+                    <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.Set</nativeProcedureClassName>
+                    <nativeProcedureParameters>name|value</nativeProcedureParameters>
+                    <code></code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="204">
+                  <name>get</name>
+                  <target class="procedure" id="205">
+                    <type>PROCEDURE</type>
+                    <id>4705</id>
+                    <name defined-in="object">get</name>
+                    <owner reference="37"/>
+                    <fieldList id="206"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="207">
+                      <x>405</x>
+                      <y>339</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="208">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>true</__native>
+                    <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.Get</nativeProcedureClassName>
+                    <nativeProcedureParameters>name</nativeProcedureParameters>
+                    <code></code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+              </fieldList>
+              <applyingWorker>false</applyingWorker>
+              <area id="209">
+                <x>704</x>
+                <y>230</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="210">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="211">
+            <name>test1</name>
+            <target class="procedure" id="212">
+              <type>PROCEDURE</type>
+              <id>4904</id>
+              <name defined-in="object">unnamed</name>
+              <owner reference="4"/>
+              <scope>ExecutionContext</scope>
+              <fieldList id="213"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="214">
+                <x>408</x>
+                <y>491</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="215">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>procedure ()
+{
+	root.console.print(&quot;aah&quot;);
+
+
+}</code>
+              <compiled id="216">
+                <parameters id="217"/>
+                <instructions id="218">
+                  <com.bluesky.visualprogramming.vm.instruction.CreateObject id="219">
+                    <type>CREATE_OBJECT</type>
+                    <varName>t_1</varName>
+                    <objType>STRING</objType>
+                    <literal>&quot;aah&quot;</literal>
+                  </com.bluesky.visualprogramming.vm.instruction.CreateObject>
+                  <com.bluesky.visualprogramming.vm.instruction.CreateObject id="220">
+                    <type>CREATE_OBJECT</type>
+                    <varName>t_0</varName>
+                    <objType>NORMAL</objType>
+                  </com.bluesky.visualprogramming.vm.instruction.CreateObject>
+                  <com.bluesky.visualprogramming.vm.instruction.FieldAssignment id="221">
+                    <type>FIELD_ASSIGNMENT</type>
+                    <ownerVar>t_0</ownerVar>
+                    <fieldName>idx_0</fieldName>
+                    <assignmenType>AUTO</assignmenType>
+                    <rightVar>t_1</rightVar>
+                  </com.bluesky.visualprogramming.vm.instruction.FieldAssignment>
+                  <com.bluesky.visualprogramming.vm.instruction.AccessField id="222">
+                    <type>ACCESS_FIELD</type>
+                    <varName>t_2</varName>
+                    <objName>root</objName>
+                    <fieldName>console</fieldName>
+                  </com.bluesky.visualprogramming.vm.instruction.AccessField>
+                  <com.bluesky.visualprogramming.vm.instruction.SendMessage id="223">
+                    <type>SEND_MESSAGE</type>
+                    <comment>root.console.print(&quot;aah&quot;)</comment>
+                    <sync>true</sync>
+                    <replyVar>t_3</replyVar>
+                    <receiverVar>t_2</receiverVar>
+                    <messageSubject>print</messageSubject>
+                    <messageBodyVar>t_0</messageBodyVar>
+                    <paramStyle>ByOrder</paramStyle>
+                  </com.bluesky.visualprogramming.vm.instruction.SendMessage>
+                  <com.bluesky.visualprogramming.vm.instruction.ProcedureEnd id="224">
+                    <type>PROCEDURE_END</type>
+                    <label>ProcedureEnd</label>
+                  </com.bluesky.visualprogramming.vm.instruction.ProcedureEnd>
+                </instructions>
+                <labels id="225">
+                  <entry>
+                    <string>ProcedureEnd</string>
+                    <int>5</int>
+                  </entry>
+                </labels>
+              </compiled>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <messageQueue class="java.util.ArrayDeque" id="226" serialization="custom">
+          <unserializable-parents/>
+          <java.util.ArrayDeque>
+            <default/>
+            <int>0</int>
+          </java.util.ArrayDeque>
+        </messageQueue>
+        <applyingWorker>false</applyingWorker>
+        <area id="227">
+          <x>579</x>
+          <y>375</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="228">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+        <expectMessageType>SyncReply</expectMessageType>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="229">
+      <name>user</name>
+      <target id="230">
+        <type>NORMAL</type>
+        <id>1</id>
+        <name>user</name>
+        <owner reference="1"/>
+        <fieldList id="231">
+          <field id="232">
+            <name>age</name>
+            <target class="integer" id="233">
+              <type>INTEGER</type>
+              <id>39</id>
+              <name>age</name>
+              <owner reference="230"/>
+              <fieldList id="234"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="235">
+                <x>69</x>
+                <y>68</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="236">
+                <red>51</red>
+                <green>255</green>
+                <blue>51</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <value>18</value>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="237">
+            <name>name</name>
+            <target class="string" id="238">
+              <type>STRING</type>
+              <id>40</id>
+              <name>name</name>
+              <owner reference="230"/>
+              <fieldList id="239"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="240">
+                <x>203</x>
+                <y>70</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="241">
+                <red>51</red>
+                <green>255</green>
+                <blue>51</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <value>jack</value>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="242">
+            <name>sayName</name>
+            <target class="procedure" id="243">
+              <type>PROCEDURE</type>
+              <id>46</id>
+              <name defined-in="object">sayName</name>
+              <owner reference="230"/>
+              <fieldList id="244"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="245">
+                <x>159</x>
+                <y>293</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="246">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+
+procedure foo()
+{
+	for(i=0;i.lt(10);i.inc(1))
+	{
+		//name = self.name;
+		//s = &quot;&quot;.concat(name).concat(i.toString());
+		root.console.print(i.toString());			
+	}
+}</code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="247">
+          <x>7</x>
+          <y>113</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="248">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="249">
+      <name>MagicBoat</name>
+      <target id="250">
+        <type>NORMAL</type>
+        <id>11</id>
+        <name>MagicBoat</name>
+        <owner reference="1"/>
+        <fieldList id="251">
+          <field id="252">
+            <name>IDE</name>
+            <target id="253">
+              <type>NORMAL</type>
+              <id>12</id>
+              <name>IDE</name>
+              <owner reference="250"/>
+              <fieldList id="254"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="255">
+                <x>39</x>
+                <y>36</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="256">
+                <red>0</red>
+                <green>153</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="257">
+            <name>RuntimeCommunicationControlLayer</name>
+            <target id="258">
+              <type>NORMAL</type>
+              <id>13</id>
+              <name>RuntimeCommunicationControlLayer</name>
+              <owner reference="250"/>
+              <fieldList id="259"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="260">
+                <x>38</x>
+                <y>350</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="261">
+                <red>153</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="262">
+            <name>ExecuteCore</name>
+            <target id="263">
+              <type>NORMAL</type>
+              <id>14</id>
+              <name>ExecuteCore</name>
+              <owner reference="250"/>
+              <fieldList id="264"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="265">
+                <x>102</x>
+                <y>193</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="266">
+                <red>0</red>
+                <green>153</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="267">
+            <name>ScriptRepository</name>
+            <target id="268">
+              <type>NORMAL</type>
+              <id>15</id>
+              <name>ScriptRepository</name>
+              <owner reference="250"/>
+              <fieldList id="269"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="270">
+                <x>280</x>
+                <y>33</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="271">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="272">
+            <name>DB</name>
+            <target id="273">
+              <type>NORMAL</type>
+              <id>17</id>
+              <name>DB</name>
+              <owner reference="250"/>
+              <fieldList id="274"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="275">
+                <x>330</x>
+                <y>380</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="276">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="277">
+            <name>LibRepository</name>
+            <target id="278">
+              <type>NORMAL</type>
+              <id>16</id>
+              <name>LibRepository</name>
+              <owner reference="250"/>
+              <fieldList id="279"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="280">
+                <x>374</x>
+                <y>200</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="281">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="282">
+            <name>Scheduler</name>
+            <target id="283">
+              <type>NORMAL</type>
+              <id>19</id>
+              <name>Scheduler</name>
+              <owner reference="250"/>
+              <fieldList id="284"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="285">
+                <x>618</x>
+                <y>202</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="286">
+                <red>255</red>
+                <green>102</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="287">
+            <name>Controller</name>
+            <target id="288">
+              <type>NORMAL</type>
+              <id>18</id>
+              <name>Controller</name>
+              <owner reference="250"/>
+              <fieldList id="289"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="290">
+                <x>619</x>
+                <y>61</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="291">
+                <red>255</red>
+                <green>102</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="292">
+            <name>EclipseIde</name>
+            <target id="293">
+              <type>NORMAL</type>
+              <id>21</id>
+              <name>EclipseIde</name>
+              <owner reference="250"/>
+              <fieldList id="294"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="295">
+                <x>862</x>
+                <y>39</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="296">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="297">
+            <name>ReportLog</name>
+            <target id="298">
+              <type>NORMAL</type>
+              <id>20</id>
+              <name>ReportLog</name>
+              <owner reference="250"/>
+              <fieldList id="299"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="300">
+                <x>621</x>
+                <y>353</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="301">
+                <red>255</red>
+                <green>102</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="302">
+            <name>LibDevelopment</name>
+            <target id="303">
+              <type>NORMAL</type>
+              <id>22</id>
+              <name>LibDevelopment</name>
+              <owner reference="250"/>
+              <fieldList id="304"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="305">
+                <x>858</x>
+                <y>195</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="306">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="307">
+            <name>LibDevelopment3</name>
+            <target id="308">
+              <type>NORMAL</type>
+              <id>25</id>
+              <name>LibDevelopment3</name>
+              <owner reference="250"/>
+              <fieldList id="309"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="310">
+                <x>862</x>
+                <y>436</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="311">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="312">
+            <name>LibDevelopment_2</name>
+            <target id="313">
+              <type>NORMAL</type>
+              <id>24</id>
+              <name>LibDevelopment_2</name>
+              <owner reference="250"/>
+              <fieldList id="314"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="315">
+                <x>863</x>
+                <y>316</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="316">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="317">
+            <name>LibDevelopment4</name>
+            <target id="318">
+              <type>NORMAL</type>
+              <id>26</id>
+              <name>LibDevelopment4</name>
+              <owner reference="250"/>
+              <fieldList id="319"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="320">
+                <x>865</x>
+                <y>568</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="321">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="322">
+          <x>7</x>
+          <y>5</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="323">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="324">
+      <name>lib</name>
+      <target id="325">
+        <type>NORMAL</type>
+        <id>280</id>
+        <name>lib</name>
+        <owner reference="1"/>
+        <fieldList id="326">
+          <field id="327">
+            <name>math</name>
+            <target id="328">
+              <type>NORMAL</type>
+              <id>281</id>
+              <name>math</name>
+              <owner reference="325"/>
+              <fieldList id="329">
+                <field id="330">
+                  <name>fibonacci</name>
+                  <target class="procedure" id="331">
+                    <type>PROCEDURE</type>
+                    <id>282</id>
+                    <name defined-in="object">fibonacci</name>
+                    <owner reference="328"/>
+                    <fieldList id="332"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="333">
+                      <x>243</x>
+                      <y>265</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="334">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>
+
+
+
+
+
+
+procedure fibonacci(x)
+{
+	//root.console.print(x.toString());
+	if(x.lt(2))
+	{
+		if(x.equals(0))		
+			result=0;
+		else
+			result=1;		
+	}	
+	else
+		result = self.fibonacci(x.min(1)).plus( self.fibonacci(x.min(2)) );			
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="335">
+                  <name>sum</name>
+                  <target class="procedure" id="336">
+                    <type>PROCEDURE</type>
+                    <id>4631</id>
+                    <name defined-in="object">sum</name>
+                    <owner reference="328"/>
+                    <fieldList id="337"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="338">
+                      <x>467</x>
+                      <y>265</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="339">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>
+
+
+
+
+
+
+procedure sum(n)
+{
+	if(n.equals(1))
+		result = 1;
+	else
+	{
+		n2 = n.min(1);
+		s2 = self.sum(n2);
+		result = n.plus(s2);
+	}
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+              </fieldList>
+              <applyingWorker>false</applyingWorker>
+              <area id="340">
+                <x>217</x>
+                <y>221</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="341">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="342">
+            <name>system</name>
+            <target id="343">
+              <type>NORMAL</type>
+              <id>4640</id>
+              <name>system</name>
+              <owner reference="325"/>
+              <fieldList id="344">
+                <field id="345">
+                  <name>now</name>
+                  <target class="procedure" id="346">
+                    <type>PROCEDURE</type>
+                    <id>4641</id>
+                    <name defined-in="object">now</name>
+                    <owner reference="343"/>
+                    <fieldList id="347"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="348">
+                      <x>228</x>
+                      <y>213</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="349">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>true</__native>
+                    <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.lib.system.Now</nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <code></code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+              </fieldList>
+              <applyingWorker>false</applyingWorker>
+              <area id="350">
+                <x>446</x>
+                <y>226</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="351">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="352">
+          <x>230</x>
+          <y>717</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="353">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="354">
+      <name>Chess</name>
+      <target id="355">
+        <type>NORMAL</type>
+        <id>27</id>
+        <name>Chess</name>
+        <owner reference="1"/>
+        <fieldList id="356">
+          <field id="357">
+            <name>Primary1</name>
+            <target id="358">
+              <type>NORMAL</type>
+              <id>29</id>
+              <name>Primary1</name>
+              <owner reference="355"/>
+              <fieldList id="359"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="360">
+                <x>284</x>
+                <y>165</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="361">
+                <red>102</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="362">
+            <name>jiang帅</name>
+            <target id="363">
+              <type>NORMAL</type>
+              <id>28</id>
+              <name>jiang帅</name>
+              <owner reference="355"/>
+              <fieldList id="364"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="365">
+                <x>520</x>
+                <y>165</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="366">
+                <red>255</red>
+                <green>51</green>
+                <blue>51</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="367">
+            <name>Horse1</name>
+            <target id="368">
+              <type>NORMAL</type>
+              <id>31</id>
+              <name>Horse1</name>
+              <owner reference="355"/>
+              <fieldList id="369"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="370">
+                <x>148</x>
+                <y>163</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="371">
+                <red>102</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="372">
+            <name>Primary2</name>
+            <target id="373">
+              <type>NORMAL</type>
+              <id>30</id>
+              <name>Primary2</name>
+              <owner reference="355"/>
+              <fieldList id="374"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="375">
+                <x>777</x>
+                <y>164</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="376">
+                <red>204</red>
+                <green>204</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="377">
+            <name>Car1</name>
+            <target id="378">
+              <type>NORMAL</type>
+              <id>34</id>
+              <name>Car1</name>
+              <owner reference="355"/>
+              <fieldList id="379"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="380">
+                <x>25</x>
+                <y>159</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="381">
+                <red>51</red>
+                <green>255</green>
+                <blue>51</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="382">
+            <name>Guard1</name>
+            <target id="383">
+              <type>NORMAL</type>
+              <id>35</id>
+              <name>Guard1</name>
+              <owner reference="355"/>
+              <fieldList id="384"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="385">
+                <x>402</x>
+                <y>162</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="386">
+                <red>102</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="387">
+            <name>Horse2</name>
+            <target id="388">
+              <type>NORMAL</type>
+              <id>32</id>
+              <name>Horse2</name>
+              <owner reference="355"/>
+              <fieldList id="389"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="390">
+                <x>901</x>
+                <y>164</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="391">
+                <red>0</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="392">
+            <name>Car2</name>
+            <target id="393">
+              <type>NORMAL</type>
+              <id>33</id>
+              <name>Car2</name>
+              <owner reference="355"/>
+              <fieldList id="394"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="395">
+                <x>1038</x>
+                <y>159</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="396">
+                <red>102</red>
+                <green>255</green>
+                <blue>102</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="397">
+            <name>Guard2</name>
+            <target id="398">
+              <type>NORMAL</type>
+              <id>36</id>
+              <name>Guard2</name>
+              <owner reference="355"/>
+              <fieldList id="399"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="400">
+                <x>650</x>
+                <y>166</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="401">
+                <red>51</red>
+                <green>255</green>
+                <blue>153</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="402">
+          <x>150</x>
+          <y>7</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>0.75</scaleRate>
+        <borderColor id="403">
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="404">
+      <name>users</name>
+      <target id="405">
+        <type>NORMAL</type>
+        <id>4644</id>
+        <name>users</name>
+        <owner reference="1"/>
+        <fieldList id="406">
+          <field id="407">
+            <name>jack</name>
+            <target id="408">
+              <type>NORMAL</type>
+              <id>4645</id>
+              <name>jack</name>
+              <owner reference="405"/>
+              <fieldList id="409">
+                <field id="410">
+                  <name>_aliases</name>
+                  <target id="411">
+                    <type>NORMAL</type>
+                    <id>4646</id>
+                    <name>_aliases</name>
+                    <owner reference="408"/>
+                    <fieldList id="412">
+                      <field id="413">
+                        <name>getonsip_xmpp</name>
+                        <target id="414">
+                          <type>NORMAL</type>
+                          <id>4648</id>
+                          <name>getonsip_xmpp</name>
+                          <owner reference="411"/>
+                          <fieldList id="415">
+                            <field id="416">
+                              <name>connectionOptions</name>
+                              <target class="string" id="417">
+                                <type>STRING</type>
+                                <id>4651</id>
+                                <name>connectionOptions</name>
+                                <owner reference="414"/>
+                                <fieldList id="418"/>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="419">
+                                  <x>651</x>
+                                  <y>347</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="420">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>server=getonsip.com;username=jackhatedance;password=pw12#$</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="421">
+                              <name>protocol</name>
+                              <target class="string" id="422">
+                                <type>STRING</type>
+                                <id>4650</id>
+                                <name>protocol</name>
+                                <owner reference="414"/>
+                                <fieldList id="423"/>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="424">
+                                  <x>436</x>
+                                  <y>276</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="425">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>xmpp</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="426">
+                              <name>address</name>
+                              <target class="string" id="427">
+                                <type>STRING</type>
+                                <id>4649</id>
+                                <name>address</name>
+                                <owner reference="414"/>
+                                <fieldList id="428"/>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="429">
+                                  <x>270</x>
+                                  <y>289</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="430">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>jackhatedance@getonsip.com</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="431">
+                              <name>enabled</name>
+                              <target class="boolean" id="432">
+                                <type>BOOLEAN</type>
+                                <id>4846</id>
+                                <name>unnamed</name>
+                                <owner reference="414"/>
+                                <fieldList id="433">
+                                  <field id="434">
+                                    <name>_prototype</name>
+                                    <target reference="44"/>
+                                    <selectedStatus>NotSelected</selectedStatus>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="435">
+                                  <x>302</x>
+                                  <y>526</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="436">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <booleanValue>false</booleanValue>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="437">
+                            <x>219</x>
+                            <y>245</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="438">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="439">
+                      <x>39</x>
+                      <y>64</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="440">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="441">
+                  <name>talkToJackDing</name>
+                  <target class="procedure" id="442">
+                    <type>PROCEDURE</type>
+                    <id>4654</id>
+                    <name defined-in="object">talkToJackDing</name>
+                    <owner reference="408"/>
+                    <fieldList id="443"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="444">
+                      <x>553</x>
+                      <y>463</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="445">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>
+
+
+
+
+
+
+procedure foo()
+{
+	jackding = xmpp://jackding@cisco.com;
+	resp = jackding.howAreYou();
+
+	if(resp.equals(&quot;fine&quot;))
+		jackding.gladToHearThat();
+	else
+		jackding.sorryToHearThat();
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="446">
+                  <name>name</name>
+                  <target class="string" id="447">
+                    <type>STRING</type>
+                    <id>4653</id>
+                    <name>name</name>
+                    <owner reference="408"/>
+                    <fieldList id="448"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="449">
+                      <x>258</x>
+                      <y>64</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="450">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>jack</value>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="451">
+                  <name>what is your name?</name>
+                  <target class="procedure" id="452">
+                    <type>PROCEDURE</type>
+                    <id>4652</id>
+                    <name defined-in="object">WhatIsYourName</name>
+                    <owner reference="408"/>
+                    <fieldList id="453"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="454">
+                      <x>253</x>
+                      <y>236</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="455">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure foo()
+{
+
+	result = self.name;
+	//root.console.print(self.name);
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="456">
+                  <name>help</name>
+                  <target class="procedure" id="457">
+                    <type>PROCEDURE</type>
+                    <id>4663</id>
+                    <name defined-in="object">help</name>
+                    <owner reference="408"/>
+                    <fieldList id="458"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="459">
+                      <x>288</x>
+                      <y>459</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="460">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure help()
+{
+	t = root.lib.system.now();
+
+	name = &quot;t&quot;.concat(t.toString(&quot;yyMMddHHmmss&quot;));
+	root.console.print(name);
+	self.requests.set(name,&quot;request&quot;);
+
+	result = &quot;What can I do for 你?&quot;;
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="461">
+                  <name>location</name>
+                  <target class="string" id="462">
+                    <type>STRING</type>
+                    <id>4683</id>
+                    <name>location</name>
+                    <owner reference="408"/>
+                    <fieldList id="463"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="464">
+                      <x>460</x>
+                      <y>67</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="465">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>杭州</value>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="466">
+                  <name>你在哪里？</name>
+                  <target class="procedure" id="467">
+                    <type>PROCEDURE</type>
+                    <id>4684</id>
+                    <name defined-in="object">WhereAreYou</name>
+                    <owner reference="408"/>
+                    <fieldList id="468"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="469">
+                      <x>468</x>
+                      <y>222</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="470">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>
+
+
+
+
+
+
+procedure loc()
+{
+	result = self.location;
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="471">
+                  <name>requests</name>
+                  <target id="472">
+                    <type>NORMAL</type>
+                    <id>4698</id>
+                    <name>requests</name>
+                    <owner reference="408"/>
+                    <fieldList id="473">
+                      <field id="474">
+                        <name>_prototype</name>
+                        <target reference="37"/>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                      <field id="475">
+                        <name>t130903224622</name>
+                        <target class="string" id="476">
+                          <type>STRING</type>
+                          <id>4793</id>
+                          <name>t_13</name>
+                          <owner reference="472"/>
+                          <fieldList id="477">
+                            <field id="478">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="479">
+                            <x>150</x>
+                            <y>353</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="480">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>request</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                      <field id="481">
+                        <name>t130903224624</name>
+                        <target class="string" id="482">
+                          <type>STRING</type>
+                          <id>4807</id>
+                          <name>t_13</name>
+                          <owner reference="472"/>
+                          <fieldList id="483">
+                            <field id="484">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="485">
+                            <x>161</x>
+                            <y>149</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="486">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>request</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                      <field id="487">
+                        <name>t130903230512</name>
+                        <target class="string" id="488">
+                          <type>STRING</type>
+                          <id>4820</id>
+                          <name>t_13</name>
+                          <owner reference="472"/>
+                          <fieldList id="489">
+                            <field id="490">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="491">
+                            <x>0</x>
+                            <y>0</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="492">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>request</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                      <field id="493">
+                        <name>t130903230515</name>
+                        <target class="string" id="494">
+                          <type>STRING</type>
+                          <id>4834</id>
+                          <name>t_13</name>
+                          <owner reference="472"/>
+                          <fieldList id="495">
+                            <field id="496">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="497">
+                            <x>0</x>
+                            <y>0</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="498">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>request</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="499">
+                      <x>95</x>
+                      <y>454</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="500">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="501">
+                  <name>test</name>
+                  <target class="procedure" id="502">
+                    <type>PROCEDURE</type>
+                    <id>4699</id>
+                    <name defined-in="object">test</name>
+                    <owner reference="408"/>
+                    <fieldList id="503"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="504">
+                      <x>810</x>
+                      <y>245</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="505">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure foo()
+{
+	self.requests._prototype=root.prototype.object;
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+              </fieldList>
+              <applyingWorker>false</applyingWorker>
+              <area id="506">
+                <x>352</x>
+                <y>288</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="507">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="508">
+            <name>robot1</name>
+            <target id="509">
+              <type>NORMAL</type>
+              <id>4836</id>
+              <name>unnamed</name>
+              <owner reference="405"/>
+              <fieldList id="510">
+                <field id="511">
+                  <name>location</name>
+                  <target class="string" id="512">
+                    <type>STRING</type>
+                    <id>4837</id>
+                    <name>unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="513">
+                      <field id="514">
+                        <name>_prototype</name>
+                        <target class="string" reference="74"/>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="515">
+                      <x>315</x>
+                      <y>93</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="516">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>浙江杭州</value>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="517">
+                  <name>getLocation</name>
+                  <target class="procedure" id="518">
+                    <type>PROCEDURE</type>
+                    <id>4838</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="519">
+                      <field id="520">
+                        <name>_subjectMatchRule</name>
+                        <target class="string" id="521">
+                          <type>STRING</type>
+                          <id>4903</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="518"/>
+                          <fieldList id="522">
+                            <field id="523">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="524">
+                            <x>210</x>
+                            <y>241</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="525">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>subject.contains(&quot;where are you&quot;) || 
+subject.contains(&quot;在哪里&quot;)</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="526">
+                      <x>312</x>
+                      <y>234</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="527">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure loc()
+{
+	result = self.location;
+
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="528">
+                  <name>age</name>
+                  <target class="string" id="529">
+                    <type>STRING</type>
+                    <id>4839</id>
+                    <name>unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="530">
+                      <field id="531">
+                        <name>_prototype</name>
+                        <target class="string" reference="74"/>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="532">
+                      <x>159</x>
+                      <y>95</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="533">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>1</value>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="534">
+                  <name>how old are you?</name>
+                  <target class="procedure" id="535">
+                    <type>PROCEDURE</type>
+                    <id>4840</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="536">
+                      <field id="537">
+                        <name>_subjectMatchRule</name>
+                        <target class="string" id="538">
+                          <type>STRING</type>
+                          <id>4888</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="535"/>
+                          <fieldList id="539">
+                            <field id="540">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="541">
+                            <x>335</x>
+                            <y>249</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="542">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>subject.contains(&quot;几岁&quot;) ||
+subject.contains(&quot;多大&quot;)</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="543">
+                      <x>159</x>
+                      <y>245</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="544">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure loc()
+{
+	result = self.age;
+
+}
+</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="545">
+                  <name>_aliases</name>
+                  <target id="546">
+                    <type>NORMAL</type>
+                    <id>4841</id>
+                    <name>unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="547">
+                      <field id="548">
+                        <name>getonsip_xmpp</name>
+                        <target id="549">
+                          <type>NORMAL</type>
+                          <id>4842</id>
+                          <name>unnamed</name>
+                          <owner reference="546"/>
+                          <fieldList id="550">
+                            <field id="551">
+                              <name>address</name>
+                              <target class="string" id="552">
+                                <type>STRING</type>
+                                <id>4843</id>
+                                <name>unnamed</name>
+                                <owner reference="549"/>
+                                <fieldList id="553">
+                                  <field id="554">
+                                    <name>_prototype</name>
+                                    <target class="string" reference="74"/>
+                                    <selectedStatus>NotSelected</selectedStatus>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="555">
+                                  <x>305</x>
+                                  <y>209</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="556">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>vprobot1@getonsip.com</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="557">
+                              <name>protocol</name>
+                              <target class="string" id="558">
+                                <type>STRING</type>
+                                <id>4844</id>
+                                <name>unnamed</name>
+                                <owner reference="549"/>
+                                <fieldList id="559">
+                                  <field id="560">
+                                    <name>_prototype</name>
+                                    <target class="string" reference="74"/>
+                                    <selectedStatus>NotSelected</selectedStatus>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="561">
+                                  <x>467</x>
+                                  <y>196</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="562">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>xmpp</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="563">
+                              <name>connectionOptions</name>
+                              <target class="string" id="564">
+                                <type>STRING</type>
+                                <id>4845</id>
+                                <name>unnamed</name>
+                                <owner reference="549"/>
+                                <fieldList id="565">
+                                  <field id="566">
+                                    <name>_prototype</name>
+                                    <target class="string" reference="74"/>
+                                    <selectedStatus>NotSelected</selectedStatus>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="567">
+                                  <x>646</x>
+                                  <y>209</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="568">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>server=getonsip.com;username=vprobot1;password=pw12#$</value>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                            <field id="569">
+                              <name>enabled</name>
+                              <target class="boolean" id="570">
+                                <type>BOOLEAN</type>
+                                <id>4847</id>
+                                <name>unnamed</name>
+                                <owner reference="549"/>
+                                <fieldList id="571">
+                                  <field id="572">
+                                    <name>_prototype</name>
+                                    <target reference="44"/>
+                                    <selectedStatus>NotSelected</selectedStatus>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="573">
+                                  <x>380</x>
+                                  <y>448</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="574">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <booleanValue>true</booleanValue>
+                              </target>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="575">
+                            <x>166</x>
+                            <y>137</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="576">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="577">
+                      <x>772</x>
+                      <y>84</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="578">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="579">
+                  <name>hi</name>
+                  <target class="procedure" id="580">
+                    <type>PROCEDURE</type>
+                    <id>4866</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="581">
+                      <field id="582">
+                        <name>_subjectMatchRule</name>
+                        <target class="string" id="583">
+                          <type>STRING</type>
+                          <id>4878</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="580"/>
+                          <fieldList id="584">
+                            <field id="585">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="586">
+                            <x>96</x>
+                            <y>162</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="587">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>subject.contains(&quot;你好&quot;) || subject.contains(&quot;hello&quot;)</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="588">
+                      <x>164</x>
+                      <y>399</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="589">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure ()
+{
+	result = &quot;hi&quot;;
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="590">
+                  <name>who are you?</name>
+                  <target class="procedure" id="591">
+                    <type>PROCEDURE</type>
+                    <id>4871</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="592">
+                      <field id="593">
+                        <name>_subjectMatchRule</name>
+                        <target class="string" id="594">
+                          <type>STRING</type>
+                          <id>4890</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="591"/>
+                          <fieldList id="595">
+                            <field id="596">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                              <selectedStatus>NotSelected</selectedStatus>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="597">
+                            <x>114</x>
+                            <y>291</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="598">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>subject.contains(&quot;你是谁&quot;)</value>
+                        </target>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="599">
+                      <x>32</x>
+                      <y>242</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="600">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure foo()
+{
+	result = &quot;I am &quot;.concat(self.name).concat(&quot;.&quot;);
+}</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="601">
+                  <name>name</name>
+                  <target class="string" id="602">
+                    <type>STRING</type>
+                    <id>4872</id>
+                    <name>unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="603">
+                      <field id="604">
+                        <name>_prototype</name>
+                        <target class="string" reference="74"/>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="605">
+                      <x>40</x>
+                      <y>92</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="606">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>Robot #1</value>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="607">
+                  <name>_enableSubjectMatchRule</name>
+                  <target class="boolean" id="608">
+                    <type>BOOLEAN</type>
+                    <id>4877</id>
+                    <name>unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="609">
+                      <field id="610">
+                        <name>_prototype</name>
+                        <target reference="44"/>
+                        <selectedStatus>NotSelected</selectedStatus>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="611">
+                      <x>777</x>
+                      <y>221</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="612">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <booleanValue>true</booleanValue>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+                <field id="613">
+                  <name>move</name>
+                  <target class="procedure" id="614">
+                    <type>PROCEDURE</type>
+                    <id>4895</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="509"/>
+                    <fieldList id="615"/>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="616">
+                      <x>314</x>
+                      <y>376</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="617">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure ()
+{
+
+
+}
+</code>
+                  </target>
+                  <selectedStatus>NotSelected</selectedStatus>
+                </field>
+              </fieldList>
+              <applyingWorker>false</applyingWorker>
+              <area id="618">
+                <x>421</x>
+                <y>452</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="619">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="620">
+          <x>631</x>
+          <y>727</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="621">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="622">
+      <name>console</name>
+      <target id="623">
+        <type>NORMAL</type>
+        <id>44</id>
+        <name>console</name>
+        <owner reference="1"/>
+        <fieldList id="624">
+          <field id="625">
+            <name>print</name>
+            <target class="procedure" id="626">
+              <type>PROCEDURE</type>
+              <id>45</id>
+              <name defined-in="object">print</name>
+              <owner reference="623"/>
+              <fieldList id="627"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="628">
+                <x>133</x>
+                <y>249</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="629">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>true</__native>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.Print</nativeProcedureClassName>
+              <nativeProcedureParameters>content</nativeProcedureParameters>
+              <code></code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+          <field id="630">
+            <name>println</name>
+            <target class="procedure" id="631">
+              <type>PROCEDURE</type>
+              <id>4808</id>
+              <name defined-in="object">unnamed</name>
+              <owner reference="623"/>
+              <fieldList id="632"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="633">
+                <x>384</x>
+                <y>313</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="634">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>true</__native>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.PrintLine</nativeProcedureClassName>
+              <nativeProcedureParameters>content</nativeProcedureParameters>
+              <code></code>
+            </target>
+            <selectedStatus>NotSelected</selectedStatus>
+          </field>
+        </fieldList>
+        <messageQueue class="java.util.ArrayDeque" id="635" serialization="custom">
+          <unserializable-parents/>
+          <java.util.ArrayDeque>
+            <default/>
+            <int>0</int>
+          </java.util.ArrayDeque>
+        </messageQueue>
+        <applyingWorker>false</applyingWorker>
+        <area id="636">
+          <x>158</x>
+          <y>231</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="637">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+    <field id="638">
+      <name>prototype</name>
+      <target reference="38"/>
+      <selectedStatus>NotSelected</selectedStatus>
+    </field>
+  </fieldList>
+  <applyingWorker>false</applyingWorker>
+  <area id="639">
+    <x>0</x>
+    <y>0</y>
+    <width>100</width>
+    <height>100</height>
+  </area>
+  <scaleRate>0.5</scaleRate>
+  <borderColor id="640">
+    <red>0</red>
+    <green>0</green>
+    <blue>0</blue>
+    <alpha>255</alpha>
+  </borderColor>
+</object>

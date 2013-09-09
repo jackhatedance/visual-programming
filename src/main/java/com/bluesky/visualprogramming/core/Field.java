@@ -5,14 +5,14 @@ public class Field {
 	public String name;
 	public _Object target;
 
-	public boolean owner;
+	//public boolean owner;
 
 	private SelectedStatus selectedStatus = SelectedStatus.NotSelected;
 
-	public Field(_Object targetObject, String name, boolean owner) {
+	public Field(_Object targetObject, String name) {
 		this.target = targetObject;
 		this.name = name;
-		this.owner = owner;
+		//this.owner = owner;
 	}
 
 	@Override

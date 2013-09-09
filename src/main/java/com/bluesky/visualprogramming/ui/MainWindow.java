@@ -106,7 +106,7 @@ public class MainWindow extends JPanel {
 	private void createTreePanel() {
 
 		Field rootField = new Field(getVM().getObjectRepository()
-				.getRootObject(), "root",true);
+				.getRootObject(), "root");
 		TreeNode rootNode = createTreeNode(null, rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);
@@ -232,7 +232,7 @@ public class MainWindow extends JPanel {
 
 		});
 		parentPopupMenu.add(eMenuItem);
-		
+
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -291,7 +291,7 @@ public class MainWindow extends JPanel {
 
 						getVM().getPostService().sendMessageFromNobody(
 								activeChildField.target.getOwner(),
-								activeChildField.target.getName());
+								activeChildField.getName());
 
 					}
 				}

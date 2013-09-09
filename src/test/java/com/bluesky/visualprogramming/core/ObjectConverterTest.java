@@ -4,12 +4,8 @@ import org.junit.Test;
 
 import com.bluesky.visualprogramming.core.serialization.SerializationService;
 import com.bluesky.visualprogramming.core.serialization.SerializerType;
-import com.bluesky.visualprogramming.core.value.BooleanValue;
-import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 public class ObjectConverterTest {
 
