@@ -22,5 +22,7 @@ public interface ProtocolService {
 	_Object getLocalObject(String address);
 
 	void send(String receiverId, Message message);
+	
+	ProtocolType getType();
 
 }

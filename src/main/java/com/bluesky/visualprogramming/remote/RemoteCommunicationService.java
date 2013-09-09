@@ -44,10 +44,10 @@ public class RemoteCommunicationService {
 			public void afterLoad(_Object obj) {
 				_Object aliases = obj;
 				_Object owner = obj.getOwner();
-				
-				if(owner==null)
+
+				if (owner == null)
 					return;
-				
+
 				int index = owner.getChildIndex(obj);
 				Field field = owner.getField(index);
 
@@ -99,7 +99,7 @@ public class RemoteCommunicationService {
 	}
 
 	public void addProtocolService(ProtocolService svc) {
-		services.put(ProtocolType.XMPP, svc);
+		services.put(svc.getType(), svc);
 
 	}
 }

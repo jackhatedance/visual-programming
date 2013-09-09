@@ -11,9 +11,11 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
 import com.bluesky.visualprogramming.remote.protocol.xmpp.XmppService;
+import com.bluesky.visualprogramming.remote.ssh.SshService;
 
 public class PostService implements Runnable {
 	static Logger logger = Logger.getLogger(PostService.class);
@@ -34,8 +36,8 @@ public class PostService implements Runnable {
 		remoteCommunicationService = new RemoteCommunicationService(
 				objectRepository);
 
-		XmppService xmppService = new XmppService();
-		remoteCommunicationService.addProtocolService(xmppService);
+		remoteCommunicationService.addProtocolService(new XmppService());
+		remoteCommunicationService.addProtocolService(new SshService());
 	}
 
 	public void sendMessage(Message msg) {
@@ -65,10 +67,10 @@ public class PostService implements Runnable {
 
 			if (localObject != null) {
 				logger.debug("localObject is not null");
-				
-				//update link with pointer
+
+				// update link with pointer
 				msg.receiver = localObject;
-				
+
 				sendLocalMessage(msg, localObject);
 			} else {
 				logger.debug("localObject is null");
