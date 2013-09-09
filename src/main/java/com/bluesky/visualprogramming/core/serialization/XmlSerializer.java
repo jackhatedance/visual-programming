@@ -49,6 +49,8 @@ public class XmlSerializer implements ObjectSerializer {
 
 		if (!gui)
 			omitGuiInfo();
+		
+		omitRuntimeInfo();
 	}
 
 	protected void omitGuiInfo() {
@@ -61,6 +63,15 @@ public class XmlSerializer implements ObjectSerializer {
 		xstream.omitField(cls, "borderColor");
 
 		xstream.omitField(Field.class, "selectedStatus");
+	}
+	
+	protected void omitRuntimeInfo() {
+
+		Class cls = _Object.class;
+
+		xstream.omitField(cls, "messageQueue");
+		xstream.omitField(cls, "worker");
+		
 	}
 
 	@Override
