@@ -80,10 +80,12 @@ link : LINK_PROTOCOL  LINK_ADDRESS;
 
 variable : ID;
 field   :   ID          #IdField
+            | '$' ID      #VarField
             | STRING    #StringField
             ;
 messgeSubject : ID         #IdMessageSubject
-           |    STRING  #StringMessageSubject
+              | '$' ID      #VarMessageSubject
+           |    STRING  #StringMessageSubject            
            ;
 
 paramList : expr (',' expr)*            #orderedParamList  

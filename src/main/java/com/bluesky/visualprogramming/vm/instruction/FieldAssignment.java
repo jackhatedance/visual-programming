@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
-import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.InstructionType;
 
 public class FieldAssignment extends Instruction {
@@ -9,7 +8,8 @@ public class FieldAssignment extends Instruction {
 	public String ownerVar;
 	// public _Object owner;
 
-	public String fieldName;
+	public String fieldNameVar;
+	public String fieldNameConst;
 
 	public AssignmentType assignmenType;
 
@@ -17,7 +17,7 @@ public class FieldAssignment extends Instruction {
 	public String rightVar;
 
 	// public _Object rightObject;
-	
+
 	public FieldAssignment() {
 		this.type = InstructionType.FIELD_ASSIGNMENT;
 	}
@@ -25,7 +25,11 @@ public class FieldAssignment extends Instruction {
 	@Override
 	public String toString() {
 		return String.format("[field_assignment] %s.%s %s %s", ownerVar,
-				fieldName, assignmenType.getOperator(), rightVar);
+				fieldNameVar, assignmenType.getOperator(), rightVar);
 
+	}
+
+	public boolean isConstant() {
+		return fieldNameConst != null;
 	}
 }

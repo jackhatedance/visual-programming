@@ -9,7 +9,10 @@ public class SendMessage extends Instruction {
 	public String callback;
 	public String replyVar;
 	public String receiverVar;
-	public String messageSubject;
+	
+	
+	public String messageSubjectVar;
+	
 	public String messageBodyVar;
 	public ParameterStyle paramStyle;
 
@@ -22,7 +25,7 @@ public class SendMessage extends Instruction {
 	public String toString() {
 
 		String syncDesc = sync ? "sync" : "async";
-		return String.format("[send_message] %s %s = %s.%s(%s)", syncDesc,
-				replyVar, receiverVar, messageSubject, messageBodyVar);
+		return String.format("[send_message] %s %s = %s.$%s(%s)", syncDesc,
+				replyVar, receiverVar, messageSubjectVar, messageBodyVar);
 	}
 }

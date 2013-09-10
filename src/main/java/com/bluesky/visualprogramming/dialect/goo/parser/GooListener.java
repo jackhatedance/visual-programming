@@ -119,6 +119,17 @@ public interface GooListener extends ParseTreeListener {
 	void exitStringField(@NotNull GooParser.StringFieldContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GooParser#VarMessageSubject}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#VarMessageSubject}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#forAfterthought}.
 	 * @param ctx the parse tree
 	 */
@@ -128,6 +139,17 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#VarField}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarField(@NotNull GooParser.VarFieldContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#VarField}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarField(@NotNull GooParser.VarFieldContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#StringMessageSubject}.

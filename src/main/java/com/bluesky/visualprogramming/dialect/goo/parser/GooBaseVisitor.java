@@ -98,7 +98,23 @@ public class GooBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Go
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitVarField(@NotNull GooParser.VarFieldContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

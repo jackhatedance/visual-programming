@@ -12,6 +12,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
@@ -194,14 +195,21 @@ public class ProcedureExecutor implements InstructionExecutor {
 				throw new RuntimeException("receiver object not exist:"
 						+ instruction.receiverVar);
 
+			StringValue messageSubject = (StringValue)ctx.getObject(instruction.messageSubjectVar);
+			if (messageSubject == null)
+				throw new RuntimeException("subject object not exist:"
+						+ instruction.messageSubjectVar);
+			
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
+			
+			
 
 			MessageType msgType = MessageType.Normal;
 			if (sender == receiver)
 				msgType = MessageType.Recursive;
 
 			Message msg = new Message(instruction.sync, sender, receiver,
-					instruction.messageSubject, messageBody,
+					messageSubject.getValue(), messageBody,
 					instruction.paramStyle, null, msgType);
 
 			ctx.step = 1;
@@ -244,11 +252,15 @@ public class ProcedureExecutor implements InstructionExecutor {
 		_Object leftObject = ctx.getObject(instruction.ownerVar);
 
 		_Object oldFieldObject = null;
+		
+		String fieldName = ctx.get(instruction.fieldNameVar).getValue();
 		// ownership
 		switch (instruction.assignmenType) {
 		case OWN:
 			if (rightObject == null) {
-				oldFieldObject = leftObject.getChild(instruction.fieldName);
+				
+				
+				oldFieldObject = leftObject.getChild(fieldName);
 
 				// move to execution context
 				if (oldFieldObject != null)
@@ -257,34 +269,34 @@ public class ProcedureExecutor implements InstructionExecutor {
 			} else {
 				if (rightObject.getScope() != ObjectScope.ExecutionContext)
 					throw new CannotObtainOwnershipException();
-
-				oldFieldObject = leftObject.getChild(instruction.fieldName);
+				
+				oldFieldObject = leftObject.getChild(fieldName);
 
 				// move to execution context
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
 
-				leftObject.addChild(rightObject, instruction.fieldName, true);
+				leftObject.addChild(rightObject, fieldName, true);
 			}
 			break;
 
 		case REF:
-			leftObject.addChild(rightObject, instruction.fieldName, false);
+			leftObject.addChild(rightObject, fieldName, false);
 
 			break;
 		default:
 			// auto
 			if (rightObject == null) {
-				oldFieldObject = leftObject.getChild(instruction.fieldName);
+				oldFieldObject = leftObject.getChild(fieldName);
 
 				// move to execution context
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
 			} else if (rightObject.getScope() == ObjectScope.ExecutionContext) {
 
-				leftObject.setChild(instruction.fieldName, rightObject, true);
+				leftObject.setChild(fieldName, rightObject, true);
 			} else {
-				leftObject.addPointer(rightObject, instruction.fieldName);
+				leftObject.addPointer(rightObject, fieldName);
 			}
 
 		}

@@ -147,6 +147,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -154,6 +167,19 @@ public class GooBaseListener implements GooListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterVarField(@NotNull GooParser.VarFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitVarField(@NotNull GooParser.VarFieldContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

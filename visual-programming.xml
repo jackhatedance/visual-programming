@@ -59,7 +59,6 @@ procedure fib()
 
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="11">
             <name>sumtest</name>
@@ -101,7 +100,6 @@ procedure sumt()
 	root.console.print(sum.toString());
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="16">
             <name>testxmpp</name>
@@ -151,7 +149,6 @@ root.console.print(age.toString());
 
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="21">
             <name>addFieldTest</name>
@@ -194,7 +191,6 @@ procedure foo()
 
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="26">
             <name>helloWorld</name>
@@ -227,7 +223,6 @@ procedure foo()
 	root.console.print(&quot;hello world.&quot;);
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="31">
             <name>testGetSet</name>
@@ -260,12 +255,13 @@ procedure foo()
 	//self.x=1;
 	//self._prototype =1;
 	//self._prototype=root.prototype.object;
-	self._set(&quot;x_x&quot;,1);
-	self._send(&quot;foo&quot;,body);
+	//self.set(&quot;x_x&quot;,1);
+	f = &quot;x_x&quot;;
+	self.$f=1;
+	//self._send(&quot;foo&quot;,body);
 
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="36">
             <name>_prototype</name>
@@ -322,7 +318,6 @@ procedure foo()
                                   <nativeProcedureParameters>b</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="51">
                                 <name>equals</name>
@@ -351,7 +346,6 @@ procedure foo()
                                   <nativeProcedureParameters>b</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="56">
                                 <name>not</name>
@@ -380,7 +374,6 @@ procedure foo()
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                             </fieldList>
                             <applyingWorker>false</applyingWorker>
@@ -398,7 +391,6 @@ procedure foo()
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                         <field id="63">
                           <name>float</name>
@@ -435,7 +427,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                             </fieldList>
                             <applyingWorker>false</applyingWorker>
@@ -453,7 +444,6 @@ procedure foo()
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                         <field id="73">
                           <name>string</name>
@@ -490,7 +480,6 @@ procedure foo()
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="81">
                                 <name>equals</name>
@@ -519,7 +508,6 @@ procedure foo()
                                   <nativeProcedureParameters>str</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="86">
                                 <name>concat</name>
@@ -548,7 +536,6 @@ procedure foo()
                                   <nativeProcedureParameters>str</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="91">
                                 <name>replaceAll</name>
@@ -577,7 +564,6 @@ procedure foo()
                                   <nativeProcedureParameters>old|new</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                             </fieldList>
                             <applyingWorker>false</applyingWorker>
@@ -596,7 +582,6 @@ procedure foo()
                             </borderColor>
                             <value></value>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                         <field id="98">
                           <name>integer</name>
@@ -633,7 +618,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="106">
                                 <name>gt</name>
@@ -662,7 +646,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="111">
                                 <name>lt</name>
@@ -691,7 +674,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="116">
                                 <name>min</name>
@@ -720,7 +702,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="121">
                                 <name>mul</name>
@@ -749,7 +730,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="126">
                                 <name>div</name>
@@ -778,7 +758,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="131">
                                 <name>mod</name>
@@ -807,7 +786,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="136">
                                 <name>ge</name>
@@ -836,7 +814,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="141">
                                 <name>equals</name>
@@ -865,7 +842,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="146">
                                 <name>notEquals</name>
@@ -894,7 +870,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="151">
                                 <name>plus</name>
@@ -923,7 +898,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="156">
                                 <name>toString</name>
@@ -952,7 +926,6 @@ procedure foo()
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="161">
                                 <name>inc</name>
@@ -981,7 +954,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                               <field id="166">
                                 <name>dec</name>
@@ -1010,7 +982,6 @@ procedure foo()
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                             </fieldList>
                             <applyingWorker>false</applyingWorker>
@@ -1029,7 +1000,6 @@ procedure foo()
                             </borderColor>
                             <value>0</value>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                         <field id="173">
                           <name>time</name>
@@ -1066,7 +1036,6 @@ procedure foo()
                                   <nativeProcedureParameters>format</nativeProcedureParameters>
                                   <code></code>
                                 </target>
-                                <selectedStatus>NotSelected</selectedStatus>
                               </field>
                             </fieldList>
                             <applyingWorker>false</applyingWorker>
@@ -1084,7 +1053,6 @@ procedure foo()
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                       </fieldList>
                       <applyingWorker>false</applyingWorker>
@@ -1102,7 +1070,6 @@ procedure foo()
                         <alpha>255</alpha>
                       </borderColor>
                     </target>
-                    <selectedStatus>NotSelected</selectedStatus>
                   </field>
                   <field id="185">
                     <name>collection</name>
@@ -1146,7 +1113,6 @@ procedure foo()
 
 </code>
                           </target>
-                          <selectedStatus>NotSelected</selectedStatus>
                         </field>
                       </fieldList>
                       <applyingWorker>false</applyingWorker>
@@ -1164,12 +1130,10 @@ procedure foo()
                         <alpha>255</alpha>
                       </borderColor>
                     </target>
-                    <selectedStatus>NotSelected</selectedStatus>
                   </field>
                   <field id="195">
                     <name>object</name>
                     <target reference="37"/>
-                    <selectedStatus>NotSelected</selectedStatus>
                   </field>
                 </fieldList>
                 <applyingWorker>false</applyingWorker>
@@ -1215,7 +1179,6 @@ procedure foo()
                     <nativeProcedureParameters>name|value</nativeProcedureParameters>
                     <code></code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
                 <field id="204">
                   <name>_get</name>
@@ -1244,7 +1207,6 @@ procedure foo()
                     <nativeProcedureParameters>name</nativeProcedureParameters>
                     <code></code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
                 <field id="209">
                   <name>_message</name>
@@ -1275,7 +1237,6 @@ procedure foo()
                     <language>goo</language>
                     <code></code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
@@ -1293,7 +1254,6 @@ procedure foo()
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
           <field id="216">
             <name>test1</name>
@@ -1328,72 +1288,18 @@ procedure foo()
 
 
 }</code>
-              <compiled id="221">
-                <parameters id="222"/>
-                <instructions id="223">
-                  <com.bluesky.visualprogramming.vm.instruction.CreateObject id="224">
-                    <type>CREATE_OBJECT</type>
-                    <varName>t_1</varName>
-                    <objType>STRING</objType>
-                    <literal>&quot;aah&quot;</literal>
-                  </com.bluesky.visualprogramming.vm.instruction.CreateObject>
-                  <com.bluesky.visualprogramming.vm.instruction.CreateObject id="225">
-                    <type>CREATE_OBJECT</type>
-                    <varName>t_0</varName>
-                    <objType>NORMAL</objType>
-                  </com.bluesky.visualprogramming.vm.instruction.CreateObject>
-                  <com.bluesky.visualprogramming.vm.instruction.FieldAssignment id="226">
-                    <type>FIELD_ASSIGNMENT</type>
-                    <ownerVar>t_0</ownerVar>
-                    <fieldName>idx_0</fieldName>
-                    <assignmenType>AUTO</assignmenType>
-                    <rightVar>t_1</rightVar>
-                  </com.bluesky.visualprogramming.vm.instruction.FieldAssignment>
-                  <com.bluesky.visualprogramming.vm.instruction.AccessField id="227">
-                    <type>ACCESS_FIELD</type>
-                    <varName>t_2</varName>
-                    <objName>root</objName>
-                    <fieldName>console</fieldName>
-                  </com.bluesky.visualprogramming.vm.instruction.AccessField>
-                  <com.bluesky.visualprogramming.vm.instruction.SendMessage id="228">
-                    <type>SEND_MESSAGE</type>
-                    <comment>root.console.print(&quot;aah&quot;)</comment>
-                    <sync>true</sync>
-                    <replyVar>t_3</replyVar>
-                    <receiverVar>t_2</receiverVar>
-                    <messageSubject>print</messageSubject>
-                    <messageBodyVar>t_0</messageBodyVar>
-                    <paramStyle>ByOrder</paramStyle>
-                  </com.bluesky.visualprogramming.vm.instruction.SendMessage>
-                  <com.bluesky.visualprogramming.vm.instruction.ProcedureEnd id="229">
-                    <type>PROCEDURE_END</type>
-                    <label>ProcedureEnd</label>
-                  </com.bluesky.visualprogramming.vm.instruction.ProcedureEnd>
-                </instructions>
-                <labels id="230">
-                  <entry>
-                    <string id="231">
-                      <id>0</id>
-                      <applyingWorker>false</applyingWorker>
-                      <scaleRate>0.0</scaleRate>
-                    </string>
-                    <int>5</int>
-                  </entry>
-                </labels>
-              </compiled>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="232">
+        <area id="221">
           <x>579</x>
           <y>375</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="233">
+        <borderColor id="222">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -1401,33 +1307,32 @@ procedure foo()
         </borderColor>
         <expectMessageType>SyncReply</expectMessageType>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="234">
+    <field id="223">
       <name>user</name>
-      <target id="235">
+      <target id="224">
         <type>NORMAL</type>
         <id>1</id>
         <name>user</name>
         <owner reference="1"/>
-        <fieldList id="236">
-          <field id="237">
+        <fieldList id="225">
+          <field id="226">
             <name>age</name>
-            <target class="integer" id="238">
+            <target class="integer" id="227">
               <type>INTEGER</type>
               <id>39</id>
               <name>age</name>
-              <owner reference="235"/>
-              <fieldList id="239"/>
+              <owner reference="224"/>
+              <fieldList id="228"/>
               <applyingWorker>false</applyingWorker>
-              <area id="240">
+              <area id="229">
                 <x>69</x>
                 <y>68</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="241">
+              <borderColor id="230">
                 <red>51</red>
                 <green>255</green>
                 <blue>51</blue>
@@ -1435,25 +1340,24 @@ procedure foo()
               </borderColor>
               <value>18</value>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="242">
+          <field id="231">
             <name>name</name>
-            <target class="string" id="243">
+            <target class="string" id="232">
               <type>STRING</type>
               <id>40</id>
               <name>name</name>
-              <owner reference="235"/>
-              <fieldList id="244"/>
+              <owner reference="224"/>
+              <fieldList id="233"/>
               <applyingWorker>false</applyingWorker>
-              <area id="245">
+              <area id="234">
                 <x>203</x>
                 <y>70</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="246">
+              <borderColor id="235">
                 <red>51</red>
                 <green>255</green>
                 <blue>51</blue>
@@ -1461,25 +1365,24 @@ procedure foo()
               </borderColor>
               <value>jack</value>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="247">
+          <field id="236">
             <name>sayName</name>
-            <target class="procedure" id="248">
+            <target class="procedure" id="237">
               <type>PROCEDURE</type>
               <id>46</id>
               <name defined-in="object">sayName</name>
-              <owner reference="235"/>
-              <fieldList id="249"/>
+              <owner reference="224"/>
+              <fieldList id="238"/>
               <applyingWorker>false</applyingWorker>
-              <area id="250">
+              <area id="239">
                 <x>159</x>
                 <y>293</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="251">
+              <borderColor id="240">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -1507,435 +1410,418 @@ procedure foo()
 	}
 }</code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="252">
+        <area id="241">
           <x>7</x>
           <y>113</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="253">
+        <borderColor id="242">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="254">
+    <field id="243">
       <name>MagicBoat</name>
-      <target id="255">
+      <target id="244">
         <type>NORMAL</type>
         <id>11</id>
         <name>MagicBoat</name>
         <owner reference="1"/>
-        <fieldList id="256">
-          <field id="257">
+        <fieldList id="245">
+          <field id="246">
             <name>IDE</name>
-            <target id="258">
+            <target id="247">
               <type>NORMAL</type>
               <id>12</id>
               <name>IDE</name>
-              <owner reference="255"/>
-              <fieldList id="259"/>
+              <owner reference="244"/>
+              <fieldList id="248"/>
               <applyingWorker>false</applyingWorker>
-              <area id="260">
+              <area id="249">
                 <x>39</x>
                 <y>36</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="261">
+              <borderColor id="250">
                 <red>0</red>
                 <green>153</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="262">
+          <field id="251">
             <name>RuntimeCommunicationControlLayer</name>
-            <target id="263">
+            <target id="252">
               <type>NORMAL</type>
               <id>13</id>
               <name>RuntimeCommunicationControlLayer</name>
-              <owner reference="255"/>
-              <fieldList id="264"/>
+              <owner reference="244"/>
+              <fieldList id="253"/>
               <applyingWorker>false</applyingWorker>
-              <area id="265">
+              <area id="254">
                 <x>38</x>
                 <y>350</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="266">
+              <borderColor id="255">
                 <red>153</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="267">
+          <field id="256">
             <name>ExecuteCore</name>
-            <target id="268">
+            <target id="257">
               <type>NORMAL</type>
               <id>14</id>
               <name>ExecuteCore</name>
-              <owner reference="255"/>
-              <fieldList id="269"/>
+              <owner reference="244"/>
+              <fieldList id="258"/>
               <applyingWorker>false</applyingWorker>
-              <area id="270">
+              <area id="259">
                 <x>102</x>
                 <y>193</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="271">
+              <borderColor id="260">
                 <red>0</red>
                 <green>153</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="272">
+          <field id="261">
             <name>ScriptRepository</name>
-            <target id="273">
+            <target id="262">
               <type>NORMAL</type>
               <id>15</id>
               <name>ScriptRepository</name>
-              <owner reference="255"/>
-              <fieldList id="274"/>
+              <owner reference="244"/>
+              <fieldList id="263"/>
               <applyingWorker>false</applyingWorker>
-              <area id="275">
+              <area id="264">
                 <x>280</x>
                 <y>33</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="276">
+              <borderColor id="265">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="277">
+          <field id="266">
             <name>DB</name>
-            <target id="278">
+            <target id="267">
               <type>NORMAL</type>
               <id>17</id>
               <name>DB</name>
-              <owner reference="255"/>
-              <fieldList id="279"/>
+              <owner reference="244"/>
+              <fieldList id="268"/>
               <applyingWorker>false</applyingWorker>
-              <area id="280">
+              <area id="269">
                 <x>330</x>
                 <y>380</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="281">
+              <borderColor id="270">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="282">
+          <field id="271">
             <name>LibRepository</name>
-            <target id="283">
+            <target id="272">
               <type>NORMAL</type>
               <id>16</id>
               <name>LibRepository</name>
-              <owner reference="255"/>
-              <fieldList id="284"/>
+              <owner reference="244"/>
+              <fieldList id="273"/>
               <applyingWorker>false</applyingWorker>
-              <area id="285">
+              <area id="274">
                 <x>374</x>
                 <y>200</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="286">
+              <borderColor id="275">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="287">
+          <field id="276">
             <name>Scheduler</name>
-            <target id="288">
+            <target id="277">
               <type>NORMAL</type>
               <id>19</id>
               <name>Scheduler</name>
-              <owner reference="255"/>
-              <fieldList id="289"/>
+              <owner reference="244"/>
+              <fieldList id="278"/>
               <applyingWorker>false</applyingWorker>
-              <area id="290">
+              <area id="279">
                 <x>618</x>
                 <y>202</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="291">
+              <borderColor id="280">
                 <red>255</red>
                 <green>102</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="292">
+          <field id="281">
             <name>Controller</name>
-            <target id="293">
+            <target id="282">
               <type>NORMAL</type>
               <id>18</id>
               <name>Controller</name>
-              <owner reference="255"/>
-              <fieldList id="294"/>
+              <owner reference="244"/>
+              <fieldList id="283"/>
               <applyingWorker>false</applyingWorker>
-              <area id="295">
+              <area id="284">
                 <x>619</x>
                 <y>61</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="296">
+              <borderColor id="285">
                 <red>255</red>
                 <green>102</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="297">
+          <field id="286">
             <name>EclipseIde</name>
-            <target id="298">
+            <target id="287">
               <type>NORMAL</type>
               <id>21</id>
               <name>EclipseIde</name>
-              <owner reference="255"/>
-              <fieldList id="299"/>
+              <owner reference="244"/>
+              <fieldList id="288"/>
               <applyingWorker>false</applyingWorker>
-              <area id="300">
+              <area id="289">
                 <x>862</x>
                 <y>39</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="301">
+              <borderColor id="290">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="302">
+          <field id="291">
             <name>ReportLog</name>
-            <target id="303">
+            <target id="292">
               <type>NORMAL</type>
               <id>20</id>
               <name>ReportLog</name>
-              <owner reference="255"/>
-              <fieldList id="304"/>
+              <owner reference="244"/>
+              <fieldList id="293"/>
               <applyingWorker>false</applyingWorker>
-              <area id="305">
+              <area id="294">
                 <x>621</x>
                 <y>353</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="306">
+              <borderColor id="295">
                 <red>255</red>
                 <green>102</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="307">
+          <field id="296">
             <name>LibDevelopment</name>
-            <target id="308">
+            <target id="297">
               <type>NORMAL</type>
               <id>22</id>
               <name>LibDevelopment</name>
-              <owner reference="255"/>
-              <fieldList id="309"/>
+              <owner reference="244"/>
+              <fieldList id="298"/>
               <applyingWorker>false</applyingWorker>
-              <area id="310">
+              <area id="299">
                 <x>858</x>
                 <y>195</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="311">
+              <borderColor id="300">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="312">
+          <field id="301">
             <name>LibDevelopment3</name>
-            <target id="313">
+            <target id="302">
               <type>NORMAL</type>
               <id>25</id>
               <name>LibDevelopment3</name>
-              <owner reference="255"/>
-              <fieldList id="314"/>
+              <owner reference="244"/>
+              <fieldList id="303"/>
               <applyingWorker>false</applyingWorker>
-              <area id="315">
+              <area id="304">
                 <x>862</x>
                 <y>436</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="316">
+              <borderColor id="305">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="317">
+          <field id="306">
             <name>LibDevelopment_2</name>
-            <target id="318">
+            <target id="307">
               <type>NORMAL</type>
               <id>24</id>
               <name>LibDevelopment_2</name>
-              <owner reference="255"/>
-              <fieldList id="319"/>
+              <owner reference="244"/>
+              <fieldList id="308"/>
               <applyingWorker>false</applyingWorker>
-              <area id="320">
+              <area id="309">
                 <x>863</x>
                 <y>316</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="321">
+              <borderColor id="310">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="322">
+          <field id="311">
             <name>LibDevelopment4</name>
-            <target id="323">
+            <target id="312">
               <type>NORMAL</type>
               <id>26</id>
               <name>LibDevelopment4</name>
-              <owner reference="255"/>
-              <fieldList id="324"/>
+              <owner reference="244"/>
+              <fieldList id="313"/>
               <applyingWorker>false</applyingWorker>
-              <area id="325">
+              <area id="314">
                 <x>865</x>
                 <y>568</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="326">
+              <borderColor id="315">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="327">
+        <area id="316">
           <x>7</x>
           <y>5</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="328">
+        <borderColor id="317">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="329">
+    <field id="318">
       <name>lib</name>
-      <target id="330">
+      <target id="319">
         <type>NORMAL</type>
         <id>280</id>
         <name>lib</name>
         <owner reference="1"/>
-        <fieldList id="331">
-          <field id="332">
+        <fieldList id="320">
+          <field id="321">
             <name>math</name>
-            <target id="333">
+            <target id="322">
               <type>NORMAL</type>
               <id>281</id>
               <name>math</name>
-              <owner reference="330"/>
-              <fieldList id="334">
-                <field id="335">
+              <owner reference="319"/>
+              <fieldList id="323">
+                <field id="324">
                   <name>fibonacci</name>
-                  <target class="procedure" id="336">
+                  <target class="procedure" id="325">
                     <type>PROCEDURE</type>
                     <id>282</id>
                     <name defined-in="object">fibonacci</name>
-                    <owner reference="333"/>
-                    <fieldList id="337"/>
+                    <owner reference="322"/>
+                    <fieldList id="326"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="338">
+                    <area id="327">
                       <x>243</x>
                       <y>265</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="339">
+                    <borderColor id="328">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -1966,25 +1852,24 @@ procedure fibonacci(x)
 		result = self.fibonacci(x.min(1)).plus( self.fibonacci(x.min(2)) );			
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="340">
+                <field id="329">
                   <name>sum</name>
-                  <target class="procedure" id="341">
+                  <target class="procedure" id="330">
                     <type>PROCEDURE</type>
                     <id>4631</id>
                     <name defined-in="object">sum</name>
-                    <owner reference="333"/>
-                    <fieldList id="342"/>
+                    <owner reference="322"/>
+                    <fieldList id="331"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="343">
+                    <area id="332">
                       <x>467</x>
                       <y>265</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="344">
+                    <borderColor id="333">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2013,51 +1898,49 @@ procedure sum(n)
 	}
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
-              <area id="345">
+              <area id="334">
                 <x>217</x>
                 <y>221</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="346">
+              <borderColor id="335">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="347">
+          <field id="336">
             <name>system</name>
-            <target id="348">
+            <target id="337">
               <type>NORMAL</type>
               <id>4640</id>
               <name>system</name>
-              <owner reference="330"/>
-              <fieldList id="349">
-                <field id="350">
+              <owner reference="319"/>
+              <fieldList id="338">
+                <field id="339">
                   <name>now</name>
-                  <target class="procedure" id="351">
+                  <target class="procedure" id="340">
                     <type>PROCEDURE</type>
                     <id>4641</id>
                     <name defined-in="object">now</name>
-                    <owner reference="348"/>
-                    <fieldList id="352"/>
+                    <owner reference="337"/>
+                    <fieldList id="341"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="353">
+                    <area id="342">
                       <x>228</x>
                       <y>213</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="354">
+                    <borderColor id="343">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2068,344 +1951,331 @@ procedure sum(n)
                     <nativeProcedureParameters></nativeProcedureParameters>
                     <code></code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
-              <area id="355">
+              <area id="344">
                 <x>446</x>
                 <y>226</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="356">
+              <borderColor id="345">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="357">
+        <area id="346">
           <x>230</x>
           <y>717</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="358">
+        <borderColor id="347">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="359">
+    <field id="348">
       <name>Chess</name>
-      <target id="360">
+      <target id="349">
         <type>NORMAL</type>
         <id>27</id>
         <name>Chess</name>
         <owner reference="1"/>
-        <fieldList id="361">
-          <field id="362">
+        <fieldList id="350">
+          <field id="351">
             <name>Primary1</name>
-            <target id="363">
+            <target id="352">
               <type>NORMAL</type>
               <id>29</id>
               <name>Primary1</name>
-              <owner reference="360"/>
-              <fieldList id="364"/>
+              <owner reference="349"/>
+              <fieldList id="353"/>
               <applyingWorker>false</applyingWorker>
-              <area id="365">
+              <area id="354">
                 <x>284</x>
                 <y>165</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="366">
+              <borderColor id="355">
                 <red>102</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="367">
+          <field id="356">
             <name>jiang帅</name>
-            <target id="368">
+            <target id="357">
               <type>NORMAL</type>
               <id>28</id>
               <name>jiang帅</name>
-              <owner reference="360"/>
-              <fieldList id="369"/>
+              <owner reference="349"/>
+              <fieldList id="358"/>
               <applyingWorker>false</applyingWorker>
-              <area id="370">
+              <area id="359">
                 <x>520</x>
                 <y>165</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="371">
+              <borderColor id="360">
                 <red>255</red>
                 <green>51</green>
                 <blue>51</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="372">
+          <field id="361">
             <name>Horse1</name>
-            <target id="373">
+            <target id="362">
               <type>NORMAL</type>
               <id>31</id>
               <name>Horse1</name>
-              <owner reference="360"/>
-              <fieldList id="374"/>
+              <owner reference="349"/>
+              <fieldList id="363"/>
               <applyingWorker>false</applyingWorker>
-              <area id="375">
+              <area id="364">
                 <x>148</x>
                 <y>163</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="376">
+              <borderColor id="365">
                 <red>102</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="377">
+          <field id="366">
             <name>Primary2</name>
-            <target id="378">
+            <target id="367">
               <type>NORMAL</type>
               <id>30</id>
               <name>Primary2</name>
-              <owner reference="360"/>
-              <fieldList id="379"/>
+              <owner reference="349"/>
+              <fieldList id="368"/>
               <applyingWorker>false</applyingWorker>
-              <area id="380">
+              <area id="369">
                 <x>777</x>
                 <y>164</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="381">
+              <borderColor id="370">
                 <red>204</red>
                 <green>204</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="382">
+          <field id="371">
             <name>Car1</name>
-            <target id="383">
+            <target id="372">
               <type>NORMAL</type>
               <id>34</id>
               <name>Car1</name>
-              <owner reference="360"/>
-              <fieldList id="384"/>
+              <owner reference="349"/>
+              <fieldList id="373"/>
               <applyingWorker>false</applyingWorker>
-              <area id="385">
+              <area id="374">
                 <x>25</x>
                 <y>159</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="386">
+              <borderColor id="375">
                 <red>51</red>
                 <green>255</green>
                 <blue>51</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="387">
+          <field id="376">
             <name>Guard1</name>
-            <target id="388">
+            <target id="377">
               <type>NORMAL</type>
               <id>35</id>
               <name>Guard1</name>
-              <owner reference="360"/>
-              <fieldList id="389"/>
+              <owner reference="349"/>
+              <fieldList id="378"/>
               <applyingWorker>false</applyingWorker>
-              <area id="390">
+              <area id="379">
                 <x>402</x>
                 <y>162</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="391">
+              <borderColor id="380">
                 <red>102</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="392">
+          <field id="381">
             <name>Horse2</name>
-            <target id="393">
+            <target id="382">
               <type>NORMAL</type>
               <id>32</id>
               <name>Horse2</name>
-              <owner reference="360"/>
-              <fieldList id="394"/>
+              <owner reference="349"/>
+              <fieldList id="383"/>
               <applyingWorker>false</applyingWorker>
-              <area id="395">
+              <area id="384">
                 <x>901</x>
                 <y>164</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="396">
+              <borderColor id="385">
                 <red>0</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="397">
+          <field id="386">
             <name>Car2</name>
-            <target id="398">
+            <target id="387">
               <type>NORMAL</type>
               <id>33</id>
               <name>Car2</name>
-              <owner reference="360"/>
-              <fieldList id="399"/>
+              <owner reference="349"/>
+              <fieldList id="388"/>
               <applyingWorker>false</applyingWorker>
-              <area id="400">
+              <area id="389">
                 <x>1038</x>
                 <y>159</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="401">
+              <borderColor id="390">
                 <red>102</red>
                 <green>255</green>
                 <blue>102</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="402">
+          <field id="391">
             <name>Guard2</name>
-            <target id="403">
+            <target id="392">
               <type>NORMAL</type>
               <id>36</id>
               <name>Guard2</name>
-              <owner reference="360"/>
-              <fieldList id="404"/>
+              <owner reference="349"/>
+              <fieldList id="393"/>
               <applyingWorker>false</applyingWorker>
-              <area id="405">
+              <area id="394">
                 <x>650</x>
                 <y>166</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="406">
+              <borderColor id="395">
                 <red>51</red>
                 <green>255</green>
                 <blue>153</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="407">
+        <area id="396">
           <x>150</x>
           <y>7</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>0.75</scaleRate>
-        <borderColor id="408">
+        <borderColor id="397">
           <red>0</red>
           <green>0</green>
           <blue>255</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="409">
+    <field id="398">
       <name>users</name>
-      <target id="410">
+      <target id="399">
         <type>NORMAL</type>
         <id>4644</id>
         <name>users</name>
         <owner reference="1"/>
-        <fieldList id="411">
-          <field id="412">
+        <fieldList id="400">
+          <field id="401">
             <name>jack</name>
-            <target id="413">
+            <target id="402">
               <type>NORMAL</type>
               <id>4645</id>
               <name>jack</name>
-              <owner reference="410"/>
-              <fieldList id="414">
-                <field id="415">
+              <owner reference="399"/>
+              <fieldList id="403">
+                <field id="404">
                   <name>_aliases</name>
-                  <target id="416">
+                  <target id="405">
                     <type>NORMAL</type>
                     <id>4646</id>
                     <name>_aliases</name>
-                    <owner reference="413"/>
-                    <fieldList id="417">
-                      <field id="418">
+                    <owner reference="402"/>
+                    <fieldList id="406">
+                      <field id="407">
                         <name>getonsip_xmpp</name>
-                        <target id="419">
+                        <target id="408">
                           <type>NORMAL</type>
                           <id>4648</id>
                           <name>getonsip_xmpp</name>
-                          <owner reference="416"/>
-                          <fieldList id="420">
-                            <field id="421">
+                          <owner reference="405"/>
+                          <fieldList id="409">
+                            <field id="410">
                               <name>connectionOptions</name>
-                              <target class="string" id="422">
+                              <target class="string" id="411">
                                 <type>STRING</type>
                                 <id>4651</id>
                                 <name>connectionOptions</name>
-                                <owner reference="419"/>
-                                <fieldList id="423"/>
+                                <owner reference="408"/>
+                                <fieldList id="412"/>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="424">
+                                <area id="413">
                                   <x>604</x>
                                   <y>263</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="425">
+                                <borderColor id="414">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -2413,20 +2283,74 @@ procedure sum(n)
                                 </borderColor>
                                 <value>server=getonsip.com;username=jackhatedance;password=pw12#$</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="426">
+                            <field id="415">
                               <name>protocol</name>
-                              <target class="string" id="427">
+                              <target class="string" id="416">
                                 <type>STRING</type>
                                 <id>4650</id>
                                 <name>protocol</name>
-                                <owner reference="419"/>
-                                <fieldList id="428"/>
+                                <owner reference="408"/>
+                                <fieldList id="417"/>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="429">
+                                <area id="418">
                                   <x>436</x>
                                   <y>276</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="419">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>xmpp</value>
+                              </target>
+                            </field>
+                            <field id="420">
+                              <name>address</name>
+                              <target class="string" id="421">
+                                <type>STRING</type>
+                                <id>4649</id>
+                                <name>address</name>
+                                <owner reference="408"/>
+                                <fieldList id="422"/>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="423">
+                                  <x>270</x>
+                                  <y>289</y>
+                                  <width>100</width>
+                                  <height>100</height>
+                                </area>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="424">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>jackhatedance@getonsip.com</value>
+                              </target>
+                            </field>
+                            <field id="425">
+                              <name>enabled</name>
+                              <target class="boolean" id="426">
+                                <type>BOOLEAN</type>
+                                <id>4846</id>
+                                <name>unnamed</name>
+                                <owner reference="408"/>
+                                <fieldList id="427">
+                                  <field id="428">
+                                    <name>_prototype</name>
+                                    <target reference="44"/>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <area id="429">
+                                  <x>302</x>
+                                  <y>526</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
@@ -2437,54 +2361,53 @@ procedure sum(n)
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <value>xmpp</value>
+                                <booleanValue>false</booleanValue>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="431">
-                              <name>address</name>
-                              <target class="string" id="432">
-                                <type>STRING</type>
-                                <id>4649</id>
-                                <name>address</name>
-                                <owner reference="419"/>
-                                <fieldList id="433"/>
-                                <applyingWorker>false</applyingWorker>
-                                <area id="434">
-                                  <x>270</x>
-                                  <y>289</y>
-                                  <width>100</width>
-                                  <height>100</height>
-                                </area>
-                                <scaleRate>1.0</scaleRate>
-                                <borderColor id="435">
-                                  <red>0</red>
-                                  <green>0</green>
-                                  <blue>0</blue>
-                                  <alpha>255</alpha>
-                                </borderColor>
-                                <value>jackhatedance@getonsip.com</value>
-                              </target>
-                              <selectedStatus>NotSelected</selectedStatus>
-                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="431">
+                            <x>219</x>
+                            <y>245</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="432">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </target>
+                      </field>
+                      <field id="433">
+                        <name>ssh_nas</name>
+                        <target id="434">
+                          <type>NORMAL</type>
+                          <id>4923</id>
+                          <name>unnamed</name>
+                          <owner reference="405"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="435">
                             <field id="436">
                               <name>enabled</name>
                               <target class="boolean" id="437">
                                 <type>BOOLEAN</type>
-                                <id>4846</id>
+                                <id>4924</id>
                                 <name>unnamed</name>
-                                <owner reference="419"/>
+                                <owner reference="434"/>
+                                <scope>ExecutionContext</scope>
                                 <fieldList id="438">
                                   <field id="439">
                                     <name>_prototype</name>
                                     <target reference="44"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
                                 <area id="440">
-                                  <x>302</x>
-                                  <y>526</y>
+                                  <x>312</x>
+                                  <y>349</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
@@ -2495,202 +2418,133 @@ procedure sum(n)
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <booleanValue>false</booleanValue>
-                              </target>
-                              <selectedStatus>NotSelected</selectedStatus>
-                            </field>
-                          </fieldList>
-                          <applyingWorker>false</applyingWorker>
-                          <area id="442">
-                            <x>219</x>
-                            <y>245</y>
-                            <width>100</width>
-                            <height>100</height>
-                          </area>
-                          <scaleRate>1.0</scaleRate>
-                          <borderColor id="443">
-                            <red>0</red>
-                            <green>0</green>
-                            <blue>0</blue>
-                            <alpha>255</alpha>
-                          </borderColor>
-                        </target>
-                        <selectedStatus>NotSelected</selectedStatus>
-                      </field>
-                      <field id="444">
-                        <name>ssh_nas</name>
-                        <target id="445">
-                          <type>NORMAL</type>
-                          <id>4923</id>
-                          <name>unnamed</name>
-                          <owner reference="416"/>
-                          <scope>ExecutionContext</scope>
-                          <fieldList id="446">
-                            <field id="447">
-                              <name>enabled</name>
-                              <target class="boolean" id="448">
-                                <type>BOOLEAN</type>
-                                <id>4924</id>
-                                <name>unnamed</name>
-                                <owner reference="445"/>
-                                <scope>ExecutionContext</scope>
-                                <fieldList id="449">
-                                  <field id="450">
-                                    <name>_prototype</name>
-                                    <target reference="44"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
-                                  </field>
-                                </fieldList>
-                                <applyingWorker>false</applyingWorker>
-                                <area id="451">
-                                  <x>312</x>
-                                  <y>349</y>
-                                  <width>100</width>
-                                  <height>100</height>
-                                </area>
-                                <scaleRate>1.0</scaleRate>
-                                <borderColor id="452">
-                                  <red>0</red>
-                                  <green>0</green>
-                                  <blue>0</blue>
-                                  <alpha>255</alpha>
-                                </borderColor>
                                 <booleanValue>true</booleanValue>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="453">
+                            <field id="442">
                               <name>address</name>
-                              <target class="string" id="454">
+                              <target class="string" id="443">
                                 <type>STRING</type>
                                 <id>4926</id>
                                 <name>unnamed</name>
-                                <owner reference="445"/>
+                                <owner reference="434"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="455">
-                                  <field id="456">
+                                <fieldList id="444">
+                                  <field id="445">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="457">
+                                <area id="446">
                                   <x>233</x>
                                   <y>176</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="452"/>
+                                <borderColor reference="441"/>
                                 <value>linaro@nas</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="458">
+                            <field id="447">
                               <name>protocol</name>
-                              <target class="string" id="459">
+                              <target class="string" id="448">
                                 <type>STRING</type>
                                 <id>4927</id>
                                 <name>unnamed</name>
-                                <owner reference="445"/>
+                                <owner reference="434"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="460">
-                                  <field id="461">
+                                <fieldList id="449">
+                                  <field id="450">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="462">
+                                <area id="451">
                                   <x>83</x>
                                   <y>169</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="452"/>
+                                <borderColor reference="441"/>
                                 <value>ssh</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="463">
+                            <field id="452">
                               <name>connectionOptions</name>
-                              <target class="string" id="464">
+                              <target class="string" id="453">
                                 <type>STRING</type>
                                 <id>4928</id>
                                 <name>unnamed</name>
-                                <owner reference="445"/>
+                                <owner reference="434"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="465">
-                                  <field id="466">
+                                <fieldList id="454">
+                                  <field id="455">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="467">
+                                <area id="456">
                                   <x>519</x>
                                   <y>171</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="452"/>
+                                <borderColor reference="441"/>
                                 <value>password=123</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="468">
+                          <area id="457">
                             <x>219</x>
                             <y>405</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor reference="452"/>
+                          <borderColor reference="441"/>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="469">
+                    <area id="458">
                       <x>39</x>
                       <y>64</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="470">
+                    <borderColor id="459">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="471">
+                <field id="460">
                   <name>talkToJackDing</name>
-                  <target class="procedure" id="472">
+                  <target class="procedure" id="461">
                     <type>PROCEDURE</type>
                     <id>4654</id>
                     <name defined-in="object">talkToJackDing</name>
-                    <owner reference="413"/>
-                    <fieldList id="473"/>
+                    <owner reference="402"/>
+                    <fieldList id="462"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="474">
+                    <area id="463">
                       <x>460</x>
                       <y>353</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="475">
+                    <borderColor id="464">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2712,25 +2566,24 @@ procedure sum(n)
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="476">
+                <field id="465">
                   <name>name</name>
-                  <target class="string" id="477">
+                  <target class="string" id="466">
                     <type>STRING</type>
                     <id>4653</id>
                     <name>name</name>
-                    <owner reference="413"/>
-                    <fieldList id="478"/>
+                    <owner reference="402"/>
+                    <fieldList id="467"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="479">
+                    <area id="468">
                       <x>258</x>
                       <y>64</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="480">
+                    <borderColor id="469">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2738,25 +2591,24 @@ procedure sum(n)
                     </borderColor>
                     <value>jack</value>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="481">
+                <field id="470">
                   <name>what is your name?</name>
-                  <target class="procedure" id="482">
+                  <target class="procedure" id="471">
                     <type>PROCEDURE</type>
                     <id>4652</id>
                     <name defined-in="object">WhatIsYourName</name>
-                    <owner reference="413"/>
-                    <fieldList id="483"/>
+                    <owner reference="402"/>
+                    <fieldList id="472"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="484">
+                    <area id="473">
                       <x>253</x>
                       <y>236</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="485">
+                    <borderColor id="474">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2774,25 +2626,24 @@ procedure sum(n)
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="486">
+                <field id="475">
                   <name>help</name>
-                  <target class="procedure" id="487">
+                  <target class="procedure" id="476">
                     <type>PROCEDURE</type>
                     <id>4663</id>
                     <name defined-in="object">help</name>
-                    <owner reference="413"/>
-                    <fieldList id="488"/>
+                    <owner reference="402"/>
+                    <fieldList id="477"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="489">
+                    <area id="478">
                       <x>245</x>
                       <y>377</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="490">
+                    <borderColor id="479">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2814,25 +2665,24 @@ procedure sum(n)
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="491">
+                <field id="480">
                   <name>location</name>
-                  <target class="string" id="492">
+                  <target class="string" id="481">
                     <type>STRING</type>
                     <id>4683</id>
                     <name>location</name>
-                    <owner reference="413"/>
-                    <fieldList id="493"/>
+                    <owner reference="402"/>
+                    <fieldList id="482"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="494">
+                    <area id="483">
                       <x>460</x>
                       <y>67</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="495">
+                    <borderColor id="484">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2840,25 +2690,24 @@ procedure sum(n)
                     </borderColor>
                     <value>杭州</value>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="496">
+                <field id="485">
                   <name>你在哪里？</name>
-                  <target class="procedure" id="497">
+                  <target class="procedure" id="486">
                     <type>PROCEDURE</type>
                     <id>4684</id>
                     <name defined-in="object">WhereAreYou</name>
-                    <owner reference="413"/>
-                    <fieldList id="498"/>
+                    <owner reference="402"/>
+                    <fieldList id="487"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="499">
+                    <area id="488">
                       <x>468</x>
                       <y>222</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="500">
+                    <borderColor id="489">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2881,44 +2730,41 @@ procedure loc()
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="501">
+                <field id="490">
                   <name>requests</name>
-                  <target id="502">
+                  <target id="491">
                     <type>NORMAL</type>
                     <id>4698</id>
                     <name>requests</name>
-                    <owner reference="413"/>
-                    <fieldList id="503">
-                      <field id="504">
+                    <owner reference="402"/>
+                    <fieldList id="492">
+                      <field id="493">
                         <name>_prototype</name>
                         <target reference="37"/>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
-                      <field id="505">
+                      <field id="494">
                         <name>t130903224622</name>
-                        <target class="string" id="506">
+                        <target class="string" id="495">
                           <type>STRING</type>
                           <id>4793</id>
                           <name>t_13</name>
-                          <owner reference="502"/>
-                          <fieldList id="507">
-                            <field id="508">
+                          <owner reference="491"/>
+                          <fieldList id="496">
+                            <field id="497">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="509">
+                          <area id="498">
                             <x>150</x>
                             <y>353</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="510">
+                          <borderColor id="499">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -2926,31 +2772,29 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
-                      <field id="511">
+                      <field id="500">
                         <name>t130903224624</name>
-                        <target class="string" id="512">
+                        <target class="string" id="501">
                           <type>STRING</type>
                           <id>4807</id>
                           <name>t_13</name>
-                          <owner reference="502"/>
-                          <fieldList id="513">
-                            <field id="514">
+                          <owner reference="491"/>
+                          <fieldList id="502">
+                            <field id="503">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="515">
+                          <area id="504">
                             <x>161</x>
                             <y>149</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="516">
+                          <borderColor id="505">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -2958,31 +2802,29 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
-                      <field id="517">
+                      <field id="506">
                         <name>t130903230512</name>
-                        <target class="string" id="518">
+                        <target class="string" id="507">
                           <type>STRING</type>
                           <id>4820</id>
                           <name>t_13</name>
-                          <owner reference="502"/>
-                          <fieldList id="519">
-                            <field id="520">
+                          <owner reference="491"/>
+                          <fieldList id="508">
+                            <field id="509">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="521">
+                          <area id="510">
                             <x>0</x>
                             <y>0</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="522">
+                          <borderColor id="511">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -2990,31 +2832,29 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
-                      <field id="523">
+                      <field id="512">
                         <name>t130903230515</name>
-                        <target class="string" id="524">
+                        <target class="string" id="513">
                           <type>STRING</type>
                           <id>4834</id>
                           <name>t_13</name>
-                          <owner reference="502"/>
-                          <fieldList id="525">
-                            <field id="526">
+                          <owner reference="491"/>
+                          <fieldList id="514">
+                            <field id="515">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="527">
+                          <area id="516">
                             <x>0</x>
                             <y>0</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="528">
+                          <borderColor id="517">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3022,43 +2862,41 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="529">
+                    <area id="518">
                       <x>76</x>
                       <y>276</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="530">
+                    <borderColor id="519">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="531">
+                <field id="520">
                   <name>test</name>
-                  <target class="procedure" id="532">
+                  <target class="procedure" id="521">
                     <type>PROCEDURE</type>
                     <id>4699</id>
                     <name defined-in="object">test</name>
-                    <owner reference="413"/>
-                    <fieldList id="533"/>
+                    <owner reference="402"/>
+                    <fieldList id="522"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="534">
+                    <area id="523">
                       <x>689</x>
                       <y>221</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="535">
+                    <borderColor id="524">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3074,306 +2912,288 @@ procedure loc()
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="536">
+                <field id="525">
                   <name>computers</name>
-                  <target id="537">
+                  <target id="526">
                     <type>NORMAL</type>
                     <id>4912</id>
                     <name>unnamed</name>
-                    <owner reference="413"/>
+                    <owner reference="402"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="538">
-                      <field id="539">
+                    <fieldList id="527">
+                      <field id="528">
                         <name>nas</name>
-                        <target id="540">
+                        <target id="529">
                           <type>NORMAL</type>
                           <id>4913</id>
                           <name>unnamed</name>
-                          <owner reference="537"/>
+                          <owner reference="526"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="541">
-                            <field id="542">
+                          <fieldList id="530">
+                            <field id="531">
                               <name>_aliases</name>
-                              <target id="543">
+                              <target id="532">
                                 <type>NORMAL</type>
                                 <id>4914</id>
                                 <name>unnamed</name>
-                                <owner reference="540"/>
+                                <owner reference="529"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="544">
-                                  <field id="545">
+                                <fieldList id="533">
+                                  <field id="534">
                                     <name>ssh_at_nas</name>
-                                    <target id="546">
+                                    <target id="535">
                                       <type>NORMAL</type>
                                       <id>4915</id>
                                       <name>unnamed</name>
-                                      <owner reference="543"/>
+                                      <owner reference="532"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="547">
-                                        <field id="548">
+                                      <fieldList id="536">
+                                        <field id="537">
                                           <name>enabled</name>
-                                          <target class="boolean" id="549">
+                                          <target class="boolean" id="538">
                                             <type>BOOLEAN</type>
                                             <id>4916</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="550">
-                                              <field id="551">
+                                            <fieldList id="539">
+                                              <field id="540">
                                                 <name>_prototype</name>
                                                 <target reference="44"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="552">
+                                            <area id="541">
                                               <x>322</x>
                                               <y>432</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                             <booleanValue>false</booleanValue>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
-                                        <field id="553">
+                                        <field id="542">
                                           <name>protocol</name>
-                                          <target class="integer" id="554">
+                                          <target class="integer" id="543">
                                             <type>INTEGER</type>
                                             <id>4917</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="555">
-                                              <field id="556">
+                                            <fieldList id="544">
+                                              <field id="545">
                                                 <name>_prototype</name>
                                                 <target class="integer" reference="99"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="557">
+                                            <area id="546">
                                               <x>98</x>
                                               <y>177</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
-                                        <field id="558">
+                                        <field id="547">
                                           <name>port</name>
-                                          <target class="integer" id="559">
+                                          <target class="integer" id="548">
                                             <type>INTEGER</type>
                                             <id>4918</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="560">
-                                              <field id="561">
+                                            <fieldList id="549">
+                                              <field id="550">
                                                 <name>_prototype</name>
                                                 <target class="integer" reference="99"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="562">
+                                            <area id="551">
                                               <x>386</x>
                                               <y>178</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                             <value>22</value>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
-                                        <field id="563">
+                                        <field id="552">
                                           <name>server</name>
-                                          <target class="string" id="564">
+                                          <target class="string" id="553">
                                             <type>STRING</type>
                                             <id>4919</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="565">
-                                              <field id="566">
+                                            <fieldList id="554">
+                                              <field id="555">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="74"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="567">
+                                            <area id="556">
                                               <x>249</x>
                                               <y>178</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                             <value>nas</value>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
-                                        <field id="568">
+                                        <field id="557">
                                           <name>address</name>
-                                          <target class="string" id="569">
+                                          <target class="string" id="558">
                                             <type>STRING</type>
                                             <id>4920</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="570">
-                                              <field id="571">
+                                            <fieldList id="559">
+                                              <field id="560">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="74"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="572">
+                                            <area id="561">
                                               <x>226</x>
                                               <y>36</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                             <value>linaro@nas</value>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
-                                        <field id="573">
+                                        <field id="562">
                                           <name>connectionOptions</name>
-                                          <target class="string" id="574">
+                                          <target class="string" id="563">
                                             <type>STRING</type>
                                             <id>4921</id>
                                             <name>unnamed</name>
-                                            <owner reference="546"/>
+                                            <owner reference="535"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="575">
-                                              <field id="576">
+                                            <fieldList id="564">
+                                              <field id="565">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="74"/>
-                                                <selectedStatus>NotSelected</selectedStatus>
                                               </field>
                                             </fieldList>
                                             <applyingWorker>false</applyingWorker>
-                                            <area id="577">
+                                            <area id="566">
                                               <x>602</x>
                                               <y>180</y>
                                               <width>100</width>
                                               <height>100</height>
                                             </area>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="452"/>
+                                            <borderColor reference="441"/>
                                             <value>password=123</value>
                                           </target>
-                                          <selectedStatus>NotSelected</selectedStatus>
                                         </field>
                                       </fieldList>
                                       <applyingWorker>false</applyingWorker>
-                                      <area id="578">
+                                      <area id="567">
                                         <x>290</x>
                                         <y>313</y>
                                         <width>100</width>
                                         <height>100</height>
                                       </area>
                                       <scaleRate>1.0</scaleRate>
-                                      <borderColor reference="452"/>
+                                      <borderColor reference="441"/>
                                     </target>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="579">
+                                <area id="568">
                                   <x>280</x>
                                   <y>352</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="452"/>
+                                <borderColor reference="441"/>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="580">
+                            <field id="569">
                               <name>unnamed</name>
-                              <target class="procedure" id="581">
+                              <target class="procedure" id="570">
                                 <type>PROCEDURE</type>
                                 <id>4922</id>
                                 <name defined-in="object">unnamed</name>
-                                <owner reference="540"/>
+                                <owner reference="529"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="582"/>
+                                <fieldList id="571"/>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="583">
+                                <area id="572">
                                   <x>500</x>
                                   <y>344</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="452"/>
+                                <borderColor reference="441"/>
                                 <__native>false</__native>
                                 <nativeProcedureClassName></nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <code></code>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="584">
+                          <area id="573">
                             <x>322</x>
                             <y>381</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor reference="452"/>
+                          <borderColor reference="441"/>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="585">
+                    <area id="574">
                       <x>75</x>
                       <y>530</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="452"/>
+                    <borderColor reference="441"/>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="586">
+                <field id="575">
                   <name>testssh</name>
-                  <target class="procedure" id="587">
+                  <target class="procedure" id="576">
                     <type>PROCEDURE</type>
                     <id>4929</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="413"/>
+                    <owner reference="402"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="588"/>
+                    <fieldList id="577"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="589">
+                    <area id="578">
                       <x>693</x>
                       <y>335</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="590">
+                    <borderColor id="579">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3390,140 +3210,18 @@ procedure loc()
 	root.console.print(result.status.toString());
 	root.console.print(result.output);
 }</code>
-                    <compiled id="591">
-                      <parameters id="592"/>
-                      <instructions id="593">
-                        <com.bluesky.visualprogramming.vm.instruction.CreateObject id="594">
-                          <type>CREATE_OBJECT</type>
-                          <varName>t_0</varName>
-                          <objType>LINK</objType>
-                          <literal>ssh://foo@nas</literal>
-                        </com.bluesky.visualprogramming.vm.instruction.CreateObject>
-                        <com.bluesky.visualprogramming.vm.instruction.VariableAssignment id="595">
-                          <type>VARIABLE_ASSIGNMENT</type>
-                          <left>nas</left>
-                          <right>t_0</right>
-                        </com.bluesky.visualprogramming.vm.instruction.VariableAssignment>
-                        <com.bluesky.visualprogramming.vm.instruction.SendMessage id="596">
-                          <type>SEND_MESSAGE</type>
-                          <comment>nas.&quot;ls -l&quot;()</comment>
-                          <sync>true</sync>
-                          <replyVar>t_1</replyVar>
-                          <receiverVar>nas</receiverVar>
-                          <messageSubject>ls -l</messageSubject>
-                          <paramStyle>ByName</paramStyle>
-                        </com.bluesky.visualprogramming.vm.instruction.SendMessage>
-                        <com.bluesky.visualprogramming.vm.instruction.VariableAssignment id="597">
-                          <type>VARIABLE_ASSIGNMENT</type>
-                          <left>result</left>
-                          <right>t_1</right>
-                        </com.bluesky.visualprogramming.vm.instruction.VariableAssignment>
-                        <com.bluesky.visualprogramming.vm.instruction.AccessField id="598">
-                          <type>ACCESS_FIELD</type>
-                          <varName>t_3</varName>
-                          <objName>result</objName>
-                          <fieldName>status</fieldName>
-                        </com.bluesky.visualprogramming.vm.instruction.AccessField>
-                        <com.bluesky.visualprogramming.vm.instruction.SendMessage id="599">
-                          <type>SEND_MESSAGE</type>
-                          <comment>result.status.toString()</comment>
-                          <sync>true</sync>
-                          <replyVar>t_4</replyVar>
-                          <receiverVar>t_3</receiverVar>
-                          <messageSubject>toString</messageSubject>
-                          <paramStyle>ByName</paramStyle>
-                        </com.bluesky.visualprogramming.vm.instruction.SendMessage>
-                        <com.bluesky.visualprogramming.vm.instruction.CreateObject id="600">
-                          <type>CREATE_OBJECT</type>
-                          <varName>t_2</varName>
-                          <objType>NORMAL</objType>
-                        </com.bluesky.visualprogramming.vm.instruction.CreateObject>
-                        <com.bluesky.visualprogramming.vm.instruction.FieldAssignment id="601">
-                          <type>FIELD_ASSIGNMENT</type>
-                          <ownerVar>t_2</ownerVar>
-                          <fieldName>idx_0</fieldName>
-                          <assignmenType>AUTO</assignmenType>
-                          <rightVar>t_4</rightVar>
-                        </com.bluesky.visualprogramming.vm.instruction.FieldAssignment>
-                        <com.bluesky.visualprogramming.vm.instruction.AccessField id="602">
-                          <type>ACCESS_FIELD</type>
-                          <varName>t_5</varName>
-                          <objName>root</objName>
-                          <fieldName>console</fieldName>
-                        </com.bluesky.visualprogramming.vm.instruction.AccessField>
-                        <com.bluesky.visualprogramming.vm.instruction.SendMessage id="603">
-                          <type>SEND_MESSAGE</type>
-                          <comment>root.console.print(result.status.toString())</comment>
-                          <sync>true</sync>
-                          <replyVar>t_6</replyVar>
-                          <receiverVar>t_5</receiverVar>
-                          <messageSubject>print</messageSubject>
-                          <messageBodyVar>t_2</messageBodyVar>
-                          <paramStyle>ByOrder</paramStyle>
-                        </com.bluesky.visualprogramming.vm.instruction.SendMessage>
-                        <com.bluesky.visualprogramming.vm.instruction.AccessField id="604">
-                          <type>ACCESS_FIELD</type>
-                          <varName>t_8</varName>
-                          <objName>result</objName>
-                          <fieldName>output</fieldName>
-                        </com.bluesky.visualprogramming.vm.instruction.AccessField>
-                        <com.bluesky.visualprogramming.vm.instruction.CreateObject id="605">
-                          <type>CREATE_OBJECT</type>
-                          <varName>t_7</varName>
-                          <objType>NORMAL</objType>
-                        </com.bluesky.visualprogramming.vm.instruction.CreateObject>
-                        <com.bluesky.visualprogramming.vm.instruction.FieldAssignment id="606">
-                          <type>FIELD_ASSIGNMENT</type>
-                          <ownerVar>t_7</ownerVar>
-                          <fieldName>idx_0</fieldName>
-                          <assignmenType>AUTO</assignmenType>
-                          <rightVar>t_8</rightVar>
-                        </com.bluesky.visualprogramming.vm.instruction.FieldAssignment>
-                        <com.bluesky.visualprogramming.vm.instruction.AccessField id="607">
-                          <type>ACCESS_FIELD</type>
-                          <varName>t_9</varName>
-                          <objName>root</objName>
-                          <fieldName>console</fieldName>
-                        </com.bluesky.visualprogramming.vm.instruction.AccessField>
-                        <com.bluesky.visualprogramming.vm.instruction.SendMessage id="608">
-                          <type>SEND_MESSAGE</type>
-                          <comment>root.console.print(result.output)</comment>
-                          <sync>true</sync>
-                          <replyVar>t_10</replyVar>
-                          <receiverVar>t_9</receiverVar>
-                          <messageSubject>print</messageSubject>
-                          <messageBodyVar>t_7</messageBodyVar>
-                          <paramStyle>ByOrder</paramStyle>
-                        </com.bluesky.visualprogramming.vm.instruction.SendMessage>
-                        <com.bluesky.visualprogramming.vm.instruction.ProcedureEnd id="609">
-                          <type>PROCEDURE_END</type>
-                          <label>ProcedureEnd</label>
-                        </com.bluesky.visualprogramming.vm.instruction.ProcedureEnd>
-                      </instructions>
-                      <labels id="610">
-                        <entry>
-                          <string id="611">
-                            <id>0</id>
-                            <applyingWorker>false</applyingWorker>
-                            <scaleRate>0.0</scaleRate>
-                          </string>
-                          <int>15</int>
-                        </entry>
-                      </labels>
-                    </compiled>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
-              <area id="612">
+              <area id="580">
                 <x>352</x>
                 <y>288</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="613">
+              <borderColor id="581">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3531,39 +3229,37 @@ procedure loc()
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="614">
+          <field id="582">
             <name>robot1</name>
-            <target id="615">
+            <target id="583">
               <type>NORMAL</type>
               <id>4836</id>
               <name>unnamed</name>
-              <owner reference="410"/>
-              <fieldList id="616">
-                <field id="617">
+              <owner reference="399"/>
+              <fieldList id="584">
+                <field id="585">
                   <name>location</name>
-                  <target class="string" id="618">
+                  <target class="string" id="586">
                     <type>STRING</type>
                     <id>4837</id>
                     <name>unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="619">
-                      <field id="620">
+                    <owner reference="583"/>
+                    <fieldList id="587">
+                      <field id="588">
                         <name>_prototype</name>
                         <target class="string" reference="74"/>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="621">
+                    <area id="589">
                       <x>315</x>
                       <y>93</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="622">
+                    <borderColor id="590">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3571,39 +3267,37 @@ procedure loc()
                     </borderColor>
                     <value>浙江杭州</value>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="623">
+                <field id="591">
                   <name>getLocation</name>
-                  <target class="procedure" id="624">
+                  <target class="procedure" id="592">
                     <type>PROCEDURE</type>
                     <id>4838</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="625">
-                      <field id="626">
+                    <owner reference="583"/>
+                    <fieldList id="593">
+                      <field id="594">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="627">
+                        <target class="string" id="595">
                           <type>STRING</type>
                           <id>4903</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="624"/>
-                          <fieldList id="628">
-                            <field id="629">
+                          <owner class="procedure" reference="592"/>
+                          <fieldList id="596">
+                            <field id="597">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="630">
+                          <area id="598">
                             <x>210</x>
                             <y>241</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="631">
+                          <borderColor id="599">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3612,18 +3306,17 @@ procedure loc()
                           <value>subject.contains(&quot;where are you&quot;) || 
 subject.contains(&quot;在哪里&quot;)</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="632">
+                    <area id="600">
                       <x>312</x>
                       <y>234</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="633">
+                    <borderColor id="601">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3639,31 +3332,29 @@ subject.contains(&quot;在哪里&quot;)</value>
 
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="634">
+                <field id="602">
                   <name>age</name>
-                  <target class="string" id="635">
+                  <target class="string" id="603">
                     <type>STRING</type>
                     <id>4839</id>
                     <name>unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="636">
-                      <field id="637">
+                    <owner reference="583"/>
+                    <fieldList id="604">
+                      <field id="605">
                         <name>_prototype</name>
                         <target class="string" reference="74"/>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="638">
+                    <area id="606">
                       <x>159</x>
                       <y>95</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="639">
+                    <borderColor id="607">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3671,39 +3362,37 @@ subject.contains(&quot;在哪里&quot;)</value>
                     </borderColor>
                     <value>1</value>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="640">
+                <field id="608">
                   <name>how old are you?</name>
-                  <target class="procedure" id="641">
+                  <target class="procedure" id="609">
                     <type>PROCEDURE</type>
                     <id>4840</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="642">
-                      <field id="643">
+                    <owner reference="583"/>
+                    <fieldList id="610">
+                      <field id="611">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="644">
+                        <target class="string" id="612">
                           <type>STRING</type>
                           <id>4888</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="641"/>
-                          <fieldList id="645">
-                            <field id="646">
+                          <owner class="procedure" reference="609"/>
+                          <fieldList id="613">
+                            <field id="614">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="647">
+                          <area id="615">
                             <x>335</x>
                             <y>249</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="648">
+                          <borderColor id="616">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3712,18 +3401,17 @@ subject.contains(&quot;在哪里&quot;)</value>
                           <value>subject.contains(&quot;几岁&quot;) ||
 subject.contains(&quot;多大&quot;)</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="649">
+                    <area id="617">
                       <x>159</x>
                       <y>245</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="650">
+                    <borderColor id="618">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3740,47 +3428,45 @@ subject.contains(&quot;多大&quot;)</value>
 }
 </code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="651">
+                <field id="619">
                   <name>_aliases</name>
-                  <target id="652">
+                  <target id="620">
                     <type>NORMAL</type>
                     <id>4841</id>
                     <name>unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="653">
-                      <field id="654">
+                    <owner reference="583"/>
+                    <fieldList id="621">
+                      <field id="622">
                         <name>getonsip_xmpp</name>
-                        <target id="655">
+                        <target id="623">
                           <type>NORMAL</type>
                           <id>4842</id>
                           <name>unnamed</name>
-                          <owner reference="652"/>
-                          <fieldList id="656">
-                            <field id="657">
+                          <owner reference="620"/>
+                          <fieldList id="624">
+                            <field id="625">
                               <name>address</name>
-                              <target class="string" id="658">
+                              <target class="string" id="626">
                                 <type>STRING</type>
                                 <id>4843</id>
                                 <name>unnamed</name>
-                                <owner reference="655"/>
-                                <fieldList id="659">
-                                  <field id="660">
+                                <owner reference="623"/>
+                                <fieldList id="627">
+                                  <field id="628">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="661">
+                                <area id="629">
                                   <x>305</x>
                                   <y>209</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="662">
+                                <borderColor id="630">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -3788,31 +3474,29 @@ subject.contains(&quot;多大&quot;)</value>
                                 </borderColor>
                                 <value>vprobot1@getonsip.com</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="663">
+                            <field id="631">
                               <name>protocol</name>
-                              <target class="string" id="664">
+                              <target class="string" id="632">
                                 <type>STRING</type>
                                 <id>4844</id>
                                 <name>unnamed</name>
-                                <owner reference="655"/>
-                                <fieldList id="665">
-                                  <field id="666">
+                                <owner reference="623"/>
+                                <fieldList id="633">
+                                  <field id="634">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="667">
+                                <area id="635">
                                   <x>467</x>
                                   <y>196</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="668">
+                                <borderColor id="636">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -3820,31 +3504,29 @@ subject.contains(&quot;多大&quot;)</value>
                                 </borderColor>
                                 <value>xmpp</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="669">
+                            <field id="637">
                               <name>connectionOptions</name>
-                              <target class="string" id="670">
+                              <target class="string" id="638">
                                 <type>STRING</type>
                                 <id>4845</id>
                                 <name>unnamed</name>
-                                <owner reference="655"/>
-                                <fieldList id="671">
-                                  <field id="672">
+                                <owner reference="623"/>
+                                <fieldList id="639">
+                                  <field id="640">
                                     <name>_prototype</name>
                                     <target class="string" reference="74"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="673">
+                                <area id="641">
                                   <x>646</x>
                                   <y>209</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="674">
+                                <borderColor id="642">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -3852,31 +3534,29 @@ subject.contains(&quot;多大&quot;)</value>
                                 </borderColor>
                                 <value>server=getonsip.com;username=vprobot1;password=pw12#$</value>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
-                            <field id="675">
+                            <field id="643">
                               <name>enabled</name>
-                              <target class="boolean" id="676">
+                              <target class="boolean" id="644">
                                 <type>BOOLEAN</type>
                                 <id>4847</id>
                                 <name>unnamed</name>
-                                <owner reference="655"/>
-                                <fieldList id="677">
-                                  <field id="678">
+                                <owner reference="623"/>
+                                <fieldList id="645">
+                                  <field id="646">
                                     <name>_prototype</name>
                                     <target reference="44"/>
-                                    <selectedStatus>NotSelected</selectedStatus>
                                   </field>
                                 </fieldList>
                                 <applyingWorker>false</applyingWorker>
-                                <area id="679">
+                                <area id="647">
                                   <x>380</x>
                                   <y>448</y>
                                   <width>100</width>
                                   <height>100</height>
                                 </area>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="680">
+                                <borderColor id="648">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -3884,75 +3564,71 @@ subject.contains(&quot;多大&quot;)</value>
                                 </borderColor>
                                 <booleanValue>true</booleanValue>
                               </target>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="681">
+                          <area id="649">
                             <x>166</x>
                             <y>137</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="682">
+                          <borderColor id="650">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="683">
+                    <area id="651">
                       <x>772</x>
                       <y>84</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="684">
+                    <borderColor id="652">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="685">
+                <field id="653">
                   <name>hi</name>
-                  <target class="procedure" id="686">
+                  <target class="procedure" id="654">
                     <type>PROCEDURE</type>
                     <id>4866</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="687">
-                      <field id="688">
+                    <owner reference="583"/>
+                    <fieldList id="655">
+                      <field id="656">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="689">
+                        <target class="string" id="657">
                           <type>STRING</type>
                           <id>4878</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="686"/>
-                          <fieldList id="690">
-                            <field id="691">
+                          <owner class="procedure" reference="654"/>
+                          <fieldList id="658">
+                            <field id="659">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="692">
+                          <area id="660">
                             <x>96</x>
                             <y>162</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="693">
+                          <borderColor id="661">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3960,18 +3636,17 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你好&quot;) || subject.contains(&quot;hello&quot;)</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="694">
+                    <area id="662">
                       <x>164</x>
                       <y>399</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="695">
+                    <borderColor id="663">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3986,39 +3661,37 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;hi&quot;;
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="696">
+                <field id="664">
                   <name>who are you?</name>
-                  <target class="procedure" id="697">
+                  <target class="procedure" id="665">
                     <type>PROCEDURE</type>
                     <id>4871</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="698">
-                      <field id="699">
+                    <owner reference="583"/>
+                    <fieldList id="666">
+                      <field id="667">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="700">
+                        <target class="string" id="668">
                           <type>STRING</type>
                           <id>4890</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="697"/>
-                          <fieldList id="701">
-                            <field id="702">
+                          <owner class="procedure" reference="665"/>
+                          <fieldList id="669">
+                            <field id="670">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <selectedStatus>NotSelected</selectedStatus>
                             </field>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
-                          <area id="703">
+                          <area id="671">
                             <x>114</x>
                             <y>291</y>
                             <width>100</width>
                             <height>100</height>
                           </area>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="704">
+                          <borderColor id="672">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -4026,18 +3699,17 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你是谁&quot;)</value>
                         </target>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="705">
+                    <area id="673">
                       <x>32</x>
                       <y>242</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="706">
+                    <borderColor id="674">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4052,31 +3724,29 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;I am &quot;.concat(self.name).concat(&quot;.&quot;);
 }</code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="707">
+                <field id="675">
                   <name>name</name>
-                  <target class="string" id="708">
+                  <target class="string" id="676">
                     <type>STRING</type>
                     <id>4872</id>
                     <name>unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="709">
-                      <field id="710">
+                    <owner reference="583"/>
+                    <fieldList id="677">
+                      <field id="678">
                         <name>_prototype</name>
                         <target class="string" reference="74"/>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="711">
+                    <area id="679">
                       <x>40</x>
                       <y>92</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="712">
+                    <borderColor id="680">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4084,31 +3754,29 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>Robot #1</value>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="713">
+                <field id="681">
                   <name>_enableSubjectMatchRule</name>
-                  <target class="boolean" id="714">
+                  <target class="boolean" id="682">
                     <type>BOOLEAN</type>
                     <id>4877</id>
                     <name>unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="715">
-                      <field id="716">
+                    <owner reference="583"/>
+                    <fieldList id="683">
+                      <field id="684">
                         <name>_prototype</name>
                         <target reference="44"/>
-                        <selectedStatus>NotSelected</selectedStatus>
                       </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
-                    <area id="717">
+                    <area id="685">
                       <x>777</x>
                       <y>221</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="718">
+                    <borderColor id="686">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4116,25 +3784,24 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <booleanValue>true</booleanValue>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
-                <field id="719">
+                <field id="687">
                   <name>move</name>
-                  <target class="procedure" id="720">
+                  <target class="procedure" id="688">
                     <type>PROCEDURE</type>
                     <id>4895</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="615"/>
-                    <fieldList id="721"/>
+                    <owner reference="583"/>
+                    <fieldList id="689"/>
                     <applyingWorker>false</applyingWorker>
-                    <area id="722">
+                    <area id="690">
                       <x>314</x>
                       <y>376</y>
                       <width>100</width>
                       <height>100</height>
                     </area>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="723">
+                    <borderColor id="691">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4151,69 +3818,66 @@ subject.contains(&quot;多大&quot;)</value>
 }
 </code>
                   </target>
-                  <selectedStatus>NotSelected</selectedStatus>
                 </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
-              <area id="724">
+              <area id="692">
                 <x>421</x>
                 <y>452</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="725">
+              <borderColor id="693">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="726">
+        <area id="694">
           <x>631</x>
           <y>727</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="727">
+        <borderColor id="695">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="728">
+    <field id="696">
       <name>console</name>
-      <target id="729">
+      <target id="697">
         <type>NORMAL</type>
         <id>44</id>
         <name>console</name>
         <owner reference="1"/>
-        <fieldList id="730">
-          <field id="731">
+        <fieldList id="698">
+          <field id="699">
             <name>print</name>
-            <target class="procedure" id="732">
+            <target class="procedure" id="700">
               <type>PROCEDURE</type>
               <id>45</id>
               <name defined-in="object">print</name>
-              <owner reference="729"/>
-              <fieldList id="733"/>
+              <owner reference="697"/>
+              <fieldList id="701"/>
               <applyingWorker>false</applyingWorker>
-              <area id="734">
+              <area id="702">
                 <x>133</x>
                 <y>249</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="735">
+              <borderColor id="703">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -4224,25 +3888,24 @@ subject.contains(&quot;多大&quot;)</value>
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
-          <field id="736">
+          <field id="704">
             <name>println</name>
-            <target class="procedure" id="737">
+            <target class="procedure" id="705">
               <type>PROCEDURE</type>
               <id>4808</id>
               <name defined-in="object">unnamed</name>
-              <owner reference="729"/>
-              <fieldList id="738"/>
+              <owner reference="697"/>
+              <fieldList id="706"/>
               <applyingWorker>false</applyingWorker>
-              <area id="739">
+              <area id="707">
                 <x>384</x>
                 <y>313</y>
                 <width>100</width>
                 <height>100</height>
               </area>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="740">
+              <borderColor id="708">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -4253,41 +3916,38 @@ subject.contains(&quot;多大&quot;)</value>
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <selectedStatus>NotSelected</selectedStatus>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
-        <area id="741">
+        <area id="709">
           <x>158</x>
           <y>231</y>
           <width>100</width>
           <height>100</height>
         </area>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="742">
+        <borderColor id="710">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
-    <field id="743">
+    <field id="711">
       <name>prototype</name>
       <target reference="38"/>
-      <selectedStatus>NotSelected</selectedStatus>
     </field>
   </fieldList>
   <applyingWorker>false</applyingWorker>
-  <area id="744">
+  <area id="712">
     <x>0</x>
     <y>0</y>
     <width>100</width>
     <height>100</height>
   </area>
   <scaleRate>0.5</scaleRate>
-  <borderColor id="745">
+  <borderColor id="713">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

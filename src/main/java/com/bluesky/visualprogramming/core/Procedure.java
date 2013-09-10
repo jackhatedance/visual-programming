@@ -93,7 +93,7 @@ public class Procedure extends _Object {
 		} else
 			code = value;
 
-		this.code = code;
+		this.code = code.trim();
 
 		// clean the compiled procedure. any change to code need re-compile.
 		this.compiled = null;

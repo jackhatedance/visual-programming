@@ -70,7 +70,17 @@ public class XmlSerializer implements ObjectSerializer {
 		Class cls = _Object.class;
 
 		xstream.omitField(cls, "messageQueue");
-		xstream.omitField(cls, "worker");
+		xstream.omitField(cls, "asynMessageMap");
+		
+		xstream.omitField(cls, "worker");		
+		
+		
+		Class fieldCls = Field.class;
+		xstream.omitField(fieldCls, "selectedStatus");
+		
+		
+		Class procedureCls = Procedure.class;
+		xstream.omitField(procedureCls, "compiled");
 		
 	}
 

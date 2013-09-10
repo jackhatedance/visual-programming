@@ -82,11 +82,25 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitStringField(@NotNull GooParser.StringFieldContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#VarMessageSubject}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarMessageSubject(@NotNull GooParser.VarMessageSubjectContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#forAfterthought}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitForAfterthought(@NotNull GooParser.ForAfterthoughtContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#VarField}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarField(@NotNull GooParser.VarFieldContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#StringMessageSubject}.

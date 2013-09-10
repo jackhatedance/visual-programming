@@ -15,13 +15,13 @@ public class GooParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__6=1, T__5=2, T__4=3, T__3=4, T__2=5, T__1=6, T__0=7, PROCEDURE=8, IF=9, 
-		ELSE=10, WHILE=11, FOR=12, RETURN=13, BOOLEAN=14, BREAK=15, CONTINUE=16, 
-		DOT=17, LINE_COMMENT=18, BLOCK_COMMENT=19, REF_ASSIGN=20, OWN_ASSIGN=21, 
-		AUTO_ASSIGN=22, LINK_PROTOCOL=23, LINK_ADDRESS=24, NUMBER=25, STRING=26, 
-		NULL=27, ID=28, WS=29;
+		T__7=1, T__6=2, T__5=3, T__4=4, T__3=5, T__2=6, T__1=7, T__0=8, PROCEDURE=9, 
+		IF=10, ELSE=11, WHILE=12, FOR=13, RETURN=14, BOOLEAN=15, BREAK=16, CONTINUE=17, 
+		DOT=18, LINE_COMMENT=19, BLOCK_COMMENT=20, REF_ASSIGN=21, OWN_ASSIGN=22, 
+		AUTO_ASSIGN=23, LINK_PROTOCOL=24, LINK_ADDRESS=25, NUMBER=26, STRING=27, 
+		NULL=28, ID=29, WS=30;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'{'", "')'", "','", "'('", "':'", "'}'", "';'", "'procedure'", 
+		"<INVALID>", "'{'", "')'", "','", "'('", "':'", "'}'", "';'", "'$'", "'procedure'", 
 		"'if'", "'else'", "'while'", "'for'", "'return'", "BOOLEAN", "'break'", 
 		"'continue'", "'.'", "LINE_COMMENT", "BLOCK_COMMENT", "'->'", "'=>'", 
 		"AUTO_ASSIGN", "LINK_PROTOCOL", "LINK_ADDRESS", "NUMBER", "STRING", "'null'", 
@@ -1318,12 +1318,29 @@ public class GooParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class VarFieldContext extends FieldContext {
+		public TerminalNode ID() { return getToken(GooParser.ID, 0); }
+		public VarFieldContext(FieldContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GooListener ) ((GooListener)listener).enterVarField(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GooListener ) ((GooListener)listener).exitVarField(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GooVisitor ) return ((GooVisitor<? extends T>)visitor).visitVarField(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final FieldContext field() throws RecognitionException {
 		FieldContext _localctx = new FieldContext(_ctx, getState());
 		enterRule(_localctx, 30, RULE_field);
 		try {
-			setState(167);
+			setState(169);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new IdFieldContext(_localctx);
@@ -1332,11 +1349,19 @@ public class GooParser extends Parser {
 				setState(165); match(ID);
 				}
 				break;
-			case STRING:
-				_localctx = new StringFieldContext(_localctx);
+			case 8:
+				_localctx = new VarFieldContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(166); match(STRING);
+				setState(166); match(8);
+				setState(167); match(ID);
+				}
+				break;
+			case STRING:
+				_localctx = new StringFieldContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(168); match(STRING);
 				}
 				break;
 			default:
@@ -1363,6 +1388,23 @@ public class GooParser extends Parser {
 		public MessgeSubjectContext() { }
 		public void copyFrom(MessgeSubjectContext ctx) {
 			super.copyFrom(ctx);
+		}
+	}
+	public static class VarMessageSubjectContext extends MessgeSubjectContext {
+		public TerminalNode ID() { return getToken(GooParser.ID, 0); }
+		public VarMessageSubjectContext(MessgeSubjectContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GooListener ) ((GooListener)listener).enterVarMessageSubject(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GooListener ) ((GooListener)listener).exitVarMessageSubject(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GooVisitor ) return ((GooVisitor<? extends T>)visitor).visitVarMessageSubject(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class IdMessageSubjectContext extends MessgeSubjectContext {
@@ -1404,20 +1446,28 @@ public class GooParser extends Parser {
 		MessgeSubjectContext _localctx = new MessgeSubjectContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_messgeSubject);
 		try {
-			setState(171);
+			setState(175);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new IdMessageSubjectContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(169); match(ID);
+				setState(171); match(ID);
+				}
+				break;
+			case 8:
+				_localctx = new VarMessageSubjectContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(172); match(8);
+				setState(173); match(ID);
 				}
 				break;
 			case STRING:
 				_localctx = new StringMessageSubjectContext(_localctx);
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(170); match(STRING);
+				setState(174); match(STRING);
 				}
 				break;
 			default:
@@ -1496,24 +1546,24 @@ public class GooParser extends Parser {
 		enterRule(_localctx, 34, RULE_paramList);
 		int _la;
 		try {
-			setState(189);
+			setState(193);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				_localctx = new OrderedParamListContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(173); expr(0);
-				setState(178);
+				setState(177); expr(0);
+				setState(182);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==3) {
 					{
 					{
-					setState(174); match(3);
-					setState(175); expr(0);
+					setState(178); match(3);
+					setState(179); expr(0);
 					}
 					}
-					setState(180);
+					setState(184);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -1524,18 +1574,18 @@ public class GooParser extends Parser {
 				_localctx = new NamedParamListContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(181); nameValue();
-				setState(186);
+				setState(185); nameValue();
+				setState(190);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==3) {
 					{
 					{
-					setState(182); match(3);
-					setState(183); nameValue();
+					setState(186); match(3);
+					setState(187); nameValue();
 					}
 					}
-					setState(188);
+					setState(192);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -1584,9 +1634,9 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(191); match(ID);
-			setState(192); match(5);
-			setState(193); expr(0);
+			setState(195); match(ID);
+			setState(196); match(5);
+			setState(197); expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1637,17 +1687,17 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(195); match(IF);
-			setState(196); match(4);
-			setState(197); expr(0);
-			setState(198); match(2);
-			setState(199); trueBranch();
-			setState(202);
+			setState(199); match(IF);
+			setState(200); match(4);
+			setState(201); expr(0);
+			setState(202); match(2);
+			setState(203); trueBranch();
+			setState(206);
 			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 			case 1:
 				{
-				setState(200); match(ELSE);
-				setState(201); falseBranch();
+				setState(204); match(ELSE);
+				setState(205); falseBranch();
 				}
 				break;
 			}
@@ -1693,7 +1743,7 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(204); blockOrStatment();
+			setState(208); blockOrStatment();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1736,7 +1786,7 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(206); blockOrStatment();
+			setState(210); blockOrStatment();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1783,11 +1833,11 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(208); match(WHILE);
-			setState(209); match(4);
-			setState(210); expr(0);
-			setState(211); match(2);
-			setState(212); blockOrStatment();
+			setState(212); match(WHILE);
+			setState(213); match(4);
+			setState(214); expr(0);
+			setState(215); match(2);
+			setState(216); blockOrStatment();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1841,29 +1891,29 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(214); match(FOR);
-			setState(215); match(4);
-			setState(217);
+			setState(218); match(FOR);
+			setState(219); match(4);
+			setState(221);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE) | (1L << BOOLEAN) | (1L << LINK_PROTOCOL) | (1L << NUMBER) | (1L << STRING) | (1L << NULL) | (1L << ID))) != 0)) {
 				{
-				setState(216); forInit();
+				setState(220); forInit();
 				}
 			}
 
-			setState(219); match(7);
-			setState(220); forCondition();
-			setState(221); match(7);
-			setState(223);
+			setState(223); match(7);
+			setState(224); forCondition();
+			setState(225); match(7);
+			setState(227);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROCEDURE) | (1L << BOOLEAN) | (1L << LINK_PROTOCOL) | (1L << NUMBER) | (1L << STRING) | (1L << NULL) | (1L << ID))) != 0)) {
 				{
-				setState(222); forAfterthought();
+				setState(226); forAfterthought();
 				}
 			}
 
-			setState(225); match(2);
-			setState(226); blockOrStatment();
+			setState(229); match(2);
+			setState(230); blockOrStatment();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1907,19 +1957,19 @@ public class GooParser extends Parser {
 		ForInitContext _localctx = new ForInitContext(_ctx, getState());
 		enterRule(_localctx, 48, RULE_forInit);
 		try {
-			setState(230);
+			setState(234);
 			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(228); assignment();
+				setState(232); assignment();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(229); expr(0);
+				setState(233); expr(0);
 				}
 				break;
 			}
@@ -1964,7 +2014,7 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(232); expr(0);
+			setState(236); expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2007,7 +2057,7 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(234); expr(0);
+			setState(238); expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2051,12 +2101,12 @@ public class GooParser extends Parser {
 		BlockOrStatmentContext _localctx = new BlockOrStatmentContext(_ctx, getState());
 		enterRule(_localctx, 54, RULE_blockOrStatment);
 		try {
-			setState(238);
+			setState(242);
 			switch (_input.LA(1)) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(236); block();
+				setState(240); block();
 				}
 				break;
 			case 7:
@@ -2077,7 +2127,7 @@ public class GooParser extends Parser {
 			case ID:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(237); statement();
+				setState(241); statement();
 				}
 				break;
 			default:
@@ -2125,9 +2175,9 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(240); match(RETURN);
-			setState(241); expr(0);
-			setState(242); match(7);
+			setState(244); match(RETURN);
+			setState(245); expr(0);
+			setState(246); match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2168,8 +2218,8 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(244); match(BREAK);
-			setState(245); match(7);
+			setState(248); match(BREAK);
+			setState(249); match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2210,8 +2260,8 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(247); match(CONTINUE);
-			setState(248); match(7);
+			setState(251); match(CONTINUE);
+			setState(252); match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2254,7 +2304,7 @@ public class GooParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(250);
+			setState(254);
 			_la = _input.LA(1);
 			if ( !(_la==LINE_COMMENT || _la==BLOCK_COMMENT) ) {
 			_errHandler.recoverInline(this);
@@ -2289,9 +2339,9 @@ public class GooParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\37\u00ff\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3 \u0103\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
 		"\t!\3\2\3\2\3\2\3\3\3\3\5\3H\n\3\3\3\3\3\5\3L\n\3\3\3\3\3\3\4\3\4\3\4"+
@@ -2300,76 +2350,78 @@ public class GooParser extends Parser {
 		"\t\3\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\5\13|\n\13\3\f\3\f\3\f\3\f\3\f\5"+
 		"\f\u0083\n\f\3\r\3\r\3\r\5\r\u0088\n\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r"+
 		"\5\r\u0092\n\r\3\r\3\r\7\r\u0096\n\r\f\r\16\r\u0099\13\r\3\16\3\16\3\16"+
-		"\3\16\3\16\3\16\5\16\u00a1\n\16\3\17\3\17\3\17\3\20\3\20\3\21\3\21\5\21"+
-		"\u00aa\n\21\3\22\3\22\5\22\u00ae\n\22\3\23\3\23\3\23\7\23\u00b3\n\23\f"+
-		"\23\16\23\u00b6\13\23\3\23\3\23\3\23\7\23\u00bb\n\23\f\23\16\23\u00be"+
-		"\13\23\5\23\u00c0\n\23\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\3"+
-		"\25\3\25\5\25\u00cd\n\25\3\26\3\26\3\27\3\27\3\30\3\30\3\30\3\30\3\30"+
-		"\3\30\3\31\3\31\3\31\5\31\u00dc\n\31\3\31\3\31\3\31\3\31\5\31\u00e2\n"+
-		"\31\3\31\3\31\3\31\3\32\3\32\5\32\u00e9\n\32\3\33\3\33\3\34\3\34\3\35"+
-		"\3\35\5\35\u00f1\n\35\3\36\3\36\3\36\3\36\3\37\3\37\3\37\3 \3 \3 \3!\3"+
-		"!\3!\2\"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668"+
-		":<>@\2\3\3\2\24\25\u0101\2B\3\2\2\2\4E\3\2\2\2\6O\3\2\2\2\bW\3\2\2\2\n"+
-		"j\3\2\2\2\fl\3\2\2\2\16n\3\2\2\2\20q\3\2\2\2\22t\3\2\2\2\24{\3\2\2\2\26"+
-		"\u0082\3\2\2\2\30\u0087\3\2\2\2\32\u00a0\3\2\2\2\34\u00a2\3\2\2\2\36\u00a5"+
-		"\3\2\2\2 \u00a9\3\2\2\2\"\u00ad\3\2\2\2$\u00bf\3\2\2\2&\u00c1\3\2\2\2"+
-		"(\u00c5\3\2\2\2*\u00ce\3\2\2\2,\u00d0\3\2\2\2.\u00d2\3\2\2\2\60\u00d8"+
-		"\3\2\2\2\62\u00e8\3\2\2\2\64\u00ea\3\2\2\2\66\u00ec\3\2\2\28\u00f0\3\2"+
-		"\2\2:\u00f2\3\2\2\2<\u00f6\3\2\2\2>\u00f9\3\2\2\2@\u00fc\3\2\2\2BC\5\4"+
-		"\3\2CD\5\b\5\2D\3\3\2\2\2EG\7\n\2\2FH\7\36\2\2GF\3\2\2\2GH\3\2\2\2HI\3"+
-		"\2\2\2IK\7\6\2\2JL\5\6\4\2KJ\3\2\2\2KL\3\2\2\2LM\3\2\2\2MN\7\4\2\2N\5"+
-		"\3\2\2\2OT\7\36\2\2PQ\7\5\2\2QS\7\36\2\2RP\3\2\2\2SV\3\2\2\2TR\3\2\2\2"+
-		"TU\3\2\2\2U\7\3\2\2\2VT\3\2\2\2W[\7\3\2\2XZ\5\n\6\2YX\3\2\2\2Z]\3\2\2"+
-		"\2[Y\3\2\2\2[\\\3\2\2\2\\^\3\2\2\2][\3\2\2\2^_\7\b\2\2_\t\3\2\2\2`k\5"+
-		"\20\t\2ak\5\16\b\2bk\5(\25\2ck\5.\30\2dk\5\60\31\2ek\5:\36\2fk\5<\37\2"+
-		"gk\5> \2hk\5@!\2ik\5\f\7\2j`\3\2\2\2ja\3\2\2\2jb\3\2\2\2jc\3\2\2\2jd\3"+
-		"\2\2\2je\3\2\2\2jf\3\2\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\13\3\2\2\2l"+
-		"m\7\t\2\2m\r\3\2\2\2no\5\30\r\2op\7\t\2\2p\17\3\2\2\2qr\5\22\n\2rs\7\t"+
-		"\2\2s\21\3\2\2\2tu\5\26\f\2uv\5\24\13\2vw\5\30\r\2w\23\3\2\2\2x|\7\26"+
-		"\2\2y|\7\27\2\2z|\7\30\2\2{x\3\2\2\2{y\3\2\2\2{z\3\2\2\2|\25\3\2\2\2}"+
-		"\u0083\7\36\2\2~\177\5\30\r\2\177\u0080\7\23\2\2\u0080\u0081\5 \21\2\u0081"+
-		"\u0083\3\2\2\2\u0082}\3\2\2\2\u0082~\3\2\2\2\u0083\27\3\2\2\2\u0084\u0085"+
-		"\b\r\1\2\u0085\u0088\5\32\16\2\u0086\u0088\5\36\20\2\u0087\u0084\3\2\2"+
-		"\2\u0087\u0086\3\2\2\2\u0088\u0097\3\2\2\2\u0089\u008a\6\r\2\3\u008a\u008b"+
-		"\7\23\2\2\u008b\u0096\5 \21\2\u008c\u008d\6\r\3\3\u008d\u008e\7\23\2\2"+
-		"\u008e\u008f\5\"\22\2\u008f\u0091\7\6\2\2\u0090\u0092\5$\23\2\u0091\u0090"+
-		"\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0094\7\4\2\2\u0094"+
-		"\u0096\3\2\2\2\u0095\u0089\3\2\2\2\u0095\u008c\3\2\2\2\u0096\u0099\3\2"+
-		"\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2\2\2\u0098\31\3\2\2\2\u0099\u0097"+
-		"\3\2\2\2\u009a\u00a1\7\33\2\2\u009b\u00a1\7\34\2\2\u009c\u00a1\7\20\2"+
-		"\2\u009d\u00a1\7\35\2\2\u009e\u00a1\5\34\17\2\u009f\u00a1\5\2\2\2\u00a0"+
-		"\u009a\3\2\2\2\u00a0\u009b\3\2\2\2\u00a0\u009c\3\2\2\2\u00a0\u009d\3\2"+
-		"\2\2\u00a0\u009e\3\2\2\2\u00a0\u009f\3\2\2\2\u00a1\33\3\2\2\2\u00a2\u00a3"+
-		"\7\31\2\2\u00a3\u00a4\7\32\2\2\u00a4\35\3\2\2\2\u00a5\u00a6\7\36\2\2\u00a6"+
-		"\37\3\2\2\2\u00a7\u00aa\7\36\2\2\u00a8\u00aa\7\34\2\2\u00a9\u00a7\3\2"+
-		"\2\2\u00a9\u00a8\3\2\2\2\u00aa!\3\2\2\2\u00ab\u00ae\7\36\2\2\u00ac\u00ae"+
-		"\7\34\2\2\u00ad\u00ab\3\2\2\2\u00ad\u00ac\3\2\2\2\u00ae#\3\2\2\2\u00af"+
-		"\u00b4\5\30\r\2\u00b0\u00b1\7\5\2\2\u00b1\u00b3\5\30\r\2\u00b2\u00b0\3"+
-		"\2\2\2\u00b3\u00b6\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b4\u00b5\3\2\2\2\u00b5"+
-		"\u00c0\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00bc\5&\24\2\u00b8\u00b9\7\5"+
-		"\2\2\u00b9\u00bb\5&\24\2\u00ba\u00b8\3\2\2\2\u00bb\u00be\3\2\2\2\u00bc"+
-		"\u00ba\3\2\2\2\u00bc\u00bd\3\2\2\2\u00bd\u00c0\3\2\2\2\u00be\u00bc\3\2"+
-		"\2\2\u00bf\u00af\3\2\2\2\u00bf\u00b7\3\2\2\2\u00c0%\3\2\2\2\u00c1\u00c2"+
-		"\7\36\2\2\u00c2\u00c3\7\7\2\2\u00c3\u00c4\5\30\r\2\u00c4\'\3\2\2\2\u00c5"+
-		"\u00c6\7\13\2\2\u00c6\u00c7\7\6\2\2\u00c7\u00c8\5\30\r\2\u00c8\u00c9\7"+
-		"\4\2\2\u00c9\u00cc\5*\26\2\u00ca\u00cb\7\f\2\2\u00cb\u00cd\5,\27\2\u00cc"+
-		"\u00ca\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd)\3\2\2\2\u00ce\u00cf\58\35\2"+
-		"\u00cf+\3\2\2\2\u00d0\u00d1\58\35\2\u00d1-\3\2\2\2\u00d2\u00d3\7\r\2\2"+
-		"\u00d3\u00d4\7\6\2\2\u00d4\u00d5\5\30\r\2\u00d5\u00d6\7\4\2\2\u00d6\u00d7"+
-		"\58\35\2\u00d7/\3\2\2\2\u00d8\u00d9\7\16\2\2\u00d9\u00db\7\6\2\2\u00da"+
-		"\u00dc\5\62\32\2\u00db\u00da\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc\u00dd\3"+
-		"\2\2\2\u00dd\u00de\7\t\2\2\u00de\u00df\5\64\33\2\u00df\u00e1\7\t\2\2\u00e0"+
-		"\u00e2\5\66\34\2\u00e1\u00e0\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e2\u00e3\3"+
-		"\2\2\2\u00e3\u00e4\7\4\2\2\u00e4\u00e5\58\35\2\u00e5\61\3\2\2\2\u00e6"+
-		"\u00e9\5\22\n\2\u00e7\u00e9\5\30\r\2\u00e8\u00e6\3\2\2\2\u00e8\u00e7\3"+
-		"\2\2\2\u00e9\63\3\2\2\2\u00ea\u00eb\5\30\r\2\u00eb\65\3\2\2\2\u00ec\u00ed"+
-		"\5\30\r\2\u00ed\67\3\2\2\2\u00ee\u00f1\5\b\5\2\u00ef\u00f1\5\n\6\2\u00f0"+
-		"\u00ee\3\2\2\2\u00f0\u00ef\3\2\2\2\u00f19\3\2\2\2\u00f2\u00f3\7\17\2\2"+
-		"\u00f3\u00f4\5\30\r\2\u00f4\u00f5\7\t\2\2\u00f5;\3\2\2\2\u00f6\u00f7\7"+
-		"\21\2\2\u00f7\u00f8\7\t\2\2\u00f8=\3\2\2\2\u00f9\u00fa\7\22\2\2\u00fa"+
-		"\u00fb\7\t\2\2\u00fb?\3\2\2\2\u00fc\u00fd\t\2\2\2\u00fdA\3\2\2\2\30GK"+
-		"T[j{\u0082\u0087\u0091\u0095\u0097\u00a0\u00a9\u00ad\u00b4\u00bc\u00bf"+
-		"\u00cc\u00db\u00e1\u00e8\u00f0";
+		"\3\16\3\16\3\16\5\16\u00a1\n\16\3\17\3\17\3\17\3\20\3\20\3\21\3\21\3\21"+
+		"\3\21\5\21\u00ac\n\21\3\22\3\22\3\22\3\22\5\22\u00b2\n\22\3\23\3\23\3"+
+		"\23\7\23\u00b7\n\23\f\23\16\23\u00ba\13\23\3\23\3\23\3\23\7\23\u00bf\n"+
+		"\23\f\23\16\23\u00c2\13\23\5\23\u00c4\n\23\3\24\3\24\3\24\3\24\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\3\25\5\25\u00d1\n\25\3\26\3\26\3\27\3\27\3\30"+
+		"\3\30\3\30\3\30\3\30\3\30\3\31\3\31\3\31\5\31\u00e0\n\31\3\31\3\31\3\31"+
+		"\3\31\5\31\u00e6\n\31\3\31\3\31\3\31\3\32\3\32\5\32\u00ed\n\32\3\33\3"+
+		"\33\3\34\3\34\3\35\3\35\5\35\u00f5\n\35\3\36\3\36\3\36\3\36\3\37\3\37"+
+		"\3\37\3 \3 \3 \3!\3!\3!\2\"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \""+
+		"$&(*,.\60\62\64\668:<>@\2\3\3\2\25\26\u0107\2B\3\2\2\2\4E\3\2\2\2\6O\3"+
+		"\2\2\2\bW\3\2\2\2\nj\3\2\2\2\fl\3\2\2\2\16n\3\2\2\2\20q\3\2\2\2\22t\3"+
+		"\2\2\2\24{\3\2\2\2\26\u0082\3\2\2\2\30\u0087\3\2\2\2\32\u00a0\3\2\2\2"+
+		"\34\u00a2\3\2\2\2\36\u00a5\3\2\2\2 \u00ab\3\2\2\2\"\u00b1\3\2\2\2$\u00c3"+
+		"\3\2\2\2&\u00c5\3\2\2\2(\u00c9\3\2\2\2*\u00d2\3\2\2\2,\u00d4\3\2\2\2."+
+		"\u00d6\3\2\2\2\60\u00dc\3\2\2\2\62\u00ec\3\2\2\2\64\u00ee\3\2\2\2\66\u00f0"+
+		"\3\2\2\28\u00f4\3\2\2\2:\u00f6\3\2\2\2<\u00fa\3\2\2\2>\u00fd\3\2\2\2@"+
+		"\u0100\3\2\2\2BC\5\4\3\2CD\5\b\5\2D\3\3\2\2\2EG\7\13\2\2FH\7\37\2\2GF"+
+		"\3\2\2\2GH\3\2\2\2HI\3\2\2\2IK\7\6\2\2JL\5\6\4\2KJ\3\2\2\2KL\3\2\2\2L"+
+		"M\3\2\2\2MN\7\4\2\2N\5\3\2\2\2OT\7\37\2\2PQ\7\5\2\2QS\7\37\2\2RP\3\2\2"+
+		"\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\7\3\2\2\2VT\3\2\2\2W[\7\3\2\2XZ\5\n"+
+		"\6\2YX\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\^\3\2\2\2][\3\2\2\2^_\7"+
+		"\b\2\2_\t\3\2\2\2`k\5\20\t\2ak\5\16\b\2bk\5(\25\2ck\5.\30\2dk\5\60\31"+
+		"\2ek\5:\36\2fk\5<\37\2gk\5> \2hk\5@!\2ik\5\f\7\2j`\3\2\2\2ja\3\2\2\2j"+
+		"b\3\2\2\2jc\3\2\2\2jd\3\2\2\2je\3\2\2\2jf\3\2\2\2jg\3\2\2\2jh\3\2\2\2"+
+		"ji\3\2\2\2k\13\3\2\2\2lm\7\t\2\2m\r\3\2\2\2no\5\30\r\2op\7\t\2\2p\17\3"+
+		"\2\2\2qr\5\22\n\2rs\7\t\2\2s\21\3\2\2\2tu\5\26\f\2uv\5\24\13\2vw\5\30"+
+		"\r\2w\23\3\2\2\2x|\7\27\2\2y|\7\30\2\2z|\7\31\2\2{x\3\2\2\2{y\3\2\2\2"+
+		"{z\3\2\2\2|\25\3\2\2\2}\u0083\7\37\2\2~\177\5\30\r\2\177\u0080\7\24\2"+
+		"\2\u0080\u0081\5 \21\2\u0081\u0083\3\2\2\2\u0082}\3\2\2\2\u0082~\3\2\2"+
+		"\2\u0083\27\3\2\2\2\u0084\u0085\b\r\1\2\u0085\u0088\5\32\16\2\u0086\u0088"+
+		"\5\36\20\2\u0087\u0084\3\2\2\2\u0087\u0086\3\2\2\2\u0088\u0097\3\2\2\2"+
+		"\u0089\u008a\6\r\2\3\u008a\u008b\7\24\2\2\u008b\u0096\5 \21\2\u008c\u008d"+
+		"\6\r\3\3\u008d\u008e\7\24\2\2\u008e\u008f\5\"\22\2\u008f\u0091\7\6\2\2"+
+		"\u0090\u0092\5$\23\2\u0091\u0090\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0093"+
+		"\3\2\2\2\u0093\u0094\7\4\2\2\u0094\u0096\3\2\2\2\u0095\u0089\3\2\2\2\u0095"+
+		"\u008c\3\2\2\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2"+
+		"\2\2\u0098\31\3\2\2\2\u0099\u0097\3\2\2\2\u009a\u00a1\7\34\2\2\u009b\u00a1"+
+		"\7\35\2\2\u009c\u00a1\7\21\2\2\u009d\u00a1\7\36\2\2\u009e\u00a1\5\34\17"+
+		"\2\u009f\u00a1\5\2\2\2\u00a0\u009a\3\2\2\2\u00a0\u009b\3\2\2\2\u00a0\u009c"+
+		"\3\2\2\2\u00a0\u009d\3\2\2\2\u00a0\u009e\3\2\2\2\u00a0\u009f\3\2\2\2\u00a1"+
+		"\33\3\2\2\2\u00a2\u00a3\7\32\2\2\u00a3\u00a4\7\33\2\2\u00a4\35\3\2\2\2"+
+		"\u00a5\u00a6\7\37\2\2\u00a6\37\3\2\2\2\u00a7\u00ac\7\37\2\2\u00a8\u00a9"+
+		"\7\n\2\2\u00a9\u00ac\7\37\2\2\u00aa\u00ac\7\35\2\2\u00ab\u00a7\3\2\2\2"+
+		"\u00ab\u00a8\3\2\2\2\u00ab\u00aa\3\2\2\2\u00ac!\3\2\2\2\u00ad\u00b2\7"+
+		"\37\2\2\u00ae\u00af\7\n\2\2\u00af\u00b2\7\37\2\2\u00b0\u00b2\7\35\2\2"+
+		"\u00b1\u00ad\3\2\2\2\u00b1\u00ae\3\2\2\2\u00b1\u00b0\3\2\2\2\u00b2#\3"+
+		"\2\2\2\u00b3\u00b8\5\30\r\2\u00b4\u00b5\7\5\2\2\u00b5\u00b7\5\30\r\2\u00b6"+
+		"\u00b4\3\2\2\2\u00b7\u00ba\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b8\u00b9\3\2"+
+		"\2\2\u00b9\u00c4\3\2\2\2\u00ba\u00b8\3\2\2\2\u00bb\u00c0\5&\24\2\u00bc"+
+		"\u00bd\7\5\2\2\u00bd\u00bf\5&\24\2\u00be\u00bc\3\2\2\2\u00bf\u00c2\3\2"+
+		"\2\2\u00c0\u00be\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00c4\3\2\2\2\u00c2"+
+		"\u00c0\3\2\2\2\u00c3\u00b3\3\2\2\2\u00c3\u00bb\3\2\2\2\u00c4%\3\2\2\2"+
+		"\u00c5\u00c6\7\37\2\2\u00c6\u00c7\7\7\2\2\u00c7\u00c8\5\30\r\2\u00c8\'"+
+		"\3\2\2\2\u00c9\u00ca\7\f\2\2\u00ca\u00cb\7\6\2\2\u00cb\u00cc\5\30\r\2"+
+		"\u00cc\u00cd\7\4\2\2\u00cd\u00d0\5*\26\2\u00ce\u00cf\7\r\2\2\u00cf\u00d1"+
+		"\5,\27\2\u00d0\u00ce\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1)\3\2\2\2\u00d2"+
+		"\u00d3\58\35\2\u00d3+\3\2\2\2\u00d4\u00d5\58\35\2\u00d5-\3\2\2\2\u00d6"+
+		"\u00d7\7\16\2\2\u00d7\u00d8\7\6\2\2\u00d8\u00d9\5\30\r\2\u00d9\u00da\7"+
+		"\4\2\2\u00da\u00db\58\35\2\u00db/\3\2\2\2\u00dc\u00dd\7\17\2\2\u00dd\u00df"+
+		"\7\6\2\2\u00de\u00e0\5\62\32\2\u00df\u00de\3\2\2\2\u00df\u00e0\3\2\2\2"+
+		"\u00e0\u00e1\3\2\2\2\u00e1\u00e2\7\t\2\2\u00e2\u00e3\5\64\33\2\u00e3\u00e5"+
+		"\7\t\2\2\u00e4\u00e6\5\66\34\2\u00e5\u00e4\3\2\2\2\u00e5\u00e6\3\2\2\2"+
+		"\u00e6\u00e7\3\2\2\2\u00e7\u00e8\7\4\2\2\u00e8\u00e9\58\35\2\u00e9\61"+
+		"\3\2\2\2\u00ea\u00ed\5\22\n\2\u00eb\u00ed\5\30\r\2\u00ec\u00ea\3\2\2\2"+
+		"\u00ec\u00eb\3\2\2\2\u00ed\63\3\2\2\2\u00ee\u00ef\5\30\r\2\u00ef\65\3"+
+		"\2\2\2\u00f0\u00f1\5\30\r\2\u00f1\67\3\2\2\2\u00f2\u00f5\5\b\5\2\u00f3"+
+		"\u00f5\5\n\6\2\u00f4\u00f2\3\2\2\2\u00f4\u00f3\3\2\2\2\u00f59\3\2\2\2"+
+		"\u00f6\u00f7\7\20\2\2\u00f7\u00f8\5\30\r\2\u00f8\u00f9\7\t\2\2\u00f9;"+
+		"\3\2\2\2\u00fa\u00fb\7\22\2\2\u00fb\u00fc\7\t\2\2\u00fc=\3\2\2\2\u00fd"+
+		"\u00fe\7\23\2\2\u00fe\u00ff\7\t\2\2\u00ff?\3\2\2\2\u0100\u0101\t\2\2\2"+
+		"\u0101A\3\2\2\2\30GKT[j{\u0082\u0087\u0091\u0095\u0097\u00a0\u00ab\u00b1"+
+		"\u00b8\u00c0\u00c3\u00d0\u00df\u00e5\u00ec\u00f4";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

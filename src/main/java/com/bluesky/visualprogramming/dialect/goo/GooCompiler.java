@@ -69,6 +69,8 @@ import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.StringContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.StringFieldContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.StringMessageSubjectContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.TrueBranchContext;
+import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.VarFieldContext;
+import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.VarMessageSubjectContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.VariableContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.VariableExprContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.WhileStatementContext;
@@ -322,7 +324,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			FieldAssignment ins2 = new FieldAssignment();
 			ins2.ownerVar = parametersVarName;
-			ins2.fieldName = nvc.ID().getText();
+			ins2.fieldNameVar = nvc.ID().getText();
 			ins2.rightVar = paramVar;
 			ins2.assignmenType = AssignmentType.AUTO;
 
@@ -350,9 +352,20 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		for (int i = 0; i < paramVars.length; i++) {
 			String paramVar = (String) paramVars[i];
+			
+			
+			CreateObject createField = new CreateObject();
+
+			createField.varName = getNextTempVar("string");
+			createField.objType = ObjectType.STRING;
+			createField.literal = "\""+"idx_" + i+"\"";
+
+			addInstruction(createField);
+			
+			
 			FieldAssignment ins2 = new FieldAssignment();
 			ins2.ownerVar = parametersVarName;
-			ins2.fieldName = "idx_" + i;
+			ins2.fieldNameVar = createField.varName;
 			ins2.rightVar = paramVar;
 			ins2.assignmenType = AssignmentType.AUTO;
 
@@ -480,7 +493,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		ins.receiverVar = tempVar;
 
 		// only one child, either Id or String. return procedure name
-		ins.messageSubject = (String) ctx.messgeSubject().accept(this);
+		ins.messageSubjectVar = (String) ctx.messgeSubject().accept(this);
 		ins.messageBodyVar = paramVar;
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
@@ -533,7 +546,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			FieldAssignment ins = new FieldAssignment();
 			ins.ownerVar = tempVar;
-			ins.fieldName = assigneeFieldContext.field().getText();
+			
+			ins.fieldNameVar = (String)assigneeFieldContext.field().accept(this);
 			ins.rightVar = tempVar2;
 
 			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(
@@ -546,6 +560,15 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return null;
 	}
 
+	private Instruction createStringInstruction(String lit){
+		CreateObject createField = new CreateObject();
+
+		createField.varName = getNextTempVar("string");
+		createField.objType = ObjectType.STRING;
+		createField.literal = lit;
+
+		return createField;
+	}
 	@Override
 	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
 		for (TerminalNode node : ctx.ID()) {
@@ -840,7 +863,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String wrapped = ctx.getText();
 		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
-		return StringEscapeUtils.unescapeJava(unwrapped);
+		String str= StringEscapeUtils.unescapeJava(unwrapped);
+
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("varField");
+		ins.objType = ObjectType.STRING;
+		ins.literal = str;
+
+		addInstruction(ins);
+		return ins.varName;
 
 	}
 
@@ -848,19 +880,64 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitStringMessageSubject(StringMessageSubjectContext ctx) {
 		String wrapped = ctx.getText();
 		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
-		return StringEscapeUtils.unescapeJava(unwrapped);
+		String str= StringEscapeUtils.unescapeJava(unwrapped);
+
+		
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("varField");
+		ins.objType = ObjectType.STRING;
+		ins.literal = str;
+
+		addInstruction(ins);
+		return ins.varName;
 
 	}
 	
 	@Override
 	public Object visitIdMessageSubject(IdMessageSubjectContext ctx) {
+		CreateObject ins = new CreateObject();
 
-		return ctx.getText();
+		ins.varName = getNextTempVar("varField");
+		ins.objType = ObjectType.STRING;
+		ins.literal = ctx.getText();
+
+		addInstruction(ins);
+		return ins.varName;
+
+//		return ctx.getText();
 	}
 
 	@Override
 	public Object visitIdField(IdFieldContext ctx) {
 
 		return ctx.getText();
+	}
+	
+	@Override
+	public Object visitVarField(VarFieldContext ctx) {
+		
+
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("varField");
+		ins.objType = ObjectType.STRING;
+		ins.literal = ctx.ID().getText();
+
+		addInstruction(ins);
+		return ins.varName;
+		
+	}
+	
+	@Override
+	public Object visitVarMessageSubject(VarMessageSubjectContext ctx) {
+		CreateObject ins = new CreateObject();
+
+		ins.varName = getNextTempVar("varSubject");
+		ins.objType = ObjectType.STRING;
+		ins.literal = ctx.ID().getText();
+
+		addInstruction(ins);
+		return ins.varName;
 	}
 }
