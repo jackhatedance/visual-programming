@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.core;
 
-import com.bluesky.visualprogramming.core.message.ObjectTreeVisitor;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -15,11 +14,7 @@ public enum ObjectType {
 			return obj;
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-
-			visitor.visitObject(object);
-		}
+		
 	},
 	LINK {
 		@Override
@@ -27,10 +22,7 @@ public enum ObjectType {
 			return new Link(id);
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitLink((Link) object);
-		}
+		
 	},
 	INTEGER {
 		@Override
@@ -46,11 +38,7 @@ public enum ObjectType {
 			return "root.prototype.value.integer";
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitInteger((IntegerValue) object);
-		}
-
+		
 		@Override
 		public boolean isValueObject() {
 
@@ -71,12 +59,7 @@ public enum ObjectType {
 			return "root.prototype.value._float";
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitFloat((FloatValue) object);
-
-		}
-
+		
 		@Override
 		public boolean isValueObject() {
 
@@ -97,11 +80,7 @@ public enum ObjectType {
 			return "root.prototype.value.time";
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitTime((TimeValue) object);
-
-		}
+		
 
 		@Override
 		public boolean isValueObject() {
@@ -121,11 +100,7 @@ public enum ObjectType {
 			return "root.prototype.value.boolean";
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitBoolean((BooleanValue) object);
-
-		}
+		
 
 		@Override
 		public boolean isValueObject() {
@@ -151,11 +126,7 @@ public enum ObjectType {
 			return str;
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitString((StringValue) object);
-
-		}
+	
 
 		@Override
 		public boolean isValueObject() {
@@ -169,16 +140,12 @@ public enum ObjectType {
 			return new Procedure(id);
 		}
 
-		@Override
-		public void visit(ObjectTreeVisitor visitor, _Object object) {
-			visitor.visitProcedure((Procedure) object);
-
-		}
+		
 	};
 
 	abstract public _Object create(long id);
 
-	abstract public void visit(ObjectTreeVisitor visitor, _Object object);
+	
 
 	public boolean isValueObject() {
 		return false;
