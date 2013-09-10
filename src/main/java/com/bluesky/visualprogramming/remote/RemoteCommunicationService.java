@@ -86,7 +86,12 @@ public class RemoteCommunicationService {
 
 	public void register(ProtocolType protocol, String address, _Object obj,
 			String connectionOptions) {
-		services.get(protocol).register(address, obj, connectionOptions);
+
+		try {
+			services.get(protocol).register(address, obj, connectionOptions);
+		} catch (Exception e) {
+			logger.warn("error when register address:" + address);
+		}
 	}
 
 	public _Object getLocalObject(ProtocolType protocol, String address) {

@@ -68,6 +68,16 @@ public class _Object implements Serializable {
 	private Worker worker = null;
 
 	/**
+	 * key is message Id of async request, value is message of incoming request.
+	 * if it received a request message, in order to process it, it raise
+	 * another async request to other object. later the async reply comes, we
+	 * use this map to get the imcoming request, so that we can prepare the
+	 * reply message (if it need reply). after the async reply is processed, it
+	 * will be removed.
+	 */
+	private Map<String, Message> asynMessageMap = new HashMap<String, Message>();
+
+	/**
 	 * registered itself to the worker manager, set to true if worker assigned.
 	 */
 	private boolean applyingWorker = false;

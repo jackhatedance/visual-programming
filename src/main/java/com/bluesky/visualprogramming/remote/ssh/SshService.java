@@ -31,7 +31,8 @@ public class SshService implements ProtocolService {
 
 		SshAgent agent = new SshAgent(address, obj, connectionOptions);
 		agents.put(address, agent);
-		agent.connect();
+ 
+		agent.connect();		
 	}
 
 	@Override

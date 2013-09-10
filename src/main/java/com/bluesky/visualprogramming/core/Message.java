@@ -9,6 +9,10 @@ import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 public class Message {
 
 	static Logger logger = Logger.getLogger(Message.class);
+	/**
+	 * a UUID. used for async reply.
+	 */
+	public String id;
 
 	public boolean sync;
 	public _Object sender;
