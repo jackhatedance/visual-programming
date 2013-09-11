@@ -33,7 +33,7 @@ public class Message {
 	public Message previous;
 
 	public MessageType messageType;
-	
+
 	/**
 	 * only used when message type is reply.
 	 */
@@ -73,7 +73,7 @@ public class Message {
 		/**
 		 * message body is always stand alone, temporarily
 		 */
-		if(body!=null)
+		if (body != null)
 			body.setScope(ObjectScope.ExecutionContext);
 	}
 
@@ -111,30 +111,32 @@ public class Message {
 		executionContext.setObject("root", root);
 		executionContext.setObject("self", receiver);
 		executionContext.setObject("_parameters", body);
-		//executionContext.setObject("sender", receiver);
+		// executionContext.setObject("sender", receiver);
 
-		if (parameterStyle == ParameterStyle.ByName) {
-			for (String name : paramNames) {
+		if (body != null) {
+			if (parameterStyle == ParameterStyle.ByName) {
+				for (String name : paramNames) {
 
-				if (logger.isDebugEnabled())
-					logger.debug("push parameter to context:" + name);
+					if (logger.isDebugEnabled())
+						logger.debug("push parameter to context:" + name);
 
-				_Object p = body.getChild(name);
-				executionContext.setObject(name, p);
-			}
-		} else {
-			// by order
-			int minCount = body.getChildCount() < paramNames.length ? body
-					.getChildCount() : paramNames.length;
-			for (int i = 0; i < minCount; i++) {
+					_Object p = body.getChild(name);
+					executionContext.setObject(name, p);
+				}
+			} else {
+				// by order
+				int minCount = body.getChildCount() < paramNames.length ? body
+						.getChildCount() : paramNames.length;
+				for (int i = 0; i < minCount; i++) {
 
-				String name = paramNames[i];
-				_Object p = body.getChild(i);
+					String name = paramNames[i];
+					_Object p = body.getChild(i);
 
-				if (logger.isDebugEnabled())
-					logger.debug("push parameter to context:" + name);
+					if (logger.isDebugEnabled())
+						logger.debug("push parameter to context:" + name);
 
-				executionContext.setObject(name, p);
+					executionContext.setObject(name, p);
+				}
 			}
 		}
 	}

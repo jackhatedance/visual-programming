@@ -121,14 +121,6 @@ public enum ObjectType {
 		}
 
 		@Override
-		public String extractValue(String literal) {
-			String str = literal.substring(1, literal.length() - 1);
-			return str;
-		}
-
-	
-
-		@Override
 		public boolean isValueObject() {
 
 			return true;
@@ -154,9 +146,6 @@ public enum ObjectType {
 	public String getPrototypeEL() {
 		return null;
 	}
-
-	public String extractValue(String literal) {
-		return literal;
-	}
+	
 
 }

@@ -24,7 +24,7 @@ public class FieldAssignment extends Instruction {
 
 	@Override
 	public String toString() {
-		return String.format("[field_assignment] %s.%s %s %s", ownerVar,
+		return String.format("[field_assignment] %s.$%s %s %s", ownerVar,
 				fieldNameVar, assignmenType.getOperator(), rightVar);
 
 	}

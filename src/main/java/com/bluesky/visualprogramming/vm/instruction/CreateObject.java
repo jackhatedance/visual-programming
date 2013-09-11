@@ -13,11 +13,18 @@ public class CreateObject extends Instruction {
 
 	public String varName;
 	public ObjectType objType;
-	public String literal;
+	/**
+	 * it is the textual form of Integer,Float,String,Boolean, etc. note that ,
+	 * the value of string "a\\c" is 'a\c' without quotation marks and escaped
+	 * characters. Anyway, the value can be used by valueOf(string) and
+	 * toString(). *
+	 */
+	public String value;
 
 	public CreateObject() {
 		this.type = InstructionType.CREATE_OBJECT;
 	}
+
 	// self.create('a',bar) hard link (by pointer/id)
 	// self.link('a','bar') : self.a => bar;
 	// self.a=>bar; or self.a.link(bar);
@@ -28,8 +35,8 @@ public class CreateObject extends Instruction {
 
 	@Override
 	public String toString() {
-		return String.format("[create_object] %s -> [%s] %s", varName,
-				objType, literal);
+		return String.format("[create_object] %s -> [%s] [%s]", varName, objType,
+				value);
 	}
 
 }

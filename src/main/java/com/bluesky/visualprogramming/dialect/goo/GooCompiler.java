@@ -19,7 +19,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hamcrest.core.StringEndsWith;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
@@ -280,7 +282,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ins.varName = getNextTempVar("number");
 		ins.objType = ObjectType.INTEGER;
-		ins.literal = ctx.getText();
+		ins.value = ctx.getText();
 
 		addInstruction(ins);
 		return ins.varName;
@@ -352,17 +354,15 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		for (int i = 0; i < paramVars.length; i++) {
 			String paramVar = (String) paramVars[i];
-			
-			
+
 			CreateObject createField = new CreateObject();
 
 			createField.varName = getNextTempVar("string");
 			createField.objType = ObjectType.STRING;
-			createField.literal = "\""+"idx_" + i+"\"";
+			createField.value = "idx_" + i;
 
 			addInstruction(createField);
-			
-			
+
 			FieldAssignment ins2 = new FieldAssignment();
 			ins2.ownerVar = parametersVarName;
 			ins2.fieldNameVar = createField.varName;
@@ -391,7 +391,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ins.varName = getNextTempVar("boolean");
 		ins.objType = ObjectType.BOOLEAN;
-		ins.literal = ctx.getText();
+		ins.value = ctx.getText();
 
 		addInstruction(ins);
 		return ins.varName;
@@ -546,8 +546,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			FieldAssignment ins = new FieldAssignment();
 			ins.ownerVar = tempVar;
-			
-			ins.fieldNameVar = (String)assigneeFieldContext.field().accept(this);
+
+			ins.fieldNameVar = (String) assigneeFieldContext.field().accept(
+					this);
+
 			ins.rightVar = tempVar2;
 
 			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(
@@ -560,15 +562,17 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return null;
 	}
 
-	private Instruction createStringInstruction(String lit){
+	private Instruction createStringInstruction(String lit) {
 		CreateObject createField = new CreateObject();
 
 		createField.varName = getNextTempVar("string");
 		createField.objType = ObjectType.STRING;
-		createField.literal = lit;
+		createField.value = StringEscapeUtils
+				.unescapeJava(trimQuotationMarks(lit));
 
 		return createField;
 	}
+
 	@Override
 	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
 		for (TerminalNode node : ctx.ID()) {
@@ -624,10 +628,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ins.varName = getNextTempVar("string");
 		ins.objType = ObjectType.STRING;
-		ins.literal = ctx.getText();
+
+		ins.value = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
+				.getText()));
 
 		addInstruction(ins);
 		return ins.varName;
+	}
+
+	protected String trimQuotationMarks(String s) {
+		return s.substring(1, s.length() - 1);
 	}
 
 	@Override
@@ -820,7 +830,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ins.varName = getNextTempVar("link");
 		ins.objType = ObjectType.LINK;
-		ins.literal = ctx.getText();
+		ins.value = ctx.getText();
 
 		addInstruction(ins);
 		return ins.varName;
@@ -851,7 +861,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ins.varName = getNextTempVar("link");
 		ins.objType = ObjectType.PROCEDURE;
-		ins.literal = rawText;
+		ins.value = rawText;
 
 		addInstruction(ins);
 		return ins.varName;
@@ -861,15 +871,14 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitStringField(StringFieldContext ctx) {
 
-		String wrapped = ctx.getText();
-		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
-		String str= StringEscapeUtils.unescapeJava(unwrapped);
+		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
+				.getText()));
 
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
-		ins.literal = str;
+		ins.value = str;
 
 		addInstruction(ins);
 		return ins.varName;
@@ -878,66 +887,62 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitStringMessageSubject(StringMessageSubjectContext ctx) {
-		String wrapped = ctx.getText();
-		String unwrapped = wrapped.substring(1, wrapped.length() - 1);
-		String str= StringEscapeUtils.unescapeJava(unwrapped);
 
-		
+		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
+				.getText()));
+
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
-		ins.literal = str;
+		ins.value = str;
 
 		addInstruction(ins);
 		return ins.varName;
 
 	}
-	
+
 	@Override
 	public Object visitIdMessageSubject(IdMessageSubjectContext ctx) {
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
-		ins.literal = ctx.getText();
+		ins.value = ctx.getText();
 
 		addInstruction(ins);
 		return ins.varName;
 
-//		return ctx.getText();
 	}
 
 	@Override
 	public Object visitIdField(IdFieldContext ctx) {
-
-		return ctx.getText();
-	}
-	
-	@Override
-	public Object visitVarField(VarFieldContext ctx) {
-		
-
 		CreateObject ins = new CreateObject();
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
-		ins.literal = ctx.ID().getText();
+		ins.value = ctx.getText();
 
 		addInstruction(ins);
 		return ins.varName;
-		
 	}
-	
+
+	@Override
+	public Object visitVarField(VarFieldContext ctx) {
+
+		/**
+		 * return the varName
+		 */
+
+		return ctx.ID().getText();
+
+	}
+
 	@Override
 	public Object visitVarMessageSubject(VarMessageSubjectContext ctx) {
-		CreateObject ins = new CreateObject();
 
-		ins.varName = getNextTempVar("varSubject");
-		ins.objType = ObjectType.STRING;
-		ins.literal = ctx.ID().getText();
-
-		addInstruction(ins);
-		return ins.varName;
+		return ctx.ID().getText();
 	}
+
+	
 }

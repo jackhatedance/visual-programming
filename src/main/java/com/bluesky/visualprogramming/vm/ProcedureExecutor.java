@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
@@ -122,8 +123,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus executeCreateObject(CreateObject instruction) {
 		// owner is execution context
 
-		// remove the quotation marks
-		String strValue = instruction.objType.extractValue(instruction.literal);
+		String strValue = instruction.value;
 		_Object obj = objectRepository.createObject(instruction.objType,
 				ObjectScope.ExecutionContext);
 		obj.setName(instruction.varName);
@@ -195,11 +195,14 @@ public class ProcedureExecutor implements InstructionExecutor {
 				throw new RuntimeException("receiver object not exist:"
 						+ instruction.receiverVar);
 
-			StringValue messageSubject = (StringValue)ctx.getObject(instruction.messageSubjectVar);
+
+			StringValue messageSubject = (StringValue) ctx
+					.getObject(instruction.messageSubjectVar);
 			if (messageSubject == null)
 				throw new RuntimeException("subject object not exist:"
 						+ instruction.messageSubjectVar);
-			
+
+
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 			
 			
@@ -252,14 +255,13 @@ public class ProcedureExecutor implements InstructionExecutor {
 		_Object leftObject = ctx.getObject(instruction.ownerVar);
 
 		_Object oldFieldObject = null;
-		
+
 		String fieldName = ctx.get(instruction.fieldNameVar).getValue();
 		// ownership
 		switch (instruction.assignmenType) {
 		case OWN:
 			if (rightObject == null) {
-				
-				
+
 				oldFieldObject = leftObject.getChild(fieldName);
 
 				// move to execution context
@@ -269,7 +271,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 			} else {
 				if (rightObject.getScope() != ObjectScope.ExecutionContext)
 					throw new CannotObtainOwnershipException();
-				
+
 				oldFieldObject = leftObject.getChild(fieldName);
 
 				// move to execution context
@@ -326,4 +328,5 @@ public class ProcedureExecutor implements InstructionExecutor {
 		return ExecutionStatus.COMPLETE;
 	}
 
+	
 }
