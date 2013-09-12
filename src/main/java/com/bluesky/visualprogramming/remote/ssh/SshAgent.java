@@ -2,18 +2,10 @@ package com.bluesky.visualprogramming.remote.ssh;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.ChatManagerListener;
-import org.jivesoftware.smack.MessageListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.workgroup.agent.AgentSession;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
@@ -21,11 +13,9 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
-import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.remote.ssh.Exec.MyUserInfo;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -85,8 +75,16 @@ public class SshAgent {
 		try {
 
 			session = jsch.getSession(username, server, port);
-			UserInfo ui = new MyUserInfo();
-			session.setUserInfo(ui);
+			logger.debug(String.format(
+					"login ssh to server %s:%d as user %s password %s", server,
+					port, username, password));
+			UserInfo ui = new MyUserInfo(password);
+			
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+			session.setPassword(password);
+			//session.setUserInfo(ui);
 
 			session.connect();
 

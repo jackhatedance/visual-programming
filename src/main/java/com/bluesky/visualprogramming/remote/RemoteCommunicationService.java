@@ -90,7 +90,7 @@ public class RemoteCommunicationService {
 		try {
 			services.get(protocol).register(address, obj, connectionOptions);
 		} catch (Exception e) {
-			logger.warn("error when register address:" + address);
+			logger.warn("error when register address:" + address,e);
 		}
 	}
 
