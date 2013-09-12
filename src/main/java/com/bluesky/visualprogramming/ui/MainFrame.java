@@ -123,6 +123,21 @@ public class MainFrame extends JFrame {
 
 		});
 		file.add(eMenuItem);
+		
+		eMenuItem = new JMenuItem("Save&Exit");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				VirtualMachine vm = VirtualMachine.getInstance();
+
+				vm.pause();
+				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME );
+				vm.resume();
+
+				System.exit(0);
+			}
+
+		});
+		file.add(eMenuItem);
 
 		setJMenuBar(menubar);
 
