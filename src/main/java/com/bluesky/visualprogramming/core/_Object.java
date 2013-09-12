@@ -35,7 +35,7 @@ public class _Object implements Serializable {
 	static public final String PROTOTYPE = "_prototype";
 	static public final String ENABLE_SUBJECT_MATCH_RULE = "_enableSubjectMatchRule";
 	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
-
+	static public final String DEFAULT_SUBJECT_MATCH_METHOD = "_defaultSubjectMatchMethod";
 	/**
 	 * 
 	 */
@@ -561,24 +561,29 @@ public class _Object implements Serializable {
 		// not found, try match rule
 		if (p == null) {
 			BooleanValue enableMatchRule = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH_RULE);
+
 			if (enableMatchRule != null
 					&& enableMatchRule.getBooleanValue() == true) {
-				Binding binding = new Binding();
-				binding.setVariable("subject", subject);
-				GroovyShell shell = new GroovyShell(binding);
+				StringValue messageSubjectMatchMethod = (StringValue) getChild(DEFAULT_SUBJECT_MATCH_METHOD);
+				SubjectMatchMethod matchMethod = SubjectMatchMethod
+						.valueOf(messageSubjectMatchMethod.getValue());
 
 				for (Field field : fieldList) {
 					_Object child = field.target;
 
 					StringValue messageSubjectMatchRule = (StringValue) child
 							.getChild(SUBJECT_MATCH_RULE);
+
 					if (messageSubjectMatchRule != null) {
 
 						try {
-							Boolean value = (Boolean) shell.evaluate("return "
-									+ messageSubjectMatchRule.getValue());
 
-							if (value == true) {
+							boolean result = matchMethod.getMatcher()
+									.isMatch(
+											messageSubjectMatchRule.getValue(),
+											subject);
+
+							if (result == true) {
 								p = (Procedure) child;
 								break;
 							}
