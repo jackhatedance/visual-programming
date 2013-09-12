@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.procedure.SubjectMatchMethod;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
@@ -33,9 +34,9 @@ public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
 
 	static public final String PROTOTYPE = "_prototype";
-	static public final String ENABLE_SUBJECT_MATCH_RULE = "_enableSubjectMatchRule";
+	static public final String ENABLE_SUBJECT_MATCH = "_enableSubjectMatch";
 	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
-	static public final String DEFAULT_SUBJECT_MATCH_METHOD = "_defaultSubjectMatchMethod";
+	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
 	/**
 	 * 
 	 */
@@ -560,13 +561,16 @@ public class _Object implements Serializable {
 
 		// not found, try match rule
 		if (p == null) {
-			BooleanValue enableMatchRule = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH_RULE);
+			BooleanValue enableMatch = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH);
 
-			if (enableMatchRule != null
-					&& enableMatchRule.getBooleanValue() == true) {
-				StringValue messageSubjectMatchMethod = (StringValue) getChild(DEFAULT_SUBJECT_MATCH_METHOD);
-				SubjectMatchMethod matchMethod = SubjectMatchMethod
-						.valueOf(messageSubjectMatchMethod.getValue());
+			if (enableMatch != null
+					&& enableMatch.getBooleanValue() == true) {
+
+				SubjectMatchMethod defaultMatchMethod = SubjectMatchMethod.RegularExpression;
+				StringValue subjectMatchType = (StringValue) getChild(SUBJECT_MATCH_TYPE);
+				if (subjectMatchType != null)
+					defaultMatchMethod = SubjectMatchMethod
+							.valueOf(subjectMatchType.getValue());
 
 				for (Field field : fieldList) {
 					_Object child = field.target;
@@ -578,7 +582,7 @@ public class _Object implements Serializable {
 
 						try {
 
-							boolean result = matchMethod.getMatcher()
+							boolean result = defaultMatchMethod.getMatcher()
 									.isMatch(
 											messageSubjectMatchRule.getValue(),
 											subject);

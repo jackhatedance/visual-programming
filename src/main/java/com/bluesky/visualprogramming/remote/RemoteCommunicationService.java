@@ -60,22 +60,29 @@ public class RemoteCommunicationService {
 						if (!enabled.getBooleanValue())
 							continue;
 
-						ProtocolType pt = ProtocolType
-								.valueOf(((StringValue) alias
-										.getChild("protocol")).getValue()
-										.toUpperCase());
-						StringValue address = (StringValue) alias
-								.getChild("address");
-						StringValue connectionOptions = (StringValue) alias
-								.getChild("connectionOptions");
+						try {
+							ProtocolType pt = ProtocolType
+									.valueOf(((StringValue) alias
+											.getChild("protocol")).getValue()
+											.toUpperCase());
+							StringValue address = (StringValue) alias
+									.getChild("address");
+							StringValue connectionOptions = (StringValue) alias
+									.getChild("connectionOptions");
 
-						register(pt, address.getValue(), owner,
-								connectionOptions.getValue());
+							register(pt, address.getValue(), owner,
+									connectionOptions.getValue());
 
-						if (logger.isInfoEnabled())
-							logger.info("create remote agent for "
-									+ owner.getName() + " binding address is "
-									+ address.getValue());
+							if (logger.isInfoEnabled())
+								logger.info("create remote agent for "
+										+ owner.getName()
+										+ " binding address is "
+										+ address.getValue());
+						} catch (Exception e) {
+
+							logger.warn("failed to create remote agent for "
+									+ owner.getName(),e);
+						}
 					}
 
 				}
@@ -90,7 +97,7 @@ public class RemoteCommunicationService {
 		try {
 			services.get(protocol).register(address, obj, connectionOptions);
 		} catch (Exception e) {
-			logger.warn("error when register address:" + address,e);
+			logger.warn("error when register address:" + address, e);
 		}
 	}
 

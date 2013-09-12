@@ -312,28 +312,42 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitNamedParamList(NamedParamListContext ctx) {
 		String parametersVarName = getNextTempVar("namedParam");
 
-		// create the root parameter object
-		CreateObject ins = new CreateObject();
-		ins.objType = ObjectType.NORMAL;
-		ins.varName = parametersVarName;
-
-		addInstruction(ins);
-
-		for (int i = 0; i < ctx.nameValue().size(); i++) {
-			NameValueContext nvc = ctx.nameValue(i);
+		if (ctx.nameValue().size() == 1
+				&& ctx.nameValue(0).ID().getText().equals("_body")) {
+			NameValueContext nvc = ctx.nameValue(0);
+			/**
+			 * if a parameter named '_body' and it is the only one, that means
+			 * the parameter itself is the message body. no array will
+			 * constructed.
+			 */
 
 			String paramVar = (String) nvc.accept(this);
+			return paramVar;
+		} else {
 
-			FieldAssignment ins2 = new FieldAssignment();
-			ins2.ownerVar = parametersVarName;
-			ins2.fieldNameVar = nvc.ID().getText();
-			ins2.rightVar = paramVar;
-			ins2.assignmenType = AssignmentType.AUTO;
+			// create the root parameter object
+			CreateObject ins = new CreateObject();
+			ins.objType = ObjectType.NORMAL;
+			ins.varName = parametersVarName;
 
-			addInstruction(ins2);
+			addInstruction(ins);
+
+			for (int i = 0; i < ctx.nameValue().size(); i++) {
+				NameValueContext nvc = ctx.nameValue(i);
+
+				String paramVar = (String) nvc.accept(this);
+
+				FieldAssignment ins2 = new FieldAssignment();
+				ins2.ownerVar = parametersVarName;
+				ins2.fieldNameVar = nvc.ID().getText();
+				ins2.rightVar = paramVar;
+				ins2.assignmenType = AssignmentType.AUTO;
+
+				addInstruction(ins2);
+			}
+
+			return parametersVarName;
 		}
-
-		return parametersVarName;
 	}
 
 	@Override
@@ -511,10 +525,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitStatement(StatementContext ctx) {
 		// System.out.println("statement");
-		
-		//reset to 0.
-		tempVarCount=0;
-		
+
+		// reset to 0.
+		tempVarCount = 0;
+
 		visitChildren(ctx);
 
 		return null;
@@ -948,5 +962,4 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return ctx.ID().getText();
 	}
 
-	
 }
