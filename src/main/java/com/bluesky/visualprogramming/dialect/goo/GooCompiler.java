@@ -511,6 +511,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitStatement(StatementContext ctx) {
 		// System.out.println("statement");
+		
+		//reset to 0.
+		tempVarCount=0;
+		
 		visitChildren(ctx);
 
 		return null;

@@ -41,14 +41,14 @@
               <code>procedure fib()
 {
 	t1 = root.lib.system.now();
-	root.console.print(t1.toString());
+	root.console.print(t1.toString(&quot;mm:ss&quot;));
 
-	n = 15;
+	n = 18;
 	fib = root.lib.math.fibonacci(n);
 	root.console.print(fib.toString());
 
 	t2 = root.lib.system.now();
-	root.console.print(t2.toString());
+	root.console.print(t2.toString(&quot;mm:ss&quot;));
 
 }</code>
             </target>
@@ -1822,6 +1822,7 @@ procedure sum(n)
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
+              <expectMessageType>SyncReply</expectMessageType>
             </target>
           </field>
           <field id="321">

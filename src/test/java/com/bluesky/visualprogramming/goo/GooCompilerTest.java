@@ -20,7 +20,7 @@ public class GooCompilerTest {
 
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void testAssignment() {
 		InputStream is = GooCompilerTest.class
@@ -33,7 +33,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testSendMessage() {
 		InputStream is = GooCompilerTest.class
