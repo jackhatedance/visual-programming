@@ -135,7 +135,7 @@ public class XmppAgent {
 
 		}
 
-		chat.sendMessage(String.format("[%s] %s", msg.subject, msgBody));
+		chat.sendMessage(String.format("[%s] %s", msg.getSubject(), msgBody));
 	}
 
 	private String reviseAddress(String addr) {
@@ -174,7 +174,7 @@ public class XmppAgent {
 
 				Message replyMsg = new Message(false,
 						lastRequestMessage.receiver, lastRequestMessage.sender,
-						"RE:" + lastRequestMessage.subject, returnValue,
+						"RE:" + lastRequestMessage.getSubject(), returnValue,
 						ParameterStyle.ByName, null, MessageType.SyncReply);
 
 				replyMsg.urgent = true;

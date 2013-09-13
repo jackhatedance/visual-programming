@@ -139,9 +139,10 @@ public class Worker implements Runnable {
 
 				} else {
 
-					Procedure proc = obj.lookupProcedure(msg.subject);
+					Procedure proc = obj.lookupProcedure(msg.getSubject());
 					if (proc == null) {
-						logger.warn("message not understand:" + msg.subject);
+						logger.warn("message not understand:"
+								+ msg.getSubject());
 
 						executeUnknowMessage(msg, obj, proc);
 
@@ -173,12 +174,13 @@ public class Worker implements Runnable {
 						if (msg.sync) {// wake up the sender, let it continue.
 
 							Message replyMsg = new Message(false, obj,
-									msg.sender, "RE:" + msg.subject, msg.reply,
-									ParameterStyle.ByName, msg,
+									msg.sender, "RE:" + msg.getSubject(),
+									msg.reply, ParameterStyle.ByName, msg,
 									MessageType.SyncReply);
 
 							if (procedureExecutionStatus == ExecutionStatus.ERROR) {
-								replyMsg.subject = "Error " + replyMsg.subject;
+								replyMsg.setSubject("Error "
+										+ replyMsg.getSubject());
 								replyMsg.replyStatus = ReplyStatus.Error;
 							} else
 								replyMsg.replyStatus = ReplyStatus.Normal;
@@ -258,7 +260,7 @@ public class Worker implements Runnable {
 
 		StringValue result = (StringValue) objectRepository.createObject(
 				ObjectType.STRING, ObjectScope.ExecutionContext);
-		result.setValue("message not understand:" + msg.subject);
+		result.setValue("message not understand:" + msg.getSubject());
 
 		msg.reply = result;
 

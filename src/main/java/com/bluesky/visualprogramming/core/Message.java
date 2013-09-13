@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.core;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
@@ -21,7 +22,7 @@ public class Message {
 	 */
 	public _Object receiver;
 
-	public String subject;
+	private StringValue subject;
 	public _Object body;
 	public ParameterStyle parameterStyle;
 
@@ -64,7 +65,10 @@ public class Message {
 		this.sync = sync;
 		this.sender = sender;
 		this.receiver = receiver;
-		this.subject = subject;
+
+		this.subject = new StringValue(-1);
+		this.subject.setValue(subject);
+
 		this.body = body;
 		this.parameterStyle = parameterStyle;
 		this.previous = previousMessage;
@@ -91,7 +95,10 @@ public class Message {
 		this.callback = callback;
 		this.sender = sender;
 		this.receiver = receiver;
-		this.subject = subject;
+
+		this.subject = new StringValue(-1);
+		this.subject.setValue(subject);
+
 		this.body = body;
 		this.parameterStyle = paramStyle;
 
@@ -110,6 +117,7 @@ public class Message {
 
 		executionContext.setObject("root", root);
 		executionContext.setObject("self", receiver);
+		executionContext.setObject("_subject", subject);
 		executionContext.setObject("_parameters", body);
 		// executionContext.setObject("sender", receiver);
 
@@ -191,4 +199,11 @@ public class Message {
 		}
 	}
 
+	public String getSubject() {
+		return subject.getValue();
+	}
+
+	public void setSubject(String subject) {
+		this.subject.setValue(subject);
+	}
 }

@@ -105,7 +105,7 @@ public class SshAgent {
 
 			// channel.setInputStream(System.in);
 			channel.setInputStream(null);
-			((ChannelExec) channel).setCommand(msg.subject);
+			((ChannelExec) channel).setCommand(msg.getSubject());
 			int exitStatus = 0;
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			InputStream in = channel.getInputStream();
@@ -162,7 +162,7 @@ public class SshAgent {
 
 			Message replyMsg = new Message(false, lastRequestMessage.receiver,
 					lastRequestMessage.sender, "RE:"
-							+ lastRequestMessage.subject, returnValue,
+							+ lastRequestMessage.getSubject(), returnValue,
 					ParameterStyle.ByName, null, MessageType.SyncReply);
 
 			replyMsg.urgent = true;
@@ -198,5 +198,7 @@ public class SshAgent {
 
 		return map;
 	}
+	
+	
 
 }

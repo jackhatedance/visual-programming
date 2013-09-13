@@ -3100,9 +3100,11 @@ procedure loc()
                                 <code>procedure()
 {
 
-	s=_parameter.subject;
+	target = ssh://root@nas;
+	s=_subject;
 	//root.console.print(s);
-	root.console.print(s.toString());
+	result = target.$s(_body:_parameter);
+//	root.console.print(s);
 
 
 }</code>
@@ -3389,9 +3391,9 @@ procedure loc()
 	host = ssh://jack@nas;
 	//host = ssh://wbxbuilds@miwdevtomcat;
 	                      
-	result = host.&quot;ls -l&quot;();
-	//root.console.print(result.status.toString());
-	//root.console.print(result.output);
+	result = host.&quot;date&quot;();
+	root.console.print(&quot;status=&quot;.concat(result.status.toString()));
+	root.console.print(result.output);
 }</code>
                   </target>
                 </field>
