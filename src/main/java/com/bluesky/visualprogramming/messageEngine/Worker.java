@@ -139,7 +139,7 @@ public class Worker implements Runnable {
 
 				} else {
 
-					Procedure proc = obj.lookupProcedure(msg.getSubject());
+					Procedure proc = obj.lookupProcedure(msg);
 					if (proc == null) {
 						logger.warn("message not understand:"
 								+ msg.getSubject());

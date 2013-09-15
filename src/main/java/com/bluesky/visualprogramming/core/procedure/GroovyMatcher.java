@@ -3,10 +3,15 @@ package com.bluesky.visualprogramming.core.procedure;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
-public class GroovyMatcher implements SubjectMatcher {
+public class GroovyMatcher extends SubjectMatcher {
+
+	public GroovyMatcher(String rule) {
+		super(rule);
+
+	}
 
 	@Override
-	public boolean isMatch(String rule, String subject) {
+	public boolean matches(String subject) {
 		Binding binding = new Binding();
 		binding.setVariable("subject", subject);
 		GroovyShell shell = new GroovyShell(binding);

@@ -24,7 +24,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.procedure.SubjectMatchMethod;
+import com.bluesky.visualprogramming.core.procedure.SubjectMatchType;
+import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
@@ -36,6 +37,11 @@ public class _Object implements Serializable {
 	static public final String PROTOTYPE = "_prototype";
 	static public final String ENABLE_SUBJECT_MATCH = "_enableSubjectMatch";
 	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
+
+	// it is defined by the object, and is for its procedures.
+	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "_defaultSubjectMatchType";
+	// it is defined by the procedure itself, to override the default value of
+	// the onwer object.
 	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
 	/**
 	 * 
@@ -554,23 +560,32 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @return
 	 */
-	public Procedure lookupProcedure(String subject) {
-
+	public Procedure lookupProcedure(Message message) {
+		String subject = message.getSubject();
 		// first try match the procedure name
 		Procedure p = (Procedure) getChild(subject);
 
 		// not found, try match rule
 		if (p == null) {
+			if (logger.isDebugEnabled())
+				logger.debug("no procedure found by message subject " + subject);
+
 			BooleanValue enableMatch = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH);
 
-			if (enableMatch != null
-					&& enableMatch.getBooleanValue() == true) {
+			if (enableMatch != null && enableMatch.getBooleanValue() == true) {
+				if (logger.isDebugEnabled())
+					logger.debug("extended subject match is enabled...");
 
-				SubjectMatchMethod defaultMatchMethod = SubjectMatchMethod.RegularExpression;
-				StringValue subjectMatchType = (StringValue) getChild(SUBJECT_MATCH_TYPE);
-				if (subjectMatchType != null)
-					defaultMatchMethod = SubjectMatchMethod
-							.valueOf(subjectMatchType.getValue());
+				// default setting of the object
+				SubjectMatchType defaultSubjectMatchType = SubjectMatchType.RegularExpression;
+				StringValue defaultSubjectMatchTypeSV = (StringValue) getChild(DEFAULT_SUBJECT_MATCH_TYPE);
+				if (defaultSubjectMatchTypeSV != null)
+					defaultSubjectMatchType = SubjectMatchType
+							.valueOf(defaultSubjectMatchTypeSV.getValue());
+
+				if (logger.isDebugEnabled())
+					logger.debug("object match type is"
+							+ defaultSubjectMatchType);
 
 				for (Field field : fieldList) {
 					_Object child = field.target;
@@ -579,22 +594,48 @@ public class _Object implements Serializable {
 							.getChild(SUBJECT_MATCH_RULE);
 
 					if (messageSubjectMatchRule != null) {
+						// procedure specific setting
+						SubjectMatchType subjectMatchType = defaultSubjectMatchType;
+						StringValue subjectMatchTypeSV = (StringValue) child
+								.getChild(SUBJECT_MATCH_TYPE);
+
+						if (subjectMatchTypeSV != null)
+							subjectMatchType = SubjectMatchType
+									.valueOf(subjectMatchTypeSV.getValue());
+
+						if (logger.isDebugEnabled())
+							logger.debug("procedure match type is"
+									+ subjectMatchType);
+
+						if (logger.isDebugEnabled())
+							logger.debug("try matching "
+									+ messageSubjectMatchRule.getValue());
 
 						try {
 
-							boolean result = defaultMatchMethod.getMatcher()
-									.isMatch(
-											messageSubjectMatchRule.getValue(),
-											subject);
+							SubjectMatcher subjectMatcher = subjectMatchType
+									.getMatcher(messageSubjectMatchRule
+											.getValue());
+
+							boolean result = subjectMatcher.matches(subject);
 
 							if (result == true) {
+
+								subjectMatcher.postProcess(message);
+
 								p = (Procedure) child;
+
+								if (logger.isDebugEnabled())
+									logger.debug("procedure matched:"
+											+ field.name);
+
 								break;
 							}
 						} catch (Exception e) {
 							// error when evaluate:
-							logger.warn("failed to evaluate message subject match rule."
-									+ e.getMessage());
+							logger.warn(
+									"failed to evaluate message subject match rule.",
+									e);
 							continue;
 						}
 					}
@@ -606,7 +647,7 @@ public class _Object implements Serializable {
 		if (p == null) {
 			if (hasPrototype()) {
 				_Object prototype = getPrototypeObject();
-				p = prototype.lookupProcedure(subject);
+				p = prototype.lookupProcedure(message);
 			}
 		}
 

@@ -1,6 +1,16 @@
 package com.bluesky.visualprogramming.core.procedure;
 
-public interface SubjectMatcher {
+import com.bluesky.visualprogramming.core.Message;
 
-	boolean isMatch(String rule, String subject);
+public abstract class SubjectMatcher {
+	protected String rule;
+
+	public SubjectMatcher(String rule) {
+		this.rule = rule;
+	}
+
+	public abstract boolean matches(String subject);
+
+	public void postProcess(Message msg) {
+	};
 }

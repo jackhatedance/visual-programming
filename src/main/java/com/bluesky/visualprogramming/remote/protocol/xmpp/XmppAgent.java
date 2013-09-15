@@ -183,7 +183,7 @@ public class XmppAgent {
 				lastRequestMessage = null;
 
 				vm.getPostService().sendMessage(replyMsg);
-			} else {// not a reply
+			} else {// not a reply. it is a request.
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
@@ -200,7 +200,7 @@ public class XmppAgent {
 
 				// TODO convert msg.body to _Object
 				Message normalMsg = new Message(true, senderLink, receiverLink,
-						msg.getBody(), returnValue, ParameterStyle.ByName,
+						msg.getBody(), null, ParameterStyle.ByName,
 						null, MessageType.Normal);
 
 				normalMsg.urgent = false;

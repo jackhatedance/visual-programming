@@ -4007,7 +4007,7 @@ subject.contains(&quot;多大&quot;)</value>
                   </target>
                 </field>
                 <field id="727">
-                  <name>_subjectMatchType</name>
+                  <name>_defaultSubjectMatchType</name>
                   <target class="string" id="728">
                     <type>STRING</type>
                     <id>4937</id>
@@ -4037,88 +4037,98 @@ subject.contains(&quot;多大&quot;)</value>
                     <value>Groovy</value>
                   </target>
                 </field>
+                <field id="733">
+                  <name>buyFood</name>
+                  <target class="procedure" id="734">
+                    <type>PROCEDURE</type>
+                    <id>4943</id>
+                    <name defined-in="object">unnamed</name>
+                    <owner reference="618"/>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="735">
+                      <field id="736">
+                        <name>_subjectMatchType</name>
+                        <target class="string" id="737">
+                          <type>STRING</type>
+                          <id>4944</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="734"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="738">
+                            <field id="739">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="740">
+                            <x>804</x>
+                            <y>194</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="741">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <value>RegularExpression</value>
+                        </target>
+                      </field>
+                      <field id="742">
+                        <name>_subjectMatchRule</name>
+                        <target class="string" id="743">
+                          <type>STRING</type>
+                          <id>4945</id>
+                          <name>unnamed</name>
+                          <owner class="procedure" reference="734"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="744">
+                            <field id="745">
+                              <name>_prototype</name>
+                              <target class="string" reference="74"/>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <area id="746">
+                            <x>806</x>
+                            <y>387</y>
+                            <width>100</width>
+                            <height>100</height>
+                          </area>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="741"/>
+                          <value>buy (?&lt;qty0x0integer&gt;\d+) (?&lt;name0x0string&gt;\w+)</value>
+                        </target>
+                      </field>
+                    </fieldList>
+                    <applyingWorker>false</applyingWorker>
+                    <area id="747">
+                      <x>313</x>
+                      <y>546</y>
+                      <width>100</width>
+                      <height>100</height>
+                    </area>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor reference="741"/>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure (name,qty)
+{
+	
+	result = &quot;ok, &quot;.concat(qty.toString()).concat(&quot; &quot;).concat(name);
+}</code>
+                  </target>
+                </field>
               </fieldList>
               <applyingWorker>false</applyingWorker>
-              <area id="733">
+              <area id="748">
                 <x>421</x>
                 <y>452</y>
-                <width>100</width>
-                <height>100</height>
-              </area>
-              <scaleRate>1.0</scaleRate>
-              <borderColor id="734">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
-                <alpha>255</alpha>
-              </borderColor>
-            </target>
-          </field>
-        </fieldList>
-        <applyingWorker>false</applyingWorker>
-        <area id="735">
-          <x>631</x>
-          <y>727</y>
-          <width>100</width>
-          <height>100</height>
-        </area>
-        <scaleRate>1.0</scaleRate>
-        <borderColor id="736">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-          <alpha>255</alpha>
-        </borderColor>
-      </target>
-    </field>
-    <field id="737">
-      <name>console</name>
-      <target id="738">
-        <type>NORMAL</type>
-        <id>44</id>
-        <name>console</name>
-        <owner reference="1"/>
-        <fieldList id="739">
-          <field id="740">
-            <name>print</name>
-            <target class="procedure" id="741">
-              <type>PROCEDURE</type>
-              <id>45</id>
-              <name defined-in="object">print</name>
-              <owner reference="738"/>
-              <fieldList id="742"/>
-              <applyingWorker>false</applyingWorker>
-              <area id="743">
-                <x>133</x>
-                <y>249</y>
-                <width>100</width>
-                <height>100</height>
-              </area>
-              <scaleRate>1.0</scaleRate>
-              <borderColor id="744">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
-                <alpha>255</alpha>
-              </borderColor>
-              <__native>true</__native>
-              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.Print</nativeProcedureClassName>
-              <nativeProcedureParameters>content</nativeProcedureParameters>
-              <code></code>
-            </target>
-          </field>
-          <field id="745">
-            <name>println</name>
-            <target class="procedure" id="746">
-              <type>PROCEDURE</type>
-              <id>4808</id>
-              <name defined-in="object">unnamed</name>
-              <owner reference="738"/>
-              <fieldList id="747"/>
-              <applyingWorker>false</applyingWorker>
-              <area id="748">
-                <x>384</x>
-                <y>313</y>
                 <width>100</width>
                 <height>100</height>
               </area>
@@ -4129,17 +4139,14 @@ subject.contains(&quot;多大&quot;)</value>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <__native>true</__native>
-              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.PrintLine</nativeProcedureClassName>
-              <nativeProcedureParameters>content</nativeProcedureParameters>
-              <code></code>
+              <expectMessageType>SyncReply</expectMessageType>
             </target>
           </field>
         </fieldList>
         <applyingWorker>false</applyingWorker>
         <area id="750">
-          <x>158</x>
-          <y>231</y>
+          <x>631</x>
+          <y>727</y>
           <width>100</width>
           <height>100</height>
         </area>
@@ -4153,19 +4160,100 @@ subject.contains(&quot;多大&quot;)</value>
       </target>
     </field>
     <field id="752">
+      <name>console</name>
+      <target id="753">
+        <type>NORMAL</type>
+        <id>44</id>
+        <name>console</name>
+        <owner reference="1"/>
+        <fieldList id="754">
+          <field id="755">
+            <name>print</name>
+            <target class="procedure" id="756">
+              <type>PROCEDURE</type>
+              <id>45</id>
+              <name defined-in="object">print</name>
+              <owner reference="753"/>
+              <fieldList id="757"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="758">
+                <x>133</x>
+                <y>249</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="759">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>true</__native>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.Print</nativeProcedureClassName>
+              <nativeProcedureParameters>content</nativeProcedureParameters>
+              <code></code>
+            </target>
+          </field>
+          <field id="760">
+            <name>println</name>
+            <target class="procedure" id="761">
+              <type>PROCEDURE</type>
+              <id>4808</id>
+              <name defined-in="object">unnamed</name>
+              <owner reference="753"/>
+              <fieldList id="762"/>
+              <applyingWorker>false</applyingWorker>
+              <area id="763">
+                <x>384</x>
+                <y>313</y>
+                <width>100</width>
+                <height>100</height>
+              </area>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="764">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>true</__native>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.PrintLine</nativeProcedureClassName>
+              <nativeProcedureParameters>content</nativeProcedureParameters>
+              <code></code>
+            </target>
+          </field>
+        </fieldList>
+        <applyingWorker>false</applyingWorker>
+        <area id="765">
+          <x>158</x>
+          <y>231</y>
+          <width>100</width>
+          <height>100</height>
+        </area>
+        <scaleRate>1.0</scaleRate>
+        <borderColor id="766">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </target>
+    </field>
+    <field id="767">
       <name>prototype</name>
       <target reference="38"/>
     </field>
   </fieldList>
   <applyingWorker>false</applyingWorker>
-  <area id="753">
+  <area id="768">
     <x>0</x>
     <y>0</y>
     <width>100</width>
     <height>100</height>
   </area>
   <scaleRate>0.5</scaleRate>
-  <borderColor id="754">
+  <borderColor id="769">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
