@@ -182,7 +182,7 @@ public class ObjectPropertyDialog extends JDialog {
 		gbc_lblColor.gridy = 5;
 		contentPanel.add(lblColor, gbc_lblColor);
 		{
-			btnSetBorderColor = new JButton("New button");
+			btnSetBorderColor = new JButton("Change Color");
 			btnSetBorderColor.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Color newColor = JColorChooser
