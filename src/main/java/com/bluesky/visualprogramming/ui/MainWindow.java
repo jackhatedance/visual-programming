@@ -305,11 +305,14 @@ public class MainWindow extends JPanel {
 	}
 
 	private void addChildObjectToTree(_Object obj) {
-		obj.getArea().setLocation(diagram.getMousePosition());
+		
 
 		// add to tree
 		int index = obj.getOwner().getChildIndex(obj);
 		Field f = obj.getOwner().getField(index);
+		
+		f.getArea().setLocation(diagram.getMousePosition());
+		
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
@@ -347,9 +350,9 @@ public class MainWindow extends JPanel {
 				Point rawCursorPos = CanvasUtils.scaleBack(e.getPoint(),
 						getSelectedTreeField().target.scaleRate);
 
-				activeChildField.target.getArea().x = rawCursorPos.x
+				activeChildField.getArea().x = rawCursorPos.x
 						- cursorOffset.x;
-				activeChildField.target.getArea().y = rawCursorPos.y
+				activeChildField.getArea().y = rawCursorPos.y
 						- cursorOffset.y;
 
 				diagram.repaint();
@@ -373,7 +376,7 @@ public class MainWindow extends JPanel {
 							getSelectedTreeField().target.scaleRate);
 
 					cursorOffset = CanvasUtils.getOffset(
-							activeChildField.target.area.getLocation(),
+							activeChildField.getArea().getLocation(),
 							rawMousePt);
 
 				}
@@ -477,7 +480,7 @@ public class MainWindow extends JPanel {
 		for (int i = 0; i < obj.getChildCount(); i++) {
 			Field f = obj.getField(i);
 			// keep the last hovered object, the last has highest z order
-			if (f.target.area.contains(p))
+			if (f.getArea().contains(p))
 				activeChildField = f;
 		}
 

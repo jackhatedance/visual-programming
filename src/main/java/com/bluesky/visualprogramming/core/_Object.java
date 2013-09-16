@@ -78,7 +78,7 @@ public class _Object implements Serializable {
 	 * key is message Id of async request, value is message of incoming request.
 	 * if it received a request message, in order to process it, it raise
 	 * another async request to other object. later the async reply comes, we
-	 * use this map to get the imcoming request, so that we can prepare the
+	 * use this map to get the incoming request, so that we can prepare the
 	 * reply message (if it need reply). after the async reply is processed, it
 	 * will be removed.
 	 */
@@ -89,11 +89,7 @@ public class _Object implements Serializable {
 	 */
 	private boolean applyingWorker = false;
 
-	/**
-	 * the max value of height and width is 1000;
-	 */
-	public Rectangle area = new Rectangle();
-
+	
 	public double scaleRate = 1d;
 	public Color borderColor;
 	static int borderWidth = 5;
@@ -101,7 +97,7 @@ public class _Object implements Serializable {
 	public _Object(long id) {
 		this.id = id;
 
-		area = new Rectangle(0, 0, 100, 100);
+		
 		borderColor = Color.BLACK;
 
 	}
@@ -130,7 +126,7 @@ public class _Object implements Serializable {
 		// always idle
 		this.worker = null;
 
-		this.area = new Rectangle(src.area);
+		//this.area = new Rectangle(src.area);
 
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
@@ -330,129 +326,14 @@ public class _Object implements Serializable {
 		if (value != null && !value.isEmpty())
 			throw new RuntimeException("param 'value' is not empty.");
 	}
-
-	public Rectangle getArea() {
-		return area;
-	}
-
-	public Rectangle getArea(double zoomRate) {
-		Rectangle r = new Rectangle((int) (area.x * zoomRate),
-				(int) (area.y * zoomRate), (int) (area.width * zoomRate),
-				(int) (area.height * zoomRate));
-		return r;
-	}
-
-	public void setArea(Rectangle area) {
-		this.area = area;
-	}
-
+ 
 	@Override
 	public String toString() {
 
 		return name;
 	}
 
-	@SuppressWarnings("deprecation")
-	public String toText() {
-		// id=1,name=foo,owner=0,value=
-
-		long ownerId = -1;
-		if (owner != null)
-			ownerId = owner.getId();
-
-		// children=son:12|dad:23
-		StringBuilder childrenSb = new StringBuilder();
-		for (int i = 0; i < fieldList.size(); i++) {
-			if (i != 0)
-				childrenSb.append('|');
-
-			Field f = fieldList.get(i);
-			childrenSb.append(String.format("%s:%d", f.name, f.target.getId()));
-		}
-
-		String encValue = getValue();
-
-		try {
-			encValue = URLEncoder.encode(getValue(), "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-
-		return String
-				.format("type=%s,id=%d,name=%s,owner=%d,children=%s,x=%d,y=%d,width=%d,height=%d,scale=%f,color=%d,value=%s",
-						type, id, name, ownerId, childrenSb.toString(), area.x,
-						area.y, area.width, area.height, scaleRate,
-						borderColor.getRGB(), encValue);
-	}
-
-	public void fromText(String text) {
-		Map<String, String> map = KeyValueStringUtils.parse(text);
-		fromMap(map);
-	}
-
-	public void fromMap(Map<String, String> map) {
-
-		this.type = ObjectType.valueOf(map.get("type").toUpperCase());
-		this.id = Long.parseLong(map.get("id"));
-		this.name = map.get("name");
-
-		String childrenStr = map.get("children");
-		// System.out.println(childrenStr);
-		if (childrenStr != null && !childrenStr.trim().isEmpty()) {
-			String[] childrenKV = childrenStr.split("\\|");
-
-			for (String childKV : childrenKV) {
-
-				// System.out.println(childKV);
-
-				String[] kv = childKV.split(":");
-				String name = kv[0];
-				String idStr = kv[1];
-				long id = Long.valueOf(idStr);
-
-				addChild(new _Object(id), name, false);
-			}
-		}
-
-		long ownerId = Long.parseLong(map.get("owner"));
-
-		// ID holder
-		this.owner = new _Object(ownerId);
-
-		int x = Integer.valueOf(map.get("x"));
-		int y = Integer.valueOf(map.get("y"));
-		int width = Integer.valueOf(map.get("width"));
-		int height = Integer.valueOf(map.get("height"));
-		area.x = x;
-		area.y = y;
-		area.width = width;
-		area.height = height;
-
-		String scaleStr = "1.0";
-		if (map.get("scale") != null)
-			scaleStr = map.get("scale");
-
-		this.scaleRate = Double.valueOf(scaleStr);
-
-		String colorStr = "0";
-		if (map.get("color") != null)
-			colorStr = map.get("color");
-
-		this.borderColor = new Color(Integer.valueOf(colorStr));
-
-		String encValue = map.get("value");
-		String decValue = null;
-		try {
-			decValue = URLDecoder.decode(encValue, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-
-		setValue(decValue);
-
-	}
-
-	public void draw(Graphics g, Point canvasOffset, double zoom, boolean own,
+	public void draw(Graphics g,  Point canvasOffset,Rectangle area, double zoom, boolean own,
 			String name, SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
@@ -520,9 +401,9 @@ public class _Object implements Serializable {
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
 			String name, SelectedStatus selectedStatus) {
 
-		for (Field p : fieldList) {
-			boolean owns = p.target.owner == this;
-			p.target.draw(g, canvasOffset, zoom, owns, name, selectedStatus);
+		for (Field f : fieldList) {
+			boolean owns = f.target.owner == this;
+			f.target.draw(g, canvasOffset,f.getArea(), zoom, owns, name, selectedStatus);
 		}
 	}
 
@@ -537,7 +418,7 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(g, canvasOffset, scaleRate, owns, objName,
+			field.target.draw(g, canvasOffset, field.getArea(), scaleRate, owns, objName,
 					field.getSelectedStatus());
 		}
 	}

@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.core;
 
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -270,6 +272,28 @@ public class ObjectRepository {
 		// reset object id
 		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
+
+		listeners.add(new ObjectRepositoryListener() {
+
+			@Override
+			public void beforeDestroy(_Object obj) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterLoad(_Object obj) {
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+					f.getArea();
+				}
+			}
+
+			@Override
+			public void afterCreate(_Object obj) {
+			
+			}
+		});
 
 		// notify
 		for (_Object o : objects.values()) {

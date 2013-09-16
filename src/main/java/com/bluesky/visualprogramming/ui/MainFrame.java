@@ -141,7 +141,7 @@ public class MainFrame extends JFrame {
 
 		setJMenuBar(menubar);
 
-		setTitle("Simple menu");
+		setTitle("Visual Programming");
 		setSize(1600, 900);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

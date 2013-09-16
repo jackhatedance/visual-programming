@@ -19,7 +19,7 @@ public class _ObjectTest {
 		String decValue = "I'm a programmer that name=,./=-0@#$%^^&*&*((";
 		String text ="type=STRING,id=4,name=desc,owner=1,value=I%27m+a+programmer+that+name%3D%2C.%2F%3D-0%40%23%24%25%5E%5E%26*%26*%28%28";
 		_Object obj = new StringValue(0);
-		obj.fromText(text);
+		//obj.fromText(text);
 		
 		Assert.assertEquals(obj.getValue(),decValue);
 	}
