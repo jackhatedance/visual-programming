@@ -1,8 +1,5 @@
 package com.bluesky.visualprogramming.core;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,9 +8,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -337,6 +331,8 @@ public class _Object implements Serializable {
 			String name, SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
+		
+		
 		// draw border
 		g.setColor(borderColor);
 
