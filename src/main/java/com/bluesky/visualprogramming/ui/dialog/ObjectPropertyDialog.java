@@ -41,6 +41,8 @@ public class ObjectPropertyDialog extends JDialog {
 	private JLabel label;
 	private JLabel lblColor;
 	private JButton btnSetBorderColor;
+	private JLabel lblName;
+	private JTextField textFieldFieldName;
 
 	/**
 	 * Launch the application.
@@ -66,11 +68,11 @@ public class ObjectPropertyDialog extends JDialog {
 		contentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[] { 107, 219, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 45, 45, 45, 68, 45, 0 };
-		gbl_contentPanel.columnWeights = new double[] { 0.0, 1.0,
+		gbl_contentPanel.columnWidths = new int[] { 0, 0, 107, 219, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 45, 45, 49, 45, 68, 45, 0 };
+		gbl_contentPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0,
 				Double.MIN_VALUE };
-		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0,
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0,
 				Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
@@ -83,7 +85,7 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 0;
 		contentPanel.add(lblNewLabel, gbc_lblNewLabel);
 		{
@@ -94,32 +96,51 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_textFieldId = new GridBagConstraints();
 		gbc_textFieldId.fill = GridBagConstraints.BOTH;
 		gbc_textFieldId.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldId.gridx = 1;
+		gbc_textFieldId.gridx = 3;
 		gbc_textFieldId.gridy = 0;
 		contentPanel.add(textFieldId, gbc_textFieldId);
 		{
-			lblFieldName = new JLabel("Field Name");
+			lblFieldName = new JLabel("Name");
 		}
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.fill = GridBagConstraints.BOTH;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.gridx = 0;
+		gbc_lblName.gridx = 2;
 		gbc_lblName.gridy = 1;
 		contentPanel.add(lblFieldName, gbc_lblName);
 		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
 		gbc_textFieldName.fill = GridBagConstraints.BOTH;
 		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridx = 3;
 		gbc_textFieldName.gridy = 1;
 		contentPanel.add(textFieldName, gbc_textFieldName);
 		{
 			lblValue = new JLabel("Type");
 		}
+		{
+			lblName = new JLabel("Field Name");
+			GridBagConstraints gbc_lblFieldName = new GridBagConstraints();
+			gbc_lblFieldName.anchor = GridBagConstraints.WEST;
+			gbc_lblFieldName.insets = new Insets(0, 0, 5, 5);
+			gbc_lblFieldName.gridx = 2;
+			gbc_lblFieldName.gridy = 2;
+			contentPanel.add(lblName, gbc_lblFieldName);
+		}
+		{
+			textFieldFieldName = new JTextField();
+			textFieldFieldName.setColumns(10);
+			GridBagConstraints gbc_textFieldFieldName = new GridBagConstraints();
+			gbc_textFieldFieldName.insets = new Insets(0, 0, 5, 0);
+			gbc_textFieldFieldName.fill = GridBagConstraints.BOTH;
+			gbc_textFieldFieldName.gridx = 3;
+			gbc_textFieldFieldName.gridy = 2;
+			contentPanel.add(textFieldFieldName, gbc_textFieldFieldName);
+		}
 		GridBagConstraints gbc_lblValue = new GridBagConstraints();
 		gbc_lblValue.fill = GridBagConstraints.BOTH;
 		gbc_lblValue.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValue.gridx = 0;
-		gbc_lblValue.gridy = 2;
+		gbc_lblValue.gridx = 2;
+		gbc_lblValue.gridy = 3;
 		contentPanel.add(lblValue, gbc_lblValue);
 		{
 			textFieldType = new JTextField();
@@ -129,8 +150,8 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_textFieldType = new GridBagConstraints();
 		gbc_textFieldType.fill = GridBagConstraints.BOTH;
 		gbc_textFieldType.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldType.gridx = 1;
-		gbc_textFieldType.gridy = 2;
+		gbc_textFieldType.gridx = 3;
+		gbc_textFieldType.gridy = 3;
 		contentPanel.add(textFieldType, gbc_textFieldType);
 		{
 			label = new JLabel("Value");
@@ -138,8 +159,8 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.fill = GridBagConstraints.BOTH;
 		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 0;
-		gbc_label.gridy = 3;
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 4;
 		contentPanel.add(label, gbc_label);
 		{
 			lblColor = new JLabel("Color");
@@ -151,14 +172,14 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_textAreaValue = new GridBagConstraints();
 		gbc_textAreaValue.fill = GridBagConstraints.BOTH;
 		gbc_textAreaValue.insets = new Insets(0, 0, 5, 0);
-		gbc_textAreaValue.gridx = 1;
-		gbc_textAreaValue.gridy = 3;
+		gbc_textAreaValue.gridx = 3;
+		gbc_textAreaValue.gridy = 4;
 		contentPanel.add(textAreaValue, gbc_textAreaValue);
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.fill = GridBagConstraints.BOTH;
 		gbc_lblColor.insets = new Insets(0, 0, 0, 5);
-		gbc_lblColor.gridx = 0;
-		gbc_lblColor.gridy = 4;
+		gbc_lblColor.gridx = 2;
+		gbc_lblColor.gridy = 5;
 		contentPanel.add(lblColor, gbc_lblColor);
 		{
 			btnSetBorderColor = new JButton("New button");
@@ -176,8 +197,8 @@ public class ObjectPropertyDialog extends JDialog {
 		}
 		GridBagConstraints gbc_btnSetBorderColor = new GridBagConstraints();
 		gbc_btnSetBorderColor.fill = GridBagConstraints.BOTH;
-		gbc_btnSetBorderColor.gridx = 1;
-		gbc_btnSetBorderColor.gridy = 4;
+		gbc_btnSetBorderColor.gridx = 3;
+		gbc_btnSetBorderColor.gridy = 5;
 		contentPanel.add(btnSetBorderColor, gbc_btnSetBorderColor);
 		// contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new
 		// Component[]{lblNewLabel, textFieldId, lblName, textFieldName,
@@ -228,7 +249,8 @@ public class ObjectPropertyDialog extends JDialog {
 		this.object = field.target;
 
 		textFieldId.setText(String.valueOf(object.getId()));
-		textFieldName.setText(field.name);
+		textFieldName.setText(object.getName());
+		textFieldFieldName.setText(field.name);
 		textFieldType.setText(object.getType().toString());
 		textAreaValue.setText(object.getValue());
 		btnSetBorderColor.setForeground(object.borderColor);
@@ -236,13 +258,15 @@ public class ObjectPropertyDialog extends JDialog {
 
 	private void updateObject() {
 
-		String oldName = field.name;
-		String newName = textFieldName.getText();
+		String oldFieldName = field.name;
+		String newFieldName = textFieldFieldName.getText();
 
-		if (!oldName.equals(newName))
-			object.getOwner().renameField(oldName, newName);
+		if (!oldFieldName.equals(newFieldName))
+			object.getOwner().renameField(oldFieldName
+					, newFieldName);
 
-		//object.setName(newName);
+		
+		object.setName(textFieldName.getText());
 		object.setValue(textAreaValue.getText());
 		object.borderColor = btnSetBorderColor.getForeground();
 
