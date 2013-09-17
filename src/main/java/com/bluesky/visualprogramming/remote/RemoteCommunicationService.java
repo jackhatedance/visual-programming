@@ -88,6 +88,11 @@ public class RemoteCommunicationService {
 				}
 
 			}
+			@Override
+			public void afterLoadAll() {
+				// TODO start remote service.
+				
+			}
 		});
 	}
 

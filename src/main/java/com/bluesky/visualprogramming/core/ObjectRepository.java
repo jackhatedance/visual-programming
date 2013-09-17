@@ -285,13 +285,19 @@ public class ObjectRepository {
 			public void afterLoad(_Object obj) {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
-					f.getArea();
+					// f.getArea();
 				}
 			}
 
 			@Override
 			public void afterCreate(_Object obj) {
+
+			}
 			
+			@Override
+			public void afterLoadAll() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 

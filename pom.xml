@@ -105,5 +105,10 @@
 			<artifactId>batik-swing</artifactId>
 			<version>1.6-1</version>
 		</dependency>
+		<dependency>
+			<groupId>jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>6.0.2</version>
+		</dependency>
 	</dependencies>
 </project>

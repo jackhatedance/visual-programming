@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.remote.protocol.xmpp;
+package com.bluesky.visualprogramming.remote.xmpp;
 
 import java.util.HashMap;
 import java.util.Map;

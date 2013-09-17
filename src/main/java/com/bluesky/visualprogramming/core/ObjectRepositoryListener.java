@@ -7,4 +7,6 @@ public interface ObjectRepositoryListener {
 	void beforeDestroy(_Object obj);
 
 	void afterLoad(_Object obj);
+	
+	void afterLoadAll();
 }
