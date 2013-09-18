@@ -5,12 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
-import org.jivesoftware.smack.XMPPException;
-import org.stringtemplate.v4.compiler.STParser.compoundElement_return;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.remote.Agent;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 

@@ -1,12 +1,18 @@
 package com.bluesky.visualprogramming.remote.http;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
+import org.jivesoftware.smack.XMPPException;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.remote.ssh.SshAgent;
+import com.bluesky.visualprogramming.remote.xmpp.XmppAgent;
 
 public class HttpService implements ProtocolService {
 	private ProtocolType type = ProtocolType.HTTP;
@@ -14,7 +20,7 @@ public class HttpService implements ProtocolService {
 	// key is address, value is object
 	BidiMap addressObjectMap = new DualHashBidiMap();
 
-	// Set<HttpAgent> connectors = new HashMap<String, HttpAgent>();
+	Map<String, HttpAgent> agents = new HashMap<String, HttpAgent>();
 
 	@Override
 	public void register(String address, _Object obj, String connectionOptions) {
@@ -38,7 +44,16 @@ public class HttpService implements ProtocolService {
 
 	@Override
 	public void send(String receiverAddress, Message message) {
-		//TODO: send via HTTP client
+
+		String senderAddress = getAddress(message.sender);
+		HttpAgent agent = agents.get(senderAddress);
+
+		try {
+			agent.send(receiverAddress, message);
+		} catch (Exception e) {
+
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
