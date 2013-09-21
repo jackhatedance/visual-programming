@@ -162,7 +162,7 @@ public class XmppAgent {
 			// TODO convert msg.Body to _Object.
 			returnValue.setValue(msg.getBody());
 
-			String senderAddress = reviseAddress(reviseAddress(msg.getFrom()));
+			String senderAddress = reviseAddress(msg.getFrom());
 
 			if (lastRequestMessage != null
 					&& lastRequestMessage.receiver instanceof Link

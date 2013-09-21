@@ -9,7 +9,6 @@ import org.jivesoftware.smack.XMPPException;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.remote.Agent;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 

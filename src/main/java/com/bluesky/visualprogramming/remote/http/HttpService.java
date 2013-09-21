@@ -5,16 +5,19 @@ import java.util.Map;
 
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
-import org.jivesoftware.smack.XMPPException;
+import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
-import com.bluesky.visualprogramming.remote.ssh.SshAgent;
-import com.bluesky.visualprogramming.remote.xmpp.XmppAgent;
+
 
 public class HttpService implements ProtocolService {
+	static Logger logger = Logger.getLogger(HttpService.class);
+
+	
+	
 	private ProtocolType type = ProtocolType.HTTP;
 
 	// key is address, value is object
