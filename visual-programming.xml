@@ -3587,7 +3587,7 @@ subject.contains(&quot;在哪里&quot;)</value>
                   </area>
                 </field>
                 <field id="649">
-                  <name>how old are you?</name>
+                  <name>how old are you</name>
                   <target class="procedure" id="650">
                     <type>PROCEDURE</type>
                     <id>4840</id>
@@ -3648,8 +3648,7 @@ subject.contains(&quot;多大&quot;)</value>
 {
 	result = self.age;
 
-}
-</code>
+}</code>
                   </target>
                   <area id="660">
                     <x>159</x>
@@ -4044,7 +4043,7 @@ subject.contains(&quot;多大&quot;)</value>
                   </area>
                 </field>
                 <field id="734">
-                  <name>who are you?</name>
+                  <name>who are you</name>
                   <target class="procedure" id="735">
                     <type>PROCEDURE</type>
                     <id>4871</id>

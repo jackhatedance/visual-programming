@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.core._Object;
 
 /**
  * an agent for each session.
@@ -16,7 +16,7 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 public class HttpAgent {
 	static Logger logger = Logger.getLogger(HttpAgent.class);
 
-	private StringValue responseBody;
+	private _Object responseBody;
 	/**
 	 * used to indicate response is ready.
 	 */
@@ -32,7 +32,7 @@ public class HttpAgent {
 			throw new RuntimeException("receiver is not visitor:" + username);
 		}
 
-		responseBody = (StringValue) msg.body;
+		responseBody = msg.body;
 		responseReady.release();
 
 	}
