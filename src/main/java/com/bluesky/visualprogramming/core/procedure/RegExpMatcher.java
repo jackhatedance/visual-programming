@@ -33,7 +33,7 @@ public class RegExpMatcher extends SubjectMatcher {
 	@Override
 	public boolean matches(String subject) {
 
-		pattern = Pattern.compile(rule);
+		pattern = Pattern.compile(rule, Pattern.UNICODE_CHARACTER_CLASS);
 		matcher = pattern.matcher(subject);
 
 		return matcher.matches();
@@ -80,7 +80,7 @@ public class RegExpMatcher extends SubjectMatcher {
 					paramType = "string";
 				}
 
-				String paramValue = matcher.group(i+1);
+				String paramValue = matcher.group(i + 1);
 
 				ObjectType objectType = ObjectType.valueOf(paramType
 						.toUpperCase());

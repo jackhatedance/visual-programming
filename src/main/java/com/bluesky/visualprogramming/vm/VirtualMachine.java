@@ -13,7 +13,7 @@ import com.bluesky.visualprogramming.messageEngine.WorkerManager;
  * @author jack
  * 
  */
-public class VirtualMachine {
+public class VirtualMachine implements Service{
 	static Logger logger = Logger.getLogger(VirtualMachine.class);
 
 	private ObjectRepository objectRepository;
@@ -143,6 +143,24 @@ public class VirtualMachine {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	@Override
+	public void init() {
+		
+		
+	}
+
+	@Override
+	public void stop() {
+		
+		
+	}
+
+	@Override
+	public void destroy() {
+		
+		
 	}
 
 }

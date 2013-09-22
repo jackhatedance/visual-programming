@@ -3936,7 +3936,7 @@ subject.contains(&quot;多大&quot;)</value>
                                 <applyingWorker>false</applyingWorker>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="705"/>
-                                <booleanValue>false</booleanValue>
+                                <booleanValue>true</booleanValue>
                               </target>
                               <area id="718">
                                 <x>823</x>

@@ -67,31 +67,38 @@ public class RemoteCommunicationService {
 											.toUpperCase());
 							StringValue address = (StringValue) alias
 									.getChild("address");
-							StringValue connectionOptions = (StringValue) alias
+							StringValue connectionOptionsSV = (StringValue) alias
 									.getChild("connectionOptions");
+							String connectionOptions = "";
+							if (connectionOptionsSV != null)
+								connectionOptions = connectionOptionsSV
+										.getValue();
 
 							register(pt, address.getValue(), owner,
-									connectionOptions.getValue());
+									connectionOptions);
+
+							String fullAddress = pt.toString().toLowerCase()
+									+ "://" + address.getValue();
 
 							if (logger.isInfoEnabled())
 								logger.info("create remote agent for "
 										+ owner.getName()
-										+ " binding address is "
-										+ address.getValue());
+										+ " binding address is " + fullAddress);
 						} catch (Exception e) {
 
 							logger.warn("failed to create remote agent for "
-									+ owner.getName(),e);
+									+ owner.getName(), e);
 						}
 					}
 
 				}
 
 			}
+
 			@Override
 			public void afterLoadAll() {
 				// TODO start remote service.
-				
+
 			}
 		});
 	}

@@ -14,10 +14,12 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
+import com.bluesky.visualprogramming.remote.http.HttpService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
+import com.bluesky.visualprogramming.vm.Service;
 
-public class PostService implements Runnable {
+public class PostService implements Runnable, Service {
 	static Logger logger = Logger.getLogger(PostService.class);
 
 	private ObjectRepository objectRepository;
@@ -38,6 +40,7 @@ public class PostService implements Runnable {
 
 		remoteCommunicationService.addProtocolService(new XmppService());
 		remoteCommunicationService.addProtocolService(new SshService());
+		remoteCommunicationService.addProtocolService(new HttpService());
 	}
 
 	public void sendMessage(Message msg) {
@@ -123,6 +126,36 @@ public class PostService implements Runnable {
 	public void stop() {
 		this.running = false;
 
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
