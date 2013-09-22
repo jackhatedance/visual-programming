@@ -3835,43 +3835,165 @@ subject.contains(&quot;多大&quot;)</value>
                           <height>100</height>
                         </area>
                       </field>
+                      <field id="697">
+                        <name>robot1_at_http</name>
+                        <target id="698">
+                          <type>NORMAL</type>
+                          <id>4948</id>
+                          <name>unnamed</name>
+                          <owner reference="662"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="699">
+                            <field id="700">
+                              <name>address</name>
+                              <target class="string" id="701">
+                                <type>STRING</type>
+                                <id>4949</id>
+                                <name>unnamed</name>
+                                <owner reference="698"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="702">
+                                  <field id="703">
+                                    <name>_prototype</name>
+                                    <target class="string" reference="74"/>
+                                    <area id="704">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor id="705">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <value>robot1@localhost</value>
+                              </target>
+                              <area id="706">
+                                <x>304</x>
+                                <y>282</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="707">
+                              <name>protocol</name>
+                              <target class="string" id="708">
+                                <type>STRING</type>
+                                <id>4950</id>
+                                <name>unnamed</name>
+                                <owner reference="698"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="709">
+                                  <field id="710">
+                                    <name>_prototype</name>
+                                    <target class="string" reference="74"/>
+                                    <area id="711">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="705"/>
+                                <value>http</value>
+                              </target>
+                              <area id="712">
+                                <x>134</x>
+                                <y>279</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="713">
+                              <name>enabled</name>
+                              <target class="boolean" id="714">
+                                <type>BOOLEAN</type>
+                                <id>4951</id>
+                                <name>unnamed</name>
+                                <owner reference="698"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="715">
+                                  <field id="716">
+                                    <name>_prototype</name>
+                                    <target reference="44"/>
+                                    <area id="717">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <applyingWorker>false</applyingWorker>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="705"/>
+                                <booleanValue>false</booleanValue>
+                              </target>
+                              <area id="718">
+                                <x>823</x>
+                                <y>194</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <applyingWorker>false</applyingWorker>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="705"/>
+                        </target>
+                        <area id="719">
+                          <x>352</x>
+                          <y>129</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="697">
+                    <borderColor id="720">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
-                  <area id="698">
+                  <area id="721">
                     <x>772</x>
                     <y>84</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="699">
+                <field id="722">
                   <name>hi</name>
-                  <target class="procedure" id="700">
+                  <target class="procedure" id="723">
                     <type>PROCEDURE</type>
                     <id>4866</id>
                     <name defined-in="object">unnamed</name>
                     <owner reference="628"/>
-                    <fieldList id="701">
-                      <field id="702">
+                    <fieldList id="724">
+                      <field id="725">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="703">
+                        <target class="string" id="726">
                           <type>STRING</type>
                           <id>4878</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="700"/>
-                          <fieldList id="704">
-                            <field id="705">
+                          <owner class="procedure" reference="723"/>
+                          <fieldList id="727">
+                            <field id="728">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <area id="706">
+                              <area id="729">
                                 <x>496</x>
                                 <y>116</y>
                                 <width>100</width>
@@ -3881,7 +4003,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="707">
+                          <borderColor id="730">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3889,7 +4011,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你好&quot;) || subject.contains(&quot;hello&quot;)</value>
                         </target>
-                        <area id="708">
+                        <area id="731">
                           <x>96</x>
                           <y>162</y>
                           <width>100</width>
@@ -3899,7 +4021,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="709">
+                    <borderColor id="732">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3914,33 +4036,33 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;hi&quot;;
 }</code>
                   </target>
-                  <area id="710">
+                  <area id="733">
                     <x>164</x>
                     <y>399</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="711">
+                <field id="734">
                   <name>who are you?</name>
-                  <target class="procedure" id="712">
+                  <target class="procedure" id="735">
                     <type>PROCEDURE</type>
                     <id>4871</id>
                     <name defined-in="object">unnamed</name>
                     <owner reference="628"/>
-                    <fieldList id="713">
-                      <field id="714">
+                    <fieldList id="736">
+                      <field id="737">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="715">
+                        <target class="string" id="738">
                           <type>STRING</type>
                           <id>4890</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="712"/>
-                          <fieldList id="716">
-                            <field id="717">
+                          <owner class="procedure" reference="735"/>
+                          <fieldList id="739">
+                            <field id="740">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <area id="718">
+                              <area id="741">
                                 <x>496</x>
                                 <y>116</y>
                                 <width>100</width>
@@ -3950,7 +4072,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="719">
+                          <borderColor id="742">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3958,7 +4080,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你是谁&quot;)</value>
                         </target>
-                        <area id="720">
+                        <area id="743">
                           <x>114</x>
                           <y>291</y>
                           <width>100</width>
@@ -3968,7 +4090,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="721">
+                    <borderColor id="744">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3983,25 +4105,25 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;I am &quot;.concat(self.name).concat(&quot;.&quot;);
 }</code>
                   </target>
-                  <area id="722">
+                  <area id="745">
                     <x>32</x>
                     <y>242</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="723">
+                <field id="746">
                   <name>name</name>
-                  <target class="string" id="724">
+                  <target class="string" id="747">
                     <type>STRING</type>
                     <id>4872</id>
                     <name>unnamed</name>
                     <owner reference="628"/>
-                    <fieldList id="725">
-                      <field id="726">
+                    <fieldList id="748">
+                      <field id="749">
                         <name>_prototype</name>
                         <target class="string" reference="74"/>
-                        <area id="727">
+                        <area id="750">
                           <x>202</x>
                           <y>135</y>
                           <width>100</width>
@@ -4011,7 +4133,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="728">
+                    <borderColor id="751">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4019,25 +4141,25 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>Robot #1</value>
                   </target>
-                  <area id="729">
+                  <area id="752">
                     <x>40</x>
                     <y>92</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="730">
+                <field id="753">
                   <name>_enableSubjectMatch</name>
-                  <target class="boolean" id="731">
+                  <target class="boolean" id="754">
                     <type>BOOLEAN</type>
                     <id>4877</id>
                     <name>unnamed</name>
                     <owner reference="628"/>
-                    <fieldList id="732">
-                      <field id="733">
+                    <fieldList id="755">
+                      <field id="756">
                         <name>_prototype</name>
                         <target reference="44"/>
-                        <area id="734">
+                        <area id="757">
                           <x>338</x>
                           <y>110</y>
                           <width>100</width>
@@ -4047,7 +4169,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="735">
+                    <borderColor id="758">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4055,24 +4177,24 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <booleanValue>true</booleanValue>
                   </target>
-                  <area id="736">
+                  <area id="759">
                     <x>777</x>
                     <y>221</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="737">
+                <field id="760">
                   <name>move</name>
-                  <target class="procedure" id="738">
+                  <target class="procedure" id="761">
                     <type>PROCEDURE</type>
                     <id>4895</id>
                     <name defined-in="object">unnamed</name>
                     <owner reference="628"/>
-                    <fieldList id="739"/>
+                    <fieldList id="762"/>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="740">
+                    <borderColor id="763">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4089,26 +4211,26 @@ subject.contains(&quot;多大&quot;)</value>
 }
 </code>
                   </target>
-                  <area id="741">
+                  <area id="764">
                     <x>314</x>
                     <y>376</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="742">
+                <field id="765">
                   <name>_defaultSubjectMatchType</name>
-                  <target class="string" id="743">
+                  <target class="string" id="766">
                     <type>STRING</type>
                     <id>4937</id>
                     <name>unnamed</name>
                     <owner reference="628"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="744">
-                      <field id="745">
+                    <fieldList id="767">
+                      <field id="768">
                         <name>_prototype</name>
                         <target class="string" reference="74"/>
-                        <area id="746">
+                        <area id="769">
                           <x>496</x>
                           <y>116</y>
                           <width>100</width>
@@ -4118,7 +4240,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="747">
+                    <borderColor id="770">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4126,35 +4248,35 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>Groovy</value>
                   </target>
-                  <area id="748">
+                  <area id="771">
                     <x>781</x>
                     <y>343</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="749">
+                <field id="772">
                   <name>buyFood</name>
-                  <target class="procedure" id="750">
+                  <target class="procedure" id="773">
                     <type>PROCEDURE</type>
                     <id>4943</id>
                     <name defined-in="object">unnamed</name>
                     <owner reference="628"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="751">
-                      <field id="752">
+                    <fieldList id="774">
+                      <field id="775">
                         <name>_subjectMatchType</name>
-                        <target class="string" id="753">
+                        <target class="string" id="776">
                           <type>STRING</type>
                           <id>4944</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="750"/>
+                          <owner class="procedure" reference="773"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="754">
-                            <field id="755">
+                          <fieldList id="777">
+                            <field id="778">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <area id="756">
+                              <area id="779">
                                 <x>496</x>
                                 <y>116</y>
                                 <width>100</width>
@@ -4164,7 +4286,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="757">
+                          <borderColor id="780">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -4172,26 +4294,26 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>RegularExpression</value>
                         </target>
-                        <area id="758">
+                        <area id="781">
                           <x>804</x>
                           <y>194</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="759">
+                      <field id="782">
                         <name>_subjectMatchRule</name>
-                        <target class="string" id="760">
+                        <target class="string" id="783">
                           <type>STRING</type>
                           <id>4945</id>
                           <name>unnamed</name>
-                          <owner class="procedure" reference="750"/>
+                          <owner class="procedure" reference="773"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="761">
-                            <field id="762">
+                          <fieldList id="784">
+                            <field id="785">
                               <name>_prototype</name>
                               <target class="string" reference="74"/>
-                              <area id="763">
+                              <area id="786">
                                 <x>496</x>
                                 <y>116</y>
                                 <width>100</width>
@@ -4201,10 +4323,10 @@ subject.contains(&quot;多大&quot;)</value>
                           </fieldList>
                           <applyingWorker>false</applyingWorker>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor reference="757"/>
+                          <borderColor reference="780"/>
                           <value>buy (?&lt;qty0x0integer&gt;\d+) (?&lt;name0x0string&gt;\w+)</value>
                         </target>
-                        <area id="764">
+                        <area id="787">
                           <x>806</x>
                           <y>387</y>
                           <width>100</width>
@@ -4214,7 +4336,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="757"/>
+                    <borderColor reference="780"/>
                     <__native>false</__native>
                     <nativeProcedureClassName></nativeProcedureClassName>
                     <nativeProcedureParameters></nativeProcedureParameters>
@@ -4225,26 +4347,26 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;ok, &quot;.concat(qty.toString()).concat(&quot; &quot;).concat(name);
 }</code>
                   </target>
-                  <area id="765">
+                  <area id="788">
                     <x>313</x>
                     <y>546</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="766">
+                <field id="789">
                   <name>age</name>
-                  <target class="integer" id="767">
+                  <target class="integer" id="790">
                     <type>INTEGER</type>
                     <id>4947</id>
                     <name>unnamed</name>
                     <owner reference="628"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="768">
-                      <field id="769">
+                    <fieldList id="791">
+                      <field id="792">
                         <name>_prototype</name>
                         <target class="integer" reference="99"/>
-                        <area id="770">
+                        <area id="793">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -4254,7 +4376,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </fieldList>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="771">
+                    <borderColor id="794">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -4262,7 +4384,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>2</value>
                   </target>
-                  <area id="772">
+                  <area id="795">
                     <x>177</x>
                     <y>92</y>
                     <width>100</width>
@@ -4272,7 +4394,7 @@ subject.contains(&quot;多大&quot;)</value>
               </fieldList>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="773">
+              <borderColor id="796">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -4280,7 +4402,7 @@ subject.contains(&quot;多大&quot;)</value>
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
-            <area id="774">
+            <area id="797">
               <x>421</x>
               <y>452</y>
               <width>100</width>
@@ -4290,39 +4412,39 @@ subject.contains(&quot;多大&quot;)</value>
         </fieldList>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="775">
+        <borderColor id="798">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="776">
+      <area id="799">
         <x>631</x>
         <y>727</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="777">
+    <field id="800">
       <name>console</name>
-      <target id="778">
+      <target id="801">
         <type>NORMAL</type>
         <id>44</id>
         <name>console</name>
         <owner reference="1"/>
-        <fieldList id="779">
-          <field id="780">
+        <fieldList id="802">
+          <field id="803">
             <name>print</name>
-            <target class="procedure" id="781">
+            <target class="procedure" id="804">
               <type>PROCEDURE</type>
               <id>45</id>
               <name defined-in="object">print</name>
-              <owner reference="778"/>
-              <fieldList id="782"/>
+              <owner reference="801"/>
+              <fieldList id="805"/>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="783">
+              <borderColor id="806">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -4333,24 +4455,24 @@ subject.contains(&quot;多大&quot;)</value>
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <area id="784">
+            <area id="807">
               <x>133</x>
               <y>249</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="785">
+          <field id="808">
             <name>println</name>
-            <target class="procedure" id="786">
+            <target class="procedure" id="809">
               <type>PROCEDURE</type>
               <id>4808</id>
               <name defined-in="object">unnamed</name>
-              <owner reference="778"/>
-              <fieldList id="787"/>
+              <owner reference="801"/>
+              <fieldList id="810"/>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="788">
+              <borderColor id="811">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -4361,7 +4483,7 @@ subject.contains(&quot;多大&quot;)</value>
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <area id="789">
+            <area id="812">
               <x>384</x>
               <y>313</y>
               <width>100</width>
@@ -4371,24 +4493,24 @@ subject.contains(&quot;多大&quot;)</value>
         </fieldList>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="790">
+        <borderColor id="813">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="791">
+      <area id="814">
         <x>158</x>
         <y>231</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="792">
+    <field id="815">
       <name>prototype</name>
       <target reference="38"/>
-      <area id="793">
+      <area id="816">
         <x>202</x>
         <y>440</y>
         <width>100</width>
@@ -4398,7 +4520,7 @@ subject.contains(&quot;多大&quot;)</value>
   </fieldList>
   <applyingWorker>false</applyingWorker>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="794">
+  <borderColor id="817">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
