@@ -42,6 +42,11 @@ public class MessageServlet extends HttpServlet {
 			target = target.substring(1);
 
 		int index = target.indexOf('/');
+		if(index<0)
+		{
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
 		String username = target.substring(0, index);
 		String subject = target.substring(index + 1);
 		String server = request.getServerName();

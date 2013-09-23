@@ -2858,7 +2858,7 @@ procedure loc()
                                             <applyingWorker>false</applyingWorker>
                                             <scaleRate>1.0</scaleRate>
                                             <borderColor reference="414"/>
-                                            <booleanValue>true</booleanValue>
+                                            <booleanValue>false</booleanValue>
                                           </target>
                                           <area id="524">
                                             <x>322</x>
@@ -4032,7 +4032,7 @@ subject.contains(&quot;多大&quot;)</value>
                     <language>goo</language>
                     <code>procedure ()
 {
-	result = &quot;hi&quot;;
+	result = _subject;
 }</code>
                   </target>
                   <area id="733">
