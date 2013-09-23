@@ -83,6 +83,8 @@ public class HttpService implements ProtocolService {
 					logger.debug("cannot find agent for " + receiverAddress
 							+ ", it is a active request");
 
+				//for http request need authentication, we use auth info from the sender.
+				
 				// it is an active request outgoing
 				// TODO use HttpClient lib
 			}

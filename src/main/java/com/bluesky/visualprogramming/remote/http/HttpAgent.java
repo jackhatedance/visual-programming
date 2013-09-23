@@ -8,7 +8,10 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 
 /**
- * an agent for each session.
+ * an agent for each session(incoming and outgoing).
+ * 
+ * It is created by servlet in case of incoming session; otherwise is created by
+ * postService when registering object remote address;
  * 
  * @author jack
  * 
@@ -47,9 +50,9 @@ public class HttpAgent {
 		responseReady.acquire();
 
 	}
-	
-	public String getResponse(){
-		if(responseBody!=null)
+
+	public String getResponse() {
+		if (responseBody != null)
 			return responseBody.getValue();
 		else
 			return "";
