@@ -8,16 +8,15 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 
 /**
- * an agent for each session(incoming and outgoing).
+ * an agent for each request.
  * 
- * It is created by servlet in case of incoming session; otherwise is created by
- * postService when registering object remote address;
+ * It is created by Servlet in case of incoming session;
  * 
  * @author jack
  * 
  */
-public class HttpAgent {
-	static Logger logger = Logger.getLogger(HttpAgent.class);
+public class HttpIncomingRequestAgent {
+	static Logger logger = Logger.getLogger(HttpIncomingRequestAgent.class);
 
 	private _Object responseBody;
 	/**

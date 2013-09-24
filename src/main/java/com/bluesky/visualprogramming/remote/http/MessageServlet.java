@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.remote.http;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,8 +43,7 @@ public class MessageServlet extends HttpServlet {
 			target = target.substring(1);
 
 		int index = target.indexOf('/');
-		if(index<0)
-		{
+		if (index < 0) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
@@ -62,7 +62,9 @@ public class MessageServlet extends HttpServlet {
 		Link senderLink = (Link) repo.createObject(ObjectType.LINK,
 				ObjectScope.ExecutionContext);
 
-		String senderAddress = VISITOR_PREFIX + sessionId + "@" + server;
+		// the session ID has no use here. remove it any time.
+		String senderAddress = String.format("%s_%s_%s@%s", VISITOR_PREFIX,
+				sessionId, getNextRequestId(), server);
 		String fullSenderAddress = "http://" + senderAddress;
 		senderLink.setValue(fullSenderAddress);
 
@@ -71,9 +73,9 @@ public class MessageServlet extends HttpServlet {
 					senderAddress, receiverAddress, subject));
 
 		// create agent if has not
-		HttpAgent agent = service.getAgent(senderAddress);
+		HttpIncomingRequestAgent agent = service.getAgent(senderAddress);
 		if (agent == null) {
-			agent = new HttpAgent();
+			agent = new HttpIncomingRequestAgent();
 			service.setAgent(senderAddress, agent);
 
 			if (logger.isDebugEnabled())
@@ -111,5 +113,9 @@ public class MessageServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		response.getWriter().println(agent.getResponse());
+	}
+
+	private String getNextRequestId() {
+		return UUID.randomUUID().toString();
 	}
 }

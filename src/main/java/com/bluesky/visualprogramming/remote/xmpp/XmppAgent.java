@@ -21,6 +21,7 @@ import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.remote.ConnectionOptions;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class XmppAgent {
@@ -44,7 +45,7 @@ public class XmppAgent {
 
 	public XmppAgent(String address, _Object obj, String connectionOptions) {
 
-		Map<String, String> optMap = parseOptions(connectionOptions);
+		Map<String, String> optMap = new ConnectionOptions(connectionOptions).map;
 
 		if (optMap.containsKey("server"))
 			server = optMap.get("server");
@@ -187,21 +188,21 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
-				Link senderLink = (Link) repo.createObject(
-						ObjectType.LINK, ObjectScope.ExecutionContext);
+				Link senderLink = (Link) repo.createObject(ObjectType.LINK,
+						ObjectScope.ExecutionContext);
 				senderLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getFrom())));
 
 				Link receiverLink = (Link) repo.createObject(
 
-						ObjectType.LINK, ObjectScope.ExecutionContext);
+				ObjectType.LINK, ObjectScope.ExecutionContext);
 				receiverLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getTo())));
 
 				// TODO convert msg.body to _Object
 				Message normalMsg = new Message(true, senderLink, receiverLink,
-						msg.getBody(), null, ParameterStyle.ByName,
-						null, MessageType.Normal);
+						msg.getBody(), null, ParameterStyle.ByName, null,
+						MessageType.Normal);
 
 				normalMsg.urgent = false;
 
@@ -212,19 +213,6 @@ public class XmppAgent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private Map<String, String> parseOptions(String options) {
-		Map<String, String> map = new HashMap<String, String>();
-
-		String[] kvs = options.split(";");
-		for (String kv : kvs) {
-			String[] ss = kv.split("=");
-
-			map.put(ss[0], ss[1]);
-		}
-
-		return map;
 	}
 
 	protected MessageListener getMessageListener() {

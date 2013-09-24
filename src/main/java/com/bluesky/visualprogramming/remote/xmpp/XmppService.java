@@ -9,16 +9,15 @@ import org.jivesoftware.smack.XMPPException;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 
-public class XmppService implements ProtocolService {
+public class XmppService extends AbstractProtocolService implements ProtocolService {
 
 	private ProtocolType type = ProtocolType.XMPP;
 
-	// key is address, value is object
-	BidiMap addressObjectMap = new DualHashBidiMap();
-
+	
 	Map<String, XmppAgent> agents = new HashMap<String, XmppAgent>();
 
 	@Override
@@ -33,16 +32,7 @@ public class XmppService implements ProtocolService {
 		agent.connect();
 	}
 
-	@Override
-	public _Object getLocalObject(String address) {
-
-		return (_Object) addressObjectMap.get(address);
-	}
-
-	public String getAddress(_Object obj) {
-
-		return (String) addressObjectMap.getKey(obj);
-	}
+	
 
 	@Override
 	public void send(String receiverAddress, Message message) {
