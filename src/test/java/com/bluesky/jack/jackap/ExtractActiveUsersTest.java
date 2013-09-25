@@ -11,12 +11,12 @@ public class ExtractActiveUsersTest {
 
 	@Test
 	public void test() throws IOException {
-		ExtractActiveUsers eau = new ExtractActiveUsers();
+		StatusWirelessLive eau = new StatusWirelessLive();
 
 		StringBuffer sb = new StringBuffer();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(getClass()
-				.getResourceAsStream("Wireless Status.html"), "UTF-8"));
+				.getResourceAsStream("Status_Wireless.live.asp"), "UTF-8"));
 		for (int c = br.read(); c != -1; c = br.read())
 			sb.append((char) c);
 
