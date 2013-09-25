@@ -2,6 +2,8 @@ package com.bluesky.visualprogramming.remote;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +14,7 @@ import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.vm.AppProperties;
 
 /**
  * all in one service
@@ -73,6 +76,12 @@ public class RemoteCommunicationService {
 							if (connectionOptionsSV != null)
 								connectionOptions = connectionOptionsSV
 										.getValue();
+							/**
+							 * replace security info, such as password place
+							 * holders
+							 */
+							if (connectionOptions.contains("${"))
+								connectionOptions = replaceVariables(connectionOptions);
 
 							register(pt, address.getValue(), owner,
 									connectionOptions);
@@ -125,5 +134,15 @@ public class RemoteCommunicationService {
 	public void addProtocolService(ProtocolService svc) {
 		services.put(svc.getType(), svc);
 
+	}
+
+	protected String replaceVariables(String str) {
+		Properties p = AppProperties.getInstance().getRemoteSecurityConfig();
+
+		for (Object k : p.keySet()) {
+			String v = p.getProperty((String) k);
+			str = str.replace("${" + k + "}", v);
+		}
+		return str;
 	}
 }

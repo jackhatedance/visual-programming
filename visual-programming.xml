@@ -3521,7 +3521,7 @@ procedure loc()
                                             <applyingWorker>false</applyingWorker>
                                             <scaleRate>1.0</scaleRate>
                                             <borderColor reference="633"/>
-                                            <value>password=abc;authOnly=true</value>
+                                            <value>password=${jackap6.password};authOnly=true</value>
                                           </target>
                                           <area id="646">
                                             <x>490</x>
@@ -3784,7 +3784,7 @@ procedure loc()
 {
 	host = http://root@jackap6;
 	                      
-	result = host.&quot;index.asp&quot;();
+	result = host.&quot;Status_Wireless.live.asp&quot;();
 	root.console.print(result);
 }</code>
                   </target>
