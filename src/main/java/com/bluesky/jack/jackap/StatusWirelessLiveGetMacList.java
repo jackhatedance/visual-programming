@@ -5,12 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.StringEncoder;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.http.util.EncodingUtils;
-import org.jsoup.nodes.Entities.EscapeMode;
-
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
@@ -24,7 +20,7 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
  * @author jack
  * 
  */
-public class StatusWirelessLive extends BaseNativeProcedure implements
+public class StatusWirelessLiveGetMacList extends BaseNativeProcedure implements
 		NativeProcedure {
 
 	@Override
@@ -34,16 +30,18 @@ public class StatusWirelessLive extends BaseNativeProcedure implements
 		String data = dataSV.getValue();
 
 		List<String> macs = getWirelessUserMacs(data);
-		
-		for(String mac : macs){
-			System.out.println(mac);
-		}
-		
-		StringValue result = (StringValue) virtualMachine.getObjectRepository()
-				.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
 
-		// result.setValue(newStr);
-		
+		ObjectRepository repo = virtualMachine.getObjectRepository();
+		_Object result = repo.createObject(ObjectType.NORMAL,
+				ObjectScope.ExecutionContext);
+
+		for (String mac : macs) {
+			// System.out.println(mac);
+			_Object macSV = repo.createObject(ObjectType.STRING,
+					ObjectScope.ExecutionContext);
+			
+			result.addChild(macSV, null, true);
+		}
 
 		return result;
 	}
@@ -62,13 +60,12 @@ public class StatusWirelessLive extends BaseNativeProcedure implements
 
 			// System.out.println(k);
 			// System.out.println(v);
-			if("active_wireless".equals(k))
-			{
-				
+			if ("active_wireless".equals(k)) {
+
 				String[] vv = v.split(",");
-				for(int i=0;i<vv.length/9;i++){
-					String mac= vv[i*9];
-					list.add(mac.substring(1,mac.length()-1));
+				for (int i = 0; i < vv.length / 9; i++) {
+					String mac = vv[i * 9];
+					list.add(mac.substring(1, mac.length() - 1));
 				}
 			}
 		}

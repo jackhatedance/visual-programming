@@ -11,7 +11,7 @@ public class ExtractActiveUsersTest {
 
 	@Test
 	public void test() throws IOException {
-		StatusWirelessLive eau = new StatusWirelessLive();
+		StatusWirelessLiveGetMacList eau = new StatusWirelessLiveGetMacList();
 
 		StringBuffer sb = new StringBuffer();
 
