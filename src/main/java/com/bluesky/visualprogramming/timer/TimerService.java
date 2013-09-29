@@ -66,7 +66,7 @@ public class TimerService implements Service {
 
 					if (intervalObj != null && enabledObj != null) {
 						boolean enabled = enabledObj.getBooleanValue();
-						int interval = intervalObj.getIntValue();
+						int interval = (int)intervalObj.getIntValue();
 
 						if (enabled && interval > 0) {
 							subscribe(obj);
@@ -147,7 +147,7 @@ public class TimerService implements Service {
 	public void subscribe(_Object client) {
 		IntegerValue intervalObj = (IntegerValue) client.getChild("interval");
 
-		int interval = intervalObj.getIntValue();
+		int interval = (int)intervalObj.getIntValue();
 		if (interval == 0)
 			return;
 

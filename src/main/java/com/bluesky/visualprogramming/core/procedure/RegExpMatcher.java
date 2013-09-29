@@ -92,7 +92,7 @@ public class RegExpMatcher extends SubjectMatcher {
 					logger.debug("add parameter: " + paramName + ", type "
 							+ paramType);
 
-				body.addChild(child, paramName, true);
+				body.setField(child, paramName, true);
 			}
 			msg.body = body;
 		}

@@ -61,6 +61,8 @@ public class _Object implements Serializable {
 
 	// in Z order
 	private List<Field> fieldList = new ArrayList<Field>();
+	private int systemFieldsCount = 0;
+
 	// index names to accelerate access speed
 	private Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
 	private Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
@@ -83,7 +85,6 @@ public class _Object implements Serializable {
 	 */
 	private boolean applyingWorker = false;
 
-	
 	public double scaleRate = 1d;
 	public Color borderColor;
 	static int borderWidth = 5;
@@ -91,7 +92,6 @@ public class _Object implements Serializable {
 	public _Object(long id) {
 		this.id = id;
 
-		
 		borderColor = Color.BLACK;
 
 	}
@@ -112,7 +112,7 @@ public class _Object implements Serializable {
 		for (Field p : src.fieldList) {
 			boolean owns = p.target.owner == this;
 
-			addChild(p.target, p.name, owns);
+			setField(p.target, p.name, owns);
 		}
 
 		// messageQueue is skipped
@@ -120,7 +120,7 @@ public class _Object implements Serializable {
 		// always idle
 		this.worker = null;
 
-		//this.area = new Rectangle(src.area);
+		// this.area = new Rectangle(src.area);
 
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
@@ -183,7 +183,7 @@ public class _Object implements Serializable {
 	}
 
 	public void addPointer(_Object child, String name) {
-		addChild(child, name, false);
+		setField(child, name, false);
 	}
 
 	public int getChildIndex(_Object child) {
@@ -191,13 +191,60 @@ public class _Object implements Serializable {
 		return indexObject.intValue();
 	}
 
-	public void addChild(_Object child, String name, boolean owner) {
+	protected void addChild(_Object child, String name, boolean owner) {
 
 		Field p = new Field(child, name);
 
 		fieldList.add(p);
 		fieldNameMap.put(name, fieldList.size() - 1);
 		childrenObjectMap.put(child, fieldList.size() - 1);
+
+		if (owner) {
+			if (child.getScope() != ObjectScope.ExecutionContext)
+				throw new RuntimeException(
+						String.format(
+								"cannot own object(#%d) because it's scope is not ExecutionContext",
+								child.id));
+
+			child.setOwner(this);
+		}
+
+	}
+
+	/**
+	 * update field if exist, or create new field
+	 * 
+	 * @param child
+	 * @param name
+	 * @param owner
+	 */
+	public void setField(_Object child, String name, boolean owner) {
+
+		// name must be unique if is not null
+		if (name != null) {
+			Field f = getField(name);
+			if (f != null)
+				removeChild(name);
+
+			addChild(child, name, owner);
+
+		}
+
+	}
+
+	/**
+	 * only for list(no name element)
+	 * 
+	 * @param index
+	 * @param child
+	 * @param owner
+	 */
+	public void insertChild(int index, _Object child, boolean owner) {
+
+		Field p = new Field(child, name);
+
+		fieldList.add(index, p);
+		updateFieldIndexes();
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
@@ -239,7 +286,7 @@ public class _Object implements Serializable {
 		if (oldChild != null)
 			removeChild(name);
 
-		addChild(child, name, owner);
+		setField(child, name, owner);
 	}
 
 	public boolean hasOwner() {
@@ -273,20 +320,20 @@ public class _Object implements Serializable {
 		removeChild(childIndex);
 	}
 
-	public void removeChild(Integer indexObject) {
+	public void removeChild(Integer index) {
 
-		if (indexObject == null)
+		if (index == null)
 			return;
 
-		int index = indexObject.intValue();
+		int idx = index.intValue();
 
-		Field field = fieldList.get(index);
-		fieldList.remove(index);
+		Field field = fieldList.get(idx);
+		fieldList.remove(idx);
 
-		fieldNameMap.remove(field.name);
-		childrenObjectMap.remove(field.target);
-
+		updateFieldIndexes();
+		
 		field.target.setOwner(null);
+		field.target.setScope(ObjectScope.ExecutionContext);
 	}
 
 	public void removeChild(_Object object) {
@@ -320,19 +367,17 @@ public class _Object implements Serializable {
 		if (value != null && !value.isEmpty())
 			throw new RuntimeException("param 'value' is not empty.");
 	}
- 
+
 	@Override
 	public String toString() {
 
 		return name;
 	}
 
-	public void draw(Graphics g,  Point canvasOffset,Rectangle area, double zoom, boolean own,
-			String name, SelectedStatus selectedStatus) {
+	public void draw(Graphics g, Point canvasOffset, Rectangle area,
+			double zoom, boolean own, String name, SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
-		
-		
 		// draw border
 		g.setColor(borderColor);
 
@@ -399,7 +444,8 @@ public class _Object implements Serializable {
 
 		for (Field f : fieldList) {
 			boolean owns = f.target.owner == this;
-			f.target.draw(g, canvasOffset,f.getArea(), zoom, owns, name, selectedStatus);
+			f.target.draw(g, canvasOffset, f.getArea(), zoom, owns, name,
+					selectedStatus);
 		}
 	}
 
@@ -414,12 +460,21 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(g, canvasOffset, field.getArea(), scaleRate, owns, objName,
-					field.getSelectedStatus());
+			field.target.draw(g, canvasOffset, field.getArea(), scaleRate,
+					owns, objName, field.getSelectedStatus());
 		}
 	}
 
+	protected Field getField(String name) {
+		Integer index = fieldNameMap.get(name);
+		if (index != null)
+			return fieldList.get(index);
+		else
+			return null;
+	}
+
 	public _Object getChild(String name) {
+			
 		Integer index = fieldNameMap.get(name);
 		if (index == null)
 			return null;
@@ -672,5 +727,39 @@ public class _Object implements Serializable {
 
 	public boolean owns(_Object child) {
 		return child.getOwner() == this;
+	}
+
+	/**
+	 * rearrange the field list, system field are on top.
+	 * 
+	 * and update the system field count.
+	 */
+	public void repackFields() {
+		List<Field> systemFields = new ArrayList<Field>();
+		List<Field> userFields = new ArrayList<Field>();
+
+		for (Field f : fieldList) {
+			if (f.isSystemField())
+				systemFields.add(f);
+			else
+				userFields.add(f);
+		}
+
+		fieldList.clear();
+
+		fieldList.addAll(systemFields);
+		fieldList.addAll(userFields);
+
+		systemFieldsCount = systemFields.size();
+
+		updateFieldIndexes();
+	}
+
+	public int getSystemFieldsCount() {
+		return this.systemFieldsCount;
+	}
+
+	public int getUserFieldsCount() {
+		return fieldList.size() - systemFieldsCount;
 	}
 }

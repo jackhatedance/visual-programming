@@ -63,7 +63,7 @@ assignee : ID		#AssigneeVariable
 expr: constant				#ConstantExpr
     | variable                          #VariableExpr
     | expr DOT field              #AccessField
-    | expr DOT messgeSubject '(' paramList? ')' #SendMessage
+    | expr DOT messgeSubject '(' fieldList? ')' #SendMessage
     ;
 
 constant : 
@@ -74,9 +74,12 @@ constant :
 	| NULL				#NullValue
         | link            #ObjectLink
         | procedure         #ProcedureConst
+        | object			#ObjectConst
          ;
 
 link : LINK_PROTOCOL  LINK_ADDRESS;
+
+object : '{' fieldList? '}';
 
 variable : ID;
 field   :   ID          #IdField
@@ -88,7 +91,7 @@ messgeSubject : ID         #IdMessageSubject
            |    STRING  #StringMessageSubject            
            ;
 
-paramList : expr (',' expr)*            #orderedParamList  
+fieldList : expr (',' expr)*            #orderedParamList  
           | nameValue (',' nameValue)*  #namedParamList
           ;
 

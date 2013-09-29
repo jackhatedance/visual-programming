@@ -57,6 +57,8 @@ import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.NameValueConte
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.NamedParamListContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.NullValueContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.NumberContext;
+import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ObjectConstContext;
+import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ObjectContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ObjectLinkContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.OrderedParamListContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.OwnAssignOperatorContext;
@@ -325,13 +327,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			return paramVar;
 		} else {
 
-			// create the root parameter object
-			CreateObject ins = new CreateObject();
-			ins.objType = ObjectType.NORMAL;
-			ins.varName = parametersVarName;
-
-			addInstruction(ins);
-
 			for (int i = 0; i < ctx.nameValue().size(); i++) {
 				NameValueContext nvc = ctx.nameValue(i);
 
@@ -356,13 +351,6 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String parametersVarName = getNextTempVar("orderedParam");
 
 		Object[] paramVars = (Object[]) visitEach(ctx.expr());
-
-		// create the root parameter object
-		CreateObject ins = new CreateObject();
-		ins.objType = ObjectType.NORMAL;
-		ins.varName = parametersVarName;
-
-		addInstruction(ins);
 
 		// add parameters one by one
 
@@ -471,7 +459,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		falseBegin.label = blockName + "FalseBegin";
 		addInstruction(falseBegin);
 
-		ctx.falseBranch().accept(this);
+		if(ctx.falseBranch()!=null)
+			ctx.falseBranch().accept(this);
 
 		// label
 		NoOperation falseEnd = new NoOperation();
@@ -491,10 +480,21 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		// default
 		ParameterStyle paramStyle = ParameterStyle.ByName;
 
-		if (ctx.paramList() != null) {
-			paramVar = (String) ctx.paramList().accept(this);
+		if (ctx.fieldList() != null) {
 
-			if (ctx.paramList() instanceof OrderedParamListContext)
+			// create the root parameter object
+			CreateObject createBody = new CreateObject();
+			createBody.objType = ObjectType.NORMAL;
+			// assign later
+			// ins.varName = "";
+
+			addInstruction(createBody);
+
+			paramVar = (String) ctx.fieldList().accept(this);
+
+			createBody.varName = paramVar;
+
+			if (ctx.fieldList() instanceof OrderedParamListContext)
 				paramStyle = ParameterStyle.ByOrder;
 			else
 				paramStyle = ParameterStyle.ByName;
@@ -960,6 +960,29 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitVarMessageSubject(VarMessageSubjectContext ctx) {
 
 		return ctx.ID().getText();
+	}
+
+	@Override
+	public Object visitObjectConst(ObjectConstContext ctx) {
+
+		return null;
+	}
+
+	@Override
+	public Object visitObject(ObjectContext ctx) {
+		// create the root parameter object
+		CreateObject createBody = new CreateObject();
+		createBody.objType = ObjectType.NORMAL;
+		// assign later
+		// ins.varName = "";
+
+		addInstruction(createBody);
+
+		String paramVar = (String) ctx.fieldList().accept(this);
+
+		createBody.varName = paramVar;
+
+		return paramVar;
 	}
 
 }

@@ -8,4 +8,8 @@ procedure foo(b)
 		a=true;
 	}
 	
+	
+	if(b)
+		b.foo();
+	
 }

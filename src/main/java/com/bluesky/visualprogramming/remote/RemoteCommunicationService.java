@@ -54,7 +54,7 @@ public class RemoteCommunicationService {
 				int index = owner.getChildIndex(obj);
 				Field field = owner.getField(index);
 
-				if (field.getName().equals("_aliases")) {
+				if (field.getName()!=null && field.getName().equals("_aliases")) {
 					for (int i = 0; i < aliases.getChildCount(); i++) {
 						_Object alias = aliases.getChild(i);
 

@@ -66,12 +66,16 @@ public class Field {
 	}
 
 	public Rectangle getArea() {
-//		if (area == null)
-//			this.area = (Rectangle)target.area.clone();
+		// if (area == null)
+		// this.area = (Rectangle)target.area.clone();
 
-		//if (area == null)
-			//this.area = new Rectangle(0,0,100,100);
+		// if (area == null)
+		// this.area = new Rectangle(0,0,100,100);
 
 		return area;
+	}
+
+	public boolean isSystemField() {
+		return name != null && name.startsWith("_");
 	}
 }

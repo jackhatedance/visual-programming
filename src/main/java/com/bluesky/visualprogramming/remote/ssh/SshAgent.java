@@ -157,8 +157,8 @@ public class SshAgent {
 					ObjectType.STRING, ObjectScope.ExecutionContext);
 			outputValue.setValue(output.toString());
 
-			returnValue.addChild(status, "status", true);
-			returnValue.addChild(outputValue, "output", true);
+			returnValue.setField(status, "status", true);
+			returnValue.setField(outputValue, "output", true);
 
 			Message replyMsg = new Message(false, lastRequestMessage.receiver,
 					lastRequestMessage.sender, "RE:"

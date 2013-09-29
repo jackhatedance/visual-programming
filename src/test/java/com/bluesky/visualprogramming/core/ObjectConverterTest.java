@@ -19,20 +19,20 @@ public class ObjectConverterTest {
 		age.setName("_age");
 		age.setScope(ObjectScope.ExecutionContext);
 
-		root.addChild(age, "age", true);
+		root.setField(age, "age", true);
 
 		StringValue name = new StringValue(2);
 		name.setValue("jack");
 		name.setName("_name");
 		name.setScope(ObjectScope.ExecutionContext);
-		root.addChild(name, "name", true);
+		root.setField(name, "name", true);
 
-		root.addChild(name, "nameLink", false);
+		root.setField(name, "nameLink", false);
 
 		Link link = new Link(3);
 		link.setValue("xmpp://jack@example.com");
 		link.setScope(ObjectScope.ExecutionContext);
-		root.addChild(link, "jacklink", true);
+		root.setField(link, "jacklink", true);
 
 		SerializationService svc = new SerializationService();
 

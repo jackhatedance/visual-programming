@@ -91,7 +91,7 @@ public class ObjectRepository {
 			try {
 				_Object prototype = getObjectByEl(prototypeEl);
 				if (prototype != null)
-					newObject.addChild(prototype, _Object.PROTOTYPE, false);
+					newObject.setField(prototype, _Object.PROTOTYPE, false);
 			} catch (InvalidELException e) {
 
 				logger.warn(
@@ -139,7 +139,7 @@ public class ObjectRepository {
 		if (owner == null)
 			throw new RuntimeException("owner must not be null");
 
-		owner.addChild(newObject, name, true);
+		owner.setField(newObject, name, true);
 
 		objects.put(newObject.getId(), newObject);
 

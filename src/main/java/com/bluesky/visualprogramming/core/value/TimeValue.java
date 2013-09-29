@@ -30,7 +30,7 @@ public class TimeValue extends _Object {
 
 	}
 
-	public long getLongValue() {
+	public long getLongValue() {		
 		return value.getTime();
 	}
 

@@ -28,7 +28,7 @@ public class AddElement extends BaseNativeProcedure implements
 		String name = UUID.randomUUID().toString().replaceAll("-", "");
 
 		boolean canIOwn = child.hasOwner()?false:true;
-		self.addChild(child, name, canIOwn);
+		self.setField(child, name, canIOwn);
 
 		return null;
 	}

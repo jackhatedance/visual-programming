@@ -112,7 +112,11 @@ public class ProcedureExecutor implements InstructionExecutor {
 			throw new RuntimeException("object not exist:"
 					+ instruction.toString());
 
-		_Object result = obj.getChild(instruction.fieldName);
+		_Object result;
+		if (instruction.fieldName.equals("_owner"))
+			result = obj.getOwner();
+		else
+			result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
 
@@ -195,17 +199,13 @@ public class ProcedureExecutor implements InstructionExecutor {
 				throw new RuntimeException("receiver object not exist:"
 						+ instruction.receiverVar);
 
-
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
 			if (messageSubject == null)
 				throw new RuntimeException("subject object not exist:"
 						+ instruction.messageSubjectVar);
 
-
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-			
-			
 
 			MessageType msgType = MessageType.Normal;
 			if (sender == receiver)
@@ -278,12 +278,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
 
-				leftObject.addChild(rightObject, fieldName, true);
+				leftObject.setField(rightObject, fieldName, true);
 			}
 			break;
 
 		case REF:
-			leftObject.addChild(rightObject, fieldName, false);
+			leftObject.setField(rightObject, fieldName, false);
 
 			break;
 		default:
@@ -328,5 +328,4 @@ public class ProcedureExecutor implements InstructionExecutor {
 		return ExecutionStatus.COMPLETE;
 	}
 
-	
 }

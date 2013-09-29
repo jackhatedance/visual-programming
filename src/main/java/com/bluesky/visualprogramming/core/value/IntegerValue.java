@@ -3,13 +3,20 @@ package com.bluesky.visualprogramming.core.value;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 
+/**
+ * Integer is actually a Long. won't bother to introduce int and long. As
+ * long(64bit) is an better int(32bit).
+ * 
+ * @author jack
+ * 
+ */
 public class IntegerValue extends _Object {
 	public IntegerValue(long id) {
 		super(id);
 		type = ObjectType.INTEGER;
 	}
 
-	Integer value;
+	Long value;
 
 	@Override
 	public String getValue() {
@@ -20,7 +27,7 @@ public class IntegerValue extends _Object {
 	@Override
 	public void setValue(String value) {
 		try {
-			this.value = Integer.valueOf(value);
+			this.value = Long.valueOf(value);
 		} catch (Exception e) {
 			this.value = null;
 
@@ -28,11 +35,11 @@ public class IntegerValue extends _Object {
 
 	}
 
-	public int getIntValue() {
+	public long getIntValue() {
 		return value;
 	}
 
-	public void setIntValue(int i) {
+	public void setIntValue(long i) {
 		this.value = i;
 	}
 }

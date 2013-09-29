@@ -1,28 +1,20 @@
-package com.bluesky.visualprogramming.core.nativeproc.object;
+package com.bluesky.visualprogramming.core.nativeproc.list;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
-import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-/**
- * every object is a map.
- * 
- * @author Administrator
- * 
- */
-public class Get extends BaseNativeProcedure implements NativeProcedure {
+public class Add extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
-		StringValue nameSV = (StringValue) ctx.get("name");
+		_Object item = ctx.get("element");
 
-		_Object value = self.getChild(nameSV.getValue());
+		self.setField(item, null, true);
 
-		return value;
+		return null;
 	}
-
 }

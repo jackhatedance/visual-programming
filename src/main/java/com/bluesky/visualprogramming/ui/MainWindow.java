@@ -95,7 +95,7 @@ public class MainWindow extends JPanel {
 		splitPane.setLeftComponent(scrollTreePanel);
 		splitPane.setRightComponent(scrollDiagramPanel);
 
-		splitPane.setDividerLocation(200);
+		splitPane.setDividerLocation(300);
 		splitPane.setPreferredSize(new Dimension(500, 300));
 
 		// Add the split pane to this panel.
@@ -305,14 +305,13 @@ public class MainWindow extends JPanel {
 	}
 
 	private void addChildObjectToTree(_Object obj) {
-		
 
 		// add to tree
 		int index = obj.getOwner().getChildIndex(obj);
 		Field f = obj.getOwner().getField(index);
-		
+
 		f.getArea().setLocation(diagram.getMousePosition());
-		
+
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
@@ -350,10 +349,8 @@ public class MainWindow extends JPanel {
 				Point rawCursorPos = CanvasUtils.scaleBack(e.getPoint(),
 						getSelectedTreeField().target.scaleRate);
 
-				activeChildField.getArea().x = rawCursorPos.x
-						- cursorOffset.x;
-				activeChildField.getArea().y = rawCursorPos.y
-						- cursorOffset.y;
+				activeChildField.getArea().x = rawCursorPos.x - cursorOffset.x;
+				activeChildField.getArea().y = rawCursorPos.y - cursorOffset.y;
 
 				diagram.repaint();
 			}
@@ -375,9 +372,8 @@ public class MainWindow extends JPanel {
 					Point rawMousePt = CanvasUtils.scaleBack(e.getPoint(),
 							getSelectedTreeField().target.scaleRate);
 
-					cursorOffset = CanvasUtils.getOffset(
-							activeChildField.getArea().getLocation(),
-							rawMousePt);
+					cursorOffset = CanvasUtils.getOffset(activeChildField
+							.getArea().getLocation(), rawMousePt);
 
 				}
 			}
@@ -463,7 +459,8 @@ public class MainWindow extends JPanel {
 		Field oldActiveChildField = activeChildField;
 
 		if (activeChildField != null) {
-			if (activeChildField.getName().equals("helloWorld")
+			if (activeChildField.getName() != null
+					&& activeChildField.getName().equals("helloWorld")
 					&& activeChildField.getSelectedStatus() == SelectedStatus.NotSelected)
 				System.out
 						.println(String.format(
