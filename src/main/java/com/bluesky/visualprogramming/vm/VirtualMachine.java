@@ -6,6 +6,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.messageEngine.WorkerManager;
+import com.bluesky.visualprogramming.timer.TimerService;
 
 /**
  * one vm start with one image.
@@ -23,6 +24,8 @@ public class VirtualMachine implements Service{
 
 	private PostService postService;
 	private Thread postServiceThread;
+	
+	private TimerService timerService;
 
 	private boolean running = false;
 
@@ -44,6 +47,8 @@ public class VirtualMachine implements Service{
 
 		postService = new PostService();
 		workerManager = new WorkerManager();
+		
+		timerService = new TimerService(objectRepository); 
 
 		/*
 		 * workerManager and postService only need each other at runtime.
@@ -55,6 +60,8 @@ public class VirtualMachine implements Service{
 
 		postServiceThread = new Thread(postService, "PostService");
 
+		timerService.init();
+		
 		logger.info("VM initialized");
 	}
 
@@ -77,6 +84,7 @@ public class VirtualMachine implements Service{
 
 		workerManagerThread.start();
 		postServiceThread.start();
+		timerService.start();
 
 		running = true;
 
@@ -96,6 +104,8 @@ public class VirtualMachine implements Service{
 			postServiceThread.interrupt();
 
 			postServiceThread.join();
+			
+			timerService.pause();
 
 			running = false;
 
@@ -116,6 +126,8 @@ public class VirtualMachine implements Service{
 		workerManagerThread.start();
 		postServiceThread.start();
 
+		timerService.resume();
+		
 		running = true;
 
 		logger.info("VM resumed");
@@ -143,6 +155,14 @@ public class VirtualMachine implements Service{
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public TimerService getTimerService() {
+		return timerService;
+	}
+
+	public void setTimerService(TimerService timerService) {
+		this.timerService = timerService;
 	}
 
 	@Override

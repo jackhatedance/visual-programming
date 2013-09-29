@@ -273,7 +273,7 @@ public class ObjectRepository {
 		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
 
-		listeners.add(new ObjectRepositoryListener() {
+		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
 
 			@Override
 			public void beforeDestroy(_Object obj) {
@@ -282,7 +282,7 @@ public class ObjectRepository {
 			}
 
 			@Override
-			public void afterLoad(_Object obj) {
+			public void afterLoadFromFile(_Object obj) {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 					// f.getArea();
@@ -293,18 +293,19 @@ public class ObjectRepository {
 			public void afterCreate(_Object obj) {
 
 			}
-			
+
 			@Override
-			public void afterLoadAll() {
+			public void afterAllLoaded() {
 				// TODO Auto-generated method stub
-				
+
 			}
-		});
+		};
+		// listeners.add(migrationListener);
 
 		// notify
 		for (_Object o : objects.values()) {
 			for (ObjectRepositoryListener l : listeners)
-				l.afterLoad(o);
+				l.afterLoadFromFile(o);
 		}
 
 	}

@@ -44,7 +44,7 @@ public class RemoteCommunicationService {
 			}
 
 			@Override
-			public void afterLoad(_Object obj) {
+			public void afterLoadFromFile(_Object obj) {
 				_Object aliases = obj;
 				_Object owner = obj.getOwner();
 
@@ -105,9 +105,9 @@ public class RemoteCommunicationService {
 			}
 
 			@Override
-			public void afterLoadAll() {
-				// TODO start remote service.
-
+			public void afterAllLoaded() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
