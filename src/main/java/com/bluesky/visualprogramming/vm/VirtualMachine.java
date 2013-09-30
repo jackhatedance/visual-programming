@@ -14,8 +14,10 @@ import com.bluesky.visualprogramming.timer.TimerService;
  * @author jack
  * 
  */
-public class VirtualMachine implements Service{
+public class VirtualMachine implements Service {
 	static Logger logger = Logger.getLogger(VirtualMachine.class);
+
+	private AppProperties appProperties;
 
 	private ObjectRepository objectRepository;
 
@@ -24,7 +26,8 @@ public class VirtualMachine implements Service{
 
 	private PostService postService;
 	private Thread postServiceThread;
-	
+
+	private boolean timerServiceEnabled = false;
 	private TimerService timerService;
 
 	private boolean running = false;
@@ -43,12 +46,19 @@ public class VirtualMachine implements Service{
 	}
 
 	public VirtualMachine() {
+		appProperties = AppProperties.getInstance();
+
 		objectRepository = new ObjectRepository();
 
 		postService = new PostService();
 		workerManager = new WorkerManager();
-		
-		timerService = new TimerService(objectRepository); 
+
+		timerServiceEnabled = true;
+		String timerServiceEnabledStr = appProperties
+				.getProperty("service.timer.enabled");
+		if (timerServiceEnabledStr != null)
+			timerServiceEnabled = Boolean.valueOf(timerServiceEnabledStr);
+		timerService = new TimerService(objectRepository);
 
 		/*
 		 * workerManager and postService only need each other at runtime.
@@ -61,19 +71,19 @@ public class VirtualMachine implements Service{
 		postServiceThread = new Thread(postService, "PostService");
 
 		timerService.init();
-		
+
 		logger.info("VM initialized");
 	}
 
 	public void loadFromImage(String file) {
-		if(running)
+		if (running)
 			throw new RuntimeException("cannot load while running");
-		//pause();
-		
+		// pause();
+
 		objectRepository.loadXml(file);
 
-		//resume();
-		
+		// resume();
+
 		logger.info("VM loaded image file:" + file);
 	}
 
@@ -84,7 +94,9 @@ public class VirtualMachine implements Service{
 
 		workerManagerThread.start();
 		postServiceThread.start();
-		timerService.start();
+
+		if (timerServiceEnabled)
+			timerService.start();
 
 		running = true;
 
@@ -104,8 +116,9 @@ public class VirtualMachine implements Service{
 			postServiceThread.interrupt();
 
 			postServiceThread.join();
-			
-			timerService.pause();
+
+			if (timerServiceEnabled)
+				timerService.pause();
 
 			running = false;
 
@@ -126,8 +139,9 @@ public class VirtualMachine implements Service{
 		workerManagerThread.start();
 		postServiceThread.start();
 
-		timerService.resume();
-		
+		if (timerServiceEnabled)
+			timerService.resume();
+
 		running = true;
 
 		logger.info("VM resumed");
@@ -167,20 +181,17 @@ public class VirtualMachine implements Service{
 
 	@Override
 	public void init() {
-		
-		
+
 	}
 
 	@Override
 	public void stop() {
-		
-		
+
 	}
 
 	@Override
 	public void destroy() {
-		
-		
+
 	}
 
 }

@@ -13,7 +13,7 @@ public class Add extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		_Object item = ctx.get("element");
 
-		self.setField(item, null, true);
+		self.setField(null, item, true);
 
 		return null;
 	}

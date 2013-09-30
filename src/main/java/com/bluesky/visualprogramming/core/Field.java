@@ -16,6 +16,11 @@ public class Field {
 	 */
 	private Rectangle area = new Rectangle();
 
+	public Field(String name) {	
+		this.name = name;
+		area = new Rectangle(0, 0, 100, 100);
+	}
+	
 	public Field(_Object targetObject, String name) {
 		this.target = targetObject;
 		this.name = name;

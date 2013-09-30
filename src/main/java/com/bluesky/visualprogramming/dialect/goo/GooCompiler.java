@@ -115,6 +115,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	private int tempVarCount = 0;
 	private int blockCount = 0;
 
+	/**
+	 * variable name stack. rarely used.
+	 */
+	private Stack<String> VarNameStack = new Stack<String>();
+
 	private String getNextTempVar(String type) {
 		// String name = "temp_" + type + "_" + tempVarCount;
 		String name = "t_" + tempVarCount;
@@ -312,7 +317,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitNamedParamList(NamedParamListContext ctx) {
-		String parametersVarName = getNextTempVar("namedParam");
+		String parametersVarName = VarNameStack.pop();
 
 		if (ctx.nameValue().size() == 1
 				&& ctx.nameValue(0).ID().getText().equals("_body")) {
@@ -324,7 +329,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			 */
 
 			String paramVar = (String) nvc.accept(this);
-			return paramVar;
+			return null;
 		} else {
 
 			for (int i = 0; i < ctx.nameValue().size(); i++) {
@@ -332,23 +337,32 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 				String paramVar = (String) nvc.accept(this);
 
+				// create field name var
+				CreateObject insFieldName = new CreateObject();
+
+				insFieldName.varName = getNextTempVar("varField");
+				insFieldName.objType = ObjectType.STRING;
+				insFieldName.value = nvc.ID().getText();
+
+				addInstruction(insFieldName);
+
 				FieldAssignment ins2 = new FieldAssignment();
 				ins2.ownerVar = parametersVarName;
-				ins2.fieldNameVar = nvc.ID().getText();
+				ins2.fieldNameVar = insFieldName.varName;
 				ins2.rightVar = paramVar;
 				ins2.assignmenType = AssignmentType.AUTO;
 
 				addInstruction(ins2);
 			}
 
-			return parametersVarName;
+			return null;
 		}
 	}
 
 	@Override
 	public Object visitOrderedParamList(OrderedParamListContext ctx) {
 
-		String parametersVarName = getNextTempVar("orderedParam");
+		String parametersVarName = VarNameStack.pop();
 
 		Object[] paramVars = (Object[]) visitEach(ctx.expr());
 
@@ -374,7 +388,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			addInstruction(ins2);
 		}
 
-		return parametersVarName;
+		return null;
 	}
 
 	@Override
@@ -459,7 +473,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		falseBegin.label = blockName + "FalseBegin";
 		addInstruction(falseBegin);
 
-		if(ctx.falseBranch()!=null)
+		if (ctx.falseBranch() != null)
 			ctx.falseBranch().accept(this);
 
 		// label
@@ -478,19 +492,21 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String paramVar = null;
 
 		// default
-		ParameterStyle paramStyle = ParameterStyle.ByName;
+		ParameterStyle paramStyle = null;
 
 		if (ctx.fieldList() != null) {
 
 			// create the root parameter object
 			CreateObject createBody = new CreateObject();
 			createBody.objType = ObjectType.NORMAL;
-			// assign later
-			// ins.varName = "";
+			paramVar = getNextTempVar("paramFieldList");
+			createBody.varName = paramVar;
 
 			addInstruction(createBody);
 
-			paramVar = (String) ctx.fieldList().accept(this);
+			VarNameStack.push(paramVar);
+
+			ctx.fieldList().accept(this);
 
 			createBody.varName = paramVar;
 
@@ -965,7 +981,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitObjectConst(ObjectConstContext ctx) {
 
-		return null;
+		return ctx.object().accept(this);
 	}
 
 	@Override
@@ -973,16 +989,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		// create the root parameter object
 		CreateObject createBody = new CreateObject();
 		createBody.objType = ObjectType.NORMAL;
-		// assign later
-		// ins.varName = "";
+		createBody.varName = getNextTempVar("createObject");
 
 		addInstruction(createBody);
 
-		String paramVar = (String) ctx.fieldList().accept(this);
+		if (ctx.fieldList() != null) {
+			VarNameStack.push(createBody.varName);
+			ctx.fieldList().accept(this);
+		}
 
-		createBody.varName = paramVar;
-
-		return paramVar;
+		return createBody.varName;
 	}
 
 }

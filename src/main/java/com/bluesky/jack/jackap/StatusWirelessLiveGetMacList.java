@@ -39,10 +39,10 @@ public class StatusWirelessLiveGetMacList extends BaseNativeProcedure implements
 			// System.out.println(mac);
 			_Object macSV = repo.createObject(ObjectType.STRING,
 					ObjectScope.ExecutionContext);
-			
+
 			macSV.setValue(mac);
-			
-			result.setField(macSV, null, true);
+
+			result.setField(null, macSV, true);
 		}
 
 		return result;

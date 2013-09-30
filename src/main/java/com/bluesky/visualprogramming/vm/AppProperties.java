@@ -14,10 +14,11 @@ public class AppProperties {
 		return instance;
 	}
 
+	Properties appProperties;
 	Properties remoteSecurityConfig;
 
 	public AppProperties() {
-		Properties appProperties = new Properties();
+		appProperties = new Properties();
 		try {
 			appProperties.load(AppProperties.class
 					.getResourceAsStream("/app.properties"));
@@ -38,4 +39,7 @@ public class AppProperties {
 		return remoteSecurityConfig;
 	}
 
+	public String getProperty(String key) {
+		return appProperties.getProperty(key);
+	}
 }

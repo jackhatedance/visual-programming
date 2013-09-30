@@ -85,11 +85,11 @@ public class Procedure extends _Object {
 				language = map.get("language");
 
 			int endOflineIndex = value.indexOf('\n', index2);
-			if(endOflineIndex>=0)
+			if (endOflineIndex >= 0)
 				code = value.substring(endOflineIndex + 1);
 			else
 				code = "";
-			
+
 		} else
 			code = value;
 
@@ -115,5 +115,11 @@ public class Procedure extends _Object {
 			return nativeProcedureParameters.split("\\|");
 		else
 			return new String[0];
+	}
+
+	@Override
+	public String getHumanReadableText() {
+
+		return "";
 	}
 }

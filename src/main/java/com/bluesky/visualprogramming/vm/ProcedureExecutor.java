@@ -2,9 +2,6 @@ package com.bluesky.visualprogramming.vm;
 
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
@@ -14,7 +11,6 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
@@ -115,7 +111,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 		_Object result;
 		if (instruction.fieldName.equals("_owner"))
 			result = obj.getOwner();
-		else
+		else if (instruction.fieldName.equals("_name")) {
+			result = new StringValue(-1);
+			result.setValue(obj.getName());
+		} else
 			result = obj.getChild(instruction.fieldName);
 
 		ctx.setObject(instruction.varName, result);
@@ -228,13 +227,16 @@ public class ProcedureExecutor implements InstructionExecutor {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;
 
-			String replyValue = "";
-			if (reply != null)
-				replyValue = reply.getValue();
+			// TODO check if reply has exception
 
-			if (logger.isDebugEnabled())
+			if (logger.isDebugEnabled()) {
+				String replyValue = "";
+				if (reply != null)
+					replyValue = reply.getValue();
+
 				logger.debug(String.format("executeSendMessage, step 2; %s=%s",
 						instruction.replyVar, replyValue));
+			}
 
 			ctx.setObject(instruction.replyVar, reply);
 
@@ -253,6 +255,10 @@ public class ProcedureExecutor implements InstructionExecutor {
 		_Object rightObject = ctx.getObject(instruction.rightVar);
 
 		_Object leftObject = ctx.getObject(instruction.ownerVar);
+
+		if (leftObject == null)
+			throw new RuntimeException("left object is null:"
+					+ instruction.ownerVar);
 
 		_Object oldFieldObject = null;
 
@@ -278,12 +284,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
 
-				leftObject.setField(rightObject, fieldName, true);
+				leftObject.setField(fieldName, rightObject, true);
 			}
 			break;
 
 		case REF:
-			leftObject.setField(rightObject, fieldName, false);
+			leftObject.setField(fieldName, rightObject, false);
 
 			break;
 		default:
@@ -296,9 +302,9 @@ public class ProcedureExecutor implements InstructionExecutor {
 					leftObject.removeChild(oldFieldObject);
 			} else if (rightObject.getScope() == ObjectScope.ExecutionContext) {
 
-				leftObject.setChild(fieldName, rightObject, true);
+				leftObject.setField(fieldName, rightObject, true);
 			} else {
-				leftObject.addPointer(rightObject, fieldName);
+				leftObject.setField(fieldName, rightObject, false);
 			}
 
 		}
@@ -310,6 +316,12 @@ public class ProcedureExecutor implements InstructionExecutor {
 	public ExecutionStatus executeVariableAssignment(
 			VariableAssignment instruction) {
 		_Object right = ctx.getObject(instruction.right);
+
+		if (logger.isDebugEnabled()) {
+			if (right != null && !right.hasRealName())
+				right.setName(instruction.left);
+		}
+
 		ctx.setVariable(instruction.left, right);
 
 		return ExecutionStatus.COMPLETE;

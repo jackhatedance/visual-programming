@@ -2,5 +2,5 @@ procedure foo(a,b,c)
 {
 	a = { a:1, b:true, c:{num:3}};
 	
-	b = {};
+	//b = {};
 }

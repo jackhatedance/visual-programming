@@ -1,16 +1,12 @@
 package com.bluesky.visualprogramming.core;
 
-import java.awt.Rectangle;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,7 +87,7 @@ public class ObjectRepository {
 			try {
 				_Object prototype = getObjectByEl(prototypeEl);
 				if (prototype != null)
-					newObject.setField(prototype, _Object.PROTOTYPE, false);
+					newObject.setField(_Object.PROTOTYPE, prototype, false);
 			} catch (InvalidELException e) {
 
 				logger.warn(
@@ -139,7 +135,7 @@ public class ObjectRepository {
 		if (owner == null)
 			throw new RuntimeException("owner must not be null");
 
-		owner.setField(newObject, name, true);
+		owner.setField(name, newObject, true);
 
 		objects.put(newObject.getId(), newObject);
 
@@ -266,7 +262,7 @@ public class ObjectRepository {
 			if (o.getId() > maxObjectId)
 				maxObjectId = o.getId();
 
-			o.updateFieldIndexes();
+			o.recreateFieldIndexes();
 		}
 
 		// reset object id

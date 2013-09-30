@@ -79,12 +79,12 @@ public class SshAgent {
 					"login ssh to server %s:%d as user %s password %s", server,
 					port, username, password));
 			UserInfo ui = new MyUserInfo(password);
-			
+
 			java.util.Properties config = new java.util.Properties();
 			config.put("StrictHostKeyChecking", "no");
 			session.setConfig(config);
 			session.setPassword(password);
-			//session.setUserInfo(ui);
+			// session.setUserInfo(ui);
 
 			session.connect();
 
@@ -157,8 +157,8 @@ public class SshAgent {
 					ObjectType.STRING, ObjectScope.ExecutionContext);
 			outputValue.setValue(output.toString());
 
-			returnValue.setField(status, "status", true);
-			returnValue.setField(outputValue, "output", true);
+			returnValue.setField("status", status, true);
+			returnValue.setField("output", outputValue, true);
 
 			Message replyMsg = new Message(false, lastRequestMessage.receiver,
 					lastRequestMessage.sender, "RE:"
@@ -198,7 +198,5 @@ public class SshAgent {
 
 		return map;
 	}
-	
-	
 
 }

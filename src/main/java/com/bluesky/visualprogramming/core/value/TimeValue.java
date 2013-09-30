@@ -41,9 +41,11 @@ public class TimeValue extends _Object {
 	public Date getDateValue() {
 		return value;
 	}
-
-
-	public String getTextValue() {
+	
+	@Override
+	public String getHumanReadableText() {
+		
 		return value.toString();
 	}
+	
 }

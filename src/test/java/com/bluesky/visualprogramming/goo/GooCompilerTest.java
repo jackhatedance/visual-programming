@@ -22,9 +22,9 @@ public class GooCompilerTest {
 
 	@Ignore
 	@Test
-	public void testAssignment() {
+	public void testConstant() {
 		InputStream is = GooCompilerTest.class
-				.getResourceAsStream("/sample-code/sample-2-assignment.goo");
+				.getResourceAsStream("/sample-code/sample-2-constant.goo");
 		compiler.compile(is);
 
 		for (Instruction ins : compiler.getInstructions()) {
@@ -32,6 +32,32 @@ public class GooCompilerTest {
 		}
 
 	}
+	
+	@Ignore
+	@Test
+	public void testAssignment2_1() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-2_1-assignment-object.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			System.out.println(ins.toString());
+		}
+
+	}
+	
+	//@Ignore
+		@Test
+		public void testAssignment2_2() {
+			InputStream is = GooCompilerTest.class
+					.getResourceAsStream("/sample-code/sample-2-2-assignment.goo");
+			compiler.compile(is);
+
+			for (Instruction ins : compiler.getInstructions()) {
+				System.out.println(ins.toString());
+			}
+
+		}
 
 	@Ignore
 	@Test
@@ -46,7 +72,7 @@ public class GooCompilerTest {
 
 	}
 
-//	@Ignore
+	@Ignore
 	@Test
 	public void testIf() {
 		InputStream is = GooCompilerTest.class

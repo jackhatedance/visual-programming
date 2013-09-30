@@ -18,7 +18,7 @@ public class Remove extends BaseNativeProcedure implements NativeProcedure {
 		int offset =self.getSystemFieldsCount();
 		int pos = offset + (int)index.getIntValue();
 		
-		self.removeChild(pos);
+		self.removeField(pos);
 
 		return null;
 	}

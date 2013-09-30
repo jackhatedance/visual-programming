@@ -17,7 +17,7 @@ public enum AssignmentType {
 		@Override
 		public String getOperator() {
 			
-			return "~=";
+			return "~>";
 		}
 	};
 	

@@ -18,7 +18,7 @@ public class Clear extends BaseNativeProcedure implements NativeProcedure {
 		int offset =self.getSystemFieldsCount();
 		
 		while(self.getChildCount()> offset)
-			self.removeChild(offset);
+			self.removeField(offset);
 
 		return null;
 	}

@@ -35,7 +35,7 @@ public class _Object implements Serializable {
 	// it is defined by the object, and is for its procedures.
 	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "_defaultSubjectMatchType";
 	// it is defined by the procedure itself, to override the default value of
-	// the onwer object.
+	// the owner object.
 	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
 	/**
 	 * 
@@ -112,7 +112,7 @@ public class _Object implements Serializable {
 		for (Field p : src.fieldList) {
 			boolean owns = p.target.owner == this;
 
-			setField(p.target, p.name, owns);
+			setField(p.name, p.target, owns);
 		}
 
 		// messageQueue is skipped
@@ -139,6 +139,11 @@ public class _Object implements Serializable {
 		this.name = name;
 	}
 
+	public boolean hasRealName() {
+		return !(name == null || name.equals("unnamed") || name
+				.startsWith("t_"));
+	}
+
 	public ObjectType getType() {
 		return type;
 	}
@@ -151,7 +156,10 @@ public class _Object implements Serializable {
 		this.owner = owner;
 	}
 
-	public void updateFieldIndexes() {
+	/**
+	 * re-create indexes.
+	 */
+	protected void recreateFieldIndexes() {
 		fieldNameMap = new HashMap<String, Integer>();
 		childrenObjectMap = new HashMap<_Object, Integer>();
 		for (int i = 0; i < fieldList.size(); i++) {
@@ -182,22 +190,54 @@ public class _Object implements Serializable {
 		return fieldList.size();
 	}
 
-	public void addPointer(_Object child, String name) {
-		setField(child, name, false);
-	}
-
 	public int getChildIndex(_Object child) {
 		Integer indexObject = childrenObjectMap.get(child);
 		return indexObject.intValue();
 	}
 
-	protected void addChild(_Object child, String name, boolean owner) {
+	/**
+	 * save or update a field. also take care of old object when updating.
+	 * 
+	 * @param child
+	 * @param name
+	 * @param owner
+	 */
+	public void setField(String name, _Object child, boolean owner) {
 
-		Field p = new Field(child, name);
+		if (name != null && name.indexOf(':') >= 0) {
+			System.out.println("mac is here" + name);
+		}
 
-		fieldList.add(p);
-		fieldNameMap.put(name, fieldList.size() - 1);
-		childrenObjectMap.put(child, fieldList.size() - 1);
+		// name must be unique if is not null
+		if (name != null) {
+			Field f = getField(name);
+
+			if (f != null) {
+				changeChild(f, child, owner);
+
+			} else {
+				Field newField = new Field(name);
+				fieldList.add(newField);
+
+				addChild(newField, child, name, owner);
+			}
+
+		} else {
+			Field newField = new Field(name);
+			fieldList.add(newField);
+
+			addChild(newField, child, name, owner);
+		}
+
+	}
+
+	protected void changeChild(Field field, _Object child, boolean owner) {
+
+		_Object oldChild = field.target;
+		if (oldChild != null)
+			detachChild(oldChild);
+
+		field.target = child;
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
@@ -209,27 +249,26 @@ public class _Object implements Serializable {
 			child.setOwner(this);
 		}
 
+		recreateFieldIndexes();
+
 	}
 
-	/**
-	 * update field if exist, or create new field
-	 * 
-	 * @param child
-	 * @param name
-	 * @param owner
-	 */
-	public void setField(_Object child, String name, boolean owner) {
+	protected void addChild(Field field, _Object child, String name,
+			boolean owner) {
 
-		// name must be unique if is not null
-		if (name != null) {
-			Field f = getField(name);
-			if (f != null)
-				removeChild(name);
+		field.setTarget(child);
 
-			addChild(child, name, owner);
+		if (owner) {
+			if (child.getScope() != ObjectScope.ExecutionContext)
+				throw new RuntimeException(
+						String.format(
+								"cannot own object(#%d) because it's scope is not ExecutionContext",
+								child.id));
 
+			child.setOwner(this);
 		}
 
+		repackFields();
 	}
 
 	/**
@@ -244,7 +283,7 @@ public class _Object implements Serializable {
 		Field p = new Field(child, name);
 
 		fieldList.add(index, p);
-		updateFieldIndexes();
+		recreateFieldIndexes();
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
@@ -258,35 +297,16 @@ public class _Object implements Serializable {
 	}
 
 	public ObjectScope getScope() {
-		if (scope != null)
-			return scope;
-		else if (hasOwner())
+
+		if (hasOwner())
 			return owner.getScope();
 		else
-			return null;
+			return scope;
+
 	}
 
 	public void setScope(ObjectScope scope) {
 		this.scope = scope;
-	}
-
-	/**
-	 * take care of the old field if exists.
-	 * 
-	 * @param name
-	 * @param child
-	 * @param owner
-	 */
-	public void setChild(String name, _Object child, boolean owner) {
-		if (name == null) {
-			throw new RuntimeException("field name cannot be null.");
-		}
-
-		_Object oldChild = getChild(name);
-		if (oldChild != null)
-			removeChild(name);
-
-		setField(child, name, owner);
 	}
 
 	public boolean hasOwner() {
@@ -309,18 +329,25 @@ public class _Object implements Serializable {
 
 		fieldNameMap.remove(old);
 		fieldNameMap.put(_new, index);
-
 	}
 
-	public void removeChild(String name) {
+	public void removeChild(_Object object) {
+		Integer idx = childrenObjectMap.get(object);
+		if (idx == null)
+			throw new RuntimeException("field not exist");
+
+		removeField(idx);
+	}
+
+	public void removeField(String name) {
 		Integer childIndex = fieldNameMap.get(name);
 		if (childIndex == null)
 			throw new RuntimeException("child not found:" + name);
 
-		removeChild(childIndex);
+		removeField(childIndex);
 	}
 
-	public void removeChild(Integer index) {
+	public void removeField(Integer index) {
 
 		if (index == null)
 			return;
@@ -330,24 +357,20 @@ public class _Object implements Serializable {
 		Field field = fieldList.get(idx);
 		fieldList.remove(idx);
 
-		updateFieldIndexes();
-		
-		field.target.setOwner(null);
-		field.target.setScope(ObjectScope.ExecutionContext);
+		recreateFieldIndexes();
+
+		if (field.target != null)
+			detachChild(field.target);
 	}
 
-	public void removeChild(_Object object) {
-		Integer idx = childrenObjectMap.get(object);
-		if (idx == null)
-			throw new RuntimeException("field not exist");
-
-		removeChild(idx);
+	protected void detachChild(_Object obj) {
+		obj.setOwner(null);
+		obj.setScope(ObjectScope.ExecutionContext);
 	}
 
 	public void clearChildren() {
-		fieldList.clear();
-		fieldNameMap.clear();
-		childrenObjectMap.clear();
+		while (!fieldList.isEmpty())
+			removeField(0);
 	}
 
 	public boolean hasChildren() {
@@ -358,8 +381,22 @@ public class _Object implements Serializable {
 		return this.fieldList;
 	}
 
+	/**
+	 * textual value for persist
+	 * 
+	 * @return
+	 */
 	public String getValue() {
 		return "";
+	}
+
+	/**
+	 * human readable text
+	 * 
+	 * @return
+	 */
+	public String getHumanReadableText() {
+		return getValue();
 	}
 
 	public void setValue(String value) {
@@ -375,7 +412,8 @@ public class _Object implements Serializable {
 	}
 
 	public void draw(Graphics g, Point canvasOffset, Rectangle area,
-			double zoom, boolean own, String name, SelectedStatus selectedStatus) {
+			double zoom, boolean own, String name, String value,
+			SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
 		// draw border
@@ -412,6 +450,8 @@ public class _Object implements Serializable {
 		if (name != null)
 			g.drawString(name, x + 5, (int) (y + 15));
 
+		if (value != null)
+			g.drawString(value, x + 5, (int) (y + 15 + 15));
 		// draw selector box
 		Color selectorColor = null;
 
@@ -445,7 +485,7 @@ public class _Object implements Serializable {
 		for (Field f : fieldList) {
 			boolean owns = f.target.owner == this;
 			f.target.draw(g, canvasOffset, f.getArea(), zoom, owns, name,
-					selectedStatus);
+					f.target.getHumanReadableText(), selectedStatus);
 		}
 	}
 
@@ -461,7 +501,9 @@ public class _Object implements Serializable {
 				objName = field.name;
 
 			field.target.draw(g, canvasOffset, field.getArea(), scaleRate,
-					owns, objName, field.getSelectedStatus());
+					owns, objName, field.target.getHumanReadableText(),
+					field.getSelectedStatus());
+
 		}
 	}
 
@@ -474,7 +516,13 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getChild(String name) {
-			
+
+		if (fieldNameMap == null) {
+			recreateFieldIndexes();
+			System.out.println("field index not created when lookup field:"
+					+ name);
+		}
+
 		Integer index = fieldNameMap.get(name);
 		if (index == null)
 			return null;
@@ -752,7 +800,7 @@ public class _Object implements Serializable {
 
 		systemFieldsCount = systemFields.size();
 
-		updateFieldIndexes();
+		recreateFieldIndexes();
 	}
 
 	public int getSystemFieldsCount() {

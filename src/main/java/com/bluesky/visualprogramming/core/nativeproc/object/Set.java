@@ -21,11 +21,10 @@ public class Set extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		StringValue nameSV = (StringValue) ctx.get("name");
 
-		
 		_Object value = ctx.get("value");
 
 		boolean canIOwn = value.getScope() == ObjectScope.ExecutionContext;
-		self.setChild(nameSV.getValue(), value, canIOwn);
+		self.setField(nameSV.getValue(), value, canIOwn);
 
 		return null;
 	}

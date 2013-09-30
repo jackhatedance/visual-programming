@@ -15,7 +15,7 @@ public class Size extends BaseNativeProcedure implements NativeProcedure {
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 
-		self.repackFields();
+		
 		
 		int size = self.getUserFieldsCount();
 
