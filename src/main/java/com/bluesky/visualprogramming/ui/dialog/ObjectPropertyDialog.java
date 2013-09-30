@@ -65,7 +65,7 @@ public class ObjectPropertyDialog extends JDialog {
 	public ObjectPropertyDialog() {
 		setModal(true);
 		setTitle("Object Property");
-		setBounds(100, 100, 583, 420);
+		setBounds(100, 100, 747, 706);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -271,9 +271,11 @@ public class ObjectPropertyDialog extends JDialog {
 		this.field = field;
 		this.object = field.target;
 
-		String ownerName = object.getOwner() != null ? object.getOwner()
-				.getName() : "";
-		textFieldOwner.setText(ownerName);
+		String ownerPath ="";
+		if(object.hasOwner())
+			ownerPath= object.getOwner().getPath();
+		
+		textFieldOwner.setText(ownerPath);
 		textFieldId.setText(String.valueOf(object.getId()));
 		textFieldName.setText(object.getName());
 		textFieldFieldName.setText(field.name);

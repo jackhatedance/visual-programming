@@ -152,6 +152,15 @@ public class _Object implements Serializable {
 		return owner;
 	}
 
+	public String getPath() {
+		if (hasOwner()) {
+			int index = owner.getChildIndex(this);
+			Field field = owner.getField(index);
+			return getOwner().getPath() + "." + field.name;
+		} else
+			return "[" + name + "]";
+	}
+
 	public void setOwner(_Object owner) {
 		this.owner = owner;
 	}
@@ -268,7 +277,7 @@ public class _Object implements Serializable {
 			child.setOwner(this);
 		}
 
-		repackFields();
+		sortFields();
 	}
 
 	/**
@@ -315,6 +324,11 @@ public class _Object implements Serializable {
 	}
 
 	public void renameField(String old, String _new) {
+
+		if (fieldNameMap == null) {
+			System.out.println("warnning: field index not created.");
+			recreateFieldIndexes();
+		}
 
 		Integer index = fieldNameMap.get(old);
 		if (index == null)
@@ -363,9 +377,18 @@ public class _Object implements Serializable {
 			detachChild(field.target);
 	}
 
-	protected void detachChild(_Object obj) {
+	public void detachChild(_Object obj) {
 		obj.setOwner(null);
 		obj.setScope(ObjectScope.ExecutionContext);
+	}
+
+	public void detachFrom(_Object owner) {
+		owner.detachChild(this);
+	}
+
+	public void attachTo(_Object owner) {
+		this.owner = owner;
+		this.scope = null;
 	}
 
 	public void clearChildren() {
@@ -782,7 +805,7 @@ public class _Object implements Serializable {
 	 * 
 	 * and update the system field count.
 	 */
-	public void repackFields() {
+	public void sortFields() {
 		List<Field> systemFields = new ArrayList<Field>();
 		List<Field> userFields = new ArrayList<Field>();
 
