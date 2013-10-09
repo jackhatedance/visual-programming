@@ -40,6 +40,7 @@ public class BatikFrame extends JFrame {
 			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
 			URL url = new URL(
 					"http://svn.apache.org/repos/asf/xmlgraphics/batik/trunk/samples/barChart.svg");
+			url = new URL("file:///D:/Users/jackding/svg/object.svg");
 			doc = f.createDocument(url.toString());
 
 			svg = doc.getDocumentElement();
@@ -70,16 +71,17 @@ public class BatikFrame extends JFrame {
 			}
 			Element shoeBar = doc.getElementById("ShoeBar");
 			org.w3c.dom.events.EventTarget t = (EventTarget) shoeBar;
-			t.addEventListener("click", new EventListener() {
+			if (t != null) {
+				t.addEventListener("click", new EventListener() {
 
-				@Override
-				public void handleEvent(Event evt) {
-					Element target = (Element) evt.getCurrentTarget();
-					System.out.println(target.getAttribute("id"));
-					target.setAttribute("title", "aaa");
-				}
-			}, false);
-
+					@Override
+					public void handleEvent(Event evt) {
+						Element target = (Element) evt.getCurrentTarget();
+						System.out.println(target.getAttribute("id"));
+						target.setAttribute("title", "aaa");
+					}
+				}, false);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -163,8 +165,5 @@ public class BatikFrame extends JFrame {
 		// f.addWindowListener(new ExitListener());
 		f.setVisible(true);
 
-		
-		
-		
 	}
 }
