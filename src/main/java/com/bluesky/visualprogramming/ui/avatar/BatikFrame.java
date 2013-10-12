@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.svg.SVGDocument;
 
 public class BatikFrame extends JFrame {
 	protected JSVGCanvas canvas;
@@ -38,18 +39,39 @@ public class BatikFrame extends JFrame {
 			// Parse the barChart.svg file into a Document.
 			String parser = XMLResourceDescriptor.getXMLParserClassName();
 			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
-			URL url = new URL(
-					"http://svn.apache.org/repos/asf/xmlgraphics/batik/trunk/samples/barChart.svg");
-			url = new URL("file:///D:/Users/jackding/svg/object.svg");
-			doc = f.createDocument(url.toString());
+			URL urlScene = getClass().getClassLoader().getResource(
+					"svg/scene.svg");
+			URL urlObject = getClass().getClassLoader().getResource(
+					"svg/object.svg");
+			URL urlBoolean = getClass().getClassLoader().getResource(
+					"svg/boolean.svg");
+
+			doc = f.createDocument(urlScene.toString());
+			Document objectDoc = f.createDocument(urlObject.toString());
+			Document booleanDoc = f.createDocument(urlBoolean.toString());
 
 			svg = doc.getDocumentElement();
 
 			// Change the document viewBox.
-			svg.setAttributeNS(null, "viewBox", "40 95 370 265");
+			// svg.setAttributeNS(null, "viewBox", "40 95 370 265");
 
 			// Make the text look nice.
 			svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
+
+			// move object to scene
+			Element box = objectDoc.getElementById("box");
+			Element box2 = (Element) doc.importNode(box, true);
+
+
+			box2.setAttribute("transform", "translate(80,0)");
+			
+			svg.appendChild(box2);
+
+			box = booleanDoc.getElementById("box");
+			box2 = (Element) doc.importNode(box, true);
+			
+			box2.setAttribute("transform", "translate(80,100)");
+			svg.appendChild(box2);
 
 			// Remove the xml-stylesheet PI.
 			for (Node n = svg.getPreviousSibling(); n != null; n = n
@@ -68,7 +90,8 @@ public class BatikFrame extends JFrame {
 					svg.removeChild(n);
 					// break;
 				}
-			}svg.q
+			}
+
 			Element shoeBar = doc.getElementById("ShoeBar");
 			org.w3c.dom.events.EventTarget t = (EventTarget) shoeBar;
 			if (t != null) {
@@ -82,6 +105,7 @@ public class BatikFrame extends JFrame {
 					}
 				}, false);
 			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -155,7 +179,7 @@ public class BatikFrame extends JFrame {
 	public static void main(String[] args) {
 
 		BatikFrame f = new BatikFrame();
-		f.setSize(800, 800);
+		f.setSize(1800, 800);
 		Container content = f.getContentPane();
 		content.setBackground(Color.white);
 		content.setLayout(new FlowLayout());
