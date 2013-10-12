@@ -68,7 +68,7 @@ public class BatikFrame extends JFrame {
 					svg.removeChild(n);
 					// break;
 				}
-			}
+			}svg.q
 			Element shoeBar = doc.getElementById("ShoeBar");
 			org.w3c.dom.events.EventTarget t = (EventTarget) shoeBar;
 			if (t != null) {
