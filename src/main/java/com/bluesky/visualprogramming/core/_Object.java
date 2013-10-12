@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
 
 import com.bluesky.visualprogramming.core.procedure.SubjectMatchType;
 import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
@@ -502,6 +503,73 @@ public class _Object implements Serializable {
 		}
 	}
 
+	public void draw(Document doc, Point canvasOffset, Rectangle area,
+			double zoom, boolean own, String name, String value,
+			SelectedStatus selectedStatus) {
+		// System.out.println("draw:"+getName());
+
+		// draw border
+		//g.setColor(borderColor);
+
+		int x = (int) (area.x * zoom) + canvasOffset.x;
+		int y = (int) (area.y * zoom) + canvasOffset.y;
+		int width = (int) (area.width * zoom);
+		int height = (int) (area.height * zoom);
+
+		int finalBorderWidth = -1;
+		if (own)
+			finalBorderWidth = this.borderWidth;
+		else
+			finalBorderWidth = this.borderWidth / 2;
+
+		Stroke borderStroke = null;
+		if (selectedStatus == SelectedStatus.Preselected
+				|| selectedStatus == SelectedStatus.Selected)
+			borderStroke = new BasicStroke(finalBorderWidth,
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+					new float[] { 9 }, 0);
+		else
+			borderStroke = new BasicStroke(finalBorderWidth);
+/*
+		g2.setStroke(borderStroke);
+
+		g.drawRect(x, y, width, height);
+
+		g.setColor(Color.BLACK);
+
+		if (name != null)
+			g.drawString(name, x + 5, (int) (y + 15));
+
+		if (value != null)
+			g.drawString(value, x + 5, (int) (y + 15 + 15));
+		// draw selector box
+		Color selectorColor = null;
+
+		// if (selectedStatus == SelectedStatus.Preselected
+		// || selectedStatus == SelectedStatus.Selected) {
+		// if (selectedStatus == SelectedStatus.Preselected)
+		// selectorColor = Color.RED;
+		// else if (selectedStatus == SelectedStatus.Selected)
+		// selectorColor = Color.BLUE;
+		//
+		// g2.setColor(selectorColor);
+		// Stroke drawingStroke = new BasicStroke(1, BasicStroke.CAP_BUTT,
+		// BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
+		// g2.setStroke(drawingStroke);
+		// // g2.drawre(line);
+		// g2.drawRect(x - 1, y - 1, width + 1, height + 1);
+		// }
+		// draw internal
+		int shortSide = width < height ? width : height;
+		double internalScale = (double) shortSide / (double) 1000;
+
+		if (internalScale > 0.1f) {
+			Point internalOffset = new Point(x, y);
+			drawInternal(g, internalOffset, internalScale, name, selectedStatus);
+		}
+		*/
+	}
+
 	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
 			String name, SelectedStatus selectedStatus) {
 
@@ -529,7 +597,28 @@ public class _Object implements Serializable {
 
 		}
 	}
+	/**
+	 * draw on SVG DOM
+	 * @param doc
+	 * @param canvasOffset
+	 */
+	public void drawInternal(Document doc, Point canvasOffset) {
+		for (Field field : fieldList) {
+			boolean owns = field.target.owner == this;
 
+			_Object proto = field.target.getPrototypeObject();
+			String objName = null;
+			if (proto != null) {
+				objName = String.format("%s<%s>", field.name, proto.name);
+			} else
+				objName = field.name;
+
+			field.target.draw(doc, canvasOffset, field.getArea(), scaleRate,
+					owns, objName, field.target.getHumanReadableText(),
+					field.getSelectedStatus());
+
+		}
+	}
 	protected Field getField(String name) {
 		Integer index = fieldNameMap.get(name);
 		if (index != null)
