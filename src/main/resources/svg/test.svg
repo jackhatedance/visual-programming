@@ -26,7 +26,7 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="box">
+     id="box" transform="translate(200,800) scale(0.4)">
     <g
        transform="translate(-73.239437,-67.605634)"
        id="g3021">
@@ -36,7 +36,7 @@
          x="83.098595"
          y="76.305847"
          id="rect2987"
-         style="fill:none;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:none;stroke:yellow;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <text
          x="151.42857"
          y="158.07648"
@@ -56,5 +56,34 @@
            y="223.28015"
            id="tspan2989-4">description</tspan></text>
     </g>
+  </g>
+  <g
+     transform="matrix(0,0.45491404,-0.53193497,0,314.37846,139.29251)"
+     id="box">
+    <rect
+       width="501.40845"
+       height="271.83099"
+       x="84.507042"
+       y="88.981903"
+       id="rect2987"
+       style="fill:none;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       x="151.42857"
+       y="158.07648"
+       id="name"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+         x="151.42857"
+         y="158.07648"
+         id="tspan2989">name</tspan></text>
+    <text
+       x="142.49023"
+       y="223.28015"
+       id="description"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+         x="142.49023"
+         y="223.28015"
+         id="tspan2989-4">description</tspan></text>
   </g>
 </svg>
