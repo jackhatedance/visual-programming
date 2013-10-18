@@ -28,7 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class MainFrame extends JFrame {
-	static String DEFAULT_IMAGE_FILE_NAME = "visual-programming.xml";
+	static String DEFAULT_IMAGE_FILE_NAME = "objects.xml";
 
 	MainWindow mainWindow = null;
 

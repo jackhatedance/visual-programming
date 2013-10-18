@@ -1,14 +1,20 @@
 package com.bluesky.visualprogramming.ui.avatar;
 
+import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
@@ -17,7 +23,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.svg.SVGLocatable;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
+import org.w3c.dom.svg.SVGStylable;
+import org.w3c.dom.svg.SVGTransform;
 
 public class BatikFrame extends JFrame {
 	protected JSVGCanvas canvas;
@@ -26,6 +36,11 @@ public class BatikFrame extends JFrame {
 
 	protected Element svg;
 
+	
+	protected EventTarget currentElement;
+	protected int dragX;
+	protected int dragY;
+	
 	public BatikFrame() {
 		init();
 	}
@@ -33,7 +48,12 @@ public class BatikFrame extends JFrame {
 	public void init() {
 		// Create a new JSVGCanvas.
 		canvas = new JSVGCanvas();
-		getContentPane().add(canvas);
+		// canvas.setBounds(0, 0, 1000, 1000);
+
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add("Center", canvas);
+
+		getContentPane().add(panel);
 
 		try {
 			// Parse the barChart.svg file into a Document.
@@ -50,27 +70,36 @@ public class BatikFrame extends JFrame {
 			Document objectDoc = f.createDocument(urlObject.toString());
 			Document booleanDoc = f.createDocument(urlBoolean.toString());
 
+			updateIds(objectDoc, "1");
+			updateIds(booleanDoc, "2");
+
 			svg = doc.getDocumentElement();
 
 			// Change the document viewBox.
 			// svg.setAttributeNS(null, "viewBox", "40 95 370 265");
 
 			// Make the text look nice.
-			svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
+			 svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
 
 			// move object to scene
-			Element box = objectDoc.getElementById("box");
-			Element box2 = (Element) doc.importNode(box, true);
+			Element object = objectDoc.getElementById("1object");
+			Element border = objectDoc.getElementById("1border");
 
+			/*
+			 * CSSStyleDeclaration css = ((SVGStylable) border).getStyle();
+			 * System.out.println(css); ((SVGStylable)
+			 * border).getStyle().setProperty("stroke", "red", "");
+			 */
+			Element box2 = (Element) doc.importNode(object, true);
 
-			box2.setAttribute("transform", "translate(80,0)");
-			
+			box2.setAttribute("transform", "translate(0,580)");
+
 			svg.appendChild(box2);
 
-			box = booleanDoc.getElementById("box");
-			box2 = (Element) doc.importNode(box, true);
-			
-			box2.setAttribute("transform", "translate(80,100)");
+			object = booleanDoc.getElementById("2object");
+			box2 = (Element) doc.importNode(object, true);
+
+			box2.setAttribute("transform", "translate(500,0)");
 			svg.appendChild(box2);
 
 			// Remove the xml-stylesheet PI.
@@ -92,16 +121,96 @@ public class BatikFrame extends JFrame {
 				}
 			}
 
-			Element shoeBar = doc.getElementById("ShoeBar");
-			org.w3c.dom.events.EventTarget t = (EventTarget) shoeBar;
+			String prefix = "2";
+			final String OBJECT=prefix+"object";
+			final String BORDER = prefix + "border";
+			final Element objBorder = doc.getElementById(OBJECT);
+			//org.w3c.dom.events.EventTarget scene = (EventTarget) doc.getDocumentElement();
+			
+			org.w3c.dom.events.EventTarget t = (EventTarget) doc.getElementById(OBJECT);
 			if (t != null) {
-				t.addEventListener("click", new EventListener() {
+				t.addEventListener("mousedown", new EventListener() {
+					
+					@Override
+					public void handleEvent(Event evt) {
+						currentElement= evt.getCurrentTarget();
+						DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+						int nowToX = elEvt.getClientX();
+						int nowToY = elEvt.getClientY();
+						System.out.println(String.format("client xy: %d,%d",
+								nowToX, nowToY));
+						
+						dragX=nowToX;
+						dragY=nowToY;	
+						
+					}
+				}, false);
+				
+				t.addEventListener("mouseup", new EventListener() {
+					
+					@Override
+					public void handleEvent(Event evt) {
+						currentElement= null;				
+						
+					}
+				}, false);
+				
+				t.addEventListener("mousemove", new EventListener() {
 
 					@Override
 					public void handleEvent(Event evt) {
-						Element target = (Element) evt.getCurrentTarget();
-						System.out.println(target.getAttribute("id"));
-						target.setAttribute("title", "aaa");
+						if(currentElement==null)
+							return;
+						
+						//Element target = (Element) evt.getCurrentTarget();
+						Element target = objBorder;
+								
+						Element border = target.getOwnerDocument()
+								.getElementById(BORDER);
+
+						((SVGStylable) border).getStyle().setProperty("stroke",
+								"red", "");
+
+						SVGOMGElement object = (SVGOMGElement) target
+								.getOwnerDocument().getElementById(OBJECT);
+						SVGTransform transform = object.getTransform()
+								.getBaseVal().getItem(0);
+
+						DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+						int nowToX = elEvt.getClientX();
+						int nowToY = elEvt.getClientY();
+						System.out.println(String.format("client xy: %d,%d",
+								nowToX, nowToY));
+
+						
+						// convert it to a point for use with the Matrix
+						SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
+						// Get the items screen coordinates, and apply the
+						// transformation
+						// elem -> screen
+						SVGMatrix mat = ((SVGLocatable) objBorder)
+								.getScreenCTM();
+
+						mat = mat.inverse(); // screen -> elem
+						SVGOMPoint droppt = (SVGOMPoint) pt
+								.matrixTransform(mat);
+						if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+
+							
+							System.out.println(String.format("drop xy: %f,%f",
+									droppt.getX(), droppt.getY()));
+							
+							float oldX = transform.getMatrix().getE();
+							float oldY = transform.getMatrix().getF();
+							
+							transform.setTranslate(droppt.getX()+oldX, droppt.getY()+oldY);
+							SVGTransform t = transform;
+							 //t.setMatrix(t.getMatrix().translate(dragpt.getX(), dragpt.getY()));
+							//transform.setTranslate(dragpt.getX(), dragpt.getY());
+							//transform.setTranslate(nowToX,nowToY);
+							//transform.setTranslate(50,10);
+						}
+
 					}
 				}, false);
 			}
@@ -113,8 +222,9 @@ public class BatikFrame extends JFrame {
 
 	public void start() {
 		// Display the document.
-		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
+		 canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
 		canvas.setDocument(doc);
+		setVisible(true);
 	}
 
 	public void stop() {
@@ -126,68 +236,31 @@ public class BatikFrame extends JFrame {
 		canvas.dispose();
 	}
 
-	public void updateBar(final String name, final float value) {
-		canvas.getUpdateManager().getUpdateRunnableQueue()
-				.invokeLater(new Runnable() {
-					public void run() {
-						Element bar = doc.getElementById(name);
-						if (bar == null) {
-							return;
-						}
-
-						Node n;
-						Element path1, path2, path3;
-						for (n = bar.getFirstChild(); n.getNodeType() != Node.ELEMENT_NODE; n = n
-								.getNextSibling()) {
-						}
-						path1 = (Element) n;
-						for (n = n.getNextSibling(); n.getNodeType() != Node.ELEMENT_NODE; n = n
-								.getNextSibling()) {
-						}
-						path2 = (Element) n;
-						for (n = n.getNextSibling(); n.getNodeType() != Node.ELEMENT_NODE; n = n
-								.getNextSibling()) {
-						}
-						path3 = (Element) n;
-
-						int offset;
-						if (name.equals("ShoeBar")) {
-							offset = 0;
-						} else if (name.equals("CarBar")) {
-							offset = 79;
-						} else if (name.equals("TravelBar")) {
-							offset = 158;
-						} else {
-							offset = 237;
-						}
-
-						String d = "M " + (offset + 86) + ",240 v -"
-								+ (3.7 * value) + " l 15,-15 v "
-								+ (3.7 * value) + " l -15,15 z";
-						path1.setAttributeNS(null, "d", d);
-						d = "M " + (offset + 86) + "," + (240 - 3.7 * value)
-								+ " h -39 l 15,-15 h 39 l -15,15 z";
-						path2.setAttributeNS(null, "d", d);
-						d = "M " + (offset + 47) + "," + (240 - 3.7 * value)
-								+ " v " + (3.7 * value) + " h 39 v -"
-								+ (3.7 * value) + " h -39 z";
-						path3.setAttributeNS(null, "d", d);
-					}
-				});
-	}
-
 	public static void main(String[] args) {
 
-		BatikFrame f = new BatikFrame();
-		f.setSize(1800, 800);
-		Container content = f.getContentPane();
-		content.setBackground(Color.white);
-		content.setLayout(new FlowLayout());
+		final BatikFrame f = new BatikFrame();
+
+		f.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				f.destroy();
+				System.exit(0);
+			}
+		});
+
+		f.setSize(800,800);
 
 		f.start();
 
-		// f.addWindowListener(new ExitListener());
-		f.setVisible(true);
+	}
 
+	private void updateIds(Document doc, String prefix) {
+		String[] IDs = { "object", "border", "name", "description" };
+		for (String id : IDs) {
+			Element e = doc.getElementById(id);
+			if (e == null)
+				System.out.println(id + " is null");
+			else
+				e.setAttribute("id", prefix + id);
+		}
 	}
 }

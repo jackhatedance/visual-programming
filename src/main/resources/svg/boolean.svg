@@ -26,23 +26,19 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1">
-    <g
-       id="box">
-      <path
-         d="m 580,215.21933 a 247.14285,134.28572 0 1 1 -494.285706,0 247.14285,134.28572 0 1 1 494.285706,0 z"
-         transform="matrix(0.99831629,0,0,1.1245608,0.56043365,-9.6650418)"
-         id="path5268"
-         style="fill-opacity:1;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <text
-         x="248.57143"
-         y="166.6479"
-         id="name"
-         xml:space="preserve"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
-           x="248.57143"
-           y="166.6479"
-           id="tspan2989">name</tspan></text>
-    </g>
+     id="object">
+    <path
+       d="m 731.83529,252.44772 a 358.84569,238.60602 0 0 1 -717.69137,0 358.84569,238.60602 0 1 1 717.69137,0 z"
+       id="border"
+       style="fill-opacity:1;stroke:#00ad00;stroke-width:22.44374084;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       x="205.16306"
+       y="91.647896"
+       id="name"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+         x="293.16306"
+         y="166.64789"
+         id="tspan2989">name</tspan></text>
   </g>
 </svg>
