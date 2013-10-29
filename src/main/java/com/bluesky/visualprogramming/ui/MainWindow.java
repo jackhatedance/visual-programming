@@ -41,6 +41,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.apache.batik.swing.JSVGCanvas;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Field;
@@ -88,7 +89,7 @@ public class MainWindow extends JPanel {
 
 		createTreePanel();
 
-		initDiagramPanel();
+		initDiagramPanelSVG();
 
 		// Add the scroll panes to a split pane.
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -154,8 +155,7 @@ public class MainWindow extends JPanel {
 
 		return node;
 	}
-
-	private void initDiagramPanel() {
+	private void initDiagramPanelJava2D() {
 		diagram = new DiagramPanel();
 		diagram.setPainter(new Painter() {
 
@@ -178,6 +178,140 @@ public class MainWindow extends JPanel {
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		createMouseListener();
 
+		scrollDiagramPanel = new JScrollPane(diagram);
+
+		Dimension minimumSize = new Dimension(200, 150);
+		scrollDiagramPanel.setMinimumSize(minimumSize);
+
+		parentPopupMenu = new JPopupMenu();
+		JMenuItem eMenuItem = new JMenuItem("New Object");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.NORMAL);
+
+				addChildObjectToTree(obj);
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Integer");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.INTEGER);
+
+				addChildObjectToTree(obj);
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New String");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.STRING);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Boolean");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.BOOLEAN);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Procedure");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.PROCEDURE);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("Delete");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagram.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (activeChildField != null) {
+					int result = JOptionPane.showConfirmDialog(owner, String
+							.format("Are you sure to delete '%s'?",
+									activeChildField.getName()),
+							"Confirmation", JOptionPane.YES_NO_OPTION);
+					if (result == 0)// yes
+					{
+						// search
+						DefaultMutableTreeNode selectedChildNode = findChildNode(
+								getSelectedTreeNode(), activeChildField);
+
+						// remove tree model
+						treeModel.removeNodeFromParent(selectedChildNode);
+
+						// remove from object repository
+						getVM().getObjectRepository().destroyObject(
+								activeChildField.target);
+
+						diagram.repaint();
+					}
+				}
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("Execute");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagram.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (activeChildField != null) {
+					int result = JOptionPane.showConfirmDialog(owner, String
+							.format("Are you sure to execute '%s'?",
+									activeChildField.getName()),
+							"Confirmation", JOptionPane.YES_NO_OPTION);
+					if (result == 0)// yes
+					{
+
+						getVM().getPostService().sendMessageFromNobody(
+								activeChildField.target.getOwner(),
+								activeChildField.getName());
+
+					}
+				}
+			}
+
+		});
+		parentPopupMenu.add(eMenuItem);
+
+		// diagram.setComponentPopupMenu(popupMenu);
+
+	}
+	
+	private void initDiagramPanelSVG() {
+		JSVGCanvas canvas = new JSVGCanvas();
+		diagram = new DiagramPanel();
+		
+		diagram.add(canvas);
+		
+		// diagram.setMinimumSize(new Dimension(1000, 1000));
+		
 		scrollDiagramPanel = new JScrollPane(diagram);
 
 		Dimension minimumSize = new Dimension(200, 150);

@@ -38,7 +38,7 @@ public class BatikFrame extends JFrame {
 	protected Element svg;
 
 	
-	protected EventTarget currentElement;
+	protected volatile EventTarget currentElement;
 	protected int dragX;
 	protected int dragY;
 	
@@ -58,21 +58,13 @@ public class BatikFrame extends JFrame {
 
 		try {
 			// Parse the barChart.svg file into a Document.
-			String parser = XMLResourceDescriptor.getXMLParserClassName();
-			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
-			URL urlScene = getClass().getClassLoader().getResource(
-					"svg/scene.svg");
-			URL urlObject = getClass().getClassLoader().getResource(
-					"svg/object.svg");
-			URL urlBoolean = getClass().getClassLoader().getResource(
-					"svg/boolean.svg");
 
-			doc = f.createDocument(urlScene.toString());
-			Document objectDoc = f.createDocument(urlObject.toString());
-			Document booleanDoc = f.createDocument(urlBoolean.toString());
+			doc = SVGUtils.createDocument("svg/scene.svg");	
+			Document objectDoc = SVGUtils.createDocument("svg/object.svg");
+			Document booleanDoc = SVGUtils.createDocument("svg/boolean.svg");
 
-			updateIds(objectDoc, "1");
-			updateIds(booleanDoc, "2");
+			SVGUtils.updateIds(objectDoc, "1");
+			SVGUtils.updateIds(booleanDoc, "2");
 
 			svg = doc.getDocumentElement();
 
@@ -95,14 +87,14 @@ public class BatikFrame extends JFrame {
 			 */
 			Element box2 = (Element) doc.importNode(object, true);
 
-			box2.setAttribute("transform", "translate(0,580) scale(1,1)");
+			box2.setAttribute("transform", "scale(1.2,1.2) translate(0,580)");
 
 			svg.appendChild(box2);
 
 			object = booleanDoc.getElementById("2object");
 			box2 = (Element) doc.importNode(object, true);
 
-			box2.setAttribute("transform", "translate(500,0)");
+			box2.setAttribute("transform", " scale(0.5,0.5) translate(500,0)");
 			svg.appendChild(box2);
 
 			 
@@ -179,7 +171,7 @@ public class BatikFrame extends JFrame {
 						SVGOMGElement object = (SVGOMGElement) target
 								.getOwnerDocument().getElementById(OBJECT);
 						SVGTransform transform = object.getTransform()
-								.getBaseVal().getItem(0);
+								.getBaseVal().getItem(1);
 
 						DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 						int nowToX = elEvt.getClientX();
@@ -211,8 +203,8 @@ public class BatikFrame extends JFrame {
 							System.out.println(String.format("old xy: %f,%f",
 									oldX,oldY));
 							
-							float tranlsateX = droppt.getX() + oldX-150;
-							float tranlsateY = droppt.getY() + oldY-150;
+							float tranlsateX = droppt.getX() + oldX-50;
+							float tranlsateY = droppt.getY() + oldY-50;
 							
 							System.out.println(String.format("translate xy: %f,%f",
 									tranlsateX, tranlsateY));
@@ -267,14 +259,5 @@ public class BatikFrame extends JFrame {
 
 	}
 
-	private void updateIds(Document doc, String prefix) {
-		String[] IDs = { "object", "border", "name", "description" };
-		for (String id : IDs) {
-			Element e = doc.getElementById(id);
-			if (e == null)
-				System.out.println(id + " is null");
-			else
-				e.setAttribute("id", prefix + id);
-		}
-	}
+	
 }
