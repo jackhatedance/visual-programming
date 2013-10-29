@@ -17,6 +17,7 @@ import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.util.XMLResourceDescriptor;
+import org.apache.xalan.transformer.MsgMgr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -85,6 +86,8 @@ public class BatikFrame extends JFrame {
 			Element object = objectDoc.getElementById("1object");
 			Element border = objectDoc.getElementById("1border");
 
+			String width = border.getAttribute("width");
+			System.out.println("width:"+width);
 			/*
 			 * CSSStyleDeclaration css = ((SVGStylable) border).getStyle();
 			 * System.out.println(css); ((SVGStylable)
@@ -92,7 +95,7 @@ public class BatikFrame extends JFrame {
 			 */
 			Element box2 = (Element) doc.importNode(object, true);
 
-			box2.setAttribute("transform", "translate(0,580)");
+			box2.setAttribute("transform", "translate(0,580) scale(1,1)");
 
 			svg.appendChild(box2);
 
@@ -102,6 +105,8 @@ public class BatikFrame extends JFrame {
 			box2.setAttribute("transform", "translate(500,0)");
 			svg.appendChild(box2);
 
+			 
+			
 			// Remove the xml-stylesheet PI.
 			for (Node n = svg.getPreviousSibling(); n != null; n = n
 					.getPreviousSibling()) {
@@ -121,7 +126,7 @@ public class BatikFrame extends JFrame {
 				}
 			}
 
-			String prefix = "2";
+			String prefix = "1";
 			final String OBJECT=prefix+"object";
 			final String BORDER = prefix + "border";
 			final Element objBorder = doc.getElementById(OBJECT);
@@ -203,7 +208,16 @@ public class BatikFrame extends JFrame {
 							float oldX = transform.getMatrix().getE();
 							float oldY = transform.getMatrix().getF();
 							
-							transform.setTranslate(droppt.getX()+oldX, droppt.getY()+oldY);
+							System.out.println(String.format("old xy: %f,%f",
+									oldX,oldY));
+							
+							float tranlsateX = droppt.getX() + oldX-150;
+							float tranlsateY = droppt.getY() + oldY-150;
+							
+							System.out.println(String.format("translate xy: %f,%f",
+									tranlsateX, tranlsateY));
+							
+							transform.setTranslate(tranlsateX, tranlsateY);
 							SVGTransform t = transform;
 							 //t.setMatrix(t.getMatrix().translate(dragpt.getX(), dragpt.getY()));
 							//transform.setTranslate(dragpt.getX(), dragpt.getY());
