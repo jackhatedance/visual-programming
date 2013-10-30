@@ -25,11 +25,19 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  
   <g
      id="object">
+     <rect
+     width="735.76172"
+     height="486.04865"
+     x="4.4591618"
+     y="8.9183235"
+     id="border"
+     style="fill:none;stroke:none" />
     <path
        d="m 731.83529,252.44772 a 358.84569,238.60602 0 0 1 -717.69137,0 358.84569,238.60602 0 1 1 717.69137,0 z"
-       id="border"
+       
        style="fill-opacity:1;stroke:#00ad00;stroke-width:22.44374084;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        x="205.16306"

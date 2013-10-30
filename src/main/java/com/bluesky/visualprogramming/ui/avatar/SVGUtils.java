@@ -1,26 +1,29 @@
 package com.bluesky.visualprogramming.ui.avatar;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.svg.SVGTransform;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 
 public class SVGUtils {
 
 	public static String SCENE = "svg/scene.svg";
-	
-	public static Document createScene(){
+
+	public static Document createScene() {
 		return createDocument(SCENE);
 	}
-	
-	private static Document createDocument(String resource) {
+
+	protected static Document createDocument(String resource) {
 		String parser = XMLResourceDescriptor.getXMLParserClassName();
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
 		// eg. "svg/scene.svg"
@@ -72,5 +75,22 @@ public class SVGUtils {
 			else
 				e.setAttribute("id", prefix + "-" + id);
 		}
+	}
+
+	public static Long getObjectId(Element element) {
+		String elementId = element.getAttribute("id");
+		//if (elementId.isEmpty())
+			//return null;
+
+		int idx = elementId.indexOf('-');
+
+		return Long.valueOf(elementId.substring(0, idx));
+
+	}
+
+	public static SVGOMPoint getXY(Element element) {
+		Float x = Float.valueOf(element.getAttribute("x"));
+		Float y = Float.valueOf(element.getAttribute("y"));
+		return new SVGOMPoint(x, y);
 	}
 }
