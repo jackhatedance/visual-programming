@@ -100,12 +100,15 @@ public enum ObjectType {
 			return "root.prototype.value.boolean";
 		}
 
-		
-
 		@Override
 		public boolean isValueObject() {
 
 			return true;
+		}
+		
+		@Override
+		public String getSvgResource(){
+			return "svg/boolean.svg";
 		}
 	},
 	STRING {
@@ -148,4 +151,7 @@ public enum ObjectType {
 	}
 	
 
+	public String getSvgResource(){
+		return "svg/object.svg";
+	}
 }
