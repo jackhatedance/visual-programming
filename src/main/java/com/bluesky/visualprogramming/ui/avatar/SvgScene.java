@@ -1,10 +1,14 @@
 package com.bluesky.visualprogramming.ui.avatar;
 
+import java.awt.Color;
+
 import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -13,7 +17,6 @@ public class SvgScene {
 
 	Document doc;
 	Element svg;
-	
 
 	public SvgScene() {
 		doc = SVGUtils.createScene();
@@ -22,7 +25,8 @@ public class SvgScene {
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
 	}
 
-	public SVGOMGElement addObject(ObjectType type, long id,float x, float y, float scale) {
+	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
+			float scale) {
 		Document objDoc = SVGUtils.createObjectDocument(String.valueOf(id),
 				type);
 
@@ -31,10 +35,8 @@ public class SvgScene {
 		SVGOMGElement ele2 = (SVGOMGElement) doc.importNode(
 				svgObject.getObjectNode(), true);
 
-		
 		String scaleStr = String.format("scale(%f,%f)", scale, scale);
 		String translate = String.format("translate(%f,%f)", x, y);
-		
 
 		// String transform = translate + " " + scaleStr;
 		String transform = scaleStr + " " + translate;
@@ -47,7 +49,6 @@ public class SvgScene {
 	}
 
 	public void clear() {
-		NodeList list = svg.getChildNodes();
 		while (svg.hasChildNodes()) {
 			Node c = svg.getFirstChild();
 			svg.removeChild(c);
@@ -83,4 +84,13 @@ public class SvgScene {
 				.getItem(index.getIndex());
 		return transform;
 	}
+
+	public void setBorderColor(long id, Color color) {
+		SVGStylable e = (SVGStylable) getElement(id,
+				SvgElementType.Border);
+		String hex = String.format("#%02x%02x%02x", color.getRed(),
+				color.getGreen(), color.getBlue());
+		e.getStyle().setProperty("stroke", hex, "");
+	}
+
 }

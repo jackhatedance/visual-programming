@@ -9,6 +9,7 @@ import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Element;
+import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -48,7 +49,7 @@ public class SVGDiagramPanel extends JPanel {
 		setVisible(true);
 
 		setLayout(new BorderLayout());
-		
+
 		add("Center", canvas);
 	}
 
@@ -106,9 +107,9 @@ public class SVGDiagramPanel extends JPanel {
 				Element ele = (Element) currentElement;
 				long objId = SVGUtils.getObjectId(ele);
 				Element border = scene.getElement(objId, SvgElementType.Border);
-
-				((SVGStylable) border).getStyle().setProperty("stroke", "red",
-						"");
+				//System.out.println(objId);				
+				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
+				style.setProperty("stroke", "red", "");
 
 				SVGOMGElement object = (SVGOMGElement) scene.getElement(objId,
 						SvgElementType.Object);
@@ -148,13 +149,13 @@ public class SVGDiagramPanel extends JPanel {
 							tranlsateX, tranlsateY));
 
 					transform.setTranslate(tranlsateX, tranlsateY);
-					
-					//update field.area
-					Field field = (Field)ele.getUserData("field");
-					 
-					field.getArea().x = (int)tranlsateX;
-					field.getArea().y = (int)tranlsateY;
-					
+
+					// update field.area
+					Field field = (Field) ele.getUserData("field");
+
+					field.getArea().x = (int) tranlsateX;
+					field.getArea().y = (int) tranlsateY;
+
 				}
 
 			}
@@ -176,6 +177,5 @@ public class SVGDiagramPanel extends JPanel {
 	public void setScene(SvgScene scene) {
 		this.scene = scene;
 	}
-	
-	
+
 }

@@ -117,6 +117,8 @@ public class Field {
 
 		scene.setName(id, name);
 		scene.setDescription(id, value);
+		
+		scene.setBorderColor(id, target.borderColor);
 
 		int borderWidth = target.borderWidth;
 

@@ -2073,8 +2073,8 @@ procedure foo()
         </borderColor>
       </target>
       <area id="354">
-        <x>35</x>
-        <y>25</y>
+        <x>90</x>
+        <y>130</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -2823,8 +2823,8 @@ procedure sum(n)
         </borderColor>
       </target>
       <area id="483">
-        <x>750</x>
-        <y>35</y>
+        <x>790</x>
+        <y>130</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -5745,8 +5745,8 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                   </target>
                   <area id="993">
-                    <x>3860</x>
-                    <y>420</y>
+                    <x>3840</x>
+                    <y>425</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
@@ -5961,8 +5961,8 @@ subject.contains(&quot;多大&quot;)</value>
                     <booleanValue>true</booleanValue>
                   </target>
                   <area id="1031">
-                    <x>3885</x>
-                    <y>1105</y>
+                    <x>3814</x>
+                    <y>1068</y>
                     <width>100</width>
                     <height>100</height>
                   </area>

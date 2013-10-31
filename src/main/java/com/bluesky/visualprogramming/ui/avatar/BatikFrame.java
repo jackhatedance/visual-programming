@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.ui.avatar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -74,6 +75,7 @@ public class BatikFrame extends JFrame {
 
 			scene.setName(0, "foo");
 			scene.setDescription(0, "some words");
+			scene.setBorderColor(0, Color.yellow);
 
 			scene.setName(1, "isOK");
 			scene.setDescription(1, "true");

@@ -53,9 +53,11 @@
      id="object">
     <rect
        width="500"
-       height="600"
+       height="400"
        x="0"
-       y="0"      
+       y="0"
+       rx="20"
+       ry="20"      
        id="border"              
        style="fill:#82c03b;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
