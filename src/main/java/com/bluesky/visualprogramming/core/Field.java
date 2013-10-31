@@ -1,6 +1,14 @@
 package com.bluesky.visualprogramming.core;
 
+import java.awt.BasicStroke;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Stroke;
+
+import org.apache.batik.dom.svg.SVGOMGElement;
+
+import com.bluesky.visualprogramming.ui.avatar.SvgScene;
+import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
 
 public class Field {
 
@@ -16,11 +24,11 @@ public class Field {
 	 */
 	private Rectangle area = new Rectangle();
 
-	public Field(String name) {	
+	public Field(String name) {
 		this.name = name;
 		area = new Rectangle(0, 0, 100, 100);
 	}
-	
+
 	public Field(_Object targetObject, String name) {
 		this.target = targetObject;
 		this.name = name;
@@ -66,10 +74,6 @@ public class Field {
 		return r;
 	}
 
-	public void setArea(Rectangle area) {
-		this.area = area;
-	}
-
 	public Rectangle getArea() {
 		// if (area == null)
 		// this.area = (Rectangle)target.area.clone();
@@ -82,5 +86,57 @@ public class Field {
 
 	public boolean isSystemField() {
 		return name != null && name.startsWith("_");
+	}
+
+	/**
+	 * draw itself as an icon. (if it is big enough, then draw internal.)
+	 * 
+	 * @param diagramPanel
+	 * @param scene
+	 * @param canvasOffset
+	 * @param zoom
+	 * @param own
+	 */
+	public void draw(SVGDiagramPanel diagramPanel, SvgScene scene,
+			Point canvasOffset, double zoom, boolean own) {
+
+		// System.out.println("draw:"+getName());
+
+		// draw border
+		// g.setColor(borderColor);
+
+		int x = (int) (area.x * zoom) + canvasOffset.x;
+		int y = (int) (area.y * zoom) + canvasOffset.y;
+		int width = (int) (area.width * zoom);
+		int height = (int) (area.height * zoom);
+
+		long id = target.getId();
+		String value = target.getHumanReadableText();
+
+		SVGOMGElement ele = scene.addObject(target.type, id, x, y, 0.2f);
+
+		scene.setName(id, name);
+		scene.setDescription(id, value);
+
+		int borderWidth = target.borderWidth;
+
+		ele.setUserData("field", this, null);
+		diagramPanel.addMouseListener(ele);
+
+		int finalBorderWidth = -1;
+		if (own)
+			finalBorderWidth = borderWidth;
+		else
+			finalBorderWidth = borderWidth / 2;
+
+		Stroke borderStroke = null;
+		if (selectedStatus == SelectedStatus.Preselected
+				|| selectedStatus == SelectedStatus.Selected)
+			borderStroke = new BasicStroke(finalBorderWidth,
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+					new float[] { 9 }, 0);
+		else
+			borderStroke = new BasicStroke(finalBorderWidth);
+
 	}
 }

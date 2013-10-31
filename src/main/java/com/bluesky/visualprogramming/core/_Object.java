@@ -505,58 +505,7 @@ public class _Object implements Serializable {
 	}
 
 	/**
-	 * draw itself as an icon. (if it is big enough, then draw internal.)
-	 * 
-	 * SVG version
-	 * 
-	 * @param doc
-	 * @param canvasOffset
-	 * @param area
-	 * @param zoom
-	 * @param own
-	 * @param name
-	 * @param value
-	 * @param selectedStatus
-	 */
-	public void draw(SVGDiagramPanel diagramPanel, SvgScene scene,
-			Point canvasOffset, Rectangle area, double zoom, boolean own,
-			String name, String value, SelectedStatus selectedStatus) {
-		// System.out.println("draw:"+getName());
-
-		// draw border
-		// g.setColor(borderColor);
-
-		int x = (int) (area.x * zoom) + canvasOffset.x;
-		int y = (int) (area.y * zoom) + canvasOffset.y;
-		int width = (int) (area.width * zoom);
-		int height = (int) (area.height * zoom);
-
-		SVGOMGElement ele = scene.addObject(type, id, x, y, 0.2f);
-
-		scene.setName(id, name);
-		scene.setDescription(id, value);
-
-		diagramPanel.addMouseListener(ele);
-
-		int finalBorderWidth = -1;
-		if (own)
-			finalBorderWidth = this.borderWidth;
-		else
-			finalBorderWidth = this.borderWidth / 2;
-
-		Stroke borderStroke = null;
-		if (selectedStatus == SelectedStatus.Preselected
-				|| selectedStatus == SelectedStatus.Selected)
-			borderStroke = new BasicStroke(finalBorderWidth,
-					BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-					new float[] { 9 }, 0);
-		else
-			borderStroke = new BasicStroke(finalBorderWidth);
-
-	}
-
-	/**
-	 * draw all childrens
+	 * draw all children
 	 * 
 	 * @param g
 	 * @param canvasOffset
@@ -610,10 +559,7 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(diagramPanel, scene, canvasOffset,
-					field.getArea(), scaleRate, owns, objName,
-					field.target.getHumanReadableText(),
-					field.getSelectedStatus());
+			field.draw(diagramPanel, scene, canvasOffset, scaleRate, owns);
 
 		}
 	}

@@ -17,6 +17,8 @@ import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
+import com.bluesky.visualprogramming.core.Field;
+import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.ui.avatar.SVGUtils;
 import com.bluesky.visualprogramming.ui.avatar.SvgElementType;
 import com.bluesky.visualprogramming.ui.avatar.SvgScene;
@@ -146,13 +148,13 @@ public class SVGDiagramPanel extends JPanel {
 							tranlsateX, tranlsateY));
 
 					transform.setTranslate(tranlsateX, tranlsateY);
-					SVGTransform t = transform;
-					// t.setMatrix(t.getMatrix().translate(dragpt.getX(),
-					// dragpt.getY()));
-					// transform.setTranslate(dragpt.getX(),
-					// dragpt.getY());
-					// transform.setTranslate(nowToX,nowToY);
-					// transform.setTranslate(50,10);
+					
+					//update field.area
+					Field field = (Field)ele.getUserData("field");
+					 
+					field.getArea().x = (int)tranlsateX;
+					field.getArea().y = (int)tranlsateY;
+					
 				}
 
 			}

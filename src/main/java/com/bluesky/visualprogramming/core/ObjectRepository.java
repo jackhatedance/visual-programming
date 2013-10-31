@@ -269,6 +269,7 @@ public class ObjectRepository {
 		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
 
+		
 		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
 
 			@Override
@@ -282,6 +283,9 @@ public class ObjectRepository {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 					// f.getArea();
+					
+					f.getArea().x = f.getArea().x*5;
+					f.getArea().y = f.getArea().y*5;
 				}
 			}
 
@@ -296,7 +300,9 @@ public class ObjectRepository {
 
 			}
 		};
-		// listeners.add(migrationListener);
+		
+		//this listener is used to modify object data in batch for migration purpose. enable it only when necessary.
+		//listeners.add(migrationListener);
 
 		// notify
 		for (_Object o : objects.values()) {
