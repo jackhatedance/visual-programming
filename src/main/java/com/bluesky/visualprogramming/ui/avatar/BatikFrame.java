@@ -1,9 +1,12 @@
 package com.bluesky.visualprogramming.ui.avatar;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,13 +27,12 @@ import com.bluesky.visualprogramming.core.ObjectType;
 
 public class BatikFrame extends JFrame {
 	protected JSVGCanvas canvas;
-
-	// protected Document doc;
 	protected SvgScene scene;
 
-	protected volatile EventTarget currentElement;
-	protected int dragX;
-	protected int dragY;
+	/**
+	 * the dragged target
+	 */
+	protected EventTarget currentElement;
 
 	// offset of mouse and shape left-top point.
 	protected float dragOffsetX;
@@ -48,158 +50,39 @@ public class BatikFrame extends JFrame {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add("Center", canvas);
 
+		JButton btn = new JButton("btn");
+		panel.add("North", btn);
+		btn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				scene.clear();
+
+			}
+		});
+
 		getContentPane().add(panel);
 
 		try {
-			// Parse the barChart.svg file into a Document.
-
-			// doc = SVGUtils.createScene();
 			scene = new SvgScene();
 
-			scene.addObject(ObjectType.NORMAL, 0, 0, 580);
-			scene.addObject(ObjectType.BOOLEAN, 1, 500, 0);
-			scene.addObject(ObjectType.NORMAL, 2, 200, 580);
+			scene.addObject(ObjectType.NORMAL, 0, 0, 580, 0.1f);
+			scene.addObject(ObjectType.BOOLEAN, 1, 500, 0, 0.2f);
+			scene.addObject(ObjectType.BOOLEAN, 2, 200, 580, 0.3f);
 			// Change the document viewBox.
 			// svg.setAttributeNS(null, "viewBox", "40 95 370 265");
 
-			// move object to scene
-			Element object = scene.getElement(1, SvgElementType.Object);
-			Element border = scene.getElement(1, SvgElementType.Border);
+			scene.setName(0, "foo");
+			scene.setDescription(0, "some words");
 
-			String width = border.getAttribute("width");
-			System.out.println("width:" + width);
-			/*
-			 * CSSStyleDeclaration css = ((SVGStylable) border).getStyle();
-			 * System.out.println(css); ((SVGStylable)
-			 * border).getStyle().setProperty("stroke", "red", "");
-			 */
-
-			// org.w3c.dom.events.EventTarget scene = (EventTarget)
-			// doc.getDocumentElement();
+			scene.setName(1, "isOK");
+			scene.setDescription(1, "true");
 
 			for (long objId = 0; objId < 3; objId++) {
 				org.w3c.dom.events.EventTarget t = (EventTarget) scene
 						.getElement(objId, SvgElementType.Object);
 				if (t != null) {
-					t.addEventListener("mousedown", new EventListener() {
-
-						@Override
-						public void handleEvent(Event evt) {
-							currentElement = evt.getCurrentTarget();
-							DOMMouseEvent elEvt = (DOMMouseEvent) evt;
-							int nowToX = elEvt.getClientX();
-							int nowToY = elEvt.getClientY();
-							System.out.println(String.format(
-									"client xy: %d,%d", nowToX, nowToY));
-
-							dragX = nowToX;
-							dragY = nowToY;
-
-							Element ele = (Element) currentElement;
-
-							SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
-
-							long objectId = SVGUtils.getObjectId(ele);
-
-							Element objBorder = scene.getElement(objectId,
-									SvgElementType.Border);
-
-							// elem -> screen
-							SVGMatrix mat = ((SVGLocatable) objBorder)
-									.getScreenCTM();
-
-							mat = mat.inverse(); // screen -> elem
-							SVGOMPoint svgPt = (SVGOMPoint) screenPt
-									.matrixTransform(mat);
-
-							SVGOMPoint borderPosition = SVGUtils
-									.getXY(objBorder);
-
-							dragOffsetX = svgPt.getX() - borderPosition.getX();
-							dragOffsetY = svgPt.getY() - borderPosition.getY();
-
-						}
-					}, false);
-
-					t.addEventListener("mouseup", new EventListener() {
-
-						@Override
-						public void handleEvent(Event evt) {
-							currentElement = null;
-
-						}
-					}, false);
-
-					t.addEventListener("mousemove", new EventListener() {
-
-						@Override
-						public void handleEvent(Event evt) {
-							if (currentElement == null)
-								return;
-							
-							Element ele = (Element) currentElement;
-							long objId = SVGUtils.getObjectId(ele);
-							Element border = scene.getElement(objId,
-									SvgElementType.Border);
-
-							((SVGStylable) border).getStyle().setProperty(
-									"stroke", "red", "");
-
-							SVGOMGElement object = (SVGOMGElement) scene
-									.getElement(objId, SvgElementType.Object);
-							SVGTransform transform = object.getTransform()
-									.getBaseVal().getItem(1);
-
-							DOMMouseEvent elEvt = (DOMMouseEvent) evt;
-							int nowToX = elEvt.getClientX();
-							int nowToY = elEvt.getClientY();
-							System.out.println(String.format(
-									"client xy: %d,%d", nowToX, nowToY));
-
-							// convert it to a point for use with the Matrix
-							SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
-							// Get the items screen coordinates, and apply the
-							// transformation
-							// elem -> screen
-							SVGMatrix mat = ((SVGLocatable) border)
-									.getScreenCTM();
-
-							mat = mat.inverse(); // screen -> elem
-							SVGOMPoint droppt = (SVGOMPoint) pt
-									.matrixTransform(mat);
-							if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
-
-								System.out.println(String.format(
-										"drop xy: %f,%f", droppt.getX(),
-										droppt.getY()));
-
-								float oldX = transform.getMatrix().getE();
-								float oldY = transform.getMatrix().getF();
-
-								System.out.println(String.format(
-										"old xy: %f,%f", oldX, oldY));
-
-								float tranlsateX = droppt.getX() + oldX
-										- dragOffsetX;
-								float tranlsateY = droppt.getY() + oldY
-										- dragOffsetY;
-
-								System.out.println(String.format(
-										"translate xy: %f,%f", tranlsateX,
-										tranlsateY));
-
-								transform.setTranslate(tranlsateX, tranlsateY);
-								SVGTransform t = transform;
-								// t.setMatrix(t.getMatrix().translate(dragpt.getX(),
-								// dragpt.getY()));
-								// transform.setTranslate(dragpt.getX(),
-								// dragpt.getY());
-								// transform.setTranslate(nowToX,nowToY);
-								// transform.setTranslate(50,10);
-							}
-
-						}
-					}, false);
+					addMouseListener(t);
 				}
 			}
 		} catch (Exception ex) {
@@ -207,6 +90,125 @@ public class BatikFrame extends JFrame {
 		}
 	}
 
+	private void addMouseListener(org.w3c.dom.events.EventTarget target){
+		target.addEventListener("mousedown", new EventListener() {
+
+			@Override
+			public void handleEvent(Event evt) {
+				currentElement = evt.getCurrentTarget();
+				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+				int nowToX = elEvt.getClientX();
+				int nowToY = elEvt.getClientY();
+				System.out.println(String.format(
+						"client xy: %d,%d", nowToX, nowToY));
+
+				Element ele = (Element) currentElement;
+
+				SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
+
+				long objectId = SVGUtils.getObjectId(ele);
+
+				Element objBorder = scene.getElement(objectId,
+						SvgElementType.Border);
+
+				// elem -> screen
+				SVGMatrix mat = ((SVGLocatable) objBorder)
+						.getScreenCTM();
+
+				mat = mat.inverse(); // screen -> elem
+				SVGOMPoint svgPt = (SVGOMPoint) screenPt
+						.matrixTransform(mat);
+
+				SVGOMPoint borderPosition = SVGUtils
+						.getXY(objBorder);
+
+				dragOffsetX = svgPt.getX() - borderPosition.getX();
+				dragOffsetY = svgPt.getY() - borderPosition.getY();
+
+			}
+		}, false);
+
+		target.addEventListener("mouseup", new EventListener() {
+
+			@Override
+			public void handleEvent(Event evt) {
+				currentElement = null;
+
+			}
+		}, false);
+
+		target.addEventListener("mousemove", new EventListener() {
+
+			@Override
+			public void handleEvent(Event evt) {
+				if (currentElement == null)
+					return;
+
+				Element ele = (Element) currentElement;
+				long objId = SVGUtils.getObjectId(ele);
+				Element border = scene.getElement(objId,
+						SvgElementType.Border);
+
+				((SVGStylable) border).getStyle().setProperty(
+						"stroke", "red", "");
+
+				SVGOMGElement object = (SVGOMGElement) scene
+						.getElement(objId, SvgElementType.Object);
+				SVGTransform transform = scene.getTransform(objId,
+						TransformIndex.Offset);
+
+				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+				int nowToX = elEvt.getClientX();
+				int nowToY = elEvt.getClientY();
+				System.out.println(String.format(
+						"client xy: %d,%d", nowToX, nowToY));
+
+				// convert it to a point for use with the Matrix
+				SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
+				// Get the items screen coordinates, and apply the
+				// transformation
+				// elem -> screen
+				SVGMatrix mat = ((SVGLocatable) border)
+						.getScreenCTM();
+
+				mat = mat.inverse(); // screen -> elem
+				SVGOMPoint droppt = (SVGOMPoint) pt
+						.matrixTransform(mat);
+				if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+
+					System.out.println(String.format(
+							"drop xy: %f,%f", droppt.getX(),
+							droppt.getY()));
+
+					float oldX = transform.getMatrix().getE();
+					float oldY = transform.getMatrix().getF();
+
+					System.out.println(String.format(
+							"old xy: %f,%f", oldX, oldY));
+
+					float tranlsateX = droppt.getX() + oldX
+							- dragOffsetX;
+					float tranlsateY = droppt.getY() + oldY
+							- dragOffsetY;
+
+					System.out.println(String.format(
+							"translate xy: %f,%f", tranlsateX,
+							tranlsateY));
+
+					transform.setTranslate(tranlsateX, tranlsateY);
+					SVGTransform t = transform;
+					// t.setMatrix(t.getMatrix().translate(dragpt.getX(),
+					// dragpt.getY()));
+					// transform.setTranslate(dragpt.getX(),
+					// dragpt.getY());
+					// transform.setTranslate(nowToX,nowToY);
+					// transform.setTranslate(50,10);
+				}
+
+			}
+		}, false);
+	}
+	
 	public void start() {
 		// Display the document.
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);

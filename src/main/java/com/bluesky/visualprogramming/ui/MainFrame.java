@@ -30,14 +30,14 @@ import javax.swing.DefaultComboBoxModel;
 public class MainFrame extends JFrame {
 	static String DEFAULT_IMAGE_FILE_NAME = "objects.xml";
 
-	MainWindow mainWindow = null;
+	SVGMainWindow mainWindow = null;
 
 	public MainFrame() {
 
 		initMenu();
 
 		// Add content to the window.
-		mainWindow = new MainWindow(this);
+		mainWindow = new SVGMainWindow(this);
 
 		getContentPane().add(mainWindow);
 

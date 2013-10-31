@@ -16,12 +16,16 @@ public class SvgObject {
 	}
 	
 	private  void updateIds() {
-		String[] Names = { "object", "border", "name", "description" };
-		for (String name : Names) {
+		//String[] Names = { "object", "border", "name", "description" };
+		
+		for (SvgElementType t: SvgElementType.values()) {
+			String name = t.toString().toLowerCase();
 			String oldId = name;
 			Element e = doc.getElementById(oldId);
 			if (e == null)
-				System.out.println(id + " is null");
+			{				
+				System.out.println(String.format("'%s' is not exsit",name));
+			}
 			else
 			{
 				String newId = String.valueOf(id) + "-" + name;

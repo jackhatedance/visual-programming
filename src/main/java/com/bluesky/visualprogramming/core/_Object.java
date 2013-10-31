@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
@@ -24,6 +25,8 @@ import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
+import com.bluesky.visualprogramming.ui.avatar.SvgScene;
+import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
 public class _Object implements Serializable {
@@ -435,6 +438,18 @@ public class _Object implements Serializable {
 		return name;
 	}
 
+	/**
+	 * draw itself as an icon. if it is big enough, then draw internal.
+	 * 
+	 * @param g
+	 * @param canvasOffset
+	 * @param area
+	 * @param zoom
+	 * @param own
+	 * @param name
+	 * @param value
+	 * @param selectedStatus
+	 */
 	public void draw(Graphics g, Point canvasOffset, Rectangle area,
 			double zoom, boolean own, String name, String value,
 			SelectedStatus selectedStatus) {
@@ -479,42 +494,49 @@ public class _Object implements Serializable {
 		// draw selector box
 		Color selectorColor = null;
 
-		// if (selectedStatus == SelectedStatus.Preselected
-		// || selectedStatus == SelectedStatus.Selected) {
-		// if (selectedStatus == SelectedStatus.Preselected)
-		// selectorColor = Color.RED;
-		// else if (selectedStatus == SelectedStatus.Selected)
-		// selectorColor = Color.BLUE;
-		//
-		// g2.setColor(selectorColor);
-		// Stroke drawingStroke = new BasicStroke(1, BasicStroke.CAP_BUTT,
-		// BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
-		// g2.setStroke(drawingStroke);
-		// // g2.drawre(line);
-		// g2.drawRect(x - 1, y - 1, width + 1, height + 1);
-		// }
 		// draw internal
 		int shortSide = width < height ? width : height;
 		double internalScale = (double) shortSide / (double) 1000;
 
 		if (internalScale > 0.1f) {
 			Point internalOffset = new Point(x, y);
-			drawInternal(g, internalOffset, internalScale, name, selectedStatus);
+			drawChilren(g, internalOffset, internalScale, name, selectedStatus);
 		}
 	}
 
-	public void draw(Document doc, Point canvasOffset, Rectangle area,
-			double zoom, boolean own, String name, String value,
-			SelectedStatus selectedStatus) {
+	/**
+	 * draw itself as an icon. (if it is big enough, then draw internal.)
+	 * 
+	 * SVG version
+	 * 
+	 * @param doc
+	 * @param canvasOffset
+	 * @param area
+	 * @param zoom
+	 * @param own
+	 * @param name
+	 * @param value
+	 * @param selectedStatus
+	 */
+	public void draw(SVGDiagramPanel diagramPanel, SvgScene scene,
+			Point canvasOffset, Rectangle area, double zoom, boolean own,
+			String name, String value, SelectedStatus selectedStatus) {
 		// System.out.println("draw:"+getName());
 
 		// draw border
-		//g.setColor(borderColor);
+		// g.setColor(borderColor);
 
 		int x = (int) (area.x * zoom) + canvasOffset.x;
 		int y = (int) (area.y * zoom) + canvasOffset.y;
 		int width = (int) (area.width * zoom);
 		int height = (int) (area.height * zoom);
+
+		SVGOMGElement ele = scene.addObject(type, id, x, y, 0.2f);
+
+		scene.setName(id, name);
+		scene.setDescription(id, value);
+
+		diagramPanel.addMouseListener(ele);
 
 		int finalBorderWidth = -1;
 		if (own)
@@ -530,47 +552,19 @@ public class _Object implements Serializable {
 					new float[] { 9 }, 0);
 		else
 			borderStroke = new BasicStroke(finalBorderWidth);
-/*
-		g2.setStroke(borderStroke);
 
-		g.drawRect(x, y, width, height);
-
-		g.setColor(Color.BLACK);
-
-		if (name != null)
-			g.drawString(name, x + 5, (int) (y + 15));
-
-		if (value != null)
-			g.drawString(value, x + 5, (int) (y + 15 + 15));
-		// draw selector box
-		Color selectorColor = null;
-
-		// if (selectedStatus == SelectedStatus.Preselected
-		// || selectedStatus == SelectedStatus.Selected) {
-		// if (selectedStatus == SelectedStatus.Preselected)
-		// selectorColor = Color.RED;
-		// else if (selectedStatus == SelectedStatus.Selected)
-		// selectorColor = Color.BLUE;
-		//
-		// g2.setColor(selectorColor);
-		// Stroke drawingStroke = new BasicStroke(1, BasicStroke.CAP_BUTT,
-		// BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
-		// g2.setStroke(drawingStroke);
-		// // g2.drawre(line);
-		// g2.drawRect(x - 1, y - 1, width + 1, height + 1);
-		// }
-		// draw internal
-		int shortSide = width < height ? width : height;
-		double internalScale = (double) shortSide / (double) 1000;
-
-		if (internalScale > 0.1f) {
-			Point internalOffset = new Point(x, y);
-			drawInternal(g, internalOffset, internalScale, name, selectedStatus);
-		}
-		*/
 	}
 
-	protected void drawInternal(Graphics g, Point canvasOffset, double zoom,
+	/**
+	 * draw all childrens
+	 * 
+	 * @param g
+	 * @param canvasOffset
+	 * @param zoom
+	 * @param name
+	 * @param selectedStatus
+	 */
+	protected void drawChilren(Graphics g, Point canvasOffset, double zoom,
 			String name, SelectedStatus selectedStatus) {
 
 		for (Field f : fieldList) {
@@ -597,12 +591,15 @@ public class _Object implements Serializable {
 
 		}
 	}
+
 	/**
 	 * draw on SVG DOM
+	 * 
 	 * @param doc
 	 * @param canvasOffset
 	 */
-	public void drawInternal(Document doc, Point canvasOffset) {
+	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
+			Point canvasOffset) {
 		for (Field field : fieldList) {
 			boolean owns = field.target.owner == this;
 
@@ -613,12 +610,14 @@ public class _Object implements Serializable {
 			} else
 				objName = field.name;
 
-			field.target.draw(doc, canvasOffset, field.getArea(), scaleRate,
-					owns, objName, field.target.getHumanReadableText(),
+			field.target.draw(diagramPanel, scene, canvasOffset,
+					field.getArea(), scaleRate, owns, objName,
+					field.target.getHumanReadableText(),
 					field.getSelectedStatus());
 
 		}
 	}
+
 	protected Field getField(String name) {
 		Integer index = fieldNameMap.get(name);
 		if (index != null)

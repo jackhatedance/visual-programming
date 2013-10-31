@@ -39,7 +39,7 @@ public class SVGUtils {
 
 	public static Document createObjectDocument(String id, ObjectType objectType) {
 		Document doc = createDocument(objectType.getSvgResource());
-		updateIds(doc, id);
+		//updateIds(doc, id);
 
 		return doc;
 	}
