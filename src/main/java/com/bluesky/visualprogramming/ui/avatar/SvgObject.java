@@ -16,8 +16,7 @@ public class SvgObject {
 	}
 	
 	private  void updateIds() {
-		//String[] Names = { "object", "border", "name", "description" };
-		
+				
 		for (SvgElementType t: SvgElementType.values()) {
 			String name = t.toString().toLowerCase();
 			String oldId = "0-"+name;
