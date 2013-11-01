@@ -7,12 +7,60 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
    width="744.09448"
    height="1052.3622"
    id="svg2">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient5209">
+      <stop
+         id="stop5211"
+         style="stop-color:#000000;stop-opacity:1"
+         offset="0" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3757">
+      <stop
+         id="stop3759"
+         style="stop-color:#b3b3b3;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3761"
+         style="stop-color:#b3b3b3;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="139.70206"
+       cy="93.393501"
+       r="94.726562"
+       fx="139.70206"
+       fy="93.393501"
+       id="radialGradient3769"
+       xlink:href="#linearGradient3757"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.19309278,0,75.35989)" />
+    <radialGradient
+       cx="97.018997"
+       cy="45.6549"
+       r="47.919922"
+       fx="97.018997"
+       fy="45.6549"
+       id="radialGradient3771"
+       xlink:href="#linearGradient3757"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.22620746,0,35.327421)" />
+    <linearGradient
+       x1="44.975483"
+       y1="93.393501"
+       x2="234.4286"
+       y2="93.393501"
+       id="linearGradient5213"
+       xlink:href="#linearGradient5209"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -25,27 +73,24 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     id="object">
-    <rect
-       width="501.40845"
-       height="271.83099"
-       x="11.018993"
-       y="7.8302255"
-       id="border"
-       onclick="evt.target.setAttribute('fill', 'blue')"
-        />
-    <text
-       x="46.46236"
-       y="56.025993"
-       id="name"
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">name</text>
-    <text
-       x="43.608295"
-       y="103.7353"
-       id="description"
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">description</text>
-  </g>
+  <rect
+     width="501.40845"
+     height="271.83099"
+     x="5.4634376"
+     y="10.608002"
+     id="border"
+     onload=" var fillColor='green'; value = document.getElementById('name').textContent; if( value=='true') { fillCorlor='green';} else {fillColor='red';} evt.target.style.setProperty('fill',fillColor);  "
+     style="opacity:0.14166667;fill:#000000;fill-opacity:1" />
+  <text
+     x="46.46236"
+     y="56.025993"
+     id="name"     
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;font-family:Sans">false</text>
+  <text
+     x="138.05273"
+     y="117.62418"
+     id="description"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans">description</text>
 </svg>

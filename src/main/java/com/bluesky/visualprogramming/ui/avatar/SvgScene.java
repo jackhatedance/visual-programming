@@ -3,11 +3,10 @@ package com.bluesky.visualprogramming.ui.avatar;
 import java.awt.Color;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
-import org.apache.batik.dom.svg.SVGOMRectElement;
+import org.apache.batik.dom.svg.SVGOMScriptElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
@@ -49,10 +48,19 @@ public class SvgScene {
 	}
 
 	public void clear() {
+		Node script =null;
 		while (svg.hasChildNodes()) {
 			Node c = svg.getFirstChild();
+			
+			//save it
+			if(c instanceof SVGOMScriptElement)
+				script = c;
+			
 			svg.removeChild(c);
 		}
+		
+		//add back
+		svg.appendChild(script);
 	}
 
 	public Element getElement(long id, SvgElementType type) {
@@ -90,7 +98,11 @@ public class SvgScene {
 				SvgElementType.Border);
 		String hex = String.format("#%02x%02x%02x", color.getRed(),
 				color.getGreen(), color.getBlue());
+		try{
 		e.getStyle().setProperty("stroke", hex, "");
+		}catch(Exception ex){
+			throw new RuntimeException("setborder color, id:"+id);
+		}
 	}
 
 }

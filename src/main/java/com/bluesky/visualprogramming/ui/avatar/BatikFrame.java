@@ -66,6 +66,7 @@ public class BatikFrame extends JFrame {
 
 		try {
 			scene = new SvgScene();
+			scene.clear();
 
 			scene.addObject(ObjectType.NORMAL, 0, 0, 580, 0.1f);
 			scene.addObject(ObjectType.BOOLEAN, 1, 500, 0, 0.2f);
@@ -75,10 +76,10 @@ public class BatikFrame extends JFrame {
 
 			scene.setName(0, "foo");
 			scene.setDescription(0, "some words");
-			scene.setBorderColor(0, Color.yellow);
+			//scene.setBorderColor(0, Color.yellow);
 
 			scene.setName(1, "isOK");
-			scene.setDescription(1, "true");
+			scene.setDescription(1, "false");
 
 			for (long objId = 0; objId < 3; objId++) {
 				org.w3c.dom.events.EventTarget t = (EventTarget) scene

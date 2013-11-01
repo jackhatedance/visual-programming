@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,6 +14,17 @@
    
    id="body"
    xml:space="preserve">
+   <script type="text/ecmascript"><![CDATA[
+   		function getObjectId(elementId){
+   			index = elementId.indexOf('-');
+   			if(index>0)
+   				return elementId.substring(0,index);
+   			else
+   				return '';
+   		}
+   ]]></script>
+   
+   
    	
      
      </svg>

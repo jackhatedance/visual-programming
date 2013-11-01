@@ -20,13 +20,25 @@ public class SvgObject {
 		
 		for (SvgElementType t: SvgElementType.values()) {
 			String name = t.toString().toLowerCase();
-			String oldId = name;
+			String oldId = "0-"+name;
 			Element e = doc.getElementById(oldId);
 			if (e == null)
 			{				
 				System.out.println(String.format("'%s' is not exsit",name));
 			}
 			else
+			{
+				String newId = String.valueOf(id) + "-" + name;
+				e.setAttribute("id", newId);
+			}			
+		}
+		
+		//custom nodes
+		for(int i=0;i<5;i++){
+			String name = String.format("custom%d",i);
+			String oldId = "0-"+name;			
+			Element e = doc.getElementById(oldId);
+			if (e != null)			
 			{
 				String newId = String.valueOf(id) + "-" + name;
 				e.setAttribute("id", newId);
