@@ -74,7 +74,7 @@ public class SVGMainWindow extends JPanel {
 
 	private JFrame owner;
 
-	private DefaultTreeModel treeModel;
+	public DefaultTreeModel treeModel;
 	private JTree tree;
 	JScrollPane scrollTreePanel;
 
@@ -83,7 +83,7 @@ public class SVGMainWindow extends JPanel {
 
 	JSplitPane splitPane;
 
-	JPopupMenu parentPopupMenu;
+	
 
 	// the object that hovered by mouse
 	private Field activeChildField;
@@ -137,8 +137,8 @@ public class SVGMainWindow extends JPanel {
 				// reload the diagram
 				final Field field = getSelectedTreeField();
 
-				diagramPanel.getCanvas().getUpdateManager().getUpdateRunnableQueue()
-						.invokeLater(new Runnable() {
+				diagramPanel.getCanvas().getUpdateManager()
+						.getUpdateRunnableQueue().invokeLater(new Runnable() {
 							public void run() {
 								loadDiagram(field);
 							}
@@ -163,7 +163,7 @@ public class SVGMainWindow extends JPanel {
 						field.name, field.getSelectedStatus()));
 			SvgScene scene = diagramPanel.getScene();
 			scene.clear();
-			field.target.drawInternal(diagramPanel,scene, new Point(0, 0));
+			field.target.drawInternal(diagramPanel, scene, new Point(0, 0));
 
 		}
 	}
@@ -190,19 +190,8 @@ public class SVGMainWindow extends JPanel {
 		return node;
 	}
 
-	private void initDiagramPanel() {
-
-		diagramPanel = new SVGDiagramPanel();
-
-		// diagram.setMinimumSize(new Dimension(1000, 1000));
-		// addMouseListener();
-
-		scrollDiagramPanel = new JScrollPane(diagramPanel);
-
-		Dimension minimumSize = new Dimension(200, 150);
-		scrollDiagramPanel.setMinimumSize(minimumSize);
-
-		parentPopupMenu = new JPopupMenu();
+	private JPopupMenu createPopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
 		JMenuItem eMenuItem = new JMenuItem("New Object");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -213,7 +202,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New Integer");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -226,7 +215,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New String");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -238,7 +227,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New Boolean");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -250,7 +239,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("New Procedure");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -262,7 +251,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("Delete");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -293,7 +282,7 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
 
 		eMenuItem = new JMenuItem("Execute");
 		eMenuItem.addActionListener(new ActionListener() {
@@ -317,7 +306,22 @@ public class SVGMainWindow extends JPanel {
 			}
 
 		});
-		parentPopupMenu.add(eMenuItem);
+		menu.add(eMenuItem);
+
+		return menu;
+	}
+
+	private void initDiagramPanel() {
+
+		diagramPanel = new SVGDiagramPanel(this,createPopupMenu());
+
+		// diagram.setMinimumSize(new Dimension(1000, 1000));
+		// addMouseListener();
+
+		scrollDiagramPanel = new JScrollPane(diagramPanel);
+
+		Dimension minimumSize = new Dimension(200, 150);
+		scrollDiagramPanel.setMinimumSize(minimumSize);
 
 		// diagram.setComponentPopupMenu(popupMenu);
 
@@ -347,7 +351,7 @@ public class SVGMainWindow extends JPanel {
 
 	}
 
-	private DefaultMutableTreeNode findChildNode(DefaultMutableTreeNode node,
+	public DefaultMutableTreeNode findChildNode(DefaultMutableTreeNode node,
 			Field childField) {
 		// search
 		DefaultMutableTreeNode selectedChildNode = null;
@@ -364,7 +368,7 @@ public class SVGMainWindow extends JPanel {
 		return selectedChildNode;
 	}
 
-	protected DefaultMutableTreeNode getSelectedTreeNode() {
+	public DefaultMutableTreeNode getSelectedTreeNode() {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 				.getLastSelectedPathComponent();
 		return node;

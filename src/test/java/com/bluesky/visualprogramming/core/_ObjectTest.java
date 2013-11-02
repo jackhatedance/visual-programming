@@ -27,8 +27,8 @@ public class _ObjectTest {
 	@Test
 	public void testGroovy(){
 		Binding binding = new Binding();
-		binding.setVariable("str", "你好！");
-		binding.setVariable("keyword", "你好");
+		binding.setVariable("str", "hello!");
+		binding.setVariable("keyword", "hello");
 		GroovyShell shell = new GroovyShell(binding);
 
 		Object value = shell

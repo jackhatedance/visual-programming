@@ -2,7 +2,11 @@ package com.bluesky.visualprogramming.ui.diagram;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SVGOMGElement;
@@ -19,11 +23,12 @@ import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
-import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.ui.SVGMainWindow;
 import com.bluesky.visualprogramming.ui.avatar.SVGUtils;
 import com.bluesky.visualprogramming.ui.avatar.SvgElementType;
 import com.bluesky.visualprogramming.ui.avatar.SvgScene;
 import com.bluesky.visualprogramming.ui.avatar.TransformIndex;
+import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 
 public class SVGDiagramPanel extends JPanel {
 
@@ -39,8 +44,14 @@ public class SVGDiagramPanel extends JPanel {
 
 	private JSVGCanvas canvas;
 	private SvgScene scene;
+	
+	private SVGMainWindow mainWindow;
+	private JPopupMenu popupMenu;
 
-	public SVGDiagramPanel() {
+	public SVGDiagramPanel(SVGMainWindow mainWindow,JPopupMenu popupMenu) {
+		this.mainWindow = mainWindow;
+		this.popupMenu = popupMenu;
+		
 		canvas = new JSVGCanvas();
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
 
@@ -107,7 +118,7 @@ public class SVGDiagramPanel extends JPanel {
 				Element ele = (Element) currentElement;
 				long objId = SVGUtils.getObjectId(ele);
 				Element border = scene.getElement(objId, SvgElementType.Border);
-				//System.out.println(objId);				
+				// System.out.println(objId);
 				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
 				style.setProperty("stroke", "red", "");
 
@@ -158,6 +169,40 @@ public class SVGDiagramPanel extends JPanel {
 
 				}
 
+			}
+		}, false);
+
+		target.addEventListener("click", new EventListener() {
+
+			@Override
+			public void handleEvent(Event evt) {
+				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
+				
+				//2 is right button
+				if(mouseEvent.getButton()==2){
+					popupMenu.show(canvas, mouseEvent.getClientX(), mouseEvent.getClientY());
+				}else {
+					
+						ObjectPropertyDialog dialog = new ObjectPropertyDialog();
+						dialog.setLocationRelativeTo(getParent());
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						
+						Element ele = (Element)evt.getCurrentTarget();
+						Field activeChildField = (Field) ele.getUserData("field");
+						dialog.setField(activeChildField);
+
+						dialog.setVisible(true);
+
+						if (dialog.isUpdated()) {
+							TreeNode selectedChildNode = mainWindow.findChildNode(
+									mainWindow.getSelectedTreeNode(), activeChildField);
+							mainWindow.treeModel.valueForPathChanged(new TreePath(
+									selectedChildNode), activeChildField);
+							// diagram.repaint();
+						}
+					
+				}		
+				
 			}
 		}, false);
 	}
