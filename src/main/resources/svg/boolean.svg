@@ -76,50 +76,40 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g id="0-object">
-  <rect
-     width="735.76172"
-     height="486.04865"
-     x="4.4591618"
-     y="8.9183235"
-     id="0-border"        
-     style="fill:none;stroke:none" />
+  <g id="0-object"> 
   <circle
-     cx="350"
-     cy="350"
+     cx="250"
+     cy="250"
      r="250"
-     id="circle5294"
-     
+     transform="translate(9.5890411,6.8493151)"
+     id="0-border"
      style="fill:#82c03b;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   <text
-     x="246.37718"
-     y="167.53532"
+     x="155.96622"
+     y="74.384636"
      id="0-name"
      xml:space="preserve"
      style="font-size:60px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">namexx</text>
   <text
-     x="238.673"
-     y="224.80023"
+     x="148.26204"
+     y="131.64954"
      id="0-description"
      onload=" target = evt.target;  value = target.textContent;  objId = getObjectId(target.id); trueElement = document.getElementById(objId+'-custom0'); falseElement = document.getElementById(objId+'-custom1'); if(value=='true') {falseElement.style.setProperty('display','none','');} else {trueElement.style.setProperty('display','none','');}"
      xml:space="preserve"
      style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">true</text>
   <path
-     d="m 167.96682,378.11035 c 77.2202,51.07647 66.09581,29.46907 101.9258,87.42797 2.79629,4.5233 3.76661,10.08305 6.88176,14.39298 0.69657,0.96372 2.60306,0.75952 3.56678,0.063 4.08875,-2.9553 7.50055,-6.77397 10.88915,-10.51148 13.60143,-15.00188 27.771,-29.57561 40.05279,-45.67569 18.20256,-23.86155 33.77114,-49.62916 51.25668,-74.02103 18.27448,-24.65271 36.54895,-49.3054 54.82343,-73.95809 7.28042,-8.19659 15.1097,-15.93675 21.84126,-24.58975 0.73013,-0.93856 -0.61404,-2.58918 0.063,-3.56678 1.91472,-2.7651 4.6896,-4.83792 7.25943,-7.00766 7.09617,-5.99143 14.47691,-11.63748 21.71537,-17.45621"
+     d="m 89.884627,293.17884 c 77.220203,51.07647 66.095813,29.46907 101.925803,87.42797 2.79629,4.5233 3.76661,10.08305 6.88176,14.39298 0.69657,0.96372 2.60306,0.75952 3.56678,0.063 4.08875,-2.9553 7.50055,-6.77397 10.88915,-10.51148 13.60143,-15.00188 27.771,-29.57561 40.05279,-45.67569 18.20256,-23.86155 33.77114,-49.62916 51.25668,-74.02103 18.27448,-24.65271 36.54895,-49.3054 54.82343,-73.95809 7.28042,-8.19659 15.1097,-15.93675 21.84126,-24.58975 0.73013,-0.93856 -0.61404,-2.58918 0.063,-3.56678 1.91472,-2.7651 4.6896,-4.83792 7.25943,-7.00766 7.09617,-5.99143 14.47691,-11.63748 21.71537,-17.45621"
      id="0-custom0"
      style="fill:none;stroke:#008400;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none" />
-  <g
-     transform="matrix(0.8,0,0,0.8,60.198684,95.872705)"
-     id="0-custom1"
-     style="fill:none;stroke:#ef0b0b;stroke-width:30;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
-    <path
-       d="m 445.91618,178.36647 c -60.14491,52.15414 -81.98591,130.89139 -129.31569,191.74396 -14.196,18.252 -32.70052,32.70052 -49.05078,49.05078 -11.8911,11.8911 -23.31644,24.26696 -35.6733,35.67329 -6.99351,6.45555 -15.13314,11.56932 -22.29581,17.83665 -4.7459,4.15267 -7.96995,10.13297 -13.37748,13.37749 -27.55098,16.53058 4.87264,-13.79097 -13.37749,4.45916"
-       id="path3015"
-       style="fill:none;stroke:#ef0b0b;stroke-width:30;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <path
-       d="m 164.98899,209.5806 c 72.86739,85.87943 115.78416,153.52097 205.12144,214.03977 17.61962,11.93587 38.73591,17.64451 57.9691,26.75497 25.33154,11.99915 49.38444,26.06555 75.80575,35.6733 8.83475,3.21263 17.83665,5.94554 26.75497,8.91832 4.45916,1.48639 9.17335,2.35709 13.37749,4.45916 28.28445,14.14223 12.8203,13.37749 26.75497,13.37749"
-       id="path3017"
-       style="fill:none;stroke:#ef0b0b;stroke-width:30;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  <g id="0-custom1">
+  <path
+     d="m 359.39738,152.26451 c -48.11593,41.72331 -65.58873,104.71311 -103.45256,153.39516 -11.3568,14.6016 -26.16041,26.16042 -39.24062,39.24063 -9.51288,9.51288 -18.65315,19.41357 -28.53864,28.53863 -5.59481,5.16444 -12.10651,9.25546 -17.83665,14.26932 -3.79672,3.32214 -6.37596,8.10638 -10.70198,10.70199 -22.04079,13.22447 3.89811,-11.03277 -10.70199,3.56733"
+     id="path3015"
+     style="fill:none;stroke:#ef0b0b;stroke-width:24;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  <path
+     d="m 107.25836,178.60567 c 58.29392,68.70354 92.62733,122.81678 164.09716,171.23182 14.09569,9.54869 30.98872,14.1156 46.37528,21.40397 20.26523,9.59932 39.50755,20.85244 60.6446,28.53864 7.0678,2.57011 14.26932,4.75643 21.40397,7.13466 3.56733,1.18911 7.33868,1.88567 10.70199,3.56733 22.62756,11.31378 10.25624,10.70199 21.40398,10.70199"
+     id="path3017"
+     style="fill:none;stroke:#ef0b0b;stroke-width:24;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
-  </g>
+  </g>   
 </svg>

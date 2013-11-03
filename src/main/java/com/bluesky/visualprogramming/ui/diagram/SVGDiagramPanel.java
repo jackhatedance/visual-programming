@@ -12,6 +12,7 @@ import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.events.Event;
@@ -31,7 +32,7 @@ import com.bluesky.visualprogramming.ui.avatar.TransformIndex;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 
 public class SVGDiagramPanel extends JPanel {
-
+	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
 	/**
 	 * the dragged target
 	 */
@@ -82,8 +83,10 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 				int nowToX = elEvt.getClientX();
 				int nowToY = elEvt.getClientY();
-				System.out.println(String.format("client xy: %d,%d", nowToX,
-						nowToY));
+
+				if (logger.isDebugEnabled())
+					logger.debug(String.format("client xy: %d,%d", nowToX,
+							nowToY));
 
 				Element ele = (Element) currentElement;
 
@@ -100,7 +103,7 @@ public class SVGDiagramPanel extends JPanel {
 				mat = mat.inverse(); // screen -> elem
 				SVGOMPoint svgPt = (SVGOMPoint) screenPt.matrixTransform(mat);
 
-				SVGOMPoint borderPosition = SVGUtils.getXY(objBorder);
+				SVGOMPoint borderPosition = SVGUtils.getStartPoint(objBorder);
 
 				dragOffsetX = svgPt.getX() - borderPosition.getX();
 				dragOffsetY = svgPt.getY() - borderPosition.getY();
@@ -139,8 +142,10 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 				int nowToX = elEvt.getClientX();
 				int nowToY = elEvt.getClientY();
-				System.out.println(String.format("client xy: %d,%d", nowToX,
-						nowToY));
+
+				if (logger.isDebugEnabled())
+					logger.debug(String.format("client xy: %d,%d", nowToX,
+							nowToY));
 
 				// convert it to a point for use with the Matrix
 				SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
@@ -152,21 +157,22 @@ public class SVGDiagramPanel extends JPanel {
 				mat = mat.inverse(); // screen -> elem
 				SVGOMPoint droppt = (SVGOMPoint) pt.matrixTransform(mat);
 				if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
-
-					System.out.println(String.format("drop xy: %f,%f",
-							droppt.getX(), droppt.getY()));
+					if (logger.isDebugEnabled())
+						logger.debug(String.format("drop xy: %f,%f",
+								droppt.getX(), droppt.getY()));
 
 					float oldX = transform.getMatrix().getE();
 					float oldY = transform.getMatrix().getF();
 
-					System.out.println(String.format("old xy: %f,%f", oldX,
-							oldY));
+					if (logger.isDebugEnabled())
+						logger.debug(String.format("old xy: %f,%f", oldX, oldY));
 
 					float tranlsateX = droppt.getX() + oldX - dragOffsetX;
 					float tranlsateY = droppt.getY() + oldY - dragOffsetY;
 
-					System.out.println(String.format("translate xy: %f,%f",
-							tranlsateX, tranlsateY));
+					if (logger.isDebugEnabled())
+						logger.debug(String.format("translate xy: %f,%f",
+								tranlsateX, tranlsateY));
 
 					transform.setTranslate(tranlsateX, tranlsateY);
 

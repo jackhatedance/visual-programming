@@ -1708,9 +1708,9 @@ procedure foo()
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
               <borderColor id="283">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>255</red>
+                <green>51</green>
+                <blue>51</blue>
                 <alpha>255</alpha>
               </borderColor>
               <booleanValue>false</booleanValue>
@@ -1968,8 +1968,8 @@ procedure foo()
               </borderColor>
             </target>
             <area id="334">
-              <x>4310</x>
-              <y>195</y>
+              <x>4255</x>
+              <y>325</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2518,8 +2518,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="425">
-              <x>2230</x>
-              <y>1130</y>
+              <x>4570</x>
+              <y>1265</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2793,8 +2793,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="478">
-              <x>4505</x>
-              <y>820</y>
+              <x>2899</x>
+              <y>1568</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2818,8 +2818,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="483">
-              <x>5190</x>
-              <y>795</y>
+              <x>3500</x>
+              <y>914</y>
               <width>100</width>
               <height>100</height>
             </area>

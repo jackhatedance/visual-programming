@@ -9,8 +9,9 @@ import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
 import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
-import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMCircleElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
@@ -40,18 +41,18 @@ public class SVGUtils {
 			// below stuff to parse CSSstyle. usually it is parsed when
 			// rendering.
 			//
-			 UserAgent userAgent;
-			 DocumentLoader loader;
-			 BridgeContext ctx;
-			 GVTBuilder builder;
-			 GraphicsNode rootGN;
-			
-			 userAgent = new UserAgentAdapter();
-			 loader = new DocumentLoader(userAgent);
-			 ctx = new BridgeContext(userAgent, loader);
-			 ctx.setDynamicState(BridgeContext.DYNAMIC);
-			 builder = new GVTBuilder();
-			 rootGN = builder.build(ctx, svgDoc);
+			UserAgent userAgent;
+			DocumentLoader loader;
+			BridgeContext ctx;
+			GVTBuilder builder;
+			GraphicsNode rootGN;
+
+			userAgent = new UserAgentAdapter();
+			loader = new DocumentLoader(userAgent);
+			ctx = new BridgeContext(userAgent, loader);
+			ctx.setDynamicState(BridgeContext.DYNAMIC);
+			builder = new GVTBuilder();
+			rootGN = builder.build(ctx, svgDoc);
 
 			return svgDoc;
 
@@ -64,7 +65,7 @@ public class SVGUtils {
 
 	public static Document createObjectDocument(String id, ObjectType objectType) {
 		Document doc = createDocument(objectType.getSvgResource());
-	 
+
 		return doc;
 	}
 
@@ -79,9 +80,30 @@ public class SVGUtils {
 
 	}
 
-	public static SVGOMPoint getXY(Element element) {
-		Float x = Float.valueOf(element.getAttribute("x"));
-		Float y = Float.valueOf(element.getAttribute("y"));
+	/**
+	 * point at left,top
+	 * 
+	 * @param element
+	 * @return
+	 */
+	public static SVGOMPoint getStartPoint(Element element) {
+		// support rectangle(x,y) and circle(rx,ry)
+		float x, y;
+		if (element instanceof SVGOMRectElement) {
+			x = Float.valueOf(element.getAttribute("x"));
+			y = Float.valueOf(element.getAttribute("y"));
+
+		} else if (element instanceof SVGOMCircleElement) {
+			float r = Float.valueOf(element.getAttribute("r"));
+
+			x = Float.valueOf(element.getAttribute("cx")) - r;
+			y = Float.valueOf(element.getAttribute("cy")) - r;
+
+		} else {
+			x = 0f;
+			y = 0f;
+		}
+
 		return new SVGOMPoint(x, y);
 	}
 }

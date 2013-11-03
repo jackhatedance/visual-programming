@@ -124,7 +124,7 @@ public class BatikFrame extends JFrame {
 						.matrixTransform(mat);
 
 				SVGOMPoint borderPosition = SVGUtils
-						.getXY(objBorder);
+						.getStartPoint(objBorder);
 
 				dragOffsetX = svgPt.getX() - borderPosition.getX();
 				dragOffsetY = svgPt.getY() - borderPosition.getY();
