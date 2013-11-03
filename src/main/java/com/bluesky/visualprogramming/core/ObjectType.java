@@ -135,7 +135,10 @@ public enum ObjectType {
 			return new Procedure(id);
 		}
 
-		
+		@Override
+		public String getSvgResource(){
+			return "svg/procedure.svg";
+		}
 	};
 
 	abstract public _Object create(long id);

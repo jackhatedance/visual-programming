@@ -44,24 +44,33 @@ public class SVGDiagramPanel extends JPanel {
 
 	private JSVGCanvas canvas;
 	private SvgScene scene;
-	
+
 	private SVGMainWindow mainWindow;
 	private JPopupMenu popupMenu;
 
-	public SVGDiagramPanel(SVGMainWindow mainWindow,JPopupMenu popupMenu) {
+	public SVGDiagramPanel(SVGMainWindow mainWindow, JPopupMenu popupMenu) {
 		this.mainWindow = mainWindow;
 		this.popupMenu = popupMenu;
-		
+
 		canvas = new JSVGCanvas();
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-
-		scene = new SvgScene();
-		canvas.setDocument(scene.getDocument());
-		setVisible(true);
 
 		setLayout(new BorderLayout());
 
 		add("Center", canvas);
+	}
+
+	/**
+	 * set scene(document) so that onload event will happen. resue a document
+	 * won't trigger onload event.
+	 * 
+	 * @param scene
+	 */
+	public void setScene(SvgScene scene) {
+		this.scene = scene;
+		canvas.setDocument(scene.getDocument());
+		setVisible(true);
+
 	}
 
 	public void addMouseListener(org.w3c.dom.events.EventTarget target) {
@@ -177,32 +186,34 @@ public class SVGDiagramPanel extends JPanel {
 			@Override
 			public void handleEvent(Event evt) {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
-				
-				//2 is right button
-				if(mouseEvent.getButton()==2){
-					popupMenu.show(canvas, mouseEvent.getClientX(), mouseEvent.getClientY());
-				}else {
-					
-						ObjectPropertyDialog dialog = new ObjectPropertyDialog();
-						dialog.setLocationRelativeTo(getParent());
-						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-						
-						Element ele = (Element)evt.getCurrentTarget();
-						Field activeChildField = (Field) ele.getUserData("field");
-						dialog.setField(activeChildField);
 
-						dialog.setVisible(true);
+				// 2 is right button
+				if (mouseEvent.getButton() == 2) {
+					popupMenu.show(canvas, mouseEvent.getClientX(),
+							mouseEvent.getClientY());
+				} else {
 
-						if (dialog.isUpdated()) {
-							TreeNode selectedChildNode = mainWindow.findChildNode(
-									mainWindow.getSelectedTreeNode(), activeChildField);
-							mainWindow.treeModel.valueForPathChanged(new TreePath(
-									selectedChildNode), activeChildField);
-							// diagram.repaint();
-						}
-					
-				}		
-				
+					ObjectPropertyDialog dialog = new ObjectPropertyDialog();
+					dialog.setLocationRelativeTo(getParent());
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+					Element ele = (Element) evt.getCurrentTarget();
+					Field activeChildField = (Field) ele.getUserData("field");
+					dialog.setField(activeChildField);
+
+					dialog.setVisible(true);
+
+					if (dialog.isUpdated()) {
+						TreeNode selectedChildNode = mainWindow.findChildNode(
+								mainWindow.getSelectedTreeNode(),
+								activeChildField);
+						mainWindow.treeModel.valueForPathChanged(new TreePath(
+								selectedChildNode), activeChildField);
+						// diagram.repaint();
+					}
+
+				}
+
 			}
 		}, false);
 	}
@@ -217,10 +228,6 @@ public class SVGDiagramPanel extends JPanel {
 
 	public SvgScene getScene() {
 		return scene;
-	}
-
-	public void setScene(SvgScene scene) {
-		this.scene = scene;
 	}
 
 }

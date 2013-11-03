@@ -40,18 +40,18 @@ public class SVGUtils {
 			// below stuff to parse CSSstyle. usually it is parsed when
 			// rendering.
 			//
-			// UserAgent userAgent;
-			// DocumentLoader loader;
-			// BridgeContext ctx;
-			// GVTBuilder builder;
-			// GraphicsNode rootGN;
-			//
-			// userAgent = new UserAgentAdapter();
-			// loader = new DocumentLoader(userAgent);
-			// ctx = new BridgeContext(userAgent, loader);
-			// ctx.setDynamicState(BridgeContext.DYNAMIC);
-			// builder = new GVTBuilder();
-			// rootGN = builder.build(ctx, svgDoc);
+			 UserAgent userAgent;
+			 DocumentLoader loader;
+			 BridgeContext ctx;
+			 GVTBuilder builder;
+			 GraphicsNode rootGN;
+			
+			 userAgent = new UserAgentAdapter();
+			 loader = new DocumentLoader(userAgent);
+			 ctx = new BridgeContext(userAgent, loader);
+			 ctx.setDynamicState(BridgeContext.DYNAMIC);
+			 builder = new GVTBuilder();
+			 rootGN = builder.build(ctx, svgDoc);
 
 			return svgDoc;
 

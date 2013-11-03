@@ -12,18 +12,13 @@ package com.bluesky.visualprogramming.ui;
  *    tutorialcont.html
  *    vm.html
  */
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.Enumeration;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -32,43 +27,31 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.batik.dom.events.DOMMouseEvent;
-import org.apache.batik.dom.svg.SVGOMGElement;
-import org.apache.batik.dom.svg.SVGOMPoint;
-import org.apache.batik.swing.JSVGCanvas;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Element;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.svg.SVGLocatable;
-import org.w3c.dom.svg.SVGMatrix;
-import org.w3c.dom.svg.SVGStylable;
-import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.ui.avatar.SVGUtils;
-import com.bluesky.visualprogramming.ui.avatar.SvgElementType;
 import com.bluesky.visualprogramming.ui.avatar.SvgScene;
-import com.bluesky.visualprogramming.ui.avatar.TransformIndex;
 import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
-import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 import com.bluesky.visualprogramming.ui.selection.MouseOperation;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class SVGMainWindow extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 
 	static Logger logger = Logger.getLogger(SVGMainWindow.class);
 
@@ -137,13 +120,9 @@ public class SVGMainWindow extends JPanel {
 				// reload the diagram
 				final Field field = getSelectedTreeField();
 
-				diagramPanel.getCanvas().getUpdateManager()
-						.getUpdateRunnableQueue().invokeLater(new Runnable() {
-							public void run() {
+				
 								loadDiagram(field);
-							}
-						});
-
+				
 			}
 		});
 
@@ -161,10 +140,11 @@ public class SVGMainWindow extends JPanel {
 			if (logger.isDebugEnabled())
 				logger.debug(String.format("draw field %s  status:%s",
 						field.name, field.getSelectedStatus()));
-			SvgScene scene = diagramPanel.getScene();
-			scene.clear();
+			
+			SvgScene scene = new SvgScene();			
 			field.target.drawInternal(diagramPanel, scene, new Point(0, 0));
-
+			
+			diagramPanel.setScene(scene);			
 		}
 	}
 

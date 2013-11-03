@@ -20,6 +20,10 @@ public class SvgScene {
 	public SvgScene() {
 		doc = SVGUtils.createScene();
 		svg = doc.getDocumentElement();
+		
+		if(!svg.getNodeName().equalsIgnoreCase("svg"))
+			throw new RuntimeException("tag name error.");
+			
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
 	}
@@ -101,6 +105,7 @@ public class SvgScene {
 		try{
 		e.getStyle().setProperty("stroke", hex, "");
 		}catch(Exception ex){
+			ex.printStackTrace();
 			throw new RuntimeException("setborder color, id:"+id);
 		}
 	}

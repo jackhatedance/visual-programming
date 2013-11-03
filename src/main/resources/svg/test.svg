@@ -79,6 +79,7 @@
      x="5.4634376"
      y="10.608002"
      id="border"
+     onclick="alert('foo');"
      onload=" var fillColor='green'; value = document.getElementById('name').textContent; if( value=='true') { fillCorlor='green';} else {fillColor='red';} evt.target.style.setProperty('fill',fillColor);  "
      style="opacity:0.14166667;fill:#000000;fill-opacity:1" />
   <text
