@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -32,17 +33,21 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Element;
+import org.w3c.dom.events.EventTarget;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.ui.avatar.SvgScene;
 import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 import com.bluesky.visualprogramming.ui.selection.MouseOperation;
+import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class SVGMainWindow extends JPanel {
@@ -51,7 +56,6 @@ public class SVGMainWindow extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	static Logger logger = Logger.getLogger(SVGMainWindow.class);
 
@@ -61,15 +65,12 @@ public class SVGMainWindow extends JPanel {
 	private JTree tree;
 	JScrollPane scrollTreePanel;
 
+	private JPopupMenu diagramPopupMenu;
 	private SVGDiagramPanel diagramPanel;
 	JScrollPane scrollDiagramPanel;
 
 	JSplitPane splitPane;
 
-	
-
-	// the object that hovered by mouse
-	private Field activeChildField;
 	// either move or resize,depends on mouse position.
 	private MouseOperation mouseOperation;
 
@@ -120,9 +121,8 @@ public class SVGMainWindow extends JPanel {
 				// reload the diagram
 				final Field field = getSelectedTreeField();
 
-				
-								loadDiagram(field);
-				
+				loadDiagram(field);
+
 			}
 		});
 
@@ -140,12 +140,22 @@ public class SVGMainWindow extends JPanel {
 			if (logger.isDebugEnabled())
 				logger.debug(String.format("draw field %s  status:%s",
 						field.name, field.getSelectedStatus()));
-			
-			SvgScene scene = new SvgScene();			
+
+			SvgScene scene = new SvgScene();
 			field.target.drawInternal(diagramPanel, scene, new Point(0, 0));
+
+			diagramPanel.setScene(scene);
+			Element background = scene.getDocument().getElementById("background");
 			
-			diagramPanel.setScene(scene);			
+			
+			diagramPanel.addPopupMenuListener((EventTarget)background);
 		}
+	}
+	
+	public void reloadDiagram(){
+		final Field field = getSelectedTreeField();
+
+		loadDiagram(field);
 	}
 
 	private DefaultMutableTreeNode createTreeNode(_Object owner, Field field) {
@@ -172,7 +182,35 @@ public class SVGMainWindow extends JPanel {
 
 	private JPopupMenu createPopupMenu() {
 		JPopupMenu menu = new JPopupMenu();
-		JMenuItem eMenuItem = new JMenuItem("New Object");
+
+		JMenuItem eMenuItem = new JMenuItem("Property");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				
+				ObjectPropertyDialog dialog = new ObjectPropertyDialog();
+				dialog.setLocationRelativeTo(getParent());
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+				Field activeChildField = getActiveChildField();
+				dialog.setField(getActiveChildField());
+
+				dialog.setVisible(true);
+
+				if (dialog.isUpdated()) {
+					TreeNode selectedChildNode = findChildNode(
+							getSelectedTreeNode(), activeChildField);
+					treeModel.valueForPathChanged(new TreePath(
+							selectedChildNode), activeChildField);
+					
+					diagramPanel.reload();
+				}
+
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Object");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
@@ -238,25 +276,25 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				Point p = diagramPanel.getMousePosition();
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
-				if (activeChildField != null) {
+				if (getActiveChildField() != null) {
 					int result = JOptionPane.showConfirmDialog(owner, String
 							.format("Are you sure to delete '%s'?",
-									activeChildField.getName()),
+									getActiveChildField().getName()),
 							"Confirmation", JOptionPane.YES_NO_OPTION);
 					if (result == 0)// yes
 					{
 						// search
 						DefaultMutableTreeNode selectedChildNode = findChildNode(
-								getSelectedTreeNode(), activeChildField);
+								getSelectedTreeNode(), getActiveChildField());
 
 						// remove tree model
 						treeModel.removeNodeFromParent(selectedChildNode);
 
 						// remove from object repository
 						getVM().getObjectRepository().destroyObject(
-								activeChildField.target);
+								getActiveChildField().target);
 
-						diagramPanel.repaint();
+						diagramPanel.reload();
 					}
 				}
 			}
@@ -269,17 +307,17 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				Point p = diagramPanel.getMousePosition();
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
-				if (activeChildField != null) {
+				if (getActiveChildField() != null) {
 					int result = JOptionPane.showConfirmDialog(owner, String
 							.format("Are you sure to execute '%s'?",
-									activeChildField.getName()),
+									getActiveChildField().getName()),
 							"Confirmation", JOptionPane.YES_NO_OPTION);
 					if (result == 0)// yes
 					{
 
 						getVM().getPostService().sendMessageFromNobody(
-								activeChildField.target.getOwner(),
-								activeChildField.getName());
+								getActiveChildField().target.getOwner(),
+								getActiveChildField().getName());
 
 					}
 				}
@@ -292,8 +330,9 @@ public class SVGMainWindow extends JPanel {
 	}
 
 	private void initDiagramPanel() {
-
-		diagramPanel = new SVGDiagramPanel(this,createPopupMenu());
+		diagramPopupMenu=createPopupMenu();
+		
+		diagramPanel = new SVGDiagramPanel(this, diagramPopupMenu);
 
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		// addMouseListener();
@@ -303,7 +342,7 @@ public class SVGMainWindow extends JPanel {
 		Dimension minimumSize = new Dimension(200, 150);
 		scrollDiagramPanel.setMinimumSize(minimumSize);
 
-		// diagram.setComponentPopupMenu(popupMenu);
+		//diagramPanel.setComponentPopupMenu(diagramPopupMenu);
 
 	}
 
@@ -318,7 +357,7 @@ public class SVGMainWindow extends JPanel {
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
-		diagramPanel.repaint();
+		diagramPanel.reload();
 	}
 
 	public void load(String fileName) {
@@ -370,6 +409,7 @@ public class SVGMainWindow extends JPanel {
 		if (field == null)
 			return;
 
+		Field activeChildField = getActiveChildField();
 		Field oldActiveChildField = activeChildField;
 
 		if (activeChildField != null) {
@@ -436,7 +476,7 @@ public class SVGMainWindow extends JPanel {
 						"active child field changed from %s to %s", oldField,
 						newField));
 
-			diagramPanel.repaint();
+			diagramPanel.reload();
 		} else if ((sameActiveChildField && activeChildField != null && oldStatus != newStatus)) {
 			if (logger.isDebugEnabled())
 				logger.debug(String.format("status changed from %s to %s",
@@ -448,7 +488,10 @@ public class SVGMainWindow extends JPanel {
 	public void setDiagramScaleRate(double diagramScaleRate) {
 		// this.diagramScaleRate =diagramScaleRate;
 		getSelectedTreeField().target.scaleRate = diagramScaleRate;
-		diagramPanel.repaint();
+		diagramPanel.reload();
 	}
 
+	private Field getActiveChildField() {
+		return diagramPanel.getCurrentField();
+	}
 }

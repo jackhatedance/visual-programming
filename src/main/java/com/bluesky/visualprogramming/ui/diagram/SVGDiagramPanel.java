@@ -25,18 +25,23 @@ import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.ui.SVGMainWindow;
-import com.bluesky.visualprogramming.ui.avatar.SVGUtils;
-import com.bluesky.visualprogramming.ui.avatar.SvgElementType;
-import com.bluesky.visualprogramming.ui.avatar.SvgScene;
-import com.bluesky.visualprogramming.ui.avatar.TransformIndex;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
+import com.bluesky.visualprogramming.ui.svg.SVGUtils;
+import com.bluesky.visualprogramming.ui.svg.SvgElementType;
+import com.bluesky.visualprogramming.ui.svg.SvgScene;
+import com.bluesky.visualprogramming.ui.svg.TransformIndex;
 
 public class SVGDiagramPanel extends JPanel {
 	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
 	/**
 	 * the dragged target
 	 */
-	public EventTarget currentElement;
+	public EventTarget currentDraggingElement;
+
+	/**
+	 * selected element for popup menu
+	 */
+	private Element currentElement;
 
 	// private SVGOMPoint cursorOffset;
 	// offset of mouse and shape left-top point.
@@ -79,7 +84,7 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				currentElement = evt.getCurrentTarget();
+				currentDraggingElement = evt.getCurrentTarget();
 				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 				int nowToX = elEvt.getClientX();
 				int nowToY = elEvt.getClientY();
@@ -88,10 +93,10 @@ public class SVGDiagramPanel extends JPanel {
 					logger.debug(String.format("client xy: %d,%d", nowToX,
 							nowToY));
 
-				Element ele = (Element) currentElement;
+				Element ele = (Element) currentDraggingElement;
 
 				SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
-
+				
 				long objectId = SVGUtils.getObjectId(ele);
 
 				Element objBorder = scene.getElement(objectId,
@@ -115,7 +120,7 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				currentElement = null;
+				currentDraggingElement = null;
 
 			}
 		}, false);
@@ -124,10 +129,10 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				if (currentElement == null)
+				if (currentDraggingElement == null)
 					return;
 
-				Element ele = (Element) currentElement;
+				Element ele = (Element) currentDraggingElement;
 				long objId = SVGUtils.getObjectId(ele);
 				Element border = scene.getElement(objId, SvgElementType.Border);
 				// System.out.println(objId);
@@ -192,33 +197,27 @@ public class SVGDiagramPanel extends JPanel {
 			@Override
 			public void handleEvent(Event evt) {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
+				currentElement = (Element) evt.getCurrentTarget();
 
-				// 2 is right button
-				if (mouseEvent.getButton() == 2) {
-					popupMenu.show(canvas, mouseEvent.getClientX(),
-							mouseEvent.getClientY());
-				} else {
+				popupMenu.show(canvas, mouseEvent.getClientX(),
+						mouseEvent.getClientY());
 
-					ObjectPropertyDialog dialog = new ObjectPropertyDialog();
-					dialog.setLocationRelativeTo(getParent());
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				
 
-					Element ele = (Element) evt.getCurrentTarget();
-					Field activeChildField = (Field) ele.getUserData("field");
-					dialog.setField(activeChildField);
+			}
+		}, false);
+	}
+	
+	public void addPopupMenuListener(org.w3c.dom.events.EventTarget target) {		
 
-					dialog.setVisible(true);
+		target.addEventListener("click", new EventListener() {
 
-					if (dialog.isUpdated()) {
-						TreeNode selectedChildNode = mainWindow.findChildNode(
-								mainWindow.getSelectedTreeNode(),
-								activeChildField);
-						mainWindow.treeModel.valueForPathChanged(new TreePath(
-								selectedChildNode), activeChildField);
-						// diagram.repaint();
-					}
+			@Override
+			public void handleEvent(Event evt) {
+				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;				
 
-				}
+				popupMenu.show(canvas, mouseEvent.getClientX(),
+						mouseEvent.getClientY());			
 
 			}
 		}, false);
@@ -236,4 +235,15 @@ public class SVGDiagramPanel extends JPanel {
 		return scene;
 	}
 
+	public Element getCurrentElement() {
+		return currentElement;
+	}
+
+	public Field getCurrentField() {
+		return (Field)currentElement.getUserData("field");
+	}
+	
+	public void reload(){
+		mainWindow.reloadDiagram();
+	}
 }

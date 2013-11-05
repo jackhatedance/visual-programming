@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.ui.avatar;
+package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

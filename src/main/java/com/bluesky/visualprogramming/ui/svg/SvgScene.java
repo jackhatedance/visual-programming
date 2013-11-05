@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.ui.avatar;
+package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.Color;
 
@@ -53,18 +53,23 @@ public class SvgScene {
 
 	public void clear() {
 		Node script =null;
+		Element background =null;
 		while (svg.hasChildNodes()) {
 			Node c = svg.getFirstChild();
+			Element e = (Element)c;
 			
 			//save it
 			if(c instanceof SVGOMScriptElement)
 				script = c;
+			if(e.getAttribute("id").equals("background"))
+				background = e;
 			
 			svg.removeChild(c);
 		}
 		
 		//add back
 		svg.appendChild(script);
+		svg.appendChild(background);
 	}
 
 	public Element getElement(long id, SvgElementType type) {

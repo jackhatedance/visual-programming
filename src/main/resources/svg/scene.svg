@@ -10,8 +10,7 @@
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
    width="1000"
-   height="1000"
-   
+   height="1000"   
    id="body"
    xml:space="preserve">
    <script type="text/ecmascript"><![CDATA[
@@ -23,6 +22,8 @@
    				return '';
    		}
    ]]></script>
+   
+   <rect id="background" x="0" y="0" width="1000" height="1000" style="fill:#00589d;fill-opacity:1;opacity:0.11934156000000000" />
    
    
    	

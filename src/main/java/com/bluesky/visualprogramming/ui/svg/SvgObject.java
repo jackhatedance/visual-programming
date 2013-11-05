@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.ui.avatar;
+package com.bluesky.visualprogramming.ui.svg;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

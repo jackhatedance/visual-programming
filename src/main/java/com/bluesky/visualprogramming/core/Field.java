@@ -7,8 +7,8 @@ import java.awt.Stroke;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
 
-import com.bluesky.visualprogramming.ui.avatar.SvgScene;
 import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Field {
 

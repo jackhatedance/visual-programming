@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.ui.avatar;
+package com.bluesky.visualprogramming.ui.svg;
 
 import java.io.IOException;
 import java.net.URL;

@@ -25,8 +25,8 @@ import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
-import com.bluesky.visualprogramming.ui.avatar.SvgScene;
 import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 
 public class _Object implements Serializable {
