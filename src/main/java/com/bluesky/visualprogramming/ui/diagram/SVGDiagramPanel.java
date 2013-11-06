@@ -108,10 +108,10 @@ public class SVGDiagramPanel extends JPanel {
 				mat = mat.inverse(); // screen -> elem
 				SVGOMPoint svgPt = (SVGOMPoint) screenPt.matrixTransform(mat);
 
-				SVGOMPoint borderPosition = SVGUtils.getStartPoint(objBorder);
+				SVGOMPoint startPosition = SVGUtils.getStartPoint(objBorder);
 
-				dragOffsetX = svgPt.getX() - borderPosition.getX();
-				dragOffsetY = svgPt.getY() - borderPosition.getY();
+				dragOffsetX = svgPt.getX() - startPosition.getX();
+				dragOffsetY = svgPt.getY() - startPosition.getY();
 
 			}
 		}, false);
@@ -120,6 +120,14 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
+				
+				Element ele = (Element) currentDraggingElement;
+				long objId = SVGUtils.getObjectId(ele);
+				Element border = scene.getElement(objId, SvgElementType.Border);
+				// System.out.println(objId);
+				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
+				style.removeProperty("stroke-dasharray");
+				 
 				currentDraggingElement = null;
 
 			}
@@ -137,8 +145,8 @@ public class SVGDiagramPanel extends JPanel {
 				Element border = scene.getElement(objId, SvgElementType.Border);
 				// System.out.println(objId);
 				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
-				style.setProperty("stroke", "red", "");
-
+				style.setProperty("stroke-dasharray", "27.94599915,27.94599915", "");
+				 
 				SVGOMGElement object = (SVGOMGElement) scene.getElement(objId,
 						SvgElementType.Object);
 				SVGTransform transform = scene.getTransform(objId,

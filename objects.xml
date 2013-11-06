@@ -1317,8 +1317,8 @@
               </borderColor>
             </target>
             <area id="230">
-              <x>3500</x>
-              <y>1070</y>
+              <x>3405</x>
+              <y>875</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1451,8 +1451,8 @@ root.console.print(age.toString());
 }</code>
             </target>
             <area id="245">
-              <x>1445</x>
-              <y>1100</y>
+              <x>1316</x>
+              <y>1143</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1528,8 +1528,8 @@ procedure foo()
 }</code>
             </target>
             <area id="255">
-              <x>385</x>
-              <y>1060</y>
+              <x>351</x>
+              <y>1098</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1716,8 +1716,8 @@ procedure foo()
               <booleanValue>true</booleanValue>
             </target>
             <area id="284">
-              <x>626</x>
-              <y>262</y>
+              <x>746</x>
+              <y>287</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1754,8 +1754,8 @@ procedure foo()
               <booleanValue>false</booleanValue>
             </target>
             <area id="291">
-              <x>1881</x>
-              <y>379</y>
+              <x>1811</x>
+              <y>409</y>
               <width>100</width>
               <height>100</height>
             </area>
