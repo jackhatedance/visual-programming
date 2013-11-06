@@ -283,9 +283,8 @@ public class ObjectRepository {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 					// f.getArea();
-					
-					f.getArea().x = f.getArea().x*5;
-					f.getArea().y = f.getArea().y*5;
+					f.setStartPosition(f.getArea().x*5, f.getArea().y*5);
+					 
 				}
 			}
 

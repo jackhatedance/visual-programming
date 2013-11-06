@@ -84,6 +84,13 @@ public class Field {
 		return area;
 	}
 
+	public void setStartPosition(float x, float y) {
+		area.x = (int) x;
+		area.y = (int) y;
+		
+		
+	}
+
 	public boolean isSystemField() {
 		return name != null && name.startsWith("_");
 	}
@@ -117,7 +124,7 @@ public class Field {
 
 		scene.setName(id, name);
 		scene.setDescription(id, value);
-		
+
 		scene.setBorderColor(id, target.borderColor);
 
 		int borderWidth = target.borderWidth;

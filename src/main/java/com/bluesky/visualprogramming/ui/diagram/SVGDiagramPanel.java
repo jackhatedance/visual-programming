@@ -113,6 +113,11 @@ public class SVGDiagramPanel extends JPanel {
 				dragOffsetX = svgPt.getX() - startPosition.getX();
 				dragOffsetY = svgPt.getY() - startPosition.getY();
 
+				
+				int minOffset = 80;
+				dragOffsetX = dragOffsetX < minOffset ? minOffset : dragOffsetX;
+				dragOffsetY = dragOffsetY < minOffset ? minOffset : dragOffsetY;
+				//System.out.println(dragOffsetX);
 			}
 		}, false);
 
@@ -120,14 +125,14 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				
+
 				Element ele = (Element) currentDraggingElement;
 				long objId = SVGUtils.getObjectId(ele);
 				Element border = scene.getElement(objId, SvgElementType.Border);
 				// System.out.println(objId);
 				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
 				style.removeProperty("stroke-dasharray");
-				 
+
 				currentDraggingElement = null;
 
 			}
@@ -145,8 +150,9 @@ public class SVGDiagramPanel extends JPanel {
 				Element border = scene.getElement(objId, SvgElementType.Border);
 				// System.out.println(objId);
 				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
-				style.setProperty("stroke-dasharray", "27.94599915,27.94599915", "");
-				 
+				style.setProperty("stroke-dasharray",
+						"27.94599915,27.94599915", "");
+
 				SVGOMGElement object = (SVGOMGElement) scene.getElement(objId,
 						SvgElementType.Object);
 				SVGTransform transform = scene.getTransform(objId,
@@ -192,9 +198,8 @@ public class SVGDiagramPanel extends JPanel {
 					// update field.area
 					Field field = (Field) ele.getUserData("field");
 
-					field.getArea().x = (int) tranlsateX;
-					field.getArea().y = (int) tranlsateY;
-
+					field.setStartPosition(tranlsateX, tranlsateY);
+					 
 				}
 
 			}
