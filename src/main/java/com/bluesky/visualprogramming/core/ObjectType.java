@@ -22,7 +22,10 @@ public enum ObjectType {
 			return new Link(id);
 		}
 
-		
+		@Override
+		public String getSvgResource(){
+			return "svg/link.svg";
+		}
 	},
 	INTEGER {
 		@Override
@@ -43,6 +46,11 @@ public enum ObjectType {
 		public boolean isValueObject() {
 
 			return true;
+		}
+		
+		@Override
+		public String getSvgResource(){
+			return "svg/integer.svg";
 		}
 	},
 	FLOAT {
@@ -80,12 +88,15 @@ public enum ObjectType {
 			return "root.prototype.value.time";
 		}
 
-		
-
 		@Override
 		public boolean isValueObject() {
 
 			return true;
+		}
+		
+		@Override
+		public String getSvgResource(){
+			return "svg/time.svg";
 		}
 	},
 	BOOLEAN {
@@ -127,6 +138,11 @@ public enum ObjectType {
 		public boolean isValueObject() {
 
 			return true;
+		}
+		
+		@Override
+		public String getSvgResource(){
+			return "svg/string.svg";
 		}
 	},
 	PROCEDURE {

@@ -6279,8 +6279,8 @@ subject.contains(&quot;多大&quot;)</value>
                     <value>2</value>
                   </target>
                   <area id="1086">
-                    <x>880</x>
-                    <y>530</y>
+                    <x>1115</x>
+                    <y>455</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
@@ -6394,39 +6394,18 @@ return m.mul(n);
                   </area>
                 </field>
                 <field id="1105">
-                  <name>unnamed1</name>
-                  <target id="1106">
-                    <type>NORMAL</type>
-                    <id>16579</id>
-                    <name>unnamed1</name>
+                  <name>getWanIp</name>
+                  <target class="procedure" id="1106">
+                    <type>PROCEDURE</type>
+                    <id>16617</id>
+                    <name defined-in="object">getWanIp</name>
                     <owner reference="914"/>
                     <scope>ExecutionContext</scope>
                     <fieldList id="1107"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <applyingWorker>false</applyingWorker>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="1103"/>
-                  </target>
-                  <area id="1108">
-                    <x>0</x>
-                    <y>0</y>
-                    <width>100</width>
-                    <height>100</height>
-                  </area>
-                </field>
-                <field id="1109">
-                  <name>getWanIp</name>
-                  <target class="procedure" id="1110">
-                    <type>PROCEDURE</type>
-                    <id>16617</id>
-                    <name defined-in="object">getWanIp</name>
-                    <owner reference="914"/>
-                    <scope>ExecutionContext</scope>
-                    <fieldList id="1111"/>
-                    <systemFieldsCount>0</systemFieldsCount>
-                    <applyingWorker>false</applyingWorker>
-                    <scaleRate>1.0</scaleRate>
-                    <borderColor id="1112">
+                    <borderColor id="1108">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -6447,7 +6426,7 @@ return m.mul(n);
 	return data;
 }</code>
                   </target>
-                  <area id="1113">
+                  <area id="1109">
                     <x>2246</x>
                     <y>2716</y>
                     <width>100</width>
@@ -6458,7 +6437,7 @@ return m.mul(n);
               <systemFieldsCount>3</systemFieldsCount>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="1114">
+              <borderColor id="1110">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -6466,7 +6445,7 @@ return m.mul(n);
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
-            <area id="1115">
+            <area id="1111">
               <x>2105</x>
               <y>2260</y>
               <width>100</width>
@@ -6477,40 +6456,40 @@ return m.mul(n);
         <systemFieldsCount>0</systemFieldsCount>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="1116">
+        <borderColor id="1112">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="1117">
+      <area id="1113">
         <x>3155</x>
         <y>3635</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="1118">
+    <field id="1114">
       <name>console</name>
-      <target id="1119">
+      <target id="1115">
         <type>NORMAL</type>
         <id>44</id>
         <name>console</name>
         <owner reference="1"/>
-        <fieldList id="1120">
-          <field id="1121">
+        <fieldList id="1116">
+          <field id="1117">
             <name>print</name>
-            <target class="procedure" id="1122">
+            <target class="procedure" id="1118">
               <type>PROCEDURE</type>
               <id>45</id>
               <name defined-in="object">print</name>
-              <owner reference="1119"/>
-              <fieldList id="1123"/>
+              <owner reference="1115"/>
+              <fieldList id="1119"/>
               <systemFieldsCount>0</systemFieldsCount>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="1124">
+              <borderColor id="1120">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -6521,25 +6500,25 @@ return m.mul(n);
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <area id="1125">
+            <area id="1121">
               <x>665</x>
               <y>1245</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="1126">
+          <field id="1122">
             <name>println</name>
-            <target class="procedure" id="1127">
+            <target class="procedure" id="1123">
               <type>PROCEDURE</type>
               <id>4808</id>
               <name defined-in="object">unnamed</name>
-              <owner reference="1119"/>
-              <fieldList id="1128"/>
+              <owner reference="1115"/>
+              <fieldList id="1124"/>
               <systemFieldsCount>0</systemFieldsCount>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="1129">
+              <borderColor id="1125">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -6550,7 +6529,7 @@ return m.mul(n);
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
-            <area id="1130">
+            <area id="1126">
               <x>1920</x>
               <y>1565</y>
               <width>100</width>
@@ -6561,24 +6540,24 @@ return m.mul(n);
         <systemFieldsCount>0</systemFieldsCount>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="1131">
+        <borderColor id="1127">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="1132">
+      <area id="1128">
         <x>790</x>
         <y>1155</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="1133">
+    <field id="1129">
       <name>prototype</name>
       <target reference="8"/>
-      <area id="1134">
+      <area id="1130">
         <x>1010</x>
         <y>2200</y>
         <width>100</width>
@@ -6589,7 +6568,7 @@ return m.mul(n);
   <systemFieldsCount>0</systemFieldsCount>
   <applyingWorker>false</applyingWorker>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="1135">
+  <borderColor id="1131">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
