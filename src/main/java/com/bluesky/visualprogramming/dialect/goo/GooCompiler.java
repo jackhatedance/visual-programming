@@ -105,6 +105,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	static Logger logger = Logger.getLogger(GooCompiler.class);
 
+	
+	private static String PROCEDURE_END_LABEL="procedureEnd";
+	
 	private List<String> parameters = new ArrayList<String>();
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
@@ -308,7 +311,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		addInstruction(ins);
 
 		Goto gotoEnd = new Goto();
-		gotoEnd.destinationLabel = "procedureEnd";
+		gotoEnd.destinationLabel = PROCEDURE_END_LABEL;
 
 		addInstruction(gotoEnd);
 
@@ -689,7 +692,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		ctx.block().accept(this);
 
 		ProcedureEnd end = new ProcedureEnd();
-		end.label = "ProcedureEnd";
+		end.label = PROCEDURE_END_LABEL;
 
 		addInstruction(end);
 

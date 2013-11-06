@@ -142,7 +142,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 		Integer index = procedure.getLabelIndex(instruction.destinationLabel);
 
 		if (index == null)
-			throw new LabelNotFoundException();
+			throw new LabelNotFoundException(instruction.destinationLabel);
 
 		ctx.currentInstructionIndex = index;
 
@@ -161,7 +161,7 @@ public class ProcedureExecutor implements InstructionExecutor {
 			Integer index = procedure
 					.getLabelIndex(instruction.destinationLabel);
 			if (index == null)
-				throw new LabelNotFoundException();
+				throw new LabelNotFoundException(instruction.destinationLabel);
 
 			ctx.currentInstructionIndex = index;
 

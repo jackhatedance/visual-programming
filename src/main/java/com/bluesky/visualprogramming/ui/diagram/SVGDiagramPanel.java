@@ -89,14 +89,14 @@ public class SVGDiagramPanel extends JPanel {
 				int nowToX = elEvt.getClientX();
 				int nowToY = elEvt.getClientY();
 
-				if (logger.isDebugEnabled())
-					logger.debug(String.format("client xy: %d,%d", nowToX,
-							nowToY));
+				// if (logger.isDebugEnabled())
+				// logger.debug(String.format("client xy: %d,%d", nowToX,
+				// nowToY));
 
 				Element ele = (Element) currentDraggingElement;
 
 				SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
-				
+
 				long objectId = SVGUtils.getObjectId(ele);
 
 				Element objBorder = scene.getElement(objectId,
@@ -148,9 +148,9 @@ public class SVGDiagramPanel extends JPanel {
 				int nowToX = elEvt.getClientX();
 				int nowToY = elEvt.getClientY();
 
-				if (logger.isDebugEnabled())
-					logger.debug(String.format("client xy: %d,%d", nowToX,
-							nowToY));
+				// if (logger.isDebugEnabled())
+				// logger.debug(String.format("client xy: %d,%d", nowToX,
+				// nowToY));
 
 				// convert it to a point for use with the Matrix
 				SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
@@ -162,22 +162,22 @@ public class SVGDiagramPanel extends JPanel {
 				mat = mat.inverse(); // screen -> elem
 				SVGOMPoint droppt = (SVGOMPoint) pt.matrixTransform(mat);
 				if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
-					if (logger.isDebugEnabled())
-						logger.debug(String.format("drop xy: %f,%f",
-								droppt.getX(), droppt.getY()));
+					// if (logger.isDebugEnabled())
+					// logger.debug(String.format("drop xy: %f,%f",
+					// droppt.getX(), droppt.getY()));
 
 					float oldX = transform.getMatrix().getE();
 					float oldY = transform.getMatrix().getF();
 
-					if (logger.isDebugEnabled())
-						logger.debug(String.format("old xy: %f,%f", oldX, oldY));
+					// if (logger.isDebugEnabled())
+					// logger.debug(String.format("old xy: %f,%f", oldX, oldY));
 
 					float tranlsateX = droppt.getX() + oldX - dragOffsetX;
 					float tranlsateY = droppt.getY() + oldY - dragOffsetY;
 
-					if (logger.isDebugEnabled())
-						logger.debug(String.format("translate xy: %f,%f",
-								tranlsateX, tranlsateY));
+					// if (logger.isDebugEnabled())
+					// logger.debug(String.format("translate xy: %f,%f",
+					// tranlsateX, tranlsateY));
 
 					transform.setTranslate(tranlsateX, tranlsateY);
 
@@ -198,27 +198,27 @@ public class SVGDiagramPanel extends JPanel {
 			public void handleEvent(Event evt) {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 				currentElement = (Element) evt.getCurrentTarget();
-
-				popupMenu.show(canvas, mouseEvent.getClientX(),
-						mouseEvent.getClientY());
-
-				
+				if (mouseEvent.getButton() == 2) {
+					popupMenu.show(canvas, mouseEvent.getClientX(),
+							mouseEvent.getClientY());
+				}
 
 			}
 		}, false);
 	}
-	
-	public void addPopupMenuListener(org.w3c.dom.events.EventTarget target) {		
+
+	public void addPopupMenuListener(org.w3c.dom.events.EventTarget target) {
 
 		target.addEventListener("click", new EventListener() {
 
 			@Override
 			public void handleEvent(Event evt) {
-				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;				
+				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 
-				popupMenu.show(canvas, mouseEvent.getClientX(),
-						mouseEvent.getClientY());			
-
+				if (mouseEvent.getButton() == 2) {
+					popupMenu.show(canvas, mouseEvent.getClientX(),
+							mouseEvent.getClientY());
+				}
 			}
 		}, false);
 	}
@@ -240,10 +240,10 @@ public class SVGDiagramPanel extends JPanel {
 	}
 
 	public Field getCurrentField() {
-		return (Field)currentElement.getUserData("field");
+		return (Field) currentElement.getUserData("field");
 	}
-	
-	public void reload(){
+
+	public void reload() {
 		mainWindow.reloadDiagram();
 	}
 }

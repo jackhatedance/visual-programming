@@ -4636,8 +4636,8 @@ procedure loc()
                                     <name>_prototype</name>
                                     <target reference="163"/>
                                     <area id="809">
-                                      <x>0</x>
-                                      <y>0</y>
+                                      <x>3670</x>
+                                      <y>190</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
@@ -4732,8 +4732,8 @@ procedure loc()
                                       <value id="829">2013-09-30 13:11:02.260 UTC</value>
                                     </target>
                                     <area id="830">
-                                      <x>0</x>
-                                      <y>0</y>
+                                      <x>1790</x>
+                                      <y>1930</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
@@ -4764,8 +4764,8 @@ procedure loc()
                                       <value id="836">2013-09-30 13:11:02.256 UTC</value>
                                     </target>
                                     <area id="837">
-                                      <x>0</x>
-                                      <y>0</y>
+                                      <x>740</x>
+                                      <y>490</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
@@ -4796,8 +4796,8 @@ procedure loc()
                                       <value id="843">2013-09-30 13:11:02.258 UTC</value>
                                     </target>
                                     <area id="844">
-                                      <x>0</x>
-                                      <y>0</y>
+                                      <x>1815</x>
+                                      <y>520</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
@@ -5052,10 +5052,13 @@ procedure loc()
                                 <language>goo</language>
                                 <code>procedure()
 {
-	t = self.activeMacs._prototype;
-	self.activeMacs._prototype=null;
-	root.prototype.list2=t;
-	//self.activeMacs._prototype = t;
+	host -&gt; http://root@jackap6;
+	                      
+//	data -&gt; host.&quot;Status_Wireless.live.asp&quot;();	
+	data -&gt; host.&quot;Status_Internet.live.asp&quot;();	
+//	data -&gt; host.&quot;Status_Lan.live.asp&quot;();
+
+	root.console.print(data);
 
 }</code>
                               </target>
@@ -6411,11 +6414,51 @@ return m.mul(n);
                     <height>100</height>
                   </area>
                 </field>
+                <field id="1109">
+                  <name>getWanIp</name>
+                  <target class="procedure" id="1110">
+                    <type>PROCEDURE</type>
+                    <id>16617</id>
+                    <name defined-in="object">getWanIp</name>
+                    <owner reference="914"/>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="1111"/>
+                    <systemFieldsCount>0</systemFieldsCount>
+                    <applyingWorker>false</applyingWorker>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="1112">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure()
+{
+	host -&gt; http://root@jackap6;
+	                      
+//	data -&gt; host.&quot;Status_Wireless.live.asp&quot;();	
+	data -&gt; host.&quot;Status_Internet.live.asp&quot;();	
+//	data -&gt; host.&quot;Status_Lan.live.asp&quot;();
+
+	return data;
+}</code>
+                  </target>
+                  <area id="1113">
+                    <x>2246</x>
+                    <y>2716</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
               </fieldList>
               <systemFieldsCount>3</systemFieldsCount>
               <applyingWorker>false</applyingWorker>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="1109">
+              <borderColor id="1114">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -6423,7 +6466,7 @@ return m.mul(n);
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
-            <area id="1110">
+            <area id="1115">
               <x>2105</x>
               <y>2260</y>
               <width>100</width>
@@ -6434,64 +6477,35 @@ return m.mul(n);
         <systemFieldsCount>0</systemFieldsCount>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="1111">
+        <borderColor id="1116">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="1112">
+      <area id="1117">
         <x>3155</x>
         <y>3635</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="1113">
+    <field id="1118">
       <name>console</name>
-      <target id="1114">
+      <target id="1119">
         <type>NORMAL</type>
         <id>44</id>
         <name>console</name>
         <owner reference="1"/>
-        <fieldList id="1115">
-          <field id="1116">
+        <fieldList id="1120">
+          <field id="1121">
             <name>print</name>
-            <target class="procedure" id="1117">
+            <target class="procedure" id="1122">
               <type>PROCEDURE</type>
               <id>45</id>
               <name defined-in="object">print</name>
-              <owner reference="1114"/>
-              <fieldList id="1118"/>
-              <systemFieldsCount>0</systemFieldsCount>
-              <applyingWorker>false</applyingWorker>
-              <scaleRate>1.0</scaleRate>
-              <borderColor id="1119">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
-                <alpha>255</alpha>
-              </borderColor>
-              <__native>true</__native>
-              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.Print</nativeProcedureClassName>
-              <nativeProcedureParameters>content</nativeProcedureParameters>
-              <code></code>
-            </target>
-            <area id="1120">
-              <x>665</x>
-              <y>1245</y>
-              <width>100</width>
-              <height>100</height>
-            </area>
-          </field>
-          <field id="1121">
-            <name>println</name>
-            <target class="procedure" id="1122">
-              <type>PROCEDURE</type>
-              <id>4808</id>
-              <name defined-in="object">unnamed</name>
-              <owner reference="1114"/>
+              <owner reference="1119"/>
               <fieldList id="1123"/>
               <systemFieldsCount>0</systemFieldsCount>
               <applyingWorker>false</applyingWorker>
@@ -6503,11 +6517,40 @@ return m.mul(n);
                 <alpha>255</alpha>
               </borderColor>
               <__native>true</__native>
-              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.PrintLine</nativeProcedureClassName>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.Print</nativeProcedureClassName>
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
             <area id="1125">
+              <x>665</x>
+              <y>1245</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="1126">
+            <name>println</name>
+            <target class="procedure" id="1127">
+              <type>PROCEDURE</type>
+              <id>4808</id>
+              <name defined-in="object">unnamed</name>
+              <owner reference="1119"/>
+              <fieldList id="1128"/>
+              <systemFieldsCount>0</systemFieldsCount>
+              <applyingWorker>false</applyingWorker>
+              <scaleRate>1.0</scaleRate>
+              <borderColor id="1129">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>true</__native>
+              <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.console.PrintLine</nativeProcedureClassName>
+              <nativeProcedureParameters>content</nativeProcedureParameters>
+              <code></code>
+            </target>
+            <area id="1130">
               <x>1920</x>
               <y>1565</y>
               <width>100</width>
@@ -6518,24 +6561,24 @@ return m.mul(n);
         <systemFieldsCount>0</systemFieldsCount>
         <applyingWorker>false</applyingWorker>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="1126">
+        <borderColor id="1131">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <area id="1127">
+      <area id="1132">
         <x>790</x>
         <y>1155</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="1128">
+    <field id="1133">
       <name>prototype</name>
       <target reference="8"/>
-      <area id="1129">
+      <area id="1134">
         <x>1010</x>
         <y>2200</y>
         <width>100</width>
@@ -6546,7 +6589,7 @@ return m.mul(n);
   <systemFieldsCount>0</systemFieldsCount>
   <applyingWorker>false</applyingWorker>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="1130">
+  <borderColor id="1135">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
