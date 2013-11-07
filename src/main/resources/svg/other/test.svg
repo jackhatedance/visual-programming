@@ -79,13 +79,11 @@
      x="5.4634376"
      y="10.608002"
      id="border"
-     onclick="alert('foo');"
-     onload=" var fillColor='green'; value = document.getElementById('name').textContent; if( value=='true') { fillCorlor='green';} else {fillColor='red';} evt.target.style.setProperty('fill',fillColor);  "
      style="opacity:0.14166667;fill:#000000;fill-opacity:1" />
   <text
      x="46.46236"
      y="56.025993"
-     id="name"     
+     id="name"
      xml:space="preserve"
      style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;font-family:Sans">false</text>
   <text
@@ -93,5 +91,5 @@
      y="117.62418"
      id="description"
      xml:space="preserve"
-     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans">description</text>
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</text>
 </svg>
