@@ -52,11 +52,13 @@ public class SVGDiagramPanel extends JPanel {
 	private SvgScene scene;
 
 	private SVGMainWindow mainWindow;
-	private JPopupMenu popupMenu;
+	private JPopupMenu objectPopupMenu;
+	private JPopupMenu backgroundPopupMenu;
 
-	public SVGDiagramPanel(SVGMainWindow mainWindow, JPopupMenu popupMenu) {
+	public SVGDiagramPanel(SVGMainWindow mainWindow, JPopupMenu objectPopupMenu,JPopupMenu backgroundPopupMenu) {
 		this.mainWindow = mainWindow;
-		this.popupMenu = popupMenu;
+		this.objectPopupMenu = objectPopupMenu;
+		this.backgroundPopupMenu = backgroundPopupMenu;
 
 		canvas = new JSVGCanvas();
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
@@ -212,7 +214,7 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 				currentElement = (Element) evt.getCurrentTarget();
 				if (mouseEvent.getButton() == 2) {
-					popupMenu.show(canvas, mouseEvent.getClientX(),
+					objectPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
 				}
 
@@ -220,7 +222,7 @@ public class SVGDiagramPanel extends JPanel {
 		}, false);
 	}
 
-	public void addPopupMenuListener(org.w3c.dom.events.EventTarget target) {
+	public void addBackgroundPopupMenuListener(org.w3c.dom.events.EventTarget target) {
 
 		target.addEventListener("click", new EventListener() {
 
@@ -229,7 +231,7 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 
 				if (mouseEvent.getButton() == 2) {
-					popupMenu.show(canvas, mouseEvent.getClientX(),
+					backgroundPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
 				}
 			}

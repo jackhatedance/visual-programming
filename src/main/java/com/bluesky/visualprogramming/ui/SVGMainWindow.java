@@ -65,7 +65,7 @@ public class SVGMainWindow extends JPanel {
 	private JTree tree;
 	JScrollPane scrollTreePanel;
 
-	private JPopupMenu diagramPopupMenu;
+	
 	private SVGDiagramPanel diagramPanel;
 	JScrollPane scrollDiagramPanel;
 
@@ -145,14 +145,15 @@ public class SVGMainWindow extends JPanel {
 			field.target.drawInternal(diagramPanel, scene, new Point(0, 0));
 
 			diagramPanel.setScene(scene);
-			Element background = scene.getDocument().getElementById("background");
-			
-			
-			diagramPanel.addPopupMenuListener((EventTarget)background);
+			Element background = scene.getDocument().getElementById(
+					"background");
+
+			diagramPanel
+					.addBackgroundPopupMenuListener((EventTarget) background);
 		}
 	}
-	
-	public void reloadDiagram(){
+
+	public void reloadDiagram() {
 		final Field field = getSelectedTreeField();
 
 		loadDiagram(field);
@@ -180,13 +181,18 @@ public class SVGMainWindow extends JPanel {
 		return node;
 	}
 
-	private JPopupMenu createPopupMenu() {
+	/**
+	 * when right click on a child object
+	 * 
+	 * @return
+	 */
+	private JPopupMenu createObjectPopupMenu() {
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem eMenuItem = new JMenuItem("Property");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				
+
 				ObjectPropertyDialog dialog = new ObjectPropertyDialog();
 				dialog.setLocationRelativeTo(getParent());
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -201,70 +207,9 @@ public class SVGMainWindow extends JPanel {
 							getSelectedTreeNode(), activeChildField);
 					treeModel.valueForPathChanged(new TreePath(
 							selectedChildNode), activeChildField);
-					
+
 					diagramPanel.reload();
 				}
-
-			}
-
-		});
-		menu.add(eMenuItem);
-
-		eMenuItem = new JMenuItem("New Object");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.NORMAL);
-
-				addChildObjectToTree(obj);
-			}
-
-		});
-		menu.add(eMenuItem);
-
-		eMenuItem = new JMenuItem("New Integer");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-
-				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.INTEGER);
-
-				addChildObjectToTree(obj);
-			}
-
-		});
-		menu.add(eMenuItem);
-
-		eMenuItem = new JMenuItem("New String");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.STRING);
-				addChildObjectToTree(obj);
-
-			}
-
-		});
-		menu.add(eMenuItem);
-
-		eMenuItem = new JMenuItem("New Boolean");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.BOOLEAN);
-				addChildObjectToTree(obj);
-
-			}
-
-		});
-		menu.add(eMenuItem);
-
-		eMenuItem = new JMenuItem("New Procedure");
-		eMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.PROCEDURE);
-				addChildObjectToTree(obj);
 
 			}
 
@@ -329,10 +274,83 @@ public class SVGMainWindow extends JPanel {
 		return menu;
 	}
 
+	/**
+	 * when right click on background (blank place)
+	 * 
+	 * @return
+	 */
+	private JPopupMenu createBackgroundPopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
+
+		JMenuItem eMenuItem = new JMenuItem("New Object");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.NORMAL);
+
+				addChildObjectToTree(obj);
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Integer");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.INTEGER);
+
+				addChildObjectToTree(obj);
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New String");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.STRING);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Boolean");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.BOOLEAN);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("New Procedure");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.PROCEDURE);
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		menu.add(eMenuItem);
+
+		return menu;
+	}
+
 	private void initDiagramPanel() {
-		diagramPopupMenu=createPopupMenu();
-		
-		diagramPanel = new SVGDiagramPanel(this, diagramPopupMenu);
+		JPopupMenu diagramObjectPopupMenu = createObjectPopupMenu();
+		JPopupMenu backgroundPopupMenu = createBackgroundPopupMenu();
+
+		diagramPanel = new SVGDiagramPanel(this, diagramObjectPopupMenu, backgroundPopupMenu);
 
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		// addMouseListener();
@@ -342,7 +360,7 @@ public class SVGMainWindow extends JPanel {
 		Dimension minimumSize = new Dimension(200, 150);
 		scrollDiagramPanel.setMinimumSize(minimumSize);
 
-		//diagramPanel.setComponentPopupMenu(diagramPopupMenu);
+		// diagramPanel.setComponentPopupMenu(diagramPopupMenu);
 
 	}
 
