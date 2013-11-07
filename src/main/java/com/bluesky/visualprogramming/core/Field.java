@@ -1,12 +1,13 @@
 package com.bluesky.visualprogramming.core;
 
-import java.awt.BasicStroke;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Stroke;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
@@ -87,8 +88,7 @@ public class Field {
 	public void setStartPosition(float x, float y) {
 		area.x = (int) x;
 		area.y = (int) y;
-		
-		
+
 	}
 
 	public boolean isSystemField() {
@@ -120,10 +120,24 @@ public class Field {
 		long id = target.getId();
 		String value = target.getHumanReadableText();
 
-		SVGOMGElement ele = scene.addObject(target.type, id, x, y, 0.2f);
+		SVGOMGElement ele = null;
+		if (target != null) {
+			_Object _graphic = target.getChild("_graphic");
+			if (_graphic != null && _graphic instanceof StringValue) {
+				StringValue sv = (StringValue) _graphic;
+				ele = scene.addObject(sv.getValue(), id, x, y, 0.2f);
+
+			} else
+				ele = scene.addObject(target.type, id, x, y, 0.2f);
+		}
 
 		scene.setName(id, name);
-		scene.setDescription(id, value);
+
+		String value2 = StringEscapeUtils.escapeXml(value);
+		int maxLength = 20;
+		int length = value2.length() > maxLength ? maxLength : value2.length();
+		value2 = value2.substring(0, length);
+		scene.setDescription(id, value2);
 
 		scene.setBorderColor(id, target.borderColor);
 
@@ -137,15 +151,6 @@ public class Field {
 			finalBorderWidth = borderWidth;
 		else
 			finalBorderWidth = borderWidth / 2;
-
-		Stroke borderStroke = null;
-		if (selectedStatus == SelectedStatus.Preselected
-				|| selectedStatus == SelectedStatus.Selected)
-			borderStroke = new BasicStroke(finalBorderWidth,
-					BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-					new float[] { 9 }, 0);
-		else
-			borderStroke = new BasicStroke(finalBorderWidth);
 
 	}
 }

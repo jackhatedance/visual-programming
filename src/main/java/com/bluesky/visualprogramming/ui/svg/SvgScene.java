@@ -20,18 +20,41 @@ public class SvgScene {
 	public SvgScene() {
 		doc = SVGUtils.createScene();
 		svg = doc.getDocumentElement();
-		
-		if(!svg.getNodeName().equalsIgnoreCase("svg"))
+
+		if (!svg.getNodeName().equalsIgnoreCase("svg"))
 			throw new RuntimeException("tag name error.");
-			
+
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
 			float scale) {
-		Document objDoc = SVGUtils.createObjectDocument(String.valueOf(id),
-				type);
+		
+		Document objDoc = SVGUtils.createObjectDocument(type);
+
+		SvgObject svgObject = new SvgObject(objDoc, id);
+
+		SVGOMGElement ele2 = (SVGOMGElement) doc.importNode(
+				svgObject.getObjectNode(), true);
+
+		String scaleStr = String.format("scale(%f,%f)", scale, scale);
+		String translate = String.format("translate(%f,%f)", x, y);
+
+		// String transform = translate + " " + scaleStr;
+		String transform = scaleStr + " " + translate;
+		ele2.setAttribute("transform", transform);
+
+		svg.appendChild(ele2);
+
+		return ele2;
+
+	}
+	
+	public SVGOMGElement addObject(String svgContent, long id, float x, float y,
+			float scale) {
+		
+		Document objDoc = SVGUtils.createObjectDocument(svgContent);
 
 		SvgObject svgObject = new SvgObject(objDoc, id);
 
@@ -52,22 +75,22 @@ public class SvgScene {
 	}
 
 	public void clear() {
-		Node script =null;
-		Element background =null;
+		Node script = null;
+		Element background = null;
 		while (svg.hasChildNodes()) {
 			Node c = svg.getFirstChild();
-			Element e = (Element)c;
-			
-			//save it
-			if(c instanceof SVGOMScriptElement)
+			Element e = (Element) c;
+
+			// save it
+			if (c instanceof SVGOMScriptElement)
 				script = c;
-			if(e.getAttribute("id").equals("background"))
+			if (e.getAttribute("id").equals("background"))
 				background = e;
-			
+
 			svg.removeChild(c);
 		}
-		
-		//add back
+
+		// add back
 		svg.appendChild(script);
 		svg.appendChild(background);
 	}
@@ -103,15 +126,14 @@ public class SvgScene {
 	}
 
 	public void setBorderColor(long id, Color color) {
-		SVGStylable e = (SVGStylable) getElement(id,
-				SvgElementType.Border);
+		SVGStylable e = (SVGStylable) getElement(id, SvgElementType.Border);
 		String hex = String.format("#%02x%02x%02x", color.getRed(),
 				color.getGreen(), color.getBlue());
-		try{
-		e.getStyle().setProperty("stroke", hex, "");
-		}catch(Exception ex){
+		try {
+			e.getStyle().setProperty("stroke", hex, "");
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			throw new RuntimeException("setborder color, id:"+id);
+			throw new RuntimeException("setborder color, id:" + id);
 		}
 	}
 

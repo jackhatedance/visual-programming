@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.ui.svg;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 
 import org.apache.batik.bridge.BridgeContext;
@@ -25,10 +26,45 @@ public class SVGUtils {
 	public static String SCENE = "svg/scene.svg";
 
 	public static Document createScene() {
-		return createDocument(SCENE);
+		return createDocumentFromResource(SCENE);
 	}
 
-	protected static SVGDocument createDocument(String resource) {
+	protected static SVGDocument createDocumentFromString(String str) {
+		String parser = XMLResourceDescriptor.getXMLParserClassName();
+		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
+
+		// parse String into DOM Document
+		StringReader reader = new StringReader(str);
+		// do not forget the URI, even it is fake eg: c://svg/sample.svg
+		// this is specially important if your doc reference other doc
+		// in relative URI
+		try {
+			SVGDocument svgDoc = f.createSVGDocument("sample.svg", reader);
+
+			// below stuff to parse CSSstyle. usually it is parsed when
+			// rendering.
+			//
+			UserAgent userAgent;
+			DocumentLoader loader;
+			BridgeContext ctx;
+			GVTBuilder builder;
+			GraphicsNode rootGN;
+
+			userAgent = new UserAgentAdapter();
+			loader = new DocumentLoader(userAgent);
+			ctx = new BridgeContext(userAgent, loader);
+			ctx.setDynamicState(BridgeContext.DYNAMIC);
+			builder = new GVTBuilder();
+			rootGN = builder.build(ctx, svgDoc);
+
+			return svgDoc;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	protected static SVGDocument createDocumentFromResource(String resource) {
 		String parser = XMLResourceDescriptor.getXMLParserClassName();
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
 		// eg. "svg/scene.svg"
@@ -63,8 +99,14 @@ public class SVGUtils {
 
 	}
 
-	public static Document createObjectDocument(String id, ObjectType objectType) {
-		Document doc = createDocument(objectType.getSvgResource());
+	public static Document createObjectDocument(ObjectType objectType) {
+		Document doc = createDocumentFromResource(objectType.getSvgResource());
+
+		return doc;
+	}
+
+	public static Document createObjectDocument(String svgContent) {
+		Document doc = createDocumentFromString(svgContent);
 
 		return doc;
 	}
