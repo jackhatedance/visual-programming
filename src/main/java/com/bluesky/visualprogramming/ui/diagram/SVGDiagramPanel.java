@@ -1,12 +1,10 @@
 package com.bluesky.visualprogramming.ui.diagram;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SVGOMGElement;
@@ -25,7 +23,6 @@ import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.ui.SVGMainWindow;
-import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgElementType;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
@@ -54,8 +51,10 @@ public class SVGDiagramPanel extends JPanel {
 	private SVGMainWindow mainWindow;
 	private JPopupMenu objectPopupMenu;
 	private JPopupMenu backgroundPopupMenu;
+	private Point popupMenuPosition;
 
-	public SVGDiagramPanel(SVGMainWindow mainWindow, JPopupMenu objectPopupMenu,JPopupMenu backgroundPopupMenu) {
+	public SVGDiagramPanel(SVGMainWindow mainWindow,
+			JPopupMenu objectPopupMenu, JPopupMenu backgroundPopupMenu) {
 		this.mainWindow = mainWindow;
 		this.objectPopupMenu = objectPopupMenu;
 		this.backgroundPopupMenu = backgroundPopupMenu;
@@ -115,11 +114,10 @@ public class SVGDiagramPanel extends JPanel {
 				dragOffsetX = svgPt.getX() - startPosition.getX();
 				dragOffsetY = svgPt.getY() - startPosition.getY();
 
-				
 				int minOffset = 80;
 				dragOffsetX = dragOffsetX < minOffset ? minOffset : dragOffsetX;
 				dragOffsetY = dragOffsetY < minOffset ? minOffset : dragOffsetY;
-				//System.out.println(dragOffsetX);
+				// System.out.println(dragOffsetX);
 			}
 		}, false);
 
@@ -201,7 +199,7 @@ public class SVGDiagramPanel extends JPanel {
 					Field field = (Field) ele.getUserData("field");
 
 					field.setStartPosition(tranlsateX, tranlsateY);
-					 
+
 				}
 
 			}
@@ -222,7 +220,8 @@ public class SVGDiagramPanel extends JPanel {
 		}, false);
 	}
 
-	public void addBackgroundPopupMenuListener(org.w3c.dom.events.EventTarget target) {
+	public void addBackgroundPopupMenuListener(
+			org.w3c.dom.events.EventTarget target) {
 
 		target.addEventListener("click", new EventListener() {
 
@@ -231,6 +230,8 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 
 				if (mouseEvent.getButton() == 2) {
+					popupMenuPosition = new Point(mouseEvent.getClientX(),
+							mouseEvent.getClientY());
 					backgroundPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
 				}
@@ -261,4 +262,9 @@ public class SVGDiagramPanel extends JPanel {
 	public void reload() {
 		mainWindow.reloadDiagram();
 	}
+
+	public Point getPopupMenuPosition() {
+		return popupMenuPosition;
+	}
+
 }

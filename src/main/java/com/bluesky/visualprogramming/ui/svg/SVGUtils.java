@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.ui.svg;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -18,7 +19,11 @@ import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.svg.SVGLocatable;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGTransform;
 
+import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectType;
 
 public class SVGUtils {
@@ -147,5 +152,25 @@ public class SVGUtils {
 		}
 
 		return new SVGOMPoint(x, y);
+	}
+
+	/**
+	 * 
+	 * @param matrix
+	 *            , element to screen matrix, will be reverse.
+	 * @param screenPosition
+	 * @return
+	 */
+	public static SVGOMPoint screenToElement(SVGMatrix matrix,
+			Point screenPosition) {
+		SVGOMPoint pt = new SVGOMPoint(screenPosition.x, screenPosition.y);
+		// Get the items screen coordinates, and apply the
+		// transformation
+
+		matrix = matrix.inverse(); // screen -> elem
+		SVGOMPoint droppt = (SVGOMPoint) pt.matrixTransform(matrix);
+
+		return droppt;
+
 	}
 }
