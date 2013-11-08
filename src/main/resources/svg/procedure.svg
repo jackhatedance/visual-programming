@@ -65,26 +65,26 @@
   </metadata>
   <g
      transform="translate(-58.938176,-15.55313)"
-     id="0-object">
+     id="object">
     <rect
        width="363.45209"
        height="279.95633"
        x="66.30545"
        y="23.738995"
-       id="0-border"
+       id="border"
        style="opacity:0.16872427;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <g
        id="g3108">
       <text
          x="108.79569"
          y="366.359329"
-         id="0-name"
+         id="name"
          xml:space="preserve"
          style="font-size:60px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">name</text>
       <text
          x="108.94163"
          y="116.06863"
-         id="0-description"
+         id="description"
          xml:space="preserve"
          style="font-size:50px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">description</text>
     </g>

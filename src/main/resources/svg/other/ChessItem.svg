@@ -50,24 +50,24 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="0-object">
+     id="object">
     <circle
      cx="250"
      cy="250"
      r="250"
      transform="translate(9.5890411,6.8493151)"
-     id="0-border"
+     id="border"
      style="fill:#ffffff;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <text
        x="90.46236"
        y="350.025993"
-       id="0-name"
+       id="name"
        xml:space="preserve"
        style="font-size:360px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">name</text>
     <text
        x="43.608295"
        y="50.7353"
-       id="0-description"
+       id="description"
        xml:space="preserve"
        style="font-size:50px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">description</text>
   </g>

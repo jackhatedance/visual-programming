@@ -11,6 +11,26 @@
    width="744.09448"
    height="1052.3622"
    id="svg2">
+   <script type="text/ecmascript"><![CDATA[
+   		function getObjectId(elementId){
+   			index = elementId.indexOf('-');
+   			if(index>0)
+   				return elementId.substring(0,index);
+   			else
+   				return '';
+   		}
+   		
+   		function getObjectElement(objectId,type)
+   		{
+   			elementId = "";
+   			if(objectId=="")
+   				elementId = type;
+   			else
+   				elementId = objectId + "-" + type;
+   					
+   			return document.getElementById(elementId);   		
+   		}
+   ]]></script>
   <defs
      id="defs10">
     <linearGradient
@@ -76,32 +96,32 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g id="0-object"> 
+  <g id="object"> 
   <circle
      cx="250"
      cy="250"
      r="250"
      transform="translate(9.5890411,6.8493151)"
-     id="0-border"
+     id="border"
      style="fill:#82c03b;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   <text
      x="155.96622"
      y="574.384636"
-     id="0-name"
+     id="name"
      xml:space="preserve"
      style="font-size:60px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">namexx</text>
   <text
      x="148.26204"
      y="131.64954"
-     id="0-description"
-     onload=" target = evt.target;  value = target.textContent;  objId = getObjectId(target.id); trueElement = document.getElementById(objId+'-custom0'); falseElement = document.getElementById(objId+'-custom1'); if(value=='true') {falseElement.style.setProperty('display','none','');} else {trueElement.style.setProperty('display','none','');}"
+     id="description"
+     onload=" target = evt.target;  value = target.textContent;  objId = getObjectId(target.id); trueElement = getObjectElement(objId,'custom0'); falseElement = getObjectElement(objId,'custom1'); if(value=='true') {falseElement.style.setProperty('display','none','');} else {trueElement.style.setProperty('display','none','');}"
      xml:space="preserve"
      style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">true</text>
   <path
      d="m 89.884627,293.17884 c 77.220203,51.07647 66.095813,29.46907 101.925803,87.42797 2.79629,4.5233 3.76661,10.08305 6.88176,14.39298 0.69657,0.96372 2.60306,0.75952 3.56678,0.063 4.08875,-2.9553 7.50055,-6.77397 10.88915,-10.51148 13.60143,-15.00188 27.771,-29.57561 40.05279,-45.67569 18.20256,-23.86155 33.77114,-49.62916 51.25668,-74.02103 18.27448,-24.65271 36.54895,-49.3054 54.82343,-73.95809 7.28042,-8.19659 15.1097,-15.93675 21.84126,-24.58975 0.73013,-0.93856 -0.61404,-2.58918 0.063,-3.56678 1.91472,-2.7651 4.6896,-4.83792 7.25943,-7.00766 7.09617,-5.99143 14.47691,-11.63748 21.71537,-17.45621"
-     id="0-custom0"
+     id="custom0"
      style="fill:none;stroke:#008400;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none" />
-  <g id="0-custom1">
+  <g id="custom1">
   <path
      d="m 359.39738,152.26451 c -48.11593,41.72331 -65.58873,104.71311 -103.45256,153.39516 -11.3568,14.6016 -26.16041,26.16042 -39.24062,39.24063 -9.51288,9.51288 -18.65315,19.41357 -28.53864,28.53863 -5.59481,5.16444 -12.10651,9.25546 -17.83665,14.26932 -3.79672,3.32214 -6.37596,8.10638 -10.70198,10.70199 -22.04079,13.22447 3.89811,-11.03277 -10.70199,3.56733"
      id="path3015"

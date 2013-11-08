@@ -13,7 +13,7 @@
    height="1000"   
    id="body"
    xml:space="preserve">
-   <script type="text/ecmascript"><![CDATA[
+   <script type="text/ecmascript" id="script"><![CDATA[
    		function getObjectId(elementId){
    			index = elementId.indexOf('-');
    			if(index>0)
@@ -21,8 +21,21 @@
    			else
    				return '';
    		}
+   		
+   		function getObjectElement(objectId,type)
+   		{
+   			elementId = "";
+   			if(objectId=="")
+   				elementId = type;
+   			else
+   				elementId = objectId + "-" + type;
+   					
+   			return document.getElementById(elementId);   		
+   		}
    ]]></script>
-   
+   <defs
+     id="defs">
+   </defs>
    <rect id="background" x="0" y="0" width="1000" height="1000" style="fill:#00589d;fill-opacity:1;opacity:0.11934156000000000" />
    
    

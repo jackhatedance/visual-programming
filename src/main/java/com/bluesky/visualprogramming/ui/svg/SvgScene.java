@@ -16,6 +16,11 @@ public class SvgScene {
 
 	Document doc;
 	Element svg;
+	
+	
+	Element defs;
+	Element script;
+	Element background;
 
 	public SvgScene() {
 		doc = SVGUtils.createScene();
@@ -23,9 +28,14 @@ public class SvgScene {
 
 		if (!svg.getNodeName().equalsIgnoreCase("svg"))
 			throw new RuntimeException("tag name error.");
-
+		
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
+		
+		
+		defs = doc.getElementById("defs");
+		script = doc.getElementById("script");
+		background = doc.getElementById("background");
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
@@ -78,19 +88,12 @@ public class SvgScene {
 		Node script = null;
 		Element background = null;
 		while (svg.hasChildNodes()) {
-			Node c = svg.getFirstChild();
-			Element e = (Element) c;
-
-			// save it
-			if (c instanceof SVGOMScriptElement)
-				script = c;
-			if (e.getAttribute("id").equals("background"))
-				background = e;
-
+			Node c = svg.getFirstChild();		
 			svg.removeChild(c);
 		}
 
 		// add back
+		svg.appendChild(defs);
 		svg.appendChild(script);
 		svg.appendChild(background);
 	}
