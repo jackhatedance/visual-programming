@@ -133,11 +133,14 @@ public class Field {
 
 		scene.setName(id, name);
 
-		
-		int maxLength = 20;
-		int length = value.length() > maxLength ? maxLength : value.length();
-		value = value.substring(0, length);
-		value = StringEscapeUtils.escapeXml(value);
+		int maxLength = 50;
+		int length = value.length();
+		String ellipsis = "...";
+		if (value.length() > maxLength) {
+			length = maxLength - ellipsis.length();
+			value = value.substring(0, length) + ellipsis;
+		}
+
 		scene.setDescription(id, value);
 
 		scene.setBorderColor(id, target.borderColor);
