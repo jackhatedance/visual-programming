@@ -51,13 +51,24 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g id="object"> 
+  <g id="object" >
+  <g id="scale" transform="scale(1,1)"> 
+  <rect
+       width="500"
+       height="500"
+       x="0"
+       y="0"
+       rx="20"
+       ry="20"      
+       id="border"                    
+       style="fill:#82c03b;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    
   <circle
      cx="250"
      cy="250"
      r="250"
      transform="translate(9.5890411,6.8493151)"
-     id="border"
+     id="color"
      style="fill:#82c03b;filter:url(#f1);" />
   <text
      x="155.96622"
@@ -85,6 +96,7 @@
      d="m 107.25836,178.60567 c 58.29392,68.70354 92.62733,122.81678 164.09716,171.23182 14.09569,9.54869 30.98872,14.1156 46.37528,21.40397 20.26523,9.59932 39.50755,20.85244 60.6446,28.53864 7.0678,2.57011 14.26932,4.75643 21.40397,7.13466 3.56733,1.18911 7.33868,1.88567 10.70199,3.56733 22.62756,11.31378 10.25624,10.70199 21.40398,10.70199"
      id="path3017"
      style="fill:none;stroke:#ef0b0b;stroke-width:24;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  </g>
   </g>
   </g>   
 </svg>

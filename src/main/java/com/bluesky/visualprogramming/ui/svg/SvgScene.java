@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMScriptElement;
@@ -20,6 +21,8 @@ public class SvgScene {
 	Element defs;
 	Element script;
 	Element background;
+	Element transform;
+	SvgTransformBox transformBox;
 
 	public SvgScene() {
 		doc = SVGUtils.createScene();
@@ -31,9 +34,11 @@ public class SvgScene {
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
 
-		defs = doc.getElementById("defs");		
+		defs = doc.getElementById("defs");
 		script = doc.getElementById("script");
 		background = doc.getElementById("background");
+		transform = doc.getElementById("transform");
+		transformBox = new SvgTransformBox(doc, transform);
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
@@ -41,19 +46,19 @@ public class SvgScene {
 
 		Document objDoc = SVGUtils.createObjectDocument(type);
 
-		SvgObject svgObject = new SvgObject(objDoc, id);
+		SvgObject svgObject = new SvgObject(objDoc, id, true);
 
 		SVGOMGElement newObjectElement = (SVGOMGElement) doc.importNode(
 				svgObject.getObjectNode(), true);
 
 		if (svgObject.getDefsNode() != null) {
-			Node newDefstElement = doc.importNode(
-					svgObject.getDefsNode(), true);
-			
+			Node newDefstElement = doc
+					.importNode(svgObject.getDefsNode(), true);
+
 			svg.appendChild(newDefstElement);
-			
+
 		}
-		
+
 		String scaleStr = String.format("scale(%f,%f)", scale, scale);
 		String translate = String.format("translate(%f,%f)", x, y);
 
@@ -72,7 +77,7 @@ public class SvgScene {
 
 		Document objDoc = SVGUtils.createObjectDocument(svgContent);
 
-		SvgObject svgObject = new SvgObject(objDoc, id);
+		SvgObject svgObject = new SvgObject(objDoc, id, true);
 
 		SVGOMGElement ele2 = (SVGOMGElement) doc.importNode(
 				svgObject.getObjectNode(), true);
@@ -98,10 +103,11 @@ public class SvgScene {
 			svg.removeChild(c);
 		}
 
-		// add back		
+		// add back
 		svg.appendChild(defs);
 		svg.appendChild(script);
 		svg.appendChild(background);
+		svg.appendChild(transform);
 	}
 
 	public Element getElement(long id, SvgElementType type) {
@@ -134,6 +140,10 @@ public class SvgScene {
 		return transform;
 	}
 
+	public SvgObject getSvgObject(long id) {
+		return new SvgObject(doc, id, false);
+	}
+
 	public void setBorderColor(long id, Color color) {
 		SVGStylable e = (SVGStylable) getElement(id, SvgElementType.Border);
 		String hex = String.format("#%02x%02x%02x", color.getRed(),
@@ -144,6 +154,10 @@ public class SvgScene {
 			ex.printStackTrace();
 			throw new RuntimeException("setborder color, id:" + id);
 		}
+	}
+
+	public SvgTransformBox getTransformBox() {
+		return transformBox;
 	}
 
 }

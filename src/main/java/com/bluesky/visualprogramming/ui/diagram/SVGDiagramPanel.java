@@ -25,6 +25,7 @@ import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.ui.SVGMainWindow;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgElementType;
+import com.bluesky.visualprogramming.ui.svg.SvgObject;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.ui.svg.TransformIndex;
 
@@ -214,6 +215,17 @@ public class SVGDiagramPanel extends JPanel {
 				if (mouseEvent.getButton() == 2) {
 					objectPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
+				} else if (mouseEvent.getButton() == 0) {
+					// selected current object
+					// show transform box
+					Field f = (Field) currentElement.getUserData("field");
+					if (f.getTarget() != null) {
+						SvgObject svgObj = scene.getSvgObject(f.getTarget()
+								.getId());
+						
+						scene.getTransformBox().setRectangle(svgObj.getBorder());
+						scene.getTransformBox().setVisible(true);
+					}
 				}
 
 			}
@@ -234,7 +246,11 @@ public class SVGDiagramPanel extends JPanel {
 							mouseEvent.getClientY());
 					backgroundPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
+										
 				}
+				
+				//hide transform box;
+				scene.getTransformBox().setVisible(false);
 			}
 		}, false);
 	}

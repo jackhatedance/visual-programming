@@ -1,15 +1,18 @@
 package com.bluesky.visualprogramming.ui.svg;
 
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.bluesky.visualprogramming.ui.SVGMainWindow;
+import org.w3c.dom.svg.SVGTransform;
 
 public class SvgObject {
 	static Logger logger = Logger.getLogger(SvgObject.class);
@@ -26,21 +29,22 @@ public class SvgObject {
 	 */
 	private Map<String, String> idMap = new HashMap<>();
 
-	public SvgObject(Document doc, long id) {
+	public SvgObject(Document doc, long id, boolean needInit) {
 		this.doc = doc;
 		this.id = id;
 
-		Element svg = doc.getDocumentElement();
-		Element defs = doc.getElementById("defs");
-		Element object = doc.getElementById("object");
+		if (needInit) {
+			Element svg = doc.getDocumentElement();
+			Element defs = doc.getElementById("defs");
+			Element object = doc.getElementById("object");
 
-		if (defs != null)
-			updateTagIds(defs, idMap);
+			if (defs != null)
+				updateTagIds(defs, idMap);
 
-		updateTagIds(object, null);
+			updateTagIds(object, null);
 
-		updateReferenceIds(object);
-
+			updateReferenceIds(object);
+		}
 	}
 
 	private void updateTagIds(Node node, Map<String, String> idMap) {
@@ -79,7 +83,7 @@ public class SvgObject {
 					String oldRef = "#" + oldId;
 					if (attrValue.contains(oldRef)) {
 						changed = true;
-						
+
 						String newId = idMap.get(oldId);
 						attrValue = attrValue.replaceAll(oldRef, "#" + newId);
 					}
@@ -106,15 +110,46 @@ public class SvgObject {
 		}
 	}
 
-	public Element getObjectNode() {
-		return doc.getElementById(String.valueOf(id) + "-" + "object");
+	public SVGOMGElement getObjectNode() {
+		return (SVGOMGElement) doc.getElementById(String.valueOf(id) + "-"
+				+ "object");
 	}
 
-	public Element getBorderNode() {
-		return doc.getElementById(String.valueOf(id) + "-" + "border");
+	public SVGOMRectElement getBorderNode() {
+		return (SVGOMRectElement) doc.getElementById(String.valueOf(id) + "-"
+				+ "border");
 	}
 
 	public Element getDefsNode() {
 		return doc.getElementById(String.valueOf(id) + "-" + "defs");
+	}
+
+	public Rectangle2D getBorder() {
+		SVGOMGElement obj = getObjectNode();
+		SVGOMRectElement border = getBorderNode();
+
+		SVGTransform transform = obj.getTransform().getBaseVal()
+				.getItem(TransformIndex.Offset.getIndex());
+		if (transform.getType() != SVGTransform.SVG_TRANSFORM_TRANSLATE)
+			throw new RuntimeException("wrong tranform");
+
+		float objOffsetX = transform.getMatrix().getE();
+		float objOffsetY = transform.getMatrix().getF();
+
+		float borderOffsetX = Float.valueOf(border.getAttribute("x"));
+		float borderOffsetY = Float.valueOf(border.getAttribute("y"));
+
+		float width = Float.valueOf(border.getAttribute("width"));
+		float height = Float.valueOf(border.getAttribute("height"));
+
+		float scale = 0.2f;
+
+		float x = objOffsetX - borderOffsetX;
+		float y = objOffsetY - borderOffsetY;
+
+		Rectangle2D rect = new Rectangle2D.Float(x, y, width * scale, height
+				* scale);
+
+		return rect;
 	}
 }

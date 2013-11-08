@@ -122,7 +122,7 @@ public class Field {
 
 		SVGOMGElement ele = null;
 		if (target != null) {
-			_Object _graphic = target.getChild("_graphic");
+			_Object _graphic = target.getChild("_graphic2");
 			if (_graphic != null && _graphic instanceof StringValue) {
 				StringValue sv = (StringValue) _graphic;
 				ele = scene.addObject(sv.getValue(), id, x, y, 0.2f);
