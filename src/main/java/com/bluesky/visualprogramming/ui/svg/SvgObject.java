@@ -3,12 +3,16 @@ package com.bluesky.visualprogramming.ui.svg;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.bluesky.visualprogramming.ui.SVGMainWindow;
+
 public class SvgObject {
+	static Logger logger = Logger.getLogger(SvgObject.class);
 
 	Document doc;
 	/**
@@ -30,16 +34,16 @@ public class SvgObject {
 		Element defs = doc.getElementById("defs");
 		Element object = doc.getElementById("object");
 
-		if(defs!=null)
+		if (defs != null)
 			updateTagIds(defs, idMap);
-		
+
 		updateTagIds(object, null);
 
 		updateReferenceIds(object);
 
 	}
 
-	public void updateTagIds(Node node, Map<String, String> idMap) {
+	private void updateTagIds(Node node, Map<String, String> idMap) {
 
 		// update all tag that has ID
 		Element e = (Element) node;
@@ -62,16 +66,31 @@ public class SvgObject {
 		}
 	}
 
-	public void updateReferenceIds(Node node) {
+	private void updateReferenceIds(Node node) {
 		// update all tag that has ID
 		Element e = (Element) node;
 
 		for (String attributeName : referenceAttributeNames) {
-			String attrValue = e.getAttribute(attributeName);
-			if (attrValue != null && !attrValue.isEmpty()) {
+
+			if (e.hasAttribute(attributeName)) {
+				String attrValue = e.getAttribute(attributeName);
+				boolean changed = false;
 				for (String oldId : idMap.keySet()) {
-					String newId = idMap.get(oldId);
-					attrValue.replaceAll("#" + oldId, "#" + newId);
+					String oldRef = "#" + oldId;
+					if (attrValue.contains(oldRef)) {
+						changed = true;
+						
+						String newId = idMap.get(oldId);
+						attrValue = attrValue.replaceAll(oldRef, "#" + newId);
+					}
+
+				}
+
+				if (changed) {
+					e.setAttribute(attributeName, attrValue);
+					if (logger.isDebugEnabled())
+						logger.debug(String.format("update ref ID:%s=%s",
+								attributeName, attrValue));
 				}
 			}
 		}
@@ -82,6 +101,7 @@ public class SvgObject {
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 				// calls this method for all the children which is Element
 				updateReferenceIds(currentNode);
+
 			}
 		}
 	}

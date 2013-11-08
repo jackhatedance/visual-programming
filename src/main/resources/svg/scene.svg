@@ -35,6 +35,10 @@
    ]]></script>
    <defs
      id="defs">
+     <filter id="f1" x="0" y="0">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+     </filter>
+     
    </defs>
    <rect id="background" x="0" y="0" width="1000" height="1000" style="fill:#00589d;fill-opacity:1;opacity:0.11934156000000000" />
    

@@ -16,8 +16,7 @@ public class SvgScene {
 
 	Document doc;
 	Element svg;
-	
-	
+
 	Element defs;
 	Element script;
 	Element background;
@@ -28,42 +27,49 @@ public class SvgScene {
 
 		if (!svg.getNodeName().equalsIgnoreCase("svg"))
 			throw new RuntimeException("tag name error.");
-		
+
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
-		
-		
-		defs = doc.getElementById("defs");
+
+		defs = doc.getElementById("defs");		
 		script = doc.getElementById("script");
 		background = doc.getElementById("background");
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
 			float scale) {
-		
+
 		Document objDoc = SVGUtils.createObjectDocument(type);
 
 		SvgObject svgObject = new SvgObject(objDoc, id);
 
-		SVGOMGElement ele2 = (SVGOMGElement) doc.importNode(
+		SVGOMGElement newObjectElement = (SVGOMGElement) doc.importNode(
 				svgObject.getObjectNode(), true);
 
+		if (svgObject.getDefsNode() != null) {
+			Node newDefstElement = doc.importNode(
+					svgObject.getDefsNode(), true);
+			
+			svg.appendChild(newDefstElement);
+			
+		}
+		
 		String scaleStr = String.format("scale(%f,%f)", scale, scale);
 		String translate = String.format("translate(%f,%f)", x, y);
 
 		// String transform = translate + " " + scaleStr;
 		String transform = scaleStr + " " + translate;
-		ele2.setAttribute("transform", transform);
+		newObjectElement.setAttribute("transform", transform);
 
-		svg.appendChild(ele2);
+		svg.appendChild(newObjectElement);
 
-		return ele2;
+		return newObjectElement;
 
 	}
-	
-	public SVGOMGElement addObject(String svgContent, long id, float x, float y,
-			float scale) {
-		
+
+	public SVGOMGElement addObject(String svgContent, long id, float x,
+			float y, float scale) {
+
 		Document objDoc = SVGUtils.createObjectDocument(svgContent);
 
 		SvgObject svgObject = new SvgObject(objDoc, id);
@@ -88,11 +94,11 @@ public class SvgScene {
 		Node script = null;
 		Element background = null;
 		while (svg.hasChildNodes()) {
-			Node c = svg.getFirstChild();		
+			Node c = svg.getFirstChild();
 			svg.removeChild(c);
 		}
 
-		// add back
+		// add back		
 		svg.appendChild(defs);
 		svg.appendChild(script);
 		svg.appendChild(background);

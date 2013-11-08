@@ -11,6 +11,7 @@
    width="744.09448"
    height="1052.3622"
    id="svg2">
+   
    <script type="text/ecmascript"><![CDATA[
    		function getObjectId(elementId){
    			index = elementId.indexOf('-');
@@ -31,58 +32,12 @@
    			return document.getElementById(elementId);   		
    		}
    ]]></script>
-  <defs
-     id="defs10">
-    <linearGradient
-       id="linearGradient6803">
-      <stop
-         id="stop6805"
-         style="stop-color:#ef0b0b;stop-opacity:1"
-         offset="0" />
-    </linearGradient>
-    <marker
-       refX="0"
-       refY="0"
-       orient="auto"
-       id="DiamondLstart"
-       style="overflow:visible">
-      <path
-         d="M 0,-7.0710768 -7.0710894,0 0,7.0710589 7.0710462,0 0,-7.0710768 z"
-         transform="matrix(0.8,0,0,0.8,5.6,0)"
-         id="path3889"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt" />
-    </marker>
-    <marker
-       refX="0"
-       refY="0"
-       orient="auto"
-       id="DotL"
-       style="overflow:visible">
-      <path
-         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
-         transform="matrix(0.8,0,0,0.8,5.92,0.8)"
-         id="path3862"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt" />
-    </marker>
-    <marker
-       refX="0"
-       refY="0"
-       orient="auto"
-       id="Arrow1Lstart"
-       style="overflow:visible">
-      <path
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
-         transform="matrix(0.8,0,0,0.8,10,0)"
-         id="path3801"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt" />
-    </marker>
-    <linearGradient
-       id="linearGradient3791">
-      <stop
-         id="stop3793"
-         style="stop-color:#000000;stop-opacity:1"
-         offset="0" />
-    </linearGradient>
+  
+  <defs id="defs">
+  	<filter id="f1" x="0" y="0">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="25" />
+    </filter>
+    
   </defs>
   <metadata
      id="metadata7">
@@ -103,7 +58,7 @@
      r="250"
      transform="translate(9.5890411,6.8493151)"
      id="border"
-     style="fill:#82c03b;fill-opacity:0.30392157;fill-rule:nonzero;stroke:#00ad00;stroke-width:13.97299957;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+     style="fill:#82c03b;filter:url(#f1);" />
   <text
      x="155.96622"
      y="574.384636"
