@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.Rectangle;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -124,32 +125,21 @@ public class SvgObject {
 		return doc.getElementById(String.valueOf(id) + "-" + "defs");
 	}
 
-	public Rectangle2D getBorder() {
-		SVGOMGElement obj = getObjectNode();
+	public Rectangle2D.Float getBorder() {
+
 		SVGOMRectElement border = getBorderNode();
 
-		SVGTransform transform = obj.getTransform().getBaseVal()
-				.getItem(TransformIndex.Offset.getIndex());
-		if (transform.getType() != SVGTransform.SVG_TRANSFORM_TRANSLATE)
-			throw new RuntimeException("wrong tranform");
-
-		float objOffsetX = transform.getMatrix().getE();
-		float objOffsetY = transform.getMatrix().getF();
-
-		float borderOffsetX = Float.valueOf(border.getAttribute("x"));
-		float borderOffsetY = Float.valueOf(border.getAttribute("y"));
+		float x = Float.valueOf(border.getAttribute("x"));
+		float y = Float.valueOf(border.getAttribute("y"));
 
 		float width = Float.valueOf(border.getAttribute("width"));
 		float height = Float.valueOf(border.getAttribute("height"));
 
-		float scale = 0.2f;
-
-		float x = objOffsetX - borderOffsetX;
-		float y = objOffsetY - borderOffsetY;
-
-		Rectangle2D rect = new Rectangle2D.Float(x, y, width * scale, height
-				* scale);
+		//System.out.println(String.format("%f,%f,%f,%f", x,y,width,height));
+		
+		Rectangle2D.Float rect = new Rectangle2D.Float(x-1, y-1, width+1, height+1);
 
 		return rect;
 	}
+
 }

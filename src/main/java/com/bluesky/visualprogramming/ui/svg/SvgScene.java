@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.batik.dom.svg.SVGOMScriptElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,7 +22,7 @@ public class SvgScene {
 	Element defs;
 	Element script;
 	Element background;
-	Element transform;
+	SVGOMGElement transformObjectElement;	
 	SvgTransformBox transformBox;
 
 	public SvgScene() {
@@ -37,8 +38,9 @@ public class SvgScene {
 		defs = doc.getElementById("defs");
 		script = doc.getElementById("script");
 		background = doc.getElementById("background");
-		transform = doc.getElementById("transform");
-		transformBox = new SvgTransformBox(doc, transform);
+		transformObjectElement = (SVGOMGElement)doc.getElementById("transform-object");
+		
+		transformBox = new SvgTransformBox(doc, transformObjectElement);
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
@@ -107,7 +109,7 @@ public class SvgScene {
 		svg.appendChild(defs);
 		svg.appendChild(script);
 		svg.appendChild(background);
-		svg.appendChild(transform);
+		svg.appendChild(transformObjectElement);
 	}
 
 	public Element getElement(long id, SvgElementType type) {

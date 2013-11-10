@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.ui.diagram.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Field {

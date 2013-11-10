@@ -2,13 +2,7 @@ package com.bluesky.visualprogramming.ui.svg;
 
 public enum TransformIndex {
 
-	BaseScale {
-		@Override
-		public int getIndex() {
-
-			return 0;
-		}
-	},
+	
 	Offset {
 		@Override
 		public int getIndex() {

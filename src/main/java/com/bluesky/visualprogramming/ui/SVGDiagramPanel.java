@@ -1,7 +1,8 @@
-package com.bluesky.visualprogramming.ui.diagram;
+package com.bluesky.visualprogramming.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -9,6 +10,7 @@ import javax.swing.JPopupMenu;
 import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
@@ -18,11 +20,11 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
-import com.bluesky.visualprogramming.ui.SVGMainWindow;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgElementType;
 import com.bluesky.visualprogramming.ui.svg.SvgObject;
@@ -218,12 +220,30 @@ public class SVGDiagramPanel extends JPanel {
 				} else if (mouseEvent.getButton() == 0) {
 					// selected current object
 					// show transform box
+					
+					/**
+					 * idea: selected object left-top point -> screen position -> transform box element position.
+					 */
 					Field f = (Field) currentElement.getUserData("field");
 					if (f.getTarget() != null) {
 						SvgObject svgObj = scene.getSvgObject(f.getTarget()
 								.getId());
+						SVGMatrix matrix =  svgObj.getBorderNode().getScreenCTM();
+						Rectangle2D.Float borderRect = svgObj.getBorder();						
+						SVGOMPoint selectedObjectPoint = new SVGOMPoint(borderRect.x,borderRect.y);
+						SVGPoint screenPoint = selectedObjectPoint.matrixTransform(matrix);
 						
-						scene.getTransformBox().setRectangle(svgObj.getBorder());
+						
+						String transformStr = svgObj.getObjectNode()
+								.getAttribute("transform");
+						
+						scene.getTransformBox().setScale(0.2f);
+						scene.getTransformBox().setScreenPosition(screenPoint);
+						
+//						scene.getTransformBox().setRectangle(transformStr,
+//								svgObj.getBorder());
+						
+						
 						scene.getTransformBox().setVisible(true);
 					}
 				}
@@ -246,10 +266,10 @@ public class SVGDiagramPanel extends JPanel {
 							mouseEvent.getClientY());
 					backgroundPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
-										
+
 				}
-				
-				//hide transform box;
+
+				// hide transform box;
 				scene.getTransformBox().setVisible(false);
 			}
 		}, false);

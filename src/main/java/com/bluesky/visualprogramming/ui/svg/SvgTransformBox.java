@@ -1,12 +1,20 @@
 package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.Rectangle;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMPoint;
+import org.apache.batik.dom.svg.SVGOMRect;
+import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGRect;
+import org.w3c.dom.svg.SVGTransform;
 
 public class SvgTransformBox {
 	static Logger logger = Logger.getLogger(SvgTransformBox.class);
@@ -16,12 +24,17 @@ public class SvgTransformBox {
 
 	Document doc;
 
-	Element transform;
+	SVGOMGElement objectElement;
+	SVGOMRectElement borderElement;
+
 	boolean visible;
 
-	public SvgTransformBox(Document doc, Element transform) {
+	public SvgTransformBox(Document doc, SVGOMGElement objectElement) {
 		this.doc = doc;
-		this.transform = transform;
+		this.objectElement = objectElement;
+
+		borderElement = (SVGOMRectElement) doc
+				.getElementById("transform-border");
 
 		visible = true;
 
@@ -30,32 +43,75 @@ public class SvgTransformBox {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+		
 		if (visible)
-			transform.removeAttribute("display");
+			objectElement.setAttribute("display", "block");
 		else
-			transform.setAttribute("display", "none");
+			objectElement.setAttribute("display", "none");
 	}
 
 	public boolean getVisible() {
 		return visible;
 	}
 
+	public void setScreenPosition(SVGPoint screenPos) {
+		SVGMatrix matrix = borderElement.getScreenCTM();
+		SVGPoint elePos = screenPos.matrixTransform(matrix.inverse());
+
+		SVGTransform transform = objectElement.getTransform().getBaseVal()
+				.getItem(TransformIndex.Offset.getIndex());
+
+		float borderX = Float.valueOf(borderElement.getAttribute("x"));
+		float borderY = Float.valueOf(borderElement.getAttribute("y"));
+
+		float x = transform.getMatrix().getE() + elePos.getX() - borderX;
+		float y = transform.getMatrix().getF() + elePos.getY() - borderY;
+
+		transform.setTranslate(x, y);
+	}
+
+	public void setScale(float scale) {
+		SVGMatrix matrix = borderElement.getScreenCTM();
+
+		SVGTransform transform = objectElement.getTransform().getBaseVal()
+				.getItem(TransformIndex.Scale.getIndex());
+
+		transform.setScale(scale, scale);
+	}
+
+	public void setBorder(SVGOMRect rect) {
+
+	}
+
 	/**
-	 * change the box
+	 * make the transform box as same as the selected object's border
 	 * 
 	 * @param rect
 	 *            , is element unit, not screen length unit.
 	 */
-	public void setRectangle(Rectangle2D rect) {
-		float scaleX = (float) (rect.getWidth() / rectangleOrignal.width);
-		float scaleY = (float) (rect.getHeight() / rectangleOrignal.height);
+	public void setRectangle1(String transformStr, Rectangle2D border) {
+		// System.out.println(String.format("x=%f,y=%f,width=%f,height=%f",
+		// rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
 
-		String scaleStr = String.format("scale(%f,%f)", scaleX, scaleY);
+		// 1. sync group object
+		/*
+		 * String scaleStr = String.format("scale(%f,%f)", scale, scale);
+		 * 
+		 * String translateStr = String.format("translate(%f,%f)",
+		 * translate.getX(), translate.getY());
+		 * 
+		 * String transformStr = String.format("%s %s", scaleStr, translateStr);
+		 * objectElement.setAttribute("transform", transformStr);
+		 */
+		objectElement.setAttribute("transform", transformStr);
 
-		String translateStr = String.format("translate(%f,%f)", rect.getX(), rect.getY());
+		// 2. sync border parameters
+		borderElement.setAttribute("x", String.valueOf(border.getX()));
+		borderElement.setAttribute("y", String.valueOf(border.getY()));
+		borderElement.setAttribute("width", String.valueOf(border.getWidth()));
+		borderElement
+				.setAttribute("height", String.valueOf(border.getHeight()));
 
-		String transformStr = String.format("%s %s", scaleStr, translateStr);
-		transform.setAttribute("transform", transformStr);
 	}
 
 }
