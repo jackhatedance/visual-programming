@@ -22,7 +22,7 @@ public class SvgScene {
 	Element defs;
 	Element script;
 	Element background;
-	SVGOMGElement transformObjectElement;	
+	SVGOMGElement transformObjectElement;
 	SvgTransformBox transformBox;
 
 	public SvgScene() {
@@ -38,8 +38,9 @@ public class SvgScene {
 		defs = doc.getElementById("defs");
 		script = doc.getElementById("script");
 		background = doc.getElementById("background");
-		transformObjectElement = (SVGOMGElement)doc.getElementById("transform-object");
-		
+		transformObjectElement = (SVGOMGElement) doc
+				.getElementById("transform-object");
+
 		transformBox = new SvgTransformBox(doc, transformObjectElement);
 	}
 
@@ -106,10 +107,17 @@ public class SvgScene {
 		}
 
 		// add back
-		svg.appendChild(defs);
-		svg.appendChild(script);
-		svg.appendChild(background);
-		svg.appendChild(transformObjectElement);
+		if (defs != null)
+			svg.appendChild(defs);
+
+		if (script != null)
+			svg.appendChild(script);
+
+		if (background != null)
+			svg.appendChild(background);
+
+		if (transformObjectElement != null)
+			svg.appendChild(transformObjectElement);
 	}
 
 	public Element getElement(long id, SvgElementType type) {

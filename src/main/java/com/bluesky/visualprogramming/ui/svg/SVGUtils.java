@@ -14,16 +14,14 @@ import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.dom.svg.SVGOMCircleElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.dom.svg.SVGOMRectElement;
+import org.apache.batik.ext.awt.image.spi.ImageTagRegistry;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
-import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
-import org.w3c.dom.svg.SVGTransform;
 
-import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectType;
 
 public class SVGUtils {
@@ -93,6 +91,10 @@ public class SVGUtils {
 			ctx = new BridgeContext(userAgent, loader);
 			ctx.setDynamicState(BridgeContext.DYNAMIC);
 			builder = new GVTBuilder();
+			
+
+
+
 			rootGN = builder.build(ctx, svgDoc);
 
 			return svgDoc;

@@ -11,9 +11,11 @@ import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGRect;
+import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 public class SvgTransformBox {
@@ -26,6 +28,8 @@ public class SvgTransformBox {
 
 	SVGOMGElement objectElement;
 	SVGOMRectElement borderElement;
+	SVGElement rightBottomArrow;
+	boolean rightBottomArrowSelected;
 
 	boolean visible;
 
@@ -36,6 +40,10 @@ public class SvgTransformBox {
 		borderElement = (SVGOMRectElement) doc
 				.getElementById("transform-border");
 
+		rightBottomArrow = (SVGElement) doc
+				.getElementById("transform-rightbottomarrow");
+		rightBottomArrowSelected=false;
+		
 		visible = true;
 
 		rectangleOrignal = new Rectangle(500, 500);
@@ -111,6 +119,15 @@ public class SvgTransformBox {
 		borderElement.setAttribute("width", String.valueOf(border.getWidth()));
 		borderElement
 				.setAttribute("height", String.valueOf(border.getHeight()));
+
+	}
+	
+	public void setRightBottomArrowSelected(boolean selected){
+		this.rightBottomArrowSelected = selected;
+		
+		
+		((SVGStylable) rightBottomArrow).getStyle().setProperty(
+				"stroke", "green", "");
 
 	}
 
