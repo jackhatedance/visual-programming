@@ -1,34 +1,42 @@
 package com.bluesky.visualprogramming.ui.svg;
 
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import org.apache.batik.dom.svg.AbstractSVGPathSegList.SVGPathSegMovetoLinetoItem;
 import org.apache.batik.dom.svg.SVGOMGElement;
-import org.apache.batik.dom.svg.SVGOMPoint;
-import org.apache.batik.dom.svg.SVGOMRect;
+import org.apache.batik.dom.svg.SVGOMPathElement;
 import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
-import org.w3c.dom.svg.SVGPoint;
-import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 public class SvgTransformBox {
 	static Logger logger = Logger.getLogger(SvgTransformBox.class);
 
-	// original box size
-	Rectangle rectangleOrignal;
-
 	Document doc;
 
 	SVGOMGElement objectElement;
 	SVGOMRectElement borderElement;
+	SVGElement leftTopArrow;
+	SVGElement topArrow;
+	SVGElement rightTopArrow;
+	SVGElement rightArrow;
 	SVGElement rightBottomArrow;
+	SVGElement bottomArrow;
+	SVGElement leftBottomArrow;
+	SVGElement leftArrow;
+
+	float borderPadding = 30;
+	float arrowPadding = 20;
+	float arrowHeight = 50;
+
 	boolean rightBottomArrowSelected;
 
 	boolean visible;
@@ -40,45 +48,66 @@ public class SvgTransformBox {
 		borderElement = (SVGOMRectElement) doc
 				.getElementById("transform-border");
 
+		leftTopArrow = (SVGElement) doc
+				.getElementById("transform-lefttoparrow");
+		topArrow = (SVGElement) doc.getElementById("transform-toparrow");
+		rightTopArrow = (SVGElement) doc
+				.getElementById("transform-righttoparrow");
+		rightArrow = (SVGElement) doc.getElementById("transform-rightarrow");
 		rightBottomArrow = (SVGElement) doc
 				.getElementById("transform-rightbottomarrow");
-		rightBottomArrowSelected=false;
-		
-		visible = true;
+		bottomArrow = (SVGElement) doc.getElementById("transform-bottomarrow");
+		leftBottomArrow = (SVGElement) doc
+				.getElementById("transform-leftbottomarrow");
+		leftArrow = (SVGElement) doc.getElementById("transform-leftarrow");
 
-		rectangleOrignal = new Rectangle(500, 500);
+		rightBottomArrowSelected = false;
+
+		visible = false;
+
+		addMouseListener((EventTarget) rightBottomArrow);
+
+	}
+
+	private void addMouseListener(org.w3c.dom.events.EventTarget target) {
+		target.addEventListener("mouseover", new EventListener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+
+				setRightBottomArrowSelected(true);
+
+			}
+		}, false);
+
+		target.addEventListener("mouseout", new EventListener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+
+				setRightBottomArrowSelected(false);
+
+			}
+		}, false);
+
 	}
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
-		
+
+		CSSStyleDeclaration css = objectElement.getStyle();
 		if (visible)
-			objectElement.setAttribute("display", "block");
+			css.setProperty("visibility", "visible", "");
 		else
-			objectElement.setAttribute("display", "none");
+			css.setProperty("visibility", "hidden", "");
+
 	}
 
 	public boolean getVisible() {
 		return visible;
 	}
 
-	public void setScreenPosition(SVGPoint screenPos) {
-		SVGMatrix matrix = borderElement.getScreenCTM();
-		SVGPoint elePos = screenPos.matrixTransform(matrix.inverse());
-
-		SVGTransform transform = objectElement.getTransform().getBaseVal()
-				.getItem(TransformIndex.Offset.getIndex());
-
-		float borderX = Float.valueOf(borderElement.getAttribute("x"));
-		float borderY = Float.valueOf(borderElement.getAttribute("y"));
-
-		float x = transform.getMatrix().getE() + elePos.getX() - borderX;
-		float y = transform.getMatrix().getF() + elePos.getY() - borderY;
-
-		transform.setTranslate(x, y);
-	}
-
-	public void setScale(float scale) {
+	private void setScale(float scale) {
 		SVGMatrix matrix = borderElement.getScreenCTM();
 
 		SVGTransform transform = objectElement.getTransform().getBaseVal()
@@ -87,47 +116,102 @@ public class SvgTransformBox {
 		transform.setScale(scale, scale);
 	}
 
-	public void setBorder(SVGOMRect rect) {
-
-	}
-
 	/**
 	 * make the transform box as same as the selected object's border
 	 * 
 	 * @param rect
 	 *            , is element unit, not screen length unit.
 	 */
-	public void setRectangle1(String transformStr, Rectangle2D border) {
-		// System.out.println(String.format("x=%f,y=%f,width=%f,height=%f",
-		// rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
+	public void setRectangle(String transformStr, Rectangle2D border) {
 
-		// 1. sync group object
-		/*
-		 * String scaleStr = String.format("scale(%f,%f)", scale, scale);
-		 * 
-		 * String translateStr = String.format("translate(%f,%f)",
-		 * translate.getX(), translate.getY());
-		 * 
-		 * String transformStr = String.format("%s %s", scaleStr, translateStr);
-		 * objectElement.setAttribute("transform", transformStr);
-		 */
 		objectElement.setAttribute("transform", transformStr);
 
+		Rectangle2D grownBorder = new Rectangle2D.Double(border.getX()
+				- borderPadding, border.getY() - borderPadding,
+				border.getWidth() + borderPadding * 2, border.getHeight()
+						+ borderPadding * 2);
+
 		// 2. sync border parameters
-		borderElement.setAttribute("x", String.valueOf(border.getX()));
-		borderElement.setAttribute("y", String.valueOf(border.getY()));
-		borderElement.setAttribute("width", String.valueOf(border.getWidth()));
-		borderElement
-				.setAttribute("height", String.valueOf(border.getHeight()));
+		borderElement.setAttribute("x", String.valueOf(grownBorder.getX()));
+		borderElement.setAttribute("y", String.valueOf(grownBorder.getY()));
+		borderElement.setAttribute("width",
+				String.valueOf(grownBorder.getWidth()));
+		borderElement.setAttribute("height",
+				String.valueOf(grownBorder.getHeight()));
+
+		// update arrows
+		SVGOMPathElement path = (SVGOMPathElement) leftTopArrow;
+		SVGPathSegMovetoLinetoItem moveLineTo = (SVGPathSegMovetoLinetoItem) path
+				.getAnimatedPathSegList().getItem(0);
+		moveLineTo.setX((float) (grownBorder.getX() - arrowPadding));
+		moveLineTo.setY((float) (grownBorder.getY() - arrowPadding));
+
+		path = (SVGOMPathElement) topArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo
+				.setX((float) (grownBorder.getX() + grownBorder.getWidth() / 2));
+		moveLineTo.setY((float) (grownBorder.getY()) - arrowPadding);
+
+		path = (SVGOMPathElement) rightTopArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo
+				.setX((float) (grownBorder.getX() + grownBorder.getWidth() + arrowPadding));
+		moveLineTo.setY((float) (grownBorder.getY() - arrowPadding));
+
+		path = (SVGOMPathElement) rightArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo
+				.setX((float) (grownBorder.getX() + grownBorder.getWidth() + arrowPadding));
+		moveLineTo
+				.setY((float) (grownBorder.getY() + grownBorder.getHeight() / 2));
+
+		path = (SVGOMPathElement) rightBottomArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo
+				.setX((float) (grownBorder.getX() + grownBorder.getWidth() + arrowPadding));
+		moveLineTo
+				.setY((float) (grownBorder.getY() + grownBorder.getHeight() + arrowPadding));
+
+		path = (SVGOMPathElement) bottomArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo
+				.setX((float) (grownBorder.getX() + grownBorder.getWidth() / 2));
+		moveLineTo
+				.setY((float) (grownBorder.getY() + grownBorder.getHeight() + arrowPadding));
+
+		path = (SVGOMPathElement) leftBottomArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo.setX((float) (grownBorder.getX() - arrowPadding));
+		moveLineTo
+				.setY((float) (grownBorder.getY() + grownBorder.getHeight() + arrowPadding));
+
+		path = (SVGOMPathElement) leftArrow;
+		moveLineTo = (SVGPathSegMovetoLinetoItem) path.getAnimatedPathSegList()
+				.getItem(0);
+		moveLineTo.setX((float) (grownBorder.getX() - arrowPadding));
+		moveLineTo
+				.setY((float) (grownBorder.getY() + grownBorder.getHeight() / 2));
 
 	}
-	
-	public void setRightBottomArrowSelected(boolean selected){
+
+	public void setRightBottomArrowSelected(boolean selected) {
 		this.rightBottomArrowSelected = selected;
+
+		String fillColor = "";
+		if(selected)
+			fillColor = "green";
+		else
+			fillColor = "black";
 		
+		((SVGStylable) rightBottomArrow).getStyle().setProperty("fill",
+				fillColor, "");
 		
-		((SVGStylable) rightBottomArrow).getStyle().setProperty(
-				"stroke", "green", "");
 
 	}
 

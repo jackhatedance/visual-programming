@@ -202,6 +202,16 @@ public class SVGDiagramPanel extends JPanel {
 					Field field = (Field) ele.getUserData("field");
 
 					field.setStartPosition(tranlsateX, tranlsateY);
+					
+					//update focus
+					SvgObject svgObj = scene.getSvgObject(field.getTarget()
+							.getId());
+
+					String transformStr = svgObj.getObjectNode()
+							.getAttribute("transform");						
+
+					scene.getTransformBox().setRectangle( transformStr,
+							svgObj.getBorder());
 
 				}
 
@@ -220,30 +230,22 @@ public class SVGDiagramPanel extends JPanel {
 				} else if (mouseEvent.getButton() == 0) {
 					// selected current object
 					// show transform box
-					
+
 					/**
-					 * idea: selected object left-top point -> screen position -> transform box element position.
+					 * idea: selected object left-top point -> screen position
+					 * -> transform box element position.
 					 */
 					Field f = (Field) currentElement.getUserData("field");
 					if (f.getTarget() != null) {
 						SvgObject svgObj = scene.getSvgObject(f.getTarget()
 								.getId());
-						SVGMatrix matrix =  svgObj.getBorderNode().getScreenCTM();
-						Rectangle2D.Float borderRect = svgObj.getBorder();						
-						SVGOMPoint selectedObjectPoint = new SVGOMPoint(borderRect.x,borderRect.y);
-						SVGPoint screenPoint = selectedObjectPoint.matrixTransform(matrix);
-						
-						
+
 						String transformStr = svgObj.getObjectNode()
-								.getAttribute("transform");
-						
-						scene.getTransformBox().setScale(0.2f);
-						scene.getTransformBox().setScreenPosition(screenPoint);
-						
-//						scene.getTransformBox().setRectangle(transformStr,
-//								svgObj.getBorder());
-						
-						
+								.getAttribute("transform");						
+
+						scene.getTransformBox().setRectangle( transformStr,
+								svgObj.getBorder());
+
 						scene.getTransformBox().setVisible(true);
 					}
 				}

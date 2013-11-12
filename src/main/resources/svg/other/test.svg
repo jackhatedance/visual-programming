@@ -48,6 +48,8 @@
        x="91.428574"
        y="175.21933"
        id="rect3004"
-       style="fill:none;stroke:#000000;stroke-width:4;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:16, 4;stroke-dashoffset:40" />
+       onload="object.addEventListener ('click', new function(){alert('clicked');}, true);"
+       
+       style="fill:yellow;stroke:#000000;stroke-width:4;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:16, 4;stroke-dashoffset:40" />
   </g>
 </svg>

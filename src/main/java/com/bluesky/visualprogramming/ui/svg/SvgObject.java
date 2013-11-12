@@ -93,9 +93,9 @@ public class SvgObject {
 
 				if (changed) {
 					e.setAttribute(attributeName, attrValue);
-					if (logger.isDebugEnabled())
-						logger.debug(String.format("update ref ID:%s=%s",
-								attributeName, attrValue));
+					// if (logger.isDebugEnabled())
+					// logger.debug(String.format("update ref ID:%s=%s",
+					// attributeName, attrValue));
 				}
 			}
 		}

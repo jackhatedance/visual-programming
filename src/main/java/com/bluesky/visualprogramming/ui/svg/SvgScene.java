@@ -42,6 +42,7 @@ public class SvgScene {
 				.getElementById("transform-object");
 
 		transformBox = new SvgTransformBox(doc, transformObjectElement);
+		transformBox.setVisible(false);
 	}
 
 	public SVGOMGElement addObject(ObjectType type, long id, float x, float y,
