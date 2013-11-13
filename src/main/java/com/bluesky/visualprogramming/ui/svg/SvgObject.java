@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.batik.dom.svg.SVGOMCircleElement;
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
@@ -117,8 +118,35 @@ public class SvgObject {
 		return (SVGOMGElement) getElement(SvgElementType.Object);
 	}
 
-	public SVGOMRectElement getBorderNode() {
-		return (SVGOMRectElement) getElement(SvgElementType.Border);
+	public Rectangle2D.Float getBorderInfo() {
+		Rectangle2D.Float rect = null;
+
+		SVGElement ele = getElement(SvgElementType.Border);
+		if (ele instanceof SVGOMRectElement) {
+			SVGOMRectElement svgRect = (SVGOMRectElement) ele;
+			float x = Float.valueOf(svgRect.getAttribute("x"));
+			float y = Float.valueOf(svgRect.getAttribute("y"));
+
+			float width = Float.valueOf(svgRect.getAttribute("width"));
+			float height = Float.valueOf(svgRect.getAttribute("height"));
+			rect = new Rectangle2D.Float(x, y, width, height);
+
+		} else if (ele instanceof SVGOMCircleElement) {
+			SVGOMCircleElement svgCircle = (SVGOMCircleElement) ele;
+			float cx = Float.valueOf(svgCircle.getAttribute("cx"));
+			float cy = Float.valueOf(svgCircle.getAttribute("cy"));
+			float r = Float.valueOf(svgCircle.getAttribute("r"));
+
+			float x = cx - r;
+			float y = cy - r;
+			float width = r * 2;
+			float height = r * 2;
+			rect = new Rectangle2D.Float(x, y, width, height);
+
+		} else
+			throw new RuntimeException("unsupported border element");
+
+		return rect;
 	}
 
 	public SVGElement getElement(SvgElementType type) {
@@ -132,37 +160,33 @@ public class SvgObject {
 
 	public Rectangle2D.Float getBorder() {
 
-		SVGOMRectElement border = getBorderNode();
+		Rectangle2D.Float border = getBorderInfo();
 
-		float x = Float.valueOf(border.getAttribute("x"));
-		float y = Float.valueOf(border.getAttribute("y"));
-
-		float width = Float.valueOf(border.getAttribute("width"));
-		float height = Float.valueOf(border.getAttribute("height"));
-
-		// System.out.println(String.format("%f,%f,%f,%f", x,y,width,height));
-
-		Rectangle2D.Float rect = new Rectangle2D.Float(x - 1, y - 1, width + 1,
-				height + 1);
+		Rectangle2D.Float rect = new Rectangle2D.Float(border.x - 1,
+				border.y - 1, border.width + 1, border.height + 1);
 
 		return rect;
 	}
 
 	public void invokeScriptEvent(String eventName) {
-		SVGElement textElement = getElement(SvgElementType.Event);
-		textElement.setTextContent(eventName);
 
-		DocumentEvent de = (DocumentEvent) doc;
-		MutationEvent ev = (MutationEvent) de.createEvent("MutationEvents");
-		ev.initMutationEvent("DOMCharacterDataModified", true, // canBubbleArg
-				false, // cancelableArg
-				null, // relatedNodeArg
-				null, // prevValueArg
-				null, // newValueArg
-				null, // attrNameArg
-				ev.ADDITION);
-		EventTarget t = (EventTarget) textElement;
-		t.dispatchEvent(ev);
+		SVGElement eventElement = getElement(SvgElementType.Event);
+
+		if (eventElement != null) {
+			eventElement.setTextContent(eventName);
+
+			DocumentEvent de = (DocumentEvent) doc;
+			MutationEvent ev = (MutationEvent) de.createEvent("MutationEvents");
+			ev.initMutationEvent("DOMCharacterDataModified", true, // canBubbleArg
+					false, // cancelableArg
+					null, // relatedNodeArg
+					null, // prevValueArg
+					null, // newValueArg
+					null, // attrNameArg
+					ev.ADDITION);
+			EventTarget t = (EventTarget) eventElement;
+			t.dispatchEvent(ev);
+		}
 	}
 
 	public SVGTransform getTransform(TransformIndex index) {

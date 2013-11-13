@@ -1317,8 +1317,8 @@
               </borderColor>
             </target>
             <area id="230">
-              <x>4075</x>
-              <y>980</y>
+              <x>4375</x>
+              <y>415</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1359,8 +1359,8 @@
 }</code>
             </target>
             <area id="235">
-              <x>2470</x>
-              <y>1210</y>
+              <x>2646</x>
+              <y>1288</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1451,8 +1451,8 @@ root.console.print(age.toString());
 }</code>
             </target>
             <area id="245">
-              <x>1382</x>
-              <y>1171</y>
+              <x>2688</x>
+              <y>1814</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1494,8 +1494,8 @@ procedure foo()
 }</code>
             </target>
             <area id="250">
-              <x>3726</x>
-              <y>263</y>
+              <x>3342</x>
+              <y>216</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1528,8 +1528,8 @@ procedure foo()
 }</code>
             </target>
             <area id="255">
-              <x>351</x>
-              <y>1098</y>
+              <x>2642</x>
+              <y>766</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1568,8 +1568,8 @@ procedure foo()
 }</code>
             </target>
             <area id="260">
-              <x>3680</x>
-              <y>1950</y>
+              <x>3376</x>
+              <y>813</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1604,8 +1604,8 @@ procedure foo()
 }</code>
             </target>
             <area id="265">
-              <x>2125</x>
-              <y>2470</y>
+              <x>2721</x>
+              <y>2383</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1642,8 +1642,8 @@ procedure foo()
               <value>sss</value>
             </target>
             <area id="272">
-              <x>1010</x>
-              <y>2405</y>
+              <x>905</x>
+              <y>1225</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1678,8 +1678,8 @@ procedure foo()
 }</code>
             </target>
             <area id="277">
-              <x>3710</x>
-              <y>2650</y>
+              <x>3366</x>
+              <y>1278</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1716,8 +1716,8 @@ procedure foo()
               <booleanValue>true</booleanValue>
             </target>
             <area id="284">
-              <x>700</x>
-              <y>242</y>
+              <x>1830</x>
+              <y>1977</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1754,8 +1754,8 @@ procedure foo()
               <value>0</value>
             </target>
             <area id="291">
-              <x>1967</x>
-              <y>357</y>
+              <x>2002</x>
+              <y>1222</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -1792,8 +1792,8 @@ procedure foo()
               <booleanValue>false</booleanValue>
             </target>
             <area id="298">
-              <x>375</x>
-              <y>2175</y>
+              <x>950</x>
+              <y>1950</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2083,8 +2083,8 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
               <borderColor reference="307"/>
             </target>
             <area id="309">
-              <x>1570</x>
-              <y>1715</y>
+              <x>1755</x>
+              <y>195</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2102,8 +2102,8 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
         <expectMessageType>SyncReply</expectMessageType>
       </target>
       <area id="311">
-        <x>1970</x>
-        <y>2215</y>
+        <x>480</x>
+        <y>2065</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -2260,8 +2260,8 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
               </borderColor>
             </target>
             <area id="344">
-              <x>1870</x>
-              <y>1000</y>
+              <x>1810</x>
+              <y>1100</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -2478,8 +2478,8 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
         </borderColor>
       </target>
       <area id="386">
-        <x>90</x>
-        <y>130</y>
+        <x>460</x>
+        <y>165</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -2977,8 +2977,8 @@ procedure sum(n)
         </borderColor>
       </target>
       <area id="465">
-        <x>1150</x>
-        <y>3585</y>
+        <x>3345</x>
+        <y>1270</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -3123,8 +3123,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="480">
-              <x>3649</x>
-              <y>20</y>
+              <x>3584</x>
+              <y>95</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -3261,8 +3261,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="492">
-              <x>2555</x>
-              <y>49</y>
+              <x>2520</x>
+              <y>229</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -3399,8 +3399,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="504">
-              <x>1975</x>
-              <y>600</y>
+              <x>2230</x>
+              <y>1205</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -3665,8 +3665,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="526">
-              <x>79</x>
-              <y>85</y>
+              <x>109</x>
+              <y>190</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -3798,8 +3798,8 @@ procedure sum(n)
               </borderColor>
             </target>
             <area id="537">
-              <x>1960</x>
-              <y>75</y>
+              <x>1855</x>
+              <y>245</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -4215,8 +4215,8 @@ procedure sum(n)
         </borderColor>
       </target>
       <area id="572">
-        <x>790</x>
-        <y>130</y>
+        <x>1275</x>
+        <y>155</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -7780,8 +7780,8 @@ return m.mul(n);
         </borderColor>
       </target>
       <area id="1188">
-        <x>3155</x>
-        <y>3635</y>
+        <x>1485</x>
+        <y>2090</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -7864,8 +7864,8 @@ return m.mul(n);
         </borderColor>
       </target>
       <area id="1203">
-        <x>790</x>
-        <y>1155</y>
+        <x>3315</x>
+        <y>690</y>
         <width>100</width>
         <height>100</height>
       </area>
@@ -7874,8 +7874,8 @@ return m.mul(n);
       <name>prototype</name>
       <target reference="8"/>
       <area id="1205">
-        <x>1010</x>
-        <y>2200</y>
+        <x>3395</x>
+        <y>1865</y>
         <width>100</width>
         <height>100</height>
       </area>
