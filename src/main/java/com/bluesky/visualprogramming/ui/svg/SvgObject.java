@@ -15,6 +15,7 @@ import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGTransform;
 
 public class SvgObject {
 	static Logger logger = Logger.getLogger(SvgObject.class);
@@ -113,16 +114,16 @@ public class SvgObject {
 	}
 
 	public SVGOMGElement getObjectNode() {
-
-		return (SVGOMGElement) getNode("object");
+		return (SVGOMGElement) getElement(SvgElementType.Object);
 	}
 
 	public SVGOMRectElement getBorderNode() {
-		return (SVGOMRectElement) getNode("border");
+		return (SVGOMRectElement) getElement(SvgElementType.Border);
 	}
 
-	public SVGElement getNode(String name) {
-		return (SVGElement) doc.getElementById(String.valueOf(id) + "-" + name);
+	public SVGElement getElement(SvgElementType type) {
+		return (SVGElement) doc.getElementById(String.valueOf(id) + "-"
+				+ type.toString().toLowerCase());
 	}
 
 	public Element getDefsNode() {
@@ -148,13 +149,11 @@ public class SvgObject {
 	}
 
 	public void invokeScriptEvent(String eventName) {
-		SVGElement textElement = getNode("event");
+		SVGElement textElement = getElement(SvgElementType.Event);
 		textElement.setTextContent(eventName);
-		
 
 		DocumentEvent de = (DocumentEvent) doc;
-		MutationEvent ev = (MutationEvent) de
-				.createEvent("MutationEvents");
+		MutationEvent ev = (MutationEvent) de.createEvent("MutationEvents");
 		ev.initMutationEvent("DOMCharacterDataModified", true, // canBubbleArg
 				false, // cancelableArg
 				null, // relatedNodeArg
@@ -166,4 +165,10 @@ public class SvgObject {
 		t.dispatchEvent(ev);
 	}
 
+	public SVGTransform getTransform(TransformIndex index) {
+		SVGOMGElement object = (SVGOMGElement) getElement(SvgElementType.Object);
+		SVGTransform transform = object.getTransform().getBaseVal()
+				.getItem(index.getIndex());
+		return transform;
+	}
 }

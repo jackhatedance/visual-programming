@@ -47,6 +47,8 @@ public class SVGDiagramPanel extends JPanel {
 	 */
 	private boolean dragging = false;
 
+	private boolean scaling = false;
+
 	/**
 	 * element for popup menu, right clicked will select it.
 	 */
@@ -92,76 +94,73 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				if (!dragging)
-					return;
+				if (dragging) {
 
-				Element ele = (Element) selectedTarget;
-				long objId = SVGUtils.getObjectId(ele);
-				Element border = scene.getElement(objId, SvgElementType.Border);
-				// System.out.println(objId);
-				CSSStyleDeclaration style = ((SVGStylable) border).getStyle();
-				style.setProperty("stroke-dasharray",
-						"27.94599915,27.94599915", "");
+					Element ele = (Element) selectedTarget;
+					long objId = SVGUtils.getObjectId(ele);
+					Element border = scene.getElement(objId,
+							SvgElementType.Border);
+					
+					SvgObject svgObj = scene.getSvgObject(objId);				
+					SVGTransform transform = svgObj.getTransform(TransformIndex.Offset);
 
-				SVGOMGElement object = (SVGOMGElement) scene.getElement(objId,
-						SvgElementType.Object);
-				SVGTransform transform = scene.getTransform(objId,
-						TransformIndex.Offset);
 
-				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
-				int nowToX = elEvt.getClientX();
-				int nowToY = elEvt.getClientY();
-
-				// if (logger.isDebugEnabled())
-				// logger.debug(String.format("client xy: %d,%d", nowToX,
-				// nowToY));
-
-				// convert it to a point for use with the Matrix
-				SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
-				// Get the items screen coordinates, and apply the
-				// transformation
-				// elem -> screen
-				SVGMatrix mat = ((SVGLocatable) border).getScreenCTM();
-
-				mat = mat.inverse(); // screen -> elem
-				SVGOMPoint droppt = (SVGOMPoint) pt.matrixTransform(mat);
-				if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
-					// if (logger.isDebugEnabled())
-					// logger.debug(String.format("drop xy: %f,%f",
-					// droppt.getX(), droppt.getY()));
-
-					float oldX = transform.getMatrix().getE();
-					float oldY = transform.getMatrix().getF();
+					DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+					int nowToX = elEvt.getClientX();
+					int nowToY = elEvt.getClientY();
 
 					// if (logger.isDebugEnabled())
-					// logger.debug(String.format("old xy: %f,%f", oldX, oldY));
+					// logger.debug(String.format("client xy: %d,%d", nowToX,
+					// nowToY));
 
-					float tranlsateX = (float) (droppt.getX() + oldX - dragOffset
-							.getX());
-					float tranlsateY = (float) (droppt.getY() + oldY - dragOffset
-							.getY());
+					// convert it to a point for use with the Matrix
+					SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
+					// Get the items screen coordinates, and apply the
+					// transformation
+					// elem -> screen
+					SVGMatrix mat = ((SVGLocatable) border).getScreenCTM();
 
-					// if (logger.isDebugEnabled())
-					// logger.debug(String.format("translate xy: %f,%f",
-					// tranlsateX, tranlsateY));
+					mat = mat.inverse(); // screen -> elem
+					SVGOMPoint droppt = (SVGOMPoint) pt.matrixTransform(mat);
+					if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+						// if (logger.isDebugEnabled())
+						// logger.debug(String.format("drop xy: %f,%f",
+						// droppt.getX(), droppt.getY()));
 
-					transform.setTranslate(tranlsateX, tranlsateY);
+						float oldX = transform.getMatrix().getE();
+						float oldY = transform.getMatrix().getF();
 
-					// update field.area
-					Field field = (Field) ele.getUserData("field");
+						// if (logger.isDebugEnabled())
+						// logger.debug(String.format("old xy: %f,%f", oldX,
+						// oldY));
 
-					field.setStartPosition(tranlsateX, tranlsateY);
+						float tranlsateX = (float) (droppt.getX() + oldX - dragOffset
+								.getX());
+						float tranlsateY = (float) (droppt.getY() + oldY - dragOffset
+								.getY());
 
-					// update focus
-					SvgObject svgObj = scene.getSvgObject(field.getTarget()
-							.getId());
+						// if (logger.isDebugEnabled())
+						// logger.debug(String.format("translate xy: %f,%f",
+						// tranlsateX, tranlsateY));
 
-					String transformStr = svgObj.getObjectNode().getAttribute(
-							"transform");
+						transform.setTranslate(tranlsateX, tranlsateY);
 
-					scene.getTransformBox().setRectangle(transformStr,
-							svgObj.getBorder());
+						// update field.area
+						Field field = (Field) ele.getUserData("field");
 
+						field.setStartPosition(tranlsateX, tranlsateY);
+
+						// update focus
+						svgObj = scene.getSvgObject(field.getTarget()
+								.getId());
+
+						String transformStr = svgObj.getObjectNode()
+								.getAttribute("transform");
+
+						scene.getTransformBox().setRectangle(transformStr,
+								svgObj.getBorder());
+
+					}
 				}
 
 			}
@@ -228,8 +227,8 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				if (dragging  ) {
-					Element ele =   selectedTarget;
+				if (dragging) {
+					Element ele = selectedTarget;
 					long objId = SVGUtils.getObjectId(ele);
 					Element border = scene.getElement(objId,
 							SvgElementType.Border);
@@ -238,10 +237,9 @@ public class SVGDiagramPanel extends JPanel {
 							.getStyle();
 					style.removeProperty("stroke-dasharray");
 
-					
 					dragging = false;
 				}
-				
+
 			}
 		}, false);
 

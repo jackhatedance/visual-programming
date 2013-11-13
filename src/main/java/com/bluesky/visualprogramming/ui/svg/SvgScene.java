@@ -143,13 +143,7 @@ public class SvgScene {
 		e.setTextContent(desc);
 	}
 
-	public SVGTransform getTransform(long id, TransformIndex index) {
-		SVGOMGElement object = (SVGOMGElement) getElement(id,
-				SvgElementType.Object);
-		SVGTransform transform = object.getTransform().getBaseVal()
-				.getItem(index.getIndex());
-		return transform;
-	}
+	
 
 	public SvgObject getSvgObject(long id) {
 		return new SvgObject(doc, id, false);

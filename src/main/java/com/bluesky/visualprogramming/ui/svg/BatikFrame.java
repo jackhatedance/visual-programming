@@ -158,8 +158,8 @@ public class BatikFrame extends JFrame {
 
 				SVGOMGElement object = (SVGOMGElement) scene
 						.getElement(objId, SvgElementType.Object);
-				SVGTransform transform = scene.getTransform(objId,
-						TransformIndex.Offset);
+				SvgObject svgObj = scene.getSvgObject(objId);				
+				SVGTransform transform = svgObj.getTransform(TransformIndex.Offset);
 
 				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 				int nowToX = elEvt.getClientX();
