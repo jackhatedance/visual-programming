@@ -40,7 +40,6 @@ import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 
@@ -49,7 +48,6 @@ import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
-import com.bluesky.visualprogramming.ui.selection.MouseOperation;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
@@ -69,14 +67,10 @@ public class SVGMainWindow extends JPanel {
 	private JTree tree;
 	JScrollPane scrollTreePanel;
 
-	
 	private SVGDiagramPanel diagramPanel;
 	JScrollPane scrollDiagramPanel;
 
 	JSplitPane splitPane;
-
-	// either move or resize,depends on mouse position.
-	private MouseOperation mouseOperation;
 
 	protected VirtualMachine getVM() {
 		return VirtualMachine.getInstance();
@@ -154,6 +148,11 @@ public class SVGMainWindow extends JPanel {
 
 			diagramPanel
 					.addBackgroundPopupMenuListener((EventTarget) background);
+
+			// use background node to capture mouse move event. otherwise the
+			// cursor could leave the object if you moving very fast.
+			diagramPanel.addMouseMoveListener((EventTarget) background);
+
 		}
 	}
 
@@ -291,7 +290,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.NORMAL);
-				
+
 				addChildObjectToTree(obj);
 			}
 
@@ -316,7 +315,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.STRING);
-				
+
 				addChildObjectToTree(obj);
 
 			}
@@ -329,7 +328,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.BOOLEAN);
-				
+
 				addChildObjectToTree(obj);
 
 			}
@@ -342,7 +341,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.PROCEDURE);
-				
+
 				addChildObjectToTree(obj);
 
 			}
@@ -357,7 +356,8 @@ public class SVGMainWindow extends JPanel {
 		JPopupMenu diagramObjectPopupMenu = createObjectPopupMenu();
 		JPopupMenu backgroundPopupMenu = createBackgroundPopupMenu();
 
-		diagramPanel = new SVGDiagramPanel(this, diagramObjectPopupMenu, backgroundPopupMenu);
+		diagramPanel = new SVGDiagramPanel(this, diagramObjectPopupMenu,
+				backgroundPopupMenu);
 
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		// addMouseListener();
@@ -371,28 +371,29 @@ public class SVGMainWindow extends JPanel {
 
 	}
 
-	private Field  addChildObjectToTree(_Object obj ) {
+	private Field addChildObjectToTree(_Object obj) {
 
 		// add to tree
 		int index = obj.getOwner().getChildIndex(obj);
 		Field f = obj.getOwner().getField(index);
 
-		Element background = diagramPanel.getScene().getDocument().getElementById("background");
+		Element background = diagramPanel.getScene().getDocument()
+				.getElementById("background");
 		SVGMatrix mat = ((SVGLocatable) background).getScreenCTM();
 		Point screenPosition = diagramPanel.getPopupMenuPosition();
-		
-		
-		SVGOMPoint elePosition =  SVGUtils.screenToElement(mat, screenPosition);
-		
-		//hard coded, scale = 0.2
+
+		SVGOMPoint elePosition = SVGUtils.screenToElement(mat, screenPosition);
+
+		// hard coded, scale = 0.2
 		float scale = 0.2f;
-		f.setStartPosition(elePosition.getX()/scale,elePosition.getY()/scale);
+		f.setStartPosition(elePosition.getX() / scale, elePosition.getY()
+				/ scale);
 
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
 		diagramPanel.reload();
-		
+
 		return f;
 	}
 
@@ -528,6 +529,6 @@ public class SVGMainWindow extends JPanel {
 	}
 
 	private Field getActiveChildField() {
-		return diagramPanel.getCurrentField();
+		return diagramPanel.getpopupTargetField();
 	}
 }

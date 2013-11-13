@@ -6791,7 +6791,7 @@ procedure loc()
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <booleanValue>true</booleanValue>
+                                <booleanValue>false</booleanValue>
                               </target>
                               <area id="1024">
                                 <x>1900</x>
@@ -6948,7 +6948,7 @@ procedure loc()
                                 <applyingWorker>false</applyingWorker>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="1040"/>
-                                <booleanValue>true</booleanValue>
+                                <booleanValue>false</booleanValue>
                               </target>
                               <area id="1053">
                                 <x>4115</x>
