@@ -14,6 +14,8 @@
    id="body"
    xml:space="preserve">
    <script type="text/ecmascript" id="script"><![CDATA[
+   	
+
    		function getObjectId(elementId){
    			index = elementId.indexOf('-');
    			if(index>0)
@@ -31,6 +33,15 @@
    				elementId = objectId + "-" + type;
    					
    			return document.getElementById(elementId);   		
+   		}
+   		
+   		function handleEvent(e){
+   			//alert('event is '+e.target.textContent);   			
+   		}
+   		
+   		function addMutationEvent(target){
+   			//alert('in add mutation');
+   			target.addEventListener('DOMCharacterDataModified', handleEvent,false);
    		}
    ]]></script>
    <defs

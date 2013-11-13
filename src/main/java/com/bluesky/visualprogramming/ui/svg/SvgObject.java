@@ -1,7 +1,5 @@
 package com.bluesky.visualprogramming.ui.svg;
 
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +11,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.svg.SVGTransform;
+import org.w3c.dom.events.DocumentEvent;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.events.MutationEvent;
+import org.w3c.dom.svg.SVGElement;
 
 public class SvgObject {
 	static Logger logger = Logger.getLogger(SvgObject.class);
@@ -112,13 +113,16 @@ public class SvgObject {
 	}
 
 	public SVGOMGElement getObjectNode() {
-		return (SVGOMGElement) doc.getElementById(String.valueOf(id) + "-"
-				+ "object");
+
+		return (SVGOMGElement) getNode("object");
 	}
 
 	public SVGOMRectElement getBorderNode() {
-		return (SVGOMRectElement) doc.getElementById(String.valueOf(id) + "-"
-				+ "border");
+		return (SVGOMRectElement) getNode("border");
+	}
+
+	public SVGElement getNode(String name) {
+		return (SVGElement) doc.getElementById(String.valueOf(id) + "-" + name);
 	}
 
 	public Element getDefsNode() {
@@ -135,11 +139,31 @@ public class SvgObject {
 		float width = Float.valueOf(border.getAttribute("width"));
 		float height = Float.valueOf(border.getAttribute("height"));
 
-		//System.out.println(String.format("%f,%f,%f,%f", x,y,width,height));
-		
-		Rectangle2D.Float rect = new Rectangle2D.Float(x-1, y-1, width+1, height+1);
+		// System.out.println(String.format("%f,%f,%f,%f", x,y,width,height));
+
+		Rectangle2D.Float rect = new Rectangle2D.Float(x - 1, y - 1, width + 1,
+				height + 1);
 
 		return rect;
+	}
+
+	public void invokeScriptEvent(String eventName) {
+		SVGElement textElement = getNode("event");
+		textElement.setTextContent(eventName);
+		
+
+		DocumentEvent de = (DocumentEvent) doc;
+		MutationEvent ev = (MutationEvent) de
+				.createEvent("MutationEvents");
+		ev.initMutationEvent("DOMCharacterDataModified", true, // canBubbleArg
+				false, // cancelableArg
+				null, // relatedNodeArg
+				null, // prevValueArg
+				null, // newValueArg
+				null, // attrNameArg
+				ev.ADDITION);
+		EventTarget t = (EventTarget) textElement;
+		t.dispatchEvent(ev);
 	}
 
 }

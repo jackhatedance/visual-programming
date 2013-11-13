@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -10,17 +9,17 @@ import javax.swing.JPopupMenu;
 import org.apache.batik.dom.events.DOMMouseEvent;
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
-import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
-import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
@@ -202,15 +201,15 @@ public class SVGDiagramPanel extends JPanel {
 					Field field = (Field) ele.getUserData("field");
 
 					field.setStartPosition(tranlsateX, tranlsateY);
-					
-					//update focus
+
+					// update focus
 					SvgObject svgObj = scene.getSvgObject(field.getTarget()
 							.getId());
 
-					String transformStr = svgObj.getObjectNode()
-							.getAttribute("transform");						
+					String transformStr = svgObj.getObjectNode().getAttribute(
+							"transform");
 
-					scene.getTransformBox().setRectangle( transformStr,
+					scene.getTransformBox().setRectangle(transformStr,
 							svgObj.getBorder());
 
 				}
@@ -224,6 +223,7 @@ public class SVGDiagramPanel extends JPanel {
 			public void handleEvent(Event evt) {
 				DOMMouseEvent mouseEvent = (DOMMouseEvent) evt;
 				currentElement = (Element) evt.getCurrentTarget();
+
 				if (mouseEvent.getButton() == 2) {
 					objectPopupMenu.show(canvas, mouseEvent.getClientX(),
 							mouseEvent.getClientY());
@@ -241,12 +241,14 @@ public class SVGDiagramPanel extends JPanel {
 								.getId());
 
 						String transformStr = svgObj.getObjectNode()
-								.getAttribute("transform");						
+								.getAttribute("transform");
 
-						scene.getTransformBox().setRectangle( transformStr,
+						scene.getTransformBox().setRectangle(transformStr,
 								svgObj.getBorder());
 
 						scene.getTransformBox().setVisible(true);
+						svgObj.invokeScriptEvent("valueChanged");
+
 					}
 				}
 

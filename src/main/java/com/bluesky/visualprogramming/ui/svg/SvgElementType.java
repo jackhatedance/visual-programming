@@ -11,6 +11,10 @@ public enum SvgElementType {
 	 */
 	Color,
 	/**
+	 * a hidden text node. used to invoke script code from Java aide.
+	 */
+	Event,
+	/**
 	 * usually under the graphic
 	 */
 	Name,
