@@ -60,7 +60,7 @@
        x="91.428574"
        y="175.21933"
        id="transform-border"
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:16, 16;stroke-dashoffset:40" />
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4, 4;stroke-dashoffset:10" />
     <path
        d="m 341.17276,169.70672 16.25634,-14.66348 -10.17686,0 -0.082,-21.31648 10.3409,0 -16.33835,-10.42212 -16.55639,10.42212 10.79376,0 0,21.31648 -11.49266,0 z"
        id="transform-toparrow"

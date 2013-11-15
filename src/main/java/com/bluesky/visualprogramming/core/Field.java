@@ -15,6 +15,9 @@ public class Field {
 
 	public String name;
 	public _Object target;
+	
+	// scale of a svg shape.
+	public float svgScale=0.2f;
 
 	// public boolean owner;
 
@@ -125,10 +128,10 @@ public class Field {
 			_Object _graphic = target.getChild("_graphic");
 			if (_graphic != null && _graphic instanceof StringValue) {
 				StringValue sv = (StringValue) _graphic;
-				ele = scene.addObject(sv.getValue(), id, x, y, 0.2f);
+				ele = scene.addObject(sv.getValue(), id, x, y, svgScale);
 
 			} else
-				ele = scene.addObject(target.type, id, x, y, 0.2f);
+				ele = scene.addObject(target.type, id, x, y, svgScale);
 		}
 
 		scene.setName(id, name);
@@ -145,16 +148,11 @@ public class Field {
 
 		scene.setBorderColor(id, target.borderColor);
 
-		int borderWidth = target.borderWidth;
+		
 
 		ele.setUserData("field", this, null);
 		diagramPanel.addMouseListener(ele);
-
-		int finalBorderWidth = -1;
-		if (own)
-			finalBorderWidth = borderWidth;
-		else
-			finalBorderWidth = borderWidth / 2;
+		
 
 	}
 }

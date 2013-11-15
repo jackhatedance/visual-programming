@@ -383,11 +383,9 @@ public class SVGMainWindow extends JPanel {
 		Point screenPosition = diagramPanel.getPopupMenuPosition();
 
 		SVGOMPoint elePosition = SVGUtils.screenToElement(mat, screenPosition);
-
-		// hard coded, scale = 0.2
-		float scale = 0.2f;
-		f.setStartPosition(elePosition.getX() / scale, elePosition.getY()
-				/ scale);
+				
+		f.setStartPosition(elePosition.getX() / f.svgScale, elePosition.getY()
+				/ f.svgScale);
 
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
@@ -522,7 +520,7 @@ public class SVGMainWindow extends JPanel {
 		}
 	}
 
-	public void setDiagramScaleRate(double diagramScaleRate) {
+	public void setDiagramScaleRate(float diagramScaleRate) {
 		// this.diagramScaleRate =diagramScaleRate;
 		getSelectedTreeField().target.scaleRate = diagramScaleRate;
 		diagramPanel.reload();

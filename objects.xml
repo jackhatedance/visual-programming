@@ -62,6 +62,7 @@
                                   <nativeProcedureParameters>b</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="20">
                                   <x>2400</x>
                                   <y>965</y>
@@ -91,6 +92,7 @@
                                   <nativeProcedureParameters>b</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="25">
                                   <x>1545</x>
                                   <y>975</y>
@@ -120,6 +122,7 @@
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="30">
                                   <x>485</x>
                                   <y>990</y>
@@ -138,6 +141,7 @@
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="32">
                             <x>1690</x>
                             <y>550</y>
@@ -175,6 +179,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="40">
                                   <x>1170</x>
                                   <y>1220</y>
@@ -193,6 +198,7 @@
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="42">
                             <x>670</x>
                             <y>1285</y>
@@ -230,6 +236,7 @@
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="50">
                                   <x>1440</x>
                                   <y>2045</y>
@@ -259,6 +266,7 @@
                                   <nativeProcedureParameters>str</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="55">
                                   <x>1405</x>
                                   <y>840</y>
@@ -288,6 +296,7 @@
                                   <nativeProcedureParameters>str</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="60">
                                   <x>480</x>
                                   <y>845</y>
@@ -317,6 +326,7 @@
                                   <nativeProcedureParameters>old|new</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="65">
                                   <x>2655</x>
                                   <y>1220</y>
@@ -336,6 +346,7 @@
                             </borderColor>
                             <value></value>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="67">
                             <x>2760</x>
                             <y>580</y>
@@ -373,6 +384,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="75">
                                   <x>485</x>
                                   <y>1055</y>
@@ -402,6 +414,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="80">
                                   <x>1950</x>
                                   <y>435</y>
@@ -431,6 +444,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="85">
                                   <x>495</x>
                                   <y>440</y>
@@ -460,6 +474,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="90">
                                   <x>1250</x>
                                   <y>2045</y>
@@ -489,6 +504,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="95">
                                   <x>2030</x>
                                   <y>2015</y>
@@ -518,6 +534,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="100">
                                   <x>2780</x>
                                   <y>2000</y>
@@ -547,6 +564,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="105">
                                   <x>3640</x>
                                   <y>1995</y>
@@ -576,6 +594,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="110">
                                   <x>1945</x>
                                   <y>1095</y>
@@ -605,6 +624,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="115">
                                   <x>1235</x>
                                   <y>455</y>
@@ -634,6 +654,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="120">
                                   <x>1240</x>
                                   <y>1110</y>
@@ -663,6 +684,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="125">
                                   <x>480</x>
                                   <y>2040</y>
@@ -692,6 +714,7 @@
                                   <nativeProcedureParameters></nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="130">
                                   <x>485</x>
                                   <y>2750</y>
@@ -721,6 +744,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="135">
                                   <x>1355</x>
                                   <y>2735</y>
@@ -750,6 +774,7 @@
                                   <nativeProcedureParameters>num</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="140">
                                   <x>2080</x>
                                   <y>2725</y>
@@ -769,6 +794,7 @@
                             </borderColor>
                             <value>0</value>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="142">
                             <x>665</x>
                             <y>545</y>
@@ -806,6 +832,7 @@
                                   <nativeProcedureParameters>format</nativeProcedureParameters>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="150">
                                   <x>1120</x>
                                   <y>1390</y>
@@ -837,6 +864,7 @@
                                   <language>goo</language>
                                   <code></code>
                                 </target>
+                                <svgScale>0.2</svgScale>
                                 <area id="155">
                                   <x>2040</x>
                                   <y>1375</y>
@@ -855,6 +883,7 @@
                               <alpha>255</alpha>
                             </borderColor>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="157">
                             <x>1695</x>
                             <y>1280</y>
@@ -873,6 +902,7 @@
                         <alpha>255</alpha>
                       </borderColor>
                     </target>
+                    <svgScale>0.2</svgScale>
                     <area id="159">
                       <x>510</x>
                       <y>655</y>
@@ -883,6 +913,7 @@
                   <field id="160">
                     <name>object</name>
                     <target reference="7"/>
+                    <svgScale>0.2</svgScale>
                     <area id="161">
                       <x>1260</x>
                       <y>670</y>
@@ -902,6 +933,7 @@
                         <field id="165">
                           <name>_prototype</name>
                           <target reference="7"/>
+                          <svgScale>0.2</svgScale>
                           <area id="166">
                             <x>4495</x>
                             <y>90</y>
@@ -932,6 +964,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="171">
                             <x>615</x>
                             <y>890</y>
@@ -963,6 +996,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="176">
                             <x>1505</x>
                             <y>885</y>
@@ -989,6 +1023,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="180">
                             <x>2260</x>
                             <y>895</y>
@@ -1015,6 +1050,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="184">
                             <x>2995</x>
                             <y>900</y>
@@ -1041,6 +1077,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="188">
                             <x>2260</x>
                             <y>1505</y>
@@ -1067,6 +1104,7 @@
                             <language>goo</language>
                             <code></code>
                           </target>
+                          <svgScale>0.2</svgScale>
                           <area id="192">
                             <x>3780</x>
                             <y>915</y>
@@ -1085,6 +1123,7 @@
                         <alpha>255</alpha>
                       </borderColor>
                     </target>
+                    <svgScale>0.2</svgScale>
                     <area id="194">
                       <x>1935</x>
                       <y>660</y>
@@ -1124,6 +1163,7 @@
 
 }</code>
                     </target>
+                    <svgScale>0.2</svgScale>
                     <area id="199">
                       <x>2040</x>
                       <y>2345</y>
@@ -1143,6 +1183,7 @@
                         <field id="203">
                           <name>_prototype</name>
                           <target reference="163"/>
+                          <svgScale>0.2</svgScale>
                           <area id="204">
                             <x>0</x>
                             <y>0</y>
@@ -1161,6 +1202,7 @@
                         <alpha>255</alpha>
                       </borderColor>
                     </target>
+                    <svgScale>0.2</svgScale>
                     <area id="206">
                       <x>3265</x>
                       <y>650</y>
@@ -1206,6 +1248,7 @@
                     <language>goo</language>
                     <code></code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="213">
                     <x>755</x>
                     <y>1025</y>
@@ -1237,6 +1280,7 @@
                     <language>goo</language>
                     <code></code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="218">
                     <x>1920</x>
                     <y>395</y>
@@ -1267,6 +1311,7 @@
                     <nativeProcedureParameters>owner</nativeProcedureParameters>
                     <code></code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="223">
                     <x>770</x>
                     <y>1660</y>
@@ -1298,6 +1343,7 @@
                     <language>goo</language>
                     <code></code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="228">
                     <x>775</x>
                     <y>2365</y>
@@ -1316,6 +1362,7 @@
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="230">
               <x>4375</x>
               <y>415</y>
@@ -1358,6 +1405,7 @@
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="235">
               <x>2646</x>
               <y>1288</y>
@@ -1400,6 +1448,7 @@ procedure sumt()
 	root.console.print(sum.toString());
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="240">
               <x>2620</x>
               <y>190</y>
@@ -1450,6 +1499,7 @@ root.console.print(age.toString());
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="245">
               <x>2688</x>
               <y>1814</y>
@@ -1493,6 +1543,7 @@ procedure foo()
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="250">
               <x>3342</x>
               <y>216</y>
@@ -1527,6 +1578,7 @@ procedure foo()
 	root.console.$p(&quot;hello world.&quot;);
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="255">
               <x>2642</x>
               <y>766</y>
@@ -1567,6 +1619,7 @@ procedure foo()
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="260">
               <x>3376</x>
               <y>813</y>
@@ -1603,6 +1656,7 @@ procedure foo()
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="265">
               <x>2721</x>
               <y>2383</y>
@@ -1622,6 +1676,7 @@ procedure foo()
                 <field id="269">
                   <name>_prototype</name>
                   <target class="string" reference="44"/>
+                  <svgScale>0.2</svgScale>
                   <area id="270">
                     <x>0</x>
                     <y>0</y>
@@ -1641,6 +1696,7 @@ procedure foo()
               </borderColor>
               <value>sss</value>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="272">
               <x>905</x>
               <y>1225</y>
@@ -1677,6 +1733,7 @@ procedure foo()
 
 }</code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="277">
               <x>3366</x>
               <y>1278</y>
@@ -1696,6 +1753,7 @@ procedure foo()
                 <field id="281">
                   <name>_prototype</name>
                   <target reference="14"/>
+                  <svgScale>0.2</svgScale>
                   <area id="282">
                     <x>0</x>
                     <y>0</y>
@@ -1715,6 +1773,7 @@ procedure foo()
               </borderColor>
               <booleanValue>true</booleanValue>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="284">
               <x>1830</x>
               <y>1977</y>
@@ -1734,6 +1793,7 @@ procedure foo()
                 <field id="288">
                   <name>_prototype</name>
                   <target class="integer" reference="69"/>
+                  <svgScale>0.2</svgScale>
                   <area id="289">
                     <x>0</x>
                     <y>0</y>
@@ -1753,6 +1813,7 @@ procedure foo()
               </borderColor>
               <value>0</value>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="291">
               <x>2002</x>
               <y>1222</y>
@@ -1772,6 +1833,7 @@ procedure foo()
                 <field id="295">
                   <name>_prototype</name>
                   <target reference="14"/>
+                  <svgScale>0.2</svgScale>
                   <area id="296">
                     <x>0</x>
                     <y>0</y>
@@ -1791,6 +1853,7 @@ procedure foo()
               </borderColor>
               <booleanValue>false</booleanValue>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="298">
               <x>950</x>
               <y>1950</y>
@@ -1819,6 +1882,7 @@ procedure foo()
                       <field id="305">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="306">
                           <x>0</x>
                           <y>0</y>
@@ -2069,6 +2133,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="308">
                     <x>1460</x>
                     <y>1420</y>
@@ -2082,6 +2147,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
               <scaleRate>1.0</scaleRate>
               <borderColor reference="307"/>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="309">
               <x>1755</x>
               <y>195</y>
@@ -2101,6 +2167,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
         </borderColor>
         <expectMessageType>SyncReply</expectMessageType>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="311">
         <x>480</x>
         <y>2065</y>
@@ -2134,6 +2201,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="319">
               <x>195</x>
               <y>180</y>
@@ -2159,6 +2227,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="324">
               <x>190</x>
               <y>1750</y>
@@ -2184,6 +2253,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="329">
               <x>510</x>
               <y>965</y>
@@ -2209,6 +2279,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="334">
               <x>1380</x>
               <y>250</y>
@@ -2234,6 +2305,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="339">
               <x>1650</x>
               <y>1900</y>
@@ -2259,6 +2331,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="344">
               <x>1810</x>
               <y>1100</y>
@@ -2284,6 +2357,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="349">
               <x>3090</x>
               <y>1010</y>
@@ -2309,6 +2383,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="354">
               <x>3095</x>
               <y>305</y>
@@ -2334,6 +2409,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="359">
               <x>4255</x>
               <y>325</y>
@@ -2359,6 +2435,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="364">
               <x>3105</x>
               <y>1765</y>
@@ -2384,6 +2461,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="369">
               <x>4290</x>
               <y>975</y>
@@ -2409,6 +2487,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="374">
               <x>4310</x>
               <y>2180</y>
@@ -2434,6 +2513,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="379">
               <x>4315</x>
               <y>1580</y>
@@ -2459,6 +2539,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="384">
               <x>4325</x>
               <y>2840</y>
@@ -2477,6 +2558,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
           <alpha>255</alpha>
         </borderColor>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="386">
         <x>460</x>
         <y>165</y>
@@ -2542,6 +2624,7 @@ procedure fibonacci(x)
 		result = self.fibonacci(x.min(1)).plus( self.fibonacci(x.min(2)) );			
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="397">
                     <x>1215</x>
                     <y>1325</y>
@@ -2589,6 +2672,7 @@ procedure sum(n)
 	}
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="402">
                     <x>2335</x>
                     <y>1325</y>
@@ -2608,6 +2692,7 @@ procedure sum(n)
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="404">
               <x>1085</x>
               <y>1105</y>
@@ -2652,6 +2737,7 @@ procedure sum(n)
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="412">
                     <x>1760</x>
                     <y>2415</y>
@@ -2680,6 +2766,7 @@ procedure sum(n)
                             <field id="419">
                               <name>_prototype</name>
                               <target class="integer" reference="69"/>
+                              <svgScale>0.2</svgScale>
                               <area id="420">
                                 <x>0</x>
                                 <y>0</y>
@@ -2699,6 +2786,7 @@ procedure sum(n)
                           </borderColor>
                           <value>0</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="422">
                           <x>525</x>
                           <y>1010</y>
@@ -2718,6 +2806,7 @@ procedure sum(n)
                             <field id="426">
                               <name>_prototype</name>
                               <target reference="14"/>
+                              <svgScale>0.2</svgScale>
                               <area id="427">
                                 <x>0</x>
                                 <y>0</y>
@@ -2732,6 +2821,7 @@ procedure sum(n)
                           <borderColor reference="421"/>
                           <booleanValue>false</booleanValue>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="428">
                           <x>2445</x>
                           <y>995</y>
@@ -2762,6 +2852,7 @@ procedure sum(n)
 	root.console.print(&quot;action triggered by timer every &quot;.concat(intervalStr).concat(&quot; seconds.&quot;));
 }</code>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="432">
                           <x>1460</x>
                           <y>1025</y>
@@ -2793,6 +2884,7 @@ procedure sum(n)
                           <language>goo</language>
                           <code></code>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="437">
                           <x>2475</x>
                           <y>1785</y>
@@ -2823,6 +2915,7 @@ procedure sum(n)
                           <nativeProcedureParameters></nativeProcedureParameters>
                           <code></code>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="442">
                           <x>2480</x>
                           <y>2450</y>
@@ -2836,6 +2929,7 @@ procedure sum(n)
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="421"/>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="443">
                     <x>2270</x>
                     <y>990</y>
@@ -2866,6 +2960,7 @@ procedure sum(n)
                     <nativeProcedureParameters></nativeProcedureParameters>
                     <code></code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="448">
                     <x>1130</x>
                     <y>980</y>
@@ -2884,6 +2979,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="450">
               <x>3660</x>
               <y>1295</y>
@@ -2932,6 +3028,7 @@ procedure sum(n)
                           <nativeProcedureParameters>data</nativeProcedureParameters>
                           <code></code>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="461">
                           <x>1535</x>
                           <y>1540</y>
@@ -2945,6 +3042,7 @@ procedure sum(n)
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="460"/>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="462">
                     <x>1035</x>
                     <y>1345</y>
@@ -2958,6 +3056,7 @@ procedure sum(n)
               <scaleRate>1.0</scaleRate>
               <borderColor reference="460"/>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="463">
               <x>1100</x>
               <y>1915</y>
@@ -2976,6 +3075,7 @@ procedure sum(n)
           <alpha>255</alpha>
         </borderColor>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="465">
         <x>3345</x>
         <y>1270</y>
@@ -3011,6 +3111,7 @@ procedure sum(n)
                       <field id="475">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="476">
                           <x>0</x>
                           <y>0</y>
@@ -3104,6 +3205,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="478">
                     <x>199</x>
                     <y>228</y>
@@ -3122,6 +3224,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="480">
               <x>3584</x>
               <y>95</y>
@@ -3149,6 +3252,7 @@ procedure sum(n)
                       <field id="487">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="488">
                           <x>0</x>
                           <y>0</y>
@@ -3242,6 +3346,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="490">
                     <x>308</x>
                     <y>212</y>
@@ -3260,6 +3365,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="492">
               <x>2520</x>
               <y>229</y>
@@ -3287,6 +3393,7 @@ procedure sum(n)
                       <field id="499">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="500">
                           <x>0</x>
                           <y>0</y>
@@ -3380,6 +3487,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="502">
                     <x>128</x>
                     <y>196</y>
@@ -3398,6 +3506,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="504">
               <x>2230</x>
               <y>1205</y>
@@ -3425,6 +3534,7 @@ procedure sum(n)
                       <field id="511">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="512">
                           <x>0</x>
                           <y>0</y>
@@ -3513,6 +3623,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="513">
                     <x>228</x>
                     <y>215</y>
@@ -3531,6 +3642,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="515">
               <x>2523</x>
               <y>2929</y>
@@ -3558,6 +3670,7 @@ procedure sum(n)
                       <field id="522">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="523">
                           <x>0</x>
                           <y>0</y>
@@ -3646,6 +3759,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="524">
                     <x>267</x>
                     <y>330</y>
@@ -3664,6 +3778,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="526">
               <x>109</x>
               <y>190</y>
@@ -3691,6 +3806,7 @@ procedure sum(n)
                       <field id="533">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="534">
                           <x>0</x>
                           <y>0</y>
@@ -3779,6 +3895,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="535">
                     <x>152</x>
                     <y>228</y>
@@ -3797,6 +3914,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="537">
               <x>1855</x>
               <y>245</y>
@@ -3824,6 +3942,7 @@ procedure sum(n)
                       <field id="544">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="545">
                           <x>0</x>
                           <y>0</y>
@@ -3912,6 +4031,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="546">
                     <x>139</x>
                     <y>252</y>
@@ -3930,6 +4050,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="548">
               <x>3714</x>
               <y>2026</y>
@@ -3957,6 +4078,7 @@ procedure sum(n)
                       <field id="555">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="556">
                           <x>0</x>
                           <y>0</y>
@@ -4045,6 +4167,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="557">
                     <x>248</x>
                     <y>222</y>
@@ -4063,6 +4186,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="559">
               <x>4470</x>
               <y>495</y>
@@ -4090,6 +4214,7 @@ procedure sum(n)
                       <field id="566">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="567">
                           <x>0</x>
                           <y>0</y>
@@ -4178,6 +4303,7 @@ procedure sum(n)
 &lt;/svg&gt;
 </value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="568">
                     <x>245</x>
                     <y>214</y>
@@ -4196,6 +4322,7 @@ procedure sum(n)
                 <alpha>255</alpha>
               </borderColor>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="570">
               <x>3245</x>
               <y>3939</y>
@@ -4214,6 +4341,7 @@ procedure sum(n)
           <alpha>255</alpha>
         </borderColor>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="572">
         <x>1275</x>
         <y>155</y>
@@ -4272,6 +4400,7 @@ procedure sum(n)
                                 </borderColor>
                                 <value>server=getonsip.com;username=jackhatedance;password=pw12#$</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="589">
                                 <x>3020</x>
                                 <y>1315</y>
@@ -4298,6 +4427,7 @@ procedure sum(n)
                                 </borderColor>
                                 <value>xmpp</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="594">
                                 <x>2180</x>
                                 <y>1380</y>
@@ -4324,6 +4454,7 @@ procedure sum(n)
                                 </borderColor>
                                 <value>jackhatedance@getonsip.com</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="599">
                                 <x>1350</x>
                                 <y>1445</y>
@@ -4342,6 +4473,7 @@ procedure sum(n)
                                   <field id="603">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="604">
                                       <x>1690</x>
                                       <y>550</y>
@@ -4361,6 +4493,7 @@ procedure sum(n)
                                 </borderColor>
                                 <booleanValue>false</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="606">
                                 <x>1510</x>
                                 <y>2630</y>
@@ -4379,6 +4512,7 @@ procedure sum(n)
                             <alpha>255</alpha>
                           </borderColor>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="608">
                           <x>1095</x>
                           <y>1225</y>
@@ -4407,6 +4541,7 @@ procedure sum(n)
                                   <field id="615">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="616">
                                       <x>1690</x>
                                       <y>550</y>
@@ -4426,6 +4561,7 @@ procedure sum(n)
                                 </borderColor>
                                 <booleanValue>false</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="618">
                                 <x>1560</x>
                                 <y>1745</y>
@@ -4445,6 +4581,7 @@ procedure sum(n)
                                   <field id="622">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="623">
                                       <x>2480</x>
                                       <y>580</y>
@@ -4459,6 +4596,7 @@ procedure sum(n)
                                 <borderColor reference="617"/>
                                 <value>linaro@nas</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="624">
                                 <x>1165</x>
                                 <y>880</y>
@@ -4478,6 +4616,7 @@ procedure sum(n)
                                   <field id="628">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="629">
                                       <x>2480</x>
                                       <y>580</y>
@@ -4492,6 +4631,7 @@ procedure sum(n)
                                 <borderColor reference="617"/>
                                 <value>ssh</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="630">
                                 <x>415</x>
                                 <y>845</y>
@@ -4511,6 +4651,7 @@ procedure sum(n)
                                   <field id="634">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="635">
                                       <x>2480</x>
                                       <y>580</y>
@@ -4525,6 +4666,7 @@ procedure sum(n)
                                 <borderColor reference="617"/>
                                 <value>password=123</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="636">
                                 <x>2595</x>
                                 <y>855</y>
@@ -4538,6 +4680,7 @@ procedure sum(n)
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="617"/>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="637">
                           <x>1095</x>
                           <y>2025</y>
@@ -4556,6 +4699,7 @@ procedure sum(n)
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="639">
                     <x>195</x>
                     <y>320</y>
@@ -4596,6 +4740,7 @@ procedure sum(n)
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="644">
                     <x>2300</x>
                     <y>1765</y>
@@ -4622,6 +4767,7 @@ procedure sum(n)
                     </borderColor>
                     <value>jack</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="649">
                     <x>1290</x>
                     <y>320</y>
@@ -4658,6 +4804,7 @@ procedure sum(n)
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="654">
                     <x>1265</x>
                     <y>1180</y>
@@ -4698,6 +4845,7 @@ procedure sum(n)
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="659">
                     <x>1225</x>
                     <y>1885</y>
@@ -4724,6 +4872,7 @@ procedure sum(n)
                     </borderColor>
                     <value>杭州</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="664">
                     <x>2300</x>
                     <y>335</y>
@@ -4765,6 +4914,7 @@ procedure loc()
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="669">
                     <x>2340</x>
                     <y>1110</y>
@@ -4783,6 +4933,7 @@ procedure loc()
                       <field id="673">
                         <name>_prototype</name>
                         <target reference="7"/>
+                        <svgScale>0.2</svgScale>
                         <area id="674">
                           <x>3520</x>
                           <y>1150</y>
@@ -4801,6 +4952,7 @@ procedure loc()
                             <field id="678">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="679">
                                 <x>2480</x>
                                 <y>580</y>
@@ -4820,6 +4972,7 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="681">
                           <x>750</x>
                           <y>1765</y>
@@ -4838,6 +4991,7 @@ procedure loc()
                             <field id="685">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="686">
                                 <x>2480</x>
                                 <y>580</y>
@@ -4857,6 +5011,7 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="688">
                           <x>805</x>
                           <y>745</y>
@@ -4875,6 +5030,7 @@ procedure loc()
                             <field id="692">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="693">
                                 <x>2480</x>
                                 <y>580</y>
@@ -4894,6 +5050,7 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="695">
                           <x>0</x>
                           <y>0</y>
@@ -4912,6 +5069,7 @@ procedure loc()
                             <field id="699">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="700">
                                 <x>2480</x>
                                 <y>580</y>
@@ -4931,6 +5089,7 @@ procedure loc()
                           </borderColor>
                           <value>request</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="702">
                           <x>0</x>
                           <y>0</y>
@@ -4949,6 +5108,7 @@ procedure loc()
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="704">
                     <x>380</x>
                     <y>1380</y>
@@ -4983,6 +5143,7 @@ procedure loc()
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="709">
                     <x>3445</x>
                     <y>1105</y>
@@ -5038,6 +5199,7 @@ procedure loc()
                                               <field id="725">
                                                 <name>_prototype</name>
                                                 <target reference="14"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="726">
                                                   <x>1690</x>
                                                   <y>550</y>
@@ -5052,6 +5214,7 @@ procedure loc()
                                             <borderColor reference="617"/>
                                             <booleanValue>false</booleanValue>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="727">
                                             <x>1610</x>
                                             <y>2160</y>
@@ -5071,6 +5234,7 @@ procedure loc()
                                               <field id="731">
                                                 <name>_prototype</name>
                                                 <target class="integer" reference="69"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="732">
                                                   <x>665</x>
                                                   <y>545</y>
@@ -5085,6 +5249,7 @@ procedure loc()
                                             <borderColor reference="617"/>
                                             <value>22</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="733">
                                             <x>1930</x>
                                             <y>890</y>
@@ -5104,6 +5269,7 @@ procedure loc()
                                               <field id="737">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="738">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5118,6 +5284,7 @@ procedure loc()
                                             <borderColor reference="617"/>
                                             <value>nas</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="739">
                                             <x>1245</x>
                                             <y>890</y>
@@ -5137,6 +5304,7 @@ procedure loc()
                                               <field id="743">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="744">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5151,6 +5319,7 @@ procedure loc()
                                             <borderColor reference="617"/>
                                             <value>jack@nas</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="745">
                                             <x>1130</x>
                                             <y>180</y>
@@ -5170,6 +5339,7 @@ procedure loc()
                                               <field id="749">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="750">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5184,6 +5354,7 @@ procedure loc()
                                             <borderColor reference="617"/>
                                             <value>password=pw12#$</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="751">
                                             <x>3010</x>
                                             <y>900</y>
@@ -5203,6 +5374,7 @@ procedure loc()
                                               <field id="755">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="756">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5222,6 +5394,7 @@ procedure loc()
                                             </borderColor>
                                             <value>ssh</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="758">
                                             <x>525</x>
                                             <y>865</y>
@@ -5235,6 +5408,7 @@ procedure loc()
                                       <scaleRate>1.0</scaleRate>
                                       <borderColor reference="617"/>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="759">
                                       <x>1450</x>
                                       <y>1565</y>
@@ -5248,6 +5422,7 @@ procedure loc()
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="617"/>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="760">
                                 <x>1400</x>
                                 <y>1760</y>
@@ -5276,6 +5451,7 @@ procedure loc()
                                         <field id="767">
                                           <name>_prototype</name>
                                           <target class="string" reference="44"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="768">
                                             <x>2480</x>
                                             <y>580</y>
@@ -5295,6 +5471,7 @@ procedure loc()
                                       </borderColor>
                                       <value>.*</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="770">
                                       <x>2155</x>
                                       <y>1445</y>
@@ -5323,6 +5500,7 @@ procedure loc()
 
 }</code>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="771">
                                 <x>2690</x>
                                 <y>1995</y>
@@ -5342,6 +5520,7 @@ procedure loc()
                                   <field id="775">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="776">
                                       <x>1690</x>
                                       <y>550</y>
@@ -5356,6 +5535,7 @@ procedure loc()
                                 <borderColor reference="769"/>
                                 <booleanValue>true</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="777">
                                 <x>4500</x>
                                 <y>695</y>
@@ -5375,6 +5555,7 @@ procedure loc()
                                   <field id="781">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="782">
                                       <x>2480</x>
                                       <y>580</y>
@@ -5389,6 +5570,7 @@ procedure loc()
                                 <borderColor reference="769"/>
                                 <value>RegularExpression</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="783">
                                 <x>4520</x>
                                 <y>1335</y>
@@ -5403,6 +5585,7 @@ procedure loc()
                           <borderColor reference="617"/>
                           <expectMessageType>SyncReply</expectMessageType>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="784">
                           <x>1610</x>
                           <y>1905</y>
@@ -5449,6 +5632,7 @@ procedure loc()
                                               <field id="797">
                                                 <name>_prototype</name>
                                                 <target reference="14"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="798">
                                                   <x>1690</x>
                                                   <y>550</y>
@@ -5468,6 +5652,7 @@ procedure loc()
                                             </borderColor>
                                             <booleanValue>false</booleanValue>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="800">
                                             <x>290</x>
                                             <y>105</y>
@@ -5487,6 +5672,7 @@ procedure loc()
                                               <field id="804">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="805">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5501,6 +5687,7 @@ procedure loc()
                                             <borderColor reference="799"/>
                                             <value>ssh</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="806">
                                             <x>840</x>
                                             <y>1410</y>
@@ -5520,6 +5707,7 @@ procedure loc()
                                               <field id="810">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="811">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5534,6 +5722,7 @@ procedure loc()
                                             <borderColor reference="799"/>
                                             <value>wbxbuilds@miwdevtomcat</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="812">
                                             <x>1440</x>
                                             <y>1390</y>
@@ -5553,6 +5742,7 @@ procedure loc()
                                               <field id="816">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="817">
                                                   <x>2480</x>
                                                   <y>580</y>
@@ -5567,6 +5757,7 @@ procedure loc()
                                             <borderColor reference="799"/>
                                             <value>password=123work</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="818">
                                             <x>2655</x>
                                             <y>1580</y>
@@ -5580,6 +5771,7 @@ procedure loc()
                                       <scaleRate>1.0</scaleRate>
                                       <borderColor reference="799"/>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="819">
                                       <x>1460</x>
                                       <y>1770</y>
@@ -5593,6 +5785,7 @@ procedure loc()
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="799"/>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="820">
                                 <x>1330</x>
                                 <y>1685</y>
@@ -5606,6 +5799,7 @@ procedure loc()
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="799"/>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="821">
                           <x>2670</x>
                           <y>1880</y>
@@ -5652,6 +5846,7 @@ procedure loc()
                                               <field id="834">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="835">
                                                   <x>0</x>
                                                   <y>0</y>
@@ -5671,6 +5866,7 @@ procedure loc()
                                             </borderColor>
                                             <value>http</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="837">
                                             <x>660</x>
                                             <y>1170</y>
@@ -5690,6 +5886,7 @@ procedure loc()
                                               <field id="841">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="842">
                                                   <x>0</x>
                                                   <y>0</y>
@@ -5704,6 +5901,7 @@ procedure loc()
                                             <borderColor reference="836"/>
                                             <value>root@jackap6</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="843">
                                             <x>1540</x>
                                             <y>1145</y>
@@ -5723,6 +5921,7 @@ procedure loc()
                                               <field id="847">
                                                 <name>_prototype</name>
                                                 <target class="string" reference="44"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="848">
                                                   <x>0</x>
                                                   <y>0</y>
@@ -5737,6 +5936,7 @@ procedure loc()
                                             <borderColor reference="836"/>
                                             <value>password=${jackap6.password};authOnly=true</value>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="849">
                                             <x>2450</x>
                                             <y>1150</y>
@@ -5756,6 +5956,7 @@ procedure loc()
                                               <field id="853">
                                                 <name>_prototype</name>
                                                 <target reference="14"/>
+                                                <svgScale>0.2</svgScale>
                                                 <area id="854">
                                                   <x>0</x>
                                                   <y>0</y>
@@ -5770,6 +5971,7 @@ procedure loc()
                                             <borderColor reference="836"/>
                                             <booleanValue>true</booleanValue>
                                           </target>
+                                          <svgScale>0.2</svgScale>
                                           <area id="855">
                                             <x>3995</x>
                                             <y>960</y>
@@ -5783,6 +5985,7 @@ procedure loc()
                                       <scaleRate>1.0</scaleRate>
                                       <borderColor reference="836"/>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="856">
                                       <x>2270</x>
                                       <y>1625</y>
@@ -5796,6 +5999,7 @@ procedure loc()
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="836"/>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="857">
                                 <x>3545</x>
                                 <y>550</y>
@@ -5824,6 +6028,7 @@ procedure loc()
                                         <field id="864">
                                           <name>_prototype</name>
                                           <target class="string" reference="44"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="865">
                                             <x>0</x>
                                             <y>0</y>
@@ -5843,6 +6048,7 @@ procedure loc()
                                       </borderColor>
                                       <value>.*</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="867">
                                       <x>2420</x>
                                       <y>1790</y>
@@ -5871,6 +6077,7 @@ procedure loc()
 
 }</code>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="868">
                                 <x>1135</x>
                                 <y>585</y>
@@ -5890,6 +6097,7 @@ procedure loc()
                                   <field id="872">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="873">
                                       <x>0</x>
                                       <y>0</y>
@@ -5909,6 +6117,7 @@ procedure loc()
                                 </borderColor>
                                 <booleanValue>true</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="875">
                                 <x>3560</x>
                                 <y>1235</y>
@@ -5923,6 +6132,7 @@ procedure loc()
                           <borderColor reference="836"/>
                           <expectMessageType>SyncReply</expectMessageType>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="876">
                           <x>3615</x>
                           <y>1905</y>
@@ -5951,6 +6161,7 @@ procedure loc()
                                   <field id="883">
                                     <name>_prototype</name>
                                     <target reference="163"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="884">
                                       <x>3670</x>
                                       <y>190</y>
@@ -5969,6 +6180,7 @@ procedure loc()
                                         <field id="888">
                                           <name>_prototype</name>
                                           <target reference="144"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="889">
                                             <x>0</x>
                                             <y>0</y>
@@ -5983,6 +6195,7 @@ procedure loc()
                                       <borderColor reference="198"/>
                                       <value id="890">2013-09-30 13:11:02.266 UTC</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="891">
                                       <x>930</x>
                                       <y>1445</y>
@@ -6001,6 +6214,7 @@ procedure loc()
                                         <field id="895">
                                           <name>_prototype</name>
                                           <target reference="144"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="896">
                                             <x>0</x>
                                             <y>0</y>
@@ -6015,6 +6229,7 @@ procedure loc()
                                       <borderColor reference="198"/>
                                       <value id="897">2013-09-30 13:11:02.262 UTC</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="898">
                                       <x>2475</x>
                                       <y>1345</y>
@@ -6033,6 +6248,7 @@ procedure loc()
                                         <field id="902">
                                           <name>_prototype</name>
                                           <target reference="144"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="903">
                                             <x>0</x>
                                             <y>0</y>
@@ -6047,6 +6263,7 @@ procedure loc()
                                       <borderColor reference="198"/>
                                       <value id="904">2013-09-30 13:11:02.260 UTC</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="905">
                                       <x>1790</x>
                                       <y>1930</y>
@@ -6065,6 +6282,7 @@ procedure loc()
                                         <field id="909">
                                           <name>_prototype</name>
                                           <target reference="144"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="910">
                                             <x>0</x>
                                             <y>0</y>
@@ -6079,6 +6297,7 @@ procedure loc()
                                       <borderColor reference="198"/>
                                       <value id="911">2013-09-30 13:11:02.256 UTC</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="912">
                                       <x>740</x>
                                       <y>490</y>
@@ -6097,6 +6316,7 @@ procedure loc()
                                         <field id="916">
                                           <name>_prototype</name>
                                           <target reference="144"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="917">
                                             <x>0</x>
                                             <y>0</y>
@@ -6111,6 +6331,7 @@ procedure loc()
                                       <borderColor reference="198"/>
                                       <value id="918">2013-09-30 13:11:02.258 UTC</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="919">
                                       <x>1815</x>
                                       <y>520</y>
@@ -6129,6 +6350,7 @@ procedure loc()
                                   <alpha>255</alpha>
                                 </borderColor>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="921">
                                 <x>2305</x>
                                 <y>460</y>
@@ -6157,6 +6379,7 @@ procedure loc()
                                         <field id="928">
                                           <name>_prototype</name>
                                           <target reference="14"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="929">
                                             <x>0</x>
                                             <y>0</y>
@@ -6176,6 +6399,7 @@ procedure loc()
                                       </borderColor>
                                       <booleanValue>true</booleanValue>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="931">
                                       <x>1355</x>
                                       <y>1205</y>
@@ -6195,6 +6419,7 @@ procedure loc()
                                         <field id="935">
                                           <name>_prototype</name>
                                           <target class="integer" reference="69"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="936">
                                             <x>0</x>
                                             <y>0</y>
@@ -6209,6 +6434,7 @@ procedure loc()
                                       <borderColor reference="930"/>
                                       <value>20</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="937">
                                       <x>1495</x>
                                       <y>2005</y>
@@ -6239,6 +6465,7 @@ procedure loc()
 
 }</code>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="941">
                                       <x>2860</x>
                                       <y>1385</y>
@@ -6258,6 +6485,7 @@ procedure loc()
                                         <field id="945">
                                           <name>_prototype</name>
                                           <target class="string" reference="44"/>
+                                          <svgScale>0.2</svgScale>
                                           <area id="946">
                                             <x>0</x>
                                             <y>0</y>
@@ -6277,6 +6505,7 @@ procedure loc()
                                       </borderColor>
                                       <value>timer</value>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="948">
                                       <x>1495</x>
                                       <y>465</y>
@@ -6313,6 +6542,7 @@ procedure loc()
 
 }</code>
                                     </target>
+                                    <svgScale>0.2</svgScale>
                                     <area id="953">
                                       <x>2995</x>
                                       <y>2425</y>
@@ -6323,6 +6553,7 @@ procedure loc()
                                   <field id="954">
                                     <name>_prototype</name>
                                     <target reference="414"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="955">
                                       <x>460</x>
                                       <y>475</y>
@@ -6337,6 +6568,7 @@ procedure loc()
                                 <borderColor reference="930"/>
                                 <expectMessageType>SyncReply</expectMessageType>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="956">
                                 <x>1000</x>
                                 <y>480</y>
@@ -6378,6 +6610,7 @@ procedure loc()
 
 }</code>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="961">
                                 <x>1100</x>
                                 <y>2295</y>
@@ -6459,6 +6692,7 @@ procedure loc()
 	
 }</code>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="966">
                                 <x>2705</x>
                                 <y>1895</y>
@@ -6478,6 +6712,7 @@ procedure loc()
                                   <field id="970">
                                     <name>_prototype</name>
                                     <target class="integer" reference="69"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="971">
                                       <x>0</x>
                                       <y>0</y>
@@ -6497,6 +6732,7 @@ procedure loc()
                                 </borderColor>
                                 <value>30</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="973">
                                 <x>3095</x>
                                 <y>520</y>
@@ -6511,6 +6747,7 @@ procedure loc()
                           <borderColor reference="920"/>
                           <expectMessageType>SyncReply</expectMessageType>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="974">
                           <x>3565</x>
                           <y>1125</y>
@@ -6524,6 +6761,7 @@ procedure loc()
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="617"/>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="975">
                     <x>375</x>
                     <y>2650</y>
@@ -6563,6 +6801,7 @@ procedure loc()
 	root.console.print(result.output);
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="980">
                     <x>3465</x>
                     <y>1680</y>
@@ -6602,6 +6841,7 @@ procedure loc()
 	
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="985">
                     <x>3455</x>
                     <y>2260</y>
@@ -6621,6 +6861,7 @@ procedure loc()
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="987">
               <x>1760</x>
               <y>1440</y>
@@ -6663,6 +6904,7 @@ procedure loc()
                                   <field id="1000">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1001">
                                       <x>2480</x>
                                       <y>580</y>
@@ -6682,6 +6924,7 @@ procedure loc()
                                 </borderColor>
                                 <value>vprobot1@getonsip.com</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1003">
                                 <x>1525</x>
                                 <y>1045</y>
@@ -6700,6 +6943,7 @@ procedure loc()
                                   <field id="1007">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1008">
                                       <x>2480</x>
                                       <y>580</y>
@@ -6719,6 +6963,7 @@ procedure loc()
                                 </borderColor>
                                 <value>xmpp</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1010">
                                 <x>2335</x>
                                 <y>980</y>
@@ -6737,6 +6982,7 @@ procedure loc()
                                   <field id="1014">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1015">
                                       <x>2480</x>
                                       <y>580</y>
@@ -6756,6 +7002,7 @@ procedure loc()
                                 </borderColor>
                                 <value>server=getonsip.com;username=vprobot1;password=pw12#$</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1017">
                                 <x>3230</x>
                                 <y>1045</y>
@@ -6774,6 +7021,7 @@ procedure loc()
                                   <field id="1021">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1022">
                                       <x>1690</x>
                                       <y>550</y>
@@ -6793,6 +7041,7 @@ procedure loc()
                                 </borderColor>
                                 <booleanValue>false</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1024">
                                 <x>1900</x>
                                 <y>2240</y>
@@ -6819,6 +7068,7 @@ procedure loc()
                                   <alpha>255</alpha>
                                 </borderColor>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1029">
                                 <x>0</x>
                                 <y>0</y>
@@ -6837,6 +7087,7 @@ procedure loc()
                             <alpha>255</alpha>
                           </borderColor>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1031">
                           <x>830</x>
                           <y>685</y>
@@ -6865,6 +7116,7 @@ procedure loc()
                                   <field id="1038">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1039">
                                       <x>0</x>
                                       <y>0</y>
@@ -6884,6 +7136,7 @@ procedure loc()
                                 </borderColor>
                                 <value>robot1@localhost</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1041">
                                 <x>1520</x>
                                 <y>1410</y>
@@ -6903,6 +7156,7 @@ procedure loc()
                                   <field id="1045">
                                     <name>_prototype</name>
                                     <target class="string" reference="44"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1046">
                                       <x>0</x>
                                       <y>0</y>
@@ -6917,6 +7171,7 @@ procedure loc()
                                 <borderColor reference="1040"/>
                                 <value>http</value>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1047">
                                 <x>670</x>
                                 <y>1395</y>
@@ -6936,6 +7191,7 @@ procedure loc()
                                   <field id="1051">
                                     <name>_prototype</name>
                                     <target reference="14"/>
+                                    <svgScale>0.2</svgScale>
                                     <area id="1052">
                                       <x>0</x>
                                       <y>0</y>
@@ -6950,6 +7206,7 @@ procedure loc()
                                 <borderColor reference="1040"/>
                                 <booleanValue>false</booleanValue>
                               </target>
+                              <svgScale>0.2</svgScale>
                               <area id="1053">
                                 <x>4115</x>
                                 <y>970</y>
@@ -6963,6 +7220,7 @@ procedure loc()
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1040"/>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1054">
                           <x>1760</x>
                           <y>645</y>
@@ -6981,6 +7239,7 @@ procedure loc()
                       <alpha>255</alpha>
                     </borderColor>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1056">
                     <x>3840</x>
                     <y>425</y>
@@ -6999,6 +7258,7 @@ procedure loc()
                       <field id="1060">
                         <name>_prototype</name>
                         <target reference="14"/>
+                        <svgScale>0.2</svgScale>
                         <area id="1061">
                           <x>1690</x>
                           <y>550</y>
@@ -7018,6 +7278,7 @@ procedure loc()
                     </borderColor>
                     <booleanValue>true</booleanValue>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1063">
                     <x>3814</x>
                     <y>1068</y>
@@ -7037,6 +7298,7 @@ procedure loc()
                       <field id="1067">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="1068">
                           <x>2480</x>
                           <y>580</y>
@@ -7056,6 +7318,7 @@ procedure loc()
                     </borderColor>
                     <value>Groovy</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1070">
                     <x>3905</x>
                     <y>1715</y>
@@ -7075,6 +7338,7 @@ procedure loc()
                       <field id="1074">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="1075">
                           <x>2480</x>
                           <y>580</y>
@@ -7094,6 +7358,7 @@ procedure loc()
                     </borderColor>
                     <value>浙江杭州</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1077">
                     <x>1565</x>
                     <y>495</y>
@@ -7120,6 +7385,7 @@ procedure loc()
                             <field id="1084">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1085">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7140,6 +7406,7 @@ procedure loc()
                           <value>subject.contains(&quot;where are you&quot;) || 
 subject.contains(&quot;在哪里&quot;)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1087">
                           <x>1050</x>
                           <y>1205</y>
@@ -7167,6 +7434,7 @@ subject.contains(&quot;在哪里&quot;)</value>
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1089">
                     <x>1572</x>
                     <y>1112</y>
@@ -7193,6 +7461,7 @@ subject.contains(&quot;在哪里&quot;)</value>
                             <field id="1096">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1097">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7213,6 +7482,7 @@ subject.contains(&quot;在哪里&quot;)</value>
                           <value>subject.contains(&quot;几岁&quot;) ||
 subject.contains(&quot;多大&quot;)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1099">
                           <x>1675</x>
                           <y>1245</y>
@@ -7240,6 +7510,7 @@ subject.contains(&quot;多大&quot;)</value>
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1101">
                     <x>896</x>
                     <y>1208</y>
@@ -7266,6 +7537,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1108">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1109">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7285,6 +7557,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你好&quot;) || subject.contains(&quot;hello&quot;)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1111">
                           <x>480</x>
                           <y>810</y>
@@ -7311,6 +7584,7 @@ subject.contains(&quot;多大&quot;)</value>
 	result = _subject;
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1113">
                     <x>820</x>
                     <y>1995</y>
@@ -7337,6 +7611,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1120">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1121">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7356,6 +7631,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>subject.contains(&quot;你是谁&quot;)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1123">
                           <x>570</x>
                           <y>1455</y>
@@ -7382,6 +7658,7 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;I am &quot;.concat(self.name).concat(&quot;.&quot;);
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1125">
                     <x>861</x>
                     <y>1633</y>
@@ -7400,6 +7677,7 @@ subject.contains(&quot;多大&quot;)</value>
                       <field id="1129">
                         <name>_prototype</name>
                         <target class="string" reference="44"/>
+                        <svgScale>0.2</svgScale>
                         <area id="1130">
                           <x>1010</x>
                           <y>675</y>
@@ -7419,6 +7697,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>Robot #1</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1132">
                     <x>200</x>
                     <y>460</y>
@@ -7454,6 +7733,7 @@ subject.contains(&quot;多大&quot;)</value>
 }
 </code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1137">
                     <x>1570</x>
                     <y>1880</y>
@@ -7482,6 +7762,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1144">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1145">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7501,6 +7782,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>RegularExpression</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1147">
                           <x>4020</x>
                           <y>970</y>
@@ -7520,6 +7802,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1151">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1152">
                                 <x>2480</x>
                                 <y>580</y>
@@ -7534,6 +7817,7 @@ subject.contains(&quot;多大&quot;)</value>
                           <borderColor reference="1146"/>
                           <value>buy (?&lt;qty0x0integer&gt;\d+) (?&lt;name0x0string&gt;\w+)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1153">
                           <x>4030</x>
                           <y>1935</y>
@@ -7556,6 +7840,7 @@ subject.contains(&quot;多大&quot;)</value>
 	result = &quot;ok, &quot;.concat(qty.toString()).concat(&quot; &quot;).concat(name);
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1154">
                     <x>1565</x>
                     <y>2730</y>
@@ -7575,6 +7860,7 @@ subject.contains(&quot;多大&quot;)</value>
                       <field id="1158">
                         <name>_prototype</name>
                         <target class="integer" reference="69"/>
+                        <svgScale>0.2</svgScale>
                         <area id="1159">
                           <x>0</x>
                           <y>0</y>
@@ -7594,6 +7880,7 @@ subject.contains(&quot;多大&quot;)</value>
                     </borderColor>
                     <value>2</value>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1161">
                     <x>1115</x>
                     <y>455</y>
@@ -7622,6 +7909,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1168">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1169">
                                 <x>0</x>
                                 <y>0</y>
@@ -7641,6 +7929,7 @@ subject.contains(&quot;多大&quot;)</value>
                           </borderColor>
                           <value>(?&lt;m0x0integer&gt;\d+) mul (?&lt;n0x0integer&gt;\d+)</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1171">
                           <x>263</x>
                           <y>245</y>
@@ -7660,6 +7949,7 @@ subject.contains(&quot;多大&quot;)</value>
                             <field id="1175">
                               <name>_prototype</name>
                               <target class="string" reference="44"/>
+                              <svgScale>0.2</svgScale>
                               <area id="1176">
                                 <x>0</x>
                                 <y>0</y>
@@ -7674,6 +7964,7 @@ subject.contains(&quot;多大&quot;)</value>
                           <borderColor reference="1170"/>
                           <value>RegularExpression</value>
                         </target>
+                        <svgScale>0.2</svgScale>
                         <area id="1177">
                           <x>875</x>
                           <y>951</y>
@@ -7702,6 +7993,7 @@ return m.mul(n);
 
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1179">
                     <x>969</x>
                     <y>2691</y>
@@ -7742,6 +8034,7 @@ return m.mul(n);
 	return data;
 }</code>
                   </target>
+                  <svgScale>0.2</svgScale>
                   <area id="1184">
                     <x>2246</x>
                     <y>2716</y>
@@ -7761,6 +8054,7 @@ return m.mul(n);
               </borderColor>
               <expectMessageType>SyncReply</expectMessageType>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="1186">
               <x>2105</x>
               <y>2260</y>
@@ -7779,6 +8073,7 @@ return m.mul(n);
           <alpha>255</alpha>
         </borderColor>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="1188">
         <x>1485</x>
         <y>2090</y>
@@ -7816,6 +8111,7 @@ return m.mul(n);
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="1196">
               <x>665</x>
               <y>1245</y>
@@ -7845,6 +8141,7 @@ return m.mul(n);
               <nativeProcedureParameters>content</nativeProcedureParameters>
               <code></code>
             </target>
+            <svgScale>0.2</svgScale>
             <area id="1201">
               <x>1920</x>
               <y>1565</y>
@@ -7863,6 +8160,7 @@ return m.mul(n);
           <alpha>255</alpha>
         </borderColor>
       </target>
+      <svgScale>0.2</svgScale>
       <area id="1203">
         <x>3315</x>
         <y>690</y>
@@ -7873,6 +8171,7 @@ return m.mul(n);
     <field id="1204">
       <name>prototype</name>
       <target reference="8"/>
+      <svgScale>0.2</svgScale>
       <area id="1205">
         <x>3395</x>
         <y>1865</y>

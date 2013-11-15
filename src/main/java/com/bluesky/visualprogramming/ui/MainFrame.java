@@ -65,8 +65,8 @@ public class MainFrame extends JFrame {
 
 					// System.out.println("scale changed to:"
 					// + (String) e.getItem());
-					Double rate = 1d;
-					rate = Integer.valueOf((String) e.getItem()) / 100d;
+					float rate = 1f;
+					rate = Integer.valueOf((String) e.getItem()) / 100f;
 					mainWindow.setDiagramScaleRate(rate);
 				}
 			}

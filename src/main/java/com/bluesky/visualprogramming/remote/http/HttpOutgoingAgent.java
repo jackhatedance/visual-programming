@@ -126,9 +126,9 @@ public class HttpOutgoingAgent {
 
 			};
 			String responseBody = httpclient.execute(httpget, responseHandler);
-			
+
 			reply(message, responseBody);
-			
+
 		} finally {
 			httpclient.close();
 		}
@@ -181,41 +181,4 @@ public class HttpOutgoingAgent {
 		return sbUrl.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
-		CredentialsProvider credsProvider = new BasicCredentialsProvider();
-		credsProvider.setCredentials(new AuthScope("jackap6", 80),
-				new UsernamePasswordCredentials("root", "541212"));
-		CloseableHttpClient httpclient = HttpClients.custom()
-				.setDefaultCredentialsProvider(credsProvider).build();
-		try {
-			HttpGet httpget = new HttpGet("http://jackap6/Status_Router.asp");
-
-			System.out.println("executing request" + httpget.getRequestLine());
-			// Create a custom response handler
-			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-				public String handleResponse(final HttpResponse response)
-						throws ClientProtocolException, IOException {
-					int status = response.getStatusLine().getStatusCode();
-					if (status >= 200 && status < 300) {
-						HttpEntity entity = response.getEntity();
-						return entity != null ? EntityUtils.toString(entity)
-								: null;
-					} else {
-						throw new ClientProtocolException(
-								"Unexpected response status: " + status);
-					}
-				}
-
-			};
-			String responseBody = httpclient.execute(httpget, responseHandler);
-
-			System.out.println("----------------------------------------");
-			System.out.println(responseBody);
-			System.out.println("----------------------------------------");
-
-		} finally {
-			httpclient.close();
-		}
-	}
 }

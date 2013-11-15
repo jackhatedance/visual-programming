@@ -280,10 +280,11 @@ public class ObjectRepository {
 
 			@Override
 			public void afterLoadFromFile(_Object obj) {
+				
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
-					// f.getArea();
-					f.setStartPosition(f.getArea().x*5, f.getArea().y*5);
+					
+					//f.svgScale=0.2f;
 					 
 				}
 			}

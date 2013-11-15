@@ -89,9 +89,10 @@ public class _Object implements Serializable {
 	 */
 	private boolean applyingWorker = false;
 
-	public double scaleRate = 1d;
+	// this scale is about the interal diagram of the object we are watching,
+	// not the svg shape from the orginal size.
+	public float scaleRate = 1f;
 	public Color borderColor;
-	static int borderWidth = 5;
 
 	public _Object(long id) {
 		this.id = id;
@@ -128,7 +129,7 @@ public class _Object implements Serializable {
 
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
-		this.borderWidth = src.borderWidth;
+
 	}
 
 	public long getId() {
@@ -438,7 +439,6 @@ public class _Object implements Serializable {
 		return name;
 	}
 
-		
 	/**
 	 * draw on SVG DOM
 	 * 

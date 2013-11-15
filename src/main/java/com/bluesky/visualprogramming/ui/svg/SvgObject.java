@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.batik.dom.svg.SVGOMCircleElement;
 import org.apache.batik.dom.svg.SVGOMGElement;
+import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -16,6 +17,9 @@ import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGLocatable;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGTransform;
 
 public class SvgObject {
@@ -118,7 +122,29 @@ public class SvgObject {
 		return (SVGOMGElement) getElement(SvgElementType.Object);
 	}
 
-	public Rectangle2D.Float getBorderInfo() {
+	public Rectangle2D.Float getBorderScreenPosition() {
+		Rectangle2D.Float rect = getBorder();
+		SVGElement eleBorder = getElement(SvgElementType.Border);
+
+		SVGMatrix matrix = ((SVGLocatable) eleBorder).getScreenCTM();
+		SVGPoint leftTopCoordinatePoint = new SVGOMPoint(rect.x, rect.y);
+		SVGPoint leftTopScreenPoint = leftTopCoordinatePoint
+				.matrixTransform(matrix);
+
+		SVGPoint rightBottomCoordinatePoint = new SVGOMPoint(rect.x
+				+ rect.width, rect.y + rect.height);
+		SVGPoint rightBottomScreenPoint = rightBottomCoordinatePoint
+				.matrixTransform(matrix);
+
+		Rectangle2D.Float result = new Rectangle2D.Float(
+				leftTopScreenPoint.getX(), leftTopScreenPoint.getY(),
+				rightBottomScreenPoint.getX() - leftTopScreenPoint.getX(),
+				rightBottomScreenPoint.getY() - leftTopScreenPoint.getY());
+
+		return result;
+	}
+
+	public Rectangle2D.Float getBorder() {
 		Rectangle2D.Float rect = null;
 
 		SVGElement ele = getElement(SvgElementType.Border);
@@ -158,16 +184,6 @@ public class SvgObject {
 		return doc.getElementById(String.valueOf(id) + "-" + "defs");
 	}
 
-	public Rectangle2D.Float getBorder() {
-
-		Rectangle2D.Float border = getBorderInfo();
-
-		Rectangle2D.Float rect = new Rectangle2D.Float(border.x - 1,
-				border.y - 1, border.width + 1, border.height + 1);
-
-		return rect;
-	}
-
 	public void invokeScriptEvent(String eventName) {
 
 		SVGElement eventElement = getElement(SvgElementType.Event);
@@ -194,5 +210,12 @@ public class SvgObject {
 		SVGTransform transform = object.getTransform().getBaseVal()
 				.getItem(index.getIndex());
 		return transform;
+	}
+
+	public float getScale() {
+		SVGTransform transform = getTransform(TransformIndex.Scale);
+		float scaleX = transform.getMatrix().getA();
+		// float scaleY = transform.getMatrix().getD();
+		return scaleX;
 	}
 }

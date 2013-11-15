@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.ui;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -94,27 +95,29 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
+				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+				int mouseScreenX = elEvt.getClientX();
+				int mouseScreenY = elEvt.getClientY();
+				
+				
+				
 				if (dragging) {
-
 					Element ele = (Element) selectedTarget;
 					long objId = SVGUtils.getObjectId(ele);
 					Element border = scene.getElement(objId,
 							SvgElementType.Border);
+
+					SvgObject svgObj = scene.getSvgObject(objId);
 					
-					SvgObject svgObj = scene.getSvgObject(objId);				
-					SVGTransform transform = svgObj.getTransform(TransformIndex.Offset);
-
-
-					DOMMouseEvent elEvt = (DOMMouseEvent) evt;
-					int nowToX = elEvt.getClientX();
-					int nowToY = elEvt.getClientY();
+					SVGTransform transform = svgObj
+							.getTransform(TransformIndex.Offset);
 
 					// if (logger.isDebugEnabled())
 					// logger.debug(String.format("client xy: %d,%d", nowToX,
 					// nowToY));
 
 					// convert it to a point for use with the Matrix
-					SVGOMPoint pt = new SVGOMPoint(nowToX, nowToY);
+					SVGOMPoint pt = new SVGOMPoint(mouseScreenX, mouseScreenY);
 					// Get the items screen coordinates, and apply the
 					// transformation
 					// elem -> screen
@@ -150,19 +153,58 @@ public class SVGDiagramPanel extends JPanel {
 
 						field.setStartPosition(tranlsateX, tranlsateY);
 
-						// update focus
-						svgObj = scene.getSvgObject(field.getTarget()
-								.getId());
+						// update transform box
+						svgObj = scene.getSvgObject(field.getTarget().getId());
 
-						String transformStr = svgObj.getObjectNode()
-								.getAttribute("transform");
+						scene.getTransformBox().setScreenRect(
+								svgObj.getBorderScreenPosition());
 
-						scene.getTransformBox().setRectangle(transformStr,
-								svgObj.getBorder());
+						scene.getTransformBox().setVisible(true);
+						svgObj.invokeScriptEvent("valueChanged");
 
 					}
-				}
+				} else if (scaling) {
+					Element ele = (Element) selectedTarget;
+					long objId = SVGUtils.getObjectId(ele);
+					Element border = scene.getElement(objId,
+							SvgElementType.Border);
 
+					SvgObject svgObj = scene.getSvgObject(objId);
+					/*
+					 * 1. get the screen point, calculate the scale value to
+					 * grow the border.
+					 * 
+					 * 2. set it as new right bottom point. *
+					 */
+					/*
+					 * get the coordinate point of the mouse
+					 */
+					Rectangle2D.Float screenRect = scene.getTransformBox()
+							.getScreenRect();
+					Point2D rightBottomScreenPoint = new Point2D.Float(
+							screenRect.x + screenRect.width, screenRect.y
+									+ screenRect.height);
+					
+					Rectangle2D.Float oldRect = scene.getTransformBox().getScreenRect();
+					SVGPoint newRightBottomCoordinatePoint = scene.getTransformBox().getCoordinatePoint(rightBottomScreenPoint);
+					
+					float newWidth = newRightBottomCoordinatePoint.getX()-oldRect.x;
+					float newHeight = newRightBottomCoordinatePoint.getY()-oldRect.y;
+					
+					float scaleX = newWidth / oldRect.width;
+					float scaleY = newHeight / oldRect.height;
+					
+					float newScale = Math.min(scaleX, scaleY)*svgObj.getScale();
+					
+					//set new scale
+					SVGTransform transformScale = svgObj.getTransform(TransformIndex.Scale);
+					transformScale.setScale(newScale, newScale);
+					
+					//update transform box by object again
+					scene.getTransformBox().setScreenRect(
+							svgObj.getBorderScreenPosition());
+
+				} 
 			}
 		}, false);
 	}
@@ -267,11 +309,8 @@ public class SVGDiagramPanel extends JPanel {
 						SvgObject svgObj = scene.getSvgObject(f.getTarget()
 								.getId());
 
-						String transformStr = svgObj.getObjectNode()
-								.getAttribute("transform");
-
-						scene.getTransformBox().setRectangle(transformStr,
-								svgObj.getBorder());
+						scene.getTransformBox().setScreenRect(
+								svgObj.getBorderScreenPosition());
 
 						scene.getTransformBox().setVisible(true);
 						svgObj.invokeScriptEvent("valueChanged");

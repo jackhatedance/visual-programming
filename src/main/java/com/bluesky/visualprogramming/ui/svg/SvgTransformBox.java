@@ -1,10 +1,12 @@
 package com.bluesky.visualprogramming.ui.svg;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.apache.batik.dom.svg.AbstractSVGPathSegList.SVGPathSegMovetoLinetoItem;
 import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPathElement;
+import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.dom.svg.SVGOMRectElement;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -13,10 +15,19 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
+/**
+ * this transform box won't scale itself, because that will change the size of
+ * the border width. so the transform box is dynamically adjusted.
+ * 
+ * @author jack
+ * 
+ */
 public class SvgTransformBox {
 	static Logger logger = Logger.getLogger(SvgTransformBox.class);
 
@@ -33,13 +44,18 @@ public class SvgTransformBox {
 	SVGElement leftBottomArrow;
 	SVGElement leftArrow;
 
-	float borderPadding = 30;
+	float borderPadding = 5;
 	float arrowPadding = 20;
 	float arrowHeight = 50;
 
 	boolean rightBottomArrowSelected;
 
 	boolean visible;
+
+	/**
+	 * the latest screen rectangle, used to calculate the scale rate.
+	 */
+	private Rectangle2D.Float screenRect;
 
 	public SvgTransformBox(Document doc, SVGOMGElement objectElement) {
 		this.doc = doc;
@@ -107,13 +123,29 @@ public class SvgTransformBox {
 		return visible;
 	}
 
-	private void setScale(float scale) {
-		SVGMatrix matrix = borderElement.getScreenCTM();
+	public void setScreenRect(Rectangle2D.Float rect) {
+		this.screenRect = rect;
 
-		SVGTransform transform = objectElement.getTransform().getBaseVal()
-				.getItem(TransformIndex.Scale.getIndex());
+		SVGMatrix matrix = objectElement.getScreenCTM();
 
-		transform.setScale(scale, scale);
+		SVGPoint leftTopScreenPoint = new SVGOMPoint(rect.x, rect.y);
+		SVGPoint leftTopCoorindatePoint = leftTopScreenPoint
+				.matrixTransform(matrix.inverse());
+
+		SVGPoint rightBottomScreenPoint = new SVGOMPoint(rect.x + rect.width,
+				rect.y + rect.height);
+		SVGPoint rightBottomCoorindatePoint = rightBottomScreenPoint
+				.matrixTransform(matrix.inverse());
+
+		Rectangle2D.Float coordinateRect = new Rectangle2D.Float(
+				leftTopCoorindatePoint.getX(), leftTopCoorindatePoint.getY(),
+				rightBottomCoorindatePoint.getX()
+						- leftTopCoorindatePoint.getX(),
+				rightBottomCoorindatePoint.getY()
+						- leftTopCoorindatePoint.getY());
+
+		setCoordinateRectangle("", coordinateRect);
+
 	}
 
 	/**
@@ -122,7 +154,7 @@ public class SvgTransformBox {
 	 * @param rect
 	 *            , is element unit, not screen length unit.
 	 */
-	public void setRectangle(String transformStr, Rectangle2D border) {
+	public void setCoordinateRectangle(String transformStr, Rectangle2D border) {
 
 		objectElement.setAttribute("transform", transformStr);
 
@@ -204,15 +236,33 @@ public class SvgTransformBox {
 		this.rightBottomArrowSelected = selected;
 
 		String fillColor = "";
-		if(selected)
+		if (selected)
 			fillColor = "green";
 		else
 			fillColor = "black";
-		
+
 		((SVGStylable) rightBottomArrow).getStyle().setProperty("fill",
 				fillColor, "");
-		
 
+	}
+
+	public Rectangle2D.Float getScreenRect() {
+		return screenRect;
+	}
+
+	public SVGOMPoint getCoordinatePoint(Point2D rightBottomScreenPoint) {
+		// convert it to a point for use with the Matrix
+		SVGPoint pt = new SVGOMPoint((float) rightBottomScreenPoint.getX(),
+				(float) rightBottomScreenPoint.getY());
+		// Get the items screen coordinates, and apply the
+		// transformation
+		// elem -> screen
+		SVGMatrix mat = ((SVGLocatable) borderElement).getScreenCTM();
+
+		mat = mat.inverse(); // screen -> elem
+		SVGOMPoint screenPoint = (SVGOMPoint) pt.matrixTransform(mat);
+
+		return screenPoint;
 	}
 
 }
