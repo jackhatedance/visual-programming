@@ -43,12 +43,13 @@ public class SVGDiagramPanel extends JPanel {
 	 * offset of mouse and shape left-top point.
 	 */
 	public Point2D.Float dragOffset;
-	/**
-	 * is in the dragging mode.
-	 */
-	private boolean dragging = false;
 
-	private boolean scaling = false;
+	/**
+	 * move or scale. it is determined after mouse-down. if the cursor is on
+	 * target then it is move, else if the cursor is on right-bottom arrow, then
+	 * it is scale.
+	 */
+	private TransformType currentTransformType;
 
 	/**
 	 * element for popup menu, right clicked will select it.
@@ -98,17 +99,15 @@ public class SVGDiagramPanel extends JPanel {
 				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
 				int mouseScreenX = elEvt.getClientX();
 				int mouseScreenY = elEvt.getClientY();
-				
-				
-				
-				if (dragging) {
+
+				if (currentTransformType == TransformType.Move) {
 					Element ele = (Element) selectedTarget;
 					long objId = SVGUtils.getObjectId(ele);
 					Element border = scene.getElement(objId,
 							SvgElementType.Border);
 
 					SvgObject svgObj = scene.getSvgObject(objId);
-					
+
 					SVGTransform transform = svgObj
 							.getTransform(TransformIndex.Offset);
 
@@ -163,7 +162,7 @@ public class SVGDiagramPanel extends JPanel {
 						svgObj.invokeScriptEvent("valueChanged");
 
 					}
-				} else if (scaling) {
+				} else if (currentTransformType == TransformType.Scale) {
 					Element ele = (Element) selectedTarget;
 					long objId = SVGUtils.getObjectId(ele);
 					Element border = scene.getElement(objId,
@@ -184,27 +183,34 @@ public class SVGDiagramPanel extends JPanel {
 					Point2D rightBottomScreenPoint = new Point2D.Float(
 							screenRect.x + screenRect.width, screenRect.y
 									+ screenRect.height);
-					
-					Rectangle2D.Float oldRect = scene.getTransformBox().getScreenRect();
-					SVGPoint newRightBottomCoordinatePoint = scene.getTransformBox().getCoordinatePoint(rightBottomScreenPoint);
-					
-					float newWidth = newRightBottomCoordinatePoint.getX()-oldRect.x;
-					float newHeight = newRightBottomCoordinatePoint.getY()-oldRect.y;
-					
+
+					Rectangle2D.Float oldRect = scene.getTransformBox()
+							.getScreenRect();
+					SVGPoint newRightBottomCoordinatePoint = scene
+							.getTransformBox().getCoordinatePoint(
+									rightBottomScreenPoint);
+
+					float newWidth = newRightBottomCoordinatePoint.getX()
+							- oldRect.x;
+					float newHeight = newRightBottomCoordinatePoint.getY()
+							- oldRect.y;
+
 					float scaleX = newWidth / oldRect.width;
 					float scaleY = newHeight / oldRect.height;
-					
-					float newScale = Math.min(scaleX, scaleY)*svgObj.getScale();
-					
-					//set new scale
-					SVGTransform transformScale = svgObj.getTransform(TransformIndex.Scale);
+
+					float newScale = Math.min(scaleX, scaleY)
+							* svgObj.getScale();
+
+					// set new scale
+					SVGTransform transformScale = svgObj
+							.getTransform(TransformIndex.Scale);
 					transformScale.setScale(newScale, newScale);
-					
-					//update transform box by object again
+
+					// update transform box by object again
 					scene.getTransformBox().setScreenRect(
 							svgObj.getBorderScreenPosition());
 
-				} 
+				}
 			}
 		}, false);
 	}
@@ -218,48 +224,52 @@ public class SVGDiagramPanel extends JPanel {
 					return;
 
 				// can only move the selected target
-				if (selectedTarget != evt.getCurrentTarget())
-					return;
+				if (selectedTarget == evt.getCurrentTarget()) {
 
-				// store the cursor offset.
+					// store the cursor offset.
 
-				DOMMouseEvent elEvt = (DOMMouseEvent) evt;
-				int nowToX = elEvt.getClientX();
-				int nowToY = elEvt.getClientY();
+					DOMMouseEvent elEvt = (DOMMouseEvent) evt;
+					int nowToX = elEvt.getClientX();
+					int nowToY = elEvt.getClientY();
 
-				// if (logger.isDebugEnabled())
-				// logger.debug(String.format("client xy: %d,%d", nowToX,
-				// nowToY));
+					// if (logger.isDebugEnabled())
+					// logger.debug(String.format("client xy: %d,%d", nowToX,
+					// nowToY));
 
-				Element ele = (Element) selectedTarget;
+					Element ele = (Element) selectedTarget;
 
-				SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
+					SVGOMPoint screenPt = new SVGOMPoint(nowToX, nowToY);
 
-				long objectId = SVGUtils.getObjectId(ele);
+					long objectId = SVGUtils.getObjectId(ele);
 
-				Element objBorder = scene.getElement(objectId,
-						SvgElementType.Border);
+					Element objBorder = scene.getElement(objectId,
+							SvgElementType.Border);
 
-				// elem -> screen
-				SVGMatrix mat = ((SVGLocatable) objBorder).getScreenCTM();
+					// elem -> screen
+					SVGMatrix mat = ((SVGLocatable) objBorder).getScreenCTM();
 
-				mat = mat.inverse(); // screen -> elem
-				SVGOMPoint svgPt = (SVGOMPoint) screenPt.matrixTransform(mat);
+					mat = mat.inverse(); // screen -> elem
+					SVGOMPoint svgPt = (SVGOMPoint) screenPt
+							.matrixTransform(mat);
 
-				SVGOMPoint startPosition = SVGUtils.getStartPoint(objBorder);
+					SVGOMPoint startPosition = SVGUtils
+							.getStartPoint(objBorder);
 
-				float offsetX = svgPt.getX() - startPosition.getX();
-				float offsetY = svgPt.getY() - startPosition.getY();
+					float offsetX = svgPt.getX() - startPosition.getX();
+					float offsetY = svgPt.getY() - startPosition.getY();
 
-				int minOffset = 80;
-				offsetX = offsetX < minOffset ? minOffset : offsetX;
-				offsetY = offsetY < minOffset ? minOffset : offsetY;
+					int minOffset = 80;
+					offsetX = offsetX < minOffset ? minOffset : offsetX;
+					offsetY = offsetY < minOffset ? minOffset : offsetY;
 
-				dragOffset = new Point2D.Float(svgPt.getX()
-						- startPosition.getX(), svgPt.getY()
-						- startPosition.getY());
+					dragOffset = new Point2D.Float(svgPt.getX()
+							- startPosition.getX(), svgPt.getY()
+							- startPosition.getY());
 
-				dragging = true;
+					currentTransformType = TransformType.Move;
+				} else if (scene.getTransformBox().isRightBottomArrowSelected()) {
+					currentTransformType = TransformType.Scale;
+				}
 			}
 		}, false);
 
@@ -269,7 +279,7 @@ public class SVGDiagramPanel extends JPanel {
 
 			@Override
 			public void handleEvent(Event evt) {
-				if (dragging) {
+				if (TransformType.Move == currentTransformType) {
 					Element ele = selectedTarget;
 					long objId = SVGUtils.getObjectId(ele);
 					Element border = scene.getElement(objId,
@@ -279,7 +289,7 @@ public class SVGDiagramPanel extends JPanel {
 							.getStyle();
 					style.removeProperty("stroke-dasharray");
 
-					dragging = false;
+					currentTransformType = null;
 				}
 
 			}

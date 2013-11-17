@@ -117,9 +117,7 @@ public class Field {
 
 		int x = (int) (area.x * zoom) + canvasOffset.x;
 		int y = (int) (area.y * zoom) + canvasOffset.y;
-		int width = (int) (area.width * zoom);
-		int height = (int) (area.height * zoom);
-
+		
 		long id = target.getId();
 		String value = target.getHumanReadableText();
 

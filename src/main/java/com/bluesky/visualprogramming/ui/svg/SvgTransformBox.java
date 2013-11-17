@@ -232,6 +232,10 @@ public class SvgTransformBox {
 
 	}
 
+	public boolean isRightBottomArrowSelected() {
+		return rightBottomArrowSelected;
+	}
+
 	public void setRightBottomArrowSelected(boolean selected) {
 		this.rightBottomArrowSelected = selected;
 
@@ -265,4 +269,9 @@ public class SvgTransformBox {
 		return screenPoint;
 	}
 
+	public SVGElement getRightBottomArrow() {
+		return rightBottomArrow;
+	}
+
+	
 }
