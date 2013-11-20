@@ -44,9 +44,9 @@ public class SvgTransformBox {
 	SVGElement leftBottomArrow;
 	SVGElement leftArrow;
 
-	float borderPadding = 5;
-	float arrowPadding = 20;
-	float arrowHeight = 50;
+	float borderPadding =5;
+	float arrowPadding = 3;
+	float arrowHeight = 16;
 
 	boolean rightBottomArrowSelected;
 
@@ -241,7 +241,7 @@ public class SvgTransformBox {
 
 		String fillColor = "";
 		if (selected)
-			fillColor = "green";
+			fillColor = "yellow";
 		else
 			fillColor = "black";
 
