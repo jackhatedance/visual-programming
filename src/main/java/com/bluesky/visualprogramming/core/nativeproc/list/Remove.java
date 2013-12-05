@@ -14,11 +14,8 @@ public class Remove extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		IntegerValue index = (IntegerValue) ctx.get("index");
 
-		
-		int offset =self.getSystemFieldsCount();
-		int pos = offset + (int)index.getIntValue();
-		
-		self.removeField(pos);
+		ListObject lo = new ListObject(self);
+		lo.remove((int) index.getIntValue());
 
 		return null;
 	}

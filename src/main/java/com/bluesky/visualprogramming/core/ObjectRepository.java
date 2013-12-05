@@ -85,7 +85,7 @@ public class ObjectRepository {
 		if (prototypeEl != null) {
 
 			try {
-				_Object prototype = getObjectByEl(prototypeEl);
+				_Object prototype = getObjectByPath(prototypeEl);
 				if (prototype != null)
 					newObject.setField(_Object.PROTOTYPE, prototype, false);
 			} catch (InvalidELException e) {
@@ -149,14 +149,14 @@ public class ObjectRepository {
 	/**
 	 * e.g. root.abc.xyz
 	 * 
-	 * @param el
+	 * @param path
 	 * @return
 	 */
-	private _Object getObjectByEl(String el) {
-		String[] ss = el.split("\\.");
+	public _Object getObjectByPath(String path) {
+		String[] ss = path.split("\\.");
 
 		if (!ss[0].equals("root"))
-			throw new RuntimeException("the first object must be 'root':" + el);
+			throw new RuntimeException("the first object must be 'root':" + path);
 
 		_Object obj = getRootObject();
 
@@ -164,7 +164,7 @@ public class ObjectRepository {
 			obj = obj.getChild(ss[i]);
 
 			if (obj == null)
-				throw new InvalidELException(ss[i], el);
+				throw new InvalidELException(ss[i], path);
 		}
 
 		return obj;

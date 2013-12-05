@@ -7,7 +7,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.StringValue;
 
 public class SerializationService {
 
@@ -46,4 +48,27 @@ public class SerializationService {
 		return deserialize(reader, format);
 	}
 
+	public static void main(String[] args) {
+		SerializationService svc = new SerializationService();
+		
+		
+		_Object obj = new _Object(0);
+		Field nameField = new Field("name");
+		
+		_Object nameObject = new StringValue(0);
+		nameObject.setValue("jack");
+				
+		nameField.target = nameObject; 
+		obj.getFields().add(nameField);
+		
+		String json = svc.serialize(obj, SerializerType.Json, false);
+		
+		System.out.println(json);
+		
+		_Object obj2 = svc.deserialize(json, SerializerType.Json);
+		String json2 = svc.serialize(obj2, SerializerType.Json, true);
+		
+		System.out.println(json2);
+		
+	}
 }

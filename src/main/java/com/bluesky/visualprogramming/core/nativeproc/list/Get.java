@@ -14,11 +14,8 @@ public class Get extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		IntegerValue index = (IntegerValue) ctx.get("index");
 
-		
-		long offset =self.getSystemFieldsCount();
-		long pos = offset + index.getIntValue();
-		
-		return self.getChild((int)pos);
+		ListObject lo = new ListObject(self);
+		return lo.get((int) index.getIntValue());
 
 	}
 }

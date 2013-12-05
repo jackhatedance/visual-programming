@@ -15,11 +15,10 @@ public class Clear extends BaseNativeProcedure implements NativeProcedure {
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 
-		int offset =self.getSystemFieldsCount();
-		
-		while(self.getChildCount()> offset)
-			self.removeField(offset);
+		ListObject lo = new ListObject(self);
 
+		lo.clear();
+		
 		return null;
 	}
 }

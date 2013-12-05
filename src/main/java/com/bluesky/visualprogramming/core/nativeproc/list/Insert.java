@@ -15,10 +15,8 @@ public class Insert extends BaseNativeProcedure implements NativeProcedure {
 		IntegerValue index = (IntegerValue) ctx.get("index");
 		_Object item = ctx.get("element");
 
-		
-		int offset =self.getSystemFieldsCount();
-		int pos = offset + (int)index.getIntValue();
-		self.insertChild(pos, item, true);
+		ListObject lo = new ListObject(self);
+		lo.insert((int) index.getIntValue(), item);
 
 		return null;
 	}
