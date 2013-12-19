@@ -15,8 +15,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.serialization.SerializationService;
-import com.bluesky.visualprogramming.core.serialization.SerializerType;
+import com.bluesky.visualprogramming.core.serialization.dump.SerializationService;
+import com.bluesky.visualprogramming.core.serialization.dump.SerializerType;
 
 public class ObjectRepository {
 

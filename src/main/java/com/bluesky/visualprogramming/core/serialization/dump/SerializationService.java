@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.serialization;
+package com.bluesky.visualprogramming.core.serialization.dump;
 
 import java.io.Reader;
 import java.io.StringReader;

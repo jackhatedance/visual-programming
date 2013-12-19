@@ -116,7 +116,7 @@ public class RemoteCommunicationService {
 			String connectionOptions) {
 
 		try {
-			services.get(protocol).register(address, obj, connectionOptions);
+			services.get(protocol).register(protocol, address, obj, connectionOptions);
 		} catch (Exception e) {
 			logger.warn("error when register address:" + address, e);
 		}
@@ -132,7 +132,8 @@ public class RemoteCommunicationService {
 	}
 
 	public void addProtocolService(ProtocolService svc) {
-		services.put(svc.getType(), svc);
+		for(ProtocolType pt : svc.getSupportedTypes())
+			services.put(pt, svc);
 
 	}
 

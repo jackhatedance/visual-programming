@@ -12,15 +12,20 @@ import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 
 public class SshService implements ProtocolService {
-	private ProtocolType type = ProtocolType.SSH;
+	private ProtocolType[] supportedTypes = new ProtocolType[] { ProtocolType.SSH };
 
+	
+	
 	// key is address, value is object
 	BidiMap addressObjectMap = new DualHashBidiMap();
 
 	Map<String, SshAgent> agents = new HashMap<String, SshAgent>();
 
 	@Override
-	public void register(String address, _Object obj, String connectionOptions) {
+	public void register(ProtocolType protocol, String address, _Object obj,
+			String connectionOptions) {
+		
+		
 		if (addressObjectMap.containsKey(address))
 			throw new RuntimeException("already registered:" + address);
 
@@ -28,8 +33,8 @@ public class SshService implements ProtocolService {
 
 		SshAgent agent = new SshAgent(address, obj, connectionOptions);
 		agents.put(address, agent);
- 
-		agent.connect();		
+
+		agent.connect();
 	}
 
 	@Override
@@ -59,8 +64,8 @@ public class SshService implements ProtocolService {
 	}
 
 	@Override
-	public ProtocolType getType() {
+	public ProtocolType[] getSupportedTypes() {
 
-		return type;
+		return supportedTypes;
 	}
 }

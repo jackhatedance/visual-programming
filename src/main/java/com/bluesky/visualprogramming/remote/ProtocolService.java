@@ -12,7 +12,7 @@ public interface ProtocolService {
 	 * @param id
 	 * @param obj
 	 */
-	void register(String address, _Object obj, String connectionOptions);
+	void register(ProtocolType protocol,String address, _Object obj, String connectionOptions);
 
 	/**
 	 * 
@@ -23,6 +23,6 @@ public interface ProtocolService {
 
 	void send(String receiverId, Message message);
 	
-	ProtocolType getType();
+	ProtocolType[] getSupportedTypes();
 
 }

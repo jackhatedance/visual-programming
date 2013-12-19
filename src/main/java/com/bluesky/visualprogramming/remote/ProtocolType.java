@@ -6,9 +6,17 @@ public enum ProtocolType {
 		public boolean needSenderAddress() {
 			return false;
 		}
+	},
+	HTTPS {
+
+		@Override
+		public boolean needSenderAddress() {
+			return false;
+		}
 	};
 
 	public boolean needSenderAddress() {
 		return true;
 	}
+
 }

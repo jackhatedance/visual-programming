@@ -1,22 +1,10 @@
 package com.bluesky.visualprogramming.remote.http;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.antlr.v4.parse.ANTLRParser.exceptionGroup_return;
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
-import org.apache.http.HttpEntity;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -28,14 +16,13 @@ import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ConnectionOptions;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
-import com.bluesky.visualprogramming.remote.ssh.SshAgent;
-import com.bluesky.visualprogramming.remote.xmpp.XmppAgent;
 
 public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
 	static Logger logger = Logger.getLogger(HttpService.class);
 
-	private ProtocolType type = ProtocolType.HTTP;
+	private ProtocolType[] supportedTypes = new ProtocolType[] {
+			ProtocolType.HTTP, ProtocolType.HTTPS };
 
 	// key is address, value is object
 	BidiMap addressObjectMap = new DualHashBidiMap();
@@ -70,7 +57,9 @@ public class HttpService extends AbstractProtocolService implements
 	}
 
 	@Override
-	public void register(String address, _Object obj, String connectionOptions) {
+	public void register(ProtocolType protocol, String address, _Object obj,
+			String connectionOptions) {
+
 		if (addressObjectMap.containsKey(address))
 			throw new RuntimeException("already registered:" + address);
 
@@ -91,13 +80,12 @@ public class HttpService extends AbstractProtocolService implements
 		}
 
 		if (authOnly) {
-			HttpOutgoingAgent outAgent = new HttpOutgoingAgent(address,
-					connectionOptions);
+			HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol,
+					address, connectionOptions);
 			outgoingRequestAgents.put(address, outAgent);
 
 			logger.info(address + " is authOnly.");
-		}
-		else
+		} else
 			logger.info(address + " is not authOnly.");
 
 	}
@@ -142,7 +130,7 @@ public class HttpService extends AbstractProtocolService implements
 				try {
 					outgoingAgent.send(receiverAddress, message);
 
-				} catch (Exception e) {
+				} catch (Exception e) {					
 					logger.error(e);
 					throw new RuntimeException(e);
 				}
@@ -155,9 +143,9 @@ public class HttpService extends AbstractProtocolService implements
 	}
 
 	@Override
-	public ProtocolType getType() {
+	public ProtocolType[] getSupportedTypes() {
 
-		return type;
+		return supportedTypes;
 	}
 
 	public void setAgent(String sessionId, HttpIncomingRequestAgent agent) {

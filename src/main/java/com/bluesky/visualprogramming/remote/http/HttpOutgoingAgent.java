@@ -1,7 +1,14 @@
 package com.bluesky.visualprogramming.remote.http;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,7 +17,6 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -25,8 +31,11 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.serialization.dump.ObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormatType;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.ConnectionOptions;
+import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteAddress;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -34,6 +43,8 @@ public class HttpOutgoingAgent {
 	static Logger logger = Logger.getLogger(HttpOutgoingAgent.class);
 
 	public static final String ROOT_USER = "ROOT";
+
+	ProtocolType protocol;
 
 	String username;
 	String password;
@@ -50,6 +61,9 @@ public class HttpOutgoingAgent {
 
 	CredentialsProvider credsProvider;
 
+	String messageFormat;
+	ObjectSerializer serializer;
+
 	/**
 	 * 
 	 * @param address
@@ -57,13 +71,17 @@ public class HttpOutgoingAgent {
 	 * @param connectionOptions
 	 */
 
-	public HttpOutgoingAgent(String address, String connectionOptions) {
+	public HttpOutgoingAgent(ProtocolType protocol, String address,
+			String connectionOptions) {
+		this.protocol = protocol;
 
 		RemoteAddress addr = RemoteAddress.valueOf(address);
 
 		this.username = addr.username;
 		this.server = addr.server;
-		this.port = addr.port >= 0 ? addr.port : 80;
+
+		int defaultPort = protocol == ProtocolType.HTTP ? 80 : 443;
+		this.port = addr.port >= 0 ? addr.port : defaultPort;
 
 		Map<String, String> optMap = new ConnectionOptions(connectionOptions).map;
 		if (optMap.containsKey("password"))
@@ -81,6 +99,15 @@ public class HttpOutgoingAgent {
 				authType = null;
 		}
 
+		if (optMap.containsKey("messageFormat"))
+			messageFormat = optMap.get("messageFormat");
+		else {
+			messageFormat = "";
+		}
+
+		MessageFormatType type = MessageFormatType.getType(messageFormat);
+		if (type != null)
+			serializer = type.getSerializer();
 	}
 
 	public void send(String receiverAddress, Message message)
@@ -100,6 +127,7 @@ public class HttpOutgoingAgent {
 		CredentialsProvider credsProvider = new BasicCredentialsProvider();
 		credsProvider.setCredentials(new AuthScope(server, port),
 				new UsernamePasswordCredentials(username, password));
+
 		CloseableHttpClient httpclient = HttpClients.custom()
 				.setDefaultCredentialsProvider(credsProvider).build();
 
@@ -136,13 +164,22 @@ public class HttpOutgoingAgent {
 	}
 
 	private void reply(Message message, String responseBody) {
-		VirtualMachine vm = VirtualMachine.getInstance();
-		ObjectRepository repo = vm.getObjectRepository();
-		StringValue returnValue = (StringValue) repo.createObject(
-				ObjectType.STRING, ObjectScope.ExecutionContext);
+		_Object returnValue;
 
-		// TODO convert msg.Body to _Object.
-		returnValue.setValue(responseBody);
+		VirtualMachine vm = VirtualMachine.getInstance();
+		if (serializer == null) {
+
+			ObjectRepository repo = vm.getObjectRepository();
+			StringValue returnStringValue = (StringValue) repo.createObject(
+					ObjectType.STRING, ObjectScope.ExecutionContext);
+
+			returnStringValue.setValue(responseBody);
+
+			returnValue = returnStringValue;
+		} else {
+			StringReader sr = new StringReader(responseBody);
+			returnValue = serializer.deserialize(sr);
+		}
 
 		Message replyMsg = new Message(false, message.receiver, message.sender,
 				"RE:" + message.getSubject(), returnValue,
@@ -155,7 +192,7 @@ public class HttpOutgoingAgent {
 
 	private String populateUrl(Message message, RemoteAddress ra) {
 		StringBuilder sbUrl = new StringBuilder();
-		sbUrl.append("http");
+		sbUrl.append(protocol.name().toLowerCase());
 		sbUrl.append("://");
 		sbUrl.append(ra.server);
 

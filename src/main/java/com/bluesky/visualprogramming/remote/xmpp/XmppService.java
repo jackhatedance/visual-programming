@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.remote.xmpp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.codec.language.bm.Rule.RPattern;
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.jivesoftware.smack.XMPPException;
@@ -13,15 +14,17 @@ import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 
-public class XmppService extends AbstractProtocolService implements ProtocolService {
+public class XmppService extends AbstractProtocolService implements
+		ProtocolService {
 
-	private ProtocolType type = ProtocolType.XMPP;
-
+	private ProtocolType[] supportedTypes = new ProtocolType[] { ProtocolType.XMPP };
+	
 	
 	Map<String, XmppAgent> agents = new HashMap<String, XmppAgent>();
 
 	@Override
-	public void register(String address, _Object obj, String connectionOptions) {
+	public void register(ProtocolType protocol,String address, _Object obj, String connectionOptions) {
+		 
 		if (addressObjectMap.containsKey(address))
 			throw new RuntimeException("already registered:" + address);
 
@@ -31,8 +34,6 @@ public class XmppService extends AbstractProtocolService implements ProtocolServ
 		agents.put(address, agent);
 		agent.connect();
 	}
-
-	
 
 	@Override
 	public void send(String receiverAddress, Message message) {
@@ -49,8 +50,8 @@ public class XmppService extends AbstractProtocolService implements ProtocolServ
 	}
 
 	@Override
-	public ProtocolType getType() {
+	public ProtocolType[] getSupportedTypes() {
 
-		return this.type;
+		return this.supportedTypes;
 	}
 }

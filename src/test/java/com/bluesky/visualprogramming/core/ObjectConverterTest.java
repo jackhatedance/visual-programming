@@ -2,8 +2,8 @@ package com.bluesky.visualprogramming.core;
 
 import org.junit.Test;
 
-import com.bluesky.visualprogramming.core.serialization.SerializationService;
-import com.bluesky.visualprogramming.core.serialization.SerializerType;
+import com.bluesky.visualprogramming.core.serialization.dump.SerializationService;
+import com.bluesky.visualprogramming.core.serialization.dump.SerializerType;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 

@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.serialization;
+package com.bluesky.visualprogramming.core.serialization.dump;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
