@@ -349,6 +349,19 @@ public class SVGMainWindow extends JPanel {
 		});
 		menu.add(eMenuItem);
 
+		eMenuItem = new JMenuItem("arrange children");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				
+				//getSelectedTreeField().target
+
+				
+
+			}
+
+		});
+		menu.add(eMenuItem);
+		
 		return menu;
 	}
 

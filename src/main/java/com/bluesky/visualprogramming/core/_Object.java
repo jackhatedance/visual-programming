@@ -651,10 +651,13 @@ public class _Object implements Serializable {
 		}
 
 		if (logger.isDebugEnabled())
+		{
+			
 			logger.debug(String.format(
-					"a message added to queue %s, subject: %s, need-worker:%s",
-					pos, msg.getSubject(), applyWorkerForMe));
-
+					"a message added to %s's queue %s, subject: %s, need-worker:%s",
+					name,pos, msg.getSubject(), applyWorkerForMe));
+		}
+		
 		return applyWorkerForMe;
 	}
 
