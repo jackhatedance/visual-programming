@@ -3,7 +3,11 @@ package com.bluesky.visualprogramming.vm;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 public class AppProperties {
+	static Logger logger = Logger.getLogger(AppProperties.class);
+	
 	static private AppProperties instance;
 
 	public static AppProperties getInstance() {
@@ -29,8 +33,7 @@ public class AppProperties {
 			remoteSecurityConfig.load(new FileInputStream(remoteSecurityFile));
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
+			logger.warn("app.properties not found.");			
 		}
 
 	}
