@@ -1,12 +1,7 @@
 package com.bluesky.visualprogramming.core;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Stroke;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -16,9 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
 
 import com.bluesky.visualprogramming.core.procedure.SubjectMatchType;
 import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
@@ -41,6 +34,8 @@ public class _Object implements Serializable {
 	// it is defined by the procedure itself, to override the default value of
 	// the owner object.
 	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
+	
+	static public final String OBJECT_LAYOUT = "_layout";
 	/**
 	 * 
 	 */
@@ -73,6 +68,7 @@ public class _Object implements Serializable {
 
 	private Deque<Message> messageQueue;
 	private Worker worker = null;
+	
 
 	/**
 	 * key is message Id of async request, value is message of incoming request.
@@ -447,6 +443,15 @@ public class _Object implements Serializable {
 	 */
 	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
 			Point canvasOffset) {
+		
+		ObjectLayout layout=ObjectLayout.XY;
+		StringValue layoutSV = (StringValue) getChild(OBJECT_LAYOUT);
+		if (layoutSV != null)
+			layout = ObjectLayout
+					.valueOf(layoutSV.getValue());
+
+		layout.preprocess(this);
+		
 		for (Field field : fieldList) {
 			boolean owns = field.target.owner == this;
 
@@ -767,5 +772,12 @@ public class _Object implements Serializable {
 
 	public int getUserFieldsCount() {
 		return fieldList.size() - systemFieldsCount;
+	}
+	
+	/**
+	 * re-arrange the field
+	 */
+	public void arrangeField(){
+		
 	}
 }
