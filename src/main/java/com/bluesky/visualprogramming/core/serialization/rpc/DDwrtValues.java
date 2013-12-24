@@ -1,4 +1,4 @@
-package com.bluesky.jack.jackap;
+package com.bluesky.visualprogramming.core.serialization.rpc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

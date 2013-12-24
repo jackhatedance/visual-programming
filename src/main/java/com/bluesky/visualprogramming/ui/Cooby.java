@@ -27,12 +27,12 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-public class MainFrame extends JFrame {
+public class Cooby extends JFrame {
 	static String DEFAULT_IMAGE_FILE_NAME = "objects.xml";
 
 	SVGMainWindow mainWindow = null;
 
-	public MainFrame() {
+	public Cooby() {
 
 		initMenu();
 
@@ -160,7 +160,7 @@ public class MainFrame extends JFrame {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				MainFrame ex = new MainFrame();
+				Cooby ex = new Cooby();
 				ex.setVisible(true);
 			}
 		});

@@ -8,7 +8,6 @@ import java.nio.CharBuffer;
 import java.util.List;
 import java.util.Map;
 
-import com.bluesky.jack.jackap.DDwrtValues;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
