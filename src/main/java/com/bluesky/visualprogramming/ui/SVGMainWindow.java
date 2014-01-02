@@ -44,9 +44,12 @@ import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 
 import com.bluesky.visualprogramming.core.Field;
+import com.bluesky.visualprogramming.core.ObjectLayout;
+import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
@@ -349,14 +352,17 @@ public class SVGMainWindow extends JPanel {
 		});
 		menu.add(eMenuItem);
 
-		eMenuItem = new JMenuItem("arrange children");
+		eMenuItem = new JMenuItem("Show in list layout");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				Field field = getSelectedTreeField();
+				//set layout attribute
+				StringValue sv = (StringValue)VirtualMachine.getInstance().getObjectRepository().createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
+				sv.setValue(ObjectLayout.List.toString());
+				getSelectedTreeField().target.setField(_Object.OBJECT_LAYOUT, sv, true);
 				
-				//getSelectedTreeField().target
-
-				
-
+				//refresh UI
+				loadDiagram(field);
 			}
 
 		});

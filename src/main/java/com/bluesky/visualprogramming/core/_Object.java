@@ -34,7 +34,7 @@ public class _Object implements Serializable {
 	// it is defined by the procedure itself, to override the default value of
 	// the owner object.
 	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
-	
+
 	static public final String OBJECT_LAYOUT = "_layout";
 	/**
 	 * 
@@ -68,7 +68,6 @@ public class _Object implements Serializable {
 
 	private Deque<Message> messageQueue;
 	private Worker worker = null;
-	
 
 	/**
 	 * key is message Id of async request, value is message of incoming request.
@@ -443,15 +442,19 @@ public class _Object implements Serializable {
 	 */
 	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
 			Point canvasOffset) {
-		
-		ObjectLayout layout=ObjectLayout.XY;
+
+		ObjectLayout layout = ObjectLayout.XY;
 		StringValue layoutSV = (StringValue) getChild(OBJECT_LAYOUT);
-		if (layoutSV != null)
-			layout = ObjectLayout
-					.valueOf(layoutSV.getValue());
+		if (layoutSV != null) {
+			try {
+				layout = ObjectLayout.valueOf(layoutSV.getValue());
+			} catch (Exception e) {
+				layout = ObjectLayout.XY;//default layout
+			}
+		}
 
 		layout.preprocess(this);
-		
+
 		for (Field field : fieldList) {
 			boolean owns = field.target.owner == this;
 
@@ -655,14 +658,13 @@ public class _Object implements Serializable {
 			applyWorkerForMe = true;
 		}
 
-		if (logger.isDebugEnabled())
-		{
-			
-			logger.debug(String.format(
-					"a message added to %s's queue %s, subject: %s, need-worker:%s",
-					name,pos, msg.getSubject(), applyWorkerForMe));
+		if (logger.isDebugEnabled()) {
+
+			logger.debug(String
+					.format("a message added to %s's queue %s, subject: %s, need-worker:%s",
+							name, pos, msg.getSubject(), applyWorkerForMe));
 		}
-		
+
 		return applyWorkerForMe;
 	}
 
@@ -773,11 +775,11 @@ public class _Object implements Serializable {
 	public int getUserFieldsCount() {
 		return fieldList.size() - systemFieldsCount;
 	}
-	
+
 	/**
 	 * re-arrange the field
 	 */
-	public void arrangeField(){
-		
+	public void arrangeField() {
+
 	}
 }
