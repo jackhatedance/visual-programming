@@ -219,10 +219,24 @@ public class ProcedureExecutor implements InstructionExecutor {
 			// sender.sleep();
 			postService.sendMessage(msg);
 
-			if (logger.isDebugEnabled())
-				logger.debug("executeSendMessage, step 1 end; waiting...");
+			if (instruction.sync) {
+				if (logger.isDebugEnabled())
+					logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
 
-			return ExecutionStatus.WAITING;
+				return ExecutionStatus.WAITING;
+			} else {
+				//async
+				if (logger.isDebugEnabled())
+					logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
+
+				ctx.step = 0;
+				
+				//reply is null.
+				ctx.setObject(instruction.replyVar, null);
+				
+				return ExecutionStatus.COMPLETE;
+
+			}
 		} else if (ctx.step == 1) {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;

@@ -9,5 +9,5 @@ procedure (a,b,c)
 	//result = "我的名字是";
 	result = "ab c".concat(self.name);
 	
-	
+	foo..bar(b);
 }

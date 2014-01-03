@@ -14,6 +14,8 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
+import com.bluesky.visualprogramming.remote.email.EmailAgent;
+import com.bluesky.visualprogramming.remote.email.EmailService;
 import com.bluesky.visualprogramming.remote.http.HttpService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
@@ -41,6 +43,7 @@ public class PostService implements Runnable, Service {
 		remoteCommunicationService.addProtocolService(new XmppService());
 		remoteCommunicationService.addProtocolService(new SshService());
 		remoteCommunicationService.addProtocolService(new HttpService());
+		remoteCommunicationService.addProtocolService(new EmailService());
 	}
 
 	public void sendMessage(Message msg) {

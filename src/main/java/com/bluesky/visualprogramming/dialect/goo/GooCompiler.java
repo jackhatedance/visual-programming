@@ -19,9 +19,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hamcrest.core.StringEndsWith;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
@@ -105,9 +103,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	static Logger logger = Logger.getLogger(GooCompiler.class);
 
-	
-	private static String PROCEDURE_END_LABEL="procedureEnd";
-	
+	private static String PROCEDURE_END_LABEL = "procedureEnd";
+
 	private List<String> parameters = new ArrayList<String>();
 	private List<Instruction> instructions = new ArrayList<Instruction>();
 
@@ -524,7 +521,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String tempVar = (String) ctx.expr().accept(this);
 
 		ins.receiverVar = tempVar;
-
+				
+		ins.sync = (ctx.DOTDOT() == null);
+		
 		// only one child, either Id or String. return procedure name
 		ins.messageSubjectVar = (String) ctx.messgeSubject().accept(this);
 		ins.messageBodyVar = paramVar;

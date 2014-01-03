@@ -61,10 +61,11 @@ assignee : ID		#AssigneeVariable
 	;
 
 expr: constant				#ConstantExpr
-    | variable                          #VariableExpr
-    | expr DOT field              #AccessField
-    | expr DOT messgeSubject '(' fieldList? ')' #SendMessage
+    | variable                          #VariableExpr        
+    | expr DOT field              #AccessField    
+    | expr (DOT | DOTDOT) messgeSubject '(' fieldList? ')' #SendMessage
     ;
+
 
 constant : 
  
@@ -76,6 +77,10 @@ constant :
         | procedure         #ProcedureConst
         | object			#ObjectConst
          ;
+
+//messageOperator : SYNC_MESSAGE  #SyncMessageOperator
+//          | ASYNC_MESSAGE      #AsyncMessageOperator          
+//          ;
 
 link : LINK_PROTOCOL  LINK_ADDRESS;
 
@@ -138,6 +143,8 @@ CONTINUE : 'continue';
 
 
 DOT : '.';
+
+DOTDOT : '..';
           
 LINE_COMMENT : '//' .*? '\r'? '\n';
 BLOCK_COMMENT : '/*' .*? '*/';
@@ -146,7 +153,9 @@ BLOCK_COMMENT : '/*' .*? '*/';
 REF_ASSIGN : '->';
 OWN_ASSIGN : '=>';
 AUTO_ASSIGN: '='| '~>';
-    
+
+//SYNC_MESSAGE : '.';
+//ASYNC_MESSAGE : ':';   
 
 //LINK : [a-zA-Z0-9]+ '://' [a-zA-Z0-9.]+ '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;   
 LINK_PROTOCOL : [a-zA-Z0-9]+ '://';
