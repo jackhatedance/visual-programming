@@ -1,6 +1,11 @@
 procedure foo(a,b,c)
 {
-	a = { a:1, b:true, c:{num:3}};
+	flag = true;
+	a = { a:1, b:flag, c:{num:3}};
 	
 	//b = {};
+	
+
+	lanHostStatus.$hostname = {status : "live"};
+
 }

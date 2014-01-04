@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
@@ -25,5 +26,14 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 
 	protected abstract _Object execute(VirtualMachine virtualMachine,
 			_Object self, ProcedureExecutionContext ctx);
+	
+	protected VirtualMachine getVM(){
+		return VirtualMachine.getInstance();
+	}
+	
+	protected ObjectRepository getRepo(){
+		return getVM().getObjectRepository();
+	}
+	
 
 }
