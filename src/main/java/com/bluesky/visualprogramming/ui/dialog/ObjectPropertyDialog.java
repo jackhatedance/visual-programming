@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+import javax.swing.JScrollPane;
 
 public class ObjectPropertyDialog extends JDialog {
 
@@ -34,6 +35,7 @@ public class ObjectPropertyDialog extends JDialog {
 	private JTextField textFieldId;
 	private JTextField textFieldName;
 	private JTextArea textAreaValue;
+	private JScrollPane scrollPaneValue;
 	private JTextField textFieldType;
 	private JLabel lblNewLabel;
 	private JLabel lblFieldName;
@@ -71,11 +73,11 @@ public class ObjectPropertyDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] { 0, 0, 107, 219, 0 };
-		gbl_contentPanel.rowHeights = new int[] { 0, 45, 45, 49, 45, 68, 45, 0 };
-		gbl_contentPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0,
+		gbl_contentPanel.rowHeights = new int[] { 0, 45, 45, 49, 45, 68, 45, 0, 0 };
+		gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
-				1.0, 0.0, Double.MIN_VALUE };
+				1.0, 0.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			textFieldName = new JTextField();
@@ -191,16 +193,17 @@ public class ObjectPropertyDialog extends JDialog {
 		{
 			textAreaValue = new JTextArea();
 			textAreaValue.setLineWrap(true);
+			scrollPaneValue = new JScrollPane(textAreaValue);
 		}
 		GridBagConstraints gbc_textAreaValue = new GridBagConstraints();
 		gbc_textAreaValue.fill = GridBagConstraints.BOTH;
 		gbc_textAreaValue.insets = new Insets(0, 0, 5, 0);
 		gbc_textAreaValue.gridx = 3;
 		gbc_textAreaValue.gridy = 5;
-		contentPanel.add(textAreaValue, gbc_textAreaValue);
+		contentPanel.add(scrollPaneValue, gbc_textAreaValue);
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.fill = GridBagConstraints.BOTH;
-		gbc_lblColor.insets = new Insets(0, 0, 0, 5);
+		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblColor.gridx = 2;
 		gbc_lblColor.gridy = 6;
 		contentPanel.add(lblColor, gbc_lblColor);
@@ -219,6 +222,7 @@ public class ObjectPropertyDialog extends JDialog {
 			});
 		}
 		GridBagConstraints gbc_btnSetBorderColor = new GridBagConstraints();
+		gbc_btnSetBorderColor.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSetBorderColor.fill = GridBagConstraints.BOTH;
 		gbc_btnSetBorderColor.gridx = 3;
 		gbc_btnSetBorderColor.gridy = 6;
