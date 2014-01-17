@@ -16,7 +16,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
-import com.bluesky.visualprogramming.vm.ProcedureExecutor;
+import com.bluesky.visualprogramming.vm.InstructionExecutorImpl;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Worker implements Runnable {
@@ -294,7 +294,7 @@ public class Worker implements Runnable {
 			msg.status = MessageStatus.IN_PROGRESS;
 		}
 
-		ProcedureExecutor executor = new ProcedureExecutor(objectRepository,
+		InstructionExecutorImpl executor = new InstructionExecutorImpl(objectRepository,
 				postService, cp, msg.executionContext);
 		// e.setPolicy(step);
 

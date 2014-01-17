@@ -27,15 +27,15 @@ import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
-public class ProcedureExecutor implements InstructionExecutor {
-	static Logger logger = Logger.getLogger(ProcedureExecutor.class);
+public class InstructionExecutorImpl implements InstructionExecutor {
+	static Logger logger = Logger.getLogger(InstructionExecutorImpl.class);
 
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
 	PostService postService;
 
-	public ProcedureExecutor(ObjectRepository objectRepository,
+	public InstructionExecutorImpl(ObjectRepository objectRepository,
 			PostService postService, CompiledProcedure procedure,
 			ProcedureExecutionContext ctx) {
 

@@ -35,7 +35,7 @@ public class SvgObject {
 	/**
 	 * old ID <-> new ID
 	 */
-	private Map<String, String> idMap = new HashMap<>();
+	private Map<String, String> idMap = new HashMap<String, String>();
 
 	public SvgObject(Document doc, long id, boolean needInit) {
 		this.doc = doc;

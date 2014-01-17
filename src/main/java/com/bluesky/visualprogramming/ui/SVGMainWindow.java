@@ -18,6 +18,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -105,7 +106,9 @@ public class SVGMainWindow extends JPanel {
 
 		Field rootField = new Field(getVM().getObjectRepository()
 				.getRootObject(), "root");
-		TreeNode rootNode = createTreeNode(null, rootField);
+
+		// just create the root node at first.
+		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);
 
@@ -119,10 +122,17 @@ public class SVGMainWindow extends JPanel {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 
-				// reload the diagram
-				final Field field = getSelectedTreeField();
+				DefaultMutableTreeNode theNode = getSelectedTreeNode();
+				if (theNode != null) {
 
-				loadDiagram(field);
+					// refresh the child tree nodes(depth is 1)
+					reloadChildNodes(theNode);
+
+					// reload the diagram
+					final Field field = getSelectedTreeField();
+
+					loadDiagram(field);
+				}
 
 			}
 		});
@@ -165,26 +175,47 @@ public class SVGMainWindow extends JPanel {
 		loadDiagram(field);
 	}
 
-	private DefaultMutableTreeNode createTreeNode(_Object owner, Field field) {
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode(field);
+	/**
+	 * refresh node children but not grand children.
+	 * 
+	 * @param owner
+	 * @param field
+	 * @return
+	 */
+	private void reloadChildNodes(DefaultMutableTreeNode node) {
+		// clear existing child nodes
+		node.removeAllChildren();
 
+		createChildNodes(node,2);
+
+		treeModel.nodeStructureChanged(node);
+	}
+
+	private void createChildNodes(DefaultMutableTreeNode node, int depth) {
+		if (depth == 0)
+			return;
+
+		Field field = (Field) node.getUserObject();
 		_Object obj = field.target;
+
 		if (obj == null)
-			throw new RuntimeException(String.format(
-					"owner id %d field %s is null:", owner.getId(), field.name));
+			throw new RuntimeException("object of selected node is null.");
 
-		if (field.target.getOwner() == owner) {
-			for (int i = 0; i < obj.getFields().size(); i++) {
+		// create child nodes
+		List<Field> fields = obj.getFields();
+		for (int i = 0; i < fields.size(); i++) {
+			Field childField = fields.get(i);
+			if (obj.owns(childField.target)) {
 
-				Field childField = obj.getFields().get(i);
-
-				DefaultMutableTreeNode childNode = createTreeNode(obj,
+				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
 						childField);
+
 				node.add(childNode);
+
+				createChildNodes(childNode, depth - 1);
 			}
 		}
 
-		return node;
 	}
 
 	/**
@@ -356,18 +387,23 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				Field field = getSelectedTreeField();
-				//set layout attribute
-				StringValue sv = (StringValue)VirtualMachine.getInstance().getObjectRepository().createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
+				// set layout attribute
+				StringValue sv = (StringValue) VirtualMachine
+						.getInstance()
+						.getObjectRepository()
+						.createObject(ObjectType.STRING,
+								ObjectScope.ExecutionContext);
 				sv.setValue(ObjectLayout.List.toString());
-				getSelectedTreeField().target.setField(_Object.OBJECT_LAYOUT, sv, true);
-				
-				//refresh UI
+				getSelectedTreeField().target.setField(_Object.OBJECT_LAYOUT,
+						sv, true);
+
+				// refresh UI
 				loadDiagram(field);
 			}
 
 		});
 		menu.add(eMenuItem);
-		
+
 		return menu;
 	}
 
@@ -402,7 +438,7 @@ public class SVGMainWindow extends JPanel {
 		Point screenPosition = diagramPanel.getPopupMenuPosition();
 
 		SVGOMPoint elePosition = SVGUtils.screenToElement(mat, screenPosition);
-				
+
 		f.setStartPosition(elePosition.getX() / f.svgScale, elePosition.getY()
 				/ f.svgScale);
 
