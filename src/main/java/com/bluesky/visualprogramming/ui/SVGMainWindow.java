@@ -17,6 +17,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -111,6 +112,7 @@ public class SVGMainWindow extends JPanel {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(rootField);
 
 		treeModel = new DefaultTreeModel(rootNode);
+		reloadChildNodes(rootNode);
 
 		tree = new JTree(treeModel);
 		tree.getSelectionModel().setSelectionMode(
@@ -123,14 +125,12 @@ public class SVGMainWindow extends JPanel {
 			public void valueChanged(TreeSelectionEvent e) {
 
 				DefaultMutableTreeNode theNode = getSelectedTreeNode();
+				final Field field = getSelectedTreeField();
 				if (theNode != null) {
-
 					// refresh the child tree nodes(depth is 1)
 					reloadChildNodes(theNode);
 
 					// reload the diagram
-					final Field field = getSelectedTreeField();
-
 					loadDiagram(field);
 				}
 
@@ -184,11 +184,26 @@ public class SVGMainWindow extends JPanel {
 	 */
 	private void reloadChildNodes(DefaultMutableTreeNode node) {
 		// clear existing child nodes
-		node.removeAllChildren();
+		
+		//node.removeAllChildren();
+		
+		//to list
+		Enumeration<DefaultMutableTreeNode> enumNodes  =node.children();
+		List<DefaultMutableTreeNode> nodeList = new ArrayList<DefaultMutableTreeNode>();
+		while(enumNodes.hasMoreElements()){
+			nodeList.add(enumNodes.nextElement());
+		}
+		
+		//remove all children
+		for(DefaultMutableTreeNode child :nodeList )
+			treeModel.removeNodeFromParent(child);
 
-		createChildNodes(node,2);
+		//add new child
+		createChildNodes(node, 2);
 
-		treeModel.nodeStructureChanged(node);
+		// treeModel.nodeStructureChanged(node);
+		//treeModel.nodeChanged(node);
+		
 	}
 
 	private void createChildNodes(DefaultMutableTreeNode node, int depth) {
@@ -210,7 +225,8 @@ public class SVGMainWindow extends JPanel {
 				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
 						childField);
 
-				node.add(childNode);
+				treeModel.insertNodeInto(childNode, node, node.getChildCount());
+				//node.add(childNode);
 
 				createChildNodes(childNode, depth - 1);
 			}
