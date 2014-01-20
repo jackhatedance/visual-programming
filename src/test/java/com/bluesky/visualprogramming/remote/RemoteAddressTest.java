@@ -15,6 +15,12 @@ public class RemoteAddressTest {
 		// no port
 		addr = "http://jack@webserver";
 		ra = RemoteAddress.valueOf(addr);
+		Assert.assertEquals("jack", ra.userId);
+		Assert.assertEquals(addr, ra.toString());
+
+		// no id
+		addr = "http://@webserver";
+		ra = RemoteAddress.valueOf(addr);
 		Assert.assertEquals(addr, ra.toString());
 
 		// no protocol

@@ -199,7 +199,7 @@ public class HttpOutgoingAgent {
 		if (ra.port >= 0)
 			sbUrl.append(":" + String.valueOf(ra.port));
 
-		if (!ra.userId.equals(ROOT_USER))
+		if (!ra.userId.equals(ROOT_USER) && !ra.userId.isEmpty())
 			sbUrl.append("/" + ra.userId);
 
 		sbUrl.append("/");
@@ -208,11 +208,16 @@ public class HttpOutgoingAgent {
 		if (message.body != null) {
 			_Object body = message.body;
 			sbUrl.append("?");
+			int i = 0;
 			for (String cname : body.getChildrenNames()) {
 				_Object field = body.getChild(cname);
+				if (i > 0)
+					sbUrl.append("&");
+
 				sbUrl.append(cname);
 				sbUrl.append("=");
 				sbUrl.append(field.getValue());
+				i++;
 			}
 		}
 		return sbUrl.toString();

@@ -2,6 +2,7 @@ procedure foo(a,b,c)
 {
 	 
 	a = true;
+	a = xmpp://@123abc;
 	a = xmpp://_jack.ding@123abc;
 	
 	self.getFoo().bar = "boo";

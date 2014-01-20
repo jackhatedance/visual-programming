@@ -28,6 +28,11 @@ public class HttpService extends AbstractProtocolService implements
 	BidiMap addressObjectMap = new DualHashBidiMap();
 
 	/**
+	 * not a http server
+	 */
+	boolean clientOnly = false;
+
+	/**
 	 * key is address of visitor, <PREFIX>_sessionId_requestId@host.
 	 * 
 	 * requestId is a random number.
@@ -60,34 +65,32 @@ public class HttpService extends AbstractProtocolService implements
 	public void register(ProtocolType protocol, String address, _Object obj,
 			String connectionOptions) {
 
-		if (addressObjectMap.containsKey(address))
-			throw new RuntimeException("already registered:" + address);
-
-		addressObjectMap.put(address, obj);
-
 		ConnectionOptions opts = new ConnectionOptions(connectionOptions);
 
-		boolean authOnly = false;
-
-		String authOnlyStr;
-		if (opts.map.containsKey("authOnly")) {
-			authOnlyStr = opts.map.get("authOnly");
+		String clientOnlyStr;
+		if (opts.map.containsKey("clientOnly")) {
+			clientOnlyStr = opts.map.get("clientOnly");
 			try {
-				authOnly = Boolean.valueOf(authOnlyStr);
+				clientOnly = Boolean.valueOf(clientOnlyStr);
 			} catch (Exception e) {
 				logger.error(e);
 			}
 		}
 
-		if (authOnly) {
-			HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol,
-					address, connectionOptions);
-			outgoingRequestAgents.put(address, outAgent);
+		HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol, address,
+				connectionOptions);
+		outgoingRequestAgents.put(address, outAgent);
 
-			logger.info(address + " is authOnly.");
-		} else
-			logger.info(address + " is not authOnly.");
+		logger.info(address + " is client only.");
 
+		if (!clientOnly) {
+			//add address local-object mapping table
+			
+			if (addressObjectMap.containsKey(address))
+				throw new RuntimeException("already registered:" + address);
+
+			addressObjectMap.put(address, obj);
+		}
 	}
 
 	@Override
@@ -130,7 +133,7 @@ public class HttpService extends AbstractProtocolService implements
 				try {
 					outgoingAgent.send(receiverAddress, message);
 
-				} catch (Exception e) {					
+				} catch (Exception e) {
 					logger.error(e);
 					throw new RuntimeException(e);
 				}

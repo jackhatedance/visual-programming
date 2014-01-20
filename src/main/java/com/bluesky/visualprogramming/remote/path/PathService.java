@@ -27,7 +27,14 @@ public class PathService implements ProtocolService {
 
 	@Override
 	public _Object getLocalObject(String address) {
-		return getRepo().getObjectByPath(address);
+		int index = address.indexOf('@');
+		String path = null;
+		if (index < 0)
+			path = address;
+		else
+			path = address.substring(0, index);
+
+		return getRepo().getObjectByPath(path);
 	}
 
 	public String getAddress(_Object obj) {

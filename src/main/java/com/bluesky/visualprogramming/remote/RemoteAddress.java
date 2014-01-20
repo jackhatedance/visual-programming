@@ -19,14 +19,14 @@ public class RemoteAddress {
 	public String userId;
 	public String server;
 	public int port = -1;
-	
+
 	public RemoteAddress() {
 		protocol = ProtocolType.UNKNOWN;
 		userId = "";
 		server = "";
 	}
 
-	public RemoteAddress(String protocol, String userId, String server, int port) {	
+	public RemoteAddress(String protocol, String userId, String server, int port) {
 		this.protocol = ProtocolType.getType(protocol);
 		this.userId = userId;
 		this.server = server;
@@ -35,7 +35,7 @@ public class RemoteAddress {
 	}
 
 	public static RemoteAddress valueOf(String fullAddress) {
-		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9_.]+)@(?<server>\\w+)(:(?<port>\\d+))?";
+		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9_.]+)?@(?<server>\\w+)(:(?<port>\\d+))?";
 		Pattern pattern = Pattern.compile(patternStr,
 				Pattern.UNICODE_CHARACTER_CLASS);
 		Matcher matcher = pattern.matcher(fullAddress);
@@ -43,7 +43,7 @@ public class RemoteAddress {
 		if (matcher.matches()) {
 
 			String protocol = matcher.group("protocol");
-			String username = matcher.group("username");
+			String username = nullToEmpty(matcher.group("username"));
 			String server = matcher.group("server");
 			String portStr = matcher.group("port");
 
@@ -91,4 +91,7 @@ public class RemoteAddress {
 		return sb.toString();
 	}
 
+	private static String nullToEmpty(String s) {
+		return s == null ? "" : s;
+	}
 }
