@@ -7,6 +7,8 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.TimeValue;
 
 public enum ObjectType {
+	
+	
 	NORMAL {
 		@Override
 		public _Object create(long id) {
@@ -38,7 +40,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 
-			return "root.prototype.value.integer";
+			return ObjectRepository.PROTOTYPE_PATH+".value.integer";
 		}
 
 		
@@ -64,7 +66,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 
-			return "root.prototype.value._float";
+			return ObjectRepository.PROTOTYPE_PATH+".value._float";
 		}
 
 		
@@ -85,7 +87,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 
-			return "root.prototype.value.time";
+			return ObjectRepository.PROTOTYPE_PATH+".value.time";
 		}
 
 		@Override
@@ -108,7 +110,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 
-			return "root.prototype.value.boolean";
+			return ObjectRepository.PROTOTYPE_PATH+".value.boolean";
 		}
 
 		@Override
@@ -131,7 +133,7 @@ public enum ObjectType {
 		@Override
 		public String getPrototypeEL() {
 
-			return "root.prototype.value.string";
+			return ObjectRepository.PROTOTYPE_PATH+".value.string";
 		}
 
 		@Override

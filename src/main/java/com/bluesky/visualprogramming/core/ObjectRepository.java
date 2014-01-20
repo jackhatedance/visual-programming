@@ -25,6 +25,8 @@ public class ObjectRepository {
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
 	static String DUMP_FILE = "objects";
+	public static String ROOT = "_root";
+	public static String PROTOTYPE_PATH=ROOT+".core.prototype";
 
 	long objectId;
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();
@@ -37,7 +39,7 @@ public class ObjectRepository {
 		objectId = 0;
 
 		rootObject = createObject(ObjectType.NORMAL, ObjectScope.Persistent);
-		rootObject.setName("root");
+		rootObject.setName(ObjectRepository.ROOT);
 	}
 
 	private String generateNewChildName(_Object owner) {
@@ -155,8 +157,8 @@ public class ObjectRepository {
 	public _Object getObjectByPath(String path) {
 		String[] ss = path.split("\\.");
 
-		if (!ss[0].equals("root"))
-			throw new RuntimeException("the first object must be 'root':" + path);
+		if (!ss[0].equals(ObjectRepository.ROOT))
+			throw new RuntimeException("the first object must be '"+ObjectRepository.ROOT+"':" + path);
 
 		_Object obj = getRootObject();
 

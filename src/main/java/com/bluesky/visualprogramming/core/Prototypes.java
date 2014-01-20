@@ -8,14 +8,14 @@ public enum Prototypes {
 		@Override
 		public String getPath() {
 
-			return "root.prototype.map";
+			return ObjectRepository.PROTOTYPE_PATH+".map";
 		}
 	},
 	List {
 		@Override
 		public String getPath() {
 
-			return "root.prototype.list";
+			return ObjectRepository.PROTOTYPE_PATH+".list";
 		}
 	};
 

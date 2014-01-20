@@ -47,6 +47,7 @@ import org.w3c.dom.svg.SVGMatrix;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectLayout;
+import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.SelectedStatus;
@@ -106,7 +107,7 @@ public class SVGMainWindow extends JPanel {
 	private void createTreePanel() {
 
 		Field rootField = new Field(getVM().getObjectRepository()
-				.getRootObject(), "root");
+				.getRootObject(), ObjectRepository.ROOT);
 
 		// just create the root node at first.
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(rootField);
