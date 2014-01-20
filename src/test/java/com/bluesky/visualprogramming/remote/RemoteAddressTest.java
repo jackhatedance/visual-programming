@@ -7,7 +7,7 @@ public class RemoteAddressTest {
 
 	@Test
 	public void testValueOf() {
-		String addr = "http://jack@webserver:8080";
+		String addr = "http://_jack.ding@webserver:8080";
 		RemoteAddress ra = RemoteAddress.valueOf(addr);
 
 		Assert.assertEquals(addr, ra.toString());
@@ -20,7 +20,7 @@ public class RemoteAddressTest {
 		// no protocol
 		addr = "jack@webserver";
 		ra = RemoteAddress.valueOf(addr);
-		Assert.assertEquals(addr, ra.toString());
+		Assert.assertEquals(addr, ra.getAddress());
 
 	}
 

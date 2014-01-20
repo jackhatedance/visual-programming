@@ -1,11 +1,8 @@
 package com.bluesky.visualprogramming.core.serialization.rpc;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.CharBuffer;
-import java.util.List;
 import java.util.Map;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
@@ -60,7 +57,7 @@ public class DdwrtSerializer implements ObjectSerializer {
 					ObjectScope.ExecutionContext);
 
 			_Object list = repo.getObjectByPath("root.prototype.list");
-			kvObj.setField("_prototype", list, false);
+			kvObj.setField(_Object.PROTOTYPE, list, false);
 			ListObject kvListObject = new ListObject(kvObj);
 
 			for (String value : values) {

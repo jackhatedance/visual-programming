@@ -15,22 +15,27 @@ import java.util.regex.Pattern;
  */
 public class RemoteAddress {
 
-	public String protocol;
-	public String username;
+	public ProtocolType protocol;
+	public String userId;
 	public String server;
-	public int port;
+	public int port = -1;
+	
+	public RemoteAddress() {
+		protocol = ProtocolType.UNKNOWN;
+		userId = "";
+		server = "";
+	}
 
-	public RemoteAddress(String protocol, String username, String server,
-			int port) {
-		this.protocol = protocol;
-		this.username = username;
+	public RemoteAddress(String protocol, String userId, String server, int port) {	
+		this.protocol = ProtocolType.getType(protocol);
+		this.userId = userId;
 		this.server = server;
 		this.port = port;
 
 	}
 
 	public static RemoteAddress valueOf(String fullAddress) {
-		String patternStr = "((?<protocol>\\w+)://)?(?<username>\\w+)@(?<server>\\w+)(:(?<port>\\d+))?";
+		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9_.]+)@(?<server>\\w+)(:(?<port>\\d+))?";
 		Pattern pattern = Pattern.compile(patternStr,
 				Pattern.UNICODE_CHARACTER_CLASS);
 		Matcher matcher = pattern.matcher(fullAddress);
@@ -65,9 +70,20 @@ public class RemoteAddress {
 		StringBuilder sb = new StringBuilder();
 
 		if (protocol != null)
-			sb.append(protocol + "://");
+			sb.append(protocol.toString().toLowerCase() + "://");
 
-		sb.append(username + "@" + server);
+		sb.append(userId + "@" + server);
+
+		if (port >= 0)
+			sb.append(":" + port);
+
+		return sb.toString();
+	}
+
+	public String getAddress() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(userId + "@" + server);
 
 		if (port >= 0)
 			sb.append(":" + port);

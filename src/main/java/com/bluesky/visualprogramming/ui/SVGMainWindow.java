@@ -185,26 +185,26 @@ public class SVGMainWindow extends JPanel {
 	 */
 	private void reloadChildNodes(DefaultMutableTreeNode node) {
 		// clear existing child nodes
-		
-		//node.removeAllChildren();
-		
-		//to list
-		Enumeration<DefaultMutableTreeNode> enumNodes  =node.children();
+
+		// node.removeAllChildren();
+
+		// to list
+		Enumeration<DefaultMutableTreeNode> enumNodes = node.children();
 		List<DefaultMutableTreeNode> nodeList = new ArrayList<DefaultMutableTreeNode>();
-		while(enumNodes.hasMoreElements()){
+		while (enumNodes.hasMoreElements()) {
 			nodeList.add(enumNodes.nextElement());
 		}
-		
-		//remove all children
-		for(DefaultMutableTreeNode child :nodeList )
+
+		// remove all children
+		for (DefaultMutableTreeNode child : nodeList)
 			treeModel.removeNodeFromParent(child);
 
-		//add new child
+		// add new child
 		createChildNodes(node, 2);
 
 		// treeModel.nodeStructureChanged(node);
-		//treeModel.nodeChanged(node);
-		
+		// treeModel.nodeChanged(node);
+
 	}
 
 	private void createChildNodes(DefaultMutableTreeNode node, int depth) {
@@ -221,16 +221,16 @@ public class SVGMainWindow extends JPanel {
 		List<Field> fields = obj.getFields();
 		for (int i = 0; i < fields.size(); i++) {
 			Field childField = fields.get(i);
-			if (obj.owns(childField.target)) {
+			// if (obj.owns(childField.target)) {
 
-				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
-						childField);
+			DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
+					childField);
 
-				treeModel.insertNodeInto(childNode, node, node.getChildCount());
-				//node.add(childNode);
+			treeModel.insertNodeInto(childNode, node, node.getChildCount());
+			// node.add(childNode);
 
-				createChildNodes(childNode, depth - 1);
-			}
+			createChildNodes(childNode, depth - 1);
+			// }
 		}
 
 	}
@@ -286,12 +286,29 @@ public class SVGMainWindow extends JPanel {
 						DefaultMutableTreeNode selectedChildNode = findChildNode(
 								getSelectedTreeNode(), getActiveChildField());
 
-						// remove tree model
+						// remove from tree 
 						treeModel.removeNodeFromParent(selectedChildNode);
+						
+						
 
-						// remove from object repository
-						getVM().getObjectRepository().destroyObject(
-								getActiveChildField().target);
+					
+						 
+						Field ownerField = (Field) getSelectedTreeNode()
+								.getUserObject();
+						_Object ownerObject = ownerField.target;
+						_Object childObject = getActiveChildField().target;
+						
+						//remove field						
+						ownerObject.removeField(getActiveChildField().name);
+						
+						
+						
+						//destroy object if it owns it.
+						if (ownerObject.owns(childObject)) {
+							// remove from object repository
+							getVM().getObjectRepository().destroyObject(
+									getActiveChildField().target);
+						}
 
 						diagramPanel.reload();
 					}
@@ -379,6 +396,19 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
 						getSelectedTreeField().target, ObjectType.BOOLEAN);
+
+				addChildObjectToTree(obj);
+
+			}
+
+		});
+		menu.add(eMenuItem);
+		
+		eMenuItem = new JMenuItem("New Link");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object obj = getVM().getObjectRepository().createObject(
+						getSelectedTreeField().target, ObjectType.LINK);
 
 				addChildObjectToTree(obj);
 

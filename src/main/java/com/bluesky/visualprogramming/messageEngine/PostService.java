@@ -9,14 +9,13 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ParameterStyle;
-import com.bluesky.visualprogramming.core.Link;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.remote.ProtocolService;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
-import com.bluesky.visualprogramming.remote.email.EmailAgent;
 import com.bluesky.visualprogramming.remote.email.EmailService;
 import com.bluesky.visualprogramming.remote.http.HttpService;
+import com.bluesky.visualprogramming.remote.path.PathService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.vm.Service;
@@ -39,7 +38,9 @@ public class PostService implements Runnable, Service {
 
 		remoteCommunicationService = new RemoteCommunicationService(
 				objectRepository);
-
+		
+		remoteCommunicationService.addProtocolService(new PathService());
+		
 		remoteCommunicationService.addProtocolService(new XmppService());
 		remoteCommunicationService.addProtocolService(new SshService());
 		remoteCommunicationService.addProtocolService(new HttpService());

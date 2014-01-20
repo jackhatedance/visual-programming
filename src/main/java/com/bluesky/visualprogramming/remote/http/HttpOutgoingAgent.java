@@ -77,7 +77,7 @@ public class HttpOutgoingAgent {
 
 		RemoteAddress addr = RemoteAddress.valueOf(address);
 
-		this.username = addr.username;
+		this.username = addr.userId;
 		this.server = addr.server;
 
 		int defaultPort = protocol == ProtocolType.HTTP ? 80 : 443;
@@ -199,8 +199,8 @@ public class HttpOutgoingAgent {
 		if (ra.port >= 0)
 			sbUrl.append(":" + String.valueOf(ra.port));
 
-		if (!ra.username.equals(ROOT_USER))
-			sbUrl.append("/" + ra.username);
+		if (!ra.userId.equals(ROOT_USER))
+			sbUrl.append("/" + ra.userId);
 
 		sbUrl.append("/");
 		sbUrl.append(message.getSubject());

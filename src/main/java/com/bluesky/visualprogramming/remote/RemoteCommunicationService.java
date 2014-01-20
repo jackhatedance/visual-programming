@@ -32,6 +32,11 @@ public class RemoteCommunicationService {
 		this.objectRepository = objectRepository;
 
 		objectRepository.addListener(new ObjectRepositoryListener() {
+			@Override
+			public void beforeSave(_Object obj) {
+				// TODO Auto-generated method stub
+
+			}
 
 			@Override
 			public void beforeDestroy(_Object obj) {
@@ -54,7 +59,8 @@ public class RemoteCommunicationService {
 				int index = owner.getChildIndex(obj);
 				Field field = owner.getField(index);
 
-				if (field.getName()!=null && field.getName().equals("_aliases")) {
+				if (field.getName() != null
+						&& field.getName().equals("_aliases")) {
 					for (int i = 0; i < aliases.getChildCount(); i++) {
 						_Object alias = aliases.getChild(i);
 
@@ -107,7 +113,7 @@ public class RemoteCommunicationService {
 			@Override
 			public void afterAllLoaded() {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
@@ -116,7 +122,8 @@ public class RemoteCommunicationService {
 			String connectionOptions) {
 
 		try {
-			services.get(protocol).register(protocol, address, obj, connectionOptions);
+			services.get(protocol).register(protocol, address, obj,
+					connectionOptions);
 		} catch (Exception e) {
 			logger.warn("error when register address:" + address, e);
 		}
@@ -132,7 +139,7 @@ public class RemoteCommunicationService {
 	}
 
 	public void addProtocolService(ProtocolService svc) {
-		for(ProtocolType pt : svc.getSupportedTypes())
+		for (ProtocolType pt : svc.getSupportedTypes())
 			services.put(pt, svc);
 
 	}

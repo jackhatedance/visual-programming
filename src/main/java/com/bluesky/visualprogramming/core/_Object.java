@@ -16,11 +16,14 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.procedure.SubjectMatchType;
 import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.messageEngine.Worker;
+import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
@@ -449,7 +452,7 @@ public class _Object implements Serializable {
 			try {
 				layout = ObjectLayout.valueOf(layoutSV.getValue());
 			} catch (Exception e) {
-				layout = ObjectLayout.XY;//default layout
+				layout = ObjectLayout.XY;// default layout
 			}
 		}
 
@@ -590,6 +593,25 @@ public class _Object implements Serializable {
 		if (p == null) {
 			if (hasPrototype()) {
 				_Object prototype = getPrototypeObject();
+
+				// prototype field only support local object.
+				// finding procedure on remote machine is too slow.
+				if (prototype instanceof Link) {
+
+					Link link = (Link) prototype;
+					
+					if (link.getRemoteAddress()!=null && link.getRemoteAddress().protocol==(ProtocolType.PATH)) {
+						ObjectRepository repo = VirtualMachine.getInstance()
+								.getObjectRepository();
+						_Object target = repo.getObjectByPath(link
+								.getRemoteAddress().userId);
+
+						prototype = target;
+					}
+
+				}
+				// else find procedure on link object, obviously get nothing.
+
 				p = prototype.lookupProcedure(message);
 			}
 		}
@@ -781,5 +803,26 @@ public class _Object implements Serializable {
 	 */
 	public void arrangeField() {
 
+	}
+
+	/**
+	 * 
+	 * @param path
+	 *            separated by dot
+	 * @return
+	 */
+	public _Object getObjectByPath(String path) {
+		String[] ss = path.split("\\.");
+
+		_Object obj = this;
+
+		for (int i = 0; i < ss.length; i++) {
+			obj = obj.getChild(ss[i]);
+
+			if (obj == null)
+				throw new InvalidELException(ss[i], path);
+		}
+
+		return obj;
 	}
 }

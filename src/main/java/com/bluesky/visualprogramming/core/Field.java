@@ -14,7 +14,7 @@ import com.bluesky.visualprogramming.ui.svg.SvgScene;
 public class Field {
 
 	public String name;
-	public _Object target;
+	public _Object target;	
 	
 	// scale of a svg shape.
 	public float svgScale=0.2f;

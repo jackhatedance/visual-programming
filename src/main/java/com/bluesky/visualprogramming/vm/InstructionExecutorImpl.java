@@ -192,7 +192,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		if (ctx.step == 0) {
 			_Object receiverObj = ctx.getObject(instruction.receiverVar);
 
-			_Object sender = ctx.getObject("self");
+			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
 			_Object receiver = ctx.getObject(instruction.receiverVar);
 			if (receiver == null)
 				throw new RuntimeException("receiver object not exist:"

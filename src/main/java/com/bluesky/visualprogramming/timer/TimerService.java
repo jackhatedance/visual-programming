@@ -43,6 +43,11 @@ public class TimerService implements Service {
 		this.repo = repo;
 
 		repo.addListener(new ObjectRepositoryListener() {
+			@Override
+			public void beforeSave(_Object obj) {
+				// TODO Auto-generated method stub
+
+			}
 
 			@Override
 			public void afterCreate(_Object obj) {
@@ -66,7 +71,7 @@ public class TimerService implements Service {
 
 					if (intervalObj != null && enabledObj != null) {
 						boolean enabled = enabledObj.getBooleanValue();
-						int interval = (int)intervalObj.getIntValue();
+						int interval = (int) intervalObj.getIntValue();
 
 						if (enabled && interval > 0) {
 							subscribe(obj);
@@ -97,7 +102,7 @@ public class TimerService implements Service {
 	@Override
 	public void start() {
 		running = true;
-		
+
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -147,7 +152,7 @@ public class TimerService implements Service {
 	public void subscribe(_Object client) {
 		IntegerValue intervalObj = (IntegerValue) client.getChild("interval");
 
-		int interval = (int)intervalObj.getIntValue();
+		int interval = (int) intervalObj.getIntValue();
 		if (interval == 0)
 			return;
 

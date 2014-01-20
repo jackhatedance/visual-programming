@@ -1,6 +1,9 @@
 package com.bluesky.visualprogramming.core;
 
 public interface ObjectRepositoryListener {
+	
+	void beforeSave(_Object obj);
+	
 	/**
 	 * after create an object by the repository
 	 * 

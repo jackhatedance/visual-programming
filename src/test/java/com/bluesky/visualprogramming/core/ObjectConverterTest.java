@@ -5,6 +5,7 @@ import org.junit.Test;
 import com.bluesky.visualprogramming.core.serialization.dump.SerializationService;
 import com.bluesky.visualprogramming.core.serialization.dump.SerializerType;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 
 public class ObjectConverterTest {

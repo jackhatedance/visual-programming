@@ -7,7 +7,7 @@ procedure (a,b,c)
 	c = self."foo bar"(a);
 	c = self.$foo(a);
 	//result = "我的名字是";
-	result = "ab c".concat(self.name);
+	_result = "ab c".concat(self.name);
 	
 	foo..bar(b);
 }

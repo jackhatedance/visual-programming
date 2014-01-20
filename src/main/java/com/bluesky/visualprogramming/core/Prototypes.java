@@ -29,7 +29,7 @@ public enum Prototypes {
 				ObjectScope.ExecutionContext);
 
 		_Object list = repo.getObjectByPath(getPath());
-		newObj.setField("_prototype", list, false);
+		newObj.setField(_Object.PROTOTYPE, list, false);
 
 		return newObj;
 	};

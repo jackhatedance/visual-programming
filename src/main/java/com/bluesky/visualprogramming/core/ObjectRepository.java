@@ -26,7 +26,7 @@ public class ObjectRepository {
 
 	static String DUMP_FILE = "objects";
 	public static String ROOT = "_root";
-	public static String PROTOTYPE_PATH=ROOT+".core.prototype";
+	public static String PROTOTYPE_PATH = ROOT + ".core.prototype";
 
 	long objectId;
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();
@@ -158,18 +158,13 @@ public class ObjectRepository {
 		String[] ss = path.split("\\.");
 
 		if (!ss[0].equals(ObjectRepository.ROOT))
-			throw new RuntimeException("the first object must be '"+ObjectRepository.ROOT+"':" + path);
+			throw new RuntimeException("the first object must be '"
+					+ ObjectRepository.ROOT + "':" + path);
 
-		_Object obj = getRootObject();
-
-		for (int i = 1; i < ss.length; i++) {
-			obj = obj.getChild(ss[i]);
-
-			if (obj == null)
-				throw new InvalidELException(ss[i], path);
-		}
-
-		return obj;
+		int index = path.indexOf('.');
+		String subPath = path.substring(index+1);
+		
+		return getRootObject().getObjectByPath(subPath);
 	}
 
 	/**
@@ -204,10 +199,6 @@ public class ObjectRepository {
 		return rootObject;
 	}
 
-	public _Object getObjectById(long id) {
-		return objects.get(id);
-	}
-
 	public void save(String fileName) {
 
 		try {
@@ -223,6 +214,10 @@ public class ObjectRepository {
 	public void saveXml(Writer writer) {
 		SerializationService svc = new SerializationService();
 		try {
+			//update target object ID
+			_Object root = getRootObject();
+			
+			
 			svc.serialize(getRootObject(), SerializerType.Xml, true, writer);
 			writer.flush();
 		} catch (Exception e) {
@@ -271,8 +266,12 @@ public class ObjectRepository {
 		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
 
-		
 		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
+			@Override
+			public void beforeSave(_Object obj) {
+				// TODO Auto-generated method stub
+
+			}
 
 			@Override
 			public void beforeDestroy(_Object obj) {
@@ -282,12 +281,12 @@ public class ObjectRepository {
 
 			@Override
 			public void afterLoadFromFile(_Object obj) {
-				
+
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
-					
-					//f.svgScale=0.2f;
-					 
+
+					// f.svgScale=0.2f;
+
 				}
 			}
 
@@ -302,9 +301,10 @@ public class ObjectRepository {
 
 			}
 		};
-		
-		//this listener is used to modify object data in batch for migration purpose. enable it only when necessary.
-		//listeners.add(migrationListener);
+
+		// this listener is used to modify object data in batch for migration
+		// purpose. enable it only when necessary.
+		// listeners.add(migrationListener);
 
 		// notify
 		for (_Object o : objects.values()) {

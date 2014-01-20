@@ -79,6 +79,7 @@ import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.WhileStatement
 import com.bluesky.visualprogramming.dialect.goo.parser.GooVisitor;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.Compiler;
+import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
@@ -301,7 +302,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String var = (String) ctx.expr().accept(this);
 
 		VariableAssignment ins = new VariableAssignment();
-		ins.left = "result";
+		ins.left =  ProcedureExecutionContext.VAR_RESULT;
 		ins.right = var;
 		ins.comment = "return " + ctx.expr().getText();
 
