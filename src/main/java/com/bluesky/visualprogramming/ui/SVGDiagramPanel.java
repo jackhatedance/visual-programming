@@ -1,25 +1,28 @@
 package com.bluesky.visualprogramming.ui;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 import org.apache.batik.dom.events.DOMMouseEvent;
-import org.apache.batik.dom.svg.SVGOMGElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGPoint;
@@ -32,28 +35,6 @@ import com.bluesky.visualprogramming.ui.svg.SvgElementType;
 import com.bluesky.visualprogramming.ui.svg.SvgObject;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.ui.svg.TransformIndex;
-
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-
-import java.awt.GridLayout;
-
-import javax.swing.JTextArea;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.CardLayout;
-
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.border.BevelBorder;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
 public class SVGDiagramPanel extends JPanel {
 	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
