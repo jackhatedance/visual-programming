@@ -1,17 +1,5 @@
 package com.bluesky.visualprogramming.ui;
 
-/**
- * This application that requires the following additional files:
- *   TreeDemoHelp.html
- *    arnold.html
- *    bloch.html
- *    chan.html
- *    jls.html
- *    swingtutorial.html
- *    tutorial.html
- *    tutorialcont.html
- *    vm.html
- */
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -74,9 +62,10 @@ public class SVGMainWindow extends JPanel {
 	JScrollPane scrollTreePanel;
 
 	private SVGDiagramPanel diagramPanel;
-	JScrollPane scrollDiagramPanel;
+	//JScrollPane scrollDiagramPanel;
 
 	JSplitPane splitPane;
+	
 
 	protected VirtualMachine getVM() {
 		return VirtualMachine.getInstance();
@@ -94,13 +83,15 @@ public class SVGMainWindow extends JPanel {
 		// Add the scroll panes to a split pane.
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setLeftComponent(scrollTreePanel);
-		splitPane.setRightComponent(scrollDiagramPanel);
+		splitPane.setRightComponent(diagramPanel);
 
 		splitPane.setDividerLocation(300);
 		splitPane.setPreferredSize(new Dimension(500, 300));
 
 		// Add the split pane to this panel.
 		add(splitPane);
+		
+		
 
 	}
 
@@ -286,24 +277,18 @@ public class SVGMainWindow extends JPanel {
 						DefaultMutableTreeNode selectedChildNode = findChildNode(
 								getSelectedTreeNode(), getActiveChildField());
 
-						// remove from tree 
+						// remove from tree
 						treeModel.removeNodeFromParent(selectedChildNode);
-						
-						
 
-					
-						 
 						Field ownerField = (Field) getSelectedTreeNode()
 								.getUserObject();
 						_Object ownerObject = ownerField.target;
 						_Object childObject = getActiveChildField().target;
-						
-						//remove field						
+
+						// remove field
 						ownerObject.removeField(getActiveChildField().name);
-						
-						
-						
-						//destroy object if it owns it.
+
+						// destroy object if it owns it.
 						if (ownerObject.owns(childObject)) {
 							// remove from object repository
 							getVM().getObjectRepository().destroyObject(
@@ -403,7 +388,7 @@ public class SVGMainWindow extends JPanel {
 
 		});
 		menu.add(eMenuItem);
-		
+
 		eMenuItem = new JMenuItem("New Link");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -464,10 +449,10 @@ public class SVGMainWindow extends JPanel {
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		// addMouseListener();
 
-		scrollDiagramPanel = new JScrollPane(diagramPanel);
+		//diagramPanel;
 
-		Dimension minimumSize = new Dimension(200, 150);
-		scrollDiagramPanel.setMinimumSize(minimumSize);
+		//Dimension minimumSize = new Dimension(200, 150);
+		//scrollDiagramPanel.setMinimumSize(minimumSize);
 
 		// diagramPanel.setComponentPopupMenu(diagramPopupMenu);
 
