@@ -17,16 +17,18 @@ public class RemoteAddressTest {
 		ra = RemoteAddress.valueOf(addr);
 		Assert.assertEquals("jack", ra.userId);
 		Assert.assertEquals(addr, ra.toString());
-
+		xmpp://jackding@cisco.com
+			
+			addr = "xmpp://jack@cisco.com";
+		ra = RemoteAddress.valueOf(addr);
+		Assert.assertEquals("jack", ra.userId);
+		Assert.assertEquals(addr, ra.toString());
 		// no id
 		addr = "http://@webserver";
 		ra = RemoteAddress.valueOf(addr);
 		Assert.assertEquals(addr, ra.toString());
 
-		// no protocol
-		addr = "jack@webserver";
-		ra = RemoteAddress.valueOf(addr);
-		Assert.assertEquals(addr, ra.getAddress());
+		
 
 	}
 

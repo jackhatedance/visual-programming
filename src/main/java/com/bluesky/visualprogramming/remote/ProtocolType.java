@@ -1,7 +1,8 @@
 package com.bluesky.visualprogramming.remote;
 
+
 public enum ProtocolType {
-	UNKNOWN,PATH, XMPP, SSH, EMAIL, WECHAT, TWITTER, WEIBO, HTTP {
+	PATH, XMPP, SSH, EMAIL, WECHAT, TWITTER, WEIBO, HTTP {
 		@Override
 		public boolean needSenderAddress() {
 			return false;
@@ -29,7 +30,10 @@ public enum ProtocolType {
 			if(pt.name().equalsIgnoreCase(name))
 				return pt;
 		}
-		return UNKNOWN;
+		
+		throw new RuntimeException("not supported :"+name);
+		
+	
 	}
 
 }

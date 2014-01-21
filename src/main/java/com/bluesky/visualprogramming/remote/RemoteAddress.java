@@ -21,7 +21,7 @@ public class RemoteAddress {
 	public int port = -1;
 
 	public RemoteAddress() {
-		protocol = ProtocolType.UNKNOWN;
+		protocol = null;
 		userId = "";
 		server = "";
 	}
@@ -35,7 +35,7 @@ public class RemoteAddress {
 	}
 
 	public static RemoteAddress valueOf(String fullAddress) {
-		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9_.]+)?@(?<server>\\w+)(:(?<port>\\d+))?";
+		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9_.]+)?@(?<server>[a-zA-Z0-9.]+)(:(?<port>\\d+))?";
 		Pattern pattern = Pattern.compile(patternStr,
 				Pattern.UNICODE_CHARACTER_CLASS);
 		Matcher matcher = pattern.matcher(fullAddress);
@@ -60,9 +60,7 @@ public class RemoteAddress {
 			return obj;
 
 		} else
-
-			return null;
-
+			throw new RuntimeException("invalid address: " + fullAddress);
 	}
 
 	@Override

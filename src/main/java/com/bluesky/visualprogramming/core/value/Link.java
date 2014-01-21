@@ -6,22 +6,20 @@ import com.bluesky.visualprogramming.remote.RemoteAddress;
 
 public class Link extends _Object {
 	private RemoteAddress remoteAddress;
-	
+
 	public Link(long id) {
 		super(id);
 		type = ObjectType.LINK;
-		
+
 		remoteAddress = new RemoteAddress();
 	}
-
-	
 
 	@Override
 	public String getValue() {
 
-		if(remoteAddress==null)
-			remoteAddress=new RemoteAddress();
-		
+		if (remoteAddress == null)
+			remoteAddress = new RemoteAddress();
+
 		return remoteAddress.toString();
 	}
 
@@ -31,7 +29,9 @@ public class Link extends _Object {
 		try {
 			remoteAddress = RemoteAddress.valueOf(value);
 		} catch (Exception e) {
-			remoteAddress = new RemoteAddress("null", "", "", -1);
+
+			remoteAddress = null;
+			throw new RuntimeException("invalid address:"+value);
 		}
 	}
 
@@ -39,12 +39,17 @@ public class Link extends _Object {
 		return remoteAddress;
 	}
 
-	
-	public String getProtocol(){
-		return remoteAddress.protocol.name();
+	public String getProtocol() {
+		if (remoteAddress != null && remoteAddress.protocol != null)
+			return remoteAddress.protocol.name();
+
+		return null;
 	}
-	
-	public String getAddress(){
-		return remoteAddress.getAddress();
+
+	public String getAddress() {
+		if (remoteAddress != null)
+			return remoteAddress.getAddress();
+		
+		return null;
 	}
 }

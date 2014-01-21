@@ -194,6 +194,7 @@ public class XmppAgent {
 				Link receiverLink = (Link) repo.createObject(
 
 				ObjectType.LINK, ObjectScope.ExecutionContext);
+				
 				receiverLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getTo())));
 

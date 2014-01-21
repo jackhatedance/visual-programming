@@ -25,6 +25,8 @@ import com.bluesky.visualprogramming.vm.AppProperties;
 public class RemoteCommunicationService {
 	static Logger logger = Logger.getLogger(RemoteCommunicationService.class);
 
+	static final String ALIASES = "aliases";
+
 	private Map<ProtocolType, ProtocolService> services = new HashMap<ProtocolType, ProtocolService>();
 	private ObjectRepository objectRepository;
 
@@ -50,17 +52,11 @@ public class RemoteCommunicationService {
 
 			@Override
 			public void afterLoadFromFile(_Object obj) {
-				_Object aliases = obj;
-				_Object owner = obj.getOwner();
+				_Object aliases = obj.getSystemChild(ALIASES);
 
-				if (owner == null)
-					return;
+				_Object owner = obj;
 
-				int index = owner.getChildIndex(obj);
-				Field field = owner.getField(index);
-
-				if (field.getName() != null
-						&& field.getName().equals("_aliases")) {
+				if (aliases != null) {
 					for (int i = 0; i < aliases.getChildCount(); i++) {
 						_Object alias = aliases.getChild(i);
 
@@ -130,7 +126,14 @@ public class RemoteCommunicationService {
 	}
 
 	public _Object getLocalObject(ProtocolType protocol, String address) {
-		return services.get(protocol).getLocalObject(address);
+		ProtocolService svc = services.get(protocol);
+		if (svc != null)
+			return svc.getLocalObject(address);
+		else
+			logger.warn("protocol not support:"+protocol);
+		
+		
+		return null;
 	}
 
 	public void send(ProtocolType protocol, String receiverAddress,
