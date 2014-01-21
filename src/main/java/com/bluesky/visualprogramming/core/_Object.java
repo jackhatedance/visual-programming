@@ -28,6 +28,9 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
 
+	//system settings in one folder.
+	static public final String SETTINGS = "_settings";
+	
 	static public final String PROTOTYPE = "_prototype";
 	static public final String ENABLE_SUBJECT_MATCH = "_enableSubjectMatch";
 	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
@@ -217,7 +220,7 @@ public class _Object implements Serializable {
 	public void setField(String name, _Object child, boolean owner) {
 
 		if (name != null && name.indexOf(':') >= 0) {
-			System.out.println("mac is here" + name);
+			System.out.println("mac is here " + name);
 		}
 
 		// name must be unique if is not null
@@ -242,7 +245,12 @@ public class _Object implements Serializable {
 		}
 
 	}
-
+/**
+ * change target object of a field.
+ * @param field
+ * @param child
+ * @param owner
+ */
 	protected void changeChild(Field field, _Object child, boolean owner) {
 
 		_Object oldChild = field.target;
@@ -379,10 +387,16 @@ public class _Object implements Serializable {
 		if (field.target != null)
 			detachChild(field.target);
 	}
-
-	public void detachChild(_Object obj) {
-		obj.setOwner(null);
-		obj.setScope(ObjectScope.ExecutionContext);
+/**
+ * it won't remove the original field. just remove the owner.
+ * 
+ * TODO but how can a field point to a non-persistent object?
+ * 
+ * @param child
+ */
+	public void detachChild(_Object child) {
+		child.setOwner(null);
+		child.setScope(ObjectScope.ExecutionContext);
 	}
 
 	public void detachFrom(_Object owner) {
