@@ -8,14 +8,14 @@ public enum Prototypes {
 		@Override
 		public String getPath() {
 
-			return ObjectRepository.PROTOTYPE_PATH+".map";
+			return ObjectRepository.PROTOTYPE_PATH + ".map";
 		}
 	},
 	List {
 		@Override
 		public String getPath() {
 
-			return ObjectRepository.PROTOTYPE_PATH+".list";
+			return ObjectRepository.PROTOTYPE_PATH + ".list";
 		}
 	};
 
@@ -29,8 +29,7 @@ public enum Prototypes {
 				ObjectScope.ExecutionContext);
 
 		_Object list = repo.getObjectByPath(getPath());
-		newObj.setField(_Object.PROTOTYPE, list, false);
-
+		newObj.setPrototype(list);
 		return newObj;
 	};
 }

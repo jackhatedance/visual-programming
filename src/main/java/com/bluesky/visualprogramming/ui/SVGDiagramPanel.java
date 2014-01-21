@@ -2,6 +2,8 @@ package com.bluesky.visualprogramming.ui;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -30,11 +32,17 @@ import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.Field;
+import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgElementType;
 import com.bluesky.visualprogramming.ui.svg.SvgObject;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.ui.svg.TransformIndex;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SVGDiagramPanel extends JPanel {
 	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
@@ -61,6 +69,8 @@ public class SVGDiagramPanel extends JPanel {
 
 	private JSVGCanvas canvas;
 	private SvgScene scene;
+	private JTextArea textAreaScript;
+	private JButton btnExecute;
 
 	private SVGMainWindow mainWindow;
 	private JPopupMenu objectPopupMenu;
@@ -93,15 +103,63 @@ public class SVGDiagramPanel extends JPanel {
 								BottomPanel.setPreferredSize(new Dimension(20, 50));
 								
 								
-								JTextArea textArea = new JTextArea();
-								BottomPanel.add(textArea);
-								textArea.setColumns(10);
+								textAreaScript = new JTextArea();
+								textAreaScript.addKeyListener(new KeyAdapter() {
+									@Override
+									public void keyPressed(KeyEvent e) {										 
+										super.keyPressed(e);
+										
+										//if CTRL+Enter then execute. 
+										if(e.isControlDown() && e.getKeyCode()== KeyEvent.VK_ENTER){
+											//System.out.println("execute");
+											btnExecute.doClick();
+										}
+									
+									}
+									
+								});
+								BottomPanel.add(textAreaScript);
+								textAreaScript.setColumns(10);
 								
 								JSeparator separator = new JSeparator();
 								separator.setOrientation(SwingConstants.VERTICAL);
 								BottomPanel.add(separator);
 								
-								JButton btnExecute = new JButton("Execute");
+								btnExecute = new JButton("Execute");
+								btnExecute.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent arg0) {
+										//System.out.println("click send");
+										//add a temporary procedure to the object, execute it. delete it.
+										/*
+										 * target._test = procedure(){a=1;};
+										 * target._test();
+										 * target._test=null;										 * 
+										 */
+										
+										String testProcedureName = "_test";
+										
+										Field field = SVGDiagramPanel.this.mainWindow.getSelectedTreeField();
+										VirtualMachine vm=VirtualMachine.getInstance();
+										ObjectRepository repo= vm.getObjectRepository();
+										Procedure procedure = (Procedure)repo.createObject(field.target, testProcedureName, ObjectType.PROCEDURE);
+										
+										
+										StringBuilder sb = new StringBuilder();
+										sb.append("[native=false, language=goo]\r\n");
+										sb.append("procedure(){\r\n");
+										sb.append(SVGDiagramPanel.this.textAreaScript.getText());
+										sb.append("\r\n}");										
+										
+										procedure.setValue(sb.toString());
+																				
+										//execute it
+										vm.getPostService().sendMessageFromNobody(
+												field.target,
+												testProcedureName);
+										
+										
+									}
+								});
 								BottomPanel.add(btnExecute);
 	}
 

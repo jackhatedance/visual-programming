@@ -89,7 +89,8 @@ public class ObjectRepository {
 			try {
 				_Object prototype = getObjectByPath(prototypeEl);
 				if (prototype != null)
-					newObject.setField(_Object.PROTOTYPE, prototype, false);
+					newObject.setPrototype(prototype);
+
 			} catch (InvalidELException e) {
 
 				logger.warn(
@@ -162,8 +163,8 @@ public class ObjectRepository {
 					+ ObjectRepository.ROOT + "':" + path);
 
 		int index = path.indexOf('.');
-		String subPath = path.substring(index+1);
-		
+		String subPath = path.substring(index + 1);
+
 		return getRootObject().getObjectByPath(subPath);
 	}
 
@@ -214,10 +215,9 @@ public class ObjectRepository {
 	public void saveXml(Writer writer) {
 		SerializationService svc = new SerializationService();
 		try {
-			//update target object ID
+			// update target object ID
 			_Object root = getRootObject();
-			
-			
+
 			svc.serialize(getRootObject(), SerializerType.Xml, true, writer);
 			writer.flush();
 		} catch (Exception e) {

@@ -57,7 +57,8 @@ public class DdwrtSerializer implements ObjectSerializer {
 					ObjectScope.ExecutionContext);
 
 			_Object list = repo.getObjectByPath("root.prototype.list");
-			kvObj.setField(_Object.PROTOTYPE, list, false);
+						
+			kvObj.setPrototype(list);
 			ListObject kvListObject = new ListObject(kvObj);
 
 			for (String value : values) {

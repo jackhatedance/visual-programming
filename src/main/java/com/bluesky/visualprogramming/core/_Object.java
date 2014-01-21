@@ -28,12 +28,14 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);
 
-	//system settings in one folder.
-	static public final String SETTINGS = "_settings";
+	// keep system in one folder.
+	static public final String SYSTEM = "_system";
+
+	static private final String PROTOTYPE = "prototype";
+	static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
+	static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
 	
-	static public final String PROTOTYPE = "_prototype";
-	static public final String ENABLE_SUBJECT_MATCH = "_enableSubjectMatch";
-	static public final String SUBJECT_MATCH_RULE = "_subjectMatchRule";
+	static public final String GRAPHIC = "graphic";
 
 	// it is defined by the object, and is for its procedures.
 	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "_defaultSubjectMatchType";
@@ -245,12 +247,14 @@ public class _Object implements Serializable {
 		}
 
 	}
-/**
- * change target object of a field.
- * @param field
- * @param child
- * @param owner
- */
+
+	/**
+	 * change target object of a field.
+	 * 
+	 * @param field
+	 * @param child
+	 * @param owner
+	 */
 	protected void changeChild(Field field, _Object child, boolean owner) {
 
 		_Object oldChild = field.target;
@@ -387,13 +391,14 @@ public class _Object implements Serializable {
 		if (field.target != null)
 			detachChild(field.target);
 	}
-/**
- * it won't remove the original field. just remove the owner.
- * 
- * TODO but how can a field point to a non-persistent object?
- * 
- * @param child
- */
+
+	/**
+	 * it won't remove the original field. just remove the owner.
+	 * 
+	 * TODO but how can a field point to a non-persistent object?
+	 * 
+	 * @param child
+	 */
 	public void detachChild(_Object child) {
 		child.setOwner(null);
 		child.setScope(ObjectScope.ExecutionContext);
@@ -475,7 +480,7 @@ public class _Object implements Serializable {
 		for (Field field : fieldList) {
 			boolean owns = field.target.owner == this;
 
-			_Object proto = field.target.getPrototypeObject();
+			_Object proto = field.target.getPrototype();
 			String objName = null;
 			if (proto != null) {
 				objName = String.format("%s<%s>", field.name, proto.name);
@@ -510,6 +515,23 @@ public class _Object implements Serializable {
 			return fieldList.get(index).target;
 	}
 
+	public _Object getSystemChild(String name) {
+		_Object systemObject = getSystem();
+		if (systemObject != null)
+			return systemObject.getChild(name);
+		else
+			return null;
+	}
+
+	public void setSystemField(String name, _Object obj, boolean owner) {
+		_Object systemObject = getSystem();
+		if (systemObject == null)
+			createSystemField();
+
+		systemObject.setField(name, obj, owner);
+
+	}
+
 	public String[] getChildrenNames() {
 		return fieldNameMap.keySet().toArray(new String[0]);
 	}
@@ -530,7 +552,7 @@ public class _Object implements Serializable {
 			if (logger.isDebugEnabled())
 				logger.debug("no procedure found by message subject " + subject);
 
-			BooleanValue enableMatch = (BooleanValue) getChild(ENABLE_SUBJECT_MATCH);
+			BooleanValue enableMatch = (BooleanValue) getSystemChild(ENABLE_SUBJECT_MATCH);
 
 			if (enableMatch != null && enableMatch.getBooleanValue() == true) {
 				if (logger.isDebugEnabled())
@@ -551,7 +573,7 @@ public class _Object implements Serializable {
 					_Object child = field.target;
 
 					StringValue messageSubjectMatchRule = (StringValue) child
-							.getChild(SUBJECT_MATCH_RULE);
+							.getSystemChild(SUBJECT_MATCH_RULE);
 
 					if (messageSubjectMatchRule != null) {
 						// procedure specific setting
@@ -606,15 +628,16 @@ public class _Object implements Serializable {
 		// still not found, try prototype
 		if (p == null) {
 			if (hasPrototype()) {
-				_Object prototype = getPrototypeObject();
+				_Object prototype = getPrototype();
 
 				// prototype field only support local object.
 				// finding procedure on remote machine is too slow.
 				if (prototype instanceof Link) {
 
 					Link link = (Link) prototype;
-					
-					if (link.getRemoteAddress()!=null && link.getRemoteAddress().protocol==(ProtocolType.PATH)) {
+
+					if (link.getRemoteAddress() != null
+							&& link.getRemoteAddress().protocol == (ProtocolType.PATH)) {
 						ObjectRepository repo = VirtualMachine.getInstance()
 								.getObjectRepository();
 						_Object target = repo.getObjectByPath(link
@@ -633,13 +656,38 @@ public class _Object implements Serializable {
 		return p;
 	}
 
-	private _Object getPrototypeObject() {
+	private _Object getSystem() {
+		return getChild(SYSTEM);
+	}
 
-		return getChild(PROTOTYPE);
+	public _Object getPrototype() {
+
+		_Object system = getSystem();
+		if (system != null) {
+			return system.getChild(PROTOTYPE);
+
+		}
+
+		return null;
+	}
+
+	private _Object createSystemField() {
+		VirtualMachine vm = VirtualMachine.getInstance();
+		return vm.getObjectRepository().createObject(this, SYSTEM,
+				ObjectType.NORMAL);
+	}
+
+	public void setPrototype(_Object obj) {
+		_Object system = getSystem();
+		if (system == null)
+			system = createSystemField();
+
+		system.setField(PROTOTYPE, obj, false);
+
 	}
 
 	private boolean hasPrototype() {
-		return getChild(PROTOTYPE) != null;
+		return getPrototype() != null;
 	}
 
 	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
