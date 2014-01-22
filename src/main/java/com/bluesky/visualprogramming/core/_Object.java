@@ -34,7 +34,7 @@ public class _Object implements Serializable {
 	static private final String PROTOTYPE = "prototype";
 	static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
 	static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
-	
+
 	static public final String GRAPHIC = "graphic";
 
 	// it is defined by the object, and is for its procedures.
@@ -637,7 +637,8 @@ public class _Object implements Serializable {
 					Link link = (Link) prototype;
 
 					if (link.getRemoteAddress() != null
-							&& link.getRemoteAddress().protocol == (ProtocolType.PATH)) {
+							&& ProtocolType.PATH.toString().equalsIgnoreCase(
+									link.getRemoteAddress().protocol)) {
 						ObjectRepository repo = VirtualMachine.getInstance()
 								.getObjectRepository();
 						_Object target = repo.getObjectByPath(link

@@ -29,6 +29,12 @@ import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 public class InstructionExecutorImpl implements InstructionExecutor {
 	static Logger logger = Logger.getLogger(InstructionExecutorImpl.class);
+	
+	//some special fields:
+	
+	public static final String IMPLICT_FIELD_OWNER="_owner";
+	//not field name
+	public static final String IMPLICT_FIELD_NAME="_objectName";
 
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
@@ -109,9 +115,9 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					+ instruction.toString());
 
 		_Object result;
-		if (instruction.fieldName.equals("_owner"))
+		if (instruction.fieldName.equals(IMPLICT_FIELD_OWNER))
 			result = obj.getOwner();
-		else if (instruction.fieldName.equals("_name")) {
+		else if (instruction.fieldName.equals(IMPLICT_FIELD_NAME)) {
 			result = new StringValue(-1);
 			result.setValue(obj.getName());
 		} else

@@ -31,7 +31,9 @@ public class Link extends _Object {
 		} catch (Exception e) {
 
 			remoteAddress = null;
-			throw new RuntimeException("invalid address:"+value);
+			
+			//allow empty link object when initializing
+			//throw new RuntimeException("invalid address:" + value);
 		}
 	}
 
@@ -40,8 +42,8 @@ public class Link extends _Object {
 	}
 
 	public String getProtocol() {
-		if (remoteAddress != null && remoteAddress.protocol != null)
-			return remoteAddress.protocol.name();
+		if (remoteAddress != null)
+			return remoteAddress.protocol;
 
 		return null;
 	}
@@ -49,7 +51,7 @@ public class Link extends _Object {
 	public String getAddress() {
 		if (remoteAddress != null)
 			return remoteAddress.getAddress();
-		
+
 		return null;
 	}
 }

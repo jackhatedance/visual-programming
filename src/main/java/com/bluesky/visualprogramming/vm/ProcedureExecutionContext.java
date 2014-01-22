@@ -11,7 +11,7 @@ import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
 public class ProcedureExecutionContext {
 
-	public final static String VAR_RESULT = "_result";
+	public final static String VAR_RESULT = "_result";	
 	public final static String VAR_SELF = "_self";
 	public final static String VAR_SUBJECT = "_subject";
 	public final static String VAR_PARAMETERS = "_parameters";

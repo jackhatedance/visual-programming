@@ -4,6 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * ATTENTION: this value object is just a string parser. don't check if the
+ * protocol is supported or not.
+ * 
  * format: {protocol}://{username}@{server}:[port];
  * 
  * port is optional.
@@ -15,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class RemoteAddress {
 
-	public ProtocolType protocol;
+	public String protocol;
 	public String userId;
 	public String server;
 	public int port = -1;
@@ -27,7 +30,7 @@ public class RemoteAddress {
 	}
 
 	public RemoteAddress(String protocol, String userId, String server, int port) {
-		this.protocol = ProtocolType.getType(protocol);
+		this.protocol = protocol;
 		this.userId = userId;
 		this.server = server;
 		this.port = port;

@@ -115,7 +115,7 @@ public class Message {
 
 		executionContext.setExecutionStatus(ExecutionStatus.ON_GOING);
 
-		executionContext.setObject(ObjectRepository.ROOT, root);
+		executionContext.setObject(ObjectRepository.ROOT, root);			
 		executionContext.setObject(ProcedureExecutionContext.VAR_SELF, receiver);		
 		executionContext.setObject(ProcedureExecutionContext.VAR_SUBJECT, subject);
 		executionContext.setObject(ProcedureExecutionContext.VAR_PARAMETERS, body);

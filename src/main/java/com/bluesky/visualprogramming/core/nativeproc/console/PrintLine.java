@@ -15,7 +15,10 @@ public class PrintLine extends BaseNativeProcedure implements
 	protected _Object execute(VirtualMachine virtualMachine,_Object self, ProcedureExecutionContext ctx) {
 		_Object content = (_Object) ctx.getObject("content");
 
-		System.out.println(content.getValue());
+		if(content!=null)
+			System.out.println(content.getValue());
+		else
+			System.out.println("null");
 
 		return null;
 	}

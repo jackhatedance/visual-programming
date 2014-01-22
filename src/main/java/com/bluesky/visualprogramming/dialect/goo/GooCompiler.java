@@ -420,8 +420,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String var = getNextTempVar("accessField");
 
 		AccessField ins = new AccessField();
-		ins.objName = (String) ctx.expr().accept(this);
-		ins.fieldName = ctx.field().getText();
+		ins.objName = (String) ctx.expr().accept(this);		
+		ins.fieldName = (String)ctx.field().getText();		
+		//TODO obj.$field statment is not supported yet.
+		//ins.fieldNameVar = (String)ctx.field().accept(this);		
 		ins.varName = var;
 
 		addInstruction(ins);
