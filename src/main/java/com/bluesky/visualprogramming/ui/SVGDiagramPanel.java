@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -35,14 +37,14 @@ import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Procedure;
+import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.remote.callback.Callback;
 import com.bluesky.visualprogramming.ui.svg.SVGUtils;
 import com.bluesky.visualprogramming.ui.svg.SvgElementType;
 import com.bluesky.visualprogramming.ui.svg.SvgObject;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.ui.svg.TransformIndex;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class SVGDiagramPanel extends JPanel {
 	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
@@ -136,9 +138,9 @@ public class SVGDiagramPanel extends JPanel {
 				 * target._test=null; *
 				 */
 
-				String testProcedureName = "_test";
+				final String testProcedureName = "_test";
 
-				Field field = SVGDiagramPanel.this.mainWindow
+				final Field field = SVGDiagramPanel.this.mainWindow
 						.getSelectedTreeField();
 				VirtualMachine vm = VirtualMachine.getInstance();
 				ObjectRepository repo = vm.getObjectRepository();
@@ -155,7 +157,14 @@ public class SVGDiagramPanel extends JPanel {
 
 				// execute it
 				vm.getPostService().sendMessageFromNobody(field.target,
-						testProcedureName, null,null);
+						testProcedureName, null, new Callback() {
+
+							@Override
+							public void onComplete(_Object result) {
+								// remove the test procedure
+								field.target.removeField(testProcedureName);
+							}
+						});
 
 			}
 		});
