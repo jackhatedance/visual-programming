@@ -62,7 +62,8 @@ public class RemoteCommunicationService {
 
 						BooleanValue enabled = (BooleanValue) alias
 								.getChild("enabled");
-						if (!enabled.getBooleanValue())
+
+						if (enabled != null && !enabled.getBooleanValue())
 							continue;
 
 						try {
@@ -130,14 +131,17 @@ public class RemoteCommunicationService {
 		if (svc != null)
 			return svc.getLocalObject(address);
 		else
-			logger.warn("protocol not support:"+protocol);
-		
-		
+			logger.warn("protocol not support:" + protocol);
+
 		return null;
 	}
 
 	public void send(ProtocolType protocol, String receiverAddress,
 			Message message) {
+		if (logger.isDebugEnabled())
+			logger.debug(String.format("protocol:%s, to: %s, subject:%s",
+					protocol, receiverAddress, message.getSubject()));
+
 		services.get(protocol).send(receiverAddress, message);
 	}
 
@@ -145,6 +149,10 @@ public class RemoteCommunicationService {
 		for (ProtocolType pt : svc.getSupportedTypes())
 			services.put(pt, svc);
 
+	}
+
+	public ProtocolService getService(ProtocolType pt) {
+		return services.get(pt);
 	}
 
 	protected String replaceVariables(String str) {

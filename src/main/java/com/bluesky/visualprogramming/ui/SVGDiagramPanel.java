@@ -82,85 +82,84 @@ public class SVGDiagramPanel extends JPanel {
 		this.mainWindow = mainWindow;
 		this.objectPopupMenu = objectPopupMenu;
 		this.backgroundPopupMenu = backgroundPopupMenu;
-						setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-						
-						JSplitPane splitPane = new JSplitPane();
-						splitPane.setResizeWeight(1.0);
-						splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-						
-						
-						add(splitPane);
-						
-								canvas = new JSVGCanvas();
-								splitPane.setTopComponent(canvas);
-								canvas.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-								canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-								
-								JPanel BottomPanel = new JPanel();
-								splitPane.setBottomComponent(BottomPanel);
-								BottomPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-								BottomPanel.setLayout(new BoxLayout(BottomPanel, BoxLayout.X_AXIS));
-								BottomPanel.setPreferredSize(new Dimension(20, 50));
-								
-								
-								textAreaScript = new JTextArea();
-								textAreaScript.addKeyListener(new KeyAdapter() {
-									@Override
-									public void keyPressed(KeyEvent e) {										 
-										super.keyPressed(e);
-										
-										//if CTRL+Enter then execute. 
-										if(e.isControlDown() && e.getKeyCode()== KeyEvent.VK_ENTER){
-											//System.out.println("execute");
-											btnExecute.doClick();
-										}
-									
-									}
-									
-								});
-								BottomPanel.add(textAreaScript);
-								textAreaScript.setColumns(10);
-								
-								JSeparator separator = new JSeparator();
-								separator.setOrientation(SwingConstants.VERTICAL);
-								BottomPanel.add(separator);
-								
-								btnExecute = new JButton("Execute");
-								btnExecute.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent arg0) {
-										//System.out.println("click send");
-										//add a temporary procedure to the object, execute it. delete it.
-										/*
-										 * target._test = procedure(){a=1;};
-										 * target._test();
-										 * target._test=null;										 * 
-										 */
-										
-										String testProcedureName = "_test";
-										
-										Field field = SVGDiagramPanel.this.mainWindow.getSelectedTreeField();
-										VirtualMachine vm=VirtualMachine.getInstance();
-										ObjectRepository repo= vm.getObjectRepository();
-										Procedure procedure = (Procedure)repo.createObject(field.target, testProcedureName, ObjectType.PROCEDURE);
-										
-										
-										StringBuilder sb = new StringBuilder();
-										sb.append("[native=false, language=goo]\r\n");
-										sb.append("procedure(){\r\n");
-										sb.append(SVGDiagramPanel.this.textAreaScript.getText());
-										sb.append("\r\n}");										
-										
-										procedure.setValue(sb.toString());
-																				
-										//execute it
-										vm.getPostService().sendMessageFromNobody(
-												field.target,
-												testProcedureName);
-										
-										
-									}
-								});
-								BottomPanel.add(btnExecute);
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(1.0);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+
+		add(splitPane);
+
+		canvas = new JSVGCanvas();
+		splitPane.setTopComponent(canvas);
+		canvas.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
+				null));
+		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
+
+		JPanel BottomPanel = new JPanel();
+		splitPane.setBottomComponent(BottomPanel);
+		BottomPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null,
+				null, null));
+		BottomPanel.setLayout(new BoxLayout(BottomPanel, BoxLayout.X_AXIS));
+		BottomPanel.setPreferredSize(new Dimension(20, 50));
+
+		textAreaScript = new JTextArea();
+		textAreaScript.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				super.keyPressed(e);
+
+				// if CTRL+Enter then execute.
+				if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+					// System.out.println("execute");
+					btnExecute.doClick();
+				}
+
+			}
+
+		});
+		BottomPanel.add(textAreaScript);
+		textAreaScript.setColumns(10);
+
+		JSeparator separator = new JSeparator();
+		separator.setOrientation(SwingConstants.VERTICAL);
+		BottomPanel.add(separator);
+
+		btnExecute = new JButton("Execute");
+		btnExecute.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// System.out.println("click send");
+				// add a temporary procedure to the object, execute it. delete
+				// it.
+				/*
+				 * target._test = procedure(){a=1;}; target._test();
+				 * target._test=null; *
+				 */
+
+				String testProcedureName = "_test";
+
+				Field field = SVGDiagramPanel.this.mainWindow
+						.getSelectedTreeField();
+				VirtualMachine vm = VirtualMachine.getInstance();
+				ObjectRepository repo = vm.getObjectRepository();
+				Procedure procedure = (Procedure) repo.createObject(
+						field.target, testProcedureName, ObjectType.PROCEDURE);
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("[native=false, language=goo]\r\n");
+				sb.append("procedure(){\r\n");
+				sb.append(SVGDiagramPanel.this.textAreaScript.getText());
+				sb.append("\r\n}");
+
+				procedure.setValue(sb.toString());
+
+				// execute it
+				vm.getPostService().sendMessageFromNobody(field.target,
+						testProcedureName, null,null);
+
+			}
+		});
+		BottomPanel.add(btnExecute);
 	}
 
 	/**

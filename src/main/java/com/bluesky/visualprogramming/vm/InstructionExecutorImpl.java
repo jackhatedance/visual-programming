@@ -62,13 +62,16 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		List<Instruction> instructions = procedure.getInstructions();
 
 		while (true) {
-			ExecutionStatus instructionExecutionStatus = executeOneStep(instructions);
-
+			InstructionExecutionResult  instructionExecutionResult= executeOneStep(instructions);
+			ExecutionStatus instructionExecutionStatus = instructionExecutionResult.getStatus();
+			
 			if (instructionExecutionStatus == ExecutionStatus.WAITING) {
 				ctx.executionStatus = ExecutionStatus.WAITING;
 				break;
 			} else if (instructionExecutionStatus == ExecutionStatus.ERROR) {
 				ctx.executionStatus = ExecutionStatus.ERROR;
+				ctx.executionErrorMessage = instructionExecutionResult.getDesc();
+				ctx.executionErrorLine = instructionExecutionResult.getLine();
 				break;
 			}
 
@@ -81,7 +84,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 	}
 
-	public ExecutionStatus executeOneStep(List<Instruction> instructions) {
+	private InstructionExecutionResult executeOneStep(List<Instruction> instructions) {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
@@ -89,21 +92,27 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		if (logger.isDebugEnabled())
 			logger.debug(instruction.toString());
 
-		ExecutionStatus es;
-		try {
-			es = instruction.type.execute(this, instruction);
+		InstructionExecutionResult result = new InstructionExecutionResult();		
+		
+		try{
+			ExecutionStatus es = instruction.type.execute(this, instruction);
 			// goto instruction update index by them self
 			if (!instruction.type.updatedInstructionIndex()) {
 				//
 				if (es == ExecutionStatus.COMPLETE)
 					ctx.currentInstructionIndex++;
 			}
-		} catch (Exception e) {
-			es = ExecutionStatus.ERROR;
-			e.printStackTrace();
+			
+			result.setStatus(es);
 		}
+		catch(Exception e){
+			result.setStatus(ExecutionStatus.ERROR);
+			result.setDesc(e.getMessage());		
+			result.setLine(instruction.line);
+		}
+		
 
-		return es;
+		return result;
 	}
 
 	@Override

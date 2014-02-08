@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.messageEngine;
 
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -8,17 +9,22 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectScope;
+import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
+import com.bluesky.visualprogramming.remote.callback.Callback;
+import com.bluesky.visualprogramming.remote.callback.CallbackService;
 import com.bluesky.visualprogramming.remote.email.EmailService;
 import com.bluesky.visualprogramming.remote.http.HttpService;
 import com.bluesky.visualprogramming.remote.path.PathService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.vm.Service;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class PostService implements Runnable, Service {
 	static Logger logger = Logger.getLogger(PostService.class);
@@ -38,9 +44,10 @@ public class PostService implements Runnable, Service {
 
 		remoteCommunicationService = new RemoteCommunicationService(
 				objectRepository);
-		
+
+		remoteCommunicationService.addProtocolService(new CallbackService());
 		remoteCommunicationService.addProtocolService(new PathService());
-		
+
 		remoteCommunicationService.addProtocolService(new XmppService());
 		remoteCommunicationService.addProtocolService(new SshService());
 		remoteCommunicationService.addProtocolService(new HttpService());
@@ -61,6 +68,7 @@ public class PostService implements Runnable, Service {
 	}
 
 	private void _sendMessage(Message msg) {
+		
 		// add support of link object
 		if (msg.receiver instanceof Link) {
 			Link receiverLink = (Link) msg.receiver;
@@ -103,9 +111,30 @@ public class PostService implements Runnable, Service {
 
 	}
 
-	public void sendMessageFromNobody(_Object receiver, String subject) {
+	/**
+	 * 
+	 * @param receiver
+	 * @param subject
+	 * @param body optional
+	 * @param callback
+	 *            optional
+	 */
+	public void sendMessageFromNobody(_Object receiver, String subject, _Object body,
+			Callback callback) {
 
-		Message msg = new Message(false, null, receiver, subject, null,
+		// make a random
+		String id = UUID.randomUUID().toString();
+		String fullAddress = String.format("callback://%s@local", id);
+		Link senderLink = (Link) objectRepository.createObject(ObjectType.LINK,
+				ObjectScope.ExecutionContext);
+		senderLink.setValue(fullAddress);
+
+		CallbackService cbSvc = (CallbackService) remoteCommunicationService
+				.getService(ProtocolType.CALLBACK);
+
+		cbSvc.setCallback(senderLink.getAddress(), callback);
+
+		Message msg = new Message(true, senderLink, receiver, subject, body,
 				ParameterStyle.ByName, null, MessageType.Normal);
 		sendMessage(msg);
 	}
@@ -135,31 +164,31 @@ public class PostService implements Runnable, Service {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

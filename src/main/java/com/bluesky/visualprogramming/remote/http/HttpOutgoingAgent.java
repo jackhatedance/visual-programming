@@ -163,6 +163,12 @@ public class HttpOutgoingAgent {
 
 	}
 
+	/**
+	 * reply from remote web server.
+	 * 
+	 * @param message
+	 * @param responseBody
+	 */
 	private void reply(Message message, String responseBody) {
 		_Object returnValue;
 
@@ -209,7 +215,7 @@ public class HttpOutgoingAgent {
 			_Object body = message.body;
 			sbUrl.append("?");
 			int i = 0;
-			for (String cname : body.getChildrenNames()) {
+			for (String cname : body.getFieldNames()) {
 				_Object field = body.getChild(cname);
 				if (i > 0)
 					sbUrl.append("&");

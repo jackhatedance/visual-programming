@@ -62,10 +62,9 @@ public class SVGMainWindow extends JPanel {
 	JScrollPane scrollTreePanel;
 
 	private SVGDiagramPanel diagramPanel;
-	//JScrollPane scrollDiagramPanel;
+	// JScrollPane scrollDiagramPanel;
 
 	JSplitPane splitPane;
-	
 
 	protected VirtualMachine getVM() {
 		return VirtualMachine.getInstance();
@@ -90,8 +89,6 @@ public class SVGMainWindow extends JPanel {
 
 		// Add the split pane to this panel.
 		add(splitPane);
-		
-		
 
 	}
 
@@ -318,7 +315,7 @@ public class SVGMainWindow extends JPanel {
 
 						getVM().getPostService().sendMessageFromNobody(
 								getActiveChildField().target.getOwner(),
-								getActiveChildField().getName());
+								getActiveChildField().getName(), null, null);
 
 					}
 				}
@@ -449,10 +446,10 @@ public class SVGMainWindow extends JPanel {
 		// diagram.setMinimumSize(new Dimension(1000, 1000));
 		// addMouseListener();
 
-		//diagramPanel;
+		// diagramPanel;
 
-		//Dimension minimumSize = new Dimension(200, 150);
-		//scrollDiagramPanel.setMinimumSize(minimumSize);
+		// Dimension minimumSize = new Dimension(200, 150);
+		// scrollDiagramPanel.setMinimumSize(minimumSize);
 
 		// diagramPanel.setComponentPopupMenu(diagramPopupMenu);
 

@@ -18,7 +18,9 @@ public class FieldAssignment extends Instruction {
 
 	// public _Object rightObject;
 
-	public FieldAssignment() {
+	public FieldAssignment(int line) {
+		super(line);
+		
 		this.type = InstructionType.FIELD_ASSIGNMENT;
 	}
 

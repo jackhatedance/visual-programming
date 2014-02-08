@@ -31,9 +31,9 @@ public class Link extends _Object {
 		} catch (Exception e) {
 
 			remoteAddress = null;
-			
-			//allow empty link object when initializing
-			//throw new RuntimeException("invalid address:" + value);
+
+			// allow empty link object when initializing
+			// throw new RuntimeException("invalid address:" + value);
 		}
 	}
 
@@ -48,10 +48,21 @@ public class Link extends _Object {
 		return null;
 	}
 
+	/**
+	 * short address
+	 * 
+	 * @return
+	 */
 	public String getAddress() {
 		if (remoteAddress != null)
 			return remoteAddress.getAddress();
 
 		return null;
+	}
+
+	@Override
+	public String toString() {
+
+		return getValue();
 	}
 }

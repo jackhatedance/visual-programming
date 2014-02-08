@@ -19,14 +19,22 @@ public class Concatenate extends BaseNativeProcedure implements NativeProcedure 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
-		StringValue str = (StringValue) ctx.get("str");
+		StringValue strSV = (StringValue) ctx.get("str");
 
 		StringValue selfStr = (StringValue) self;
 
 		StringValue result = (StringValue) virtualMachine.getObjectRepository()
 				.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
 
-		String newStr = selfStr.getValue().concat(str.getValue());
+		
+		String str = null;
+		if(strSV==null)
+			str="null";
+		else
+			str = strSV.getValue();
+		
+			
+		String newStr = selfStr.getValue().concat(str);
 
 		result.setValue(newStr);
 

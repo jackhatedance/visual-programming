@@ -299,6 +299,17 @@ public class Worker implements Runnable {
 		// e.setPolicy(step);
 
 		executor.execute();
+		
+		//error handling
+		if(msg.executionContext.executionStatus==ExecutionStatus.ERROR){
+			System.err.println("execution error:");
+			
+			System.err.println(String.format("%s.%s(), line %d", obj.getPath(),proc.getName(),msg.executionContext.executionErrorLine )
+					);
+			System.err.println("code:"+proc.getAroundSourceCode(msg.executionContext.executionErrorLine));
+			System.err.println(msg.executionContext.executionErrorMessage);
+			
+		}
 
 	}
 

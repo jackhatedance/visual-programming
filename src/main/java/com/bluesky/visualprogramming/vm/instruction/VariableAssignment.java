@@ -7,7 +7,9 @@ public class VariableAssignment extends Instruction {
 	public String left;
 	public String right;
 
-	public VariableAssignment() {
+	public VariableAssignment(int line) {
+		super(line);
+		
 		this.type = InstructionType.VARIABLE_ASSIGNMENT;
 	}
 

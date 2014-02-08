@@ -532,7 +532,22 @@ public class _Object implements Serializable {
 
 	}
 
-	public String[] getChildrenNames() {
+	public String[] getFieldNames() {
+		List<String> names = new ArrayList<String>();
+		for (String fieldName : fieldNameMap.keySet()) {
+			if (!Field.isSystemField(fieldName))
+				names.add(fieldName);
+		}
+
+		return names.toArray(new String[0]);
+	}
+
+	/**
+	 * include system field
+	 * 
+	 * @return
+	 */
+	public String[] getAllFieldNames() {
 		return fieldNameMap.keySet().toArray(new String[0]);
 	}
 
@@ -710,7 +725,9 @@ public class _Object implements Serializable {
 				procedure.compiled = cp;
 
 			} catch (Exception e) {
-				throw new RuntimeException("compile failed", e);
+				String msg2 = String.format("compile failed for %s.%s(): %s",
+						getPath(), procedure.getName(), e.getMessage());
+				throw new RuntimeException(msg2, e);
 
 			}
 		}

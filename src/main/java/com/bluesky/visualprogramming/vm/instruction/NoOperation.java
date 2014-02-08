@@ -10,7 +10,9 @@ import com.bluesky.visualprogramming.vm.InstructionType;
  */
 public class NoOperation extends Instruction {
 
-	public NoOperation() {
+	public NoOperation(int line) {
+		super(line);
+		
 		this.type = InstructionType.NO_OPERATION;
 	}
 	@Override

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
@@ -145,16 +147,32 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		instructions.add(ins);
 	}
 
-	private void pushBlock(String blockName) {
-		instructions.add(new PushBlock());
+	private void pushBlock(String blockName,ParserRuleContext ctx) {
+		instructions.add(new PushBlock(ctx.start.getLine()));
 		blockStack.push(blockName);
 	}
 
-	private void popBlock() {
-		instructions.add(new PopBlock());
+	private void popBlock(ParserRuleContext ctx) {
+		instructions.add(new PopBlock(ctx.start.getLine()));
 		blockStack.pop();
 	}
 
+	public static void main(String[] args) {
+		InputStream is = GooCompiler.class
+				.getResourceAsStream("/sample-code/sample-2-2-assignment.goo");
+		GooCompiler compiler = new GooCompiler();
+		try{
+			compiler.compile(is);
+			for (Instruction ins : compiler.getInstructions()) {
+				System.out.println(ins.toString());
+			}
+		}catch(Exception e){
+			System.out.println("parsing error: "+e.getMessage());
+			//e.printStackTrace();
+		}
+		
+	}
+	
 	public CompiledProcedure compile(String code) {
 		InputStream stream = null;
 		try {
@@ -179,6 +197,14 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		GooLexer lexer = new GooLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GooParser parser = new GooParser(tokens);
+		//throw parsing exceptions
+		//parser.setErrorHandler(new BailErrorStrategy());
+		
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(DescriptiveErrorListener.INSTANCE);
+		parser.removeErrorListeners();
+		parser.addErrorListener(DescriptiveErrorListener.INSTANCE);
+		
 		ParseTree tree = parser.procedure();
 		// System.out.println(tree.toStringTree(parser)); // print tree as text
 
@@ -235,7 +261,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitForStatement(ForStatementContext ctx) {
 		String blockName = getNextBlockName("For");
 
-		pushBlock(blockName);
+		pushBlock(blockName,ctx);
 
 		getLastInstruction().comment = String.format("for(%s;%s;%s)", ctx
 				.forInit() == null ? "" : ctx.forInit().getText(), ctx
@@ -245,13 +271,13 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		if (ctx.forInit() != null)
 			ctx.forInit().accept(this);
 
-		NoOperation entry = new NoOperation();
+		NoOperation entry = new NoOperation(ctx.start.getLine());
 		entry.label = blockName + "Entry";
 		addInstruction(entry);
 
 		String conditionVar = (String) ctx.forCondition().accept(this);
 
-		GotoIf gotoEnd = new GotoIf();
+		GotoIf gotoEnd = new GotoIf(ctx.start.getLine());
 		gotoEnd.expected = false;
 		gotoEnd.actualVarName = conditionVar;
 		gotoEnd.destinationLabel = blockName + "End";
@@ -264,15 +290,15 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ctx.forAfterthought().accept(this);
 
 		// goto begin
-		Goto gotoEntry = new Goto();
+		Goto gotoEntry = new Goto(ctx.start.getLine());
 		gotoEntry.destinationLabel = blockName + "Entry";
 		addInstruction(gotoEntry);
 
-		NoOperation end = new NoOperation();
+		NoOperation end = new NoOperation(ctx.start.getLine());
 		end.label = blockName + "End";
 		addInstruction(end);
 
-		popBlock();
+		popBlock(ctx);
 
 		return null;
 	}
@@ -286,7 +312,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitNumber(NumberContext ctx) {
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("number");
 		ins.objType = ObjectType.INTEGER;
@@ -301,14 +327,14 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String var = (String) ctx.expr().accept(this);
 
-		VariableAssignment ins = new VariableAssignment();
+		VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
 		ins.left =  ProcedureExecutionContext.VAR_RESULT;
 		ins.right = var;
 		ins.comment = "return " + ctx.expr().getText();
 
 		addInstruction(ins);
 
-		Goto gotoEnd = new Goto();
+		Goto gotoEnd = new Goto(ctx.start.getLine());
 		gotoEnd.destinationLabel = PROCEDURE_END_LABEL;
 
 		addInstruction(gotoEnd);
@@ -339,7 +365,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 				String paramVar = (String) nvc.accept(this);
 
 				// create field name var
-				CreateObject insFieldName = new CreateObject();
+				CreateObject insFieldName = new CreateObject(ctx.start.getLine());
 
 				insFieldName.varName = getNextTempVar("varField");
 				insFieldName.objType = ObjectType.STRING;
@@ -347,7 +373,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 				addInstruction(insFieldName);
 
-				FieldAssignment ins2 = new FieldAssignment();
+				FieldAssignment ins2 = new FieldAssignment(ctx.start.getLine());
 				ins2.ownerVar = parametersVarName;
 				ins2.fieldNameVar = insFieldName.varName;
 				ins2.rightVar = paramVar;
@@ -372,7 +398,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		for (int i = 0; i < paramVars.length; i++) {
 			String paramVar = (String) paramVars[i];
 
-			CreateObject createField = new CreateObject();
+			CreateObject createField = new CreateObject(ctx.start.getLine());
 
 			createField.varName = getNextTempVar("string");
 			createField.objType = ObjectType.STRING;
@@ -380,7 +406,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			addInstruction(createField);
 
-			FieldAssignment ins2 = new FieldAssignment();
+			FieldAssignment ins2 = new FieldAssignment(ctx.start.getLine());
 			ins2.ownerVar = parametersVarName;
 			ins2.fieldNameVar = createField.varName;
 			ins2.rightVar = paramVar;
@@ -404,7 +430,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitBoolean(BooleanContext ctx) {
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("boolean");
 		ins.objType = ObjectType.BOOLEAN;
@@ -419,12 +445,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String var = getNextTempVar("accessField");
 
-		AccessField ins = new AccessField();
+		AccessField ins = new AccessField(ctx.start.getLine());
 		ins.objName = (String) ctx.expr().accept(this);		
 		ins.fieldName = (String)ctx.field().getText();		
 		//TODO obj.$field statment is not supported yet.
 		//ins.fieldNameVar = (String)ctx.field().accept(this);		
 		ins.varName = var;
+
+		Interval sourceInterval = ctx.getSourceInterval();
+		
+		int line = ctx.start.getLine();
 
 		addInstruction(ins);
 
@@ -446,12 +476,12 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String blockName = getNextBlockName("If");
 
-		pushBlock(blockName);
+		pushBlock(blockName,ctx);
 
 		String conditionVar = (String) ctx.expr().accept(this);
 
 		// goto FalseBegin
-		GotoIf gotoFalse = new GotoIf();
+		GotoIf gotoFalse = new GotoIf(ctx.start.getLine());
 		gotoFalse.expected = false;
 		gotoFalse.actualVarName = conditionVar;
 		gotoFalse.destinationLabel = blockName + "FalseBegin";
@@ -462,17 +492,17 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		ctx.trueBranch().accept(this);
 
 		// label
-		NoOperation trueEnd = new NoOperation();
+		NoOperation trueEnd = new NoOperation(ctx.start.getLine());
 		trueEnd.label = blockName + "TrueEnd";
 		addInstruction(trueEnd);
 
 		// goto FalseBegin
-		Goto gotoFalseEnd = new Goto();
+		Goto gotoFalseEnd = new Goto(ctx.start.getLine());
 		gotoFalseEnd.destinationLabel = blockName + "FalseEnd";
 		addInstruction(gotoFalseEnd);
 
 		// label
-		NoOperation falseBegin = new NoOperation();
+		NoOperation falseBegin = new NoOperation(ctx.start.getLine());
 		falseBegin.label = blockName + "FalseBegin";
 		addInstruction(falseBegin);
 
@@ -480,11 +510,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ctx.falseBranch().accept(this);
 
 		// label
-		NoOperation falseEnd = new NoOperation();
+		NoOperation falseEnd = new NoOperation(ctx.start.getLine());
 		falseEnd.label = blockName + "FalseEnd";
 		addInstruction(falseEnd);
 
-		popBlock();
+		popBlock(ctx);
 
 		return null;
 	}
@@ -500,7 +530,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		if (ctx.fieldList() != null) {
 
 			// create the root parameter object
-			CreateObject createBody = new CreateObject();
+			CreateObject createBody = new CreateObject(ctx.start.getLine());
 			createBody.objType = ObjectType.NORMAL;
 			paramVar = getNextTempVar("paramFieldList");
 			createBody.varName = paramVar;
@@ -519,7 +549,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 				paramStyle = ParameterStyle.ByName;
 		}
 
-		SendMessage ins = new SendMessage();
+		SendMessage ins = new SendMessage(ctx.start.getLine());
 
 		String tempVar = (String) ctx.expr().accept(this);
 
@@ -561,7 +591,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		AssigneeContext assignee = ctx.assignee();
 		if (assignee instanceof AssigneeVariableContext) {
-			VariableAssignment ins = new VariableAssignment();
+			VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
 			ins.left = assignee.getText();
 
 			if (ctx.expr() instanceof VariableExprContext) {
@@ -583,7 +613,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			String tempVar = (String) assigneeFieldContext.expr().accept(this);
 
-			FieldAssignment ins = new FieldAssignment();
+			FieldAssignment ins = new FieldAssignment(ctx.start.getLine());
 			ins.ownerVar = tempVar;
 
 			ins.fieldNameVar = (String) assigneeFieldContext.field().accept(
@@ -601,16 +631,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return null;
 	}
 
-	private Instruction createStringInstruction(String lit) {
-		CreateObject createField = new CreateObject();
-
-		createField.varName = getNextTempVar("string");
-		createField.objType = ObjectType.STRING;
-		createField.value = StringEscapeUtils
-				.unescapeJava(trimQuotationMarks(lit));
-
-		return createField;
-	}
+	 
 
 	@Override
 	public Object visitParamDeclareList(ParamDeclareListContext ctx) {
@@ -630,16 +651,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String blockName = getNextBlockName("While");
 
-		pushBlock(blockName);
+		pushBlock(blockName,ctx);
 
-		NoOperation entry = new NoOperation();
+		NoOperation entry = new NoOperation(ctx.start.getLine());
 		entry.label = blockName + "Entry";
 		addInstruction(entry);
 
 		String conditionVar = (String) ctx.expr().accept(this);
 
 		// goto FalseBegin
-		GotoIf gotoFalse = new GotoIf();
+		GotoIf gotoFalse = new GotoIf(ctx.start.getLine());
 		gotoFalse.expected = false;
 		gotoFalse.actualVarName = conditionVar;
 		gotoFalse.destinationLabel = blockName + "Begin";
@@ -650,11 +671,11 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		ctx.blockOrStatment().accept(this);
 
 		// label
-		NoOperation trueEnd = new NoOperation();
+		NoOperation trueEnd = new NoOperation(ctx.start.getLine());
 		trueEnd.label = blockName + "End";
 		addInstruction(trueEnd);
 
-		popBlock();
+		popBlock(ctx);
 
 		return null;
 	}
@@ -663,7 +684,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitString(StringContext ctx) {
 		// System.out.println("visitString");
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("string");
 		ins.objType = ObjectType.STRING;
@@ -693,7 +714,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		ctx.block().accept(this);
 
-		ProcedureEnd end = new ProcedureEnd();
+		ProcedureEnd end = new ProcedureEnd(ctx.start.getLine());
 		end.label = PROCEDURE_END_LABEL;
 
 		addInstruction(end);
@@ -737,16 +758,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		return instructions;
 	}
 
-	public static void main(String[] args) {
-		InputStream is = GooCompiler.class
-				.getResourceAsStream("/sample-code/sample-2-assignment.goo");
-		GooCompiler compiler = new GooCompiler();
-		compiler.compile(is);
-
-		for (Instruction ins : compiler.getInstructions()) {
-			System.out.println(ins.toString());
-		}
-	}
+	
 
 	@Override
 	public Object visitRefAssignOperator(RefAssignOperatorContext ctx) {
@@ -770,7 +782,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitNameValue(NameValueContext ctx) {
 		String tempVar = getNextTempVar("namedParamExpr");
 
-		VariableAssignment ins = new VariableAssignment();
+		VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
 		ins.left = tempVar;
 		ins.right = (String) ctx.expr().accept(this);
 
@@ -789,7 +801,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitContinueStatement(ContinueStatementContext ctx) {
 		String block = blockStack.peek();
 
-		Goto ins = new Goto();
+		Goto ins = new Goto(ctx.start.getLine());
 		ins.destinationLabel = block + "Entry";
 
 		addInstruction(ins);
@@ -801,7 +813,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitBreakStatement(BreakStatementContext ctx) {
 		String block = blockStack.peek();
 
-		Goto ins = new Goto();
+		Goto ins = new Goto(ctx.start.getLine());
 		ins.destinationLabel = block + "End";
 
 		addInstruction(ins);
@@ -865,7 +877,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitLink(LinkContext ctx) {
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("link");
 		ins.objType = ObjectType.LINK;
@@ -896,7 +908,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 						Interval.of(startToken.getStartIndex(),
 								stopToken.getStopIndex()));
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("link");
 		ins.objType = ObjectType.PROCEDURE;
@@ -913,7 +925,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
 				.getText()));
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
@@ -930,7 +942,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
 				.getText()));
 
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
@@ -943,7 +955,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitIdMessageSubject(IdMessageSubjectContext ctx) {
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
@@ -956,7 +968,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitIdField(IdFieldContext ctx) {
-		CreateObject ins = new CreateObject();
+		CreateObject ins = new CreateObject(ctx.start.getLine());
 
 		ins.varName = getNextTempVar("varField");
 		ins.objType = ObjectType.STRING;
@@ -992,7 +1004,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitObject(ObjectContext ctx) {
 		// create the root parameter object
-		CreateObject createBody = new CreateObject();
+		CreateObject createBody = new CreateObject(ctx.start.getLine());
 		createBody.objType = ObjectType.NORMAL;
 		createBody.varName = getNextTempVar("createObject");
 

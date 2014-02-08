@@ -7,7 +7,9 @@ public class GotoIf extends Instruction {
 	public boolean expected;
 	public String actualVarName;
 	
-	public GotoIf() {
+	public GotoIf(int line) {
+		super(line);
+		
 		this.type = InstructionType.GOTO_IF;
 	}
 	@Override

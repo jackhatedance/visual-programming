@@ -2,7 +2,7 @@ package com.bluesky.visualprogramming.remote;
 
 
 public enum ProtocolType {
-	PATH, XMPP, SSH, EMAIL, WECHAT, TWITTER, WEIBO, HTTP {
+	CALLBACK, PATH, XMPP, SSH, EMAIL, WECHAT, TWITTER, WEIBO, HTTP {
 		@Override
 		public boolean needSenderAddress() {
 			return false;

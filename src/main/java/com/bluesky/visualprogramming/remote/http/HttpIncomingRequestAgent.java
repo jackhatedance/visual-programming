@@ -5,7 +5,14 @@ import java.util.concurrent.Semaphore;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
+import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.ObjectScope;
+import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.Link;
+import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.remote.callback.Callback;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
  * an agent for each request.
@@ -34,8 +41,31 @@ public class HttpIncomingRequestAgent {
 			throw new RuntimeException("receiver is not visitor:" + username);
 		}
 
-		responseBody = msg.body;
-		responseReady.release();
+		// TODO convert to _Object to HTML
+		VirtualMachine vm = VirtualMachine.getInstance();
+		ObjectRepository repo = vm.getObjectRepository();
+
+		String address = "path://_root.lib.web.render@local";
+		Link receiverLink = (Link) repo.createObject(ObjectType.LINK,
+				ObjectScope.ExecutionContext);
+		receiverLink.setValue(address);
+
+		_Object params = repo.createObject(ObjectType.NORMAL,
+				ObjectScope.ExecutionContext);
+		params.setField("target", msg.body, false);
+
+		vm.getPostService().sendMessageFromNobody(receiverLink, "do", params,
+				new Callback() {
+
+					@Override
+					public void onComplete(_Object result) {
+						responseBody = result;
+						logger.debug("response is: " + responseBody);
+
+						responseReady.release();
+
+					}
+				});
 
 	}
 
@@ -51,9 +81,10 @@ public class HttpIncomingRequestAgent {
 	}
 
 	public String getResponse() {
-		if (responseBody != null)
-			return responseBody.getValue();
-		else
+		if (responseBody != null) {
+			StringValue sv = (StringValue) responseBody;
+			return sv.getValue();
+		} else
 			return "";
 	}
 }

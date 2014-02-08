@@ -11,7 +11,7 @@ import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
- * every object is a map.
+ * test if a var is pointing to a null object
  * 
  * @author Administrator
  * 
@@ -22,18 +22,13 @@ public class IsNull extends BaseNativeProcedure implements NativeProcedure {
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 
-		StringValue nameSV = (StringValue) ctx.get("name");
-		
-		if(nameSV!=null)
-			return null;
-			
-		_Object obj = ctx.get(nameSV.getValue());
-		
-		
-		BooleanValue result = (BooleanValue) virtualMachine.getObjectRepository()
-				.createObject(ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
-		
-		result.setBooleanValue(obj==null);
+		_Object obj = ctx.get("var");
+
+		BooleanValue result = (BooleanValue) virtualMachine
+				.getObjectRepository().createObject(ObjectType.BOOLEAN,
+						ObjectScope.ExecutionContext);
+
+		result.setBooleanValue(obj == null);
 
 		return result;
 	}

@@ -14,10 +14,10 @@ import com.bluesky.visualprogramming.ui.svg.SvgScene;
 public class Field {
 
 	public String name;
-	public _Object target;	
-	
+	public _Object target;
+
 	// scale of a svg shape.
-	public float svgScale=0.2f;
+	public float svgScale = 0.2f;
 
 	// public boolean owner;
 
@@ -98,6 +98,10 @@ public class Field {
 		return name != null && name.startsWith("_");
 	}
 
+	static public boolean isSystemField(String name) {
+		return name != null && name.startsWith("_");
+	}
+
 	/**
 	 * draw itself as an icon. (if it is big enough, then draw internal.)
 	 * 
@@ -117,7 +121,7 @@ public class Field {
 
 		int x = (int) (area.x * zoom) + canvasOffset.x;
 		int y = (int) (area.y * zoom) + canvasOffset.y;
-		
+
 		long id = target.getId();
 		String value = target.getHumanReadableText();
 
@@ -146,11 +150,8 @@ public class Field {
 
 		scene.setBorderColor(id, target.borderColor);
 
-		
-
 		ele.setUserData("field", this, null);
 		diagramPanel.addMouseListener(ele);
-		
 
 	}
 }

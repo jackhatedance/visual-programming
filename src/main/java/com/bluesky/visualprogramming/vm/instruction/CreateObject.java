@@ -21,7 +21,9 @@ public class CreateObject extends Instruction {
 	 */
 	public String value;
 
-	public CreateObject() {
+	public CreateObject(int line) {
+		super(line);
+		
 		this.type = InstructionType.CREATE_OBJECT;
 	}
 

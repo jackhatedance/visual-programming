@@ -8,26 +8,21 @@ import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
- * every object is a map.
+ * get descendant object by path
  * 
  * @author Administrator
  * 
  */
-public class GetChild extends BaseNativeProcedure implements NativeProcedure {
+public class GetByPath extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 		
 		_Object obj = ctx.get("obj");
-		StringValue nameSV = (StringValue) ctx.get("name");
+		StringValue pathSV = (StringValue) ctx.get("path");
 
-		if(obj==null)
-			throw new RuntimeException("'obj' is null");
-		if(nameSV==null)
-			throw new RuntimeException("'name' is null");
-		
-		_Object value = obj.getChild(nameSV.getValue());
+		_Object value = obj.getObjectByPath(pathSV.getValue());
 
 		return value;
 	}

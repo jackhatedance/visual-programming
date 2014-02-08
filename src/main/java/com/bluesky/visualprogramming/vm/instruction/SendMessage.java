@@ -17,7 +17,9 @@ public class SendMessage extends Instruction {
 	public ParameterStyle paramStyle;
 
 
-	public SendMessage() {
+	public SendMessage(int line) {
+		super(line);
+		
 		this.type = InstructionType.SEND_MESSAGE;
 	}
 

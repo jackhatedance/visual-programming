@@ -5,7 +5,9 @@ import com.bluesky.visualprogramming.vm.InstructionType;
 public class PushBlock extends Instruction {
 	public BlockType blockType;
 
-	public PushBlock() {
+	public PushBlock(int line) {
+		super(line);
+		
 		this.type = InstructionType.PUSH_BLOCK;
 
 	}

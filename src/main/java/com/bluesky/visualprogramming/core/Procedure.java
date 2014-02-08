@@ -122,4 +122,29 @@ public class Procedure extends _Object {
 
 		return "";
 	}
+	
+	public String getAroundSourceCode(int lineNumber){
+		String[] lines = getValue().split("\\n");
+		
+		StringBuilder sb = new StringBuilder();
+		int maxLine = lines.length;
+		int line;
+		
+		String CR = "\r\n";
+		
+		line=lineNumber-1;
+		if(line>=0 && line<maxLine)
+			sb.append(lines[line]+CR);
+		
+		line=lineNumber;
+		if(line>=0 && line<maxLine)
+			sb.append(lines[line]+CR);
+		
+		line=lineNumber+1;
+		if(line>=0 && line<maxLine)
+			sb.append(lines[line]+CR);
+		
+		
+		return  sb.toString();
+	}
 }

@@ -29,8 +29,12 @@ public class ProcedureExecutionContext {
 
 	private Set<_Object> tempObjects;
 
-	public ExecutionStatus executionStatus;
-
+	public ExecutionStatus executionStatus;	
+	
+	//detailed error info
+	public String executionErrorMessage;
+	public int executionErrorLine;
+	
 	// used for multi-step instructions(such as SendMessage)
 	public int step = 0;
 	/**
@@ -94,4 +98,5 @@ public class ProcedureExecutionContext {
 		this.procedureEnd = procedureEnd;
 	}
 
+	
 }

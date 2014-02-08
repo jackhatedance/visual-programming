@@ -14,7 +14,9 @@ public class AccessField extends Instruction {
 	public String objName;
 	public String fieldName;
 
-	public AccessField() {
+	public AccessField(int line) {
+		super(line);
+		
 		this.type = InstructionType.ACCESS_FIELD;
 	}
 	

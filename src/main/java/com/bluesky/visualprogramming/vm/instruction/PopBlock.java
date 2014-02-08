@@ -4,7 +4,9 @@ import com.bluesky.visualprogramming.vm.InstructionType;
 
 public class PopBlock extends Instruction{
 
-	public PopBlock() {
+	public PopBlock(int line) {
+		super(line);
+		
 		this.type=InstructionType.POP_BLOCK;
 	}
 	@Override

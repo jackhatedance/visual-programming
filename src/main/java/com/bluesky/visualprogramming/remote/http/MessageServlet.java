@@ -85,6 +85,12 @@ public class MessageServlet extends HttpServlet {
 
 		// TODO: parse HTTP parameters
 
+		/*
+		 * Assume it is a HTTP session with a browser, the return value should
+		 * be HTML String other than _Object. so we send this request to a
+		 * middle agent which will call the real receiver and convert the result
+		 * to html.
+		 */
 		Message incomingMsg = new Message(true, senderLink, receiverLink,
 				subject, null, ParameterStyle.ByName, null, MessageType.Normal);
 

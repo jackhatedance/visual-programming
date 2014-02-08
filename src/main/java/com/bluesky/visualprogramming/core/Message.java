@@ -115,10 +115,13 @@ public class Message {
 
 		executionContext.setExecutionStatus(ExecutionStatus.ON_GOING);
 
-		executionContext.setObject(ObjectRepository.ROOT, root);			
-		executionContext.setObject(ProcedureExecutionContext.VAR_SELF, receiver);		
-		executionContext.setObject(ProcedureExecutionContext.VAR_SUBJECT, subject);
-		executionContext.setObject(ProcedureExecutionContext.VAR_PARAMETERS, body);
+		executionContext.setObject(ObjectRepository.ROOT, root);
+		executionContext
+				.setObject(ProcedureExecutionContext.VAR_SELF, receiver);
+		executionContext.setObject(ProcedureExecutionContext.VAR_SUBJECT,
+				subject);
+		executionContext.setObject(ProcedureExecutionContext.VAR_PARAMETERS,
+				body);
 		// executionContext.setObject("sender", receiver);
 
 		if (body != null) {
@@ -166,6 +169,7 @@ public class Message {
 		return this.messageType == MessageType.SyncReply;
 	}
 
+	@Override
 	public String toString() {
 
 		if (messageType == MessageType.SyncReply) {

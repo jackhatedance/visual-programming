@@ -10,7 +10,9 @@ import com.bluesky.visualprogramming.vm.InstructionType;
  */
 public class ProcedureEnd extends Instruction {
 
-	public ProcedureEnd() {
+	public ProcedureEnd(int line) {
+		super(line);
+		
 		this.type = InstructionType.PROCEDURE_END;
 	}
 	@Override
