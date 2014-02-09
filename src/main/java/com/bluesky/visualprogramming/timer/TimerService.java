@@ -61,7 +61,7 @@ public class TimerService implements Service {
 
 			@Override
 			public void afterLoadFromFile(_Object obj) {
-				StringValue type = (StringValue) obj.getChild("_type");
+				StringValue type = (StringValue) obj.getSystemChild("type");
 				if (type != null && type.getValue().equals("timer")) {
 
 					BooleanValue enabledObj = (BooleanValue) obj

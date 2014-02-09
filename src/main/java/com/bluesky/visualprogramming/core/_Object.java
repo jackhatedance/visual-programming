@@ -43,7 +43,7 @@ public class _Object implements Serializable {
 	// the owner object.
 	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
 
-	static public final String OBJECT_LAYOUT = "_layout";
+	static public final String OBJECT_LAYOUT = "layout";
 	/**
 	 * 
 	 */
@@ -221,9 +221,7 @@ public class _Object implements Serializable {
 	 */
 	public void setField(String name, _Object child, boolean owner) {
 
-		if (name != null && name.indexOf(':') >= 0) {
-			System.out.println("mac is here " + name);
-		}
+
 
 		// name must be unique if is not null
 		if (name != null) {
@@ -466,7 +464,7 @@ public class _Object implements Serializable {
 			Point canvasOffset) {
 
 		ObjectLayout layout = ObjectLayout.XY;
-		StringValue layoutSV = (StringValue) getChild(OBJECT_LAYOUT);
+		StringValue layoutSV = (StringValue) getSystemChild(OBJECT_LAYOUT);
 		if (layoutSV != null) {
 			try {
 				layout = ObjectLayout.valueOf(layoutSV.getValue());
@@ -526,7 +524,7 @@ public class _Object implements Serializable {
 	public void setSystemField(String name, _Object obj, boolean owner) {
 		_Object systemObject = getSystem();
 		if (systemObject == null)
-			createSystemField();
+			systemObject = createSystemField();
 
 		systemObject.setField(name, obj, owner);
 

@@ -423,7 +423,8 @@ public class SVGMainWindow extends JPanel {
 						.createObject(ObjectType.STRING,
 								ObjectScope.ExecutionContext);
 				sv.setValue(ObjectLayout.List.toString());
-				getSelectedTreeField().target.setField(_Object.OBJECT_LAYOUT,
+				getSelectedTreeField().target.setSystemField(
+						_Object.OBJECT_LAYOUT,
 						sv, true);
 
 				// refresh UI
