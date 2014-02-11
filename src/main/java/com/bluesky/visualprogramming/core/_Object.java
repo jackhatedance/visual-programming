@@ -35,14 +35,13 @@ public class _Object implements Serializable {
 	static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
 	static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
 
-	static public final String GRAPHIC = "graphic";
-
 	// it is defined by the object, and is for its procedures.
-	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "_defaultSubjectMatchType";
+	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "defaultSubjectMatchType";
 	// it is defined by the procedure itself, to override the default value of
 	// the owner object.
-	static public final String SUBJECT_MATCH_TYPE = "_subjectMatchType";
+	static public final String SUBJECT_MATCH_TYPE = "subjectMatchType";
 
+	static public final String GRAPHIC = "graphic";
 	static public final String OBJECT_LAYOUT = "layout";
 	/**
 	 * 
@@ -573,7 +572,7 @@ public class _Object implements Serializable {
 
 				// default setting of the object
 				SubjectMatchType defaultSubjectMatchType = SubjectMatchType.RegularExpression;
-				StringValue defaultSubjectMatchTypeSV = (StringValue) getChild(DEFAULT_SUBJECT_MATCH_TYPE);
+				StringValue defaultSubjectMatchTypeSV = (StringValue) getSystemChild(DEFAULT_SUBJECT_MATCH_TYPE);
 				if (defaultSubjectMatchTypeSV != null)
 					defaultSubjectMatchType = SubjectMatchType
 							.valueOf(defaultSubjectMatchTypeSV.getValue());
@@ -592,7 +591,7 @@ public class _Object implements Serializable {
 						// procedure specific setting
 						SubjectMatchType subjectMatchType = defaultSubjectMatchType;
 						StringValue subjectMatchTypeSV = (StringValue) child
-								.getChild(SUBJECT_MATCH_TYPE);
+								.getSystemChild(SUBJECT_MATCH_TYPE);
 
 						if (subjectMatchTypeSV != null)
 							subjectMatchType = SubjectMatchType
