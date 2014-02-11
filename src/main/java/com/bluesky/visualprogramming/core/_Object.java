@@ -165,7 +165,7 @@ public class _Object implements Serializable {
 			Field field = owner.getField(index);
 			return getOwner().getPath() + "." + field.name;
 		} else
-			return "[" + name + "]";
+			return name;
 	}
 
 	public void setOwner(_Object owner) {
@@ -401,7 +401,7 @@ public class _Object implements Serializable {
 		child.setScope(ObjectScope.ExecutionContext);
 	}
 
-	public void detachFrom(_Object owner) {
+	public void detachFromOwner() {
 		owner.detachChild(this);
 	}
 

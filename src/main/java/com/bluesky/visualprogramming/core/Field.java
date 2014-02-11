@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.ui.SVGDiagramPanel;

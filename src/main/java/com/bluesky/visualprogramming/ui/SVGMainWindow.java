@@ -66,6 +66,8 @@ public class SVGMainWindow extends JPanel {
 
 	JSplitPane splitPane;
 
+	FieldSelectionClipboardOwner objectSelection = new FieldSelectionClipboardOwner();
+
 	protected VirtualMachine getVM() {
 		return VirtualMachine.getInstance();
 	}
@@ -258,6 +260,20 @@ public class SVGMainWindow extends JPanel {
 		});
 		menu.add(eMenuItem);
 
+		eMenuItem = new JMenuItem("Cut");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagramPanel.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (getActiveChildField() != null) {
+					// save to clipboard
+					objectSelection.setObject(getSelectedTreeField().target,
+							getActiveChildField().name);
+				}
+			}
+		});
+		menu.add(eMenuItem);
+
 		eMenuItem = new JMenuItem("Delete");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -412,6 +428,31 @@ public class SVGMainWindow extends JPanel {
 		});
 		menu.add(eMenuItem);
 
+		eMenuItem = new JMenuItem("Paste");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_Object newOwner = getSelectedTreeField().target;
+
+				FieldSelection selection = objectSelection.getObject();
+
+				if (selection != null) {
+					String fieldName = selection.fieldName;
+					_Object oldOwner = selection.object;
+					_Object child = oldOwner.getChild(fieldName);
+					boolean ownership = oldOwner.owns(child);
+
+					oldOwner.removeField(fieldName);
+					newOwner.setField(fieldName, child, ownership);
+
+					addChildObjectToTree(child);
+
+				}
+
+			}
+
+		});
+		menu.add(eMenuItem);
+
 		eMenuItem = new JMenuItem("Show in list layout");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -424,8 +465,7 @@ public class SVGMainWindow extends JPanel {
 								ObjectScope.ExecutionContext);
 				sv.setValue(ObjectLayout.List.toString());
 				getSelectedTreeField().target.setSystemField(
-						_Object.OBJECT_LAYOUT,
-						sv, true);
+						_Object.OBJECT_LAYOUT, sv, true);
 
 				// refresh UI
 				loadDiagram(field);

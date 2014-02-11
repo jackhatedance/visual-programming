@@ -163,9 +163,13 @@ public class ObjectRepository {
 					+ ObjectRepository.ROOT + "':" + path);
 
 		int index = path.indexOf('.');
-		String subPath = path.substring(index + 1);
+		if (index < 0)
+			return getRootObject();
+		else {
+			String subPath = path.substring(index + 1);
 
-		return getRootObject().getObjectByPath(subPath);
+			return getRootObject().getObjectByPath(subPath);
+		}
 	}
 
 	/**
