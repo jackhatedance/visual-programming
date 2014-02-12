@@ -11,7 +11,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
- * used for clipboard
+ * used for clip board
  * 
  * @author jack
  * 

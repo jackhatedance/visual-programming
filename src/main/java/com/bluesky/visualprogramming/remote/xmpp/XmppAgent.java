@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.remote.xmpp;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -133,8 +134,9 @@ public class XmppAgent {
 			}
 
 		}
-
-		chat.sendMessage(String.format("[%s] %s", msg.getSubject(), msgBody));
+		String response = String.format("[%s] %s", msg.getSubject(), msgBody);
+		String escaped = StringEscapeUtils.escapeXml(response);
+		chat.sendMessage(escaped);
 	}
 
 	private String reviseAddress(String addr) {
