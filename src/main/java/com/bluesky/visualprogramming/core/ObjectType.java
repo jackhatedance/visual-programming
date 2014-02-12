@@ -158,6 +158,15 @@ public enum ObjectType {
 		public String getSvgResource(){
 			return "svg/procedure.svg";
 		}
+	},
+	EXCEPTION {
+
+		@Override
+		public _Object create(long id) {
+
+			return new VException(id);
+		}
+
 	};
 
 	abstract public _Object create(long id);

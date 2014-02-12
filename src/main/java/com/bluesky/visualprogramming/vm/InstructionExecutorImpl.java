@@ -8,6 +8,7 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
+import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -256,7 +257,14 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;
 
-			// TODO check if reply has exception
+			// check if reply is exception, append trace source
+			if (reply instanceof VException) {
+				VException ex = (VException) reply;
+				// set the exception as result
+				ctx.setResult(ex);
+
+				throw new RuntimeException("received exception");
+			}
 
 			if (logger.isDebugEnabled()) {
 				String replyValue = "";

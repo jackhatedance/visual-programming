@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.messageEngine;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.CodePosition;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
@@ -12,7 +13,9 @@ import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.core.ReplyStatus;
+import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
@@ -173,22 +176,34 @@ public class Worker implements Runnable {
 
 						if (msg.sync) {// wake up the sender, let it continue.
 
-							Message replyMsg = new Message(false, obj,
-									msg.sender, "RE:" + msg.getSubject(),
-									msg.reply, ParameterStyle.ByName, msg,
-									MessageType.SyncReply);
+							if (msg.sender != null) {
+								Message replyMsg = new Message(false, obj,
+										msg.sender, "RE:" + msg.getSubject(),
+										msg.reply, ParameterStyle.ByName, msg,
+										MessageType.SyncReply);
 
-							if (procedureExecutionStatus == ExecutionStatus.ERROR) {
-								replyMsg.setSubject("Error "
-										+ replyMsg.getSubject());
-								replyMsg.replyStatus = ReplyStatus.Error;
-							} else
-								replyMsg.replyStatus = ReplyStatus.Normal;
+								if (procedureExecutionStatus == ExecutionStatus.ERROR) {
+									replyMsg.setSubject("Error "
+											+ replyMsg.getSubject());
+									replyMsg.replyStatus = ReplyStatus.Error;
+								} else
+									replyMsg.replyStatus = ReplyStatus.Normal;
 
-							replyMsg.urgent = true;
+								replyMsg.urgent = true;
 
-							postService.sendMessage(replyMsg);
+								postService.sendMessage(replyMsg);
+							}
 
+							if (msg.reply instanceof VException) {
+								if (msg.sender == null
+										|| (msg.sender != null && (msg.sender instanceof Link))) {
+									// print VException if any
+									VException ex = (VException) msg.reply;
+
+									System.err.println(ex.getTrace());
+
+								}
+							}
 						} else {
 							// notify the sender
 
@@ -294,21 +309,44 @@ public class Worker implements Runnable {
 			msg.status = MessageStatus.IN_PROGRESS;
 		}
 
-		InstructionExecutorImpl executor = new InstructionExecutorImpl(objectRepository,
-				postService, cp, msg.executionContext);
+		InstructionExecutorImpl executor = new InstructionExecutorImpl(
+				objectRepository, postService, cp, msg.executionContext);
 		// e.setPolicy(step);
 
 		executor.execute();
-		
-		//error handling
-		if(msg.executionContext.executionStatus==ExecutionStatus.ERROR){
-			System.err.println("execution error:");
-			
-			System.err.println(String.format("%s.%s(), line %d", obj.getPath(),proc.getName(),msg.executionContext.executionErrorLine )
-					);
-			System.err.println("code:"+proc.getAroundSourceCode(msg.executionContext.executionErrorLine));
-			System.err.println(msg.executionContext.executionErrorMessage);
-			
+
+		// error handling, convert error to VException and set it as return
+		// value
+		if (msg.executionContext.executionStatus == ExecutionStatus.ERROR) {
+			_Object result = msg.executionContext.getResult();
+
+			CodePosition position = new CodePosition(obj.getPath(),
+					proc.getName(), msg.executionContext.executionErrorLine);
+
+			if (result != null && result instanceof VException) {
+				// if already has exception, then just append this stack item
+				VException ex = (VException) result;
+				ex.addTrace(position);
+			} else {
+				// if there is no exception yet, create one.
+				VException ex = (VException) objectRepository.createObject(
+						ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+
+				ex.setMessage("execution error:"
+						+ msg.executionContext.executionErrorMessage);
+				ex.addTrace(position);
+				msg.executionContext.setResult(ex);
+			}
+			//
+			// System.err.println(String.format("%s.%s(), line %d",
+			// obj.getPath(),
+			// proc.getName(), msg.executionContext.executionErrorLine));
+			// System.err
+			// .println("code:"
+			// +
+			// proc.getAroundSourceCode(msg.executionContext.executionErrorLine));
+			// System.err.println(msg.executionContext.executionErrorMessage);
+
 		}
 
 	}
@@ -330,6 +368,17 @@ public class Worker implements Runnable {
 		} catch (Exception e) {
 			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
 			e.printStackTrace();
+
+			// error handling, convert error to VException and set it as return
+			// value
+			VException ex = (VException) objectRepository.createObject(
+					ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+
+			ex.setMessage("NativeProcedure execution error");
+			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
+					msg.executionContext.executionErrorLine);
+			ex.addTrace(pos);
+			msg.executionContext.setResult(ex);
 		}
 	}
 
