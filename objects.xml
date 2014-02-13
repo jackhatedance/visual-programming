@@ -17497,51 +17497,16 @@ _self.html.component={};
                   </area>
                 </field>
                 <field id="2809">
-                  <name>_test</name>
-                  <target class="procedure" id="2810">
-                    <type>PROCEDURE</type>
-                    <id>32970</id>
-                    <name defined-in="object">_test</name>
-                    <owner reference="2800"/>
-                    <scope>ExecutionContext</scope>
-                    <fieldList id="2811"/>
-                    <systemFieldsCount>0</systemFieldsCount>
-                    <scaleRate>1.0</scaleRate>
-                    <borderColor id="2812">
-                      <red>0</red>
-                      <green>0</green>
-                      <blue>0</blue>
-                      <alpha>255</alpha>
-                    </borderColor>
-                    <__native>false</__native>
-                    <nativeProcedureClassName></nativeProcedureClassName>
-                    <nativeProcedureParameters></nativeProcedureParameters>
-                    <language>goo</language>
-                    <code>procedure(){&#xd;
-a=&quot;x&quot;;
-//_self.$a;
-_root.core.system.console.println(_self.x);&#xd;
-}</code>
-                  </target>
-                  <svgScale>0.2</svgScale>
-                  <area id="2813">
-                    <x>3512</x>
-                    <y>1762</y>
-                    <width>100</width>
-                    <height>100</height>
-                  </area>
-                </field>
-                <field id="2814">
                   <name>fib</name>
-                  <target class="procedure" id="2815">
+                  <target class="procedure" id="2810">
                     <type>PROCEDURE</type>
                     <id>276</id>
                     <name defined-in="object">fib</name>
                     <owner reference="2800"/>
-                    <fieldList id="2816"/>
+                    <fieldList id="2811"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2817">
+                    <borderColor id="2812">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17566,24 +17531,24 @@ _root.core.system.console.println(_self.x);&#xd;
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2818">
+                  <area id="2813">
                     <x>2646</x>
                     <y>1288</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2819">
+                <field id="2814">
                   <name>sumtest</name>
-                  <target class="procedure" id="2820">
+                  <target class="procedure" id="2815">
                     <type>PROCEDURE</type>
                     <id>4632</id>
                     <name defined-in="object">sumtest</name>
                     <owner reference="2800"/>
-                    <fieldList id="2821"/>
+                    <fieldList id="2816"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2822">
+                    <borderColor id="2817">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17608,24 +17573,24 @@ procedure sumt()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2823">
+                  <area id="2818">
                     <x>2620</x>
                     <y>190</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2824">
+                <field id="2819">
                   <name>testxmpp</name>
-                  <target class="procedure" id="2825">
+                  <target class="procedure" id="2820">
                     <type>PROCEDURE</type>
                     <id>4643</id>
                     <name defined-in="object">testxmpp</name>
                     <owner reference="2800"/>
-                    <fieldList id="2826"/>
+                    <fieldList id="2821"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2827">
+                    <borderColor id="2822">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17658,24 +17623,24 @@ _root.console.print(age.toString());
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2828">
+                  <area id="2823">
                     <x>2688</x>
                     <y>1814</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2829">
+                <field id="2824">
                   <name>addFieldTest</name>
-                  <target class="procedure" id="2830">
+                  <target class="procedure" id="2825">
                     <type>PROCEDURE</type>
                     <id>4685</id>
                     <name defined-in="object">addFieldTest</name>
                     <owner reference="2800"/>
-                    <fieldList id="2831"/>
+                    <fieldList id="2826"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2832">
+                    <borderColor id="2827">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17701,24 +17666,24 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2833">
+                  <area id="2828">
                     <x>3342</x>
                     <y>216</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2834">
+                <field id="2829">
                   <name>helloWorld</name>
-                  <target class="procedure" id="2835">
+                  <target class="procedure" id="2830">
                     <type>PROCEDURE</type>
                     <id>4703</id>
                     <name defined-in="object">helloWorld</name>
                     <owner reference="2800"/>
-                    <fieldList id="2836"/>
+                    <fieldList id="2831"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2837">
+                    <borderColor id="2832">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17735,24 +17700,24 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2838">
+                  <area id="2833">
                     <x>2642</x>
                     <y>766</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2839">
+                <field id="2834">
                   <name>testGetSet</name>
-                  <target class="procedure" id="2840">
+                  <target class="procedure" id="2835">
                     <type>PROCEDURE</type>
                     <id>4707</id>
                     <name defined-in="object">testGetSet</name>
                     <owner reference="2800"/>
-                    <fieldList id="2841"/>
+                    <fieldList id="2836"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2842">
+                    <borderColor id="2837">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17775,25 +17740,25 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2843">
+                  <area id="2838">
                     <x>3376</x>
                     <y>813</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2844">
+                <field id="2839">
                   <name>test1</name>
-                  <target class="procedure" id="2845">
+                  <target class="procedure" id="2840">
                     <type>PROCEDURE</type>
                     <id>4904</id>
                     <name defined-in="object">unnamed</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2846"/>
+                    <fieldList id="2841"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2847">
+                    <borderColor id="2842">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17809,31 +17774,32 @@ procedure foo()
 //mb=_root.prototype;
 //_root.prototype = null;
 //_root.core.prototype = mb;
+_self=;
 _root.core.system.object.move(_self,&quot;_prototype&quot;,_self._settings);
 
 
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2848">
+                  <area id="2843">
                     <x>2721</x>
                     <y>2383</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2849">
+                <field id="2844">
                   <name>testArray</name>
-                  <target class="procedure" id="2850">
+                  <target class="procedure" id="2845">
                     <type>PROCEDURE</type>
                     <id>4970</id>
                     <name defined-in="object">testArray</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2851"/>
+                    <fieldList id="2846"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2852">
+                    <borderColor id="2847">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17865,45 +17831,45 @@ for(i=0;i.lt(array1.size());i.inc(1)){
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2853">
+                  <area id="2848">
                     <x>3366</x>
                     <y>1278</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2854">
+                <field id="2849">
                   <name>tomcat</name>
-                  <target id="2855">
+                  <target id="2850">
                     <type>NORMAL</type>
                     <id>16630</id>
                     <name>tomcat</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2856">
-                      <field id="2857">
+                    <fieldList id="2851">
+                      <field id="2852">
                         <name>_system</name>
-                        <target id="2858">
+                        <target id="2853">
                           <type>NORMAL</type>
                           <id>31847</id>
                           <name>_system</name>
-                          <owner reference="2855"/>
+                          <owner reference="2850"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2859">
-                            <field id="2860">
+                          <fieldList id="2854">
+                            <field id="2855">
                               <name>_graphic</name>
-                              <target class="string" id="2861">
+                              <target class="string" id="2856">
                                 <type>STRING</type>
                                 <id>16631</id>
                                 <name>_graphic</name>
-                                <owner reference="2858"/>
+                                <owner reference="2853"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2862">
-                                  <field id="2863">
+                                <fieldList id="2857">
+                                  <field id="2858">
                                     <name>_prototype</name>
                                     <target class="string" reference="412"/>
                                     <svgScale>0.2</svgScale>
-                                    <area id="2864">
+                                    <area id="2859">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -17913,7 +17879,7 @@ for(i=0;i.lt(array1.size());i.inc(1)){
                                 </fieldList>
                                 <systemFieldsCount>1</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="2865">
+                                <borderColor id="2860">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -18153,7 +18119,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
 </value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="2866">
+                              <area id="2861">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -18163,7 +18129,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                           </fieldList>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="2867">
+                          <borderColor id="2862">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -18171,25 +18137,25 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                           </borderColor>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="2868">
+                        <area id="2863">
                           <x>1700</x>
                           <y>1950</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="2869">
+                      <field id="2864">
                         <name>_test</name>
-                        <target class="procedure" id="2870">
+                        <target class="procedure" id="2865">
                           <type>PROCEDURE</type>
                           <id>31886</id>
                           <name defined-in="object">_test</name>
-                          <owner reference="2855"/>
+                          <owner reference="2850"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2871"/>
+                          <fieldList id="2866"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="2872">
+                          <borderColor id="2867">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -18204,7 +18170,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="2873">
+                        <area id="2868">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -18214,29 +18180,29 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>3</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="2865"/>
+                    <borderColor reference="2860"/>
                     <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2874">
+                  <area id="2869">
                     <x>1755</x>
                     <y>195</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2875">
+                <field id="2870">
                   <name>testEmail</name>
-                  <target class="procedure" id="2876">
+                  <target class="procedure" id="2871">
                     <type>PROCEDURE</type>
                     <id>18874</id>
                     <name defined-in="object">testEmail</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2877"/>
+                    <fieldList id="2872"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2878">
+                    <borderColor id="2873">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -18254,25 +18220,25 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2879">
+                  <area id="2874">
                     <x>3485</x>
                     <y>2460</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2880">
+                <field id="2875">
                   <name>testConstObject</name>
-                  <target class="procedure" id="2881">
+                  <target class="procedure" id="2876">
                     <type>PROCEDURE</type>
                     <id>19240</id>
                     <name defined-in="object">testConstObject</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2882"/>
+                    <fieldList id="2877"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2883">
+                    <borderColor id="2878">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -18291,27 +18257,27 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2884">
+                  <area id="2879">
                     <x>3936</x>
                     <y>1243</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2885">
+                <field id="2880">
                   <name>unnamed</name>
-                  <target class="boolean" id="2886">
+                  <target class="boolean" id="2881">
                     <type>BOOLEAN</type>
                     <id>31689</id>
                     <name>unnamed</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2887">
-                      <field id="2888">
+                    <fieldList id="2882">
+                      <field id="2883">
                         <name>_prototype</name>
                         <target reference="216"/>
                         <svgScale>0.2</svgScale>
-                        <area id="2889">
+                        <area id="2884">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -18321,7 +18287,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="2890">
+                    <borderColor id="2885">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -18330,36 +18296,36 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <booleanValue>false</booleanValue>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2891">
+                  <area id="2886">
                     <x>1935</x>
                     <y>1410</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2892">
+                <field id="2887">
                   <name>y</name>
-                  <target class="integer" id="2893">
+                  <target class="integer" id="2888">
                     <type>INTEGER</type>
                     <id>31855</id>
                     <name>t_0</name>
                     <owner reference="2800"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2894">
-                      <field id="2895">
+                    <fieldList id="2889">
+                      <field id="2890">
                         <name>_system</name>
-                        <target id="2896">
+                        <target id="2891">
                           <type>NORMAL</type>
                           <id>31856</id>
                           <name>_system</name>
-                          <owner class="integer" reference="2893"/>
+                          <owner class="integer" reference="2888"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2897">
-                            <field id="2898">
+                          <fieldList id="2892">
+                            <field id="2893">
                               <name>prototype</name>
                               <target class="integer" reference="286"/>
                               <svgScale>0.2</svgScale>
-                              <area id="2899">
+                              <area id="2894">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -18369,7 +18335,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </fieldList>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="2900">
+                          <borderColor id="2895">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -18377,7 +18343,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </borderColor>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="2901">
+                        <area id="2896">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -18387,11 +18353,11 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="2900"/>
+                    <borderColor reference="2895"/>
                     <value>2</value>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="2902">
+                  <area id="2897">
                     <x>2240</x>
                     <y>920</y>
                     <width>100</width>
@@ -18401,7 +18367,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               </fieldList>
               <systemFieldsCount>2</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="2903">
+              <borderColor id="2898">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -18410,7 +18376,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
-            <area id="2904">
+            <area id="2899">
               <x>2475</x>
               <y>1295</y>
               <width>100</width>
@@ -18420,7 +18386,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </fieldList>
         <systemFieldsCount>0</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="2905">
+        <borderColor id="2900">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -18428,18 +18394,18 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </borderColor>
       </target>
       <svgScale>0.2</svgScale>
-      <area id="2906">
+      <area id="2901">
         <x>1225</x>
         <y>1185</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="2907">
+    <field id="2902">
       <name>core</name>
       <target reference="219"/>
       <svgScale>0.2</svgScale>
-      <area id="2908">
+      <area id="2903">
         <x>510</x>
         <y>430</y>
         <width>100</width>
@@ -18449,7 +18415,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
   </fieldList>
   <systemFieldsCount>1</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="2909">
+  <borderColor id="2904">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

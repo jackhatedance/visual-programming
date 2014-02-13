@@ -3,11 +3,13 @@ package com.bluesky.visualprogramming.core;
 public class CodePosition {
 	private String object;
 	private String procedure;
+	private String file;
 	private int line;
 
-	public CodePosition(String object, String procedure, int line) {
+	public CodePosition(String object, String procedure, String file, int line) {
 		this.object = object;
 		this.procedure = procedure;
+		this.file = file;
 		this.line = line;
 
 	}
@@ -28,6 +30,14 @@ public class CodePosition {
 		this.procedure = procedure;
 	}
 
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
 	public int getLine() {
 		return line;
 	}
@@ -38,7 +48,9 @@ public class CodePosition {
 
 	@Override
 	public String toString() {
-
-		return String.format("%s.%s():%d", object, procedure, line);
+		String file2 = file;
+		if (file == null)
+			file2 = "";
+		return String.format("%s.%s(%s:%d)", object, procedure, file2,line);
 	}
 }

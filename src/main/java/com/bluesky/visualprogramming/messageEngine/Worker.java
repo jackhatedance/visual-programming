@@ -120,7 +120,7 @@ public class Worker implements Runnable {
 					if (logger.isDebugEnabled())
 						obj.printMessageQueue();
 
-					// push reply to next message
+					// push reply to the blocking message
 					Message lastMessage = obj.peekFirstMessage();
 
 					if (logger.isDebugEnabled())
@@ -194,9 +194,17 @@ public class Worker implements Runnable {
 								postService.sendMessage(replyMsg);
 							}
 
+							// print exception when the sender is NULL or
+							// remote(callback link is also remote).
 							if (msg.reply instanceof VException) {
-								if (msg.sender == null
-										|| (msg.sender != null && (msg.sender instanceof Link))) {
+								boolean isRemote = false;
+								if (msg.sender != null
+										&& (msg.sender instanceof Link)) {
+									Link senderLink = (Link) msg.sender;
+									isRemote = !postService.isLocal(senderLink);
+
+								}
+								if (msg.sender == null || isRemote) {
 									// print VException if any
 									VException ex = (VException) msg.reply;
 
@@ -288,19 +296,49 @@ public class Worker implements Runnable {
 		if (proc.isNative()) {
 
 			// native procedure always complete
-			executeNativeProcedure(msg, obj, proc);
-		} else
-			executeNormalProcedure(msg, obj, proc);
+			msg.reply = executeNativeProcedure(msg, obj, proc);
+		} else {
 
-		msg.reply = msg.executionContext.getResult();
+			msg.reply = executeNormalProcedure(msg, obj, proc);
+		}
 
 		// msg.status = MessageStatus.FINISHED;
 
 	}
 
-	private void executeNormalProcedure(Message msg, _Object obj, Procedure proc) {
+	/**
+	 * 
+	 * @param msg
+	 * @param obj
+	 * @param proc
+	 * @return the return value of the procedure
+	 */
+	private _Object executeNormalProcedure(Message msg, _Object obj,
+			Procedure proc) {
+		CompiledProcedure cp = null;
 
-		CompiledProcedure cp = obj.getCompiledProcedure(proc);
+		try {
+			cp = obj.getCompiledProcedure(proc);
+		} catch (Exception e) {
+			/*TODO for some legacy reason, later code will check execution context anyhow.
+			We can think parse error is one kind of execution error.
+			so, I initialize it.
+			*/
+			msg.initExecutionContext(objectRepository.getRootObject(), new String[0]);
+			msg.executionContext
+					.setExecutionStatus(ExecutionStatus.ERROR);
+			
+			// compile error
+			CodePosition position = new CodePosition(obj.getPath(),
+					proc.getName(), null, 0);
+			VException ex = (VException) objectRepository.createObject(
+					ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+
+			ex.setMessage("parse error:" + e.getMessage());
+			ex.addTrace(position);
+			
+			return ex;
+		}
 
 		if (msg.status == MessageStatus.NOT_STARTED) {
 			msg.initExecutionContext(objectRepository.getRootObject(), cp
@@ -315,13 +353,14 @@ public class Worker implements Runnable {
 
 		executor.execute();
 
+		_Object result = msg.executionContext.getResult();
 		// error handling, convert error to VException and set it as return
 		// value
 		if (msg.executionContext.executionStatus == ExecutionStatus.ERROR) {
-			_Object result = msg.executionContext.getResult();
 
 			CodePosition position = new CodePosition(obj.getPath(),
-					proc.getName(), msg.executionContext.executionErrorLine);
+					proc.getName(), null,
+					msg.executionContext.executionErrorLine);
 
 			if (result != null && result instanceof VException) {
 				// if already has exception, then just append this stack item
@@ -335,23 +374,18 @@ public class Worker implements Runnable {
 				ex.setMessage("execution error:"
 						+ msg.executionContext.executionErrorMessage);
 				ex.addTrace(position);
-				msg.executionContext.setResult(ex);
+				result = ex;
 			}
-			//
-			// System.err.println(String.format("%s.%s(), line %d",
-			// obj.getPath(),
-			// proc.getName(), msg.executionContext.executionErrorLine));
-			// System.err
-			// .println("code:"
-			// +
-			// proc.getAroundSourceCode(msg.executionContext.executionErrorLine));
-			// System.err.println(msg.executionContext.executionErrorMessage);
 
 		}
 
+		return result;
+
 	}
 
-	private void executeNativeProcedure(Message msg, _Object obj, Procedure proc) {
+	private _Object executeNativeProcedure(Message msg, _Object obj,
+			Procedure proc) {
+		_Object result = null;
 
 		msg.initExecutionContext(objectRepository.getRootObject(),
 				proc.getNativeProcedureParameterNames());
@@ -365,6 +399,8 @@ public class Worker implements Runnable {
 			nativeP.execute(vm, obj, msg.executionContext, msg);
 
 			msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
+
+			result = msg.executionContext.getResult();
 		} catch (Exception e) {
 			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
 			e.printStackTrace();
@@ -374,12 +410,21 @@ public class Worker implements Runnable {
 			VException ex = (VException) objectRepository.createObject(
 					ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
 
-			ex.setMessage("NativeProcedure execution error");
+			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
 			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
-					msg.executionContext.executionErrorLine);
+					null, msg.executionContext.executionErrorLine);
+
+			for (StackTraceElement ele : e.getStackTrace()) {
+				ex.addTrace(new CodePosition(ele.getClassName(), ele
+						.getMethodName(), ele.getFileName(), ele
+						.getLineNumber()));
+			}
+
 			ex.addTrace(pos);
-			msg.executionContext.setResult(ex);
+			result = ex;
 		}
+
+		return result;
 	}
 
 	@Override

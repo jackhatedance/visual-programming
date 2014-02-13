@@ -67,6 +67,16 @@ public class PostService implements Runnable, Service {
 		}
 	}
 
+	public boolean isLocal(Link link){
+
+		ProtocolType protocol = ProtocolType.valueOf(link
+				.getProtocol().toUpperCase());
+		_Object localObject = remoteCommunicationService.getLocalObject(
+				protocol, link.getAddress());
+		
+		return localObject!=null;
+	}
+	
 	private void _sendMessage(Message msg) {
 		
 		// add support of link object

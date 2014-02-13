@@ -220,8 +220,6 @@ public class _Object implements Serializable {
 	 */
 	public void setField(String name, _Object child, boolean owner) {
 
-
-
 		// name must be unique if is not null
 		if (name != null) {
 			Field f = getField(name);
@@ -704,32 +702,35 @@ public class _Object implements Serializable {
 	}
 
 	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
-
 		if (procedure.compiled == null) {
-			LanguageType type = LanguageType.valueOf(procedure.language
-					.toUpperCase());
-			if (type == null)
-				throw new RuntimeException("unsupported language:"
-						+ procedure.language);
+			compiledProcedure(procedure);
+		}
+		return procedure.compiled;
+	}
 
-			try {
-				CompiledProcedure cp = type.getCompiler().compile(
-						procedure.code);
+	public void compiledProcedure(Procedure procedure) {
 
-				if (logger.isDebugEnabled())
-					logger.debug(cp.getInstructionText());
+		LanguageType type = LanguageType.valueOf(procedure.language
+				.toUpperCase());
+		if (type == null)
+			throw new RuntimeException("unsupported language:"
+					+ procedure.language);
 
-				procedure.compiled = cp;
+		try {
+			CompiledProcedure cp = type.getCompiler().compile(procedure.code);
 
-			} catch (Exception e) {
-				String msg2 = String.format("compile failed for %s.%s(): %s",
-						getPath(), procedure.getName(), e.getMessage());
-				throw new RuntimeException(msg2, e);
+			if (logger.isDebugEnabled())
+				logger.debug(cp.getInstructionText());
 
-			}
+			procedure.compiled = cp;
+
+		} catch (Exception e) {
+			String msg2 = String.format("compile failed for %s.%s(): %s",
+					getPath(), procedure.getName(), e.getMessage());
+			throw new RuntimeException(msg2, e);
+
 		}
 
-		return procedure.compiled;
 	}
 
 	/**
