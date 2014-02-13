@@ -121,7 +121,7 @@ public class SshAgent {
 					if (i < 0)
 						break;
 
-					output.write(tmp);
+					output.write(tmp,0,i);
 
 					if (logger.isDebugEnabled())
 						logger.debug("read output");

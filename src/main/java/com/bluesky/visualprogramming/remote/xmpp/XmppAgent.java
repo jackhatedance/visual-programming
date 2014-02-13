@@ -134,8 +134,11 @@ public class XmppAgent {
 			}
 
 		}
-		String response = String.format("[%s] %s", msg.getSubject(), msgBody);
-		String escaped = StringEscapeUtils.escapeXml(response);
+		
+		
+		//String response = String.format("[%s] %s", msg.getSubject(), msgBody);
+		
+		String escaped = StringEscapeUtils.escapeXml(msgBody);
 		chat.sendMessage(escaped);
 	}
 

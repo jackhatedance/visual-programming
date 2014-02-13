@@ -13000,7 +13000,7 @@ setbox.$channelName();
                                 <systemFieldsCount>1</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="2135"/>
-                                <value>ssh (?&lt;cmd0x0string&gt;\w+)</value>
+                                <value>ssh (?&lt;cmd0x0string&gt;.+)</value>
                               </target>
                               <svgScale>0.2</svgScale>
                               <area id="2147">
