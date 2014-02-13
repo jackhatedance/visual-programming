@@ -138,8 +138,8 @@ public class XmppAgent {
 		
 		//String response = String.format("[%s] %s", msg.getSubject(), msgBody);
 		
-		String escaped = StringEscapeUtils.escapeXml(msgBody);
-		chat.sendMessage(escaped);
+	
+		chat.sendMessage(msgBody);
 	}
 
 	private String reviseAddress(String addr) {
