@@ -17,7 +17,6 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.value.Link;
-import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MessageServlet extends HttpServlet {
@@ -30,6 +29,7 @@ public class MessageServlet extends HttpServlet {
 	public MessageServlet(HttpService service) {
 		this.service = service;
 	}
+
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -58,6 +58,12 @@ public class MessageServlet extends HttpServlet {
 		String receiverAddress = username + "@" + server;
 		String fullReceiverAddress = "http://" + receiverAddress;
 		receiverLink.setValue(fullReceiverAddress);
+
+		if (!vm.getPostService().isLocal(receiverLink)) {
+			// receiver NOT FOUND
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
 
 		Link senderLink = (Link) repo.createObject(ObjectType.LINK,
 				ObjectScope.ExecutionContext);
@@ -93,6 +99,7 @@ public class MessageServlet extends HttpServlet {
 		 */
 		Message incomingMsg = new Message(true, senderLink, receiverLink,
 				subject, null, ParameterStyle.ByName, null, MessageType.Normal);
+
 
 		vm.getPostService().sendMessage(incomingMsg);
 

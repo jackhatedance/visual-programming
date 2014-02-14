@@ -16,6 +16,7 @@ import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ConnectionOptions;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.remote.RemoteAddress;
 
 public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
@@ -24,7 +25,11 @@ public class HttpService extends AbstractProtocolService implements
 	private ProtocolType[] supportedTypes = new ProtocolType[] {
 			ProtocolType.HTTP, ProtocolType.HTTPS };
 
-	// key is address, value is object
+	/**
+	 * store address of local object
+	 * 
+	 * key is address, value is object
+	 */
 	BidiMap addressObjectMap = new DualHashBidiMap();
 
 	/**
@@ -38,6 +43,11 @@ public class HttpService extends AbstractProtocolService implements
 	 * requestId is a random number.
 	 */
 	Map<String, HttpIncomingRequestAgent> incomingRequestAgents = new HashMap<String, HttpIncomingRequestAgent>();
+	/**
+	 * key is userId without host name, because we don't want to assume the
+	 * domain name. So foo@a.com is same with foo2b.com. because they has same
+	 * user ID.
+	 */
 	Map<String, HttpOutgoingAgent> outgoingRequestAgents = new HashMap<String, HttpOutgoingAgent>();
 
 	public HttpService() {
@@ -84,8 +94,8 @@ public class HttpService extends AbstractProtocolService implements
 		logger.info(address + " is client only.");
 
 		if (!clientOnly) {
-			//add address local-object mapping table
-			
+			// add address local-object mapping table
+
 			if (addressObjectMap.containsKey(address))
 				throw new RuntimeException("already registered:" + address);
 
@@ -104,14 +114,28 @@ public class HttpService extends AbstractProtocolService implements
 		return (String) addressObjectMap.getKey(obj);
 	}
 
+	private String getId(String address) {
+		RemoteAddress ra = RemoteAddress.valueOf(address);
+		return ra.userId;
+	}
+
+	private boolean isVisitor(String address) {
+		return address.startsWith(MessageServlet.VISITOR_PREFIX);
+
+	}
+
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		HttpIncomingRequestAgent requestAgent = incomingRequestAgents
-				.get(receiverAddress);
+		if (isVisitor(receiverAddress)) {
+			// it is a reply
+			HttpIncomingRequestAgent requestAgent = incomingRequestAgents
+					.get(receiverAddress);
 
-		try {
 			if (requestAgent != null) {
+				// find a correspondent agent for the receiver address, means
+				// that it is a reply of a HTTP (browser) request.
+
 				if (logger.isDebugEnabled())
 					logger.debug("find agent for " + receiverAddress);
 				// it is a response for incoming request
@@ -120,6 +144,13 @@ public class HttpService extends AbstractProtocolService implements
 				// remove it since request is completed
 				incomingRequestAgents.remove(requestAgent);
 			} else {
+				// missing agent, timeout?
+				throw new RuntimeException("missing agent");
+			}
+		} else {
+			// it is a active HTTP request to remote web server.
+			try {
+
 				if (logger.isDebugEnabled())
 					logger.debug("cannot find agent for " + receiverAddress
 							+ ", it is an active request");
@@ -130,18 +161,13 @@ public class HttpService extends AbstractProtocolService implements
 				HttpOutgoingAgent outgoingAgent = outgoingRequestAgents
 						.get(senderAddress);
 
-				try {
-					outgoingAgent.send(receiverAddress, message);
+				outgoingAgent.send(receiverAddress, message);
 
-				} catch (Exception e) {
-					logger.error(e);
-					throw new RuntimeException(e);
-				}
-
+			} catch (Exception e) {
+				logger.error(e);
+				throw new RuntimeException(e);
 			}
-		} catch (Exception e) {
 
-			throw new RuntimeException(e);
 		}
 	}
 

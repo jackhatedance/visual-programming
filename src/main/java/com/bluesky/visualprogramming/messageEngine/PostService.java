@@ -24,7 +24,6 @@ import com.bluesky.visualprogramming.remote.path.PathService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.vm.Service;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class PostService implements Runnable, Service {
 	static Logger logger = Logger.getLogger(PostService.class);
@@ -67,6 +66,12 @@ public class PostService implements Runnable, Service {
 		}
 	}
 
+	/**
+	 * is there a local object claims this link
+	 * 
+	 * @param link
+	 * @return
+	 */
 	public boolean isLocal(Link link){
 
 		ProtocolType protocol = ProtocolType.valueOf(link
