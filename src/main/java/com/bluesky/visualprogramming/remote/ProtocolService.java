@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.remote;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.utils.Config;
 
 public interface ProtocolService {
 	/**
@@ -12,7 +13,8 @@ public interface ProtocolService {
 	 * @param id
 	 * @param obj
 	 */
-	void register(ProtocolType protocol,String address, _Object obj, String connectionOptions);
+	void register(ProtocolType protocol, String address, _Object obj,
+			Config config);
 
 	/**
 	 * 
@@ -20,6 +22,9 @@ public interface ProtocolService {
 	 * @return local client
 	 */
 	_Object getLocalObject(String address);
+
+	Config getConfig(String address);
+
 
 	void send(String receiverId, Message message);
 	

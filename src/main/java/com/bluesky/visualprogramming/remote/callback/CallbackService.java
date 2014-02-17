@@ -8,6 +8,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
@@ -33,7 +34,7 @@ public class CallbackService implements ProtocolService {
 
 	@Override
 	public void register(ProtocolType protocol, String address, _Object obj,
-			String connectionOptions) {
+			Config config) {
 		throw new RuntimeException("not supported");
 	}
 
@@ -67,5 +68,11 @@ public class CallbackService implements ProtocolService {
 
 	public void setCallback(String address, Callback callback) {
 		callbacks.put(address, callback);
+	}
+
+	@Override
+	public Config getConfig(String address) {
+
+		return null;
 	}
 }

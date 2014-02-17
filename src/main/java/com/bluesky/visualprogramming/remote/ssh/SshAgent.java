@@ -16,6 +16,7 @@ import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -37,35 +38,26 @@ public class SshAgent {
 	Session session;
 	Channel channel;
 
-	public SshAgent(String address, _Object obj, String connectionOptions) {
+	public SshAgent(String address, _Object obj, Config config) {
 
-		Map<String, String> optMap = parseOptions(connectionOptions);
 
-		if (optMap.containsKey("server"))
-			server = optMap.get("server");
+
+		if (config.containsKey("server"))
+			server = config.get("server");
 		else {
 			int idx = address.indexOf('@');
 			server = address.substring(idx + 1);
 		}
 
-		if (optMap.containsKey("username"))
-			username = optMap.get("username");
+		if (config.containsKey("username"))
+			username = config.get("username");
 		else {
 			int idx = address.indexOf('@');
 			username = address.substring(0, idx);
 		}
 
-		if (optMap.containsKey("password"))
-			password = optMap.get("password");
-		else {
-			password = "";
-		}
-
-		if (optMap.containsKey("port"))
-			port = Integer.valueOf(optMap.get("port"));
-		else {
-			port = 22;
-		}
+		password = config.getString("password", "");
+		port = config.getInteger("port", 22);
 
 		jsch = new JSch();
 

@@ -1,6 +1,8 @@
 package com.bluesky.visualprogramming.remote.http;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -17,14 +19,19 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.messageEngine.PostService;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MessageServlet extends HttpServlet {
 	static Logger logger = Logger.getLogger(MessageServlet.class);
 
 	public static final String VISITOR_PREFIX = "visitor_";
+	public static final String POST_CONTENT = "_postContent";
 
 	HttpService service;
 
@@ -32,11 +39,25 @@ public class MessageServlet extends HttpServlet {
 		this.service = service;
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		doProcess(req, resp, true);
+	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		doProcess(request, response, false);
+	}
+
+	protected void doProcess(HttpServletRequest request,
+			HttpServletResponse response, boolean isPost)
+			throws ServletException, IOException {
 		VirtualMachine vm = VirtualMachine.getInstance();
 		ObjectRepository repo = vm.getObjectRepository();
+		PostService postService = vm.getPostService();
 
 		// parser receiver address, e.g. http://x.com/username/subject
 		String target = request.getPathInfo();
@@ -61,7 +82,9 @@ public class MessageServlet extends HttpServlet {
 		String fullReceiverAddress = "http://" + receiverAddress;
 		receiverLink.setValue(fullReceiverAddress);
 
-		if (!vm.getPostService().isLocal(receiverLink)) {
+		_Object localReceiverObject = vm.getPostService().getLocalObject(
+				receiverLink);
+		if (localReceiverObject == null) {
 			// receiver NOT FOUND
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;
@@ -83,7 +106,11 @@ public class MessageServlet extends HttpServlet {
 		// create agent if has not
 		HttpIncomingRequestAgent agent = service.getAgent(senderAddress);
 		if (agent == null) {
-			agent = new HttpIncomingRequestAgent();
+
+			Config config = service.getConfig(receiverAddress);
+			String postContentFormat = config.get("postContentFormat");
+			agent = new HttpIncomingRequestAgent(response,
+					MessageFormat.valueOf(postContentFormat));
 			service.setAgent(senderAddress, agent);
 
 			if (logger.isDebugEnabled())
@@ -91,8 +118,29 @@ public class MessageServlet extends HttpServlet {
 
 		}
 
-		//parse HTTP parameters
+		// parse HTTP parameters
 		_Object parameters = buildParamterObject(request);
+
+		if (isPost) {
+			// try to capture input stream, then convert to VObject
+
+			// try get meta info.
+			Config config = service.getConfig(receiverAddress);
+			String postContentType = config
+					.getString("postContentType", "html");
+
+			MessageFormat format = MessageFormat.getFormat(postContentType);
+
+			if (format != null) {
+				ConfigurableObjectSerializer serializer = format
+						.getSerializer();
+
+				Reader r = new InputStreamReader(request.getInputStream());
+				_Object postContent = serializer.deserialize(r, null);
+				parameters.setField(POST_CONTENT, postContent, true);
+			}
+
+		}
 
 		/*
 		 * Assume it is a HTTP session with a browser, the return value should
@@ -101,10 +149,11 @@ public class MessageServlet extends HttpServlet {
 		 * to html.
 		 */
 		Message incomingMsg = new Message(true, senderLink, receiverLink,
-				subject, parameters, ParameterStyle.ByName, null, MessageType.Normal);
-
+				subject, parameters, ParameterStyle.ByName, null,
+				MessageType.Normal);
 
 		vm.getPostService().sendMessage(incomingMsg);
+
 
 		// wait for response
 
@@ -125,31 +174,36 @@ public class MessageServlet extends HttpServlet {
 		if (logger.isDebugEnabled())
 			logger.debug("servlet wakeup");
 
+		// write response
+
+
 		response.setContentType("text/html;charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_OK);
+		response.getWriter().write(agent.getResponse());
+	 
 
-		response.getWriter().println(agent.getResponse());
-		
 	}
 
 	private String getNextRequestId() {
 		return UUID.randomUUID().toString();
 	}
-	
-	private _Object buildParamterObject(HttpServletRequest request){
+
+	private _Object buildParamterObject(HttpServletRequest request) {
 		VirtualMachine vm = VirtualMachine.getInstance();
 		ObjectRepository repo = vm.getObjectRepository();
 
-		_Object body = repo.createObject(ObjectType.NORMAL, ObjectScope.ExecutionContext);
+		_Object body = repo.createObject(ObjectType.NORMAL,
+				ObjectScope.ExecutionContext);
 
-		for(String key : request.getParameterMap().keySet()){
-			StringValue svValue = (StringValue)repo.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
+		for (String key : request.getParameterMap().keySet()) {
+			StringValue svValue = (StringValue) repo.createObject(
+					ObjectType.STRING, ObjectScope.ExecutionContext);
 			String value = request.getParameter(key);
-			
+
 			svValue.setValue(value);
-			body.setField(key, svValue, true);			
+			body.setField(key, svValue, true);
 		}
-		
+
 		return body;
 	}
 }

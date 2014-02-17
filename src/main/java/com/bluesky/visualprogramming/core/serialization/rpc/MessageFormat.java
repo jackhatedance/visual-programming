@@ -1,8 +1,7 @@
 package com.bluesky.visualprogramming.core.serialization.rpc;
 
-import com.bluesky.visualprogramming.core.serialization.dump.ObjectSerializer;
 
-public enum MessageFormatType {
+public enum MessageFormat {
 	/**
 	 * used by DDwrt, similar to JSON.
 	 */
@@ -17,15 +16,22 @@ public enum MessageFormatType {
 		@Override
 		public ConfigurableObjectSerializer getSerializer() {
 			
-			return null;
+			return new XmlSerialzer();
+		}
+	},
+	HTML {
+		@Override
+		public ConfigurableObjectSerializer getSerializer() {
+
+			return new HtmlSerialzer();
 		}
 	};
 	
 	
 	public abstract ConfigurableObjectSerializer getSerializer();
 	
-	public static MessageFormatType getType(String format){
-			for(MessageFormatType mft : values()){
+	public static MessageFormat getFormat(String format) {
+			for(MessageFormat mft : values()){
 				if(mft.name().equalsIgnoreCase(format))
 					return mft;
 			}

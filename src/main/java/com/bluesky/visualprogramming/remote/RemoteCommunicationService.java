@@ -3,17 +3,16 @@ package com.bluesky.visualprogramming.remote;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.AppProperties;
 
 /**
@@ -25,7 +24,7 @@ import com.bluesky.visualprogramming.vm.AppProperties;
 public class RemoteCommunicationService {
 	static Logger logger = Logger.getLogger(RemoteCommunicationService.class);
 
-	static final String ALIASES = "aliases";
+	public static final String ALIASES = "aliases";
 
 	private Map<ProtocolType, ProtocolService> services = new HashMap<ProtocolType, ProtocolService>();
 	private ObjectRepository objectRepository;
@@ -85,9 +84,9 @@ public class RemoteCommunicationService {
 							 */
 							if (connectionOptions.contains("${"))
 								connectionOptions = replaceVariables(connectionOptions);
-
-							register(pt, address.getValue(), owner,
-									connectionOptions);
+							Config config = new Config(ConnectionOptionUtils
+									.parse(connectionOptions));
+							register(pt, address.getValue(), owner, config);
 
 							String fullAddress = pt.toString().toLowerCase()
 									+ "://" + address.getValue();
@@ -116,11 +115,10 @@ public class RemoteCommunicationService {
 	}
 
 	public void register(ProtocolType protocol, String address, _Object obj,
-			String connectionOptions) {
+			Config config) {
 
 		try {
-			services.get(protocol).register(protocol, address, obj,
-					connectionOptions);
+			services.get(protocol).register(protocol, address, obj, config);
 		} catch (Exception e) {
 			logger.warn("error when register address:" + address, e);
 		}
@@ -130,6 +128,16 @@ public class RemoteCommunicationService {
 		ProtocolService svc = services.get(protocol);
 		if (svc != null)
 			return svc.getLocalObject(address);
+		else
+			logger.warn("protocol not support:" + protocol);
+
+		return null;
+	}
+
+	public Config getConfig(ProtocolType protocol, String address) {
+		ProtocolService svc = services.get(protocol);
+		if (svc != null)
+			return svc.getConfig(address);
 		else
 			logger.warn("protocol not support:" + protocol);
 

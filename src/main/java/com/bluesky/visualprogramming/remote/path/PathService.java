@@ -5,6 +5,7 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class PathService implements ProtocolService {
@@ -21,7 +22,7 @@ public class PathService implements ProtocolService {
 
 	@Override
 	public void register(ProtocolType protocol, String address, _Object obj,
-			String connectionOptions) {
+			Config config) {
 		// intend to do nothing
 	}
 
@@ -50,5 +51,11 @@ public class PathService implements ProtocolService {
 	public ProtocolType[] getSupportedTypes() {
 
 		return supportedTypes;
+	}
+
+	@Override
+	public Config getConfig(String address) {
+
+		return null;
 	}
 }

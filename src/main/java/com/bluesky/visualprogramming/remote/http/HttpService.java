@@ -13,17 +13,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
-import com.bluesky.visualprogramming.remote.ConnectionOptions;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteAddress;
+import com.bluesky.visualprogramming.utils.Config;
 
 public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
 	static Logger logger = Logger.getLogger(HttpService.class);
 
-	private ProtocolType[] supportedTypes = new ProtocolType[] {
-			ProtocolType.HTTP, ProtocolType.HTTPS };
 
 	/**
 	 * store address of local object
@@ -51,6 +49,9 @@ public class HttpService extends AbstractProtocolService implements
 	Map<String, HttpOutgoingAgent> outgoingRequestAgents = new HashMap<String, HttpOutgoingAgent>();
 
 	public HttpService() {
+		supportedTypes = new ProtocolType[] { ProtocolType.HTTP,
+				ProtocolType.HTTPS };
+
 		Server server = new Server(8080);
 
 		ServletContextHandler context = new ServletContextHandler(
@@ -73,22 +74,13 @@ public class HttpService extends AbstractProtocolService implements
 
 	@Override
 	public void register(ProtocolType protocol, String address, _Object obj,
-			String connectionOptions) {
+			Config config) {
 
-		ConnectionOptions opts = new ConnectionOptions(connectionOptions);
 
-		String clientOnlyStr;
-		if (opts.map.containsKey("clientOnly")) {
-			clientOnlyStr = opts.map.get("clientOnly");
-			try {
-				clientOnly = Boolean.valueOf(clientOnlyStr);
-			} catch (Exception e) {
-				logger.error(e);
-			}
-		}
+		clientOnly = config.getBoolean("clientOnly", false);
 
 		HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol, address,
-				connectionOptions);
+				config);
 		outgoingRequestAgents.put(address, outAgent);
 
 		logger.info(address + " is client only.");
@@ -171,11 +163,7 @@ public class HttpService extends AbstractProtocolService implements
 		}
 	}
 
-	@Override
-	public ProtocolType[] getSupportedTypes() {
 
-		return supportedTypes;
-	}
 
 	public void setAgent(String sessionId, HttpIncomingRequestAgent agent) {
 		incomingRequestAgents.put(sessionId, agent);

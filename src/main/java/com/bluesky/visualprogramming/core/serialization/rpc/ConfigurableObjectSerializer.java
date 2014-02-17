@@ -2,14 +2,13 @@ package com.bluesky.visualprogramming.core.serialization.rpc;
 
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Map;
-import java.util.Properties;
 
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.utils.Config;
 
 public interface ConfigurableObjectSerializer {
 
-	void serialize(_Object obj, Writer writer, Properties config);
+	void serialize(_Object obj, Writer writer, Config config);
 
-	_Object deserialize(Reader reader, Properties config);
+	_Object deserialize(Reader reader, Config config);
 }

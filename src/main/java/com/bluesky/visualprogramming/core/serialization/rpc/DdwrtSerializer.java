@@ -4,24 +4,24 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Map;
-import java.util.Properties;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.list.ListObject;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class DdwrtSerializer implements ConfigurableObjectSerializer {
 
 	@Override
-	public void serialize(_Object obj, Writer writer, Properties config) {
+	public void serialize(_Object obj, Writer writer, Config config) {
 		throw new RuntimeException("not supported");
 	}
 
 	@Override
-	public _Object deserialize(Reader reader, Properties config) {
+	public _Object deserialize(Reader reader, Config config) {
 
 		StringBuilder sb = new StringBuilder();
 		while (true) {

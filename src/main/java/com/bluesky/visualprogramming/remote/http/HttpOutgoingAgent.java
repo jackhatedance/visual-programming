@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.remote.http;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,11 +25,11 @@ import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
-import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormatType;
+import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.remote.ConnectionOptions;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteAddress;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class HttpOutgoingAgent {
@@ -66,7 +65,7 @@ public class HttpOutgoingAgent {
 	 */
 
 	public HttpOutgoingAgent(ProtocolType protocol, String address,
-			String connectionOptions) {
+			Config config) {
 		this.protocol = protocol;
 
 		RemoteAddress addr = RemoteAddress.valueOf(address);
@@ -77,15 +76,10 @@ public class HttpOutgoingAgent {
 		int defaultPort = protocol == ProtocolType.HTTP ? 80 : 443;
 		this.port = addr.port >= 0 ? addr.port : defaultPort;
 
-		Map<String, String> optMap = new ConnectionOptions(connectionOptions).map;
-		if (optMap.containsKey("password"))
-			password = optMap.get("password");
-		else {
-			password = "";
-		}
+		password = config.getString("password", "");
 
-		if (optMap.containsKey("authType"))
-			authType = optMap.get("authType");
+		if (config.containsKey("authType"))
+			authType = config.get("authType");
 		else {
 			if (password != null && !password.trim().isEmpty())
 				authType = AuthType.Basic.toString();
@@ -93,13 +87,9 @@ public class HttpOutgoingAgent {
 				authType = null;
 		}
 
-		if (optMap.containsKey("messageFormat"))
-			messageFormat = optMap.get("messageFormat");
-		else {
-			messageFormat = "";
-		}
+		messageFormat = config.getString("messageFormat", "");
 
-		MessageFormatType type = MessageFormatType.getType(messageFormat);
+		MessageFormat type = MessageFormat.getFormat(messageFormat);
 		if (type != null)
 			serializer = type.getSerializer();
 	}

@@ -1,8 +1,5 @@
 package com.bluesky.visualprogramming.remote.xmpp;
 
-import java.util.Map;
-
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -20,7 +17,7 @@ import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.remote.ConnectionOptions;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class XmppAgent {
@@ -42,29 +39,24 @@ public class XmppAgent {
 	 */
 	Message lastRequestMessage;
 
-	public XmppAgent(String address, _Object obj, String connectionOptions) {
+	public XmppAgent(String address, _Object obj, Config config) {
 
-		Map<String, String> optMap = new ConnectionOptions(connectionOptions).map;
 
-		if (optMap.containsKey("server"))
-			server = optMap.get("server");
+
+		if (config.containsKey("server"))
+			server = config.get("server");
 		else {
 			int idx = address.indexOf('@');
 			server = address.substring(idx + 1);
 		}
 
-		if (optMap.containsKey("username"))
-			username = optMap.get("username");
+		if (config.containsKey("username"))
+			username = config.get("username");
 		else {
 			int idx = address.indexOf('@');
 			username = address.substring(0, idx);
 		}
-
-		if (optMap.containsKey("password"))
-			password = optMap.get("password");
-		else {
-			password = "";
-		}
+		password = config.getString("password", "");
 
 		messageListener = new MessageListener() {
 			@Override

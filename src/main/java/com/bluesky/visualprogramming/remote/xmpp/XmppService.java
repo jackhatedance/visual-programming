@@ -3,9 +3,6 @@ package com.bluesky.visualprogramming.remote.xmpp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.codec.language.bm.Rule.RPattern;
-import org.apache.commons.collections.BidiMap;
-import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.jivesoftware.smack.XMPPException;
 
 import com.bluesky.visualprogramming.core.Message;
@@ -13,24 +10,27 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.utils.Config;
 
 public class XmppService extends AbstractProtocolService implements
 		ProtocolService {
 
-	private ProtocolType[] supportedTypes = new ProtocolType[] { ProtocolType.XMPP };
-	
-	
 	Map<String, XmppAgent> agents = new HashMap<String, XmppAgent>();
 
+	public XmppService() {
+		supportedTypes = new ProtocolType[] { ProtocolType.XMPP };
+	}
+
 	@Override
-	public void register(ProtocolType protocol,String address, _Object obj, String connectionOptions) {
-		 
+	public void register(ProtocolType protocol, String address, _Object obj,
+			Config config) {
+
 		if (addressObjectMap.containsKey(address))
 			throw new RuntimeException("already registered:" + address);
 
 		addressObjectMap.put(address, obj);
 
-		XmppAgent agent = new XmppAgent(address, obj, connectionOptions);
+		XmppAgent agent = new XmppAgent(address, obj, config);
 		agents.put(address, agent);
 		agent.connect();
 	}

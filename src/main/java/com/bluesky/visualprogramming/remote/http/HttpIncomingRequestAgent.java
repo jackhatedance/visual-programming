@@ -1,18 +1,17 @@
 package com.bluesky.visualprogramming.remote.http;
 
+import java.io.StringWriter;
 import java.util.concurrent.Semaphore;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.ObjectScope;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.value.Link;
+import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.remote.callback.Callback;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
  * an agent for each request.
@@ -25,11 +24,21 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class HttpIncomingRequestAgent {
 	static Logger logger = Logger.getLogger(HttpIncomingRequestAgent.class);
 
+	private MessageFormat responseContentFormat;
+
 	private _Object responseBody;
 	/**
 	 * used to indicate response is ready.
 	 */
 	private Semaphore responseReady = new Semaphore(0);
+
+	private HttpServletResponse response;
+
+	public HttpIncomingRequestAgent(HttpServletResponse response,
+			MessageFormat responseContentFormat) {
+		this.response = response;
+		this.responseContentFormat = responseContentFormat;
+	}
 
 	public void send(String receiverAddress, Message msg) {
 
@@ -45,35 +54,17 @@ public class HttpIncomingRequestAgent {
 			responseBody = msg.body;
 			logger.debug("response is: " + responseBody);
 
-			responseReady.release();
-
 		} else {
-			// convert to _Object to HTML
-			VirtualMachine vm = VirtualMachine.getInstance();
-			ObjectRepository repo = vm.getObjectRepository();
 
-			String address = "path://_root.lib.web.render@local";
-			Link receiverLink = (Link) repo.createObject(ObjectType.LINK,
-					ObjectScope.ExecutionContext);
-			receiverLink.setValue(address);
+			ConfigurableObjectSerializer serializer = responseContentFormat
+					.getSerializer();
 
-			_Object params = repo.createObject(ObjectType.NORMAL,
-					ObjectScope.ExecutionContext);
-			params.setField("target", msg.body, false);
+			StringWriter sw = new StringWriter();
+			serializer.serialize(msg.body, sw, null);
 
-			vm.getPostService().sendMessageFromNobody(receiverLink, "do",
-					params, new Callback() {
-
-						@Override
-						public void onComplete(_Object result) {
-							responseBody = result;
-							logger.debug("response is: " + responseBody);
-
-							responseReady.release();
-
-						}
-					});
 		}
+
+		responseReady.release();
 	}
 
 	protected String getUsername(String address) {
@@ -94,4 +85,5 @@ public class HttpIncomingRequestAgent {
 		} else
 			return "";
 	}
+
 }

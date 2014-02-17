@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.remote.email;
 
-import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -11,12 +10,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.MessageListener;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.remote.ConnectionOptions;
+import com.bluesky.visualprogramming.utils.Config;
 
 public class EmailAgent {
 
@@ -28,23 +26,17 @@ public class EmailAgent {
 
 	Properties props;
 
-	public EmailAgent(String address, _Object obj, String connectionOptions) {
-
-		Map<String, String> optMap = new ConnectionOptions(connectionOptions).map;
+	public EmailAgent(String address, _Object obj, Config config) {
 
 		
-		if (optMap.containsKey("username"))
-			username = optMap.get("username");
+
+		if (config.containsKey("username"))
+			username = config.get("username");
 		else {
 			int idx = address.indexOf('@');
 			username = address.substring(0, idx);
 		}
-
-		if (optMap.containsKey("password"))
-			password = optMap.get("password");
-		else {
-			password = "";
-		}
+		password = config.getString("password", "");
 
 		/*
 		 * TLS example: 
@@ -62,9 +54,9 @@ public class EmailAgent {
 
 		// move smtp options to prop object.
 		props = new Properties();
-		for (String key : optMap.keySet()) {
+		for (String key : config.keySet()) {
 			if (key.startsWith("mail.smtp.")) {
-				String value = optMap.get(key);
+				String value = config.get(key);
 				props.put(key, value);
 				if (logger.isDebugEnabled())
 					logger.debug(String.format("%s:%s", key, value));

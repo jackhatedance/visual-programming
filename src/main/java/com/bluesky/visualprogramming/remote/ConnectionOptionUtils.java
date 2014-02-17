@@ -3,11 +3,11 @@ package com.bluesky.visualprogramming.remote;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConnectionOptions {
-	public Map<String, String> map;
+public class ConnectionOptionUtils {
 
-	public ConnectionOptions(String options) {
-		map = new HashMap<String, String>();
+
+	public static Map<String, String> parse(String options) {
+		Map<String, String> map = new HashMap<String, String>();
 
 		String[] kvs = options.split(";");
 		for (String kv : kvs) {
@@ -23,5 +23,6 @@ public class ConnectionOptions {
 			map.put(ss[0], ss[1]);
 		}
 
+		return map;
 	}
 }

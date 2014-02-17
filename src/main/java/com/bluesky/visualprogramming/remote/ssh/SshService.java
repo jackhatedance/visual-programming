@@ -3,49 +3,35 @@ package com.bluesky.visualprogramming.remote.ssh;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.BidiMap;
-import org.apache.commons.collections.bidimap.DualHashBidiMap;
-
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.utils.Config;
 
-public class SshService implements ProtocolService {
-	private ProtocolType[] supportedTypes = new ProtocolType[] { ProtocolType.SSH };
+public class SshService extends AbstractProtocolService implements
+		ProtocolService {
 
-	
-	
-	// key is address, value is object
-	BidiMap addressObjectMap = new DualHashBidiMap();
 
 	Map<String, SshAgent> agents = new HashMap<String, SshAgent>();
 
+	public SshService() {
+		supportedTypes = new ProtocolType[] { ProtocolType.SSH };
+	}
 	@Override
 	public void register(ProtocolType protocol, String address, _Object obj,
-			String connectionOptions) {
-		
-		
+			Config config) {
+
 		if (addressObjectMap.containsKey(address))
 			throw new RuntimeException("already registered:" + address);
 
 		addressObjectMap.put(address, obj);
 
-		SshAgent agent = new SshAgent(address, obj, connectionOptions);
+		SshAgent agent = new SshAgent(address, obj, config);
 		agents.put(address, agent);
 
 		agent.connect();
-	}
-
-	@Override
-	public _Object getLocalObject(String address) {
-
-		return (_Object) addressObjectMap.get(address);
-	}
-
-	public String getAddress(_Object obj) {
-
-		return (String) addressObjectMap.getKey(obj);
 	}
 
 	@Override
@@ -63,9 +49,5 @@ public class SshService implements ProtocolService {
 		}
 	}
 
-	@Override
-	public ProtocolType[] getSupportedTypes() {
 
-		return supportedTypes;
-	}
 }
