@@ -16,7 +16,9 @@ import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
+import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.Link;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MessageServlet extends HttpServlet {
@@ -89,7 +91,8 @@ public class MessageServlet extends HttpServlet {
 
 		}
 
-		// TODO: parse HTTP parameters
+		//parse HTTP parameters
+		_Object parameters = buildParamterObject(request);
 
 		/*
 		 * Assume it is a HTTP session with a browser, the return value should
@@ -98,7 +101,7 @@ public class MessageServlet extends HttpServlet {
 		 * to html.
 		 */
 		Message incomingMsg = new Message(true, senderLink, receiverLink,
-				subject, null, ParameterStyle.ByName, null, MessageType.Normal);
+				subject, parameters, ParameterStyle.ByName, null, MessageType.Normal);
 
 
 		vm.getPostService().sendMessage(incomingMsg);
@@ -126,9 +129,27 @@ public class MessageServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		response.getWriter().println(agent.getResponse());
+		
 	}
 
 	private String getNextRequestId() {
 		return UUID.randomUUID().toString();
+	}
+	
+	private _Object buildParamterObject(HttpServletRequest request){
+		VirtualMachine vm = VirtualMachine.getInstance();
+		ObjectRepository repo = vm.getObjectRepository();
+
+		_Object body = repo.createObject(ObjectType.NORMAL, ObjectScope.ExecutionContext);
+
+		for(String key : request.getParameterMap().keySet()){
+			StringValue svValue = (StringValue)repo.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
+			String value = request.getParameter(key);
+			
+			svValue.setValue(value);
+			body.setField(key, svValue, true);			
+		}
+		
+		return body;
 	}
 }

@@ -41,32 +41,39 @@ public class HttpIncomingRequestAgent {
 			throw new RuntimeException("receiver is not visitor:" + username);
 		}
 
-		// TODO convert to _Object to HTML
-		VirtualMachine vm = VirtualMachine.getInstance();
-		ObjectRepository repo = vm.getObjectRepository();
+		if (msg.body instanceof StringValue) {
+			responseBody = msg.body;
+			logger.debug("response is: " + responseBody);
 
-		String address = "path://_root.lib.web.render@local";
-		Link receiverLink = (Link) repo.createObject(ObjectType.LINK,
-				ObjectScope.ExecutionContext);
-		receiverLink.setValue(address);
+			responseReady.release();
 
-		_Object params = repo.createObject(ObjectType.NORMAL,
-				ObjectScope.ExecutionContext);
-		params.setField("target", msg.body, false);
+		} else {
+			// convert to _Object to HTML
+			VirtualMachine vm = VirtualMachine.getInstance();
+			ObjectRepository repo = vm.getObjectRepository();
 
-		vm.getPostService().sendMessageFromNobody(receiverLink, "do", params,
-				new Callback() {
+			String address = "path://_root.lib.web.render@local";
+			Link receiverLink = (Link) repo.createObject(ObjectType.LINK,
+					ObjectScope.ExecutionContext);
+			receiverLink.setValue(address);
 
-					@Override
-					public void onComplete(_Object result) {
-						responseBody = result;
-						logger.debug("response is: " + responseBody);
+			_Object params = repo.createObject(ObjectType.NORMAL,
+					ObjectScope.ExecutionContext);
+			params.setField("target", msg.body, false);
 
-						responseReady.release();
+			vm.getPostService().sendMessageFromNobody(receiverLink, "do",
+					params, new Callback() {
 
-					}
-				});
+						@Override
+						public void onComplete(_Object result) {
+							responseBody = result;
+							logger.debug("response is: " + responseBody);
 
+							responseReady.release();
+
+						}
+					});
+		}
 	}
 
 	protected String getUsername(String address) {
