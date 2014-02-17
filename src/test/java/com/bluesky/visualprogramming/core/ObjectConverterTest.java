@@ -37,7 +37,7 @@ public class ObjectConverterTest {
 
 		SerializationService svc = new SerializationService();
 
-		System.out.println(svc.serialize(root, SerializerType.Json, true));
+		//System.out.println(svc.serialize(root, SerializerType.Json, true));
 	}
 
 }

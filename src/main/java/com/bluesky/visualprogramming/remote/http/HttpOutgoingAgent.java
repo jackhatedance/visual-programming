@@ -2,13 +2,7 @@ package com.bluesky.visualprogramming.remote.http;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,7 +25,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.serialization.dump.ObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
 import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormatType;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.ConnectionOptions;
@@ -62,7 +56,7 @@ public class HttpOutgoingAgent {
 	CredentialsProvider credsProvider;
 
 	String messageFormat;
-	ObjectSerializer serializer;
+	ConfigurableObjectSerializer serializer;
 
 	/**
 	 * 
@@ -184,7 +178,7 @@ public class HttpOutgoingAgent {
 			returnValue = returnStringValue;
 		} else {
 			StringReader sr = new StringReader(responseBody);
-			returnValue = serializer.deserialize(sr);
+			returnValue = serializer.deserialize(sr,null);
 		}
 
 		Message replyMsg = new Message(false, message.receiver, message.sender,

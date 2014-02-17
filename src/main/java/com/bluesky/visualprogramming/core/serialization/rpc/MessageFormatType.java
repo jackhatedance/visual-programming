@@ -8,14 +8,21 @@ public enum MessageFormatType {
 	 */
 	Ddwrt {
 		@Override
-		public ObjectSerializer getSerializer() {
+		public ConfigurableObjectSerializer getSerializer() {
 			 
 			return new DdwrtSerializer();
+		}
+	},
+	XML{
+		@Override
+		public ConfigurableObjectSerializer getSerializer() {
+			
+			return null;
 		}
 	};
 	
 	
-	public abstract ObjectSerializer getSerializer();
+	public abstract ConfigurableObjectSerializer getSerializer();
 	
 	public static MessageFormatType getType(String format){
 			for(MessageFormatType mft : values()){
