@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.UUID;
 
+import javax.management.RuntimeErrorException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,13 +44,22 @@ public class MessageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		doProcess(req, resp, true);
+		try {
+			doProcess(req, resp, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		doProcess(request, response, false);
+		try {
+			doProcess(request, response, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected void doProcess(HttpServletRequest request,
@@ -108,9 +118,10 @@ public class MessageServlet extends HttpServlet {
 		if (agent == null) {
 
 			Config config = service.getConfig(receiverAddress);
-			String postContentFormat = config.get("postContentFormat");
-			agent = new HttpIncomingRequestAgent(response,
-					MessageFormat.valueOf(postContentFormat));
+			
+			String responseContentFormat = config.getString("responseContentFormat",MessageFormat.HTML.name());
+			agent = new HttpIncomingRequestAgent(
+					MessageFormat.valueOf(responseContentFormat));
 			service.setAgent(senderAddress, agent);
 
 			if (logger.isDebugEnabled())
@@ -126,17 +137,15 @@ public class MessageServlet extends HttpServlet {
 
 			// try get meta info.
 			Config config = service.getConfig(receiverAddress);
-			String postContentType = config
-					.getString("postContentType", "html");
-
-			MessageFormat format = MessageFormat.getFormat(postContentType);
+			String postContentFormat = config.getString("postContentFormat",MessageFormat.XML.name());			
+			MessageFormat format = MessageFormat.getFormat(postContentFormat);
 
 			if (format != null) {
 				ConfigurableObjectSerializer serializer = format
 						.getSerializer();
 
 				Reader r = new InputStreamReader(request.getInputStream());
-				_Object postContent = serializer.deserialize(r, null);
+				_Object postContent = serializer.deserialize(r, config);
 				parameters.setField(POST_CONTENT, postContent, true);
 			}
 
@@ -153,7 +162,6 @@ public class MessageServlet extends HttpServlet {
 				MessageType.Normal);
 
 		vm.getPostService().sendMessage(incomingMsg);
-
 
 		// wait for response
 
@@ -176,11 +184,9 @@ public class MessageServlet extends HttpServlet {
 
 		// write response
 
-
 		response.setContentType("text/html;charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getWriter().write(agent.getResponse());
-	 
 
 	}
 

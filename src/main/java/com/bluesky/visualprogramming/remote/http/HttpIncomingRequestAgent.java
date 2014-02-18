@@ -26,17 +26,17 @@ public class HttpIncomingRequestAgent {
 
 	private MessageFormat responseContentFormat;
 
-	private _Object responseBody;
+	private String textResponse;
 	/**
 	 * used to indicate response is ready.
 	 */
 	private Semaphore responseReady = new Semaphore(0);
 
-	private HttpServletResponse response;
 
-	public HttpIncomingRequestAgent(HttpServletResponse response,
+
+	public HttpIncomingRequestAgent(
 			MessageFormat responseContentFormat) {
-		this.response = response;
+		 
 		this.responseContentFormat = responseContentFormat;
 	}
 
@@ -51,17 +51,24 @@ public class HttpIncomingRequestAgent {
 		}
 
 		if (msg.body instanceof StringValue) {
-			responseBody = msg.body;
-			logger.debug("response is: " + responseBody);
+			textResponse = msg.body.getValue();
+			logger.debug("response is: " + textResponse);
 
 		} else {
+
+			if(logger.isDebugEnabled())
+				logger.debug("responseContentFormat is: " + responseContentFormat.name());
 
 			ConfigurableObjectSerializer serializer = responseContentFormat
 					.getSerializer();
 
 			StringWriter sw = new StringWriter();
 			serializer.serialize(msg.body, sw, null);
+			
+			if(logger.isDebugEnabled())
+				logger.debug("serialization complete:"+ sw.toString());
 
+			textResponse= sw.toString();
 		}
 
 		responseReady.release();
@@ -79,11 +86,7 @@ public class HttpIncomingRequestAgent {
 	}
 
 	public String getResponse() {
-		if (responseBody != null) {
-			StringValue sv = (StringValue) responseBody;
-			return sv.getValue();
-		} else
-			return "";
+		return textResponse;
 	}
 
 }

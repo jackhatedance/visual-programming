@@ -898,7 +898,7 @@ public class _Object implements Serializable {
 			obj = obj.getChild(ss[i]);
 
 			if (obj == null)
-				throw new InvalidELException(ss[i], path);
+				return null;
 		}
 
 		return obj;

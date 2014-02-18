@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.utils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +14,9 @@ public class Config {
 	public Config(Map<String, String> map) {
 		this.map = map;
 	}
-
+	public Config() {
+		this.map = new HashMap<String, String>();
+	}
 	/**
 	 * get string value
 	 * 

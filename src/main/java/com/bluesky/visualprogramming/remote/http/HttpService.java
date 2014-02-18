@@ -77,6 +77,7 @@ public class HttpService extends AbstractProtocolService implements
 			Config config) {
 
 
+		//true if act as HTTP client, not server. 
 		clientOnly = config.getBoolean("clientOnly", false);
 
 		HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol, address,
@@ -92,6 +93,7 @@ public class HttpService extends AbstractProtocolService implements
 				throw new RuntimeException("already registered:" + address);
 
 			addressObjectMap.put(address, obj);
+			addressConfigMap.put(address, config);
 		}
 	}
 

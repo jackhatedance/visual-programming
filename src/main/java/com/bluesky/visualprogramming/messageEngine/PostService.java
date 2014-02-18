@@ -2,6 +2,9 @@ package com.bluesky.visualprogramming.messageEngine;
 
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
@@ -34,6 +37,10 @@ public class PostService implements Runnable, Service {
 
 	private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
 
+	
+	//rpc sender threads
+	ExecutorService executorService = Executors.newFixedThreadPool(5);
+	
 	private volatile boolean running = true;
 
 	public void init(ObjectRepository objectRepository,
@@ -53,7 +60,7 @@ public class PostService implements Runnable, Service {
 		remoteCommunicationService.addProtocolService(new EmailService());
 	}
 
-	public void sendMessage(Message msg) {
+	public void  sendMessage(Message msg) {
 		try {
 			messageQueue.put(msg);
 
@@ -109,12 +116,27 @@ public class PostService implements Runnable, Service {
 				sendLocalMessage(msg, localObject);
 			} else {
 				logger.debug("localObject is null");
-				remoteCommunicationService.send(protocol,
-						receiverLink.getAddress(), msg);
+				sendRemoteMessage(msg, receiverLink, protocol);
 
 			}
 		} else
 			sendLocalMessage(msg, msg.receiver);
+	}
+
+	private void sendRemoteMessage(final Message msg, final Link receiverLink,
+			final ProtocolType protocol) {
+		//RPC is time consuming, additional thread is required
+		
+		executorService.submit(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				remoteCommunicationService.send(protocol,
+						receiverLink.getAddress(), msg);
+				return null;
+			}
+		});
+		
+		
 	}
 
 	private void sendLocalMessage(Message msg, _Object receiver) {
