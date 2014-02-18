@@ -49,25 +49,49 @@ public class XmlDomVisitor extends VisitorSupport {
 	@Override
 	public void visit(Document document) {
 
-		document.getRootElement().accept(this);
+		visit(document.getRootElement());
 
 		object = pop();
 	}
 
 	public void visit(Node node) {
+		int type = node.getNodeType();
+		switch (type) {
+		case Node.ELEMENT_NODE:
+			visit((Element) node);
+			break;
+		case Node.TEXT_NODE:
+			visit((Text) node);
+			break;
 
+		case Node.CDATA_SECTION_NODE:
+			visit((CDATA) node);
+			break;
+
+		default:
+			System.out.println("not supported " + node.getText());
+			push(null);
+		}
 	}
 
 	void push(_Object obj) {
 
-		System.out.println("push " + obj.getName() + "," + obj.getValue());
+		if (obj != null)
+			System.out.println("push " + obj.getName() + "," + obj.getValue());
+		else
+			System.out.println("push empty object");
+
 		stack.push(obj);
 	}
 
 	_Object pop() {
 
 		_Object obj = stack.pop();
-		System.out.println("pop " + obj.getName() + "," + obj.getValue());
+		if (obj != null)
+			System.out.println("pop " + obj.getName() + "," + obj.getValue());
+		else
+			System.out.println("pop empty object");
+
 		return obj;
 	}
 
@@ -92,12 +116,15 @@ public class XmlDomVisitor extends VisitorSupport {
 				attrOwner = attributes;
 			}
 
-			push(attrOwner);
+
 			for (int i = 0; i < element.attributeCount(); i++) {
 				Attribute attr = element.attribute(i);
 				visit(attr);
+
+				_Object attrObj = pop();
+				attrOwner.setField(attr.getName(), attrObj, true);
 			}
-			pop();
+
 		}
 
 		// process child nodes
@@ -112,28 +139,27 @@ public class XmlDomVisitor extends VisitorSupport {
 				childOwner = childNodes;
 			}
 
-			push(obj);
 			for (int i = 0, size = element.nodeCount(); i < size; i++) {
 				Node cnode = element.node(i);
-				// cnode.accept(this);
 				visit(cnode);
 				_Object childObj = pop();
-
-				childOwner.setField(childObj.getName(), childObj, true);
+				if (childObj != null)
+					childOwner.setField(childObj.getName(), childObj, true);
 			}
-			pop();
+
 		}
 
 		// element only contains one cdata or text node, replace child with
 		// current one
-		/*
-		 * if (obj.getChildCount() == 1) { _Object childObj = obj.getChild(0);
-		 * if (childObj instanceof StringValue) { }
-		 * 
-		 * obj = obj.getChild(0); obj.setName(name);
-		 * 
-		 * }
-		 */
+
+		if (obj.getChildCount() == 1) {
+			_Object childObj = obj.getChild(0);
+			if (childObj instanceof StringValue) {
+
+				obj = obj.getChild(0);
+				obj.setName(name);
+			}
+		}
 
 		// return value
 		push(obj);
@@ -166,8 +192,7 @@ public class XmlDomVisitor extends VisitorSupport {
 	@Override
 	public void visit(Attribute node) {
 		/*
-		 * _Object attrParent = obj;
-		 * 
+		 * _Object attrParent = obj; serialize
 		 * 
 		 * for (int i = 0; i < element.attributeCount(); i++) { Attribute attr =
 		 * element.attribute(i);

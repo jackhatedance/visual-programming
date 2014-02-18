@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.core.serialization.rpc;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,6 +34,12 @@ public class XmlSerialzerTest {
 		_Object content = obj.getChild("Content");
 		
 		Assert.assertEquals("this is a test", content.getValue());
+
+		StringWriter sw = new StringWriter();
+		s.serialize(obj, sw, config);
+
+		System.out.println(sw.toString());
+
 	}
 
 }

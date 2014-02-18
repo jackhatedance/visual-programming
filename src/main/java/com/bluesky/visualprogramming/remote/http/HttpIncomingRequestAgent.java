@@ -3,15 +3,13 @@ package com.bluesky.visualprogramming.remote.http;
 import java.io.StringWriter;
 import java.util.concurrent.Semaphore;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
 import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.utils.Config;
 
 /**
  * an agent for each request.
@@ -63,8 +61,12 @@ public class HttpIncomingRequestAgent {
 					.getSerializer();
 
 			StringWriter sw = new StringWriter();
-			serializer.serialize(msg.body, sw, null);
-			
+			Config config = new Config();
+			try {
+			serializer.serialize(msg.body, sw, config);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			if(logger.isDebugEnabled())
 				logger.debug("serialization complete:"+ sw.toString());
 

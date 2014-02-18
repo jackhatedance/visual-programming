@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.ObjectVisitor;
 import com.bluesky.visualprogramming.core._Object;
 
 public class BooleanValue extends _Object {
@@ -36,5 +37,9 @@ public class BooleanValue extends _Object {
 		this.booleanValue = booleanValue;
 	}
 	
-	
+	@Override
+	public void accept(ObjectVisitor visitor) {
+		
+		super.accept(visitor);
+	}
 }

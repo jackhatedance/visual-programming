@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.UUID;
 
-import javax.management.RuntimeErrorException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -121,7 +120,7 @@ public class MessageServlet extends HttpServlet {
 			
 			String responseContentFormat = config.getString("responseContentFormat",MessageFormat.HTML.name());
 			agent = new HttpIncomingRequestAgent(
-					MessageFormat.valueOf(responseContentFormat));
+					MessageFormat.getFormat(responseContentFormat));
 			service.setAgent(senderAddress, agent);
 
 			if (logger.isDebugEnabled())

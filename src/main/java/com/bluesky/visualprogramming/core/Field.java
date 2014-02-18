@@ -152,4 +152,13 @@ public class Field {
 		diagramPanel.addMouseListener(ele);
 
 	}
+
+	public void accept(ObjectVisitor visitor) {
+		Object status = visitor.enter(this);
+		if (status instanceof Boolean && (Boolean) status == true) {
+			if (target != null)
+				target.accept(visitor);
+		}
+		visitor.leave(this);
+	}
 }

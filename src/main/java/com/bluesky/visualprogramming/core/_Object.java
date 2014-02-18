@@ -903,4 +903,22 @@ public class _Object implements Serializable {
 
 		return obj;
 	}
+
+	/**
+	 * support visitor pattern
+	 * 
+	 * @param visitor
+	 */
+	public void accept(ObjectVisitor visitor) {
+
+		visitor.enter(this);
+
+		// children
+		for (Field f : fieldList) {
+			f.accept(visitor);
+
+		}
+
+		visitor.leave(this);
+	}
 }
