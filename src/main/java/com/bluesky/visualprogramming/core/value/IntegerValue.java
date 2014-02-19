@@ -1,6 +1,7 @@
 package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.ObjectVisitor;
 import com.bluesky.visualprogramming.core._Object;
 
 /**
@@ -41,5 +42,13 @@ public class IntegerValue extends _Object {
 
 	public void setIntValue(long i) {
 		this.value = i;
+	}
+	
+	@Override
+	public void accept(ObjectVisitor visitor) {
+		visitor.enter(this);
+
+		visitor.leave(this);
+
 	}
 }

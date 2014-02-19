@@ -39,7 +39,9 @@ public class BooleanValue extends _Object {
 	
 	@Override
 	public void accept(ObjectVisitor visitor) {
-		
-		super.accept(visitor);
+		visitor.enter(this);
+
+		visitor.leave(this);
+
 	}
 }

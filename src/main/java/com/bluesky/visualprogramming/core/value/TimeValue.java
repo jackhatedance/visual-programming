@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core.value;
 import java.util.Date;
 
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.ObjectVisitor;
 import com.bluesky.visualprogramming.core._Object;
 
 public class TimeValue extends _Object {
@@ -47,5 +48,11 @@ public class TimeValue extends _Object {
 		
 		return value.toString();
 	}
-	
+	@Override
+	public void accept(ObjectVisitor visitor) {
+		visitor.enter(this);
+
+		visitor.leave(this);
+
+	}
 }

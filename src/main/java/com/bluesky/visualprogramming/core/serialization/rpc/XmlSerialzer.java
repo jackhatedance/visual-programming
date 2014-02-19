@@ -19,7 +19,9 @@ public class XmlSerialzer implements ConfigurableObjectSerializer {
 
 	@Override
 	public void serialize(_Object obj, Writer writer, Config config) {
-
+		if(obj==null)
+			return;
+		
 		XmlSerialzationVisitor visitor = new XmlSerialzationVisitor();
 		visitor.visit(obj, obj.getName());
 
