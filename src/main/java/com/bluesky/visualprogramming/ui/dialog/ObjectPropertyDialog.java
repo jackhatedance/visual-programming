@@ -21,7 +21,12 @@ import javax.swing.border.LineBorder;
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+
 import javax.swing.JScrollPane;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class ObjectPropertyDialog extends JDialog {
 
@@ -34,8 +39,8 @@ public class ObjectPropertyDialog extends JDialog {
 
 	private JTextField textFieldId;
 	private JTextField textFieldName;
-	private JTextArea textAreaValue;
-	private JScrollPane scrollPaneValue;
+	private RSyntaxTextArea textAreaValue;
+	private RTextScrollPane scrollPaneValue;
 	private JTextField textFieldType;
 	private JLabel lblNewLabel;
 	private JLabel lblFieldName;
@@ -188,9 +193,11 @@ public class ObjectPropertyDialog extends JDialog {
 			lblColor = new JLabel("Color");
 		}
 		{
-			textAreaValue = new JTextArea();
-			textAreaValue.setLineWrap(true);
-			scrollPaneValue = new JScrollPane(textAreaValue);
+			textAreaValue = new RSyntaxTextArea(20, 60);
+			textAreaValue.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+			textAreaValue.setCodeFoldingEnabled(true);
+		    scrollPaneValue = new RTextScrollPane(textAreaValue);
+				
 		}
 		GridBagConstraints gbc_textAreaValue = new GridBagConstraints();
 		gbc_textAreaValue.fill = GridBagConstraints.BOTH;
