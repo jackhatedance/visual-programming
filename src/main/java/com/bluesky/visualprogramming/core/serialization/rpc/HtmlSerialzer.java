@@ -56,16 +56,17 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 
 		try {
 			if (logger.isDebugEnabled())
-				logger.debug("HTML serialzer wait for web redner result.");
+				logger.debug("HTML serialzer wait for web render result.");
 			// wait until render finished
 			responseReady.acquire();
 
 			if (logger.isDebugEnabled())
 				logger.debug("HTML serialzer wakeup.");
 
-
-			StringValue svHtml = (StringValue) html;
-			writer.write(svHtml.getValue());
+			if (html != null) {
+				StringValue svHtml = (StringValue) html;
+				writer.write(svHtml.getValue());
+			}
 		} catch (InterruptedException e) {
 
 			throw new RuntimeException(e);

@@ -720,15 +720,18 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <nativeProcedureParameters></nativeProcedureParameters>
                                       <language>goo</language>
                                       <code>procedure(obj, config)
-{	
+{		
 	SYSTEM = _root.core.system;
+	CONSOLE = SYSTEM.console;
 	WEB = _root.lib.web;
 
-	tag = config.tag;
+	componentConfig = config.componentConfig;
+
+	tag = componentConfig.tag;
 	startTag = &quot;&lt;&quot;.concat(tag).concat(&quot;&gt;&quot;);
 	endTag = &quot;&lt;/&quot;.concat(tag).concat(&quot;&gt;&quot;);
 
-	elementTag = config.elementTag;
+	elementTag = componentConfig.elementTag;
 	startElementTag = &quot;&lt;&quot;.concat(elementTag).concat(&quot;&gt;&quot;);
 	endElementTag = &quot;&lt;/&quot;.concat(elementTag).concat(&quot;&gt;&quot;);
 
@@ -742,7 +745,18 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
 
 		fieldName = fieldNames.get(i);
 		element = SYSTEM.object.getChild(obj, fieldName);
-		elementHtml = _self.renderObject(element);
+		
+		elementHtml = _self.renderObject(element, config.elementConfig);
+
+		if(SYSTEM.isNull(config.elementConfig))
+		{	
+			CONSOLE.println(&quot;elementConfig is null&quot;.concat(config._objectName));
+		}
+		else
+		{	
+			CONSOLE.println(&quot;elementConfig is not null&quot;);
+		}
+			
 		html = html.concat(elementHtml);
 
 		html =  html.concat(endElementTag);
@@ -861,41 +875,45 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                 <nativeProcedureClassName></nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code>procedure(target)
+                                <code>procedure(target, config)
 {
 	SYSTEM = _root.core.system;
+	CONSOLE = SYSTEM.console;
 	COMPONENTS = _root.lib.web.components;
 
-	_html = SYSTEM.object.getMetaField(target, &quot;html&quot;);
-
-	if(SYSTEM.isNull(_html).isFalse())
+	//use its own config if exists
+	selfConfig = SYSTEM.object.getMetaField(target, &quot;html&quot;);	
+	if(SYSTEM.isNull(selfConfig).isFalse())
 	{
-
-	component = _html.component;
-	if(SYSTEM.isNull(component).isFalse())
-	{
-		_result = component.toHtml(target);
+		config = selfConfig;
 	}
-	else
+	
+	if(SYSTEM.isNull(config).isFalse())
 	{
-		component = _html.generatedComponent;
+		component = config.component;
 		if(SYSTEM.isNull(component).isFalse())
 		{
-			_result = component.toHtml(target);
+			_result = component.toHtml(target,null);
 		}
 		else
 		{
-			//try to generate component from clue
-			if(SYSTEM.isNull(_html.componentName).isFalse())
+			component = config.generatedComponent;
+			if(SYSTEM.isNull(component).isFalse())
 			{
-				
-				_result = _self.renderByStandardComponent(target);
+				_result = component.toHtml(target);
 			}
-		}
-
-		
-	}
+			else
+			{
+				//try to generate component from clue
+				if(SYSTEM.isNull(config.componentName).isFalse())
+				{
+					
+					_result = _self.renderByStandardComponent(target, config);
+				}
+			}
 	
+			
+		}		
 	}
 	//_root.core.system.console.println(&quot;html=&quot;.concat(_result));
 
@@ -931,15 +949,15 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                 <nativeProcedureClassName></nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code>procedure(target)
+                                <code>procedure(target, config)
 {
 	SYSTEM = _root.core.system;
 	COMPONENTS = _root.lib.web.components;
 
-	_html = SYSTEM.object.getMetaField(target, &quot;html&quot;);
-
-	component = SYSTEM.object.getByPath(COMPONENTS, _html.componentName);
-	_result = component.toHtml(target, _html.componentConfig);
+	//config = SYSTEM.object.getMetaField(target, &quot;html&quot;);
+	
+	component = SYSTEM.object.getByPath(COMPONENTS, config.componentName);
+	_result = component.toHtml(target, config);
 }</code>
                               </target>
                               <svgScale>0.2</svgScale>
@@ -1042,7 +1060,7 @@ _self._system.prototype = path://_root.lib.web.components.baseComponent@local;&#
                           <language>goo</language>
                           <code>procedure(target)
 {
-	_result = _self.renderObject(target);
+	_result = _self.renderObject(target, null);
 
 
 }</code>
@@ -18617,158 +18635,33 @@ Users should get start without any other documents.</value>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                </fieldList>
-                                <systemFieldsCount>0</systemFieldsCount>
-                                <scaleRate>1.0</scaleRate>
-                                <borderColor reference="46"/>
-                              </target>
-                              <svgScale>0.2</svgScale>
-                              <area id="3006">
-                                <x>630</x>
-                                <y>1750</y>
-                                <width>100</width>
-                                <height>100</height>
-                              </area>
-                            </field>
-                          </fieldList>
-                          <systemFieldsCount>0</systemFieldsCount>
-                          <scaleRate>1.0</scaleRate>
-                          <borderColor reference="46"/>
-                        </target>
-                        <svgScale>0.2</svgScale>
-                        <area id="3007">
-                          <x>1125</x>
-                          <y>2350</y>
-                          <width>100</width>
-                          <height>100</height>
-                        </area>
-                      </field>
-                      <field id="3008">
-                        <name>helloWorld</name>
-                        <target id="3009">
-                          <type>NORMAL</type>
-                          <id>33355</id>
-                          <name>helloWorld</name>
-                          <owner reference="2960"/>
-                          <scope>ExecutionContext</scope>
-                          <fieldList id="3010">
-                            <field id="3011">
-                              <name>title</name>
-                              <target class="string" id="3012">
-                                <type>STRING</type>
-                                <id>33356</id>
-                                <name>title</name>
-                                <owner reference="3009"/>
-                                <scope>ExecutionContext</scope>
-                                <fieldList id="3013"/>
-                                <systemFieldsCount>1</systemFieldsCount>
-                                <scaleRate>1.0</scaleRate>
-                                <borderColor reference="57"/>
-                                <value>Hello World!
-你好世界!xcvx</value>
-                              </target>
-                              <svgScale>0.2</svgScale>
-                              <area id="3014">
-                                <x>1065</x>
-                                <y>1015</y>
-                                <width>100</width>
-                                <height>100</height>
-                              </area>
-                            </field>
-                            <field id="3015">
-                              <name>content</name>
-                              <target class="string" id="3016">
-                                <type>STRING</type>
-                                <id>33358</id>
-                                <name>content</name>
-                                <owner reference="3009"/>
-                                <scope>ExecutionContext</scope>
-                                <fieldList id="3017">
-                                  <field id="3018">
-                                    <name>_system</name>
-                                    <target id="3019">
+                                  <field id="3006">
+                                    <name>elementConfig</name>
+                                    <target id="3007">
                                       <type>NORMAL</type>
-                                      <id>33359</id>
-                                      <name>_system</name>
-                                      <owner class="string" reference="3016"/>
+                                      <id>916942</id>
+                                      <name>elementConfig</name>
+                                      <owner reference="2966"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3020">
-                                        <field id="3021">
-                                          <name>prototype</name>
-                                          <target class="string" reference="407"/>
-                                          <svgScale>0.2</svgScale>
-                                          <area id="3022">
-                                            <x>0</x>
-                                            <y>0</y>
-                                            <width>100</width>
-                                            <height>100</height>
-                                          </area>
-                                        </field>
-                                      </fieldList>
-                                      <systemFieldsCount>0</systemFieldsCount>
-                                      <scaleRate>1.0</scaleRate>
-                                      <borderColor reference="57"/>
-                                    </target>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="3023">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
-                                </fieldList>
-                                <systemFieldsCount>1</systemFieldsCount>
-                                <scaleRate>1.0</scaleRate>
-                                <borderColor reference="57"/>
-                                <value>Hello Cooby world!
-&lt;br&gt;
-你知道吗？酷比其实很好玩！</value>
-                              </target>
-                              <svgScale>0.2</svgScale>
-                              <area id="3024">
-                                <x>1125</x>
-                                <y>1555</y>
-                                <width>100</width>
-                                <height>100</height>
-                              </area>
-                            </field>
-                            <field id="3025">
-                              <name>_system</name>
-                              <target id="3026">
-                                <type>NORMAL</type>
-                                <id>33449</id>
-                                <name>_system</name>
-                                <owner reference="3009"/>
-                                <scope>ExecutionContext</scope>
-                                <fieldList id="3027">
-                                  <field id="3028">
-                                    <name>html</name>
-                                    <target id="3029">
-                                      <type>NORMAL</type>
-                                      <id>33450</id>
-                                      <name>html</name>
-                                      <owner reference="3026"/>
-                                      <scope>ExecutionContext</scope>
-                                      <fieldList id="3030">
-                                        <field id="3031">
+                                      <fieldList id="3008">
+                                        <field id="3009">
                                           <name>component</name>
-                                          <target id="3032">
+                                          <target id="3010">
                                             <type>NORMAL</type>
                                             <id>33451</id>
                                             <name>component</name>
-                                            <owner reference="3029"/>
+                                            <owner reference="3007"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="3033">
-                                              <field id="3034">
+                                            <fieldList id="3011">
+                                              <field id="3012">
                                                 <name>toHtml</name>
-                                                <target class="procedure" id="3035">
+                                                <target class="procedure" id="3013">
                                                   <type>PROCEDURE</type>
                                                   <id>33452</id>
                                                   <name defined-in="object">toHtml</name>
-                                                  <owner reference="3032"/>
+                                                  <owner reference="3010"/>
                                                   <scope>ExecutionContext</scope>
-                                                  <fieldList id="3036"/>
+                                                  <fieldList id="3014"/>
                                                   <systemFieldsCount>0</systemFieldsCount>
                                                   <scaleRate>1.0</scaleRate>
                                                   <borderColor reference="124"/>
@@ -18785,7 +18678,7 @@ Users should get start without any other documents.</value>
 }</code>
                                                 </target>
                                                 <svgScale>0.2</svgScale>
-                                                <area id="3037">
+                                                <area id="3015">
                                                   <x>1030</x>
                                                   <y>1015</y>
                                                   <width>100</width>
@@ -18799,9 +18692,9 @@ Users should get start without any other documents.</value>
                                             <expectMessageType>SyncReply</expectMessageType>
                                           </target>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3038">
-                                            <x>795</x>
-                                            <y>1405</y>
+                                          <area id="3016">
+                                            <x>1145</x>
+                                            <y>1730</y>
                                             <width>100</width>
                                             <height>100</height>
                                           </area>
@@ -18809,12 +18702,17 @@ Users should get start without any other documents.</value>
                                       </fieldList>
                                       <systemFieldsCount>0</systemFieldsCount>
                                       <scaleRate>1.0</scaleRate>
-                                      <borderColor reference="124"/>
+                                      <borderColor id="3017">
+                                        <red>0</red>
+                                        <green>0</green>
+                                        <blue>0</blue>
+                                        <alpha>255</alpha>
+                                      </borderColor>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3039">
-                                      <x>1130</x>
-                                      <y>1280</y>
+                                    <area id="3018">
+                                      <x>2245</x>
+                                      <y>2335</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
@@ -18822,10 +18720,134 @@ Users should get start without any other documents.</value>
                                 </fieldList>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
+                                <borderColor reference="46"/>
+                              </target>
+                              <svgScale>0.2</svgScale>
+                              <area id="3019">
+                                <x>630</x>
+                                <y>1750</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="46"/>
+                        </target>
+                        <svgScale>0.2</svgScale>
+                        <area id="3020">
+                          <x>1125</x>
+                          <y>2350</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="3021">
+                        <name>helloWorld</name>
+                        <target id="3022">
+                          <type>NORMAL</type>
+                          <id>33355</id>
+                          <name>helloWorld</name>
+                          <owner reference="2960"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="3023">
+                            <field id="3024">
+                              <name>title</name>
+                              <target class="string" id="3025">
+                                <type>STRING</type>
+                                <id>33356</id>
+                                <name>title</name>
+                                <owner reference="3022"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="3026"/>
+                                <systemFieldsCount>1</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="57"/>
+                                <value>Hello World!
+你好世界!xcvx</value>
+                              </target>
+                              <svgScale>0.2</svgScale>
+                              <area id="3027">
+                                <x>1065</x>
+                                <y>1015</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="3028">
+                              <name>content</name>
+                              <target class="string" id="3029">
+                                <type>STRING</type>
+                                <id>33358</id>
+                                <name>content</name>
+                                <owner reference="3022"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="3030">
+                                  <field id="3031">
+                                    <name>_system</name>
+                                    <target id="3032">
+                                      <type>NORMAL</type>
+                                      <id>33359</id>
+                                      <name>_system</name>
+                                      <owner class="string" reference="3029"/>
+                                      <scope>ExecutionContext</scope>
+                                      <fieldList id="3033">
+                                        <field id="3034">
+                                          <name>prototype</name>
+                                          <target class="string" reference="407"/>
+                                          <svgScale>0.2</svgScale>
+                                          <area id="3035">
+                                            <x>0</x>
+                                            <y>0</y>
+                                            <width>100</width>
+                                            <height>100</height>
+                                          </area>
+                                        </field>
+                                      </fieldList>
+                                      <systemFieldsCount>0</systemFieldsCount>
+                                      <scaleRate>1.0</scaleRate>
+                                      <borderColor reference="57"/>
+                                    </target>
+                                    <svgScale>0.2</svgScale>
+                                    <area id="3036">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <systemFieldsCount>1</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="57"/>
+                                <value>Hello Cooby world!
+&lt;br&gt;
+你知道吗？酷比其实很好玩！</value>
+                              </target>
+                              <svgScale>0.2</svgScale>
+                              <area id="3037">
+                                <x>1125</x>
+                                <y>1555</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="3038">
+                              <name>_system</name>
+                              <target id="3039">
+                                <type>NORMAL</type>
+                                <id>33449</id>
+                                <name>_system</name>
+                                <owner reference="3022"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="3040"/>
+                                <systemFieldsCount>0</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
                                 <borderColor reference="124"/>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3040">
+                              <area id="3041">
                                 <x>1125</x>
                                 <y>2165</y>
                                 <width>100</width>
@@ -18838,43 +18860,43 @@ Users should get start without any other documents.</value>
                           <borderColor reference="57"/>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3041">
+                        <area id="3042">
                           <x>1000</x>
                           <y>620</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3042">
+                      <field id="3043">
                         <name>letsTryCooby</name>
-                        <target id="3043">
+                        <target id="3044">
                           <type>NORMAL</type>
                           <id>33360</id>
                           <name>letsTryCooby</name>
                           <owner reference="2960"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3044">
-                            <field id="3045">
+                          <fieldList id="3045">
+                            <field id="3046">
                               <name>_system</name>
-                              <target id="3046">
+                              <target id="3047">
                                 <type>NORMAL</type>
                                 <id>34315</id>
                                 <name>t_0</name>
-                                <owner reference="3043"/>
+                                <owner reference="3044"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3047">
-                                  <field id="3048">
+                                <fieldList id="3048">
+                                  <field id="3049">
                                     <name>_test</name>
-                                    <target class="procedure" id="3049">
+                                    <target class="procedure" id="3050">
                                       <type>PROCEDURE</type>
                                       <id>34328</id>
                                       <name defined-in="object">_test</name>
-                                      <owner reference="3046"/>
+                                      <owner reference="3047"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3050"/>
+                                      <fieldList id="3051"/>
                                       <systemFieldsCount>0</systemFieldsCount>
                                       <scaleRate>1.0</scaleRate>
-                                      <borderColor id="3051">
+                                      <borderColor id="3052">
                                         <red>0</red>
                                         <green>0</green>
                                         <blue>0</blue>
@@ -18891,43 +18913,43 @@ _self.html.component={};
 }</code>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3052">
+                                    <area id="3053">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="3053">
+                                  <field id="3054">
                                     <name>html</name>
-                                    <target id="3054">
+                                    <target id="3055">
                                       <type>NORMAL</type>
                                       <id>34330</id>
                                       <name>t_0</name>
-                                      <owner reference="3046"/>
+                                      <owner reference="3047"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3055">
-                                        <field id="3056">
+                                      <fieldList id="3056">
+                                        <field id="3057">
                                           <name>component</name>
-                                          <target id="3057">
+                                          <target id="3058">
                                             <type>NORMAL</type>
                                             <id>34333</id>
                                             <name>t_0</name>
-                                            <owner reference="3054"/>
+                                            <owner reference="3055"/>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="3058">
-                                              <field id="3059">
+                                            <fieldList id="3059">
+                                              <field id="3060">
                                                 <name>toHtml</name>
-                                                <target class="procedure" id="3060">
+                                                <target class="procedure" id="3061">
                                                   <type>PROCEDURE</type>
                                                   <id>34336</id>
                                                   <name defined-in="object">toHtml</name>
-                                                  <owner reference="3057"/>
+                                                  <owner reference="3058"/>
                                                   <scope>ExecutionContext</scope>
-                                                  <fieldList id="3061"/>
+                                                  <fieldList id="3062"/>
                                                   <systemFieldsCount>0</systemFieldsCount>
                                                   <scaleRate>1.0</scaleRate>
-                                                  <borderColor reference="3051"/>
+                                                  <borderColor reference="3052"/>
                                                   <__native>false</__native>
                                                   <nativeProcedureClassName></nativeProcedureClassName>
                                                   <nativeProcedureParameters></nativeProcedureParameters>
@@ -18941,7 +18963,7 @@ _self.html.component={};
 }</code>
                                                 </target>
                                                 <svgScale>0.2</svgScale>
-                                                <area id="3062">
+                                                <area id="3063">
                                                   <x>1520</x>
                                                   <y>1360</y>
                                                   <width>100</width>
@@ -18951,11 +18973,11 @@ _self.html.component={};
                                             </fieldList>
                                             <systemFieldsCount>0</systemFieldsCount>
                                             <scaleRate>1.0</scaleRate>
-                                            <borderColor reference="3051"/>
+                                            <borderColor reference="3052"/>
                                             <expectMessageType>SyncReply</expectMessageType>
                                           </target>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3063">
+                                          <area id="3064">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -18965,10 +18987,10 @@ _self.html.component={};
                                       </fieldList>
                                       <systemFieldsCount>0</systemFieldsCount>
                                       <scaleRate>1.0</scaleRate>
-                                      <borderColor reference="3051"/>
+                                      <borderColor reference="3052"/>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3064">
+                                    <area id="3065">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -18978,7 +19000,7 @@ _self.html.component={};
                                 </fieldList>
                                 <systemFieldsCount>1</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="3065">
+                                <borderColor id="3066">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -18986,36 +19008,36 @@ _self.html.component={};
                                 </borderColor>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3066">
+                              <area id="3067">
                                 <x>2800</x>
                                 <y>1175</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3067">
+                            <field id="3068">
                               <name>title</name>
-                              <target class="string" id="3068">
+                              <target class="string" id="3069">
                                 <type>STRING</type>
                                 <id>33361</id>
                                 <name>title</name>
-                                <owner reference="3043"/>
+                                <owner reference="3044"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3069">
-                                  <field id="3070">
+                                <fieldList id="3070">
+                                  <field id="3071">
                                     <name>_system</name>
-                                    <target id="3071">
+                                    <target id="3072">
                                       <type>NORMAL</type>
                                       <id>33362</id>
                                       <name>_system</name>
-                                      <owner class="string" reference="3068"/>
+                                      <owner class="string" reference="3069"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3072">
-                                        <field id="3073">
+                                      <fieldList id="3073">
+                                        <field id="3074">
                                           <name>prototype</name>
                                           <target class="string" reference="407"/>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3074">
+                                          <area id="3075">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -19028,7 +19050,7 @@ _self.html.component={};
                                       <borderColor reference="57"/>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3075">
+                                    <area id="3076">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -19042,36 +19064,36 @@ _self.html.component={};
                                 <value>Let&apos;s Try Cooby!!!@@@</value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3076">
+                              <area id="3077">
                                 <x>1270</x>
                                 <y>1255</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3077">
+                            <field id="3078">
                               <name>content</name>
-                              <target class="string" id="3078">
+                              <target class="string" id="3079">
                                 <type>STRING</type>
                                 <id>33363</id>
                                 <name>content</name>
-                                <owner reference="3043"/>
+                                <owner reference="3044"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3079">
-                                  <field id="3080">
+                                <fieldList id="3080">
+                                  <field id="3081">
                                     <name>_system</name>
-                                    <target id="3081">
+                                    <target id="3082">
                                       <type>NORMAL</type>
                                       <id>33364</id>
                                       <name>_system</name>
-                                      <owner class="string" reference="3078"/>
+                                      <owner class="string" reference="3079"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3082">
-                                        <field id="3083">
+                                      <fieldList id="3083">
+                                        <field id="3084">
                                           <name>prototype</name>
                                           <target class="string" reference="407"/>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3084">
+                                          <area id="3085">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -19084,7 +19106,7 @@ _self.html.component={};
                                       <borderColor reference="57"/>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3085">
+                                    <area id="3086">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -19098,7 +19120,7 @@ _self.html.component={};
                                 <value>Cooby is cool. You can make your own blog web site in a few minutes.</value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3086">
+                              <area id="3087">
                                 <x>1290</x>
                                 <y>1870</y>
                                 <width>100</width>
@@ -19111,45 +19133,45 @@ _self.html.component={};
                           <borderColor reference="57"/>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3087">
+                        <area id="3088">
                           <x>1050</x>
                           <y>1355</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3088">
+                      <field id="3089">
                         <name>post3</name>
-                        <target id="3089">
+                        <target id="3090">
                           <type>NORMAL</type>
                           <id>915150</id>
                           <name>post3</name>
                           <owner reference="2960"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3090">
-                            <field id="3091">
+                          <fieldList id="3091">
+                            <field id="3092">
                               <name>title</name>
-                              <target class="string" id="3092">
+                              <target class="string" id="3093">
                                 <type>STRING</type>
                                 <id>915151</id>
                                 <name>title</name>
-                                <owner reference="3089"/>
+                                <owner reference="3090"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3093">
-                                  <field id="3094">
+                                <fieldList id="3094">
+                                  <field id="3095">
                                     <name>_system</name>
-                                    <target id="3095">
+                                    <target id="3096">
                                       <type>NORMAL</type>
                                       <id>915152</id>
                                       <name>_system</name>
-                                      <owner class="string" reference="3092"/>
+                                      <owner class="string" reference="3093"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3096">
-                                        <field id="3097">
+                                      <fieldList id="3097">
+                                        <field id="3098">
                                           <name>prototype</name>
                                           <target class="string" reference="407"/>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3098">
+                                          <area id="3099">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -19162,7 +19184,7 @@ _self.html.component={};
                                       <borderColor reference="2706"/>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3099">
+                                    <area id="3100">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -19176,36 +19198,36 @@ _self.html.component={};
                                 <value>post 3</value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3100">
+                              <area id="3101">
                                 <x>1285</x>
                                 <y>1090</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3101">
+                            <field id="3102">
                               <name>content</name>
-                              <target class="string" id="3102">
+                              <target class="string" id="3103">
                                 <type>STRING</type>
                                 <id>915153</id>
                                 <name>content</name>
-                                <owner reference="3089"/>
+                                <owner reference="3090"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3103">
-                                  <field id="3104">
+                                <fieldList id="3104">
+                                  <field id="3105">
                                     <name>_system</name>
-                                    <target id="3105">
+                                    <target id="3106">
                                       <type>NORMAL</type>
                                       <id>915154</id>
                                       <name>_system</name>
-                                      <owner class="string" reference="3102"/>
+                                      <owner class="string" reference="3103"/>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3106">
-                                        <field id="3107">
+                                      <fieldList id="3107">
+                                        <field id="3108">
                                           <name>prototype</name>
                                           <target class="string" reference="407"/>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3108">
+                                          <area id="3109">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -19218,7 +19240,7 @@ _self.html.component={};
                                       <borderColor reference="2706"/>
                                     </target>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3109">
+                                    <area id="3110">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -19232,7 +19254,7 @@ _self.html.component={};
                                 <value>the 3rd post, haha!</value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3110">
+                              <area id="3111">
                                 <x>1300</x>
                                 <y>1510</y>
                                 <width>100</width>
@@ -19245,7 +19267,7 @@ _self.html.component={};
                           <borderColor reference="2706"/>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3111">
+                        <area id="3112">
                           <x>2065</x>
                           <y>1675</y>
                           <width>100</width>
@@ -19258,22 +19280,22 @@ _self.html.component={};
                     <borderColor reference="57"/>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3112">
+                  <area id="3113">
                     <x>805</x>
                     <y>1150</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3113">
+                <field id="3114">
                   <name>index</name>
-                  <target class="procedure" id="3114">
+                  <target class="procedure" id="3115">
                     <type>PROCEDURE</type>
                     <id>33424</id>
                     <name defined-in="object">index</name>
                     <owner reference="2864"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3115"/>
+                    <fieldList id="3116"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="2897"/>
@@ -19288,36 +19310,36 @@ _self.html.component={};
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3116">
+                  <area id="3117">
                     <x>2415</x>
                     <y>1100</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3117">
+                <field id="3118">
                   <name>description</name>
-                  <target class="string" id="3118">
+                  <target class="string" id="3119">
                     <type>STRING</type>
                     <id>33437</id>
                     <name>description</name>
                     <owner reference="2864"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3119">
-                      <field id="3120">
+                    <fieldList id="3120">
+                      <field id="3121">
                         <name>_system</name>
-                        <target id="3121">
+                        <target id="3122">
                           <type>NORMAL</type>
                           <id>33438</id>
                           <name>_system</name>
-                          <owner class="string" reference="3118"/>
+                          <owner class="string" reference="3119"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3122">
-                            <field id="3123">
+                          <fieldList id="3123">
+                            <field id="3124">
                               <name>prototype</name>
                               <target class="string" reference="407"/>
                               <svgScale>0.2</svgScale>
-                              <area id="3124">
+                              <area id="3125">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -19327,7 +19349,7 @@ _self.html.component={};
                           </fieldList>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="3125">
+                          <borderColor id="3126">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -19335,7 +19357,7 @@ _self.html.component={};
                           </borderColor>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3126">
+                        <area id="3127">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -19345,26 +19367,26 @@ _self.html.component={};
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="3125"/>
+                    <borderColor reference="3126"/>
                     <value>visit this via URL:http://localhost:8080/exampleweb/index</value>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3127">
+                  <area id="3128">
                     <x>2535</x>
                     <y>1820</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3128">
+                <field id="3129">
                   <name>p1</name>
-                  <target class="procedure" id="3129">
+                  <target class="procedure" id="3130">
                     <type>PROCEDURE</type>
                     <id>33453</id>
                     <name defined-in="object">p1</name>
                     <owner reference="2864"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3130"/>
+                    <fieldList id="3131"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="124"/>
@@ -19379,7 +19401,7 @@ _self.html.component={};
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3131">
+                  <area id="3132">
                     <x>3215</x>
                     <y>1060</y>
                     <width>100</width>
@@ -19392,36 +19414,36 @@ _self.html.component={};
               <borderColor reference="57"/>
             </target>
             <svgScale>0.2</svgScale>
-            <area id="3132">
+            <area id="3133">
               <x>640</x>
               <y>2070</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="3133">
+          <field id="3134">
             <name>test</name>
-            <target id="3134">
+            <target id="3135">
               <type>NORMAL</type>
               <id>275</id>
               <name>test</name>
               <owner reference="2157"/>
               <scope>ExecutionContext</scope>
-              <fieldList id="3135">
-                <field id="3136">
+              <fieldList id="3136">
+                <field id="3137">
                   <name>_system</name>
-                  <target id="3137">
+                  <target id="3138">
                     <type>NORMAL</type>
                     <id>31846</id>
                     <name>_system</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3138">
-                      <field id="3139">
+                    <fieldList id="3139">
+                      <field id="3140">
                         <name>prototype</name>
                         <target reference="499"/>
                         <svgScale>0.2</svgScale>
-                        <area id="3140">
+                        <area id="3141">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -19431,7 +19453,7 @@ _self.html.component={};
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3141">
+                    <borderColor id="3142">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19439,24 +19461,24 @@ _self.html.component={};
                     </borderColor>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3142">
+                  <area id="3143">
                     <x>2125</x>
                     <y>2385</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3143">
+                <field id="3144">
                   <name>fib</name>
-                  <target class="procedure" id="3144">
+                  <target class="procedure" id="3145">
                     <type>PROCEDURE</type>
                     <id>276</id>
                     <name defined-in="object">fib</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3145"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3146"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3146">
+                    <borderColor id="3147">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19481,24 +19503,24 @@ _self.html.component={};
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3147">
+                  <area id="3148">
                     <x>2646</x>
                     <y>1288</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3148">
+                <field id="3149">
                   <name>sumtest</name>
-                  <target class="procedure" id="3149">
+                  <target class="procedure" id="3150">
                     <type>PROCEDURE</type>
                     <id>4632</id>
                     <name defined-in="object">sumtest</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3150"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3151"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3151">
+                    <borderColor id="3152">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19523,24 +19545,24 @@ procedure sumt()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3152">
+                  <area id="3153">
                     <x>2620</x>
                     <y>190</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3153">
+                <field id="3154">
                   <name>testxmpp</name>
-                  <target class="procedure" id="3154">
+                  <target class="procedure" id="3155">
                     <type>PROCEDURE</type>
                     <id>4643</id>
                     <name defined-in="object">testxmpp</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3155"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3156"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3156">
+                    <borderColor id="3157">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19573,24 +19595,24 @@ _root.console.print(age.toString());
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3157">
+                  <area id="3158">
                     <x>2688</x>
                     <y>1814</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3158">
+                <field id="3159">
                   <name>addFieldTest</name>
-                  <target class="procedure" id="3159">
+                  <target class="procedure" id="3160">
                     <type>PROCEDURE</type>
                     <id>4685</id>
                     <name defined-in="object">addFieldTest</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3160"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3161"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3161">
+                    <borderColor id="3162">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19616,24 +19638,24 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3162">
+                  <area id="3163">
                     <x>3342</x>
                     <y>216</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3163">
+                <field id="3164">
                   <name>helloWorld</name>
-                  <target class="procedure" id="3164">
+                  <target class="procedure" id="3165">
                     <type>PROCEDURE</type>
                     <id>4703</id>
                     <name defined-in="object">helloWorld</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3165"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3166"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3166">
+                    <borderColor id="3167">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19650,24 +19672,24 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3167">
+                  <area id="3168">
                     <x>2642</x>
                     <y>766</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3168">
+                <field id="3169">
                   <name>testGetSet</name>
-                  <target class="procedure" id="3169">
+                  <target class="procedure" id="3170">
                     <type>PROCEDURE</type>
                     <id>4707</id>
                     <name defined-in="object">testGetSet</name>
-                    <owner reference="3134"/>
-                    <fieldList id="3170"/>
+                    <owner reference="3135"/>
+                    <fieldList id="3171"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3171">
+                    <borderColor id="3172">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19690,25 +19712,25 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3172">
+                  <area id="3173">
                     <x>3376</x>
                     <y>813</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3173">
+                <field id="3174">
                   <name>test1</name>
-                  <target class="procedure" id="3174">
+                  <target class="procedure" id="3175">
                     <type>PROCEDURE</type>
                     <id>4904</id>
                     <name defined-in="object">unnamed</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3175"/>
+                    <fieldList id="3176"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3176">
+                    <borderColor id="3177">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19731,25 +19753,25 @@ procedure foo()
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3177">
+                  <area id="3178">
                     <x>2721</x>
                     <y>2383</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3178">
+                <field id="3179">
                   <name>testArray</name>
-                  <target class="procedure" id="3179">
+                  <target class="procedure" id="3180">
                     <type>PROCEDURE</type>
                     <id>4970</id>
                     <name defined-in="object">testArray</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3180"/>
+                    <fieldList id="3181"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3181">
+                    <borderColor id="3182">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -19781,45 +19803,45 @@ for(i=0;i.lt(array1.size());i.inc(1)){
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3182">
+                  <area id="3183">
                     <x>3366</x>
                     <y>1278</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3183">
+                <field id="3184">
                   <name>tomcat</name>
-                  <target id="3184">
+                  <target id="3185">
                     <type>NORMAL</type>
                     <id>16630</id>
                     <name>tomcat</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3185">
-                      <field id="3186">
+                    <fieldList id="3186">
+                      <field id="3187">
                         <name>_system</name>
-                        <target id="3187">
+                        <target id="3188">
                           <type>NORMAL</type>
                           <id>31847</id>
                           <name>_system</name>
-                          <owner reference="3184"/>
+                          <owner reference="3185"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3188">
-                            <field id="3189">
+                          <fieldList id="3189">
+                            <field id="3190">
                               <name>_graphic</name>
-                              <target class="string" id="3190">
+                              <target class="string" id="3191">
                                 <type>STRING</type>
                                 <id>16631</id>
                                 <name>_graphic</name>
-                                <owner reference="3187"/>
+                                <owner reference="3188"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3191">
-                                  <field id="3192">
+                                <fieldList id="3192">
+                                  <field id="3193">
                                     <name>_prototype</name>
                                     <target class="string" reference="407"/>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3193">
+                                    <area id="3194">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
@@ -19829,7 +19851,7 @@ for(i=0;i.lt(array1.size());i.inc(1)){
                                 </fieldList>
                                 <systemFieldsCount>1</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor id="3194">
+                                <borderColor id="3195">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -20069,7 +20091,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
 </value>
                               </target>
                               <svgScale>0.2</svgScale>
-                              <area id="3195">
+                              <area id="3196">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -20079,7 +20101,7 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                           </fieldList>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="3196">
+                          <borderColor id="3197">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -20087,25 +20109,25 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                           </borderColor>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3197">
+                        <area id="3198">
                           <x>1700</x>
                           <y>1950</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3198">
+                      <field id="3199">
                         <name>_test</name>
-                        <target class="procedure" id="3199">
+                        <target class="procedure" id="3200">
                           <type>PROCEDURE</type>
                           <id>31886</id>
                           <name defined-in="object">_test</name>
-                          <owner reference="3184"/>
+                          <owner reference="3185"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3200"/>
+                          <fieldList id="3201"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="3201">
+                          <borderColor id="3202">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -20120,7 +20142,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3202">
+                        <area id="3203">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -20130,29 +20152,29 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>3</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="3194"/>
+                    <borderColor reference="3195"/>
                     <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3203">
+                  <area id="3204">
                     <x>1755</x>
                     <y>195</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3204">
+                <field id="3205">
                   <name>testEmail</name>
-                  <target class="procedure" id="3205">
+                  <target class="procedure" id="3206">
                     <type>PROCEDURE</type>
                     <id>18874</id>
                     <name defined-in="object">testEmail</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3206"/>
+                    <fieldList id="3207"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3207">
+                    <borderColor id="3208">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -20170,25 +20192,25 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3208">
+                  <area id="3209">
                     <x>3485</x>
                     <y>2460</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3209">
+                <field id="3210">
                   <name>testConstObject</name>
-                  <target class="procedure" id="3210">
+                  <target class="procedure" id="3211">
                     <type>PROCEDURE</type>
                     <id>19240</id>
                     <name defined-in="object">testConstObject</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3211"/>
+                    <fieldList id="3212"/>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3212">
+                    <borderColor id="3213">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -20207,27 +20229,27 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3213">
+                  <area id="3214">
                     <x>3936</x>
                     <y>1243</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3214">
+                <field id="3215">
                   <name>unnamed</name>
-                  <target class="boolean" id="3215">
+                  <target class="boolean" id="3216">
                     <type>BOOLEAN</type>
                     <id>31689</id>
                     <name>unnamed</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3216">
-                      <field id="3217">
+                    <fieldList id="3217">
+                      <field id="3218">
                         <name>_prototype</name>
                         <target reference="211"/>
                         <svgScale>0.2</svgScale>
-                        <area id="3218">
+                        <area id="3219">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -20237,7 +20259,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor id="3219">
+                    <borderColor id="3220">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -20246,36 +20268,36 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <booleanValue>false</booleanValue>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3220">
+                  <area id="3221">
                     <x>1935</x>
                     <y>1410</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3221">
+                <field id="3222">
                   <name>y</name>
-                  <target class="integer" id="3222">
+                  <target class="integer" id="3223">
                     <type>INTEGER</type>
                     <id>31855</id>
                     <name>t_0</name>
-                    <owner reference="3134"/>
+                    <owner reference="3135"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3223">
-                      <field id="3224">
+                    <fieldList id="3224">
+                      <field id="3225">
                         <name>_system</name>
-                        <target id="3225">
+                        <target id="3226">
                           <type>NORMAL</type>
                           <id>31856</id>
                           <name>_system</name>
-                          <owner class="integer" reference="3222"/>
+                          <owner class="integer" reference="3223"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3226">
-                            <field id="3227">
+                          <fieldList id="3227">
+                            <field id="3228">
                               <name>prototype</name>
                               <target class="integer" reference="281"/>
                               <svgScale>0.2</svgScale>
-                              <area id="3228">
+                              <area id="3229">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -20285,7 +20307,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </fieldList>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="3229">
+                          <borderColor id="3230">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -20293,7 +20315,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </borderColor>
                         </target>
                         <svgScale>0.2</svgScale>
-                        <area id="3230">
+                        <area id="3231">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -20303,11 +20325,11 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="3229"/>
+                    <borderColor reference="3230"/>
                     <value>2</value>
                   </target>
                   <svgScale>0.2</svgScale>
-                  <area id="3231">
+                  <area id="3232">
                     <x>2240</x>
                     <y>920</y>
                     <width>100</width>
@@ -20317,7 +20339,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               </fieldList>
               <systemFieldsCount>2</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="3232">
+              <borderColor id="3233">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -20326,7 +20348,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
-            <area id="3233">
+            <area id="3234">
               <x>2475</x>
               <y>1295</y>
               <width>100</width>
@@ -20336,7 +20358,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </fieldList>
         <systemFieldsCount>0</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="3234">
+        <borderColor id="3235">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -20344,18 +20366,18 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </borderColor>
       </target>
       <svgScale>0.2</svgScale>
-      <area id="3235">
+      <area id="3236">
         <x>1225</x>
         <y>1185</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="3236">
+    <field id="3237">
       <name>core</name>
       <target reference="214"/>
       <svgScale>0.2</svgScale>
-      <area id="3237">
+      <area id="3238">
         <x>510</x>
         <y>430</y>
         <width>100</width>
@@ -20365,7 +20387,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
   </fieldList>
   <systemFieldsCount>1</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="3238">
+  <borderColor id="3239">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
