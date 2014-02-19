@@ -39,8 +39,6 @@ public class XmlSerialzationVisitor implements ObjectVisitor {
 	}
 
 	protected void push(VisitorContext ctx) {
-		System.out.println("push ctx" + ctx);
-
 		stack.push(ctx);
 	}
 
@@ -48,14 +46,12 @@ public class XmlSerialzationVisitor implements ObjectVisitor {
 
 		VisitorContext ctx = stack.peek();
 
-		System.out.println("peek ctx" + ctx);
 		return ctx;
 	}
 
 	public VisitorContext pop() {
 
 		VisitorContext ctx = stack.pop();
-		System.out.println("pop ctx " + ctx);
 		return ctx;
 	}
 

@@ -40,8 +40,9 @@ public class HttpIncomingRequestAgent {
 
 	public void send(String receiverAddress, Message msg) {
 
-		if (logger.isDebugEnabled())
+		if (logger.isDebugEnabled()) {
 			logger.debug("sending message to " + receiverAddress);
+		}
 
 		String username = getUsername(receiverAddress);
 		if (!username.startsWith(MessageServlet.VISITOR_PREFIX)) {
@@ -50,8 +51,10 @@ public class HttpIncomingRequestAgent {
 
 		if (msg.body instanceof StringValue) {
 			textResponse = msg.body.getValue();
-			logger.debug("response is: " + textResponse);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("response is: " + textResponse);
+			}
 		} else {
 
 			if(logger.isDebugEnabled())

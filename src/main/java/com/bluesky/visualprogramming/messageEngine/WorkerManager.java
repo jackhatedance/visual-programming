@@ -5,8 +5,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import javax.management.RuntimeErrorException;
-
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
@@ -74,11 +72,13 @@ public class WorkerManager implements Runnable {
 				cust = customers.take();
 				assign(cust);
 			} catch (InterruptedException e) {
-				logger.debug("interrupted.");
+				if (logger.isDebugEnabled())
+					logger.debug("interrupted.");
 				
 			}
 		}
-		logger.debug("thread terminated.");
+		if (logger.isDebugEnabled())
+			logger.debug("thread terminated.");
 
 	}
 

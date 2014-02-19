@@ -75,22 +75,12 @@ public class XmlDomVisitor extends VisitorSupport {
 	}
 
 	void push(_Object obj) {
-
-		if (obj != null)
-			System.out.println("push " + obj.getName() + "," + obj.getValue());
-		else
-			System.out.println("push empty object");
-
 		stack.push(obj);
 	}
 
 	_Object pop() {
 
 		_Object obj = stack.pop();
-		if (obj != null)
-			System.out.println("pop " + obj.getName() + "," + obj.getValue());
-		else
-			System.out.println("pop empty object");
 
 		return obj;
 	}

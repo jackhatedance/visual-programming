@@ -67,7 +67,9 @@ public class SshAgent {
 		try {
 
 			session = jsch.getSession(username, server, port);
-			logger.debug(String.format(
+
+			if (logger.isDebugEnabled())
+				logger.debug(String.format(
 					"login ssh to server %s:%d as user %s password %s", server,
 					port, username, password));
 			UserInfo ui = new MyUserInfo(password);

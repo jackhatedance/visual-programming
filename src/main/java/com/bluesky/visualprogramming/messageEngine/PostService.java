@@ -105,17 +105,21 @@ public class PostService implements Runnable, Service {
 			_Object localObject = remoteCommunicationService.getLocalObject(
 					protocol, receiverLink.getAddress());
 
-			logger.debug("receiver is link:" + receiverLink.getValue());
+			if (logger.isDebugEnabled())
+				logger.debug("receiver is link:" + receiverLink.getValue());
 
 			if (localObject != null) {
-				logger.debug("localObject is not null");
+				if (logger.isDebugEnabled())
+					logger.debug("localObject is not null");
 
 				// update link with pointer
 				msg.receiver = localObject;
 
 				sendLocalMessage(msg, localObject);
 			} else {
-				logger.debug("localObject is null");
+				if (logger.isDebugEnabled())
+					logger.debug("localObject is null");
+
 				sendRemoteMessage(msg, receiverLink, protocol);
 
 			}
@@ -195,7 +199,8 @@ public class PostService implements Runnable, Service {
 
 		}
 
-		logger.debug("thread terminated.");
+		if (logger.isDebugEnabled())
+			logger.debug("thread terminated.");
 	}
 
 	public void stop() {

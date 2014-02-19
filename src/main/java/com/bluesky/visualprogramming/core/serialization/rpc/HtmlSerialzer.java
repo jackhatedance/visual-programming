@@ -46,7 +46,8 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 					@Override
 					public void onComplete(_Object result) {
 						html = result;
-						logger.debug("HTML render complete.");
+						if (logger.isDebugEnabled())
+							logger.debug("HTML render complete.");
 
 						responseReady.release();
 
@@ -54,11 +55,13 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 				});
 
 		try {
-			logger.debug("HTML serialzer wait for web redner result.");
+			if (logger.isDebugEnabled())
+				logger.debug("HTML serialzer wait for web redner result.");
 			// wait until render finished
 			responseReady.acquire();
 
-			logger.debug("HTML serialzer wakeup.");
+			if (logger.isDebugEnabled())
+				logger.debug("HTML serialzer wakeup.");
 
 
 			StringValue svHtml = (StringValue) html;
