@@ -238,7 +238,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 
 				ObjectPropertyDialog dialog = new ObjectPropertyDialog();
-				dialog.setLocationRelativeTo(getParent());
+				dialog.setLocationRelativeTo(getOwner());
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 				Field activeChildField = getActiveChildField();
@@ -653,5 +653,9 @@ public class SVGMainWindow extends JPanel {
 
 	private Field getActiveChildField() {
 		return diagramPanel.getpopupTargetField();
+	}
+	
+	public JFrame getOwner(){
+		return owner;
 	}
 }

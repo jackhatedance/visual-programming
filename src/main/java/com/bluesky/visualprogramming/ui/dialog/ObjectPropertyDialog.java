@@ -24,9 +24,19 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 import javax.swing.JScrollPane;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.RTextScrollPane;
+import java.awt.Component;
+
+import javax.swing.DropMode;
+import javax.swing.JToolBar;
+
+import java.awt.CardLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.border.BevelBorder;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+import java.awt.GridLayout;
 
 public class ObjectPropertyDialog extends JDialog {
 
@@ -39,19 +49,26 @@ public class ObjectPropertyDialog extends JDialog {
 
 	private JTextField textFieldId;
 	private JTextField textFieldName;
-	private RSyntaxTextArea textAreaValue;
-	private RTextScrollPane scrollPaneValue;
+	private JTextArea textAreaValue;
+	private JScrollPane scrollPaneValue;
 	private JTextField textFieldType;
 	private JLabel lblNewLabel;
 	private JLabel lblFieldName;
 	private JLabel lblValue;
-	private JLabel label;
+	private JLabel labelValue;
 	private JLabel lblColor;
 	private JButton btnSetBorderColor;
 	private JLabel lblName;
 	private JTextField textFieldFieldName;
 	private JLabel lblOwner;
 	private JTextField textFieldOwner;
+	private JPanel panelValue2;
+	private JLabel labelValue2;
+	private JTextArea textAreaValue2;
+	private JScrollPane scrollPaneValue2;
+	private JPanel panelValue;
+	private JPanel panelToolBar;
+	private JButton btnEditCode;
 
 	/**
 	 * Launch the application.
@@ -181,30 +198,58 @@ public class ObjectPropertyDialog extends JDialog {
 		gbc_textFieldType.gridy = 4;
 		contentPanel.add(textFieldType, gbc_textFieldType);
 		{
-			label = new JLabel("Value");
-		}
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.fill = GridBagConstraints.VERTICAL;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 0;
-		gbc_label.gridy = 5;
-		contentPanel.add(label, gbc_label);
+			labelValue = new JLabel("Value");
+		}		
+		GridBagConstraints gbc_labelValue = new GridBagConstraints();
+		gbc_labelValue.fill = GridBagConstraints.VERTICAL;
+		gbc_labelValue.insets = new Insets(0, 0, 5, 5);
+		gbc_labelValue.gridx = 0;
+		gbc_labelValue.gridy = 5;
+		contentPanel.add(labelValue, gbc_labelValue);
 		{
 			lblColor = new JLabel("Color");
 		}
 		{
-			textAreaValue = new RSyntaxTextArea(20, 60);
-			textAreaValue.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			textAreaValue.setCodeFoldingEnabled(true);
-		    scrollPaneValue = new RTextScrollPane(textAreaValue);
-				
+			panelValue = new JPanel();
+			GridBagConstraints gbc_panelValue = new GridBagConstraints();
+			gbc_panelValue.fill = GridBagConstraints.BOTH;
+			gbc_panelValue.insets = new Insets(0, 0, 5, 0);
+			gbc_panelValue.gridx = 1;
+			gbc_panelValue.gridy = 5;
+			contentPanel.add(panelValue, gbc_panelValue);
+			panelValue.setLayout(new BorderLayout(0, 0));
+			{
+				textAreaValue = new JTextArea();
+				textAreaValue.setLineWrap(true);
+				scrollPaneValue = new JScrollPane(textAreaValue);
+				panelValue.add(scrollPaneValue);
+			}
+			{
+				panelToolBar = new JPanel();
+				panelValue.add(panelToolBar,BorderLayout.NORTH);
+				panelToolBar.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				panelToolBar.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+				{
+					btnEditCode = new JButton("Code Editor");
+					btnEditCode.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							CodeEditorDialog dialog = new CodeEditorDialog();
+							dialog.pack();
+							dialog.setLocationRelativeTo(ObjectPropertyDialog.this);
+							
+							dialog.setCode(textAreaValue.getText());
+							dialog.setVisible(true);
+							
+							if (dialog.isUpdated()) {
+								textAreaValue.setText(dialog.getCode());								
+							}
+							
+						}
+					});
+					panelToolBar.add(btnEditCode);
+				}
+			}
 		}
-		GridBagConstraints gbc_textAreaValue = new GridBagConstraints();
-		gbc_textAreaValue.fill = GridBagConstraints.BOTH;
-		gbc_textAreaValue.insets = new Insets(0, 0, 5, 0);
-		gbc_textAreaValue.gridx = 1;
-		gbc_textAreaValue.gridy = 5;
-		contentPanel.add(scrollPaneValue, gbc_textAreaValue);
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.fill = GridBagConstraints.VERTICAL;
 		gbc_lblColor.insets = new Insets(0, 0, 0, 5);
@@ -289,6 +334,8 @@ public class ObjectPropertyDialog extends JDialog {
 		textFieldType.setText(object.getType().toString());
 		textAreaValue.setText(object.getValue());
 		btnSetBorderColor.setForeground(object.borderColor);
+		
+		textAreaValue.setCaretPosition(0);
 	}
 
 	private void updateObject() {

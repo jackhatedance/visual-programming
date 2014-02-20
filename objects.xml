@@ -916,8 +916,6 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
 		}		
 	}
 	//_root.core.system.console.println(&quot;html=&quot;.concat(_result));
-
-
 }</code>
                               </target>
                               <svgScale>0.2</svgScale>
@@ -19306,7 +19304,6 @@ _self.html.component={};
                     <code>procedure()
 {
 	_result = _self.posts;
-
 }</code>
                   </target>
                   <svgScale>0.2</svgScale>
@@ -19572,14 +19569,7 @@ procedure sumt()
                     <nativeProcedureClassName></nativeProcedureClassName>
                     <nativeProcedureParameters></nativeProcedureParameters>
                     <language>goo</language>
-                    <code>
-
-
-
-
-
-
-procedure foo()
+                    <code>procedure foo()
 {
 //pointer
 tom = &quot;abc123&quot;;
