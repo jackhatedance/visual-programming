@@ -42,11 +42,9 @@ public class HttpService extends AbstractProtocolService implements
 	 */
 	Map<String, HttpIncomingRequestAgent> incomingRequestAgents = new HashMap<String, HttpIncomingRequestAgent>();
 	/**
-	 * key is userId without host name, because we don't want to assume the
-	 * domain name. So foo@a.com is same with foo2b.com. because they has same
-	 * user ID.
+	 * key is local object, value of http client agent.
 	 */
-	Map<String, HttpOutgoingAgent> outgoingRequestAgents = new HashMap<String, HttpOutgoingAgent>();
+	Map<_Object, HttpOutgoingAgent> outgoingRequestAgents = new HashMap<_Object, HttpOutgoingAgent>();
 
 	public HttpService() {
 		supportedTypes = new ProtocolType[] { ProtocolType.HTTP,
@@ -82,13 +80,13 @@ public class HttpService extends AbstractProtocolService implements
 
 		HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol, address,
 				config);
-		outgoingRequestAgents.put(address, outAgent);
+		outgoingRequestAgents.put(obj, outAgent);
 
 		logger.info(address + " is client only.");
 
-		if (!clientOnly) {
-			// add address local-object mapping table
+		if (!clientOnly) { // add address local-object mapping table
 
+			// cannot register same address on local machine.
 			if (addressObjectMap.containsKey(address))
 				throw new RuntimeException("already registered:" + address);
 
@@ -103,10 +101,7 @@ public class HttpService extends AbstractProtocolService implements
 		return (_Object) addressObjectMap.get(address);
 	}
 
-	public String getAddress(_Object obj) {
 
-		return (String) addressObjectMap.getKey(obj);
-	}
 
 	private String getId(String address) {
 		RemoteAddress ra = RemoteAddress.valueOf(address);
@@ -151,13 +146,13 @@ public class HttpService extends AbstractProtocolService implements
 
 				// for http request need authentication, we use auth info from
 				// the sender.
-				String senderAddress = getAddress(message.sender);
 				HttpOutgoingAgent outgoingAgent = outgoingRequestAgents
-						.get(senderAddress);
+						.get(message.sender);
 
 				outgoingAgent.send(receiverAddress, message);
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				logger.error(e);
 				throw new RuntimeException(e);
 			}

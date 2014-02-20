@@ -6,6 +6,9 @@ import java.io.Writer;
 import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.NodeTraversor;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
@@ -78,8 +81,21 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 
 	@Override
 	public _Object deserialize(Reader reader, Config config) {
+		StringBuilder sb = new StringBuilder();
+		char[] buff = new char[100];
+		int len;
+		try {
+		while ((len = reader.read(buff)) > 0)
+			sb.append(buff, 0, len);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
-		throw new RuntimeException("not supported");
+		Document doc = Jsoup.parse(sb.toString());
+		JSoupHtmlNodeVisitor visitor = new JSoupHtmlNodeVisitor();
+		NodeTraversor traversor = new NodeTraversor(visitor);
+		traversor.traverse(doc);
+		return visitor.getObject();
 	}
 
 
