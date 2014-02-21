@@ -11,7 +11,8 @@ import com.bluesky.visualprogramming.utils.Config;
 
 public class XmlSerialzerTest {
 
-	String xml = "<xml>" + "<ToUserName><![CDATA[toUser]]></ToUserName>"
+	String xml = "<xml>"
+			+ "<ToUserName name=\"xx\"><![CDATA[toUser]]></ToUserName>"
 			+ "<FromUserName><![CDATA[fromUser]]></FromUserName>"
 			+ "<CreateTime>1348831860</CreateTime>"
 			+ "<MsgType><![CDATA[text]]></MsgType>"

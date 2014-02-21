@@ -57,6 +57,7 @@ public class HttpOutgoingAgent {
 	String messageFormat;
 	ConfigurableObjectSerializer serializer;
 
+	Config config;
 	/**
 	 * 
 	 * @param address
@@ -66,6 +67,8 @@ public class HttpOutgoingAgent {
 
 	public HttpOutgoingAgent(ProtocolType protocol, String address,
 			Config config) {
+		this.config = config;
+
 		this.protocol = protocol;
 
 		RemoteAddress addr = RemoteAddress.valueOf(address);
@@ -168,7 +171,7 @@ public class HttpOutgoingAgent {
 			returnValue = returnStringValue;
 		} else {
 			StringReader sr = new StringReader(responseBody);
-			returnValue = serializer.deserialize(sr,null);
+			returnValue = serializer.deserialize(sr, config);
 		}
 
 		Message replyMsg = new Message(false, message.receiver, message.sender,

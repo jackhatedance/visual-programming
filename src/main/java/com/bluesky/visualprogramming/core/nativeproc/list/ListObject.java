@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bluesky.visualprogramming.core.Field;
-import com.bluesky.visualprogramming.core.ObjectScope;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.value.IntegerValue;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class ListObject {
 	static String ListItemPrefix= "LI"; 
@@ -42,8 +38,6 @@ public class ListObject {
 	}
 
 	public _Object get(int index) {
-		int size = obj.getUserFieldsCount();
-		
 		String fieldName = String.format("%s%d",ListItemPrefix,index);
 
 		return obj.getChild(fieldName);
@@ -52,6 +46,13 @@ public class ListObject {
 
 	private String getItemName(int index){
 		return String.format("%s%d",ListItemPrefix,index);
+	}
+
+	private int parseItemName(String name) {
+		int len = ListItemPrefix.length();
+		String number = name.substring(len);
+
+		return Integer.valueOf(number);
 	}
 	
 	public _Object insert(int index, _Object item) {		
@@ -73,6 +74,10 @@ public class ListObject {
 		return null;
 	}
 
+	public void replace(int index, _Object newItem) {
+		obj.setField(getItemName(index), newItem, true);
+	}
+
 	public _Object remove(int index) {
 		
 		int size = obj.getUserFieldsCount();
@@ -91,16 +96,19 @@ public class ListObject {
 		return null;
 	}
 
-	public _Object size() {
+	public int size() {
 
 		int size = obj.getUserFieldsCount();
 
-		VirtualMachine vm = VirtualMachine.getInstance();
+		return size;
+	}
 
-		IntegerValue result = (IntegerValue) vm.getObjectRepository()
-				.createObject(ObjectType.INTEGER, ObjectScope.ExecutionContext);
-		result.setIntValue(size);
-
-		return result;
+	public int indexOf(_Object item){
+		int fieldIndex = obj.getChildIndex(item);
+		Field field = obj.getField(fieldIndex);
+		
+		int listIndex = parseItemName(field.name);
+		return listIndex;
+		
 	}
 }

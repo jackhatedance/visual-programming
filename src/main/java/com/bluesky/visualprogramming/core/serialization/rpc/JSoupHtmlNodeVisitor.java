@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.core.serialization.rpc;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.jsoup.nodes.Comment;
@@ -21,7 +23,11 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class JSoupHtmlNodeVisitor implements NodeVisitor {
-	static String CHILD_LIST = "childList";
+	static String CHILD_NODES = "childNodes";
+
+	static String[] LEAF_NODE_TYPES = { "#text", "#data" };
+
+	Set<String> leafNodeTypes = new HashSet<String>();
 
 	private _Object root;
 	private Stack<_Object> stack = new Stack<_Object>();
@@ -32,6 +38,14 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	public JSoupHtmlNodeVisitor() {
 		vm = VirtualMachine.getInstance();
 		repo = vm.getObjectRepository();
+
+		for (String type : LEAF_NODE_TYPES)
+			leafNodeTypes.add(type);
+
+	}
+
+	private boolean isLeafNode(String nodeType) {
+		return leafNodeTypes.contains(nodeType);
 	}
 
 	@Override
@@ -45,7 +59,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 
 			_Object childList = Prototypes.List.createInstance();
 
-			obj.setField(CHILD_LIST, childList, true);
+			obj.setField(CHILD_NODES, childList, true);
 			root = obj;
 			stack.push(childList);
 		} else {
@@ -63,19 +77,24 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 				self.setField("type", typeObj, true);
 
 				_Object childList = Prototypes.List.createInstance();
-				self.setField(CHILD_LIST, childList, true);
+				self.setField(CHILD_NODES, childList, true);
 
-				parentObj.add(self);
+				addChildObject(parentObj, self);
 
 				obj = childList;
 			} else if (node instanceof Comment) {
 				Comment comment = (Comment) node;
 				obj = createLeafNodeObject(node.nodeName(), comment.getData());
-				parentObj.add(obj);
+				addChildObject(parentObj, obj);
 			} else if (node instanceof TextNode) {
 				TextNode text = (TextNode) node;
-				obj = createLeafNodeObject(node.nodeName(), text.text());
-				parentObj.add(obj);
+				String textValue = text.text();
+				if (!textValue.trim().isEmpty()) {
+					obj = createLeafNodeObject(node.nodeName(), text.text());
+					addChildObject(parentObj, obj);
+				} else
+					obj = null;
+
 			} else if (node instanceof DataNode) {
 				DataNode data = (DataNode) node;
 				obj = createLeafNodeObject(node.nodeName(), data.getWholeData());
@@ -83,11 +102,22 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			} else if (node instanceof DocumentType) {
 				obj = createLeafNodeObject(node.nodeName(), "DocumentType");
 
-				parentObj.add(obj);
+				addChildObject(parentObj, obj);
 			}
 
 			stack.push(obj);
 		}
+	}
+
+	/**
+	 * parent could be null when a node is intend to be skipped.
+	 * 
+	 * @param parent
+	 * @param child
+	 */
+	private void addChildObject(ListObject parent, _Object child) {
+		if (parent != null)
+			parent.add(child);
 	}
 
 	private _Object createLeafNodeObject(String nodeType, String value) {
@@ -114,9 +144,35 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	@Override
 	public void tail(Node node, int depth) {
 		// when leaving a node, we finish create children
+		_Object obj = stack.pop();
 
-		stack.pop();
-		// TODO eliminate single-child text node.
+		if (node instanceof Element) {
+			// if a list contains only one leaf node(text, data,etc). then
+			// convert it to a leaf
+			// node.
+			ListObject listObject = new ListObject(obj);
+			if (listObject.size() == 1) {
+				_Object firstElement = listObject.get(0);
+				_Object type = firstElement.getChild("type");
+				if (type != null && type instanceof StringValue
+						&& isLeafNode(((StringValue) type).getValue())) {
+
+					_Object owner = obj.getOwner();
+					owner.removeField(CHILD_NODES);
+
+					owner.setField("value", firstElement.getChild("value"),
+							true);
+				}
+			}
+
+			// eliminate empty list
+			if (listObject.size() == 0) {
+				obj.getOwner().removeField(CHILD_NODES);
+			}
+
+		} else if (node instanceof TextNode) {
+
+		}
 	}
 
 	public _Object getObject() {

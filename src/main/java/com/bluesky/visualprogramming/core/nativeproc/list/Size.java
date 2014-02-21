@@ -16,7 +16,15 @@ public class Size extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 
 		ListObject lo = new ListObject(self);
-		return lo.size();
 
+		int size = lo.size();
+
+		VirtualMachine vm = VirtualMachine.getInstance();
+
+		IntegerValue result = (IntegerValue) vm.getObjectRepository()
+				.createObject(ObjectType.INTEGER, ObjectScope.ExecutionContext);
+		result.setIntValue(size);
+
+		return result;
 	}
 }

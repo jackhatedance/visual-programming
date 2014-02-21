@@ -181,17 +181,14 @@ public class XmlDomVisitor extends VisitorSupport {
 
 	@Override
 	public void visit(Attribute node) {
-		/*
-		 * _Object attrParent = obj; serialize
-		 * 
-		 * for (int i = 0; i < element.attributeCount(); i++) { Attribute attr =
-		 * element.attribute(i);
-		 * 
-		 * _Object attribute = getObjectRepo().createObject( ObjectType.STRING,
-		 * ObjectScope.ExecutionContext); attribute.setValue(attr.getValue());
-		 * 
-		 * attrParent.setField(attr.getName(), attribute, true); }
-		 */
+
+		_Object attribute = getObjectRepo().createObject(ObjectType.STRING,
+				ObjectScope.ExecutionContext);
+		attribute.setValue(node.getValue());
+
+		attribute.setName(node.getName());
+
+		push(attribute);
 	}
 
 	public _Object getObject() {
