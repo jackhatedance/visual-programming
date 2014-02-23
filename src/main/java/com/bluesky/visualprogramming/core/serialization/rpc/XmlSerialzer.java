@@ -12,16 +12,15 @@ import com.bluesky.visualprogramming.utils.Config;
 
 public class XmlSerialzer implements ConfigurableObjectSerializer {
 
-
-
 	private boolean dedicatedAttributeField;
 	private boolean dedicatedChildNodeField;
+	private boolean skipEmptyTextNode;
 
 	@Override
 	public void serialize(_Object obj, Writer writer, Config config) {
-		if(obj==null)
+		if (obj == null)
 			return;
-		
+
 		XmlSerialzationVisitor visitor = new XmlSerialzationVisitor();
 		visitor.visit(obj, obj.getName());
 
@@ -42,16 +41,23 @@ public class XmlSerialzer implements ConfigurableObjectSerializer {
 		dedicatedChildNodeField = config.getBoolean("dedicatedChildNodeField",
 				false);
 
+		String childNodeConvensionTypeStr = config
+				.getString("childNodeConvensionType",
+						ChildNodeConvensionType.Field.name());
+		ChildNodeConvensionType childNodeConvensionType = ChildNodeConvensionType
+				.valueOf(childNodeConvensionTypeStr);
+		skipEmptyTextNode = config.getBoolean("skipEmptyTextNode", true);
+
 		SAXReader saxReader = new SAXReader();
 
 		try {
 			Document document = saxReader.read(reader);
 			XmlDomVisitor visitor = new XmlDomVisitor(dedicatedAttributeField,
-					dedicatedChildNodeField);
-			
-			//document.accept(visitor);
+					dedicatedChildNodeField, childNodeConvensionType,
+					skipEmptyTextNode);
+
+			// document.accept(visitor);
 			visitor.visit(document);
-			
 
 			return visitor.getObject();
 		} catch (Exception e) {

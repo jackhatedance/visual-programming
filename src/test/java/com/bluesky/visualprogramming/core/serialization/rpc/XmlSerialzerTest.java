@@ -16,7 +16,7 @@ public class XmlSerialzerTest {
 			+ "<FromUserName><![CDATA[fromUser]]></FromUserName>"
 			+ "<CreateTime>1348831860</CreateTime>"
 			+ "<MsgType><![CDATA[text]]></MsgType>"
-			+ "<Content><![CDATA[this is a test]]></Content>"
+			+ "<Content>http://tvunderground.org.ru/index.php?show=episodes&amp;sid=68159</Content>"
 			+ "<MsgId>1234567890123456</MsgId>" 
 			+"<!--abc -->"
 			+ "</xml>";
@@ -34,7 +34,9 @@ public class XmlSerialzerTest {
 		//_Object xml = obj.getChild("xml");
 		_Object content = obj.getChild("Content");
 		
-		Assert.assertEquals("this is a test", content.getValue());
+		Assert.assertEquals(
+				"http://tvunderground.org.ru/index.php?show=episodes&sid=68159",
+				content.getValue());
 
 		StringWriter sw = new StringWriter();
 		s.serialize(obj, sw, config);

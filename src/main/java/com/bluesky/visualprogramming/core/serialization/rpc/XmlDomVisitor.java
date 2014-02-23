@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.core.serialization.rpc;
 
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Attribute;
 import org.dom4j.CDATA;
 import org.dom4j.Document;
@@ -13,7 +14,9 @@ import org.dom4j.VisitorSupport;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.Prototypes;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.list.ListObject;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -26,11 +29,15 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
  * 
  */
 public class XmlDomVisitor extends VisitorSupport {
-	public static String ATTRIBUTES_FIELD = "_attributes";
-	public static String CHILD_NODES_FIELD = "_childNodes";
+	static Logger logger = Logger.getLogger(XmlDomVisitor.class);
+
+	public static String ATTRIBUTES_FIELD = "attributes";
+	public static String CHILDREN_FIELD = "children";
 
 	private boolean dedicatedAttributeField;
-	private boolean dedicatedChildNodeField;
+	private boolean dedicatedChildrenField;
+	private ChildNodeConvensionType childNodeConvensionType;
+	private boolean skipEmptyTextNode;
 	/**
 	 * the object that generate by de-serialization
 	 */
@@ -41,9 +48,13 @@ public class XmlDomVisitor extends VisitorSupport {
 	Stack<_Object> stack = new Stack<_Object>();
 
 	public XmlDomVisitor(boolean dedicatedAttributeField,
-			boolean dedicatedChildNodeField) {
+			boolean dedicatedChildNodeField,
+			ChildNodeConvensionType childNodeConvensionType,
+			boolean skipEmptyTextNode) {
 		this.dedicatedAttributeField = dedicatedAttributeField;
-		this.dedicatedChildNodeField = dedicatedChildNodeField;
+		this.dedicatedChildrenField = dedicatedChildNodeField;
+		this.childNodeConvensionType = childNodeConvensionType;
+		this.skipEmptyTextNode = skipEmptyTextNode;
 	}
 
 	@Override
@@ -69,7 +80,7 @@ public class XmlDomVisitor extends VisitorSupport {
 			break;
 
 		default:
-			System.out.println("not supported " + node.getText());
+
 			push(null);
 		}
 	}
@@ -85,74 +96,145 @@ public class XmlDomVisitor extends VisitorSupport {
 		return obj;
 	}
 
+	private boolean isCompositeTextElement(Element element) {
+		for (int i = 0, size = element.nodeCount(); i < size; i++) {
+			Node cnode = element.node(i);
+			if (cnode.getNodeType() != Node.TEXT_NODE
+					&& cnode.getNodeType() != Node.CDATA_SECTION_NODE)
+				return false;
+		}
+		return true;
+	}
+
 	@Override
 	public void visit(Element node) {
 		Element element = node;
 
-		_Object obj = getObjectRepo().createObject(ObjectType.NORMAL,
-				ObjectScope.ExecutionContext);
-		String name = element.getName();
-		obj.setName(name);
+		_Object result = null;
 
-		if (element.attributeCount() > 0) {
-			_Object attrOwner = obj;
-			if (dedicatedAttributeField) {
-				_Object attributes = getObjectRepo().createObject(
-						ObjectType.NORMAL, ObjectScope.ExecutionContext);
+		/**
+		 * if all child node is not element but Text or CData, get text
+		 * directly.
+		 */
+		boolean isCompositeTextElement = isCompositeTextElement(element);
+		if (isCompositeTextElement) {
 
-				attributes.setName(ATTRIBUTES_FIELD);
-				obj.setField(ATTRIBUTES_FIELD, attributes, true);
+			StringValue strObj = (StringValue) getObjectRepo().createObject(
+					ObjectType.STRING, ObjectScope.ExecutionContext);
+			String name = element.getName();
+			strObj.setName(name);
+			strObj.setValue(element.getStringValue());
 
-				attrOwner = attributes;
+			result = strObj;
+		} else {
+
+			_Object obj = getObjectRepo().createObject(ObjectType.NORMAL,
+					ObjectScope.ExecutionContext);
+			String name = element.getName();
+			obj.setName(name);
+
+			if (element.attributeCount() > 0) {
+				_Object attrOwner = obj;
+				if (dedicatedAttributeField) {
+					_Object attributes = getObjectRepo().createObject(
+							ObjectType.NORMAL, ObjectScope.ExecutionContext);
+
+					attributes.setName(ATTRIBUTES_FIELD);
+					obj.setField(ATTRIBUTES_FIELD, attributes, true);
+
+					attrOwner = attributes;
+				}
+
+				for (int i = 0; i < element.attributeCount(); i++) {
+					Attribute attr = element.attribute(i);
+					visit(attr);
+
+					_Object attrObj = pop();
+					attrOwner.setField(attr.getName(), attrObj, true);
+				}
+
 			}
 
+			// process child nodes
+			if (element.nodeCount() > 0) {
 
-			for (int i = 0; i < element.attributeCount(); i++) {
-				Attribute attr = element.attribute(i);
-				visit(attr);
+				_Object childOwner = obj;
 
-				_Object attrObj = pop();
-				attrOwner.setField(attr.getName(), attrObj, true);
+				_Object childNodes = null;
+				if (childNodeConvensionType == ChildNodeConvensionType.Field) {
+					if (dedicatedChildrenField) {
+						childNodes = getObjectRepo()
+								.createObject(ObjectType.NORMAL,
+										ObjectScope.ExecutionContext);
+
+						childNodes.setName(CHILDREN_FIELD);
+						obj.setField(CHILDREN_FIELD, childNodes, true);
+						childOwner = childNodes;
+					}
+
+					// calculate duplicated tags
+					CountMap tagCount = new CountMap();
+					for (int i = 0, size = element.nodeCount(); i < size; i++) {
+						Node cnode = element.node(i);
+						tagCount.inc(cnode.getName());
+					}
+
+					for (int i = 0, size = element.nodeCount(); i < size; i++) {
+						Node cnode = element.node(i);
+						visit(cnode);
+						_Object childObj = pop();
+
+						if (childObj != null) {
+							if (tagCount.get(childObj.getName()) > 1) {
+								/*
+								 * create list object if have not
+								 */
+								String listObjectName = childObj.getName()
+										+ "s";
+								_Object list = childOwner
+										.getChild(listObjectName);
+								if (list == null) {
+									list = Prototypes.List.createInstance();
+									childOwner.setField(listObjectName, list,
+											true);
+								}
+								// add the element to list
+								ListObject listObj = new ListObject(list);
+								listObj.add(childObj);
+							} else {
+								childOwner.setField(childObj.getName(),
+										childObj, true);
+							}
+						}
+					}
+
+				} else {
+					/*
+					 * list in the case, a dedicated field is must.
+					 */
+					childNodes = Prototypes.List.createInstance();
+					ListObject childNodeList = new ListObject(childNodes);
+
+					childNodes.setName(CHILDREN_FIELD);
+					obj.setField(CHILDREN_FIELD, childNodes, true);
+					childOwner = childNodes;
+
+					for (int i = 0, size = element.nodeCount(); i < size; i++) {
+						Node cnode = element.node(i);
+						visit(cnode);
+						_Object childObj = pop();
+						if (childObj != null)
+							childNodeList.add(childObj);
+					}
+				}
+
 			}
 
-		}
-
-		// process child nodes
-		if (element.nodeCount() > 0) {
-			_Object childOwner = obj;
-			if (dedicatedChildNodeField) {
-				_Object childNodes = getObjectRepo().createObject(
-						ObjectType.NORMAL, ObjectScope.ExecutionContext);
-
-				childNodes.setName(CHILD_NODES_FIELD);
-				obj.setField(CHILD_NODES_FIELD, childNodes, true);
-				childOwner = childNodes;
-			}
-
-			for (int i = 0, size = element.nodeCount(); i < size; i++) {
-				Node cnode = element.node(i);
-				visit(cnode);
-				_Object childObj = pop();
-				if (childObj != null)
-					childOwner.setField(childObj.getName(), childObj, true);
-			}
-
-		}
-
-		// element only contains one cdata or text node, replace child with
-		// current one
-
-		if (obj.getChildCount() == 1) {
-			_Object childObj = obj.getChild(0);
-			if (childObj instanceof StringValue) {
-
-				obj = obj.getChild(0);
-				obj.setName(name);
-			}
+			result = obj;
 		}
 
 		// return value
-		push(obj);
+		push(result);
 	}
 
 	@Override
@@ -170,13 +252,18 @@ public class XmlDomVisitor extends VisitorSupport {
 	public void visit(Text node) {
 		Text text = node;
 
-		StringValue obj = (StringValue) getObjectRepo().createObject(
-				ObjectType.STRING, ObjectScope.ExecutionContext);
-		String name = text.getNodeTypeName();
-		obj.setName(name);
-		obj.setValue(text.getText());
+		if (skipEmptyTextNode && text.getText().trim().isEmpty())
+			push(null);
+		else {
 
-		push(obj);
+			StringValue obj = (StringValue) getObjectRepo().createObject(
+					ObjectType.STRING, ObjectScope.ExecutionContext);
+			String name = text.getNodeTypeName();
+			obj.setName(name);
+			obj.setValue(text.getText());
+
+			push(obj);
+		}
 	}
 
 	@Override

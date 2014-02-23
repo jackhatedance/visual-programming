@@ -143,7 +143,10 @@ public class MessageServlet extends HttpServlet {
 				ConfigurableObjectSerializer serializer = format
 						.getSerializer();
 
-				Reader r = new InputStreamReader(request.getInputStream());
+				String encoding = config.getString("postContentEncoding",
+						"utf-8");
+				Reader r = new InputStreamReader(request.getInputStream(),
+						encoding);
 				_Object postContent = serializer.deserialize(r, config);
 				parameters.setField(POST_CONTENT, postContent, true);
 			}
