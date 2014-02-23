@@ -207,10 +207,10 @@ public class ObjectRepository {
 	public void save(String fileName) {
 
 		try {
-			Writer w = new OutputStreamWriter(new FileOutputStream(fileName));
+			Writer w = new OutputStreamWriter(new FileOutputStream(fileName),"utf-8");
 			saveXml(w);
 
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 
 			throw new RuntimeException(e);
 		}
@@ -232,7 +232,7 @@ public class ObjectRepository {
 	public void loadXml(String fileName) {
 		SerializationService svc = new SerializationService();
 		try {
-			Reader r = new InputStreamReader(new FileInputStream(fileName));
+			Reader r = new InputStreamReader(new FileInputStream(fileName),"utf-8");
 
 			_Object root = svc.deserialize(r, SerializerType.Xml);
 			rootObject = root;
