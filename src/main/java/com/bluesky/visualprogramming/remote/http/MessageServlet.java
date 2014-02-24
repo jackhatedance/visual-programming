@@ -40,11 +40,15 @@ public class MessageServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response)
 			throws ServletException, IOException {
 
+		if (logger.isDebugEnabled())
+			logger.debug("POST " + request.getPathInfo());
+
 		try {
-			doProcess(req, resp, true);
+			doProcess(request, response, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -53,6 +57,10 @@ public class MessageServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		if (logger.isDebugEnabled())
+			logger.debug("GET " + request.getPathInfo());
+
 		try {
 			doProcess(request, response, false);
 		} catch (Exception e) {
@@ -91,8 +99,7 @@ public class MessageServlet extends HttpServlet {
 		String fullReceiverAddress = "http://" + receiverAddress;
 		receiverLink.setValue(fullReceiverAddress);
 
-		_Object localReceiverObject = vm.getPostService().getLocalObject(
-				receiverLink);
+		_Object localReceiverObject = service.getLocalObject(receiverAddress);
 		if (localReceiverObject == null) {
 			// receiver NOT FOUND
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);

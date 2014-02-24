@@ -3,8 +3,6 @@ package com.bluesky.visualprogramming.remote.http;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.BidiMap;
-import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -15,20 +13,18 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
-import com.bluesky.visualprogramming.remote.RemoteAddress;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
 	static Logger logger = Logger.getLogger(HttpService.class);
 
-
 	/**
 	 * store address of local object
 	 * 
 	 * key is address, value is object
 	 */
-	BidiMap addressObjectMap = new DualHashBidiMap();
+	Map<String, _Object> addressObjectMap = new HashMap<String, _Object>();
 
 	/**
 	 * not a http server
@@ -74,18 +70,17 @@ public class HttpService extends AbstractProtocolService implements
 	public void register(ProtocolType protocol, String address, _Object obj,
 			Config config) {
 
-
-		//true if act as HTTP client, not server. 
+		// true if act as HTTP client, not server.
 		clientOnly = config.getBoolean("clientOnly", false);
 
-		HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol, address,
-				config);
-		outgoingRequestAgents.put(obj, outAgent);
-
-		logger.info(address + " is client only.");
-
-		if (!clientOnly) { // add address local-object mapping table
-
+		if (clientOnly) {
+			logger.info(address + " is client only.");
+			HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol,
+					address, config);
+			outgoingRequestAgents.put(obj, outAgent);
+		} else {
+			// add address local-object mapping table
+			logger.info(address + " is server mode.");
 			// cannot register same address on local machine.
 			if (addressObjectMap.containsKey(address))
 				throw new RuntimeException("already registered:" + address);
@@ -99,13 +94,6 @@ public class HttpService extends AbstractProtocolService implements
 	public _Object getLocalObject(String address) {
 
 		return (_Object) addressObjectMap.get(address);
-	}
-
-
-
-	private String getId(String address) {
-		RemoteAddress ra = RemoteAddress.valueOf(address);
-		return ra.userId;
 	}
 
 	private boolean isVisitor(String address) {
@@ -159,8 +147,6 @@ public class HttpService extends AbstractProtocolService implements
 
 		}
 	}
-
-
 
 	public void setAgent(String sessionId, HttpIncomingRequestAgent agent) {
 		incomingRequestAgents.put(sessionId, agent);
