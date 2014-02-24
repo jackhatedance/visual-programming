@@ -14,29 +14,15 @@ import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
-
-import javax.swing.JScrollPane;
-
-import java.awt.Component;
-
-import javax.swing.DropMode;
-import javax.swing.JToolBar;
-
-import java.awt.CardLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
-import java.awt.GridLayout;
 
 public class ObjectPropertyDialog extends JDialog {
 
@@ -69,6 +55,8 @@ public class ObjectPropertyDialog extends JDialog {
 	private JPanel panelValue;
 	private JPanel panelToolBar;
 	private JButton btnEditCode;
+	private JLabel lblDescription;
+	private JTextArea textAreaDesc;
 
 	/**
 	 * Launch the application.
@@ -95,9 +83,11 @@ public class ObjectPropertyDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[] {107};
-		gbl_contentPanel.rowHeights = new int[] { 0, 45, 45, 49, 45, 68, 45, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 45, 45, 49, 45, 0, 68, 45,
+				0 };
 		gbl_contentPanel.columnWeights = new double[] { 0.0, 1.0 };
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0,
 				1.0, 0.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
@@ -200,11 +190,30 @@ public class ObjectPropertyDialog extends JDialog {
 		{
 			labelValue = new JLabel("Value");
 		}		
+		{
+			lblDescription = new JLabel("Description");
+			GridBagConstraints gbc_lblDescription = new GridBagConstraints();
+			gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
+			gbc_lblDescription.gridx = 0;
+			gbc_lblDescription.gridy = 5;
+			contentPanel.add(lblDescription, gbc_lblDescription);
+		}
+		{
+			textAreaDesc = new JTextArea();
+			textAreaDesc.setRows(5);
+			textAreaDesc.setLineWrap(true);
+			GridBagConstraints gbc_textAreaDesc = new GridBagConstraints();
+			gbc_textAreaDesc.insets = new Insets(0, 0, 5, 0);
+			gbc_textAreaDesc.fill = GridBagConstraints.BOTH;
+			gbc_textAreaDesc.gridx = 1;
+			gbc_textAreaDesc.gridy = 5;
+			contentPanel.add(textAreaDesc, gbc_textAreaDesc);
+		}
 		GridBagConstraints gbc_labelValue = new GridBagConstraints();
 		gbc_labelValue.fill = GridBagConstraints.VERTICAL;
 		gbc_labelValue.insets = new Insets(0, 0, 5, 5);
 		gbc_labelValue.gridx = 0;
-		gbc_labelValue.gridy = 5;
+		gbc_labelValue.gridy = 6;
 		contentPanel.add(labelValue, gbc_labelValue);
 		{
 			lblColor = new JLabel("Color");
@@ -215,7 +224,7 @@ public class ObjectPropertyDialog extends JDialog {
 			gbc_panelValue.fill = GridBagConstraints.BOTH;
 			gbc_panelValue.insets = new Insets(0, 0, 5, 0);
 			gbc_panelValue.gridx = 1;
-			gbc_panelValue.gridy = 5;
+			gbc_panelValue.gridy = 6;
 			contentPanel.add(panelValue, gbc_panelValue);
 			panelValue.setLayout(new BorderLayout(0, 0));
 			{
@@ -254,7 +263,7 @@ public class ObjectPropertyDialog extends JDialog {
 		gbc_lblColor.fill = GridBagConstraints.VERTICAL;
 		gbc_lblColor.insets = new Insets(0, 0, 0, 5);
 		gbc_lblColor.gridx = 0;
-		gbc_lblColor.gridy = 6;
+		gbc_lblColor.gridy = 7;
 		contentPanel.add(lblColor, gbc_lblColor);
 		{
 			btnSetBorderColor = new JButton("Change Color");
@@ -273,7 +282,7 @@ public class ObjectPropertyDialog extends JDialog {
 		GridBagConstraints gbc_btnSetBorderColor = new GridBagConstraints();
 		gbc_btnSetBorderColor.fill = GridBagConstraints.BOTH;
 		gbc_btnSetBorderColor.gridx = 1;
-		gbc_btnSetBorderColor.gridy = 6;
+		gbc_btnSetBorderColor.gridy = 7;
 		contentPanel.add(btnSetBorderColor, gbc_btnSetBorderColor);
 		// contentPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new
 		// Component[]{lblNewLabel, textFieldId, lblName, textFieldName,
@@ -332,6 +341,7 @@ public class ObjectPropertyDialog extends JDialog {
 		textFieldName.setText(object.getName());
 		textFieldFieldName.setText(field.name);
 		textFieldType.setText(object.getType().toString());
+		textAreaDesc.setText(object.getDescription());
 		textAreaValue.setText(object.getValue());
 		btnSetBorderColor.setForeground(object.borderColor);
 		
@@ -347,6 +357,7 @@ public class ObjectPropertyDialog extends JDialog {
 			object.getOwner().renameField(oldFieldName, newFieldName);
 
 		object.setName(textFieldName.getText());
+		object.setDescription(textAreaDesc.getText());
 		object.setValue(textAreaValue.getText());
 		object.borderColor = btnSetBorderColor.getForeground();
 

@@ -56,6 +56,8 @@ public class _Object implements Serializable {
 	 */
 	private String name;
 
+	private String description;
+
 	// this is a pointer, set after linking.
 	private _Object owner;
 
@@ -166,6 +168,14 @@ public class _Object implements Serializable {
 			return getOwner().getPath() + "." + field.name;
 		} else
 			return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setOwner(_Object owner) {
