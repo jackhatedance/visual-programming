@@ -13,6 +13,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
+import com.bluesky.visualprogramming.remote.RemoteAddress;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class HttpService extends AbstractProtocolService implements
@@ -20,16 +21,14 @@ public class HttpService extends AbstractProtocolService implements
 	static Logger logger = Logger.getLogger(HttpService.class);
 
 	/**
-	 * store address of local object
+	 * store address of local object. one object can have many addresses; but
+	 * must be unique.
+	 * 
+	 * client-only aliases does not need to be here.
 	 * 
 	 * key is address, value is object
 	 */
 	Map<String, _Object> addressObjectMap = new HashMap<String, _Object>();
-
-	/**
-	 * not a http server
-	 */
-	boolean clientOnly = false;
 
 	/**
 	 * key is address of visitor, <PREFIX>_sessionId_requestId@host.
@@ -38,9 +37,9 @@ public class HttpService extends AbstractProtocolService implements
 	 */
 	Map<String, HttpIncomingRequestAgent> incomingRequestAgents = new HashMap<String, HttpIncomingRequestAgent>();
 	/**
-	 * key is local object, value of http client agent.
+	 * key is local object, domain/host, value of http client agent.
 	 */
-	Map<_Object, HttpOutgoingAgent> outgoingRequestAgents = new HashMap<_Object, HttpOutgoingAgent>();
+	Map<_Object, Map<String, HttpClientAgent>> clientAgents = new HashMap<_Object, Map<String, HttpClientAgent>>();
 
 	public HttpService() {
 		supportedTypes = new ProtocolType[] { ProtocolType.HTTP,
@@ -66,18 +65,39 @@ public class HttpService extends AbstractProtocolService implements
 
 	}
 
+	private void addClientAgent(_Object obj, String remoteHost,
+			HttpClientAgent agent) {
+		if (!clientAgents.containsKey(obj))
+			clientAgents.put(obj, new HashMap<String, HttpClientAgent>());
+
+		Map<String, HttpClientAgent> protocolAgents = clientAgents.get(obj);
+		protocolAgents.put(remoteHost, agent);
+	}
+
+	private HttpClientAgent getClientAgent(_Object sender, String receiverHost) {
+		Map<String, HttpClientAgent> protocolAgents = clientAgents.get(sender);
+		if (protocolAgents != null) {
+			HttpClientAgent agent = protocolAgents.get(receiverHost);
+			return agent;
+		}
+		
+		return null;
+
+	}
+
 	@Override
 	public void register(ProtocolType protocol, String address, _Object obj,
 			Config config) {
 
 		// true if act as HTTP client, not server.
-		clientOnly = config.getBoolean("clientOnly", false);
+		boolean clientOnly = config.getBoolean("clientOnly", false);
 
 		if (clientOnly) {
 			logger.info(address + " is client only.");
-			HttpOutgoingAgent outAgent = new HttpOutgoingAgent(protocol,
+			HttpClientAgent clientAgent = new HttpClientAgent(protocol,
 					address, config);
-			outgoingRequestAgents.put(obj, outAgent);
+			RemoteAddress ra = RemoteAddress.valueOf(address);
+			addClientAgent(obj, ra.server, clientAgent);
 		} else {
 			// add address local-object mapping table
 			logger.info(address + " is server mode.");
@@ -134,10 +154,15 @@ public class HttpService extends AbstractProtocolService implements
 
 				// for http request need authentication, we use auth info from
 				// the sender.
-				HttpOutgoingAgent outgoingAgent = outgoingRequestAgents
-						.get(message.sender);
-
-				outgoingAgent.send(receiverAddress, message);
+				RemoteAddress ra = RemoteAddress.valueOf(receiverAddress);
+				HttpClientAgent clientAgent = getClientAgent(message.sender, ra.server);
+				
+				if (clientAgent != null)
+					clientAgent.send(receiverAddress, message);
+				else
+					throw new RuntimeException(
+							"no http client agent for remote address:"
+									+ receiverAddress);
 
 			} catch (Exception e) {
 				e.printStackTrace();

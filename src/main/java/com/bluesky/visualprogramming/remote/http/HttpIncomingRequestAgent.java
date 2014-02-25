@@ -12,7 +12,7 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.utils.Config;
 
 /**
- * an agent for each request.
+ * an agent for each incoming HTTP request.
  * 
  * It is created by Servlet in case of incoming session;
  * 

@@ -32,8 +32,19 @@ import com.bluesky.visualprogramming.remote.RemoteAddress;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class HttpOutgoingAgent {
-	static Logger logger = Logger.getLogger(HttpOutgoingAgent.class);
+/**
+ * agent for http client.
+ * 
+ * when an object binds to a HTTP address. mean 2 things: 1 is listening on web
+ * port. 2. auth info when initiate http connection to remote web server.
+ * 
+ * it is for item 2.
+ * 
+ * @author jack
+ * 
+ */
+public class HttpClientAgent {
+	static Logger logger = Logger.getLogger(HttpClientAgent.class);
 
 	public static final String ROOT_USER = "ROOT";
 
@@ -58,6 +69,7 @@ public class HttpOutgoingAgent {
 	ConfigurableObjectSerializer serializer;
 
 	Config config;
+
 	/**
 	 * 
 	 * @param address
@@ -65,8 +77,7 @@ public class HttpOutgoingAgent {
 	 * @param connectionOptions
 	 */
 
-	public HttpOutgoingAgent(ProtocolType protocol, String address,
-			Config config) {
+	public HttpClientAgent(ProtocolType protocol, String address, Config config) {
 		this.config = config;
 
 		this.protocol = protocol;
@@ -140,9 +151,14 @@ public class HttpOutgoingAgent {
 				}
 
 			};
-			String responseBody = httpclient.execute(httpget, responseHandler);
 
-			reply(message, responseBody);
+			try {
+				String responseBody = httpclient.execute(httpget,
+						responseHandler);
+				reply(message, responseBody);
+			} catch (Exception e) {
+				// TODO replyWithException(message, responseBody);
+			}
 
 		} finally {
 			httpclient.close();
