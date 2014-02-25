@@ -18,11 +18,9 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
 import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
@@ -70,6 +68,7 @@ public class HttpClientAgent {
 
 	Config config;
 
+	HttpService service;
 	/**
 	 * 
 	 * @param address
@@ -77,7 +76,10 @@ public class HttpClientAgent {
 	 * @param connectionOptions
 	 */
 
-	public HttpClientAgent(ProtocolType protocol, String address, Config config) {
+	public HttpClientAgent(HttpService service, ProtocolType protocol,
+			String address, Config config) {
+		this.service = service;
+
 		this.config = config;
 
 		this.protocol = protocol;
@@ -113,6 +115,7 @@ public class HttpClientAgent {
 
 		RemoteAddress ra = RemoteAddress.valueOf(receiverAddress);
 		if (ra == null) {
+			_Object returnValue;
 			String errorMsg = "invalid receiver address:" + receiverAddress;
 			if (logger.isDebugEnabled())
 				logger.debug(errorMsg);
@@ -155,9 +158,12 @@ public class HttpClientAgent {
 			try {
 				String responseBody = httpclient.execute(httpget,
 						responseHandler);
-				reply(message, responseBody);
+				_Object response = deserialize(responseBody);
+
+				service.replySuccessfulInternalRequest(message, response);
+
 			} catch (Exception e) {
-				// TODO replyWithException(message, responseBody);
+				service.replyFailureInternalRequest(message, e);
 			}
 
 		} finally {
@@ -172,8 +178,8 @@ public class HttpClientAgent {
 	 * @param message
 	 * @param responseBody
 	 */
-	private void reply(Message message, String responseBody) {
-		_Object returnValue;
+	private _Object deserialize(String responseBody) {
+		_Object response;
 
 		VirtualMachine vm = VirtualMachine.getInstance();
 		if (serializer == null) {
@@ -184,19 +190,14 @@ public class HttpClientAgent {
 
 			returnStringValue.setValue(responseBody);
 
-			returnValue = returnStringValue;
+			response = returnStringValue;
 		} else {
 			StringReader sr = new StringReader(responseBody);
-			returnValue = serializer.deserialize(sr, config);
+			response = serializer.deserialize(sr, config);
 		}
 
-		Message replyMsg = new Message(false, message.receiver, message.sender,
-				"RE:" + message.getSubject(), returnValue,
-				ParameterStyle.ByName, null, MessageType.SyncReply);
+		return response;
 
-		replyMsg.urgent = true;
-
-		vm.getPostService().sendMessage(replyMsg);
 	}
 
 	private String populateUrl(Message message, RemoteAddress ra) {

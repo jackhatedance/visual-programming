@@ -37,7 +37,7 @@ public class SshService extends AbstractProtocolService implements
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		String senderAddress = getAddress(message.sender);
+		String senderAddress = getPrimaryAddress(message.sender);
 		SshAgent agent = agents.get(senderAddress);
 
 		try {

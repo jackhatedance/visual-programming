@@ -414,11 +414,7 @@ public class Worker implements Runnable {
 			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
 					null, msg.executionContext.executionErrorLine);
 
-			for (StackTraceElement ele : e.getStackTrace()) {
-				ex.addTrace(new CodePosition(ele.getClassName(), ele
-						.getMethodName(), ele.getFileName(), ele
-						.getLineNumber()));
-			}
+			ex.addTrace(e);
 
 			ex.addTrace(pos);
 			result = ex;

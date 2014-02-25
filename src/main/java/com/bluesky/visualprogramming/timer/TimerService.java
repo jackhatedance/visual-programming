@@ -185,7 +185,7 @@ public class TimerService implements Service {
 	private void notify1(Set<_Object> objects) {
 		for (_Object timer : objects) {
 			Message msg = new Message(false, null, timer, "action", null,
-					ParameterStyle.ByName, null, MessageType.Normal);
+					ParameterStyle.ByName, null, MessageType.SyncRequest);
 
 			VirtualMachine.getInstance().getPostService().sendMessage(msg);
 		}

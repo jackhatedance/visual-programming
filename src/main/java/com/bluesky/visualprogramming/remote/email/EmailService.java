@@ -36,7 +36,7 @@ public class EmailService extends AbstractProtocolService implements
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		String senderAddress = getAddress(message.sender);
+		String senderAddress = getPrimaryAddress(message.sender);
 		EmailAgent agent = agents.get(senderAddress);
 
 		agent.send(receiverAddress, message);

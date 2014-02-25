@@ -30,7 +30,7 @@ public class XmppService extends AbstractProtocolService implements
 
 		addressObjectMap.put(address, obj);
 
-		XmppAgent agent = new XmppAgent(address, obj, config);
+		XmppAgent agent = new XmppAgent(this, address, obj, config);
 		agents.put(address, agent);
 		agent.connect();
 	}
@@ -38,7 +38,7 @@ public class XmppService extends AbstractProtocolService implements
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		String senderAddress = getAddress(message.sender);
+		String senderAddress = getPrimaryAddress(message.sender);
 		XmppAgent agent = agents.get(senderAddress);
 
 		try {

@@ -1,40 +1,42 @@
 package com.bluesky.visualprogramming.core;
 
+
 public enum MessageType {
-	Normal {
+	SyncRequest(true, false) {
 		@Override
-		public boolean isRequest() {
+		public MessageType getReplyType() {
 
-			return true;
+			return SyncReply;
 		}
 	},
-	SyncReply {
+	AsyncRequest(false, false) {
 		@Override
-		public boolean isReply() {
+		public MessageType getReplyType() {
 
-			return true;
+			return AsyncReply;
 		}
 	},
-	AsyncReply {
-		@Override
-		public boolean isReply() {
+	SyncReply(true, true), AsyncReply(
+false, true);
 
-			return true;
-		}
-	},
-	Recursive {
-		@Override
-		public boolean isRequest() {
+	private MessageType(boolean sync, boolean reply) {
+		this.sync = sync;
+		this.reply = reply;
+	}
 
-			return true;
-		}
-	};
+	private boolean sync;
+	private boolean reply;
+
+	public boolean isSync() {
+		return sync;
+	}
 
 	public boolean isReply() {
-		return false;
+		return reply;
 	}
 
-	public boolean isRequest() {
-		return false;
+	public MessageType getReplyType() {
+		return null;
 	}
+
 }

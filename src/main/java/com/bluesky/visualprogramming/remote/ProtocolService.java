@@ -25,7 +25,16 @@ public interface ProtocolService {
 
 	Config getConfig(String address);
 
-
+	/**
+	 * it has no return value because we assume it could be either sync or async
+	 * call. for some protocol such as xmpp and email, we don t know when the
+	 * response will come. So it is the protocol service's responsibility to
+	 * send back the reply. If it occurs error, a exception object should be
+	 * back too.
+	 * 
+	 * @param receiverId
+	 * @param message
+	 */
 	void send(String receiverId, Message message);
 	
 	ProtocolType[] getSupportedTypes();

@@ -181,7 +181,7 @@ public class PostService implements Runnable, Service {
 		cbSvc.setCallback(senderLink.getAddress(), callback);
 
 		Message msg = new Message(true, senderLink, receiver, subject, body,
-				ParameterStyle.ByName, null, MessageType.Normal);
+				ParameterStyle.ByName, null, MessageType.SyncRequest);
 		sendMessage(msg);
 	}
 

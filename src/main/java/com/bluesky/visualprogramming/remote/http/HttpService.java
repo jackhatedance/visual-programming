@@ -20,15 +20,6 @@ public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
 	static Logger logger = Logger.getLogger(HttpService.class);
 
-	/**
-	 * store address of local object. one object can have many addresses; but
-	 * must be unique.
-	 * 
-	 * client-only aliases does not need to be here.
-	 * 
-	 * key is address, value is object
-	 */
-	Map<String, _Object> addressObjectMap = new HashMap<String, _Object>();
 
 	/**
 	 * key is address of visitor, <PREFIX>_sessionId_requestId@host.
@@ -80,7 +71,7 @@ public class HttpService extends AbstractProtocolService implements
 			HttpClientAgent agent = protocolAgents.get(receiverHost);
 			return agent;
 		}
-		
+
 		return null;
 
 	}
@@ -94,7 +85,7 @@ public class HttpService extends AbstractProtocolService implements
 
 		if (clientOnly) {
 			logger.info(address + " is client only.");
-			HttpClientAgent clientAgent = new HttpClientAgent(protocol,
+			HttpClientAgent clientAgent = new HttpClientAgent(this, protocol,
 					address, config);
 			RemoteAddress ra = RemoteAddress.valueOf(address);
 			addClientAgent(obj, ra.server, clientAgent);
@@ -116,60 +107,62 @@ public class HttpService extends AbstractProtocolService implements
 		return (_Object) addressObjectMap.get(address);
 	}
 
-	private boolean isVisitor(String address) {
-		return address.startsWith(MessageServlet.VISITOR_PREFIX);
+
+
+	protected void sendReply(String receiverAddress, Message message) {
+		// it is a reply
+		HttpIncomingRequestAgent requestAgent = incomingRequestAgents
+				.get(receiverAddress);
+
+		if (requestAgent != null) {
+			// find a correspondent agent for the receiver address, means
+			// that it is a reply of a HTTP (browser) request.
+
+			if (logger.isDebugEnabled())
+				logger.debug("find agent for " + receiverAddress);
+			// it is a response for incoming request
+			requestAgent.send(receiverAddress, message);
+
+			// remove it since request is completed
+			incomingRequestAgents.remove(requestAgent);
+		} else {
+			// missing agent, timeout?
+			throw new RuntimeException("missing agent");
+		}
+	}
+
+	protected void sendRequest(String receiverAddress, Message message) {
+		try {
+
+			// for http request need authentication, we use auth info from
+			// the sender.
+			RemoteAddress ra = RemoteAddress.valueOf(receiverAddress);
+			HttpClientAgent clientAgent = getClientAgent(message.sender,
+					ra.server);
+
+			if (clientAgent != null)
+				clientAgent.send(receiverAddress, message);
+			else
+				throw new RuntimeException(
+						"no http client agent for remote address:"
+								+ receiverAddress);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e);
+			throw new RuntimeException(e);
+		}
 
 	}
 
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		if (isVisitor(receiverAddress)) {
-			// it is a reply
-			HttpIncomingRequestAgent requestAgent = incomingRequestAgents
-					.get(receiverAddress);
-
-			if (requestAgent != null) {
-				// find a correspondent agent for the receiver address, means
-				// that it is a reply of a HTTP (browser) request.
-
-				if (logger.isDebugEnabled())
-					logger.debug("find agent for " + receiverAddress);
-				// it is a response for incoming request
-				requestAgent.send(receiverAddress, message);
-
-				// remove it since request is completed
-				incomingRequestAgents.remove(requestAgent);
-			} else {
-				// missing agent, timeout?
-				throw new RuntimeException("missing agent");
-			}
+		if (message.isReply()) {
+			sendReply(receiverAddress, message);
 		} else {
 			// it is a active HTTP request to remote web server.
-			try {
-
-				if (logger.isDebugEnabled())
-					logger.debug("cannot find agent for " + receiverAddress
-							+ ", it is an active request");
-
-				// for http request need authentication, we use auth info from
-				// the sender.
-				RemoteAddress ra = RemoteAddress.valueOf(receiverAddress);
-				HttpClientAgent clientAgent = getClientAgent(message.sender, ra.server);
-				
-				if (clientAgent != null)
-					clientAgent.send(receiverAddress, message);
-				else
-					throw new RuntimeException(
-							"no http client agent for remote address:"
-									+ receiverAddress);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				logger.error(e);
-				throw new RuntimeException(e);
-			}
-
+			sendRequest(receiverAddress, message);
 		}
 	}
 

@@ -17,6 +17,7 @@ import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -37,10 +38,13 @@ public class XmppAgent {
 	/**
 	 * it is a sync request.
 	 */
-	Message lastRequestMessage;
+	Message lastExternalRequestMessage;
 
-	public XmppAgent(String address, _Object obj, Config config) {
+	AbstractProtocolService service;
 
+	public XmppAgent(AbstractProtocolService service, String address,
+			_Object obj, Config config) {
+		this.service = service;
 
 
 		if (config.containsKey("server"))
@@ -101,8 +105,8 @@ public class XmppAgent {
 
 	public void send(String receiverAddress, Message msg) throws XMPPException {
 
-		if (msg.messageType.isRequest())
-			lastRequestMessage = msg;
+		if (!msg.messageType.isReply())
+			lastExternalRequestMessage = msg;
 
 		ChatManager chatManager = connection.getChatManager();
 		Chat chat = chatManager.createChat(receiverAddress,
@@ -142,6 +146,11 @@ public class XmppAgent {
 			return addr;
 	}
 
+	/**
+	 * IM client received message from remote peer.
+	 * 
+	 * @param msg
+	 */
 	private void receivedMessage(org.jivesoftware.smack.packet.Message msg) {
 
 		try {
@@ -160,23 +169,23 @@ public class XmppAgent {
 
 			String senderAddress = reviseAddress(msg.getFrom());
 
-			if (lastRequestMessage != null
-					&& lastRequestMessage.receiver instanceof Link
-					&& ((Link) lastRequestMessage.receiver).getAddress()
+			if (lastExternalRequestMessage != null
+					&& lastExternalRequestMessage.receiver instanceof Link
+					&& ((Link) lastExternalRequestMessage.receiver).getAddress()
 							.equals(senderAddress)) {
 				// address match. it must be reply.
 				if (logger.isDebugEnabled())
 					logger.debug("it is a reply");
 
 				Message replyMsg = new Message(false,
-						lastRequestMessage.receiver, lastRequestMessage.sender,
-						"RE:" + lastRequestMessage.getSubject(), returnValue,
+						lastExternalRequestMessage.receiver, lastExternalRequestMessage.sender,
+						"RE:" + lastExternalRequestMessage.getSubject(), returnValue,
 						ParameterStyle.ByName, null, MessageType.SyncReply);
 
 				replyMsg.urgent = true;
 
 				// it can only be replied once.
-				lastRequestMessage = null;
+				lastExternalRequestMessage = null;
 
 				vm.getPostService().sendMessage(replyMsg);
 			} else {// not a reply. it is a request.
@@ -196,9 +205,10 @@ public class XmppAgent {
 						+ reviseAddress(reviseAddress(msg.getTo())));
 
 				// TODO convert msg.body to _Object
+
 				Message normalMsg = new Message(true, senderLink, receiverLink,
 						msg.getBody(), null, ParameterStyle.ByName, null,
-						MessageType.Normal);
+						MessageType.SyncRequest);
 
 				normalMsg.urgent = false;
 

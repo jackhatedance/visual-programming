@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * exception object, as return value if error happened
@@ -27,6 +26,12 @@ public class VException extends _Object {
 		this.message = message;
 	}
 
+	public void addTrace(Exception e) {
+		for (StackTraceElement ele : e.getStackTrace()) {
+			addTrace(new CodePosition(ele.getClassName(), ele.getMethodName(),
+					ele.getFileName(), ele.getLineNumber()));
+		}
+	}
 
 	public void addTrace(CodePosition position) {
 		traces.add(position);

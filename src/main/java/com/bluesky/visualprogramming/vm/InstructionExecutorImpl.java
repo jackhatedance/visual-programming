@@ -222,10 +222,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 
-			MessageType msgType = MessageType.Normal;
-			if (sender == receiver)
-				msgType = MessageType.Recursive;
-
+			MessageType msgType = MessageType.SyncRequest;
+			/*
+			 * if (sender == receiver) msgType = MessageType.Recursive;
+			 */
 			Message msg = new Message(instruction.sync, sender, receiver,
 					messageSubject.getValue(), messageBody,
 					instruction.paramStyle, null, msgType);
