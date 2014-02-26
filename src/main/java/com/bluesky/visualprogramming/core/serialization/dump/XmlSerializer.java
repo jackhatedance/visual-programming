@@ -43,7 +43,7 @@ public class XmlSerializer implements ObjectSerializer {
 		//xstream.omitField(_Object.class, "owner");
 		
 		xstream.alias("field", Field.class);
-		//xstream.omitField(Field.class, "target");
+		xstream.omitField(Field.class, "selectedStatus");
 		
 		
 		xstream.alias("boolean", BooleanValue.class);

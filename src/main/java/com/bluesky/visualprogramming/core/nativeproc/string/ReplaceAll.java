@@ -19,13 +19,22 @@ public class ReplaceAll extends BaseNativeProcedure implements NativeProcedure {
 
 		StringValue selfStr = (StringValue) self;
 
-		StringValue result = (StringValue) virtualMachine.getObjectRepository()
-				.createObject(ObjectType.STRING, ObjectScope.ExecutionContext);
+		StringValue resultSV = (StringValue) virtualMachine
+				.getObjectRepository().createObject(ObjectType.STRING,
+						ObjectScope.ExecutionContext);
 
-		String newStr = selfStr.getValue().replaceAll(oldSV.getValue(), newSV.getValue());
+		String oldStr = null;
+		if (oldSV != null)
+			oldStr = oldSV.getValue();
 
-		result.setValue(newStr);
+		String newStr = "";
+		if (newSV != null)
+			newStr = newSV.getValue();
 
-		return result;
+		String resultStr = selfStr.getValue().replaceAll(oldStr, newStr);
+
+		resultSV.setValue(resultStr);
+
+		return resultSV;
 	}
 }
