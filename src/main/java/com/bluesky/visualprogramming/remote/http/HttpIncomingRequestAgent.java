@@ -30,11 +30,8 @@ public class HttpIncomingRequestAgent {
 	 */
 	private Semaphore responseReady = new Semaphore(0);
 
+	public HttpIncomingRequestAgent(MessageFormat responseContentFormat) {
 
-
-	public HttpIncomingRequestAgent(
-			MessageFormat responseContentFormat) {
-		 
 		this.responseContentFormat = responseContentFormat;
 	}
 
@@ -57,8 +54,9 @@ public class HttpIncomingRequestAgent {
 			}
 		} else {
 
-			if(logger.isDebugEnabled())
-				logger.debug("responseContentFormat is: " + responseContentFormat.name());
+			if (logger.isDebugEnabled())
+				logger.debug("responseContentFormat is: "
+						+ responseContentFormat.name());
 
 			ConfigurableObjectSerializer serializer = responseContentFormat
 					.getSerializer();
@@ -66,14 +64,14 @@ public class HttpIncomingRequestAgent {
 			StringWriter sw = new StringWriter();
 			Config config = new Config();
 			try {
-			serializer.serialize(msg.body, sw, config);
+				serializer.serialize(msg.body, sw, config);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(logger.isDebugEnabled())
-				logger.debug("serialization complete:"+ sw.toString());
+			if (logger.isDebugEnabled())
+				logger.debug("serialization complete:" + sw.toString());
 
-			textResponse= sw.toString();
+			textResponse = sw.toString();
 		}
 
 		responseReady.release();

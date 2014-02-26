@@ -154,13 +154,23 @@ public class SvgScene {
 		String hex = String.format("#%02x%02x%02x", color.getRed(),
 				color.getGreen(), color.getBlue());
 		try {
-			e.getStyle().setProperty("stroke", hex, "");
+			e.getStyle().setProperty("stroke", hex, "");			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException("setborder color, id:" + id);
 		}
 	}
-
+	
+	public void setBorderWidth(long id, int width) {
+		SVGStylable e = (SVGStylable) getElement(id, SvgElementType.Border);
+		try {
+			e.getStyle().setProperty("stroke-width", String.valueOf(width), "");			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("setborder width, id:" + id);
+		}
+	}
+		
 	public SvgTransformBox getTransformBox() {
 		return transformBox;
 	}

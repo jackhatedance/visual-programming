@@ -10,6 +10,8 @@ import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Field {
+	
+	static int BORDER_WIDTH_THIN=2;
 
 	public String name;
 	public _Object target;
@@ -147,6 +149,10 @@ public class Field {
 		scene.setDescription(id, value);
 
 		scene.setBorderColor(id, target.borderColor);
+		
+		if(!own)
+			scene.setBorderWidth(id,BORDER_WIDTH_THIN );	
+		
 
 		ele.setUserData("field", this, null);
 		diagramPanel.addMouseListener(ele);
