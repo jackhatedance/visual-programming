@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.vm.Service;
-import com.bluesky.visualprogramming.vm.ServiceStatus;
 
 /**
  * manage workers(aka thread to execute code). accept request from any object
@@ -19,7 +17,7 @@ import com.bluesky.visualprogramming.vm.ServiceStatus;
  * @author jack
  * 
  */
-public class WorkerService extends AbstractService implements Runnable  {
+public class WorkerService extends ThreadService implements Runnable  {
 
 	static Logger logger = Logger.getLogger(WorkerService.class);
 
@@ -33,11 +31,12 @@ public class WorkerService extends AbstractService implements Runnable  {
 	private PostService postService;
 
 	public WorkerService() {
+
 		customers = new LinkedBlockingQueue<_Object>();
 		executorServie = Executors.newFixedThreadPool(5);
 	}
 
-	public void beforeInit(ObjectRepository objectRepository,
+	public void setup(ObjectRepository objectRepository,
 			PostService postService) {
 		this.objectRepository = objectRepository;
 		this.postService = postService;
@@ -71,39 +70,11 @@ public class WorkerService extends AbstractService implements Runnable  {
 	}
 
 	@Override
-	public void run() {
-		while (!stopFlag) {
+	public void doTask() throws InterruptedException {
 
-			try {
-				synchronized (this) {
-					while (pauseFlag) {
-						setStatus( ServiceStatus.Paused);
+		_Object cust = customers.take();
+		assign(cust);
 
-						// reset
-						pauseFlag = false;
-
-						wait();
-						setStatus(ServiceStatus.Running);
-					}
-					
-				}
-
-				_Object cust = customers.take();
-				assign(cust);
-
-			} catch (InterruptedException e) {
-				if (logger.isDebugEnabled())
-					logger.debug(name + "interrupted.");
-
-			}
-		}
-		
-		setStatus(ServiceStatus.Stopped);
-		//reset
-		stopFlag=false;
-		
-		if (logger.isDebugEnabled())
-			logger.debug("thread terminated.");
 
 	}
 

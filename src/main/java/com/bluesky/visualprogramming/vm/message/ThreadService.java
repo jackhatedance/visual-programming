@@ -7,14 +7,16 @@ import com.bluesky.visualprogramming.vm.ServiceStatus;
 
 /**
  * 
- * base class to support service interface
+ * a base class that for usual scenary that consist of one thread and support
+ * pause/resume.
+ * 
  * 
  * @author jack
  * 
  */
-public abstract class AbstractService implements Runnable, Service {
+public abstract class ThreadService implements Runnable, Service {
 
-	static Logger logger = Logger.getLogger(AbstractService.class);
+	static Logger logger = Logger.getLogger(ThreadService.class);
 
 	protected String name = "abstractService";
 	protected Thread thread;
@@ -25,48 +27,81 @@ public abstract class AbstractService implements Runnable, Service {
 	protected volatile boolean stopFlag = false;
 	protected ServiceStatus _status;
 
-
-	protected void testTransitTo(ServiceStatus newStatus){
+	protected void testTransitTo(ServiceStatus newStatus) {
 		_status.assertTransit(newStatus);
-	
+
 	}
 
-	protected ServiceStatus getStatus(){
+	protected ServiceStatus getStatus() {
 		return _status;
 	}
-	
+
 	protected void setStatus(ServiceStatus status) {
 
 		if (logger.isDebugEnabled())
-			logger.debug(String.format("status change from %s to %s",
+			logger.debug(String.format("%s status change from %s to %s", name,
 					this._status, status));
 
 		this._status = status;
 	}
-	
-	@Override
-	public abstract void run() ;
 
 	@Override
 	public void init() {
 		thread = new Thread(this, name);
 
-		setStatus( ServiceStatus.Initialized);
+		setStatus(ServiceStatus.Initialized);
+	}
+
+	protected abstract void doTask() throws InterruptedException;
+
+	@Override
+	public void run() {
+		while (!stopFlag) {
+
+			try {
+				synchronized (this) {
+					while (pauseFlag) {
+						setStatus(ServiceStatus.Paused);
+
+						// reset
+						pauseFlag = false;
+
+						wait();
+						setStatus(ServiceStatus.Running);
+					}
+
+				}
+
+				doTask();
+
+			} catch (InterruptedException e) {
+				if (logger.isDebugEnabled())
+					logger.debug(name + "interrupted.");
+
+			}
+		}
+
+		setStatus(ServiceStatus.Stopped);
+		// reset
+		stopFlag = false;
+
+		if (logger.isDebugEnabled())
+			logger.debug("thread stopped.");
+
 	}
 
 	@Override
 	public void start() {
 		testTransitTo(ServiceStatus.Running);
-		 
 
 		thread.start();
-		setStatus( ServiceStatus.Running);
+		setStatus(ServiceStatus.Running);
 	}
 
 	@Override
 	public synchronized void pause() {
 		testTransitTo(ServiceStatus.Paused);
-		
+
 		pauseFlag = true;
 
 		// in case it waits on the queue.take()
@@ -88,17 +123,17 @@ public abstract class AbstractService implements Runnable, Service {
 	@Override
 	public synchronized void resume() {
 		testTransitTo(ServiceStatus.Running);
-		
+
 		notify();
-		
-		//status updated in run()
-		//setStatus( ServiceStatus.Running);
+
+		// status updated in run()
+		// setStatus( ServiceStatus.Running);
 	}
 
 	@Override
 	public void stop() {
 		testTransitTo(ServiceStatus.Stopped);
-		
+
 		stopFlag = true;
 
 		// in case it waits on the queue.take()
@@ -109,9 +144,8 @@ public abstract class AbstractService implements Runnable, Service {
 	@Override
 	public void destroy() {
 		testTransitTo(ServiceStatus.Destroyed);
-		
 
-		setStatus( ServiceStatus.Destroyed);
+		setStatus(ServiceStatus.Destroyed);
 
 	}
 

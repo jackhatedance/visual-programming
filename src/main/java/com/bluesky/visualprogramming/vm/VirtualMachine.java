@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.timer.TimerService;
 import com.bluesky.visualprogramming.vm.message.PostService;
-import com.bluesky.visualprogramming.vm.message.Worker;
 import com.bluesky.visualprogramming.vm.message.WorkerService;
 
 /**
@@ -23,7 +22,6 @@ public class VirtualMachine implements Service {
 
 	private WorkerService workerService;
 	private PostService postService;
-	private Thread postServiceThread;
 
 	private boolean timerServiceEnabled = false;
 	private TimerService timerService;
@@ -61,16 +59,15 @@ public class VirtualMachine implements Service {
 		/*
 		 * workerManager and postService only need each other at runtime.
 		 */
-		workerService.beforeInit(objectRepository, postService);
+		workerService.setup(objectRepository, postService);
 		workerService.init();
-		
-		postService.setup(objectRepository, workerService);
 
-		postServiceThread = new Thread(postService, "PostService");
+		postService.setup(objectRepository, workerService);
+		postService.init();
 
 		timerService.init();
 
-		status = ServiceStatus.Stopped;
+		status = ServiceStatus.Initialized;
 
 		logger.info("VM initialized");
 	}
@@ -93,7 +90,7 @@ public class VirtualMachine implements Service {
 	public void start() {
 
 		workerService.start();
-		postServiceThread.start();
+		postService.start();
 
 		if (timerServiceEnabled)
 			timerService.start();
@@ -104,34 +101,24 @@ public class VirtualMachine implements Service {
 
 	public void pause() {
 
-		try {
-			// logger.info("VM pause begin...");
-			workerService.pause();
+		// logger.info("VM pause begin...");
+		workerService.pause();
 
-			postService.stop();
-			postServiceThread.interrupt();
+		postService.pause();
 
-			postServiceThread.join();
+		if (timerServiceEnabled)
+			timerService.pause();
 
-			if (timerServiceEnabled)
-				timerService.pause();
+		status = ServiceStatus.Paused;
 
-			status = ServiceStatus.Paused;
-
-			logger.info("VM paused");
-		} catch (InterruptedException e) {
-
-			throw new RuntimeException(e);
-		}
+		logger.info("VM paused");
 
 	}
 
 	public void resume() {
 
-		postServiceThread = new Thread(postService, "PostService");
-
 		workerService.resume();
-		postServiceThread.start();
+		postService.resume();
 
 		if (timerServiceEnabled)
 			timerService.resume();
@@ -145,20 +132,8 @@ public class VirtualMachine implements Service {
 		return objectRepository;
 	}
 
-	public void setObjectRepository(ObjectRepository objectRepository) {
-		this.objectRepository = objectRepository;
-	}
-
-	public void setWorkerService(WorkerService workerService) {
-		this.workerService = workerService;
-	}
-
 	public PostService getPostService() {
 		return postService;
-	}
-
-	public void setPostService(PostService postService) {
-		this.postService = postService;
 	}
 
 	public TimerService getTimerService() {
@@ -172,6 +147,15 @@ public class VirtualMachine implements Service {
 	@Override
 	public void init() {
 
+		workerService.init();
+
+		postService.init();
+
+		timerService.init();
+
+		status = ServiceStatus.Initialized;
+
+		logger.info("VM initialized");
 	}
 
 	@Override

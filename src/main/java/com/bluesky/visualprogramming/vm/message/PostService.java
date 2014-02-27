@@ -21,14 +21,8 @@ import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteCommunicationService;
 import com.bluesky.visualprogramming.remote.callback.Callback;
 import com.bluesky.visualprogramming.remote.callback.CallbackService;
-import com.bluesky.visualprogramming.remote.email.EmailService;
-import com.bluesky.visualprogramming.remote.http.HttpService;
-import com.bluesky.visualprogramming.remote.path.PathService;
-import com.bluesky.visualprogramming.remote.ssh.SshService;
-import com.bluesky.visualprogramming.remote.xmpp.XmppService;
-import com.bluesky.visualprogramming.vm.Service;
 
-public class PostService extends AbstractService implements Runnable {
+public class PostService extends ThreadService implements Runnable {
 	static Logger logger = Logger.getLogger(PostService.class);
 
 	private ObjectRepository objectRepository;
@@ -175,25 +169,9 @@ public class PostService extends AbstractService implements Runnable {
 	}
 
 	@Override
-	public void run() {
-
-		while (running) {
-			Message msg;
-			try {
-				msg = messageQueue.take();
-				_sendMessage(msg);
-			} catch (InterruptedException e) {
-
-			}
-
-		}
-
-		if (logger.isDebugEnabled())
-			logger.debug("thread terminated.");
-	}
-
-	public void stop() {
-		this.running = false;
+	protected void doTask() throws InterruptedException {
+		Message msg = messageQueue.take();
+		_sendMessage(msg);
 
 	}
 
@@ -205,30 +183,6 @@ public class PostService extends AbstractService implements Runnable {
 				objectRepository);
 
 		super.init();
-	}
-
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -244,12 +244,8 @@ public class _Object implements Serializable {
 				addChild(newField, child, name, owner);
 			}
 
-		} else {
-			Field newField = new Field(name);
-			fieldList.add(newField);
-
-			addChild(newField, child, name, owner);
-		}
+		} else
+			throw new RuntimeException("field name cannot be null");
 
 	}
 

@@ -30,12 +30,12 @@ import com.bluesky.visualprogramming.vm.message.PostService;
 
 public class InstructionExecutorImpl implements InstructionExecutor {
 	static Logger logger = Logger.getLogger(InstructionExecutorImpl.class);
-	
-	//some special fields:
-	
-	public static final String IMPLICT_FIELD_OWNER="_owner";
-	//not field name
-	public static final String IMPLICT_FIELD_NAME="_objectName";
+
+	// some special fields:
+
+	public static final String IMPLICT_FIELD_OWNER = "_owner";
+	// not field name
+	public static final String IMPLICT_FIELD_NAME = "_objectName";
 
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
@@ -63,15 +63,17 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		List<Instruction> instructions = procedure.getInstructions();
 
 		while (true) {
-			InstructionExecutionResult  instructionExecutionResult= executeOneStep(instructions);
-			ExecutionStatus instructionExecutionStatus = instructionExecutionResult.getStatus();
-			
+			InstructionExecutionResult instructionExecutionResult = executeOneStep(instructions);
+			ExecutionStatus instructionExecutionStatus = instructionExecutionResult
+					.getStatus();
+
 			if (instructionExecutionStatus == ExecutionStatus.WAITING) {
 				ctx.executionStatus = ExecutionStatus.WAITING;
 				break;
 			} else if (instructionExecutionStatus == ExecutionStatus.ERROR) {
 				ctx.executionStatus = ExecutionStatus.ERROR;
-				ctx.executionErrorMessage = instructionExecutionResult.getDesc();
+				ctx.executionErrorMessage = instructionExecutionResult
+						.getDesc();
 				ctx.executionErrorLine = instructionExecutionResult.getLine();
 				break;
 			}
@@ -85,7 +87,8 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 	}
 
-	private InstructionExecutionResult executeOneStep(List<Instruction> instructions) {
+	private InstructionExecutionResult executeOneStep(
+			List<Instruction> instructions) {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
@@ -93,9 +96,9 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		if (logger.isDebugEnabled())
 			logger.debug(instruction.toString());
 
-		InstructionExecutionResult result = new InstructionExecutionResult();		
-		
-		try{
+		InstructionExecutionResult result = new InstructionExecutionResult();
+
+		try {
 			ExecutionStatus es = instruction.type.execute(this, instruction);
 			// goto instruction update index by them self
 			if (!instruction.type.updatedInstructionIndex()) {
@@ -103,15 +106,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				if (es == ExecutionStatus.COMPLETE)
 					ctx.currentInstructionIndex++;
 			}
-			
+
 			result.setStatus(es);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			result.setStatus(ExecutionStatus.ERROR);
-			result.setDesc(e.getMessage());		
+			result.setDesc(e.getMessage());
 			result.setLine(instruction.line);
 		}
-		
 
 		return result;
 	}
@@ -241,15 +242,15 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				return ExecutionStatus.WAITING;
 			} else {
-				//async
+				// async
 				if (logger.isDebugEnabled())
 					logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
 
 				ctx.step = 0;
-				
-				//reply is null.
+
+				// reply is null.
 				ctx.setObject(instruction.replyVar, null);
-				
+
 				return ExecutionStatus.COMPLETE;
 
 			}
@@ -296,6 +297,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		if (leftObject == null)
 			throw new RuntimeException("left object is null:"
 					+ instruction.ownerVar);
+
+		// only one field for each child object
+		if (leftObject != null && leftObject.getChildIndex(rightObject) >= 0)
+			throw new RuntimeException(
+					String.format(
+							"left object '%s' already has field pointing to right object '%s'",
+							instruction.ownerVar, instruction.rightVar));
 
 		_Object oldFieldObject = null;
 
