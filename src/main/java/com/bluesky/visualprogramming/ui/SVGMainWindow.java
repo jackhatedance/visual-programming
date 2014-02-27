@@ -340,6 +340,23 @@ public class SVGMainWindow extends JPanel {
 		});
 		menu.add(eMenuItem);
 
+		eMenuItem = new JMenuItem("belong here");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagramPanel.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (getActiveChildField() != null) {
+					Field ownerField = (Field) getSelectedTreeNode()
+							.getUserObject();
+					_Object ownerObject = ownerField.target;
+					_Object childObject = getActiveChildField().target;
+
+					childObject.attachTo(ownerObject);
+				}
+			}
+		});
+		menu.add(eMenuItem);
+
 		return menu;
 	}
 

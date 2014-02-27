@@ -218,7 +218,10 @@ public class _Object implements Serializable {
 
 	public int getChildIndex(_Object child) {
 		Integer indexObject = childrenObjectMap.get(child);
-		return indexObject.intValue();
+		if (indexObject != null)
+			return indexObject.intValue();
+		else
+			return -1;
 	}
 
 	/**
@@ -342,7 +345,9 @@ public class _Object implements Serializable {
 	public void renameField(String old, String _new) {
 
 		if (fieldNameMap == null) {
-			System.out.println("warnning: field index not created.");
+			if (logger.isDebugEnabled())
+				logger.debug("warnning: field index not created.");
+
 			recreateFieldIndexes();
 		}
 
@@ -409,6 +414,11 @@ public class _Object implements Serializable {
 		owner.detachChild(this);
 	}
 
+	/**
+	 * attach to new owner.
+	 * 
+	 * @param owner
+	 */
 	public void attachTo(_Object owner) {
 		this.owner = owner;
 		this.scope = null;
@@ -505,7 +515,8 @@ public class _Object implements Serializable {
 
 		if (fieldNameMap == null) {
 			recreateFieldIndexes();
-			System.out.println("field index not created when lookup field:"
+			if (logger.isDebugEnabled())
+				logger.debug("field index not created when lookup field:"
 					+ name);
 		}
 

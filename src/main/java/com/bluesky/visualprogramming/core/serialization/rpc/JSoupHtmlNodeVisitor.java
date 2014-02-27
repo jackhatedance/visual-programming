@@ -51,7 +51,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	@Override
 	public void head(Node node, int depth) {
 		// when entering a node, we create an object
-		System.out.println("<" + node.nodeName() + ">");
+		// System.out.println("<" + node.nodeName() + ">");
 
 		if (node instanceof Document) {
 			_Object obj = repo.createObject(ObjectType.NORMAL,
@@ -67,7 +67,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			ListObject parentObj = new ListObject(parent);
 			_Object obj = null;
 			if (node instanceof Element) {
-				System.out.println("element");
+				// System.out.println("element");
 				_Object self = repo.createObject(ObjectType.NORMAL,
 						ObjectScope.ExecutionContext);
 

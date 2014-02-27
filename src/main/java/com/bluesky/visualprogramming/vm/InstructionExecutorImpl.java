@@ -109,6 +109,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			result.setStatus(es);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setStatus(ExecutionStatus.ERROR);
 			result.setDesc(e.getMessage());
 			result.setLine(instruction.line);
