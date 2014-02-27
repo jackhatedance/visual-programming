@@ -28,39 +28,28 @@ import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.vm.Service;
 
-public class PostService implements Runnable, Service {
+public class PostService extends AbstractService implements Runnable {
 	static Logger logger = Logger.getLogger(PostService.class);
 
 	private ObjectRepository objectRepository;
-	private WorkerService workerManager;
+	private WorkerService workerService;
 	private RemoteCommunicationService remoteCommunicationService;
 
 	private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
 
-	
-	//rpc sender threads
+	// rpc sender threads
 	ExecutorService executorService = Executors.newFixedThreadPool(5);
-	
+
 	private volatile boolean running = true;
 
-	public void init(ObjectRepository objectRepository,
-			WorkerService workerManager) {
+	public void setup(ObjectRepository objectRepository,
+			WorkerService workerService) {
 		this.objectRepository = objectRepository;
-		this.workerManager = workerManager;
+		this.workerService = workerService;
 
-		remoteCommunicationService = new RemoteCommunicationService(
-				objectRepository);
-
-		remoteCommunicationService.addProtocolService(new CallbackService());
-		remoteCommunicationService.addProtocolService(new PathService());
-
-		remoteCommunicationService.addProtocolService(new XmppService());
-		remoteCommunicationService.addProtocolService(new SshService());
-		remoteCommunicationService.addProtocolService(new HttpService());
-		remoteCommunicationService.addProtocolService(new EmailService());
 	}
 
-	public void  sendMessage(Message msg) {
+	public void sendMessage(Message msg) {
 		try {
 			messageQueue.put(msg);
 
@@ -81,21 +70,21 @@ public class PostService implements Runnable, Service {
 	 */
 	public _Object getLocalObject(Link link) {
 
-		ProtocolType protocol = ProtocolType.valueOf(link
-				.getProtocol().toUpperCase());
+		ProtocolType protocol = ProtocolType.valueOf(link.getProtocol()
+				.toUpperCase());
 		_Object localObject = remoteCommunicationService.getLocalObject(
 				protocol, link.getAddress());
-		
+
 		return localObject;
 	}
-	
+
 	public boolean isLocal(Link link) {
 		_Object obj = getLocalObject(link);
 		return obj != null;
 	}
 
 	private void _sendMessage(Message msg) {
-		
+
 		// add support of link object
 		if (msg.receiver instanceof Link) {
 			Link receiverLink = (Link) msg.receiver;
@@ -129,8 +118,8 @@ public class PostService implements Runnable, Service {
 
 	private void sendRemoteMessage(final Message msg, final Link receiverLink,
 			final ProtocolType protocol) {
-		//RPC is time consuming, additional thread is required
-		
+		// RPC is time consuming, additional thread is required
+
 		executorService.submit(new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -139,8 +128,7 @@ public class PostService implements Runnable, Service {
 				return null;
 			}
 		});
-		
-		
+
 	}
 
 	private void sendLocalMessage(Message msg, _Object receiver) {
@@ -152,7 +140,7 @@ public class PostService implements Runnable, Service {
 					msg.sender, msg.receiver, msg.toString()));
 
 		if (applyWorkerForMe) {
-			workerManager.addCustomer(receiver);
+			workerService.addCustomer(receiver);
 		}
 
 	}
@@ -161,12 +149,13 @@ public class PostService implements Runnable, Service {
 	 * 
 	 * @param receiver
 	 * @param subject
-	 * @param body optional
+	 * @param body
+	 *            optional
 	 * @param callback
 	 *            optional
 	 */
-	public void sendMessageFromNobody(_Object receiver, String subject, _Object body,
-			Callback callback) {
+	public void sendMessageFromNobody(_Object receiver, String subject,
+			_Object body, Callback callback) {
 
 		// make a random
 		String id = UUID.randomUUID().toString();
@@ -210,8 +199,12 @@ public class PostService implements Runnable, Service {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		name = "PostService";
 
+		remoteCommunicationService = new RemoteCommunicationService(
+				objectRepository);
+
+		super.init();
 	}
 
 	@Override

@@ -12,6 +12,12 @@ import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.remote.callback.CallbackService;
+import com.bluesky.visualprogramming.remote.email.EmailService;
+import com.bluesky.visualprogramming.remote.http.HttpService;
+import com.bluesky.visualprogramming.remote.path.PathService;
+import com.bluesky.visualprogramming.remote.ssh.SshService;
+import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.AppProperties;
 
@@ -29,9 +35,21 @@ public class RemoteCommunicationService {
 	private Map<ProtocolType, ProtocolService> services = new HashMap<ProtocolType, ProtocolService>();
 	private ObjectRepository objectRepository;
 
+	
+	private void initServices(){
+		addProtocolService(new CallbackService());
+		addProtocolService(new PathService());
+
+		addProtocolService(new XmppService());
+		addProtocolService(new SshService());
+		addProtocolService(new HttpService());
+		addProtocolService(new EmailService());
+	}
 	public RemoteCommunicationService(ObjectRepository objectRepository) {
 		this.objectRepository = objectRepository;
-
+		
+		initServices();
+		
 		objectRepository.addListener(new ObjectRepositoryListener() {
 			@Override
 			public void beforeSave(_Object obj) {
@@ -153,7 +171,7 @@ public class RemoteCommunicationService {
 		services.get(protocol).send(receiverAddress, message);
 	}
 
-	public void addProtocolService(ProtocolService svc) {
+	private void addProtocolService(ProtocolService svc) {
 		for (ProtocolType pt : svc.getSupportedTypes())
 			services.put(pt, svc);
 

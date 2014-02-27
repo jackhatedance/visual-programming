@@ -64,7 +64,7 @@ public class VirtualMachine implements Service {
 		workerService.beforeInit(objectRepository, postService);
 		workerService.init();
 		
-		postService.init(objectRepository, workerService);
+		postService.setup(objectRepository, workerService);
 
 		postServiceThread = new Thread(postService, "PostService");
 

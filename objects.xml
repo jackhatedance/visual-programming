@@ -28473,7 +28473,7 @@ _result = _self.responseTemplate._postContent;
                     <name>posts</name>
                     <owner id="4762">
                       <type>NORMAL</type>
-                      <id>1021969</id>
+                      <id>1023122</id>
                       <name>t_0</name>
                       <scope>ExecutionContext</scope>
                       <fieldList id="4763">
@@ -28492,7 +28492,7 @@ _result = _self.responseTemplate._postContent;
                           <name>idx_1</name>
                           <target class="string" id="4767">
                             <type>STRING</type>
-                            <id>1021593</id>
+                            <id>1022746</id>
                             <name>fieldName</name>
                             <owner reference="4762"/>
                             <scope>ExecutionContext</scope>
@@ -28501,7 +28501,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>_system</name>
                                 <target id="4770">
                                   <type>NORMAL</type>
-                                  <id>1021594</id>
+                                  <id>1022747</id>
                                   <name>_system</name>
                                   <owner class="string" reference="4767"/>
                                   <scope>ExecutionContext</scope>
@@ -28564,7 +28564,7 @@ _result = _self.responseTemplate._postContent;
                           <name>_system</name>
                           <owner id="4780">
                             <type>NORMAL</type>
-                            <id>1021427</id>
+                            <id>1022580</id>
                             <name>t_0</name>
                             <scope>ExecutionContext</scope>
                             <fieldList id="4781">
@@ -28583,7 +28583,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>idx_1</name>
                                 <target class="string" id="4785">
                                   <type>STRING</type>
-                                  <id>1021412</id>
+                                  <id>1022565</id>
                                   <name>t_1</name>
                                   <owner reference="4780"/>
                                   <scope>ExecutionContext</scope>
@@ -28592,7 +28592,7 @@ _result = _self.responseTemplate._postContent;
                                       <name>_system</name>
                                       <target id="4788">
                                         <type>NORMAL</type>
-                                        <id>1021413</id>
+                                        <id>1022566</id>
                                         <name>_system</name>
                                         <owner class="string" reference="4785"/>
                                         <scope>ExecutionContext</scope>
@@ -28650,7 +28650,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>html</name>
                                 <owner id="4797">
                                   <type>NORMAL</type>
-                                  <id>1021503</id>
+                                  <id>1022656</id>
                                   <name>t_0</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4798">
@@ -28691,7 +28691,7 @@ _result = _self.responseTemplate._postContent;
                                       <name>componentName</name>
                                       <owner id="4806">
                                         <type>NORMAL</type>
-                                        <id>1021496</id>
+                                        <id>1022649</id>
                                         <name>t_0</name>
                                         <scope>ExecutionContext</scope>
                                         <fieldList id="4807">
@@ -28754,7 +28754,7 @@ _result = _self.responseTemplate._postContent;
                                             <name>tag</name>
                                             <owner id="4819">
                                               <type>NORMAL</type>
-                                              <id>1021533</id>
+                                              <id>1022686</id>
                                               <name>t_3</name>
                                               <scope>ExecutionContext</scope>
                                               <fieldList id="4820">
@@ -28831,7 +28831,7 @@ _result = _self.responseTemplate._postContent;
                                             <name>elementTag</name>
                                             <owner id="4833">
                                               <type>NORMAL</type>
-                                              <id>1021569</id>
+                                              <id>1022722</id>
                                               <name>t_3</name>
                                               <scope>ExecutionContext</scope>
                                               <fieldList id="4834">
@@ -28984,7 +28984,7 @@ _result = _self.responseTemplate._postContent;
                                       <name>elementConfig</name>
                                       <owner id="4858">
                                         <type>NORMAL</type>
-                                        <id>1022089</id>
+                                        <id>1023242</id>
                                         <name>t_0</name>
                                         <scope>ExecutionContext</scope>
                                         <fieldList id="4859">
@@ -29014,7 +29014,7 @@ _result = _self.responseTemplate._postContent;
                                             <name>component</name>
                                             <owner id="4865">
                                               <type>NORMAL</type>
-                                              <id>1022028</id>
+                                              <id>1023181</id>
                                               <name>t_0</name>
                                               <scope>ExecutionContext</scope>
                                               <fieldList id="4866">
@@ -29134,7 +29134,7 @@ _result = _self.responseTemplate._postContent;
                           <name>helloWorld</name>
                           <owner id="4881">
                             <type>NORMAL</type>
-                            <id>1022039</id>
+                            <id>1023192</id>
                             <name>t_0</name>
                             <scope>ExecutionContext</scope>
                             <fieldList id="4882">
@@ -29164,7 +29164,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>title</name>
                                 <owner id="4888">
                                   <type>NORMAL</type>
-                                  <id>1022051</id>
+                                  <id>1023204</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4889">
@@ -29208,7 +29208,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>content</name>
                                 <owner id="4896">
                                   <type>NORMAL</type>
-                                  <id>1022069</id>
+                                  <id>1023222</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4897">
@@ -29287,7 +29287,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>_system</name>
                                 <owner id="4910">
                                   <type>NORMAL</type>
-                                  <id>1021999</id>
+                                  <id>1023152</id>
                                   <name>t_0</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4911">
@@ -29306,7 +29306,7 @@ _result = _self.responseTemplate._postContent;
                                       <name>idx_1</name>
                                       <target class="string" id="4915">
                                         <type>STRING</type>
-                                        <id>1021984</id>
+                                        <id>1023137</id>
                                         <name>t_1</name>
                                         <owner reference="4910"/>
                                         <scope>ExecutionContext</scope>
@@ -29315,7 +29315,7 @@ _result = _self.responseTemplate._postContent;
                                             <name>_system</name>
                                             <target id="4918">
                                               <type>NORMAL</type>
-                                              <id>1021985</id>
+                                              <id>1023138</id>
                                               <name>_system</name>
                                               <owner class="string" reference="4915"/>
                                               <scope>ExecutionContext</scope>
@@ -29399,7 +29399,7 @@ _result = _self.responseTemplate._postContent;
                           <description></description>
                           <owner id="4929">
                             <type>NORMAL</type>
-                            <id>1021690</id>
+                            <id>1022843</id>
                             <name>t_0</name>
                             <scope>ExecutionContext</scope>
                             <fieldList id="4930">
@@ -29429,7 +29429,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>t_0</name>
                                 <owner id="4936">
                                   <type>NORMAL</type>
-                                  <id>1021650</id>
+                                  <id>1022803</id>
                                   <name>t_0</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4937">
@@ -29448,7 +29448,7 @@ _result = _self.responseTemplate._postContent;
                                       <name>idx_1</name>
                                       <target class="string" id="4941">
                                         <type>STRING</type>
-                                        <id>1021635</id>
+                                        <id>1022788</id>
                                         <name>t_1</name>
                                         <owner reference="4936"/>
                                         <scope>ExecutionContext</scope>
@@ -29457,7 +29457,7 @@ _result = _self.responseTemplate._postContent;
                                             <name>_system</name>
                                             <target id="4944">
                                               <type>NORMAL</type>
-                                              <id>1021636</id>
+                                              <id>1022789</id>
                                               <name>_system</name>
                                               <owner class="string" reference="4941"/>
                                               <scope>ExecutionContext</scope>
@@ -29550,7 +29550,7 @@ _self.html.component={};
                                       <name>_result</name>
                                       <owner id="4958">
                                         <type>NORMAL</type>
-                                        <id>1021668</id>
+                                        <id>1022821</id>
                                         <name>t_0</name>
                                         <scope>ExecutionContext</scope>
                                         <fieldList id="4959">
@@ -29580,7 +29580,7 @@ _self.html.component={};
                                             <name>component</name>
                                             <owner id="4965">
                                               <type>NORMAL</type>
-                                              <id>1021679</id>
+                                              <id>1022832</id>
                                               <name>t_0</name>
                                               <scope>ExecutionContext</scope>
                                               <fieldList id="4966">
@@ -29687,7 +29687,7 @@ _self.html.component={};
                                 <name>title</name>
                                 <owner id="4980">
                                   <type>NORMAL</type>
-                                  <id>1021702</id>
+                                  <id>1022855</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4981">
@@ -29764,7 +29764,7 @@ _self.html.component={};
                                 <name>content</name>
                                 <owner id="4994">
                                   <type>NORMAL</type>
-                                  <id>1021720</id>
+                                  <id>1022873</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="4995">
@@ -29854,7 +29854,7 @@ _self.html.component={};
                           <name>post3</name>
                           <owner id="5009">
                             <type>NORMAL</type>
-                            <id>1021861</id>
+                            <id>1023014</id>
                             <name>t_0</name>
                             <scope>ExecutionContext</scope>
                             <fieldList id="5010">
@@ -29884,7 +29884,7 @@ _self.html.component={};
                                 <name>title</name>
                                 <owner id="5016">
                                   <type>NORMAL</type>
-                                  <id>1021873</id>
+                                  <id>1023026</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="5017">
@@ -29966,7 +29966,7 @@ _self.html.component={};
                                 <name>content</name>
                                 <owner id="5031">
                                   <type>NORMAL</type>
-                                  <id>1021891</id>
+                                  <id>1023044</id>
                                   <name>t_3</name>
                                   <scope>ExecutionContext</scope>
                                   <fieldList id="5032">
@@ -30521,7 +30521,7 @@ _self.html.component={};
                         <name>title</name>
                         <target class="string" id="5104">
                           <type>STRING</type>
-                          <id>1021221</id>
+                          <id>1022374</id>
                           <name>title</name>
                           <owner reference="5065"/>
                           <scope>ExecutionContext</scope>
@@ -30530,7 +30530,7 @@ _self.html.component={};
                               <name>_system</name>
                               <target id="5107">
                                 <type>NORMAL</type>
-                                <id>1021222</id>
+                                <id>1022375</id>
                                 <name>_system</name>
                                 <owner class="string" reference="5104"/>
                                 <scope>ExecutionContext</scope>
@@ -30952,7 +30952,7 @@ _self.html.component={};
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="5163"/>
-                          <value>25</value>
+                          <value>27</value>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="5179">
@@ -34069,10 +34069,150 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               <height>100</height>
             </area>
           </field>
+          <field id="5670">
+            <name>cooby</name>
+            <target id="5671">
+              <type>NORMAL</type>
+              <id>1022376</id>
+              <name>cooby</name>
+              <description></description>
+              <owner reference="2149"/>
+              <scope>ExecutionContext</scope>
+              <fieldList id="5672">
+                <field id="5673">
+                  <name>virtualMachine</name>
+                  <target id="5674">
+                    <type>NORMAL</type>
+                    <id>1022377</id>
+                    <name>virtualMachine</name>
+                    <description></description>
+                    <owner reference="5671"/>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="5675">
+                      <field id="5676">
+                        <name>ObjectRepository</name>
+                        <target id="5677">
+                          <type>NORMAL</type>
+                          <id>1022378</id>
+                          <name>ObjectRepository</name>
+                          <description></description>
+                          <owner reference="5674"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="5678"/>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="5679">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </target>
+                        <svgScale>0.2</svgScale>
+                        <area id="5680">
+                          <x>770</x>
+                          <y>945</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="5681">
+                        <name>WorkerService</name>
+                        <target id="5682">
+                          <type>NORMAL</type>
+                          <id>1022379</id>
+                          <name>WorkerService</name>
+                          <description></description>
+                          <owner reference="5674"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="5683"/>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="5679"/>
+                        </target>
+                        <svgScale>0.2</svgScale>
+                        <area id="5684">
+                          <x>1920</x>
+                          <y>975</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="5685">
+                        <name>PostService</name>
+                        <target id="5686">
+                          <type>NORMAL</type>
+                          <id>1022380</id>
+                          <name>PostService</name>
+                          <description></description>
+                          <owner reference="5674"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="5687">
+                            <field id="5688">
+                              <name>RemoteService</name>
+                              <target id="5689">
+                                <type>NORMAL</type>
+                                <id>1022381</id>
+                                <name>RemoteService</name>
+                                <description></description>
+                                <owner reference="5686"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="5690"/>
+                                <systemFieldsCount>0</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="5679"/>
+                              </target>
+                              <svgScale>0.2</svgScale>
+                              <area id="5691">
+                                <x>1030</x>
+                                <y>1220</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="5679"/>
+                        </target>
+                        <svgScale>0.2</svgScale>
+                        <area id="5692">
+                          <x>2880</x>
+                          <y>1015</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <systemFieldsCount>0</systemFieldsCount>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor reference="5679"/>
+                  </target>
+                  <svgScale>0.2</svgScale>
+                  <area id="5693">
+                    <x>1135</x>
+                    <y>700</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <systemFieldsCount>0</systemFieldsCount>
+              <scaleRate>1.0</scaleRate>
+              <borderColor reference="5679"/>
+            </target>
+            <svgScale>0.2</svgScale>
+            <area id="5694">
+              <x>2495</x>
+              <y>125</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
         </fieldList>
         <systemFieldsCount>0</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="5670">
+        <borderColor id="5695">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -34080,18 +34220,18 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </borderColor>
       </target>
       <svgScale>0.2</svgScale>
-      <area id="5671">
+      <area id="5696">
         <x>1225</x>
         <y>1185</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="5672">
+    <field id="5697">
       <name>core</name>
       <target reference="214"/>
       <svgScale>0.2</svgScale>
-      <area id="5673">
+      <area id="5698">
         <x>510</x>
         <y>430</y>
         <width>100</width>
@@ -34101,7 +34241,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
   </fieldList>
   <systemFieldsCount>1</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="5674">
+  <borderColor id="5699">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
