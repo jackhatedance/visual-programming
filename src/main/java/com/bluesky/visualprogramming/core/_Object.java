@@ -18,12 +18,12 @@ import com.bluesky.visualprogramming.core.procedure.SubjectMatcher;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+import com.bluesky.visualprogramming.vm.message.Worker;
 
 public class _Object implements Serializable {
 	static Logger logger = Logger.getLogger(_Object.class);

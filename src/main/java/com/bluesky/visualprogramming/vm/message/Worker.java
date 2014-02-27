@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.messageEngine;
+package com.bluesky.visualprogramming.vm.message;
 
 import org.apache.log4j.Logger;
 
@@ -27,12 +27,12 @@ public class Worker implements Runnable {
 
 	private ObjectRepository objectRepository;
 
-	private WorkerManager workerManager;
+	private WorkerService workerManager;
 	private PostService postService;
 	private _Object customer;
 
 	public Worker(ObjectRepository objectRepository,
-			WorkerManager workerManager, PostService postService,
+			WorkerService workerManager, PostService postService,
 			_Object customer) {
 		this.objectRepository = objectRepository;
 		this.workerManager = workerManager;

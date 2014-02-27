@@ -12,7 +12,6 @@ import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -27,6 +26,7 @@ import com.bluesky.visualprogramming.vm.instruction.ProcedureEnd;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
+import com.bluesky.visualprogramming.vm.message.PostService;
 
 public class InstructionExecutorImpl implements InstructionExecutor {
 	static Logger logger = Logger.getLogger(InstructionExecutorImpl.class);

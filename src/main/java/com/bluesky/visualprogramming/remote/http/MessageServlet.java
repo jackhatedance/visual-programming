@@ -23,9 +23,9 @@ import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSe
 import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.messageEngine.PostService;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+import com.bluesky.visualprogramming.vm.message.PostService;
 
 public class MessageServlet extends HttpServlet {
 	static Logger logger = Logger.getLogger(MessageServlet.class);

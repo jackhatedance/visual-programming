@@ -1,5 +1,13 @@
 package com.bluesky.visualprogramming.vm;
 
+/**
+ * a enhanced interface of service, support start/stop/pause/resume operations.
+ * 
+ * this enabled the virtual machine to be paused.
+ * 
+ * @author jack
+ * 
+ */
 public interface Service {
 
 	/**

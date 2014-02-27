@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.messageEngine;
+package com.bluesky.visualprogramming.vm.message;
 
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -32,7 +32,7 @@ public class PostService implements Runnable, Service {
 	static Logger logger = Logger.getLogger(PostService.class);
 
 	private ObjectRepository objectRepository;
-	private WorkerManager workerManager;
+	private WorkerService workerManager;
 	private RemoteCommunicationService remoteCommunicationService;
 
 	private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
@@ -44,7 +44,7 @@ public class PostService implements Runnable, Service {
 	private volatile boolean running = true;
 
 	public void init(ObjectRepository objectRepository,
-			WorkerManager workerManager) {
+			WorkerService workerManager) {
 		this.objectRepository = objectRepository;
 		this.workerManager = workerManager;
 

@@ -3,10 +3,10 @@ package com.bluesky.visualprogramming.vm;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.messageEngine.PostService;
-import com.bluesky.visualprogramming.messageEngine.Worker;
-import com.bluesky.visualprogramming.messageEngine.WorkerManager;
 import com.bluesky.visualprogramming.timer.TimerService;
+import com.bluesky.visualprogramming.vm.message.PostService;
+import com.bluesky.visualprogramming.vm.message.Worker;
+import com.bluesky.visualprogramming.vm.message.WorkerService;
 
 /**
  * one vm start with one image.
@@ -21,16 +21,14 @@ public class VirtualMachine implements Service {
 
 	private ObjectRepository objectRepository;
 
-	private WorkerManager workerManager;
-	private Thread workerManagerThread;
-
+	private WorkerService workerService;
 	private PostService postService;
 	private Thread postServiceThread;
 
 	private boolean timerServiceEnabled = false;
 	private TimerService timerService;
 
-	private boolean running = false;
+	private ServiceStatus status;
 
 	private static VirtualMachine instance = null;
 
@@ -51,7 +49,7 @@ public class VirtualMachine implements Service {
 		objectRepository = new ObjectRepository();
 
 		postService = new PostService();
-		workerManager = new WorkerManager();
+		workerService = new WorkerService();
 
 		timerServiceEnabled = true;
 		String timerServiceEnabledStr = appProperties
@@ -63,21 +61,23 @@ public class VirtualMachine implements Service {
 		/*
 		 * workerManager and postService only need each other at runtime.
 		 */
-		workerManager.init(objectRepository, postService);
-		postService.init(objectRepository, workerManager);
-
-		workerManagerThread = new Thread(workerManager, "WorkerManager");
+		workerService.beforeInit(objectRepository, postService);
+		workerService.init();
+		
+		postService.init(objectRepository, workerService);
 
 		postServiceThread = new Thread(postService, "PostService");
 
 		timerService.init();
 
+		status = ServiceStatus.Stopped;
+
 		logger.info("VM initialized");
 	}
 
 	public void loadFromImage(String file) {
-		if (running)
-			throw new RuntimeException("cannot load while running");
+		if (status == ServiceStatus.Running || status == ServiceStatus.Paused)
+			throw new RuntimeException("cannot load while running or suspended");
 		// pause();
 
 		objectRepository.loadXml(file);
@@ -92,14 +92,13 @@ public class VirtualMachine implements Service {
 	 */
 	public void start() {
 
-		workerManagerThread.start();
+		workerService.start();
 		postServiceThread.start();
 
 		if (timerServiceEnabled)
 			timerService.start();
 
-		running = true;
-
+		status = ServiceStatus.Running;
 		logger.info("VM started");
 	}
 
@@ -107,10 +106,7 @@ public class VirtualMachine implements Service {
 
 		try {
 			// logger.info("VM pause begin...");
-			workerManager.stop();
-			workerManagerThread.interrupt();
-
-			workerManagerThread.join();
+			workerService.pause();
 
 			postService.stop();
 			postServiceThread.interrupt();
@@ -120,7 +116,7 @@ public class VirtualMachine implements Service {
 			if (timerServiceEnabled)
 				timerService.pause();
 
-			running = false;
+			status = ServiceStatus.Paused;
 
 			logger.info("VM paused");
 		} catch (InterruptedException e) {
@@ -132,17 +128,15 @@ public class VirtualMachine implements Service {
 
 	public void resume() {
 
-		workerManagerThread = new Thread(workerManager, "WorkerManager");
-
 		postServiceThread = new Thread(postService, "PostService");
 
-		workerManagerThread.start();
+		workerService.resume();
 		postServiceThread.start();
 
 		if (timerServiceEnabled)
 			timerService.resume();
 
-		running = true;
+		status = ServiceStatus.Running;
 
 		logger.info("VM resumed");
 	}
@@ -155,12 +149,8 @@ public class VirtualMachine implements Service {
 		this.objectRepository = objectRepository;
 	}
 
-	public WorkerManager getWorkerManager() {
-		return workerManager;
-	}
-
-	public void setWorkerManager(WorkerManager workerManager) {
-		this.workerManager = workerManager;
+	public void setWorkerService(WorkerService workerService) {
+		this.workerService = workerService;
 	}
 
 	public PostService getPostService() {

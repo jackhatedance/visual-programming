@@ -3,9 +3,9 @@ package com.bluesky.visualprogramming.core;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.messageEngine.Worker;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
+import com.bluesky.visualprogramming.vm.message.Worker;
 
 public class Message {
 

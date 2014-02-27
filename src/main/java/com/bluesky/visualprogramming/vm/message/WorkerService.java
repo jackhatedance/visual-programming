@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.messageEngine;
+package com.bluesky.visualprogramming.vm.message;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -9,30 +9,36 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.vm.Service;
+import com.bluesky.visualprogramming.vm.ServiceStatus;
 
-public class WorkerManager implements Runnable {
+/**
+ * manage workers(aka thread to execute code). accept request from any object
+ * that need worker.
+ * 
+ * @author jack
+ * 
+ */
+public class WorkerService extends AbstractService implements Runnable  {
 
-	static Logger logger = Logger.getLogger(WorkerManager.class);
+	static Logger logger = Logger.getLogger(WorkerService.class);
 
 	private ExecutorService executorServie;
-
 	/**
 	 * awake customers with messages in queue.
 	 */
 	private BlockingQueue<_Object> customers;
 
-	private volatile boolean running = true;
-
 	private ObjectRepository objectRepository;
 	private PostService postService;
 
-	public WorkerManager() {
+	public WorkerService() {
 		customers = new LinkedBlockingQueue<_Object>();
-
 		executorServie = Executors.newFixedThreadPool(5);
 	}
 
-	public void init(ObjectRepository objectRepository, PostService postService) {
+	public void beforeInit(ObjectRepository objectRepository,
+			PostService postService) {
 		this.objectRepository = objectRepository;
 		this.postService = postService;
 	}
@@ -66,17 +72,36 @@ public class WorkerManager implements Runnable {
 
 	@Override
 	public void run() {
-		while (running) {
-			_Object cust;
+		while (!stopFlag) {
+
 			try {
-				cust = customers.take();
+				synchronized (this) {
+					while (pauseFlag) {
+						setStatus( ServiceStatus.Paused);
+
+						// reset
+						pauseFlag = false;
+
+						wait();
+						setStatus(ServiceStatus.Running);
+					}
+					
+				}
+
+				_Object cust = customers.take();
 				assign(cust);
+
 			} catch (InterruptedException e) {
 				if (logger.isDebugEnabled())
-					logger.debug("interrupted.");
-				
+					logger.debug(name + "interrupted.");
+
 			}
 		}
+		
+		setStatus(ServiceStatus.Stopped);
+		//reset
+		stopFlag=false;
+		
 		if (logger.isDebugEnabled())
 			logger.debug("thread terminated.");
 
@@ -92,8 +117,11 @@ public class WorkerManager implements Runnable {
 		executorServie.execute(worker);
 	}
 
-	public synchronized void stop() {
-		running = false;		
+	@Override
+	public void init() {
+		name = "WorkerService";
+		super.init();		
 	}
+
 
 }
