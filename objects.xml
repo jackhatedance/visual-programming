@@ -125,7 +125,6 @@ procedure sum(n)
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="20">
@@ -829,7 +828,6 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="124"/>
-                                <expectMessageType>SyncReply</expectMessageType>
                               </target>
                               <svgScale>0.2</svgScale>
                               <area id="135">
@@ -986,7 +984,6 @@ _root.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="46"/>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="150">
@@ -1127,7 +1124,6 @@ _self._system.prototype = path://_root.lib.web.components.baseComponent@local;&#
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="162"/>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="173">
@@ -1159,7 +1155,6 @@ _self._system.prototype = path://_root.lib.web.components.baseComponent@local;&#
           <blue>255</blue>
           <alpha>255</alpha>
         </borderColor>
-        <expectMessageType>SyncReply</expectMessageType>
       </target>
       <svgScale>0.2</svgScale>
       <area id="176">
@@ -1637,7 +1632,6 @@ _self._system.prototype = path://_root.lib.web.components.baseComponent@local;&#
                                                               <systemFieldsCount>0</systemFieldsCount>
                                                               <scaleRate>1.0</scaleRate>
                                                               <borderColor reference="227"/>
-                                                              <expectMessageType>SyncReply</expectMessageType>
                                                             </target>
                                                             <svgScale>0.2</svgScale>
                                                             <area id="268">
@@ -2780,7 +2774,6 @@ such as disable email aliases for object foo.</value>
                                                     <blue>0</blue>
                                                     <alpha>255</alpha>
                                                   </borderColor>
-                                                  <expectMessageType>SyncReply</expectMessageType>
                                                 </owner>
                                                 <scope>ExecutionContext</scope>
                                                 <fieldList id="460">
@@ -3247,7 +3240,6 @@ such as disable email aliases for object foo.</value>
                                                         <blue>0</blue>
                                                         <alpha>255</alpha>
                                                       </borderColor>
-                                                      <expectMessageType>SyncReply</expectMessageType>
                                                     </target>
                                                     <svgScale>0.2</svgScale>
                                                     <area id="539">
@@ -3494,7 +3486,6 @@ such as disable email aliases for object foo.</value>
                                                         <blue>0</blue>
                                                         <alpha>255</alpha>
                                                       </borderColor>
-                                                      <expectMessageType>SyncReply</expectMessageType>
                                                     </target>
                                                     <svgScale>0.2</svgScale>
                                                     <area id="580">
@@ -3678,7 +3669,6 @@ such as disable email aliases for object foo.</value>
                                                       <systemFieldsCount>0</systemFieldsCount>
                                                       <scaleRate>1.0</scaleRate>
                                                       <borderColor reference="587"/>
-                                                      <expectMessageType>SyncReply</expectMessageType>
                                                     </target>
                                                     <svgScale>0.2</svgScale>
                                                     <area id="611">
@@ -3697,7 +3687,6 @@ such as disable email aliases for object foo.</value>
                                                   <blue>0</blue>
                                                   <alpha>255</alpha>
                                                 </borderColor>
-                                                <expectMessageType>SyncReply</expectMessageType>
                                               </owner>
                                               <fieldList id="613">
                                                 <field id="614">
@@ -5235,7 +5224,6 @@ such as disable email aliases for object foo.</value>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="676"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="874">
@@ -5664,7 +5652,6 @@ such as disable email aliases for object foo.</value>
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <expectMessageType>SyncReply</expectMessageType>
                               </target>
                               <svgScale>0.2</svgScale>
                               <area id="952">
@@ -5941,7 +5928,6 @@ such as disable email aliases for object foo.</value>
                                 <systemFieldsCount>4</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="982"/>
-                                <expectMessageType>SyncReply</expectMessageType>
                               </target>
                               <svgScale>0.2</svgScale>
                               <area id="999">
@@ -7567,7 +7553,6 @@ such as disable email aliases for object foo.</value>
                                 <systemFieldsCount>1</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="1020"/>
-                                <expectMessageType>SyncReply</expectMessageType>
                               </target>
                               <svgScale>0.2</svgScale>
                               <area id="1281">
@@ -8094,7 +8079,6 @@ such as disable email aliases for object foo.</value>
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1354">
@@ -8399,7 +8383,6 @@ resp = _self.execute(cmd:&quot;RCSwitch&quot;,pulseLength:166,code:&quot;1601261
                           <systemFieldsCount>3</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1377"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1404">
@@ -9203,7 +9186,6 @@ CqAHRloAXyD/D1cptj2Af6pyAAAAAElFTkSuQmCC
                           <systemFieldsCount>4</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1438"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1492">
@@ -9344,7 +9326,6 @@ resp = _self.rcwebLink.execute(cmd:&quot;RCSwitch&quot;,pulseLength:166,code:&qu
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1503"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1514">
@@ -9468,7 +9449,6 @@ resp = _self.rcweb.execute(cmd:&quot;IRRemote&quot;,type:&quot;Sharp&quot;,code:
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1521"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1533">
@@ -11371,7 +11351,6 @@ _self.press(&quot;number7&quot;);
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="1531"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="1864">
@@ -11403,7 +11382,6 @@ _self.press(&quot;number7&quot;);
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="1867">
@@ -12991,7 +12969,6 @@ setbox.$channelName();
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="2129"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="2142">
@@ -13032,7 +13009,6 @@ setbox.$channelName();
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="2145">
@@ -13051,7 +13027,6 @@ setbox.$channelName();
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
-        <expectMessageType>SyncReply</expectMessageType>
       </target>
       <svgScale>0.2</svgScale>
       <area id="2147">
@@ -13700,7 +13675,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                       <blue>51</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2259">
@@ -13891,7 +13865,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2279">
@@ -14082,7 +14055,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2299">
@@ -14268,7 +14240,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2318">
@@ -14454,7 +14425,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>51</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2337">
@@ -14640,7 +14610,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>51</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2356">
@@ -14826,7 +14795,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2375">
@@ -15012,7 +14980,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2394">
@@ -15198,7 +15165,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gra
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2413">
@@ -15656,7 +15622,6 @@ chess pieces and chess board can be made by svg files.</value>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="2483"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="2496">
@@ -15982,7 +15947,6 @@ user should be able to input linux command on Jabber client and get response.
                     <systemFieldsCount>2</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="2483"/>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="2547">
@@ -17679,7 +17643,6 @@ _result = _self.responseTemplate._postContent;
                           <systemFieldsCount>2</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="2590"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="2836">
@@ -27549,7 +27512,6 @@ _result = _self.responseTemplate._postContent;
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="2896"/>
-                          <expectMessageType>SyncReply</expectMessageType>
                         </target>
                         <svgScale>0.2</svgScale>
                         <area id="4599">
@@ -27930,7 +27892,6 @@ _result = _self.responseTemplate._postContent;
               <systemFieldsCount>0</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
               <borderColor reference="587"/>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="4663">
@@ -28758,7 +28719,6 @@ _result = _self.responseTemplate._postContent;
                                         <systemFieldsCount>1</systemFieldsCount>
                                         <scaleRate>1.0</scaleRate>
                                         <borderColor reference="4779"/>
-                                        <expectMessageType>SyncReply</expectMessageType>
                                       </target>
                                       <svgScale>0.2</svgScale>
                                       <area id="4797">
@@ -28998,7 +28958,6 @@ _result = _self.responseTemplate._postContent;
                                                 <blue>0</blue>
                                                 <alpha>255</alpha>
                                               </borderColor>
-                                              <expectMessageType>SyncReply</expectMessageType>
                                             </target>
                                             <svgScale>0.2</svgScale>
                                             <area id="4839">
@@ -29094,7 +29053,7 @@ _result = _self.responseTemplate._postContent;
                             <systemFieldsCount>1</systemFieldsCount>
                             <scaleRate>1.0</scaleRate>
                             <borderColor reference="4836"/>
-                            <value>69</value>
+                            <value>72</value>
                           </target>
                           <svgScale>0.2</svgScale>
                           <area id="4852">
@@ -29108,7 +29067,7 @@ _result = _self.responseTemplate._postContent;
                           <name>title</name>
                           <target class="string" id="4854">
                             <type>STRING</type>
-                            <id>1066903</id>
+                            <id>1069157</id>
                             <name>t_0</name>
                             <owner reference="4762"/>
                             <scope>ExecutionContext</scope>
@@ -29117,7 +29076,7 @@ _result = _self.responseTemplate._postContent;
                                 <name>_system</name>
                                 <target id="4857">
                                   <type>NORMAL</type>
-                                  <id>1066904</id>
+                                  <id>1069158</id>
                                   <name>_system</name>
                                   <owner class="string" reference="4854"/>
                                   <scope>ExecutionContext</scope>
@@ -29596,7 +29555,6 @@ _result = _self.responseTemplate._postContent;
                                             <systemFieldsCount>0</systemFieldsCount>
                                             <scaleRate>1.0</scaleRate>
                                             <borderColor reference="124"/>
-                                            <expectMessageType>SyncReply</expectMessageType>
                                           </target>
                                           <svgScale>0.2</svgScale>
                                           <area id="4942">
@@ -29779,6 +29737,7 @@ _result = _self.responseTemplate._postContent;
                           <name>letsTryCooby</name>
                           <description></description>
                           <owner reference="4761"/>
+                          <scope>ExecutionContext</scope>
                           <fieldList id="4971">
                             <field id="4972">
                               <name>_system</name>
@@ -29831,7 +29790,7 @@ _self.html.component={};
                                       <name>_result</name>
                                       <owner id="4982">
                                         <type>NORMAL</type>
-                                        <id>1067372</id>
+                                        <id>1069626</id>
                                         <name>t_0</name>
                                         <scope>ExecutionContext</scope>
                                         <fieldList id="4983">
@@ -29861,7 +29820,7 @@ _self.html.component={};
                                             <name>component</name>
                                             <owner id="4989">
                                               <type>NORMAL</type>
-                                              <id>1067383</id>
+                                              <id>1069637</id>
                                               <name>t_0</name>
                                               <scope>ExecutionContext</scope>
                                               <fieldList id="4990">
@@ -29919,7 +29878,6 @@ _self.html.component={};
                                             <systemFieldsCount>0</systemFieldsCount>
                                             <scaleRate>1.0</scaleRate>
                                             <borderColor reference="4978"/>
-                                            <expectMessageType>SyncReply</expectMessageType>
                                           </target>
                                           <svgScale>0.2</svgScale>
                                           <area id="4998">
@@ -30381,7 +30339,6 @@ _self.html.component={};
               <systemFieldsCount>2</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
               <borderColor reference="57"/>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="5070">
@@ -31389,7 +31346,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <systemFieldsCount>3</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
                     <borderColor reference="5181"/>
-                    <expectMessageType>SyncReply</expectMessageType>
                   </target>
                   <svgScale>0.2</svgScale>
                   <area id="5190">
@@ -33461,7 +33417,6 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <expectMessageType>SyncReply</expectMessageType>
             </target>
             <svgScale>0.2</svgScale>
             <area id="5558">

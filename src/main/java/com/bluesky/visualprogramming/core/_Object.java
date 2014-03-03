@@ -828,24 +828,6 @@ public class _Object implements Serializable {
 		return messageQueue.size();
 	}
 
-	private MessageType expectMessageType;
-
-	public void setExpectMessageType(MessageType type) {
-		this.expectMessageType = type;
-	}
-
-	public void checkMessageType(MessageType type) {
-		if (expectMessageType == null)
-			return;
-
-		if (expectMessageType != type)
-			throw new RuntimeException(String.format(
-					"expected %s but comes %s", expectMessageType, type));
-		else
-			expectMessageType = null;
-
-	}
-
 	public synchronized void printMessageQueue() {
 		Iterator<Message> it = messageQueue.iterator();
 

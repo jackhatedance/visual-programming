@@ -237,7 +237,7 @@ public class Worker implements Runnable {
 						if (logger.isDebugEnabled())
 							logger.debug(String.format(
 									"[%s] is waiting for reply", obj));
-						obj.setExpectMessageType(MessageType.SyncReply);
+
 						/*
 						 * TODO let the worker thread wait for a while, maybe
 						 * the reply come very soon. so that we can reuse

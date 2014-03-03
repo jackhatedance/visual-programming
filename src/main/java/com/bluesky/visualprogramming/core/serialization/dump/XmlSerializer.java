@@ -11,9 +11,7 @@ import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.core.value.TimeValue;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 public class XmlSerializer implements ObjectSerializer {
 	XStream xstream;
@@ -38,6 +36,7 @@ public class XmlSerializer implements ObjectSerializer {
 		xstream.omitField(_Object.class, "fieldNameMap");
 		xstream.omitField(_Object.class, "childrenObjectMap");
 		xstream.omitField(_Object.class, "applyingWorker");
+
 		//xstream.omitField(_Object.class, "area");
 		// owner can be restored after deserialze.
 		//xstream.omitField(_Object.class, "owner");
