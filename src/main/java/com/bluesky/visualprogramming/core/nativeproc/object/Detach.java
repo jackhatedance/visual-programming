@@ -21,7 +21,7 @@ public class Detach extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 
 		if (self.hasOwner())
-			self.getOwner().detachChild(self);
+			self.getOwner().detachOwnedChild(self);
 
 		return self;
 	}

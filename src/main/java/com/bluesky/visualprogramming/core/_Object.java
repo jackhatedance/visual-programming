@@ -263,7 +263,7 @@ public class _Object implements Serializable {
 
 		_Object oldChild = field.target;
 		if (oldChild != null)
-			detachChild(oldChild);
+			detachOwnedChild(oldChild);
 
 		field.target = child;
 
@@ -394,8 +394,8 @@ public class _Object implements Serializable {
 
 		recreateFieldIndexes();
 
-		if (field.target != null)
-			detachChild(field.target);
+		if (field.target != null && owns(field.target))
+			detachOwnedChild(field.target);
 	}
 
 	/**
@@ -405,13 +405,15 @@ public class _Object implements Serializable {
 	 * 
 	 * @param child
 	 */
-	public void detachChild(_Object child) {
-		child.setOwner(null);
-		child.setScope(ObjectScope.ExecutionContext);
+	public void detachOwnedChild(_Object child) {
+		if (owns(child)) {
+			child.setOwner(null);
+			child.setScope(ObjectScope.ExecutionContext);
+		}
 	}
 
 	public void detachFromOwner() {
-		owner.detachChild(this);
+		owner.detachOwnedChild(this);
 	}
 
 	/**
@@ -517,7 +519,7 @@ public class _Object implements Serializable {
 			recreateFieldIndexes();
 			if (logger.isDebugEnabled())
 				logger.debug("field index not created when lookup field:"
-					+ name);
+						+ name);
 		}
 
 		Integer index = fieldNameMap.get(name);

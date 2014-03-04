@@ -24,7 +24,7 @@ public class ForceOwn extends BaseNativeProcedure implements NativeProcedure {
 		_Object child = (_Object) ctx.get("child");
 		
 		if (child.hasOwner())
-			child.getOwner().detachChild(child);
+			child.getOwner().detachOwnedChild(child);
 		
 		self.setField(name.getValue(), child, true);
 

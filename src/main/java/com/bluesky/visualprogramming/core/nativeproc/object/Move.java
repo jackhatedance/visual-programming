@@ -29,7 +29,7 @@ public class Move extends BaseNativeProcedure implements NativeProcedure {
 			dstFieldName = srcFieldName;// same name
 
 		_Object childObj = srcObj.getChild(srcFieldName.getValue());
-		srcObj.detachChild(childObj);
+		srcObj.detachOwnedChild(childObj);
 
 		dstObj.setField(dstFieldName.getValue(), childObj, true);
 
