@@ -29,9 +29,10 @@ public class XmlSerialzationVisitor implements ObjectVisitor {
 	// StringWriter writer = new StringWriter();
 	Document document;
 
-	public XmlSerialzationVisitor() {
+	public XmlSerialzationVisitor(boolean skipSystemField) {
 		document = DocumentHelper.createDocument();
 
+		this.skipSystemField = skipSystemField;
 	}
 
 	public void wrtieXml(Writer writer) throws IOException {

@@ -21,7 +21,10 @@ public class XmlSerialzer implements ConfigurableObjectSerializer {
 		if (obj == null)
 			return;
 
-		XmlSerialzationVisitor visitor = new XmlSerialzationVisitor();
+		boolean skipSystemField = config.getBoolean("skipSystemField", true);
+
+		XmlSerialzationVisitor visitor = new XmlSerialzationVisitor(
+				skipSystemField);
 		visitor.visit(obj, obj.getName());
 
 		try {

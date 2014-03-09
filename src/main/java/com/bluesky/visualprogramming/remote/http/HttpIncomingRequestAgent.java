@@ -29,10 +29,13 @@ public class HttpIncomingRequestAgent {
 	 * used to indicate response is ready.
 	 */
 	private Semaphore responseReady = new Semaphore(0);
+	private Config config;
 
-	public HttpIncomingRequestAgent(MessageFormat responseContentFormat) {
+	public HttpIncomingRequestAgent(MessageFormat responseContentFormat,
+			Config config) {
 
 		this.responseContentFormat = responseContentFormat;
+		this.config = config;
 	}
 
 	public void send(String receiverAddress, Message msg) {
@@ -58,11 +61,12 @@ public class HttpIncomingRequestAgent {
 				logger.debug("responseContentFormat is: "
 						+ responseContentFormat.name());
 
+
 			ConfigurableObjectSerializer serializer = responseContentFormat
 					.getSerializer();
 
 			StringWriter sw = new StringWriter();
-			Config config = new Config();
+
 			try {
 				serializer.serialize(msg.body, sw, config);
 			} catch (Exception e) {

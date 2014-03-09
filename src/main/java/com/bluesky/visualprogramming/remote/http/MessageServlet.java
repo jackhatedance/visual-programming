@@ -41,8 +41,7 @@ public class MessageServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response)
-			throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 
 		if (logger.isDebugEnabled())
 			logger.debug("POST " + request.getPathInfo());
@@ -124,10 +123,11 @@ public class MessageServlet extends HttpServlet {
 		if (agent == null) {
 
 			Config config = service.getConfig(receiverAddress);
-			
-			String responseContentFormat = config.getString("responseContentFormat",MessageFormat.HTML.name());
+
+			String responseContentFormat = config.getString(
+					"responseContentFormat", MessageFormat.HTML.name());
 			agent = new HttpIncomingRequestAgent(
-					MessageFormat.getFormat(responseContentFormat));
+					MessageFormat.getFormat(responseContentFormat), config);
 			service.setAgent(senderAddress, agent);
 
 			if (logger.isDebugEnabled())
@@ -143,7 +143,8 @@ public class MessageServlet extends HttpServlet {
 
 			// try get meta info.
 			Config config = service.getConfig(receiverAddress);
-			String postContentFormat = config.getString("postContentFormat",MessageFormat.XML.name());			
+			String postContentFormat = config.getString("postContentFormat",
+					MessageFormat.XML.name());
 			MessageFormat format = MessageFormat.getFormat(postContentFormat);
 
 			if (format != null) {
