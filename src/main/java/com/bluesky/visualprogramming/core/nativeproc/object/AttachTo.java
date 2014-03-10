@@ -1,7 +1,6 @@
 package com.bluesky.visualprogramming.core.nativeproc.object;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -20,11 +19,12 @@ public class AttachTo extends BaseNativeProcedure implements NativeProcedure {
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 		_Object owner = (_Object) ctx.get("owner");
+		StringValue name = (StringValue) ctx.get("name");
 		
 		if (self.hasOwner())
 			self.getOwner().detachOwnedChild(self);
 		
-		self.attachTo(owner);
+		self.attachTo(owner, name.getValue());
 				
 
 		return self;

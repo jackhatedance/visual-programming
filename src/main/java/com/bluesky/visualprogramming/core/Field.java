@@ -16,6 +16,14 @@ public class Field {
 	public String name;
 	public _Object target;
 
+	public FieldType type;
+	public _Object owner;
+
+	/**
+	 * only used for pointer serialization.
+	 */
+	public String pointerPath;
+
 	// scale of a svg shape.
 	public float svgScale = 0.2f;
 

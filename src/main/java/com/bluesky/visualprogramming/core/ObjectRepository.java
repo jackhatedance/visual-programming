@@ -1,7 +1,6 @@
 package com.bluesky.visualprogramming.core;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -40,6 +39,91 @@ public class ObjectRepository {
 
 		rootObject = createObject(ObjectType.NORMAL, ObjectScope.Persistent);
 		rootObject.setName(ObjectRepository.ROOT);
+
+		// my listeners
+		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
+			@Override
+			public void beforeSave(_Object obj) {
+
+				// remove backward points
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					f.owner = null;
+
+					if (f.target != null) {
+						f.target.field = null;
+						f.target.setOldOwner(null);
+					}
+
+				}
+
+			}
+
+			@Override
+			public void beforeDestroy(_Object obj) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterLoadFromFile(_Object obj) {
+
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					f.owner = obj;
+
+					if (f.type == FieldType.Pointer) {
+						if (f.pointerPath.startsWith("_root"))
+							f.target = ObjectRepository.this
+									.getObjectByPath(f.pointerPath);
+						else
+							System.out
+									.println("worng pointer:" + f.pointerPath);
+
+					} else if (f.type == FieldType.Branch) {
+						f.target.field = f;
+
+						f.target.setOldOwner(obj);
+					}
+					/*
+					 * else if (f.target != null && f.target.getOwnerOld() ==
+					 * obj) { f.type = FieldType.Branch; f.target.field = f;
+					 * 
+					 * f.target.setOldOwner(obj);
+					 * 
+					 * } else { f.type = FieldType.Pointer; if (f.pointerPath !=
+					 * null && !f.pointerPath.isEmpty()) if
+					 * (f.pointerPath.startsWith("_root")) f.target =
+					 * ObjectRepository.this .getObjectByPath(f.pointerPath);
+					 * else System.out.println("worng pointer:" +
+					 * f.pointerPath);
+					 * 
+					 * }
+					 */
+
+					// f.svgScale=0.2f;
+
+				}
+			}
+
+			@Override
+			public void afterCreate(_Object obj) {
+
+			}
+
+			@Override
+			public void afterAllLoaded() {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		// this listener is used to modify object data in batch for migration
+		// purpose. enable it only when necessary.
+		listeners.add(migrationListener);
+
 	}
 
 	private String generateNewChildName(_Object owner) {
@@ -194,7 +278,7 @@ public class ObjectRepository {
 	public void destroyObject(_Object obj) {
 		if (obj.getOwner() != null) {
 			obj.getOwner().removeChild(obj);
-			obj.setOwner(null);
+			// obj.setOwner(null);
 		}
 
 		objects.remove(obj);
@@ -207,7 +291,8 @@ public class ObjectRepository {
 	public void save(String fileName) {
 
 		try {
-			Writer w = new OutputStreamWriter(new FileOutputStream(fileName),"utf-8");
+			Writer w = new OutputStreamWriter(new FileOutputStream(fileName),
+					"utf-8");
 			saveXml(w);
 
 		} catch (Exception e) {
@@ -222,6 +307,9 @@ public class ObjectRepository {
 			// update target object ID
 			_Object root = getRootObject();
 
+			// notify listener
+			beforeSaveXml();
+
 			svc.serialize(getRootObject(), SerializerType.Xml, true, writer);
 			writer.flush();
 		} catch (Exception e) {
@@ -232,12 +320,13 @@ public class ObjectRepository {
 	public void loadXml(String fileName) {
 		SerializationService svc = new SerializationService();
 		try {
-			Reader r = new InputStreamReader(new FileInputStream(fileName),"utf-8");
+			Reader r = new InputStreamReader(new FileInputStream(fileName),
+					"utf-8");
 
 			_Object root = svc.deserialize(r, SerializerType.Xml);
 			rootObject = root;
 
-			registerObject(rootObject);
+			// registerObject(rootObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -245,14 +334,63 @@ public class ObjectRepository {
 		afterProcessOfLoadingXml();
 	}
 
-	private void registerObject(_Object obj) {
-		objects.put(obj.getId(), obj);
+	// private void registerObject(_Object obj) {
+	// objects.put(obj.getId(), obj);
+	// if (obj.hasChildren()) {
+	// for (Field f : obj.getFields()) {
+	// if (obj.ownsOld(f.target))
+	// registerObject(f.target);
+	// }
+	// }
+	// }
+
+	interface TreeWalker {
+		void walk(_Object obj);
+	}
+
+	private void treeWalk(_Object obj, TreeWalker walker) {
+		walker.walk(obj);
 		if (obj.hasChildren()) {
 			for (Field f : obj.getFields()) {
 				if (obj.owns(f.target))
-					registerObject(f.target);
+					treeWalk(f.target, walker);
 			}
 		}
+	}
+
+	private void beforeSaveXml() {
+
+		// notify
+		treeWalk(rootObject, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					// remove pointer, replace with softlink
+					if (f.target != null && f.type == FieldType.Pointer) {
+						f.pointerPath = f.target.getPath();
+						if (!f.pointerPath.startsWith("_root"))
+							System.out.println(f.pointerPath);
+
+						f.target = null;
+
+					}
+
+				}
+
+			}
+		});
+
+		// notify
+		treeWalk(rootObject, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				for (ObjectRepositoryListener l : listeners)
+					l.beforeSave(obj);
+			}
+		});
+
 	}
 
 	private void afterProcessOfLoadingXml() {
@@ -264,57 +402,22 @@ public class ObjectRepository {
 				maxObjectId = o.getId();
 
 			o.recreateFieldIndexes();
+
 		}
 
 		// reset object id
 		objectId = maxObjectId + 1;
 		logger.info("objects loaded");
 
-		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
-			@Override
-			public void beforeSave(_Object obj) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeDestroy(_Object obj) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterLoadFromFile(_Object obj) {
-
-				for (int i = 0; i < obj.getFields().size(); i++) {
-					Field f = obj.getField(i);
-
-					// f.svgScale=0.2f;
-
-				}
-			}
-
-			@Override
-			public void afterCreate(_Object obj) {
-
-			}
-
-			@Override
-			public void afterAllLoaded() {
-				// TODO Auto-generated method stub
-
-			}
-		};
-
-		// this listener is used to modify object data in batch for migration
-		// purpose. enable it only when necessary.
-		// listeners.add(migrationListener);
 
 		// notify
-		for (_Object o : objects.values()) {
-			for (ObjectRepositoryListener l : listeners)
-				l.afterLoadFromFile(o);
-		}
+		treeWalk(rootObject, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				for (ObjectRepositoryListener l : listeners)
+					l.afterLoadFromFile(obj);
+			}
+		});
 
 	}
 

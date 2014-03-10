@@ -34,6 +34,7 @@ import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 
 import com.bluesky.visualprogramming.core.Field;
+import com.bluesky.visualprogramming.core.FieldType;
 import com.bluesky.visualprogramming.core.ObjectLayout;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
@@ -348,10 +349,12 @@ public class SVGMainWindow extends JPanel {
 				if (getActiveChildField() != null) {
 					Field ownerField = (Field) getSelectedTreeNode()
 							.getUserObject();
-					_Object ownerObject = ownerField.target;
+
 					_Object childObject = getActiveChildField().target;
 
-					childObject.attachTo(ownerObject);
+					getActiveChildField().type = FieldType.Branch;
+					childObject.setOldOwner(ownerField.target);
+					childObject.attachTo(getActiveChildField());
 				}
 			}
 		});

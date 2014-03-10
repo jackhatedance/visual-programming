@@ -58,8 +58,11 @@ public class _Object implements Serializable {
 
 	private String description;
 
-	// this is a pointer, set after linking.
-	private _Object owner;
+
+	/**
+	 * only not null if it has owner.
+	 */
+	public Field field;
 
 	/**
 	 * only those has root in persistent repository are persistent. messages are
@@ -119,7 +122,8 @@ public class _Object implements Serializable {
 		// this.owner
 
 		for (Field p : src.fieldList) {
-			boolean owns = p.target.owner == this;
+
+			boolean owns = p.type == FieldType.Branch;
 
 			setField(p.name, p.target, owns);
 		}
@@ -158,13 +162,16 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getOwner() {
-		return owner;
+		if (field != null)
+			return field.owner;
+		else
+			return null;
 	}
 
 	public String getPath() {
 		if (hasOwner()) {
-			int index = owner.getChildIndex(this);
-			Field field = owner.getField(index);
+			int index = getOwner().getChildIndex(this);
+			Field field = getOwner().getField(index);
 			return getOwner().getPath() + "." + field.name;
 		} else
 			return name;
@@ -178,9 +185,10 @@ public class _Object implements Serializable {
 		this.description = description;
 	}
 
-	public void setOwner(_Object owner) {
-		this.owner = owner;
+	public void setOldOwner(_Object owner) {
+		// this.owner = owner;
 	}
+
 
 	/**
 	 * re-create indexes.
@@ -274,7 +282,8 @@ public class _Object implements Serializable {
 								"cannot own object(#%d) because it's scope is not ExecutionContext",
 								child.id));
 
-			child.setOwner(this);
+			field.type = FieldType.Branch;
+			child.field = field;
 		}
 
 		recreateFieldIndexes();
@@ -293,7 +302,8 @@ public class _Object implements Serializable {
 								"cannot own object(#%d) because it's scope is not ExecutionContext",
 								child.id));
 
-			child.setOwner(this);
+			field.type = FieldType.Branch;
+			child.field = field;
 		}
 
 		sortFields();
@@ -320,14 +330,14 @@ public class _Object implements Serializable {
 								"cannot own object(#%d) because it's scope is not ExecutionContext",
 								child.id));
 
-			child.setOwner(this);
+			child.attachTo(p);
 		}
 	}
 
 	public ObjectScope getScope() {
 
 		if (hasOwner())
-			return owner.getScope();
+			return getOwner().getScope();
 		else
 			return scope;
 
@@ -339,7 +349,7 @@ public class _Object implements Serializable {
 
 	public boolean hasOwner() {
 
-		return owner != null;
+		return field != null && field.owner != null;
 	}
 
 	public void renameField(String old, String _new) {
@@ -407,13 +417,17 @@ public class _Object implements Serializable {
 	 */
 	public void detachOwnedChild(_Object child) {
 		if (owns(child)) {
-			child.setOwner(null);
+			// child.setOwner(null);
+			child.detachFromOwner();
 			child.setScope(ObjectScope.ExecutionContext);
 		}
 	}
 
 	public void detachFromOwner() {
-		owner.detachOwnedChild(this);
+		// owner.detachOwnedChild(this);
+
+		field.target = null;
+		field = null;
 	}
 
 	/**
@@ -421,8 +435,14 @@ public class _Object implements Serializable {
 	 * 
 	 * @param owner
 	 */
-	public void attachTo(_Object owner) {
-		this.owner = owner;
+	public void attachTo(_Object owner, String name) {
+		Field f = owner.getField(name);
+
+		attachTo(f);
+	}
+
+	public void attachTo(Field field) {
+		this.field = field;
 		this.scope = null;
 	}
 
@@ -491,7 +511,9 @@ public class _Object implements Serializable {
 		layout.preprocess(this);
 
 		for (Field field : fieldList) {
-			boolean owns = field.target.owner == this;
+
+			boolean owns = field.target != null
+					&& field.type == FieldType.Branch;
 
 			_Object proto = field.target.getPrototype();
 			String objName = null;
@@ -840,8 +862,12 @@ public class _Object implements Serializable {
 	}
 
 	public boolean owns(_Object child) {
-		return child.getOwner() == this;
+		if (child != null)
+			return child.getOwner() == this;
+		else
+			return false;
 	}
+
 
 	/**
 	 * rearrange the field list, system field are on top.

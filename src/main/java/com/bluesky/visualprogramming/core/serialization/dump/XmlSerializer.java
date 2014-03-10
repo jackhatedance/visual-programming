@@ -36,6 +36,7 @@ public class XmlSerializer implements ObjectSerializer {
 		xstream.omitField(_Object.class, "fieldNameMap");
 		xstream.omitField(_Object.class, "childrenObjectMap");
 		xstream.omitField(_Object.class, "applyingWorker");
+		xstream.omitField(_Object.class, "owner");
 
 		//xstream.omitField(_Object.class, "area");
 		// owner can be restored after deserialze.
