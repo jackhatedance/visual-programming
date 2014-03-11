@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.serialization.dump;
+package com.bluesky.visualprogramming.core.serialization;
 
 import java.io.Reader;
 import java.io.Writer;
@@ -11,23 +11,28 @@ import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.utils.Config;
 import com.thoughtworks.xstream.XStream;
 
-public class XmlSerializer implements ObjectSerializer {
+/**
+ * it use xstream, to load/save objects. not that controllerable as other
+ * formats but easy to implement.
+ * 
+ * it usually export non-Cooby fields that other formats donesn't.
+ * 
+ * @author jack
+ * 
+ */
+public class XstreamSerializer implements ConfigurableObjectSerializer {
 	XStream xstream;
-	boolean gui;
 
-	public XmlSerializer(boolean gui) {
-		createXstream();
-		initXstream(gui);
+	boolean omitGuiInfo;
 
-	}
+	protected void initXstream(Config config) {
 
-	protected void createXstream() {
+		omitGuiInfo = config.getBoolean("omitGuiInfo", false);
+
 		xstream = new XStream();
-	}
-
-	protected void initXstream(boolean gui) {
 
 		xstream.setMode(XStream.ID_REFERENCES);
 
@@ -56,7 +61,7 @@ public class XmlSerializer implements ObjectSerializer {
 		
 		xstream.alias("procedure", Procedure.class);
 
-		if (!gui)
+		if (omitGuiInfo)
 			omitGuiInfo();
 		
 		omitRuntimeInfo();
@@ -92,15 +97,18 @@ public class XmlSerializer implements ObjectSerializer {
 		
 	}
 
-	@Override
-	public void serialize(_Object obj, Writer writer) {
-		xstream.toXML(obj, writer);
 
+ 
+
+	@Override
+	public void serialize(_Object obj, Writer writer, Config config) {
+		initXstream(config);
+		xstream.toXML(obj, writer);
 	}
 
 	@Override
-	public _Object deserialize(Reader reader) {
-
+	public _Object deserialize(Reader reader, Config config) {
+		initXstream(config);
 		return (_Object) xstream.fromXML(reader);
 	}
 

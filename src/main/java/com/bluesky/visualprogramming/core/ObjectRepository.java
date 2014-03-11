@@ -14,8 +14,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.serialization.dump.SerializationService;
-import com.bluesky.visualprogramming.core.serialization.dump.SerializerType;
+import com.bluesky.visualprogramming.core.serialization.ConfigurableObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.MessageFormat;
+import com.bluesky.visualprogramming.utils.Config;
 
 public class ObjectRepository {
 
@@ -27,7 +28,7 @@ public class ObjectRepository {
 	public static String ROOT = "_root";
 	public static String PROTOTYPE_PATH = ROOT + ".core.prototype";
 
-	long objectId;
+	volatile long objectId;
 	Map<Long, _Object> objects = new HashMap<Long, _Object>();
 	_Object rootObject;
 
@@ -41,80 +42,12 @@ public class ObjectRepository {
 		rootObject.setName(ObjectRepository.ROOT);
 
 		// my listeners
-		ObjectRepositoryListener migrationListener = new ObjectRepositoryListener() {
+		ObjectRepositoryListener migrationListener = new AbstractObjectRepositoryListener() {
 			@Override
 			public void beforeSave(_Object obj) {
 
-				// remove backward points
-				for (int i = 0; i < obj.getFields().size(); i++) {
-					Field f = obj.getField(i);
-
-					f.owner = null;
-
-					if (f.target != null) {
-						f.target.field = null;
-					}
-
-				}
-
 			}
 
-			@Override
-			public void beforeDestroy(_Object obj) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterLoadFromFile(_Object obj) {
-
-				for (int i = 0; i < obj.getFields().size(); i++) {
-					Field f = obj.getField(i);
-
-					f.owner = obj;
-
-					if (f.type == FieldType.Pointer) {
-						if (f.pointerPath.startsWith("_root"))
-							f.target = ObjectRepository.this
-									.getObjectByPath(f.pointerPath);
-						else
-							System.out
-									.println("worng pointer:" + f.pointerPath);
-
-					} else if (f.type == FieldType.Branch) {
-						f.target.field = f;
-					}
-					/*
-					 * else if (f.target != null && f.target.getOwnerOld() ==
-					 * obj) { f.type = FieldType.Branch; f.target.field = f;
-					 * 
-					 * f.target.setOldOwner(obj);
-					 * 
-					 * } else { f.type = FieldType.Pointer; if (f.pointerPath !=
-					 * null && !f.pointerPath.isEmpty()) if
-					 * (f.pointerPath.startsWith("_root")) f.target =
-					 * ObjectRepository.this .getObjectByPath(f.pointerPath);
-					 * else System.out.println("worng pointer:" +
-					 * f.pointerPath);
-					 * 
-					 * }
-					 */
-
-					// f.svgScale=0.2f;
-
-				}
-			}
-
-			@Override
-			public void afterCreate(_Object obj) {
-
-			}
-
-			@Override
-			public void afterAllLoaded() {
-				// TODO Auto-generated method stub
-
-			}
 		};
 
 		// this listener is used to modify object data in batch for migration
@@ -285,12 +218,55 @@ public class ObjectRepository {
 		return rootObject;
 	}
 
-	public void save(String fileName) {
+	public void load(String runtimeFileName, String userFileName) {
+		// runtime
+		loadAndAttach("", runtimeFileName);
+
+		loadAndAttach("_root", userFileName);
+	}
+
+	public void save(String runtimeFileName, String userFileName) {
+		detachAndSave("_root.users", userFileName);
+		detachAndSave("_root", runtimeFileName);
+	}
+
+	private void loadAndAttach(String mountOwnerPath, String fileName) {
+		_Object mountPoint = loadXml(fileName);
+		if (mountOwnerPath != null && !mountOwnerPath.isEmpty()) {
+			_Object mountOwner = getObjectByPath(mountOwnerPath);
+
+			mountOwner.setField(mountPoint.getName(), mountPoint, true);
+		} else {
+			rootObject = mountPoint;
+		}
+
+		afterLoadXml(mountPoint);
+	}
+
+	/**
+	 * pre-process user objects, detach and save.
+	 * 
+	 * @param fileName
+	 */
+	private void detachAndSave(String mountPointPath, String fileName) {
+		_Object mountPoint = getObjectByPath(mountPointPath);
+
+		beforeSaveXml(mountPoint);
+
+		if (mountPoint.hasOwner()) {
+			String fieldName = mountPoint.field.name;
+			mountPoint.getOwner().removeField(fieldName);
+		}
+
+		saveXml(mountPoint, fileName);
+	}
+
+	private void saveXml(_Object object, String fileName) {
 
 		try {
 			Writer w = new OutputStreamWriter(new FileOutputStream(fileName),
 					"utf-8");
-			saveXml(w);
+			saveXml(object, w);
 
 		} catch (Exception e) {
 
@@ -298,48 +274,39 @@ public class ObjectRepository {
 		}
 	}
 
-	public void saveXml(Writer writer) {
-		SerializationService svc = new SerializationService();
+	/**
+	 * it just save whole object tree, assuming user objects has been detached.
+	 * 
+	 * @param writer
+	 */
+	private void saveXml(_Object obj, Writer writer) {
+
+		ConfigurableObjectSerializer serializer = MessageFormat.Xstream
+				.getSerializer();
 		try {
-			// update target object ID
-			_Object root = getRootObject();
 
-			// notify listener
-			beforeSaveXml();
-
-			svc.serialize(getRootObject(), SerializerType.Xml, true, writer);
+			serializer.serialize(obj, writer, new Config());
 			writer.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void loadXml(String fileName) {
-		SerializationService svc = new SerializationService();
+	private _Object loadXml(String fileName) {
+		ConfigurableObjectSerializer serializer = MessageFormat.Xstream
+				.getSerializer();
 		try {
 			Reader r = new InputStreamReader(new FileInputStream(fileName),
 					"utf-8");
 
-			_Object root = svc.deserialize(r, SerializerType.Xml);
-			rootObject = root;
-
+			_Object root = serializer.deserialize(r, new Config());
+			return root;
 			// registerObject(rootObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		afterProcessOfLoadingXml();
 	}
-
-	// private void registerObject(_Object obj) {
-	// objects.put(obj.getId(), obj);
-	// if (obj.hasChildren()) {
-	// for (Field f : obj.getFields()) {
-	// if (obj.ownsOld(f.target))
-	// registerObject(f.target);
-	// }
-	// }
-	// }
 
 	interface TreeWalker {
 		void walk(_Object obj);
@@ -355,16 +322,25 @@ public class ObjectRepository {
 		}
 	}
 
-	private void beforeSaveXml() {
+	/**
+	 * pre-process objects.
+	 * 
+	 * remove backward references
+	 * 
+	 * convert pointer to softlink
+	 * 
+	 * @param mountPoint
+	 */
+	private void beforeSaveXml(_Object mountPoint) {
 
-		// notify
-		treeWalk(rootObject, new TreeWalker() {
+		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
+
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
-					// remove pointer, replace with softlink
+					// remove pointer reference, replace with softlink
 					if (f.target != null && f.type == FieldType.Pointer) {
 						f.pointerPath = f.target.getPath();
 						if (!f.pointerPath.startsWith("_root"))
@@ -379,8 +355,28 @@ public class ObjectRepository {
 			}
 		});
 
+		treeWalk(mountPoint, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					// remove backward pointers
+					f.owner = null;
+
+					if (f.target != null) {
+						f.target.field = null;
+
+					}
+
+				}
+
+			}
+		});
+
 		// notify
-		treeWalk(rootObject, new TreeWalker() {
+		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
 				for (ObjectRepositoryListener l : listeners)
@@ -390,25 +386,51 @@ public class ObjectRepository {
 
 	}
 
-	private void afterProcessOfLoadingXml() {
+	private void afterLoadXml(_Object obj) {
+		logger.info("objects loaded, start linking");
 
-		long maxObjectId = 0;
+		// restore backward pointers, reference field
+		treeWalk(obj, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
 
-		for (_Object o : objects.values()) {
-			if (o.getId() > maxObjectId)
-				maxObjectId = o.getId();
+				// get the max object id
+				if (obj.getId() > objectId)
+					objectId = obj.getId() + 1;
 
-			o.recreateFieldIndexes();
 
-		}
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
 
-		// reset object id
-		objectId = maxObjectId + 1;
-		logger.info("objects loaded");
+					// restore owner of field
+					f.owner = obj;
 
+					if (f.type == FieldType.Pointer) {
+
+						// restore pointer field
+						if (f.pointerPath.startsWith("_root"))
+							f.target = ObjectRepository.this
+									.getObjectByPath(f.pointerPath);
+						else
+							System.out
+									.println("worng pointer:" + f.pointerPath);
+
+					} else if (f.type == FieldType.Branch) {
+						// restore field of child object.
+						if (f.target != null)
+							f.target.field = f;
+						else
+							System.out.println("null field:" + f.getName());
+
+					}
+
+				}
+
+			}
+		});
 
 		// notify
-		treeWalk(rootObject, new TreeWalker() {
+		treeWalk(obj, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
 				for (ObjectRepositoryListener l : listeners)

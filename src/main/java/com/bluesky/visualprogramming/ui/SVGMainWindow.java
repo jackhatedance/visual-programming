@@ -539,9 +539,9 @@ public class SVGMainWindow extends JPanel {
 		return f;
 	}
 
-	public void load(String fileName) {
+	public void load(String runtimeFileName, String userFileName) {
 
-		getVM().loadFromImage(fileName);
+		getVM().loadFromImage(runtimeFileName, userFileName);
 
 		createTreePanel();
 

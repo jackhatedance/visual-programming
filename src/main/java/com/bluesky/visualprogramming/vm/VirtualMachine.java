@@ -72,16 +72,17 @@ public class VirtualMachine implements Service {
 		logger.info("VM initialized");
 	}
 
-	public void loadFromImage(String file) {
+	public void loadFromImage(String runtimeFile, String userFile) {
 		if (status == ServiceStatus.Running || status == ServiceStatus.Paused)
 			throw new RuntimeException("cannot load while running or suspended");
 		// pause();
 
-		objectRepository.loadXml(file);
+		objectRepository.load(runtimeFile, userFile);
 
 		// resume();
 
-		logger.info("VM loaded image file:" + file);
+		logger.info("VM loaded runtime image file:" + runtimeFile);
+		logger.info("VM loaded user image file:" + runtimeFile);
 	}
 
 	/**

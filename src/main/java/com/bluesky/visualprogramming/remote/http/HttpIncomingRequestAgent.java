@@ -6,8 +6,8 @@ import java.util.concurrent.Semaphore;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.serialization.rpc.ConfigurableObjectSerializer;
-import com.bluesky.visualprogramming.core.serialization.rpc.MessageFormat;
+import com.bluesky.visualprogramming.core.serialization.ConfigurableObjectSerializer;
+import com.bluesky.visualprogramming.core.serialization.MessageFormat;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.utils.Config;
 

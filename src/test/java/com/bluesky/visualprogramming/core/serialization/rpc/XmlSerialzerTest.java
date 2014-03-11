@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.serialization.XmlSerialzer;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class XmlSerialzerTest {

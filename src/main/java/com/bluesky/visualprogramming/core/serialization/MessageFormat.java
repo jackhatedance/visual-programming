@@ -1,7 +1,15 @@
-package com.bluesky.visualprogramming.core.serialization.rpc;
+package com.bluesky.visualprogramming.core.serialization;
+
 
 
 public enum MessageFormat {
+	Xstream {
+		@Override
+		public ConfigurableObjectSerializer getSerializer() {
+
+			return new XstreamSerializer();
+		}
+	},
 	/**
 	 * used by DDwrt, similar to JSON.
 	 */

@@ -7,6 +7,8 @@ import javax.sql.rowset.serial.SerialArray;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bluesky.visualprogramming.core.serialization.DdwrtSerializer;
+
 public class DdwrtSerializerTest {
 	@Before
 	void setUp() {

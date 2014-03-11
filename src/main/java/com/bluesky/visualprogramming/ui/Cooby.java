@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -8,27 +9,21 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
-import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-import javax.swing.JToolBar;
-
-import java.awt.BorderLayout;
-
-import javax.swing.JSlider;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 public class Cooby extends JFrame {
-	static String DEFAULT_IMAGE_FILE_NAME = "objects.xml";
+	static String DEFAULT_RUNTIME_IMAGE_FILE_NAME = "runtime.xml";
+	static String DEFAULT_USER_IMAGE_FILE_NAME = "user.xml";
 
 	SVGMainWindow mainWindow = null;
 
@@ -93,7 +88,8 @@ public class Cooby extends JFrame {
 		eMenuItem = new JMenuItem("Load");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				mainWindow.load(DEFAULT_IMAGE_FILE_NAME);
+				mainWindow.load(DEFAULT_RUNTIME_IMAGE_FILE_NAME,
+						DEFAULT_USER_IMAGE_FILE_NAME);
 			}
 
 		});
@@ -106,7 +102,8 @@ public class Cooby extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME );
+				vm.getObjectRepository().save(DEFAULT_RUNTIME_IMAGE_FILE_NAME,
+						DEFAULT_USER_IMAGE_FILE_NAME);
 				vm.resume();
 			}
 
@@ -130,7 +127,9 @@ public class Cooby extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(DEFAULT_IMAGE_FILE_NAME );
+				vm.getObjectRepository().save(
+						DEFAULT_RUNTIME_IMAGE_FILE_NAME,
+						DEFAULT_USER_IMAGE_FILE_NAME);
 				vm.resume();
 
 				System.exit(0);
@@ -154,7 +153,8 @@ public class Cooby extends JFrame {
 		VirtualMachine.setInstance(vm);
 
 		//vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
-		vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
+		vm.loadFromImage(DEFAULT_RUNTIME_IMAGE_FILE_NAME,
+				DEFAULT_USER_IMAGE_FILE_NAME);
 
 		vm.start();
 

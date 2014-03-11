@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.serialization.rpc;
+package com.bluesky.visualprogramming.core.serialization;
 
 import java.util.HashSet;
 import java.util.Set;

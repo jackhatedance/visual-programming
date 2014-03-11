@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.serialization.rpc;
+package com.bluesky.visualprogramming.core.serialization;
 
 import java.io.BufferedReader;
 import java.io.IOException;
