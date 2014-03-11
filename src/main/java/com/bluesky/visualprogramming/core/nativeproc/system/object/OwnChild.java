@@ -27,7 +27,7 @@ public class OwnChild extends BaseNativeProcedure implements NativeProcedure {
 		if (obj != null) {
 			_Object child = obj.getChild(fieldName.getValue());
 			if (child != null) {
-				child.attachTo(obj, fieldName.getValue());
+				child.attachToOwner(obj, fieldName.getValue());
 			}
 		}
 

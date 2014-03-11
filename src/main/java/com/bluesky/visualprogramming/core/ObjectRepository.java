@@ -53,7 +53,6 @@ public class ObjectRepository {
 
 					if (f.target != null) {
 						f.target.field = null;
-						f.target.setOldOwner(null);
 					}
 
 				}
@@ -84,8 +83,6 @@ public class ObjectRepository {
 
 					} else if (f.type == FieldType.Branch) {
 						f.target.field = f;
-
-						f.target.setOldOwner(obj);
 					}
 					/*
 					 * else if (f.target != null && f.target.getOwnerOld() ==

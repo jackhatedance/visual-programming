@@ -24,7 +24,7 @@ public class AttachTo extends BaseNativeProcedure implements NativeProcedure {
 		if (self.hasOwner())
 			self.getOwner().detachOwnedChild(self);
 		
-		self.attachTo(owner, name.getValue());
+		self.attachToOwner(owner, name.getValue());
 				
 
 		return self;

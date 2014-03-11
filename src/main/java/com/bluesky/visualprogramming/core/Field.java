@@ -17,6 +17,10 @@ public class Field {
 	public _Object target;
 
 	public FieldType type;
+
+	/**
+	 * the owner of this field
+	 */
 	public _Object owner;
 
 	/**
@@ -27,8 +31,9 @@ public class Field {
 	// scale of a svg shape.
 	public float svgScale = 0.2f;
 
-	// public boolean owner;
-
+	/**
+	 * should be move to other place. it is status of GUI component.
+	 */
 	private SelectedStatus selectedStatus = SelectedStatus.NotSelected;
 
 	/**

@@ -185,11 +185,6 @@ public class _Object implements Serializable {
 		this.description = description;
 	}
 
-	public void setOldOwner(_Object owner) {
-		// this.owner = owner;
-	}
-
-
 	/**
 	 * re-create indexes.
 	 */
@@ -436,7 +431,7 @@ public class _Object implements Serializable {
 	 * 
 	 * @param owner
 	 */
-	public void attachTo(_Object owner, String name) {
+	public void attachToOwner(_Object owner, String name) {
 		Field f = owner.getField(name);
 
 		attachTo(f);
