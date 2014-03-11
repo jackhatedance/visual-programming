@@ -519,8 +519,8 @@ public class SVGMainWindow extends JPanel {
 	private Field addChildObjectToTree(_Object obj) {
 
 		// add to tree
-		int index = obj.getOwner().getChildIndex(obj);
-		Field f = obj.getOwner().getField(index);
+		//int index = obj.getOwner().getChildIndex(obj);
+		Field f = obj.field;
 
 		Element background = diagramPanel.getScene().getDocument()
 				.getElementById("background");

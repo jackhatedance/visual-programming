@@ -294,6 +294,7 @@ public class _Object implements Serializable {
 			boolean owner) {
 
 		field.setTarget(child);
+		field.owner = this;
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
