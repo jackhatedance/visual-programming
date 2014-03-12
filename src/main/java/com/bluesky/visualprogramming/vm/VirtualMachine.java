@@ -30,6 +30,10 @@ public class VirtualMachine implements Service {
 
 	private static VirtualMachine instance = null;
 
+	// image files
+	private String runtimeFile;
+	private String userFile;
+
 	public static void setInstance(VirtualMachine inst) {
 		instance = inst;
 	}
@@ -73,6 +77,11 @@ public class VirtualMachine implements Service {
 	}
 
 	public void loadFromImage(String runtimeFile, String userFile) {
+
+		// keep it. for later saving.
+		this.runtimeFile = runtimeFile;
+		this.userFile = userFile;
+
 		if (status == ServiceStatus.Running || status == ServiceStatus.Paused)
 			throw new RuntimeException("cannot load while running or suspended");
 		// pause();
@@ -83,6 +92,10 @@ public class VirtualMachine implements Service {
 
 		logger.info("VM loaded runtime image file:" + runtimeFile);
 		logger.info("VM loaded user image file:" + runtimeFile);
+	}
+
+	public void save() {
+		getObjectRepository().save(runtimeFile, userFile);
 	}
 
 	/**

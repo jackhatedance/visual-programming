@@ -1,6 +1,7 @@
-developer's guide
+user guide
 
-1. import project via git
-2. let eclipse build it
-3. run MainFrame.java
-4. navigate the object tree to root.test, right click fib, choose Execute. see console of eclipse.
+1. use git download the source code
+2. use maven to build it
+3. copy the jar file from target directory to lib directory
+4. run bin/start.sh
+5. see examples

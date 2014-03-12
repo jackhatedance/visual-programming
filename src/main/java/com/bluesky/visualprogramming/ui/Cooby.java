@@ -102,8 +102,7 @@ public class Cooby extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(DEFAULT_RUNTIME_IMAGE_FILE_NAME,
-						DEFAULT_USER_IMAGE_FILE_NAME);
+				vm.save();
 				vm.resume();
 			}
 
@@ -127,9 +126,8 @@ public class Cooby extends JFrame {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
 				vm.pause();
-				vm.getObjectRepository().save(
-						DEFAULT_RUNTIME_IMAGE_FILE_NAME,
-						DEFAULT_USER_IMAGE_FILE_NAME);
+				vm.save();
+
 				vm.resume();
 
 				System.exit(0);
@@ -146,15 +144,29 @@ public class Cooby extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * example: java -jar visual-programming.jar homeDir=foo
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
+
+		String homeDir = "images/";
+		if (args.length > 0) {
+			String[] ss = args[0].split("=");
+			if (ss.length == 2 && ss[0].equals("homeDir"))
+				homeDir = ss[1];
+		}
+
+		System.out.println("home directory: " + homeDir);
 
 		// init Object Repository
 		VirtualMachine vm = new VirtualMachine();
 		VirtualMachine.setInstance(vm);
 
 		//vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
-		vm.loadFromImage(DEFAULT_RUNTIME_IMAGE_FILE_NAME,
-				DEFAULT_USER_IMAGE_FILE_NAME);
+		vm.loadFromImage(homeDir + DEFAULT_RUNTIME_IMAGE_FILE_NAME, homeDir
+				+ DEFAULT_USER_IMAGE_FILE_NAME);
 
 		vm.start();
 
