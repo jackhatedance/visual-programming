@@ -11,7 +11,7 @@ import com.bluesky.visualprogramming.core.serialization.DdwrtSerializer;
 
 public class DdwrtSerializerTest {
 	@Before
-	void setUp() {
+	public void setUp() {
 		DdwrtSerializer serializer = new DdwrtSerializer();
 	}
 

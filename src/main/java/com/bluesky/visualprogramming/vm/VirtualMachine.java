@@ -40,8 +40,11 @@ public class VirtualMachine implements Service {
 
 	public static VirtualMachine getInstance() {
 		if (instance == null)
+		{
+			//only for unit test. for normal use, it should be created intentionally.			
 			instance = new VirtualMachine();
-
+		}
+		
 		return instance;
 	}
 

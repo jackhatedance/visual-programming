@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -19,15 +21,21 @@ import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
+
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class Cooby extends JFrame {
+public class Main extends JFrame {
+	static Logger logger = Logger.getLogger(Main.class);
+
 	static String DEFAULT_RUNTIME_IMAGE_FILE_NAME = "runtime.xml";
-	static String DEFAULT_USER_IMAGE_FILE_NAME = "user.xml";
+	static String DEFAULT_USER_IMAGE_FILE_NAME = "users.xml";
+	static String USER_IMAGE_ENVIRONMENT_NAME = "COOBY_USER_IMAGE";
 
 	SVGMainWindow mainWindow = null;
 
-	public Cooby() {
+	public Main() {
 
 		initMenu();
 
@@ -119,7 +127,7 @@ public class Cooby extends JFrame {
 
 		});
 		file.add(eMenuItem);
-		
+
 		eMenuItem = new JMenuItem("Save&Exit");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -144,35 +152,70 @@ public class Cooby extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	private static Map<String, String> processArguments(String[] args) {
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		for (String kv : args) {
+			String[] ss = kv.split("=");
+			if (ss.length == 2)
+				map.put(ss[0], ss[1]);
+		}
+		return map;
+	}
+	
+	private static void printUsage(){
+		System.out.println("Usage:");
+		System.out.println("java -jar cooby.jar HomeDir=~/cooby/");
+		System.out.println("You can set environment variable to set the user image file in another folder:");
+		System.out.println("$export COOBY_USER_IMAGE=/home/jack/cooby/users.xml");
+	}
+
 	/**
-	 * example: java -jar visual-programming.jar homeDir=foo
+	 * example: java -jar visual-programming.jar HomeDir=/cooby/
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		String homeDir = "images/";
-		if (args.length > 0) {
-			String[] ss = args[0].split("=");
-			if (ss.length == 2 && ss[0].equals("homeDir"))
-				homeDir = ss[1];
+		if(args.length==1 && args[0].toLowerCase().contains("help")){
+			printUsage();
+			return;
 		}
+		
+		Map<String, String> map = processArguments(args);
+		Config config = new Config(map);
 
-		System.out.println("home directory: " + homeDir);
+		String homeDir = config.getString("HomeDir", "images/");
+		
+		logger.debug("home directory: " + homeDir);
+		
+		//default value
+		String runtimeImageFile = homeDir + DEFAULT_RUNTIME_IMAGE_FILE_NAME;
+		String userImageFile = homeDir + DEFAULT_USER_IMAGE_FILE_NAME;
+
+		//environment value has higher priority
+		String userImageFileFromEnv = System
+				.getenv(USER_IMAGE_ENVIRONMENT_NAME);
+		if (userImageFileFromEnv != null && !userImageFileFromEnv.isEmpty())
+		{
+			logger.debug("user image file set by environment variable:"+userImageFileFromEnv);
+			userImageFile = userImageFileFromEnv;
+		}
+				
 
 		// init Object Repository
 		VirtualMachine vm = new VirtualMachine();
 		VirtualMachine.setInstance(vm);
 
-		//vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
-		vm.loadFromImage(homeDir + DEFAULT_RUNTIME_IMAGE_FILE_NAME, homeDir
-				+ DEFAULT_USER_IMAGE_FILE_NAME);
+		// vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
+		vm.loadFromImage(runtimeImageFile, userImageFile);
 
 		vm.start();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Cooby ex = new Cooby();
+				Main ex = new Main();
 				ex.setVisible(true);
 			}
 		});

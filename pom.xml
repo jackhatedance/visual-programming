@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>bluesky</groupId>
-	<artifactId>visual-programming</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>cooby</artifactId>
+	<version>0.1</version>
 	<build>
 
 		<plugins>
@@ -30,7 +30,7 @@
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.bluesky.visualprogramming.ui.Cooby</mainClass>
+									<mainClass>com.bluesky.visualprogramming.ui.Main</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

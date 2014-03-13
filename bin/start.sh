@@ -1,5 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo $DIR
+cd $DIR
 cd ..
 
-java -jar lib/visual-programming.jar -c conf/app.properties
+JAR=$(ls lib/cooby*.jar)
+#echo $JAR
+java -jar $JAR
 
