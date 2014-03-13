@@ -1,7 +1,7 @@
-user guide
+instructions to run cooby(under linux).
 
-1. use git download the source code
-2. use maven to build it
-3. copy the jar file from target directory to lib directory
-4. run bin/start.sh
-5. see examples
+0. cd <any-dir-for-cooby>
+1. git clone https://github.com/jackhatedance/visual-programming.git
+2. cd visual-programming
+3. bin/build.sh
+4. bin/start.sh
