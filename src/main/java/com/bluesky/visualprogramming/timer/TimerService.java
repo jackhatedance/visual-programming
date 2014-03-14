@@ -11,6 +11,7 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
@@ -42,23 +43,8 @@ public class TimerService implements Service {
 	public TimerService(ObjectRepository repo) {
 		this.repo = repo;
 
-		repo.addListener(new ObjectRepositoryListener() {
-			@Override
-			public void beforeSave(_Object obj) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterCreate(_Object obj) {
-
-			}
-
-			@Override
-			public void beforeDestroy(_Object obj) {
-
-			}
-
+		repo.addListener(new AbstractObjectRepositoryListener() {
+		
 			@Override
 			public void afterLoadFromFile(_Object obj) {
 				StringValue type = (StringValue) obj.getSystemChild("type");
@@ -84,11 +70,7 @@ public class TimerService implements Service {
 
 			}
 
-			@Override
-			public void afterAllLoaded() {
-
-			}
-
+		
 		});
 	}
 

@@ -25,6 +25,12 @@ public abstract class AbstractObjectRepositoryListener implements
 	public void afterLoadFromFile(_Object obj) {
 
 	}
+	
+	@Override
+	public void onStartService(_Object obj) {
+		
+		
+	}
 
 	@Override
 	public void afterAllLoaded() {

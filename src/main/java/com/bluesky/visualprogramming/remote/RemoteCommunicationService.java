@@ -3,9 +3,12 @@ package com.bluesky.visualprogramming.remote;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
@@ -35,8 +38,7 @@ public class RemoteCommunicationService {
 	private Map<ProtocolType, ProtocolService> services = new HashMap<ProtocolType, ProtocolService>();
 	private ObjectRepository objectRepository;
 
-	
-	private void initServices(){
+	private void initServices() {
 		addProtocolService(new CallbackService());
 		addProtocolService(new PathService());
 
@@ -45,30 +47,16 @@ public class RemoteCommunicationService {
 		addProtocolService(new HttpService());
 		addProtocolService(new EmailService());
 	}
+
 	public RemoteCommunicationService(ObjectRepository objectRepository) {
 		this.objectRepository = objectRepository;
-		
+
 		initServices();
-		
-		objectRepository.addListener(new ObjectRepositoryListener() {
-			@Override
-			public void beforeSave(_Object obj) {
-				// TODO Auto-generated method stub
 
-			}
+		objectRepository.addListener(new AbstractObjectRepositoryListener() {
 
 			@Override
-			public void beforeDestroy(_Object obj) {
-
-			}
-
-			@Override
-			public void afterCreate(_Object obj) {
-
-			}
-
-			@Override
-			public void afterLoadFromFile(_Object obj) {
+			public void onStartService(_Object obj) {
 				_Object aliases = obj.getSystemChild(ALIASES);
 
 				_Object owner = obj;
@@ -124,11 +112,6 @@ public class RemoteCommunicationService {
 
 			}
 
-			@Override
-			public void afterAllLoaded() {
-				// TODO Auto-generated method stub
-
-			}
 		});
 	}
 
@@ -181,13 +164,61 @@ public class RemoteCommunicationService {
 		return services.get(pt);
 	}
 
+	/**
+	 * evaluate express.
+	 * 
+	 * @param str
+	 * @return
+	 */
 	protected String replaceVariables(String str) {
-		Properties p = AppProperties.getInstance().getRemoteSecurityConfig();
+		Pattern p = Pattern.compile("\\$\\{([^}]+)\\}");
+		Matcher m = p.matcher(str);
 
-		for (Object k : p.keySet()) {
-			String v = p.getProperty((String) k);
-			str = str.replace("${" + k + "}", v);
+		String newStr = str;
+		while (m.find()) {
+			String path = m.group(1);
+			String value = replaceVariable(path);
+			if (value != null)
+				newStr = newStr.replace("${" + path + "}", value);
 		}
-		return str;
+
+		return newStr;
+	}
+
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 */
+	protected String replaceVariable(String path) {
+
+		try {
+			_Object obj = objectRepository.getObjectByPath(path);
+			if (obj != null && obj instanceof StringValue)
+				return ((StringValue) obj).getValue();
+		} catch (Exception e) {
+			logger.error("path not existing:" + path);
+		}
+
+		return null;
+	}
+
+	public static void main(String[] args) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("_root.name", "jack");
+		map.put("_root.password", "123");
+		String str = "name=${_root.name};pass=${_root.password}";
+		Pattern p = Pattern.compile("\\$\\{([^}]+)\\}");
+		Matcher m = p.matcher(str);
+
+		String newStr = str;
+		while (m.find()) {
+			String path = m.group(1);
+			String value = map.get(path);
+			if (value != null)
+				newStr = newStr.replace("${" + path + "}", value);
+		}
+		System.out.println(newStr);
+
 	}
 }

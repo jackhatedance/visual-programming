@@ -14,12 +14,25 @@ public interface ObjectRepositoryListener {
 	void beforeDestroy(_Object obj);
 
 	/**
-	 * after load from XML file. It is good time to create remote agent, attach
-	 * timer.
+	 * after load from XML file. the objects are not linked. 
+	 * 
+	 * system should process, linking.
+	 * 
+	 *  after this event, the objects are ready to navigate.
+	 *  
 	 * 
 	 * @param obj
 	 */
 	void afterLoadFromFile(_Object obj);
+	
+	/**
+	 * after load completed.
+	 * 
+	 * it is time to start service.
+	 * 
+	 * @param obj
+	 */
+	void onStartService(_Object obj);
 
 	/**
 	 * after "afterLoadFromFile" notified.

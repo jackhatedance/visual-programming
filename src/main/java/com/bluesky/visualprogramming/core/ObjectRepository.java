@@ -385,7 +385,10 @@ public class ObjectRepository {
 		});
 
 	}
-
+/**
+ * 
+ * @param obj the root object of the mounting tree
+ */
 	private void afterLoadXml(_Object obj) {
 		logger.info("objects loaded, start linking");
 
@@ -413,7 +416,7 @@ public class ObjectRepository {
 									.getObjectByPath(f.pointerPath);
 						else
 							System.out
-									.println("worng pointer:" + f.pointerPath);
+									.println("wrong pointer:" + f.pointerPath);
 
 					} else if (f.type == FieldType.Branch) {
 						// restore field of child object.
@@ -435,6 +438,14 @@ public class ObjectRepository {
 			public void walk(_Object obj) {
 				for (ObjectRepositoryListener l : listeners)
 					l.afterLoadFromFile(obj);
+			}
+		});
+		
+		treeWalk(obj, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				for (ObjectRepositoryListener l : listeners)
+					l.onStartService(obj);
 			}
 		});
 
