@@ -232,22 +232,22 @@ public class _Object implements Serializable {
 	 * 
 	 * @param child
 	 * @param name
-	 * @param owner
+	 * @param own
 	 */
-	public void setField(String name, _Object child, boolean owner) {
+	public void setField(String name, _Object child, boolean own) {
 
 		// name must be unique if is not null
 		if (name != null) {
 			Field f = getField(name);
 
 			if (f != null) {
-				changeChild(f, child, owner);
+				changeChild(f, child, own);
 
 			} else {
-				Field newField = new Field(name);
+				Field newField = new Field(name, own);
 				fieldList.add(newField);
 
-				addChild(newField, child, name, owner);
+				addChild(newField, child, name, own);
 			}
 
 		} else
@@ -301,6 +301,9 @@ public class _Object implements Serializable {
 			field.type = FieldType.Branch;
 			child.field = field;
 		}
+ else {
+			field.type = FieldType.Pointer;
+		}
 
 		sortFields();
 	}
@@ -310,16 +313,16 @@ public class _Object implements Serializable {
 	 * 
 	 * @param index
 	 * @param child
-	 * @param owner
+	 * @param own
 	 */
-	public void insertChild(int index, _Object child, boolean owner) {
+	public void insertChild(int index, _Object child, boolean own) {
 
-		Field p = new Field(child, name);
+		Field p = new Field(child, name, own);
 
 		fieldList.add(index, p);
 		recreateFieldIndexes();
 
-		if (owner) {
+		if (own) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
 				throw new RuntimeException(
 						String.format(

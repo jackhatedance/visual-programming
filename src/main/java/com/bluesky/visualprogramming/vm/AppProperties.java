@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.vm;
 
-import java.io.FileInputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -19,7 +18,7 @@ public class AppProperties {
 	}
 
 	Properties appProperties;
-	Properties remoteSecurityConfig;
+
 
 	public AppProperties() {
 		appProperties = new Properties();
@@ -27,19 +26,11 @@ public class AppProperties {
 			appProperties.load(AppProperties.class
 					.getResourceAsStream("/app.properties"));
 
-			String remoteSecurityFile = appProperties
-					.getProperty("remote.security.file");
-			remoteSecurityConfig = new Properties();
-			remoteSecurityConfig.load(new FileInputStream(remoteSecurityFile));
 
 		} catch (Exception e) {
 			logger.warn("app.properties not found.");			
 		}
 
-	}
-
-	public Properties getRemoteSecurityConfig() {
-		return remoteSecurityConfig;
 	}
 
 	public String getProperty(String key) {

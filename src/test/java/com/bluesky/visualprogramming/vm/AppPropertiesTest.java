@@ -9,7 +9,7 @@ public class AppPropertiesTest {
 	@Ignore
 	@Test
 	public void test() {
-		String value = AppProperties.getInstance().getRemoteSecurityConfig()
+		String value = AppProperties.getInstance()
 				.getProperty("foo");
 
 		Assert.assertEquals("bar", value);

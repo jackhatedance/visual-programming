@@ -4617,6 +4617,7 @@ user should be able to input linux command on Jabber client and get response.
                                                         <type>STRING</type>
                                                         <id>909576</id>
                                                         <name>address</name>
+                                                        <description></description>
                                                         <field reference="626"/>
                                                         <scope>ExecutionContext</scope>
                                                         <fieldList id="628">
@@ -4661,14 +4662,14 @@ user should be able to input linux command on Jabber client and get response.
                                                         <systemFieldsCount>1</systemFieldsCount>
                                                         <scaleRate>1.0</scaleRate>
                                                         <borderColor reference="623"/>
-                                                        <value>wechat@tianhu.dingjianghao.com</value>
+                                                        <value>wechat@example.com</value>
                                                       </target>
                                                       <type>Branch</type>
                                                       <owner reference="613"/>
                                                       <svgScale>0.2</svgScale>
                                                       <area id="635">
-                                                        <x>1825</x>
-                                                        <y>1180</y>
+                                                        <x>1780</x>
+                                                        <y>1195</y>
                                                         <width>100</width>
                                                         <height>100</height>
                                                       </area>

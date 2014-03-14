@@ -41,15 +41,23 @@ public class Field {
 	 */
 	private Rectangle area = new Rectangle();
 
-	public Field(String name) {
+	public Field(String name, boolean own) {
 		this.name = name;
+
+		this.type = getType(own);
+
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
-	public Field(_Object targetObject, String name) {
+	private FieldType getType(boolean own) {
+		return own ? FieldType.Branch : FieldType.Pointer;
+	}
+
+	public Field(_Object targetObject, String name, boolean own) {
 		this.target = targetObject;
 		this.name = name;
-		// this.owner = owner;
+
+		this.type = getType(own);
 
 		area = new Rectangle(0, 0, 100, 100);
 	}
