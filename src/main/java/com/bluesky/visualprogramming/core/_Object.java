@@ -58,7 +58,6 @@ public class _Object implements Serializable {
 
 	private String description;
 
-
 	/**
 	 * only not null if it has owner.
 	 */
@@ -300,8 +299,7 @@ public class _Object implements Serializable {
 
 			field.type = FieldType.Branch;
 			child.field = field;
-		}
- else {
+		} else {
 			field.type = FieldType.Pointer;
 		}
 
@@ -866,7 +864,6 @@ public class _Object implements Serializable {
 		else
 			return false;
 	}
-
 
 	/**
 	 * rearrange the field list, system field are on top.
