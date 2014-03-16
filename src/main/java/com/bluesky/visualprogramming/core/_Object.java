@@ -235,6 +235,11 @@ public class _Object implements Serializable {
 	 */
 	public void setField(String name, _Object child, boolean own) {
 
+		if (child.hasOwner() && own) {
+			throw new RuntimeException("can not own an object which has owner.");
+
+		}
+
 		// name must be unique if is not null
 		if (name != null) {
 			Field f = getField(name);
@@ -424,6 +429,14 @@ public class _Object implements Serializable {
 		// owner.detachOwnedChild(this);
 
 		field.target = null;
+		field = null;
+	}
+
+	/**
+	 * a owning relationship become pointer relationship.
+	 */
+	public void downgradeLinkFromOwner() {
+		field.type = FieldType.Pointer;
 		field = null;
 	}
 

@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 
 /**
  * Integer is actually a Long. won't bother to introduce int and long. As
@@ -11,7 +10,7 @@ import com.bluesky.visualprogramming.core._Object;
  * @author jack
  * 
  */
-public class IntegerValue extends _Object {
+public class IntegerValue extends ValueObject {
 	public IntegerValue(long id) {
 		super(id);
 		type = ObjectType.INTEGER;
@@ -51,4 +50,6 @@ public class IntegerValue extends _Object {
 		visitor.leave(this);
 
 	}
+
+
 }

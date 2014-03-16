@@ -2,9 +2,8 @@ package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 
-public class BooleanValue extends _Object {
+public class BooleanValue extends ValueObject {
 	public BooleanValue(long id) {
 		super(id);
 		type = ObjectType.BOOLEAN;
@@ -44,4 +43,5 @@ public class BooleanValue extends _Object {
 		visitor.leave(this);
 
 	}
+
 }

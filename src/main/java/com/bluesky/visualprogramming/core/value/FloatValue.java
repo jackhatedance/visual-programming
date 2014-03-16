@@ -2,9 +2,8 @@ package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 
-public class FloatValue extends _Object {
+public class FloatValue extends ValueObject {
 	public FloatValue(long id) {
 		super(id);
 		type = ObjectType.FLOAT;
@@ -44,4 +43,6 @@ public class FloatValue extends _Object {
 		visitor.leave(this);
 
 	}
+
+
 }

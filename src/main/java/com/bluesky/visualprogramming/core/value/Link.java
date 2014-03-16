@@ -2,10 +2,9 @@ package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.remote.RemoteAddress;
 
-public class Link extends _Object {
+public class Link extends ValueObject {
 	private RemoteAddress remoteAddress;
 
 	public Link(long id) {
@@ -74,4 +73,6 @@ public class Link extends _Object {
 		visitor.leave(this);
 
 	}
+
+
 }

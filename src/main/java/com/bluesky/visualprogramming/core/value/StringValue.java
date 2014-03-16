@@ -2,9 +2,8 @@ package com.bluesky.visualprogramming.core.value;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 
-public class StringValue extends _Object {
+public class StringValue extends ValueObject {
 	public StringValue(long id) {
 		super(id);
 		type = ObjectType.STRING;
@@ -32,4 +31,6 @@ public class StringValue extends _Object {
 		visitor.leave(this);
 
 	}
+
+
 }

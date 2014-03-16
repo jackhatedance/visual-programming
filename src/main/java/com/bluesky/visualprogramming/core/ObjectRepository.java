@@ -186,16 +186,6 @@ public class ObjectRepository {
 		}
 	}
 
-	/**
-	 * copy fields only. procedures are not copied. 'prototype' field point to
-	 * the prototype
-	 * 
-	 * @param src
-	 * @return
-	 */
-	public _Object clone(_Object src) {
-		return new _Object(objectId++, src);
-	}
 
 	public void destroyObject(long id) {
 		_Object obj = objects.get(id);

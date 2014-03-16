@@ -4,9 +4,8 @@ import java.util.Date;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ObjectVisitor;
-import com.bluesky.visualprogramming.core._Object;
 
-public class TimeValue extends _Object {
+public class TimeValue extends ValueObject {
 	public TimeValue(long id) {
 		super(id);
 		type = ObjectType.TIME;
@@ -55,4 +54,6 @@ public class TimeValue extends _Object {
 		visitor.leave(this);
 
 	}
+
+
 }
