@@ -135,18 +135,28 @@ public class HttpService extends AbstractProtocolService implements
 		try {
 
 			// for http request need authentication, we use auth info from
-			// the sender.
+			// the sender.protocol
 			RemoteAddress ra = RemoteAddress.valueOf(receiverAddress);
 			HttpClientAgent clientAgent = getClientAgent(message.sender,
 					ra.server);
 
-			if (clientAgent != null)
-				clientAgent.send(receiverAddress, message);
-			else
-				throw new RuntimeException(
-						"no http client agent for remote address:"
-								+ receiverAddress);
+			if (clientAgent == null) {
+				//create an agent for it. but no auth supported.
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("clientOnly", "true");
+				Config config = new Config(map);
+				String fakeAddr = "anonymous@"+ra.server;
+				register(ProtocolType.HTTP, fakeAddr, message.sender, config);
 
+				if (logger.isDebugEnabled())
+					logger.debug("create http client agent for remote address:"
+							+ receiverAddress);
+
+				clientAgent = getClientAgent(message.sender, ra.server);
+			}
+		
+			clientAgent.send(receiverAddress, message);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);

@@ -25457,6 +25457,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <type>PROCEDURE</type>
                     <id>916943</id>
                     <name defined-in="object">testhttp</name>
+                    <description></description>
                     <field reference="3875"/>
                     <scope>ExecutionContext</scope>
                     <fieldList id="3877"/>
@@ -27527,10 +27528,136 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <height>100</height>
                   </area>
                 </field>
+                <field id="4213">
+                  <name>testhttp2</name>
+                  <target class="procedure" id="4214">
+                    <type>PROCEDURE</type>
+                    <id>1255684</id>
+                    <name defined-in="object">testhttp2</name>
+                    <description></description>
+                    <field reference="4213"/>
+                    <fieldList id="4215"/>
+                    <systemFieldsCount>0</systemFieldsCount>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor id="4216">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure()
+{
+
+	//sample: http://api.openweathermap.org/data/2.5/weather?lat=35&amp;lon=139&amp;mode=xml
+	api = http://data@api.openweathermap.org;
+	xml = api.&quot;2.5/weather&quot;(lat:35,lon:139,mode:&quot;xml&quot;);
+	_self.weatherResult = xml;
+}</code>
+                  </target>
+                  <type>Branch</type>
+                  <owner reference="3728"/>
+                  <svgScale>0.2</svgScale>
+                  <area id="4217">
+                    <x>4320</x>
+                    <y>2570</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="4218">
+                  <name>weatherResult</name>
+                  <target class="string" id="4219">
+                    <type>STRING</type>
+                    <id>1255710</id>
+                    <field reference="4218"/>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="4220">
+                      <field id="4221">
+                        <name>_system</name>
+                        <target id="4222">
+                          <type>NORMAL</type>
+                          <id>1255711</id>
+                          <name>_system</name>
+                          <field reference="4221"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="4223">
+                            <field id="4224">
+                              <name>prototype</name>
+                              <type>Pointer</type>
+                              <owner reference="4222"/>
+                              <pointerPath>_root.core.prototype.value.string</pointerPath>
+                              <svgScale>0.2</svgScale>
+                              <area id="4225">
+                                <x>0</x>
+                                <y>0</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="4226">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </target>
+                        <type>Branch</type>
+                        <owner class="string" reference="4219"/>
+                        <svgScale>0.2</svgScale>
+                        <area id="4227">
+                          <x>0</x>
+                          <y>0</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <systemFieldsCount>1</systemFieldsCount>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor reference="4226"/>
+                    <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;current&gt;
+  &lt;city id=&quot;1851632&quot; name=&quot;Shuzenji&quot;&gt;
+    &lt;coord lon=&quot;139&quot; lat=&quot;35&quot;/&gt;
+    &lt;country&gt;JP&lt;/country&gt;
+    &lt;sun rise=&quot;2014-03-16T20:51:35&quot; set=&quot;2014-03-17T08:53:04&quot;/&gt;
+  &lt;/city&gt;
+  &lt;temperature value=&quot;273.144&quot; min=&quot;273.144&quot; max=&quot;273.144&quot; unit=&quot;kelvin&quot;/&gt;
+  &lt;humidity value=&quot;88&quot; unit=&quot;%&quot;/&gt;
+  &lt;pressure value=&quot;990.87&quot; unit=&quot;hPa&quot;/&gt;
+  &lt;wind&gt;
+    &lt;speed value=&quot;1.41&quot; name=&quot;Calm&quot;/&gt;
+    &lt;direction value=&quot;216.002&quot; code=&quot;SW&quot; name=&quot;Southwest&quot;/&gt;
+  &lt;/wind&gt;
+  &lt;clouds value=&quot;0&quot; name=&quot;sky is clear&quot;/&gt;
+  &lt;precipitation mode=&quot;no&quot;/&gt;
+  &lt;weather number=&quot;800&quot; value=&quot;Sky is Clear&quot; icon=&quot;01n&quot;/&gt;
+  &lt;lastupdate value=&quot;2014-03-17T13:31:39&quot;/&gt;
+&lt;/current&gt;
+
+</value>
+                  </target>
+                  <type>Branch</type>
+                  <owner reference="3728"/>
+                  <svgScale>0.2</svgScale>
+                  <area id="4228">
+                    <x>325</x>
+                    <y>1340</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
               </fieldList>
-              <systemFieldsCount>2</systemFieldsCount>
+              <systemFieldsCount>1</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
-              <borderColor id="4213">
+              <borderColor id="4229">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -27540,46 +27667,46 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
             <type>Branch</type>
             <owner reference="178"/>
             <svgScale>0.2</svgScale>
-            <area id="4214">
+            <area id="4230">
               <x>2475</x>
               <y>1295</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="4215">
+          <field id="4231">
             <name>Cooby</name>
-            <target id="4216">
+            <target id="4232">
               <type>NORMAL</type>
               <id>1022376</id>
               <name>Cooby</name>
               <description></description>
-              <field reference="4215"/>
+              <field reference="4231"/>
               <scope>ExecutionContext</scope>
-              <fieldList id="4217">
-                <field id="4218">
+              <fieldList id="4233">
+                <field id="4234">
                   <name>virtualMachine</name>
-                  <target id="4219">
+                  <target id="4235">
                     <type>NORMAL</type>
                     <id>1022377</id>
                     <name>virtualMachine</name>
                     <description></description>
-                    <field reference="4218"/>
+                    <field reference="4234"/>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="4220">
-                      <field id="4221">
+                    <fieldList id="4236">
+                      <field id="4237">
                         <name>ObjectRepository</name>
-                        <target id="4222">
+                        <target id="4238">
                           <type>NORMAL</type>
                           <id>1022378</id>
                           <name>ObjectRepository</name>
                           <description></description>
-                          <field reference="4221"/>
+                          <field reference="4237"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4223"/>
+                          <fieldList id="4239"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="4224">
+                          <borderColor id="4240">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -27587,67 +27714,67 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </borderColor>
                         </target>
                         <type>Branch</type>
-                        <owner reference="4219"/>
+                        <owner reference="4235"/>
                         <svgScale>0.2</svgScale>
-                        <area id="4225">
+                        <area id="4241">
                           <x>770</x>
                           <y>945</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4226">
+                      <field id="4242">
                         <name>WorkerService</name>
-                        <target id="4227">
+                        <target id="4243">
                           <type>NORMAL</type>
                           <id>1022379</id>
                           <name>WorkerService</name>
                           <description></description>
-                          <field reference="4226"/>
+                          <field reference="4242"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4228"/>
+                          <fieldList id="4244"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor reference="4224"/>
+                          <borderColor reference="4240"/>
                         </target>
                         <type>Branch</type>
-                        <owner reference="4219"/>
+                        <owner reference="4235"/>
                         <svgScale>0.2</svgScale>
-                        <area id="4229">
+                        <area id="4245">
                           <x>1920</x>
                           <y>975</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4230">
+                      <field id="4246">
                         <name>PostService</name>
-                        <target id="4231">
+                        <target id="4247">
                           <type>NORMAL</type>
                           <id>1022380</id>
                           <name>PostService</name>
                           <description></description>
-                          <field reference="4230"/>
+                          <field reference="4246"/>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4232">
-                            <field id="4233">
+                          <fieldList id="4248">
+                            <field id="4249">
                               <name>RemoteService</name>
-                              <target id="4234">
+                              <target id="4250">
                                 <type>NORMAL</type>
                                 <id>1022381</id>
                                 <name>RemoteService</name>
                                 <description></description>
-                                <field reference="4233"/>
+                                <field reference="4249"/>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4235"/>
+                                <fieldList id="4251"/>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="4224"/>
+                                <borderColor reference="4240"/>
                               </target>
                               <type>Branch</type>
-                              <owner reference="4231"/>
+                              <owner reference="4247"/>
                               <svgScale>0.2</svgScale>
-                              <area id="4236">
+                              <area id="4252">
                                 <x>1030</x>
                                 <y>1220</y>
                                 <width>100</width>
@@ -27657,12 +27784,12 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           </fieldList>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor reference="4224"/>
+                          <borderColor reference="4240"/>
                         </target>
                         <type>Branch</type>
-                        <owner reference="4219"/>
+                        <owner reference="4235"/>
                         <svgScale>0.2</svgScale>
-                        <area id="4237">
+                        <area id="4253">
                           <x>2880</x>
                           <y>1015</y>
                           <width>100</width>
@@ -27672,12 +27799,12 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     </fieldList>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="4224"/>
+                    <borderColor reference="4240"/>
                   </target>
                   <type>Branch</type>
-                  <owner reference="4216"/>
+                  <owner reference="4232"/>
                   <svgScale>0.2</svgScale>
-                  <area id="4238">
+                  <area id="4254">
                     <x>1135</x>
                     <y>700</y>
                     <width>100</width>
@@ -27687,12 +27814,12 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               </fieldList>
               <systemFieldsCount>0</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
-              <borderColor reference="4224"/>
+              <borderColor reference="4240"/>
             </target>
             <type>Branch</type>
             <owner reference="178"/>
             <svgScale>0.2</svgScale>
-            <area id="4239">
+            <area id="4255">
               <x>2495</x>
               <y>125</y>
               <width>100</width>
@@ -27702,7 +27829,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
         </fieldList>
         <systemFieldsCount>0</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="4240">
+        <borderColor id="4256">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -27711,19 +27838,19 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
       </target>
       <type>Branch</type>
       <svgScale>0.2</svgScale>
-      <area id="4241">
+      <area id="4257">
         <x>1225</x>
         <y>1185</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="4242">
+    <field id="4258">
       <name>core</name>
       <target reference="880"/>
       <type>Branch</type>
       <svgScale>0.2</svgScale>
-      <area id="4243">
+      <area id="4259">
         <x>510</x>
         <y>430</y>
         <width>100</width>
@@ -27733,7 +27860,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="4244">
+  <borderColor id="4260">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
