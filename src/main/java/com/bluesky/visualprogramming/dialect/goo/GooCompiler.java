@@ -175,12 +175,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	
 	public CompiledProcedure compile(String code) {
 		InputStream stream = null;
-		try {
-			stream = new ByteArrayInputStream(code.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-
-		}
+		
+		stream = new ByteArrayInputStream(code.getBytes());
+		
 		return compile(stream);
 	}
 
