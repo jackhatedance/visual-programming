@@ -97,8 +97,15 @@ public class XmlDomVisitor extends VisitorSupport {
 	}
 
 	private boolean isCompositeTextElement(Element element) {
+		// a composite element must contains at least one child node.
+		if (element.nodeCount() == 0)
+			return false;
+
 		for (int i = 0, size = element.nodeCount(); i < size; i++) {
 			Node cnode = element.node(i);
+
+				// a composite text element means all of child node are text
+				// node. otherwise it is not.
 			if (cnode.getNodeType() != Node.TEXT_NODE
 					&& cnode.getNodeType() != Node.CDATA_SECTION_NODE)
 				return false;
