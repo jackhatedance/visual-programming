@@ -122,7 +122,7 @@ public class _Object implements Serializable {
 
 		for (Field p : src.fieldList) {
 
-			boolean owns = p.type == FieldType.Branch;
+			boolean owns = p.type == FieldType.STRONG;
 
 			setField(p.name, p.target, owns);
 		}
@@ -279,7 +279,7 @@ public class _Object implements Serializable {
 								"cannot own object(#%d) because it's scope is not ExecutionContext",
 								child.id));
 
-			field.type = FieldType.Branch;
+			field.type = FieldType.STRONG;
 			child.field = field;
 		}
 
@@ -300,10 +300,10 @@ public class _Object implements Serializable {
 								"cannot own object(#%d) because it's scope is not ExecutionContext",
 								child.id));
 
-			field.type = FieldType.Branch;
+			field.type = FieldType.STRONG;
 			child.field = field;
 		} else {
-			field.type = FieldType.Pointer;
+			field.type = FieldType.WEAK;
 		}
 
 		sortFields();
@@ -434,7 +434,7 @@ public class _Object implements Serializable {
 	 * a owning relationship become pointer relationship.
 	 */
 	public void downgradeLinkFromOwner() {
-		field.type = FieldType.Pointer;
+		field.type = FieldType.WEAK;
 		field = null;
 	}
 
@@ -521,7 +521,7 @@ public class _Object implements Serializable {
 		for (Field field : fieldList) {
 
 			boolean owns = field.target != null
-					&& field.type == FieldType.Branch;
+					&& field.type == FieldType.STRONG;
 
 			_Object proto = field.target.getPrototype();
 			String objName = null;

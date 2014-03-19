@@ -50,7 +50,7 @@ public class Field {
 	}
 
 	private FieldType getType(boolean own) {
-		return own ? FieldType.Branch : FieldType.Pointer;
+		return own ? FieldType.STRONG : FieldType.WEAK;
 	}
 
 	public Field(_Object targetObject, String name, boolean own) {

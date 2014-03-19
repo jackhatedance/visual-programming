@@ -333,7 +333,7 @@ public class ObjectRepository {
 					Field f = obj.getField(i);
 
 					// remove pointer reference, replace with softlink
-					if (f.target != null && f.type == FieldType.Pointer) {
+					if (f.target != null && f.type == FieldType.WEAK) {
 						f.pointerPath = f.target.getPath();
 						if (!f.pointerPath.startsWith("_root"))
 							System.out.println(f.pointerPath);
@@ -400,7 +400,7 @@ public class ObjectRepository {
 					// restore owner of field
 					f.owner = obj;
 
-					if (f.type == FieldType.Pointer) {
+					if (f.type == FieldType.WEAK) {
 
 						// restore pointer field
 						if (f.pointerPath.startsWith("_root"))
@@ -410,7 +410,7 @@ public class ObjectRepository {
 							System.out
 									.println("wrong pointer:" + f.pointerPath);
 
-					} else if (f.type == FieldType.Branch) {
+					} else if (f.type == FieldType.STRONG) {
 						// restore field of child object.
 						if (f.target != null)
 							f.target.field = f;

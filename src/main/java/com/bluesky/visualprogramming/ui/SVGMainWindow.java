@@ -352,7 +352,7 @@ public class SVGMainWindow extends JPanel {
 
 					_Object childObject = getActiveChildField().target;
 
-					getActiveChildField().type = FieldType.Branch;
+					getActiveChildField().type = FieldType.STRONG;
 					childObject.attachTo(getActiveChildField());
 				}
 			}
