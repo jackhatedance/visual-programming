@@ -168,9 +168,7 @@ public class _Object implements Serializable {
 	}
 
 	public String getPath() {
-		if (hasOwner()) {
-			int index = getOwner().getChildIndex(this);
-			Field field = getOwner().getField(index);
+		if (hasOwner()) {			
 			return getOwner().getPath() + "." + field.name;
 		} else
 			return name;
@@ -207,7 +205,7 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getChild(int index) {
-		return fieldList.get(index).target;
+		return getField(index).target;
 	}
 
 	public Field getField(int index) {

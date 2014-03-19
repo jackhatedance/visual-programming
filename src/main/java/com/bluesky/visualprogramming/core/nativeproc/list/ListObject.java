@@ -103,11 +103,8 @@ public class ListObject {
 		return size;
 	}
 
-	public int indexOf(_Object item){
-		int fieldIndex = obj.getChildIndex(item);
-		Field field = obj.getField(fieldIndex);
-		
-		int listIndex = parseItemName(field.name);
+	public int indexOf(_Object item){		
+		int listIndex = parseItemName(item.field.name);
 		return listIndex;
 		
 	}

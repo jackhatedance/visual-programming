@@ -34,6 +34,8 @@ public class ObjectRepository {
 
 	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
 
+	private ObjectTreeModel objectTreeModel = new ObjectTreeModelImpl();
+	
 	public ObjectRepository() {
 		// start from 0
 		objectId = 0;
