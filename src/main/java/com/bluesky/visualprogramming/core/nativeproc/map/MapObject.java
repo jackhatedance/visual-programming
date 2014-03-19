@@ -7,9 +7,7 @@ import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
-import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MapObject {
@@ -22,6 +20,9 @@ public class MapObject {
 	}
 
 	public void put(String key, _Object value) {
+		// take owner ship
+		if (value.hasOwner())
+			value.downgradeLinkFromOwner();
 
 		obj.setField(getItemName(key), value, true);
 

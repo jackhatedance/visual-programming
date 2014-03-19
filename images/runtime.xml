@@ -27826,10 +27826,313 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
               <height>100</height>
             </area>
           </field>
+          <field id="4256">
+            <name>timer</name>
+            <target id="4257">
+              <type>NORMAL</type>
+              <id>1307562</id>
+              <name>timer</name>
+              <description></description>
+              <field reference="4256"/>
+              <scope>ExecutionContext</scope>
+              <fieldList id="4258">
+                <field id="4259">
+                  <name>myTimer</name>
+                  <target id="4260">
+                    <type>NORMAL</type>
+                    <id>1314171</id>
+                    <name>myTimer</name>
+                    <description></description>
+                    <field reference="4259"/>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="4261">
+                      <field id="4262">
+                        <name>_system</name>
+                        <target id="4263">
+                          <type>NORMAL</type>
+                          <id>1338952</id>
+                          <name>_system</name>
+                          <description></description>
+                          <field reference="4262"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="4264">
+                            <field id="4265">
+                              <name>type</name>
+                              <target class="string" id="4266">
+                                <type>STRING</type>
+                                <id>1348865</id>
+                                <name>type</name>
+                                <description></description>
+                                <field reference="4265"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="4267">
+                                  <field id="4268">
+                                    <name>_system</name>
+                                    <target id="4269">
+                                      <type>NORMAL</type>
+                                      <id>1348866</id>
+                                      <name>_system</name>
+                                      <field reference="4268"/>
+                                      <scope>ExecutionContext</scope>
+                                      <fieldList id="4270">
+                                        <field id="4271">
+                                          <name>prototype</name>
+                                          <type>Pointer</type>
+                                          <owner reference="4269"/>
+                                          <pointerPath>_root.core.prototype.value.string</pointerPath>
+                                          <svgScale>0.2</svgScale>
+                                          <area id="4272">
+                                            <x>0</x>
+                                            <y>0</y>
+                                            <width>100</width>
+                                            <height>100</height>
+                                          </area>
+                                        </field>
+                                      </fieldList>
+                                      <systemFieldsCount>0</systemFieldsCount>
+                                      <scaleRate>1.0</scaleRate>
+                                      <borderColor id="4273">
+                                        <red>0</red>
+                                        <green>0</green>
+                                        <blue>0</blue>
+                                        <alpha>255</alpha>
+                                      </borderColor>
+                                    </target>
+                                    <type>Branch</type>
+                                    <owner class="string" reference="4266"/>
+                                    <svgScale>0.2</svgScale>
+                                    <area id="4274">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <systemFieldsCount>1</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="4273"/>
+                                <value>timer</value>
+                              </target>
+                              <type>Branch</type>
+                              <owner reference="4263"/>
+                              <svgScale>0.2</svgScale>
+                              <area id="4275">
+                                <x>830</x>
+                                <y>770</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="4273"/>
+                        </target>
+                        <type>Branch</type>
+                        <owner reference="4260"/>
+                        <svgScale>0.2</svgScale>
+                        <area id="4276">
+                          <x>1015</x>
+                          <y>1070</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="4277">
+                        <name>interval</name>
+                        <target class="integer" id="4278">
+                          <type>INTEGER</type>
+                          <id>1357127</id>
+                          <name>interval</name>
+                          <description></description>
+                          <field reference="4277"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="4279">
+                            <field id="4280">
+                              <name>_system</name>
+                              <target id="4281">
+                                <type>NORMAL</type>
+                                <id>1357128</id>
+                                <name>_system</name>
+                                <field reference="4280"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="4282">
+                                  <field id="4283">
+                                    <name>prototype</name>
+                                    <type>Pointer</type>
+                                    <owner reference="4281"/>
+                                    <pointerPath>_root.core.prototype.value.integer</pointerPath>
+                                    <svgScale>0.2</svgScale>
+                                    <area id="4284">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <systemFieldsCount>0</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="4273"/>
+                              </target>
+                              <type>Branch</type>
+                              <owner class="integer" reference="4278"/>
+                              <svgScale>0.2</svgScale>
+                              <area id="4285">
+                                <x>0</x>
+                                <y>0</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>1</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="4273"/>
+                          <value>30</value>
+                        </target>
+                        <type>Branch</type>
+                        <owner reference="4260"/>
+                        <svgScale>0.2</svgScale>
+                        <area id="4286">
+                          <x>1115</x>
+                          <y>1770</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="4287">
+                        <name>enabled</name>
+                        <target class="boolean" id="4288">
+                          <type>BOOLEAN</type>
+                          <id>1362085</id>
+                          <name>enabled</name>
+                          <description></description>
+                          <field reference="4287"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="4289">
+                            <field id="4290">
+                              <name>_system</name>
+                              <target id="4291">
+                                <type>NORMAL</type>
+                                <id>1362086</id>
+                                <name>_system</name>
+                                <field reference="4290"/>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="4292">
+                                  <field id="4293">
+                                    <name>prototype</name>
+                                    <type>Pointer</type>
+                                    <owner reference="4291"/>
+                                    <pointerPath>_root.core.prototype.value.boolean</pointerPath>
+                                    <svgScale>0.2</svgScale>
+                                    <area id="4294">
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <systemFieldsCount>0</systemFieldsCount>
+                                <scaleRate>1.0</scaleRate>
+                                <borderColor reference="4273"/>
+                              </target>
+                              <type>Branch</type>
+                              <owner class="boolean" reference="4288"/>
+                              <svgScale>0.2</svgScale>
+                              <area id="4295">
+                                <x>0</x>
+                                <y>0</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <systemFieldsCount>1</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="4273"/>
+                          <booleanValue>false</booleanValue>
+                        </target>
+                        <type>Branch</type>
+                        <owner reference="4260"/>
+                        <svgScale>0.2</svgScale>
+                        <area id="4296">
+                          <x>1145</x>
+                          <y>2155</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="4297">
+                        <name>action</name>
+                        <target class="procedure" id="4298">
+                          <type>PROCEDURE</type>
+                          <id>1398431</id>
+                          <name defined-in="object">action</name>
+                          <description></description>
+                          <field reference="4297"/>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="4299"/>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor reference="4273"/>
+                          <__native>false</__native>
+                          <nativeProcedureClassName></nativeProcedureClassName>
+                          <nativeProcedureParameters></nativeProcedureParameters>
+                          <language>goo</language>
+                          <code>procedure()
+{
+	SYS = _root.core.system;
+
+	SYS.console.println(&quot;this is in myTimer action&quot;);
+}</code>
+                        </target>
+                        <type>Branch</type>
+                        <owner reference="4260"/>
+                        <svgScale>0.2</svgScale>
+                        <area id="4300">
+                          <x>2555</x>
+                          <y>1515</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <systemFieldsCount>1</systemFieldsCount>
+                    <scaleRate>1.0</scaleRate>
+                    <borderColor reference="4273"/>
+                  </target>
+                  <type>Branch</type>
+                  <owner reference="4257"/>
+                  <svgScale>0.2</svgScale>
+                  <area id="4301">
+                    <x>805</x>
+                    <y>1095</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <systemFieldsCount>0</systemFieldsCount>
+              <scaleRate>1.0</scaleRate>
+              <borderColor reference="4273"/>
+            </target>
+            <type>Branch</type>
+            <owner reference="178"/>
+            <svgScale>0.2</svgScale>
+            <area id="4302">
+              <x>1695</x>
+              <y>2130</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
         </fieldList>
         <systemFieldsCount>0</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="4256">
+        <borderColor id="4303">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -27838,19 +28141,19 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
       </target>
       <type>Branch</type>
       <svgScale>0.2</svgScale>
-      <area id="4257">
+      <area id="4304">
         <x>1225</x>
         <y>1185</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="4258">
+    <field id="4305">
       <name>core</name>
       <target reference="880"/>
       <type>Branch</type>
       <svgScale>0.2</svgScale>
-      <area id="4259">
+      <area id="4306">
         <x>510</x>
         <y>430</y>
         <width>100</width>
@@ -27860,7 +28163,7 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="4260">
+  <borderColor id="4307">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
