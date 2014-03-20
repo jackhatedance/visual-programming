@@ -7,10 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -24,12 +21,11 @@ public class ObjectRepository {
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
-	static String DUMP_FILE = "objects";
 	public static String ROOT = "_root";
 	public static String PROTOTYPE_PATH = ROOT + ".core.prototype";
 
 	volatile long objectId;
-	Map<Long, _Object> objects = new HashMap<Long, _Object>();
+
 	_Object rootObject;
 
 	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
@@ -115,8 +111,6 @@ public class ObjectRepository {
 			}
 		}
 
-		objects.put(newObject.getId(), newObject);
-
 		for (ObjectRepositoryListener l : listeners) {
 			l.afterCreate(newObject);
 		}
@@ -156,8 +150,6 @@ public class ObjectRepository {
 
 		owner.setField(name, newObject, true);
 
-		objects.put(newObject.getId(), newObject);
-
 		for (ObjectRepositoryListener l : listeners) {
 			l.afterCreate(newObject);
 		}
@@ -188,21 +180,12 @@ public class ObjectRepository {
 		}
 	}
 
-	public void destroyObject(long id) {
-		_Object obj = objects.get(id);
-		if (obj == null)
-			throw new RuntimeException("delete object, object id not found");
-
-		destroyObject(obj);
-	}
-
 	public void destroyObject(_Object obj) {
 		if (obj.getOwner() != null) {
 			obj.getOwner().removeChild(obj);
 			// obj.setOwner(null);
 		}
 
-		objects.remove(obj);
 	}
 
 	public _Object getRootObject() {
@@ -359,16 +342,15 @@ public class ObjectRepository {
 					if (f.getTarget() != null) {
 						f.getTarget().field = null;
 
+					} else {
+						System.out.println("target is null" + f.owner.getPath()
+								+ "." + f.getName());
 					}
-					else
-					{
-						System.out.println("target is null"+f.owner.getPath()+"."+f.getName());
-					}
-					
-					//remove it anyway
-					if(f.type==FieldType.WEAK)
-						f.setStrongTarget(null);
-					
+
+					// check
+					if (f.type == FieldType.WEAK && f.getStrongTarget() != null)
+						throw new RuntimeException(
+								"field inconsistency: weak but has strong reference");
 
 				}
 
@@ -412,7 +394,8 @@ public class ObjectRepository {
 					if (f.type == FieldType.WEAK) {
 
 						// restore pointer field
-						if (f.pointerPath!=null && f.pointerPath.startsWith("_root")) {
+						if (f.pointerPath != null
+								&& f.pointerPath.startsWith("_root")) {
 
 							f.setWeakTarget(ObjectRepository.this
 									.getObjectByPath(f.pointerPath));
@@ -427,11 +410,11 @@ public class ObjectRepository {
 						else
 							System.out.println("null field:" + f.getName());
 
-					} else
-					{
+					} else {
 						f.type = FieldType.WEAK;
-						System.out.println("null field type:" + f.owner.getPath()+"."+ f.getName());
-						//throw new RuntimeException("field type is null");
+						System.out.println("null field type:"
+								+ f.owner.getPath() + "." + f.getName());
+						// throw new RuntimeException("field type is null");
 					}
 				}
 
@@ -455,10 +438,6 @@ public class ObjectRepository {
 			}
 		});
 
-	}
-
-	public Collection<_Object> getAllObjects() {
-		return objects.values();
 	}
 
 	public void addListener(ObjectRepositoryListener listener) {
