@@ -417,7 +417,8 @@ public class ObjectRepository {
 						else
 							System.out.println("null field:" + f.getName());
 
-					}
+					}else
+						throw new RuntimeException("field type is null");
 
 				}
 

@@ -22,7 +22,7 @@
           <alpha>255</alpha>
         </borderColor>
       </target>
-      <type>Branch</type>
+      <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="7">
         <x>775</x>
