@@ -5,11 +5,13 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -168,7 +170,7 @@ public class _Object implements Serializable {
 	}
 
 	public String getPath() {
-		if (hasOwner()) {			
+		if (hasOwner()) {
 			return getOwner().getPath() + "." + field.name;
 		} else
 			return name;
@@ -877,13 +879,38 @@ public class _Object implements Serializable {
 	}
 
 	/**
-	 * rearrange the field list, system field are on top.
+	 * rearrange the field list, system field are on top. user fields are sorted
+	 * with comparator. and update the system field count.
 	 * 
-	 * and update the system field count.
+	 * @param comparator
 	 */
+
 	public void sortFields() {
 		List<Field> systemFields = new ArrayList<Field>();
-		List<Field> userFields = new ArrayList<Field>();
+
+		List<Field> userFields = new ArrayList<>();
+
+		for (Field f : fieldList) {
+			if (f.isSystemField())
+				systemFields.add(f);
+			else
+				userFields.add(f);
+		}
+
+		fieldList.clear();
+
+		fieldList.addAll(systemFields);
+		fieldList.addAll(userFields);
+
+		systemFieldsCount = systemFields.size();
+
+		recreateFieldIndexes();
+	}
+
+	public void sortFields(Comparator<Field> comparator) {
+		List<Field> systemFields = new ArrayList<Field>();
+
+		TreeSet<Field> userFields = new TreeSet<Field>(comparator);
 
 		for (Field f : fieldList) {
 			if (f.isSystemField())

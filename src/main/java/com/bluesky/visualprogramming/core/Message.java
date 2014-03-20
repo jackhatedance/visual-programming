@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
-import com.bluesky.visualprogramming.vm.message.Worker;
 
 public class Message {
 
@@ -187,7 +186,11 @@ public class Message {
 					if (i > 0)
 						sb.append(",");
 
-					sb.append(body.getChild(i).getValue());
+					String childValue = "";
+					if (body.getChild(i) != null)
+						childValue = body.getChild(i).getValue();
+
+					sb.append(childValue);
 
 				}
 			}

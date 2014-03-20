@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.core;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.beans.Transient;
 import java.lang.ref.WeakReference;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
@@ -220,4 +219,6 @@ public class Field {
 	public void setTarget(_Object target){
 		type.setTarget(this,target);
 	}
+
+
 }

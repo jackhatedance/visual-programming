@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.core;
 
+import java.util.Comparator;
+
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.FloatValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -54,6 +56,18 @@ public enum ObjectType {
 		@Override
 		public String getSvgResource(){
 			return "svg/integer.svg";
+		}
+
+		@Override
+		public Comparator<_Object> getComparator() {
+			return new Comparator<_Object>() {
+				public int compare(_Object o1, _Object o2) {
+					IntegerValue iv1 = (IntegerValue) o1;
+					IntegerValue iv2 = (IntegerValue) o2;
+					return (int) (iv1.getIntValue() - iv2.getIntValue());
+				};
+			};
+
 		}
 	},
 	FLOAT {
@@ -147,6 +161,18 @@ public enum ObjectType {
 		public String getSvgResource(){
 			return "svg/string.svg";
 		}
+
+		@Override
+		public Comparator<_Object> getComparator() {
+			return new Comparator<_Object>() {
+				public int compare(_Object o1, _Object o2) {
+					StringValue iv1 = (StringValue) o1;
+					StringValue iv2 = (StringValue) o2;
+					return iv1.getValue().compareTo(iv2.getValue());
+				};
+			};
+
+		}
 	},
 	PROCEDURE {
 		@Override
@@ -184,5 +210,22 @@ public enum ObjectType {
 
 	public String getSvgResource(){
 		return "svg/object.svg";
+	}
+
+	public Comparator<_Object> getComparator() {
+		return new Comparator<_Object>() {
+			@Override
+			public int compare(_Object o1, _Object o2) {
+				// default , nonsense
+				if (o1 == null && o2 == null)
+					return 0;
+				else if (o1 != null && o2 == null)
+					return 1;
+				else if (o1 == null && o2 != null)
+					return -1;
+				else
+					return o1.hashCode() - o2.hashCode();
+			}
+		};
 	}
 }
