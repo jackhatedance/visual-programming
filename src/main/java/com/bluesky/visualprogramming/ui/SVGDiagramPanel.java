@@ -145,7 +145,7 @@ public class SVGDiagramPanel extends JPanel {
 				VirtualMachine vm = VirtualMachine.getInstance();
 				ObjectRepository repo = vm.getObjectRepository();
 				Procedure procedure = (Procedure) repo.createObject(
-						field.target, testProcedureName, ObjectType.PROCEDURE);
+						field.getTarget(), testProcedureName, ObjectType.PROCEDURE);
 
 				StringBuilder sb = new StringBuilder();
 				sb.append("[native=false, language=goo]\r\n");
@@ -156,13 +156,13 @@ public class SVGDiagramPanel extends JPanel {
 				procedure.setValue(sb.toString());
 
 				// execute it
-				vm.getPostService().sendMessageFromNobody(field.target,
+				vm.getPostService().sendMessageFromNobody(field.getTarget(),
 						testProcedureName, null, new Callback() {
 
 							@Override
 							public void onComplete(_Object result) {
 								// remove the test procedure
-								field.target.removeField(testProcedureName);
+								field.getTarget().removeField(testProcedureName);
 							}
 						});
 

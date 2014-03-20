@@ -49,6 +49,7 @@ public class XstreamSerializer implements ConfigurableObjectSerializer {
 		
 		xstream.alias("field", Field.class);
 		xstream.omitField(Field.class, "selectedStatus");
+		xstream.omitField(Field.class, "weakTarget");
 		
 		
 		xstream.alias("boolean", BooleanValue.class);

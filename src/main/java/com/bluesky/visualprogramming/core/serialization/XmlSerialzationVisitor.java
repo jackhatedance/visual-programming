@@ -64,7 +64,7 @@ public class XmlSerialzationVisitor implements ObjectVisitor {
 	 */
 	public void visit(_Object obj, String name) {
 		Field field = new Field(name, true);
-		field.target = obj;
+		field.setTarget(obj);
 
 		Branch branch = document;
 

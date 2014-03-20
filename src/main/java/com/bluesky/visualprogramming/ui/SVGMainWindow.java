@@ -145,7 +145,7 @@ public class SVGMainWindow extends JPanel {
 						field.name, field.getSelectedStatus()));
 
 			SvgScene scene = new SvgScene();
-			field.target.drawInternal(diagramPanel, scene, new Point(0, 0));
+			field.getTarget().drawInternal(diagramPanel, scene, new Point(0, 0));
 
 			diagramPanel.setScene(scene);
 			Element background = scene.getDocument().getElementById(
@@ -203,7 +203,7 @@ public class SVGMainWindow extends JPanel {
 			return;
 
 		Field field = (Field) node.getUserObject();
-		_Object obj = field.target;
+		_Object obj = field.getTarget();
 
 		if (obj == null)
 			throw new RuntimeException("object of selected node is null.");
@@ -268,7 +268,7 @@ public class SVGMainWindow extends JPanel {
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
 				if (getActiveChildField() != null) {
 					// save to clipboard
-					objectSelection.setObject(getSelectedTreeField().target,
+					objectSelection.setObject(getSelectedTreeField().getTarget(),
 							getActiveChildField().name);
 				}
 			}
@@ -296,8 +296,8 @@ public class SVGMainWindow extends JPanel {
 
 						Field ownerField = (Field) getSelectedTreeNode()
 								.getUserObject();
-						_Object ownerObject = ownerField.target;
-						_Object childObject = getActiveChildField().target;
+						_Object ownerObject = ownerField.getTarget();
+						_Object childObject = getActiveChildField().getTarget();
 
 						// remove field
 						ownerObject.removeField(getActiveChildField().name);
@@ -306,7 +306,7 @@ public class SVGMainWindow extends JPanel {
 						if (ownerObject.owns(childObject)) {
 							// remove from object repository
 							getVM().getObjectRepository().destroyObject(
-									getActiveChildField().target);
+									getActiveChildField().getTarget());
 						}
 
 						diagramPanel.reload();
@@ -331,7 +331,7 @@ public class SVGMainWindow extends JPanel {
 					{
 
 						getVM().getPostService().sendMessageFromNobody(
-								getActiveChildField().target.getOwner(),
+								getActiveChildField().getTarget().getOwner(),
 								getActiveChildField().getName(), null, null);
 
 					}
@@ -350,7 +350,7 @@ public class SVGMainWindow extends JPanel {
 					Field ownerField = (Field) getSelectedTreeNode()
 							.getUserObject();
 
-					_Object childObject = getActiveChildField().target;
+					_Object childObject = getActiveChildField().getTarget();
 
 					getActiveChildField().type = FieldType.STRONG;
 					childObject.attachTo(getActiveChildField());
@@ -374,7 +374,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.NORMAL);
+						getSelectedTreeField().getTarget(), ObjectType.NORMAL);
 
 				addChildObjectToTree(obj);
 			}
@@ -387,7 +387,7 @@ public class SVGMainWindow extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.INTEGER);
+						getSelectedTreeField().getTarget(), ObjectType.INTEGER);
 
 				addChildObjectToTree(obj);
 			}
@@ -399,7 +399,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.STRING);
+						getSelectedTreeField().getTarget(), ObjectType.STRING);
 
 				addChildObjectToTree(obj);
 
@@ -412,7 +412,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.BOOLEAN);
+						getSelectedTreeField().getTarget(), ObjectType.BOOLEAN);
 
 				addChildObjectToTree(obj);
 
@@ -425,7 +425,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.LINK);
+						getSelectedTreeField().getTarget(), ObjectType.LINK);
 
 				addChildObjectToTree(obj);
 
@@ -438,7 +438,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().target, ObjectType.PROCEDURE);
+						getSelectedTreeField().getTarget(), ObjectType.PROCEDURE);
 
 				addChildObjectToTree(obj);
 
@@ -450,7 +450,7 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem = new JMenuItem("Paste");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				_Object newOwner = getSelectedTreeField().target;
+				_Object newOwner = getSelectedTreeField().getTarget();
 
 				FieldSelection selection = objectSelection.getObject();
 
@@ -483,7 +483,7 @@ public class SVGMainWindow extends JPanel {
 						.createObject(ObjectType.STRING,
 								ObjectScope.ExecutionContext);
 				sv.setValue(ObjectLayout.List.toString());
-				getSelectedTreeField().target.setSystemField(
+				getSelectedTreeField().getTarget().setSystemField(
 						_Object.OBJECT_LAYOUT, sv, true);
 
 				// refresh UI
@@ -603,9 +603,9 @@ public class SVGMainWindow extends JPanel {
 		}
 		activeChildField = null;
 		Point p = CanvasUtils.scaleBack(mousePos,
-				getSelectedTreeField().target.scaleRate);
+				getSelectedTreeField().getTarget().scaleRate);
 
-		_Object obj = field.target;
+		_Object obj = field.getTarget();
 		// step 1. find the hovering child field
 		for (int i = 0; i < obj.getChildCount(); i++) {
 			Field f = obj.getField(i);
@@ -666,7 +666,7 @@ public class SVGMainWindow extends JPanel {
 
 	public void setDiagramScaleRate(float diagramScaleRate) {
 		// this.diagramScaleRate =diagramScaleRate;
-		getSelectedTreeField().target.scaleRate = diagramScaleRate;
+		getSelectedTreeField().getTarget().scaleRate = diagramScaleRate;
 		diagramPanel.reload();
 	}
 

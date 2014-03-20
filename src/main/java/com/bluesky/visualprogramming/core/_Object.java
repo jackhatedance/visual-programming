@@ -124,7 +124,7 @@ public class _Object implements Serializable {
 
 			boolean owns = p.type == FieldType.STRONG;
 
-			setField(p.name, p.target, owns);
+			setField(p.name, p.getTarget(), owns);
 		}
 
 		// messageQueue is skipped
@@ -191,7 +191,7 @@ public class _Object implements Serializable {
 		for (int i = 0; i < fieldList.size(); i++) {
 			Field f = fieldList.get(i);
 			fieldNameMap.put(f.name, i);
-			childrenObjectMap.put(f.target, i);
+			childrenObjectMap.put(f.getTarget(), i);
 		}
 	}
 
@@ -205,7 +205,7 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getChild(int index) {
-		return getField(index).target;
+		return getField(index).getTarget();
 	}
 
 	public Field getField(int index) {
@@ -266,11 +266,11 @@ public class _Object implements Serializable {
 	 */
 	protected void changeChild(Field field, _Object child, boolean owner) {
 
-		_Object oldChild = field.target;
+		_Object oldChild = field.getTarget();
 		if (oldChild != null)
 			detachOwnedChild(oldChild);
 
-		field.target = child;
+		field.setTarget(child);
 
 		if (owner) {
 			if (child.getScope() != ObjectScope.ExecutionContext)
@@ -404,8 +404,8 @@ public class _Object implements Serializable {
 
 		recreateFieldIndexes();
 
-		if (field.target != null && owns(field.target))
-			detachOwnedChild(field.target);
+		if (field.getTarget() != null && owns(field.getTarget()))
+			detachOwnedChild(field.getTarget());
 	}
 
 	/**
@@ -426,7 +426,7 @@ public class _Object implements Serializable {
 	public void detachFromOwner() {
 		// owner.detachOwnedChild(this);
 
-		field.target = null;
+		field.setTarget(null);
 		field = null;
 	}
 
@@ -520,10 +520,10 @@ public class _Object implements Serializable {
 
 		for (Field field : fieldList) {
 
-			boolean owns = field.target != null
+			boolean owns = field.getTarget() != null
 					&& field.type == FieldType.STRONG;
 
-			_Object proto = field.target.getPrototype();
+			_Object proto = field.getTarget().getPrototype();
 			String objName = null;
 			if (proto != null) {
 				objName = String.format("%s<%s>", field.name, proto.name);
@@ -556,7 +556,7 @@ public class _Object implements Serializable {
 		if (index == null)
 			return null;
 		else
-			return fieldList.get(index).target;
+			return fieldList.get(index).getTarget();
 	}
 
 	public _Object getSystemChild(String name) {
@@ -629,7 +629,7 @@ public class _Object implements Serializable {
 							+ defaultSubjectMatchType);
 
 				for (Field field : fieldList) {
-					_Object child = field.target;
+					_Object child = field.getTarget();
 
 					StringValue messageSubjectMatchRule = (StringValue) child
 							.getSystemChild(SUBJECT_MATCH_RULE);

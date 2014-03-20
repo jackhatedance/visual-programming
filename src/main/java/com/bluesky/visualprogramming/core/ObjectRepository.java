@@ -35,7 +35,7 @@ public class ObjectRepository {
 	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
 
 	private ObjectTreeModel objectTreeModel = new ObjectTreeModelImpl();
-	
+
 	public ObjectRepository() {
 		// start from 0
 		objectId = 0;
@@ -188,7 +188,6 @@ public class ObjectRepository {
 		}
 	}
 
-
 	public void destroyObject(long id) {
 		_Object obj = objects.get(id);
 		if (obj == null)
@@ -308,8 +307,8 @@ public class ObjectRepository {
 		walker.walk(obj);
 		if (obj.hasChildren()) {
 			for (Field f : obj.getFields()) {
-				if (obj.owns(f.target))
-					treeWalk(f.target, walker);
+				if (obj.owns(f.getStrongTarget()))
+					treeWalk(f.getTarget(), walker);
 			}
 		}
 	}
@@ -333,12 +332,12 @@ public class ObjectRepository {
 					Field f = obj.getField(i);
 
 					// remove pointer reference, replace with softlink
-					if (f.target != null && f.type == FieldType.WEAK) {
-						f.pointerPath = f.target.getPath();
+					if (f.getTarget() != null && f.type == FieldType.WEAK) {
+						f.pointerPath = f.getTarget().getPath();
 						if (!f.pointerPath.startsWith("_root"))
 							System.out.println(f.pointerPath);
 
-						f.target = null;
+						f.setWeakTarget(null);
 
 					}
 
@@ -357,10 +356,19 @@ public class ObjectRepository {
 					// remove backward pointers
 					f.owner = null;
 
-					if (f.target != null) {
-						f.target.field = null;
+					if (f.getTarget() != null) {
+						f.getTarget().field = null;
 
 					}
+					else
+					{
+						System.out.println("target is null"+f.owner.getPath()+"."+f.getName());
+					}
+					
+					//remove it anyway
+					if(f.type==FieldType.WEAK)
+						f.setStrongTarget(null);
+					
 
 				}
 
@@ -377,10 +385,12 @@ public class ObjectRepository {
 		});
 
 	}
-/**
- * 
- * @param obj the root object of the mounting tree
- */
+
+	/**
+	 * 
+	 * @param obj
+	 *            the root object of the mounting tree
+	 */
 	private void afterLoadXml(_Object obj) {
 		logger.info("objects loaded, start linking");
 
@@ -393,7 +403,6 @@ public class ObjectRepository {
 				if (obj.getId() > objectId)
 					objectId = obj.getId() + 1;
 
-
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
@@ -403,23 +412,27 @@ public class ObjectRepository {
 					if (f.type == FieldType.WEAK) {
 
 						// restore pointer field
-						if (f.pointerPath.startsWith("_root"))
-							f.target = ObjectRepository.this
-									.getObjectByPath(f.pointerPath);
-						else
+						if (f.pointerPath!=null && f.pointerPath.startsWith("_root")) {
+
+							f.setWeakTarget(ObjectRepository.this
+									.getObjectByPath(f.pointerPath));
+						} else
 							System.out
 									.println("wrong pointer:" + f.pointerPath);
 
 					} else if (f.type == FieldType.STRONG) {
 						// restore field of child object.
-						if (f.target != null)
-							f.target.field = f;
+						if (f.getTarget() != null)
+							f.getTarget().field = f;
 						else
 							System.out.println("null field:" + f.getName());
 
-					}else
-						throw new RuntimeException("field type is null");
-
+					} else
+					{
+						f.type = FieldType.WEAK;
+						System.out.println("null field type:" + f.owner.getPath()+"."+ f.getName());
+						//throw new RuntimeException("field type is null");
+					}
 				}
 
 			}
@@ -433,7 +446,7 @@ public class ObjectRepository {
 					l.afterLoadFromFile(obj);
 			}
 		});
-		
+
 		treeWalk(obj, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {

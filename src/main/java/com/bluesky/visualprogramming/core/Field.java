@@ -2,6 +2,8 @@ package com.bluesky.visualprogramming.core;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.beans.Transient;
+import java.lang.ref.WeakReference;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
 
@@ -14,7 +16,15 @@ public class Field {
 	static int BORDER_WIDTH_THIN=2;
 
 	public String name;
-	public _Object target;
+	
+	/**
+	 * it is strong reference
+	 */
+	private _Object strongTarget;
+	/**
+	 * the weak reference, aka. pointer.
+	 */	
+	private WeakReference<_Object> weakTarget;
 
 	public FieldType type;
 
@@ -53,12 +63,13 @@ public class Field {
 		return own ? FieldType.STRONG : FieldType.WEAK;
 	}
 
-	public Field(_Object targetObject, String name, boolean own) {
-		this.target = targetObject;
+	public Field(_Object target, String name, boolean own) {
+		
 		this.name = name;
-
 		this.type = getType(own);
-
+		
+		setTarget(target);
+		
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
@@ -76,12 +87,12 @@ public class Field {
 		this.name = name;
 	}
 
-	public _Object getTarget() {
-		return target;
+	public _Object getStrongTarget() {
+		return strongTarget;
 	}
 
-	public void setTarget(_Object target) {
-		this.target = target;
+	public void setStrongTarget(_Object target) {
+		this.strongTarget = target;
 	}
 
 	public SelectedStatus getSelectedStatus() {
@@ -143,6 +154,8 @@ public class Field {
 		int x = (int) (area.x * zoom) + canvasOffset.x;
 		int y = (int) (area.y * zoom) + canvasOffset.y;
 
+		_Object target = getTarget();
+		
 		long id = target.getId();
 		String value = target.getHumanReadableText();
 
@@ -183,9 +196,28 @@ public class Field {
 	public void accept(ObjectVisitor visitor) {
 		Object status = visitor.enter(this);
 		if (status instanceof Boolean && (Boolean) status == true) {
+			
+			//notice: only visit strong field?
+			_Object target = getTarget(); 
 			if (target != null)
 				target.accept(visitor);
 		}
 		visitor.leave(this);
+	}
+		
+	public WeakReference<_Object> getWeakTarget() {
+		return weakTarget;
+	}
+
+	public void setWeakTarget(_Object target) {
+		this.weakTarget = new WeakReference<_Object>(target);
+	}
+	
+	public _Object getTarget(){
+		return type.getTarget(this);
+	}
+	
+	public void setTarget(_Object target){
+		type.setTarget(this,target);
 	}
 }

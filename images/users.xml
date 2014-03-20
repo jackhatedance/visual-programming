@@ -6,7 +6,7 @@
   <fieldList id="2">
     <field id="3">
       <name>demo</name>
-      <target id="4">
+      <strongTarget id="4">
         <type>NORMAL</type>
         <id>1255658</id>
         <name>demo</name>
@@ -21,7 +21,7 @@
           <blue>0</blue>
           <alpha>255</alpha>
         </borderColor>
-      </target>
+      </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="7">

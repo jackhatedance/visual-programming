@@ -296,7 +296,7 @@ public class ObjectPropertyDialog extends JDialog {
 					Color newColor = JColorChooser
 							.showDialog(ObjectPropertyDialog.this,
 									"Choose Background Color",
-									field.target.borderColor);
+									field.getTarget().borderColor);
 					if (newColor != null) {
 						btnSetBorderColor.setForeground(newColor);
 					}
@@ -332,7 +332,7 @@ public class ObjectPropertyDialog extends JDialog {
 				btnDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						VirtualMachine.getInstance().getObjectRepository()
-								.destroyObject(field.target);
+								.destroyObject(field.getTarget());
 						dispose();
 					}
 				});
@@ -354,7 +354,7 @@ public class ObjectPropertyDialog extends JDialog {
 
 	public void setField(Field field) {
 		this.field = field;
-		this.object = field.target;
+		this.object = field.getTarget();
 
 		String ownerPath ="";
 		if(object.hasOwner())
