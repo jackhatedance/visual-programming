@@ -7,14 +7,19 @@ import java.util.Set;
 import java.util.Stack;
 
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
 public class ProcedureExecutionContext {
 
+	/**
+	 * implicit variables:
+	 */
 	public final static String VAR_RESULT = "_result";	
 	public final static String VAR_SELF = "_self";
 	public final static String VAR_SUBJECT = "_subject";
+
+	// the message body object.
 	public final static String VAR_PARAMETERS = "_parameters";
+	public final static String VAR_PARAMETER_STYLE = "_parameterStyle";
 
 	Map<String, _Object> localVariables;
 

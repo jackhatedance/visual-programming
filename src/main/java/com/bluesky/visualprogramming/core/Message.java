@@ -26,6 +26,7 @@ public class Message {
 	public _Object body;
 	public ParameterStyle parameterStyle;
 
+
 	public ProcedureExecutionContext executionContext;
 
 	public _Object reply;
@@ -122,6 +123,9 @@ public class Message {
 				subject);
 		executionContext.setObject(ProcedureExecutionContext.VAR_PARAMETERS,
 				body);
+		executionContext.setObject(
+				ProcedureExecutionContext.VAR_PARAMETER_STYLE,
+				getParamStyleSV());
 		// executionContext.setObject("sender", receiver);
 
 		if (body != null) {
@@ -222,5 +226,14 @@ public class Message {
 
 	public void setSubject(String subject) {
 		this.subject.setValue(subject);
+	}
+
+	public StringValue getParamStyleSV() {
+		StringValue sv = new StringValue(-1);
+
+		if (parameterStyle != null)
+			sv.setValue(parameterStyle.name());
+
+		return sv;
 	}
 }

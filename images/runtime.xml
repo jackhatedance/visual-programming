@@ -2341,13 +2341,13 @@
 {
 	SYSTEM = _root.core.system;
 
-	if(SYSTEM.isNull(obj._system))
+	_sys = obj._system;
+	if(SYSTEM.isNull(_sys).isFalse())	
 	{
-		_result = null;
-	}
-	else
-	{
-		_result = _self.getChild(obj._system,name);
+
+		//below line cause bug.
+		//_result = _self.getChild(obj._system,name);
+		_result = _self.getChild(_sys,name);
 	}
 	
 
@@ -2955,7 +2955,7 @@ such as disable email aliases for object foo.</value>
                   </area>
                 </field>
               </fieldList>
-              <systemFieldsCount>0</systemFieldsCount>
+              <systemFieldsCount>1</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
               <borderColor reference="352"/>
             </strongTarget>
@@ -21162,7 +21162,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                               <systemFieldsCount>1</systemFieldsCount>
                               <scaleRate>1.0</scaleRate>
                               <borderColor reference="3257"/>
-                              <value>250</value>
+                              <value>262</value>
                             </strongTarget>
                             <type>STRONG</type>
                             <owner reference="3181"/>
@@ -21178,8 +21178,8 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                             <name>title</name>
                             <strongTarget class="string" id="3275">
                               <type>STRING</type>
-                              <id>2638232</id>
-                              <name>title</name>
+                              <id>2643816</id>
+                              <name>t_0</name>
                               <field reference="3274"/>
                               <scope>ExecutionContext</scope>
                               <fieldList id="3276">
@@ -21187,7 +21187,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                                   <name>_system</name>
                                   <strongTarget id="3278">
                                     <type>NORMAL</type>
-                                    <id>2638233</id>
+                                    <id>2643817</id>
                                     <name>_system</name>
                                     <field reference="3277"/>
                                     <scope>ExecutionContext</scope>
@@ -27379,8 +27379,14 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                 <code>procedure()
 {
 	_root.core.system.console.println(&quot;subject=&quot;.concat(_subject));
+	_root.core.system.console.println(&quot;parameterStyle=&quot;.concat(_parameterStyle));
 	target = _self._owner.target;
-	obj = target.$_subject(_body:_parameters);
+	
+	if(&quot;ByOrder&quot;.equals(_parameterStyle))
+		obj = target.$_subject(_parametersByOrder:_parameters);
+	else
+		obj = target.$_subject(_parametersByName:_parameters);
+		
 	//obj = target.$_subject(1,2);
 	_result = obj;
 
