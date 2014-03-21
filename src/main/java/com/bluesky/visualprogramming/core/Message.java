@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
@@ -135,18 +136,27 @@ public class Message {
 				}
 			} else {
 				// by order
-				int minCount = body.getChildCount() < paramNames.length ? body
-						.getChildCount() : paramNames.length;
-				for (int i = 0; i < minCount; i++) {
-
-					String name = paramNames[i];
-					_Object p = body.getChild(i);
+				int prefixLen = GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX.length();
+				int paramLen = paramNames.length;
+				for(String fieldName :body.getFieldNames()){
+					int idx = Integer.valueOf(fieldName.substring(prefixLen));
+					
+					if(idx>=paramLen)
+					{
+						logger.warn("too many parameters than required"+toString());
+						continue;
+					}
+					
+					String name = paramNames[idx];
+					_Object p = body.getChild(fieldName);
 
 					if (logger.isDebugEnabled())
 						logger.debug("push parameter to context:" + name);
 
 					executionContext.setObject(name, p);
 				}
+				
+				
 			}
 		}
 	}

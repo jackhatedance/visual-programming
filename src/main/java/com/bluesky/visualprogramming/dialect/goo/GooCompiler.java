@@ -106,6 +106,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	static Logger logger = Logger.getLogger(GooCompiler.class);
 
+	public static String PARAMETER_BY_ORDER_NAME_PREFIX = "idx_";
 	private static String PROCEDURE_END_LABEL = "procedureEnd";
 
 	private List<String> parameters = new ArrayList<String>();
@@ -353,6 +354,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			 */
 
 			String paramVar = (String) nvc.accept(this);
+			
+			//return the var name for message body
+			VarNameStack.push(paramVar);
+			
 			return null;
 		} else {
 
@@ -377,6 +382,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 				ins2.assignmenType = AssignmentType.AUTO;
 
 				addInstruction(ins2);
+				
+				//return the same var name for message body
+				VarNameStack.push(parametersVarName);
 			}
 
 			return null;
@@ -399,7 +407,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			createField.varName = getNextTempVar("string");
 			createField.objType = ObjectType.STRING;
-			createField.value = "idx_" + i;
+			createField.value = PARAMETER_BY_ORDER_NAME_PREFIX + i;
 
 			addInstruction(createField);
 
@@ -412,6 +420,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			addInstruction(ins2);
 		}
 
+		//return the same var name
+		VarNameStack.push(parametersVarName);
+		
 		return null;
 	}
 
@@ -519,7 +530,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitSendMessage(SendMessageContext ctx) {
 		// System.out.println("visitSendMessage");
-		String paramVar = null;
+		String parametersVar = null;
+		String actualParametersVar=null;
 
 		// default
 		ParameterStyle paramStyle = null;
@@ -529,16 +541,22 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			// create the root parameter object
 			CreateObject createBody = new CreateObject(ctx.start.getLine());
 			createBody.objType = ObjectType.NORMAL;
-			paramVar = getNextTempVar("paramFieldList");
-			createBody.varName = paramVar;
+			
+			// the paramVar is pre-allocated, for normal case.
+			parametersVar = getNextTempVar("paramFieldList");
+			createBody.varName = parametersVar;
 
 			addInstruction(createBody);
 
-			VarNameStack.push(paramVar);
+			//pass the var name of message.body to inner visitor.
+			VarNameStack.push(parametersVar);
 
 			ctx.fieldList().accept(this);
+			
+			//it is for special case, when the parameter is only one and present the body itself. thus we don't need to create a object for it.
+			actualParametersVar = VarNameStack.pop();
 
-			createBody.varName = paramVar;
+//			createBody.varName = actualParamVar;
 
 			if (ctx.fieldList() instanceof OrderedParamListContext)
 				paramStyle = ParameterStyle.ByOrder;
@@ -556,7 +574,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		
 		// only one child, either Id or String. return procedure name
 		ins.messageSubjectVar = (String) ctx.messgeSubject().accept(this);
-		ins.messageBodyVar = paramVar;
+		ins.messageBodyVar = actualParametersVar;
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
 		ins.replyVar = tempVar2;

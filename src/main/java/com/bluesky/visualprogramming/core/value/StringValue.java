@@ -32,5 +32,9 @@ public class StringValue extends ValueObject {
 
 	}
 
+	@Override
+	public String toString() {		
+		return value;
+	}
 
 }

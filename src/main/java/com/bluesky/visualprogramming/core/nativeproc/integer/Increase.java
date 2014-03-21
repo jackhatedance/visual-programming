@@ -14,6 +14,9 @@ public class Increase extends BaseNativeProcedure implements NativeProcedure {
 
 		IntegerValue selfInt = (IntegerValue) self;
 		IntegerValue num = (IntegerValue) ctx.get("num");
+		
+		if(num==null)
+			throw new RuntimeException("error parameter 'num' is null.");
 
 		selfInt.setIntValue(selfInt.getIntValue() + num.getIntValue());
 

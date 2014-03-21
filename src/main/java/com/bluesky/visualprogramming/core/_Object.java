@@ -888,7 +888,7 @@ public class _Object implements Serializable {
 	public void sortFields() {
 		List<Field> systemFields = new ArrayList<Field>();
 
-		List<Field> userFields = new ArrayList<>();
+		List<Field> userFields = new ArrayList<Field>();
 
 		for (Field f : fieldList) {
 			if (f.isSystemField())
