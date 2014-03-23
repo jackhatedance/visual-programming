@@ -1,39 +1,37 @@
-package com.bluesky.visualprogramming.core.nativeproc.lib.system;
+package com.bluesky.visualprogramming.core.nativeproc.system.object;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
-import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 /**
- * test if a var is pointing to a null object
+ * 
  * 
  * @author Administrator
  * 
  */
-public class IsNull extends BaseNativeProcedure implements NativeProcedure {
+public class GetPath extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
 	protected _Object execute(VirtualMachine virtualMachine, _Object self,
 			ProcedureExecutionContext ctx) {
 
-		_Object obj = ctx.get("var");
+		_Object obj = ctx.get("obj");
 
-		BooleanValue result = (BooleanValue) virtualMachine
-				.getObjectRepository().createObject(ObjectType.BOOLEAN,
-						ObjectScope.ExecutionContext);
+		StringValue path = (StringValue) getRepo().createObject(
+				ObjectType.STRING, ObjectScope.ExecutionContext);
 
-		result.setBooleanValue(obj == null);
+		if (obj != null)
+			path.setValue(obj.getPath());
+		else
+			path.setValue("null");
 
-		if (obj != null) {
-			System.out.println("IsNull: obj ID" + obj.getId());
-		}
-
-		return result;
+		return path;
 	}
 
 }

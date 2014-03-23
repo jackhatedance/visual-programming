@@ -41,7 +41,8 @@ public class XstreamSerializer implements ConfigurableObjectSerializer {
 		xstream.omitField(_Object.class, "fieldNameMap");
 		xstream.omitField(_Object.class, "childrenObjectMap");
 		xstream.omitField(_Object.class, "applyingWorker");
-		xstream.omitField(_Object.class, "owner");
+		xstream.omitField(_Object.class, "ownerField");
+		xstream.omitField(_Object.class, "field");
 
 		//xstream.omitField(_Object.class, "area");
 		// owner can be restored after deserialze.

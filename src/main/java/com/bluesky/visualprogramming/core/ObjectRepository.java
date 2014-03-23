@@ -228,7 +228,7 @@ public class ObjectRepository {
 		beforeSaveXml(mountPoint);
 
 		if (mountPoint.hasOwner()) {
-			String fieldName = mountPoint.field.name;
+			String fieldName = mountPoint.getOwnerField().name;
 			mountPoint.getOwner().removeField(fieldName);
 		}
 
@@ -340,7 +340,7 @@ public class ObjectRepository {
 					f.owner = null;
 
 					if (f.getTarget() != null) {
-						f.getTarget().field = null;
+						f.getTarget().removeOwnerField();
 
 					} else {
 						System.out.println("target is null" + f.owner.getPath()
@@ -405,9 +405,11 @@ public class ObjectRepository {
 
 					} else if (f.type == FieldType.STRONG) {
 						// restore field of child object.
-						if (f.getTarget() != null)
-							f.getTarget().field = f;
-						else
+						if (f.getTarget() != null) {
+
+							f.getTarget().setOwnerField(f);
+
+						} else
 							System.out.println("null field:" + f.getName());
 
 					} else {

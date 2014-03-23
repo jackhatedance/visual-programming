@@ -104,7 +104,7 @@ public class ListObject {
 	}
 
 	public int indexOf(_Object item){		
-		int listIndex = parseItemName(item.field.name);
+		int listIndex = parseItemName(item.getOwnerField().name);
 		return listIndex;
 		
 	}

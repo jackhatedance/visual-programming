@@ -117,7 +117,7 @@ forAfterthought : expr;
 
 blockOrStatment : block | statement;
 
-returnStatement : RETURN expr ';';
+returnStatement : RETURN expr? ';';
 
 breakStatement : BREAK ';';
 continueStatement : CONTINUE ';';

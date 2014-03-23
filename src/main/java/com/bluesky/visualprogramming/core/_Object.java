@@ -63,7 +63,7 @@ public class _Object implements Serializable {
 	/**
 	 * only not null if it has owner.
 	 */
-	public Field field;
+	private Field ownerField;
 
 	/**
 	 * only those has root in persistent repository are persistent. messages are
@@ -163,15 +163,15 @@ public class _Object implements Serializable {
 	}
 
 	public _Object getOwner() {
-		if (field != null)
-			return field.owner;
+		if (ownerField != null)
+			return ownerField.owner;
 		else
 			return null;
 	}
 
 	public String getPath() {
 		if (hasOwner()) {
-			return getOwner().getPath() + "." + field.name;
+			return getOwner().getPath() + "." + ownerField.name;
 		} else
 			return name;
 	}
@@ -282,7 +282,7 @@ public class _Object implements Serializable {
 								child.id));
 
 			field.type = FieldType.STRONG;
-			child.field = field;
+			child.setOwnerField(field);
 		}
 
 		recreateFieldIndexes();
@@ -303,7 +303,7 @@ public class _Object implements Serializable {
 								child.id));
 
 			field.type = FieldType.STRONG;
-			child.field = field;
+			child.setOwnerField(field);
 		} else {
 			field.type = FieldType.WEAK;
 		}
@@ -351,7 +351,7 @@ public class _Object implements Serializable {
 
 	public boolean hasOwner() {
 
-		return field != null && field.owner != null;
+		return ownerField != null && ownerField.owner != null;
 	}
 
 	public void renameField(String old, String _new) {
@@ -428,16 +428,16 @@ public class _Object implements Serializable {
 	public void detachFromOwner() {
 		// owner.detachOwnedChild(this);
 
-		field.setTarget(null);
-		field = null;
+		ownerField.setTarget(null);
+		ownerField = null;
 	}
 
 	/**
 	 * a owning relationship become pointer relationship.
 	 */
 	public void downgradeLinkFromOwner() {
-		field.type = FieldType.WEAK;
-		field = null;
+		ownerField.type = FieldType.WEAK;
+		ownerField = null;
 	}
 
 	/**
@@ -452,7 +452,7 @@ public class _Object implements Serializable {
 	}
 
 	public void attachTo(Field field) {
-		this.field = field;
+		this.ownerField = field;
 		this.scope = null;
 	}
 
@@ -981,5 +981,30 @@ public class _Object implements Serializable {
 		}
 
 		visitor.leave(this);
+	}
+
+	public Field getOwnerField() {
+
+		return ownerField;
+	}
+
+	/**
+	 * throw exception when already linked to a owner field.
+	 * 
+	 * @param ownerField
+	 */
+	public void setOwnerField(Field ownerField) {
+		if (this.ownerField != null)
+			throw new RuntimeException(
+					"object already linked to an owner field.");
+
+		this.ownerField = ownerField;
+	}
+
+	public void removeOwnerField() {
+		if (this.ownerField == null)
+			throw new RuntimeException("no owner field linked to this object");
+
+		this.ownerField = null;
 	}
 }

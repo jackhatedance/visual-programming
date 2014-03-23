@@ -12,7 +12,6 @@ import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.core.value.ValueObject;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -356,14 +355,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				leftObject.setField(fieldName, rightObject, true);
 			} else {
-				if (rightObject instanceof ValueObject) {
-					ValueObject newObject = (ValueObject) objectRepository
-							.createObject(rightObject.getType(),
-									ObjectScope.ExecutionContext);
-					newObject.copyValue(rightObject);
-					leftObject.setField(fieldName, newObject, true);
-				} else
-					leftObject.setField(fieldName, rightObject, false);
+				leftObject.setField(fieldName, rightObject, false);
 			}
 
 		}
@@ -381,15 +373,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				right.setName(instruction.left);
 		}
 
-		if (right instanceof ValueObject) {
-			ValueObject newObject = (ValueObject) objectRepository
-					.createObject(right.getType(),
-					ObjectScope.ExecutionContext);
-
-			newObject.copyValue(right);
-			ctx.setVariable(instruction.left, newObject);
-		} else
-			ctx.setVariable(instruction.left, right);
+		ctx.setVariable(instruction.left, right);
 
 		return ExecutionStatus.COMPLETE;
 	}

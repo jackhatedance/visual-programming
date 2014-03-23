@@ -324,14 +324,16 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	@Override
 	public Object visitReturnStatement(ReturnStatementContext ctx) {
 
-		String var = (String) ctx.expr().accept(this);
+		if (ctx.expr() != null) {
+			String var = (String) ctx.expr().accept(this);
 
-		VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
-		ins.left = ProcedureExecutionContext.VAR_RESULT;
-		ins.right = var;
-		ins.comment = "return " + ctx.expr().getText();
+			VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
+			ins.left = ProcedureExecutionContext.VAR_RESULT;
+			ins.right = var;
+			ins.comment = "return " + ctx.expr().getText();
 
-		addInstruction(ins);
+			addInstruction(ins);
+		}
 
 		Goto gotoEnd = new Goto(ctx.start.getLine());
 		gotoEnd.destinationLabel = PROCEDURE_END_LABEL;
