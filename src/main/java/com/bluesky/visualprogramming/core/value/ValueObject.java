@@ -15,4 +15,15 @@ public abstract class ValueObject extends _Object {
 
 	}
 
+	@Override
+	public void setField(String name, _Object child, boolean own) {
+
+		// only accept system field
+		if (name != null && name.charAt(0) != '_')
+			throw new RuntimeException("cannot add user field to value object");
+		else
+			super.setField(name, child, own);
+
+	}
+
 }
