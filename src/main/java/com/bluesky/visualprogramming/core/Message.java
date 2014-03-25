@@ -78,8 +78,8 @@ public class Message {
 		/**
 		 * message body is always stand alone, temporarily
 		 */
-		if (body != null)
-			body.setScope(ObjectScope.ExecutionContext);
+		// if (body != null)
+		// body.setScope(ObjectScope.ExecutionContext);
 	}
 
 	/**

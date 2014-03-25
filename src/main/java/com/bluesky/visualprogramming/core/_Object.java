@@ -68,8 +68,11 @@ public class _Object implements Serializable {
 	/**
 	 * only those has root in persistent repository are persistent. messages are
 	 * not persistent.
+	 * 
+	 * always set to executionContext, except the root object is set to
+	 * persistent.
 	 */
-	public ObjectScope scope = null;
+	public ObjectScope scope = ObjectScope.ExecutionContext;
 
 	// in Z order
 	private List<Field> fieldList = new ArrayList<Field>();
@@ -236,7 +239,12 @@ public class _Object implements Serializable {
 	public void setField(String name, _Object child, boolean own) {
 
 		if (child.hasOwner() && own) {
-			throw new RuntimeException("can not own an object which has owner.");
+
+			if (child.getScope() == ObjectScope.ExecutionContext)
+				child.downgradeLinkFromOwner();
+			else
+				throw new RuntimeException(
+						"can not own an object which has persistent owner.");
 
 		}
 
@@ -421,7 +429,7 @@ public class _Object implements Serializable {
 		if (owns(child)) {
 			// child.setOwner(null);
 			child.detachFromOwner();
-			child.setScope(ObjectScope.ExecutionContext);
+			// child.setScope(ObjectScope.ExecutionContext);
 		}
 	}
 
@@ -438,6 +446,9 @@ public class _Object implements Serializable {
 	public void downgradeLinkFromOwner() {
 		ownerField.type = FieldType.WEAK;
 		ownerField = null;
+
+		// no owner means local variable
+		// setScope(ObjectScope.ExecutionContext);
 	}
 
 	/**
@@ -453,7 +464,7 @@ public class _Object implements Serializable {
 
 	public void attachTo(Field field) {
 		this.ownerField = field;
-		this.scope = null;
+		// this.scope = null;
 	}
 
 	public void clearChildren() {

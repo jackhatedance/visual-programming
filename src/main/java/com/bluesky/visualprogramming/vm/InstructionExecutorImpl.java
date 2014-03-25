@@ -209,7 +209,6 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	@Override
 	public ExecutionStatus executeSendMessage(SendMessage instruction) {
 		if (ctx.step == 0) {
-			_Object receiverObj = ctx.getObject(instruction.receiverVar);
 
 			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
 			_Object receiver = ctx.getObject(instruction.receiverVar);
@@ -350,7 +349,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				// move to execution context
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
-			} else if (rightObject.getScope() == ObjectScope.ExecutionContext) {
+			} else if (leftObject.scope.stableThan(rightObject.getScope())) {
 
 				if (rightObject.hasOwner())
 					rightObject.downgradeLinkFromOwner();

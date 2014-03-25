@@ -13,9 +13,12 @@ public class ListObject {
 
 	public ListObject(_Object obj) {
 		this.obj = obj;
+
+		obj.sortFields();
 	}
 
 	public void add(_Object item) {
+
 		int size = obj.getUserFieldsCount();
 		String fieldName = String.format("%s%d",ListItemPrefix,size);
 		obj.setField(fieldName, item, true);
