@@ -19766,6 +19766,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                                       <type>STRING</type>
                                       <id>911325</id>
                                       <name>address</name>
+                                      <description></description>
                                       <scope>ExecutionContext</scope>
                                       <fieldList id="3170">
                                         <field id="3171">
@@ -19808,7 +19809,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                                       <systemFieldsCount>1</systemFieldsCount>
                                       <scaleRate>1.0</scaleRate>
                                       <borderColor reference="3165"/>
-                                      <value>exampleweb@tianhu.dingjianghao.com</value>
+                                      <value>exampleweb_direct@localhost</value>
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <owner reference="3155"/>
@@ -20608,7 +20609,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3267"/>
-                          <value>310</value>
+                          <value>314</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <owner reference="3214"/>
@@ -20624,14 +20625,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3285">
                           <type>STRING</type>
-                          <id>45188770</id>
+                          <id>45196445</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3286">
                             <field id="3287">
                               <name>_system</name>
                               <strongTarget id="3288">
                                 <type>NORMAL</type>
-                                <id>45188771</id>
+                                <id>45196446</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3289">
