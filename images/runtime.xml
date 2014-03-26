@@ -5408,8 +5408,8 @@ chess pieces and chess board can be made by svg files.</value>
                                 <language>goo</language>
                                 <code>procedure()
 {
-	jack = email://jackding@cisco.com;
-	jack.&quot;hello&quot;();
+	foo = email://foo@bar.com;
+	foo.&quot;hello&quot;();
 
 }</code>
                               </strongTarget>
@@ -22923,10 +22923,10 @@ _self.html.component={};
 tom = &quot;abc123&quot;;
 
 //link
-jack = xmpp://jackding@cisco.com;
+foo = xmpp://foo@bar.com;
 
 
-age = jack.getAge();
+age = foo.getAge();
 
 _root.console.print(age.toString());
 
@@ -23537,8 +23537,8 @@ _root.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                     <language>goo</language>
                     <code>procedure()
 {
-	jack = email://jackhatedance@gmail.com;
-	jack.hello();
+	foo = email://foo@bar.com;
+	foo.hello();
 
 }</code>
                   </strongTarget>
