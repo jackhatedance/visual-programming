@@ -364,7 +364,7 @@ public class ObjectPropertyDialog extends JDialog {
 		textFieldId.setText(String.valueOf(object.getId()));
 		textFieldName.setText(object.getName());
 		textFieldFieldName.setText(field.name);
-		textFieldFieldType.setText(field.type.name());
+		textFieldFieldType.setText(field.getType().name());
 		textFieldType.setText(object.getType().toString());
 		textAreaDesc.setText(object.getDescription());
 		textAreaValue.setText(object.getValue());

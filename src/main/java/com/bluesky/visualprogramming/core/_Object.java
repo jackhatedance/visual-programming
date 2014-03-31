@@ -127,7 +127,7 @@ public class _Object implements Serializable {
 
 		for (Field p : src.fieldList) {
 
-			boolean owns = p.type == FieldType.STRONG;
+			boolean owns = p.getType() == FieldType.STRONG;
 
 			setField(p.name, p.getTarget(), owns);
 		}
@@ -236,87 +236,47 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @param own
 	 */
-	public void setField(String name, _Object child, boolean own) {
+	public void setField(String name, _Object child, boolean owns) {
 
-		if (child.hasOwner() && own) {
+		if (child.hasOwner() && owns) {
 
 			if (child.getScope() == ObjectScope.ExecutionContext)
 				child.downgradeLinkFromOwner();
 			else
 				throw new RuntimeException(
 						"can not own an object which has persistent owner.");
-
 		}
 
 		// name must be unique if is not null
 		if (name != null) {
 			Field f = getField(name);
 
-			if (f != null) {
-				changeChild(f, child, own);
+			if (f == null) {
+				f = new Field(name, owns);
+				fieldList.add(f);
+
+				f.owner = this;
+
+				f.setTarget(child);
+
+				sortFields();
 
 			} else {
-				Field newField = new Field(name, own);
-				fieldList.add(newField);
+				if (f.getTarget() != null)
+					f.detachTarget();
 
-				addChild(newField, child, name, own);
+				
+
+				// re-assure
+				f.owner = this;
+				// set type
+				f.setType(FieldType.getType(owns));
+				f.attachTarget(child);
 			}
 
 		} else
 			throw new RuntimeException("field name cannot be null");
 
-	}
-
-	/**
-	 * change target object of a field.
-	 * 
-	 * @param field
-	 * @param child
-	 * @param owner
-	 */
-	protected void changeChild(Field field, _Object child, boolean owner) {
-
-		_Object oldChild = field.getTarget();
-		if (oldChild != null)
-			detachOwnedChild(oldChild);
-
-		field.setTarget(child);
-
-		if (owner) {
-			if (child.getScope() != ObjectScope.ExecutionContext)
-				throw new RuntimeException(
-						String.format(
-								"cannot own object(#%d) because it's scope is not ExecutionContext",
-								child.id));
-
-			field.type = FieldType.STRONG;
-			child.setOwnerField(field);
-		}
-
-		recreateFieldIndexes();
-
-	}
-
-	protected void addChild(Field field, _Object child, String name,
-			boolean owner) {
-
-		field.setTarget(child);
-		field.owner = this;
-
-		if (owner) {
-			if (child.getScope() != ObjectScope.ExecutionContext)
-				throw new RuntimeException(
-						String.format(
-								"cannot own object(#%d) because it's scope is not ExecutionContext",
-								child.id));
-
-			field.type = FieldType.STRONG;
-			child.setOwnerField(field);
-		} else {
-			field.type = FieldType.WEAK;
-		}
-
-		sortFields();
 	}
 
 	/**
@@ -434,21 +394,17 @@ public class _Object implements Serializable {
 	}
 
 	public void detachFromOwner() {
-		// owner.detachOwnedChild(this);
-
-		ownerField.setTarget(null);
-		ownerField = null;
+		ownerField.detachTarget();
 	}
 
 	/**
 	 * a owning relationship become pointer relationship.
 	 */
 	public void downgradeLinkFromOwner() {
-		ownerField.type = FieldType.WEAK;
-		ownerField = null;
+		ownerField.detachTarget();
+		ownerField.setType(FieldType.WEAK);
+		ownerField.attachTarget(this);
 
-		// no owner means local variable
-		// setScope(ObjectScope.ExecutionContext);
 	}
 
 	/**
@@ -534,17 +490,19 @@ public class _Object implements Serializable {
 		for (Field field : fieldList) {
 
 			boolean owns = field.getTarget() != null
-					&& field.type == FieldType.STRONG;
+					&& field.getType() == FieldType.STRONG;
 
-			_Object proto = field.getTarget().getPrototype();
-			String objName = null;
-			if (proto != null) {
-				objName = String.format("%s<%s>", field.name, proto.name);
-			} else
-				objName = field.name;
+			_Object target = field.getTarget();
+			if (target != null) {
+				_Object proto = target.getPrototype();
+				String objName = null;
+				if (proto != null) {
+					objName = String.format("%s<%s>", field.name, proto.name);
+				} else
+					objName = field.name;
 
-			field.draw(diagramPanel, scene, canvasOffset, scaleRate, owns);
-
+				field.draw(diagramPanel, scene, canvasOffset, scaleRate, owns);
+			}
 		}
 	}
 
@@ -1013,8 +971,11 @@ public class _Object implements Serializable {
 	}
 
 	public void removeOwnerField() {
+		
+
 		if (this.ownerField == null)
-			throw new RuntimeException("no owner field linked to this object");
+			throw new RuntimeException(
+					"no owner field linked to this object, ID:" + getId());
 
 		this.ownerField = null;
 	}

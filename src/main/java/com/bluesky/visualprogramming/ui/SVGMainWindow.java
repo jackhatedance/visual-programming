@@ -145,19 +145,25 @@ public class SVGMainWindow extends JPanel {
 						field.name, field.getSelectedStatus()));
 
 			SvgScene scene = new SvgScene();
-			field.getTarget().drawInternal(diagramPanel, scene, new Point(0, 0));
 
-			diagramPanel.setScene(scene);
-			Element background = scene.getDocument().getElementById(
-					"background");
+			_Object target = field.getTarget();
+			if (target != null) {
+				target.drawInternal(diagramPanel, scene, new Point(0, 0));
 
-			diagramPanel
-					.addBackgroundPopupMenuListener((EventTarget) background);
+				diagramPanel.setScene(scene);
+				Element background = scene.getDocument().getElementById(
+						"background");
 
-			// use background node to capture mouse move event. otherwise the
-			// cursor could leave the object if you moving very fast.
-			diagramPanel.addMouseMoveListener((EventTarget) background);
+				diagramPanel
+						.addBackgroundPopupMenuListener((EventTarget) background);
 
+				// use background node to capture mouse move event. otherwise
+				// the
+				// cursor could leave the object if you moving very fast.
+				diagramPanel.addMouseMoveListener((EventTarget) background);
+			} else {
+				System.out.println("selected field is null");
+			}
 		}
 	}
 
@@ -205,25 +211,24 @@ public class SVGMainWindow extends JPanel {
 		Field field = (Field) node.getUserObject();
 		_Object obj = field.getTarget();
 
-		if (obj == null)
-			throw new RuntimeException("object of selected node is null.");
+		if (obj != null) {
 
-		// create child nodes
-		List<Field> fields = obj.getFields();
-		for (int i = 0; i < fields.size(); i++) {
-			Field childField = fields.get(i);
-			// if (obj.owns(childField.target)) {
+			// create child nodes
+			List<Field> fields = obj.getFields();
+			for (int i = 0; i < fields.size(); i++) {
+				Field childField = fields.get(i);
+				// if (obj.owns(childField.target)) {
 
-			DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
-					childField);
+				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
+						childField);
 
-			treeModel.insertNodeInto(childNode, node, node.getChildCount());
-			// node.add(childNode);
+				treeModel.insertNodeInto(childNode, node, node.getChildCount());
+				// node.add(childNode);
 
-			createChildNodes(childNode, depth - 1);
-			// }
+				createChildNodes(childNode, depth - 1);
+				// }
+			}
 		}
-
 	}
 
 	/**
@@ -268,8 +273,8 @@ public class SVGMainWindow extends JPanel {
 				// updateSelectedChildObject(p, SelectedStatus.Selected);
 				if (getActiveChildField() != null) {
 					// save to clipboard
-					objectSelection.setObject(getSelectedTreeField().getTarget(),
-							getActiveChildField().name);
+					objectSelection.setObject(getSelectedTreeField()
+							.getTarget(), getActiveChildField().name);
 				}
 			}
 		});
@@ -352,7 +357,7 @@ public class SVGMainWindow extends JPanel {
 
 					_Object childObject = getActiveChildField().getTarget();
 
-					getActiveChildField().type = FieldType.STRONG;
+					getActiveChildField().setType(FieldType.STRONG);
 					childObject.attachTo(getActiveChildField());
 				}
 			}
@@ -438,7 +443,8 @@ public class SVGMainWindow extends JPanel {
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				_Object obj = getVM().getObjectRepository().createObject(
-						getSelectedTreeField().getTarget(), ObjectType.PROCEDURE);
+						getSelectedTreeField().getTarget(),
+						ObjectType.PROCEDURE);
 
 				addChildObjectToTree(obj);
 
@@ -518,7 +524,7 @@ public class SVGMainWindow extends JPanel {
 	private Field addChildObjectToTree(_Object obj) {
 
 		// add to tree
-		//int index = obj.getOwner().getChildIndex(obj);
+		// int index = obj.getOwner().getChildIndex(obj);
 		Field f = obj.getOwnerField();
 
 		Element background = diagramPanel.getScene().getDocument()
@@ -602,8 +608,8 @@ public class SVGMainWindow extends JPanel {
 								activeChildField.getSelectedStatus()));
 		}
 		activeChildField = null;
-		Point p = CanvasUtils.scaleBack(mousePos,
-				getSelectedTreeField().getTarget().scaleRate);
+		Point p = CanvasUtils.scaleBack(mousePos, getSelectedTreeField()
+				.getTarget().scaleRate);
 
 		_Object obj = field.getTarget();
 		// step 1. find the hovering child field
@@ -673,8 +679,8 @@ public class SVGMainWindow extends JPanel {
 	private Field getActiveChildField() {
 		return diagramPanel.getpopupTargetField();
 	}
-	
-	public JFrame getOwner(){
+
+	public JFrame getOwner() {
 		return owner;
 	}
 }

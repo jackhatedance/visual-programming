@@ -12,8 +12,26 @@ public enum FieldType {
 		}
 		
 		@Override
-		public void setTarget(Field field, _Object target) {
-			field.setStrongTarget(target);			
+		public void attachTarget(Field field, _Object target) {
+			if (target == null)
+				throw new RuntimeException("cannot attach to a null target");
+
+			field.setStrongTarget(target);
+
+			// update backward pointer
+			target.setOwnerField(field);
+		}
+
+		@Override
+		public void detachTarget(Field field) {
+			_Object target = field.getStrongTarget();
+
+			if (target == null)
+				throw new RuntimeException("cannot detach a null target");
+
+			target.removeOwnerField();
+
+			field.setStrongTarget(null);
 		}
 	},
 	/**
@@ -29,12 +47,28 @@ public enum FieldType {
 		}
 		
 		@Override
-		public void setTarget(Field field, _Object target) {
-			field.setWeakTarget(target);			
+		public void attachTarget(Field field, _Object target) {
+			field.setWeakTarget(target);
+
+			if (target != null && target.getOwnerField() == field)
+				throw new RuntimeException("weak field cannot own a target");
+		}
+
+		@Override
+		public void detachTarget(Field field) {
+			field.setWeakTarget(null);
 		}
 	};
 
 	public abstract _Object getTarget(Field f);
 
-	public abstract void setTarget(Field field, _Object target);
+	public abstract void attachTarget(Field field, _Object target);
+
+	public abstract void detachTarget(Field field);
+
+	public static FieldType getType(boolean owns) {
+		return owns ? STRONG : WEAK;
+	}
+
+
 }

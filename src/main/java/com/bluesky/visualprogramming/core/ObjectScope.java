@@ -10,6 +10,7 @@ public enum ObjectScope {
 		this.level = level;
 	}
 
+
 	public boolean stableThan(ObjectScope scope) {
 		if (scope == null)
 			throw new RuntimeException("param scope is null");

@@ -25,7 +25,7 @@ public class Field {
 	 */	
 	private WeakReference<_Object> weakTarget;
 
-	public FieldType type;
+	private FieldType type;
 
 	/**
 	 * the owner of this field
@@ -53,21 +53,19 @@ public class Field {
 	public Field(String name, boolean own) {
 		this.name = name;
 
-		this.type = getType(own);
+		this.type = FieldType.getType(own);
 
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
-	private FieldType getType(boolean own) {
-		return own ? FieldType.STRONG : FieldType.WEAK;
-	}
+
 
 	public Field(_Object target, String name, boolean own) {
 		
 		this.name = name;
-		this.type = getType(own);
+		this.type = FieldType.getType(own);
 		
-		setTarget(target);
+		attachTarget(target);
 		
 		area = new Rectangle(0, 0, 100, 100);
 	}
@@ -215,10 +213,47 @@ public class Field {
 	public _Object getTarget(){
 		return type.getTarget(this);
 	}
-	
+
+
+	/**
+	 * force update
+	 * 
+	 * @param target
+	 */
 	public void setTarget(_Object target){
-		type.setTarget(this,target);
+		if (getTarget() != null)
+			detachTarget();
+
+		attachTarget(target);
 	}
 
+	/**
+	 * cut the link between a field and the target object.
+	 * 
+	 */
+	public void detachTarget() {
+		type.detachTarget(this);
+	}
+
+	public void attachTarget(_Object child) {
+		type.attachTarget(this, child);
+	}
+
+	public void setType(FieldType type) {
+		if (this.type != type) {
+			// check if old target cleared
+			if (getTarget() != null)
+				throw new RuntimeException(
+						"cannot change field type when orginal target is not removed");
+
+			this.type = type;
+		}
+
+
+	}
+
+	public FieldType getType() {
+		return type;
+	}
 
 }

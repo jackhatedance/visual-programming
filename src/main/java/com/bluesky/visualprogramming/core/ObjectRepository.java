@@ -228,8 +228,13 @@ public class ObjectRepository {
 		beforeSaveXml(mountPoint);
 
 		if (mountPoint.hasOwner()) {
-			String fieldName = mountPoint.getOwnerField().name;
-			mountPoint.getOwner().removeField(fieldName);
+			_Object owner = mountPoint.getOwner();
+			Field ownerField = mountPoint.getOwnerField();
+
+			mountPoint.detachFromOwner();
+
+			String fieldName = ownerField.name;
+			owner.removeField(fieldName);
 		}
 
 		saveXml(mountPoint, fileName);
@@ -290,7 +295,8 @@ public class ObjectRepository {
 		walker.walk(obj);
 		if (obj.hasChildren()) {
 			for (Field f : obj.getFields()) {
-				if (obj.owns(f.getStrongTarget()))
+
+				if (f.getType() == FieldType.STRONG && f.getTarget() != null)
 					treeWalk(f.getTarget(), walker);
 			}
 		}
@@ -306,17 +312,50 @@ public class ObjectRepository {
 	 * @param mountPoint
 	 */
 	private void beforeSaveXml(_Object mountPoint) {
+		logger.debug("before save image.");
+
+		logger.debug("check consistency");
+		// check consistency
+		treeWalk(mountPoint, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				// System.out.println("beforeSave" + obj.getPath());
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					if (f.getType() == FieldType.WEAK
+							&& f.getStrongTarget() != null)
+						throw new RuntimeException(
+								"field inconsistency: weak but has strong reference."
+										+ f.owner.getPath() + "." + f.getName());
+
+					if (f.getType() == FieldType.STRONG
+							&& f.getTarget() != null) {
+						if (f.getTarget().getOwnerField() == null)
+							System.out.println("target.ownerField is null."
+									+ obj.getPath() + "." + f.getName());
+					}
+				}
+
+			}
+		});
 
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
-
+			 
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
 					// remove pointer reference, replace with softlink
-					if (f.getTarget() != null && f.type == FieldType.WEAK) {
+					if (f.getTarget() != null && f.getType() == FieldType.WEAK) {
+
 						f.pointerPath = f.getTarget().getPath();
+						if (f.pointerPath == null) {
+							System.out
+									.println("weak reference but path is null");
+						}
+
 						if (!f.pointerPath.startsWith("_root"))
 							System.out.println(f.pointerPath);
 
@@ -336,22 +375,16 @@ public class ObjectRepository {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
-					// remove backward pointers
-					f.owner = null;
+					// remove target.ownerField backward pointer
+					if (f.getType() == FieldType.STRONG
+							&& f.getTarget() != null) {
+						if (f.getTarget().getOwnerField() != null)
+							f.getTarget().removeOwnerField();
 
-					if (f.getTarget() != null) {
-						f.getTarget().removeOwnerField();
-
-					} else {
-						System.out.println("target is null" + f.owner.getPath()
-								+ "." + f.getName());
 					}
 
-					// check
-					if (f.type == FieldType.WEAK && f.getStrongTarget() != null)
-						throw new RuntimeException(
-								"field inconsistency: weak but has strong reference");
-
+					// remove backward pointers
+					f.owner = null;
 				}
 
 			}
@@ -376,6 +409,28 @@ public class ObjectRepository {
 	private void afterLoadXml(_Object obj) {
 		logger.info("objects loaded, start linking");
 
+		treeWalk(obj, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				// System.out.println("beforeSave" + obj.getPath());
+				for (int i = 0; i < obj.getFields().size(); i++) {
+					Field f = obj.getField(i);
+
+					// check
+					if (f.getType() == FieldType.WEAK
+							&& f.getStrongTarget() != null) {
+						// f.setStrongTarget(null);
+
+						throw new RuntimeException(
+								"field inconsistency: weak but has strong reference. owner ID:"
+										+ f.owner.getId());
+
+					}
+				}
+
+			}
+		});
+
 		// restore backward pointers, reference field
 		treeWalk(obj, new TreeWalker() {
 			@Override
@@ -391,7 +446,8 @@ public class ObjectRepository {
 					// restore owner of field
 					f.owner = obj;
 
-					if (f.type == FieldType.WEAK) {
+					 
+					if (f.getType() == FieldType.WEAK) {
 
 						// restore pointer field
 						if (f.pointerPath != null
@@ -399,13 +455,16 @@ public class ObjectRepository {
 
 							f.setWeakTarget(ObjectRepository.this
 									.getObjectByPath(f.pointerPath));
-						} else
-							System.out
-									.println("wrong pointer:" + f.pointerPath);
+						} else {
+							System.out.println("wrong pointer:" + f.pointerPath
+									+ ",object ID:" + obj.getId()
+									+ ",field name:" + f.name);
+						}
 
-					} else if (f.type == FieldType.STRONG) {
+					} else if (f.getType() == FieldType.STRONG) {
 						// restore field of child object.
 						if (f.getTarget() != null) {
+
 
 							f.getTarget().setOwnerField(f);
 
@@ -413,7 +472,7 @@ public class ObjectRepository {
 							System.out.println("null field:" + f.getName());
 
 					} else {
-						f.type = FieldType.WEAK;
+						f.setType(FieldType.WEAK);
 						System.out.println("null field type:"
 								+ f.owner.getPath() + "." + f.getName());
 						// throw new RuntimeException("field type is null");

@@ -362,8 +362,11 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 									ObjectScope.ExecutionContext);
 					newObject.copyValue(rightObject);
 					leftObject.setField(fieldName, newObject, true);
-				} else
-					leftObject.setField(fieldName, rightObject, false);
+				} else {
+					boolean owns = leftObject.getScope().stableThan(
+							rightObject.getScope());
+					leftObject.setField(fieldName, rightObject, owns);
+				}
 			}
 
 		}
