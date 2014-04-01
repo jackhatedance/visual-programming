@@ -185,6 +185,17 @@ public interface GooListener extends ParseTreeListener {
 	void exitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GooParser#replySubject}.
+	 * @param ctx the parse tree
+	 */
+	void enterReplySubject(@NotNull GooParser.ReplySubjectContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#replySubject}.
+	 * @param ctx the parse tree
+	 */
+	void exitReplySubject(@NotNull GooParser.ReplySubjectContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GooParser#ObjectLink}.
 	 * @param ctx the parse tree
 	 */

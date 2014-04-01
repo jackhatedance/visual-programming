@@ -64,6 +64,7 @@ import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ParamDeclareLi
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ProcedureConstContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ProcedureContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.RefAssignOperatorContext;
+import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ReplySubjectContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.ReturnStatementContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.SendMessageContext;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.StatementContext;
@@ -599,6 +600,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		// only one child, either Id or String. return procedure name
 		ins.messageSubjectVar = (String) ctx.messgeSubject().accept(this);
+		ins.replySubjectVar = (String) ctx.replySubject().accept(this);
 		ins.messageBodyVar = parametersVar;
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
@@ -1052,6 +1054,22 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		}
 
 		return createBody.varName;
+	}
+
+	@Override
+	public Object visitReplySubject(ReplySubjectContext ctx) {
+		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
+				.getText()));
+
+		CreateObject ins = new CreateObject(ctx.start.getLine());
+
+		ins.varName = getNextTempVar("varReplySubject");
+		ins.objType = ObjectType.STRING;
+		ins.value = str;
+
+		addInstruction(ins);
+		return ins.varName;
+
 	}
 
 }

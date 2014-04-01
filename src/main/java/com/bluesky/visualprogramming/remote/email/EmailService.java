@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
@@ -39,9 +40,25 @@ public class EmailService extends AbstractProtocolService implements
 		String senderAddress = getPrimaryAddress(message.sender);
 		EmailAgent agent = agents.get(senderAddress);
 
-		agent.send(receiverAddress, message);
+		try {
+			agent.send(receiverAddress, message);
+		} catch (Exception e) {
+			replyFailureInternalRequest(message, e);
+
+		}
+		
+		try {
+			agent.send(receiverAddress, message);
+			String response = "sent successfully.";
+			StringValue responseBody = getObjectFactory().createString();
+			responseBody.setValue(response);
+
+			replySuccessfulInternalRequest(message, responseBody);
+
+		} catch (Exception e) {
+			replyFailureInternalRequest(message, e);
+		}
 
 	}
-
 
 }

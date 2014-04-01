@@ -8,6 +8,7 @@ import org.apache.commons.collections.bidimap.DualHashBidiMap;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
+import com.bluesky.visualprogramming.core.ObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
@@ -103,6 +104,14 @@ public class AbstractProtocolService {
 		replyMsg.urgent = true;
 
 		vm.getPostService().sendMessage(replyMsg);
+	}
+
+	protected VirtualMachine getVM() {
+		return VirtualMachine.getInstance();
+	}
+
+	protected ObjectFactory getObjectFactory() {
+		return getVM().getObjectRepository().getFactory();
 	}
 
 }

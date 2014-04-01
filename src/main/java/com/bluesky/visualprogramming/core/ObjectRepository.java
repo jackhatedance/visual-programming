@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.serialization.ConfigurableObjectSerializer;
 import com.bluesky.visualprogramming.core.serialization.MessageFormat;
+import com.bluesky.visualprogramming.core.value.BooleanValue;
+import com.bluesky.visualprogramming.core.value.IntegerValue;
+import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class ObjectRepository {
@@ -29,6 +32,11 @@ public class ObjectRepository {
 	_Object rootObject;
 
 	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
+
+	/**
+	 * a convenient way to create runtime object
+	 */
+	private ObjectFactory factory;
 
 	private ObjectTreeModel objectTreeModel = new ObjectTreeModelImpl();
 
@@ -52,6 +60,33 @@ public class ObjectRepository {
 		// purpose. enable it only when necessary.
 		listeners.add(migrationListener);
 
+		factory = new ObjectFactory() {
+
+			@Override
+			public StringValue createString() {
+				return (StringValue) ObjectRepository.this.createObject(
+						ObjectType.STRING,
+						ObjectScope.ExecutionContext);
+			}
+
+			@Override
+			public _Object createObject() {
+				return ObjectRepository.this.createObject(ObjectType.NORMAL,
+						ObjectScope.ExecutionContext);
+			}
+
+			@Override
+			public IntegerValue createInteger() {
+				return (IntegerValue) ObjectRepository.this.createObject(
+						ObjectType.INTEGER, ObjectScope.ExecutionContext);
+			}
+
+			@Override
+			public BooleanValue createBoolean() {
+				return (BooleanValue) ObjectRepository.this.createObject(
+						ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
+			}
+		};
 	}
 
 	private String generateNewChildName(_Object owner) {
@@ -507,5 +542,9 @@ public class ObjectRepository {
 
 	public void removeListener(ObjectRepositoryListener listener) {
 		listeners.remove(listener);
+	}
+
+	public ObjectFactory getFactory() {
+		return factory;
 	}
 }

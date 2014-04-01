@@ -9,5 +9,6 @@ procedure (a,b,c)
 	//result = "我的名字是";
 	_result = "ab c".concat(self.name);
 	
-	foo..bar(b);
+	//async call
+	ticketService..order#receiveTicket(2);
 }

@@ -124,6 +124,13 @@ public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	T visitOwnAssignOperator(@NotNull GooParser.OwnAssignOperatorContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link GooParser#replySubject}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReplySubject(@NotNull GooParser.ReplySubjectContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link GooParser#ObjectLink}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -12,6 +12,7 @@ public class SendMessage extends Instruction {
 	
 	
 	public String messageSubjectVar;
+	public String replySubjectVar;
 	
 	public String messageBodyVar;
 	public ParameterStyle paramStyle;
@@ -27,7 +28,13 @@ public class SendMessage extends Instruction {
 	public String toString() {
 
 		String syncDesc = sync ? "sync" : "async";
-		return String.format("[send_message] %s %s = %s.$%s(%s)", syncDesc,
-				replyVar, receiverVar, messageSubjectVar, messageBodyVar);
+		String replySubjectStr = "";
+		if (replySubjectVar != null && replySubjectVar != "") {
+			replySubjectStr = replySubjectVar;
+		}
+
+		return String.format("[send_message] %s %s = %s.$%s%s(%s)", syncDesc,
+				replyVar, receiverVar, messageSubjectVar, replySubjectStr,
+				messageBodyVar);
 	}
 }

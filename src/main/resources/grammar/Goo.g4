@@ -63,7 +63,7 @@ assignee : ID		#AssigneeVariable
 expr: constant				#ConstantExpr
     | variable                          #VariableExpr        
     | expr DOT field              #AccessField    
-    | expr (DOT | DOTDOT) messgeSubject '(' fieldList? ')' #SendMessage
+    | expr (DOT|DOTDOT) messgeSubject('#'replySubject)? '(' fieldList? ')' #SendMessage    
     ;
 
 
@@ -95,6 +95,8 @@ messgeSubject : ID         #IdMessageSubject
               | '$' ID      #VarMessageSubject
            |    STRING  #StringMessageSubject            
            ;
+
+replySubject : ID;
 
 fieldList : expr (',' expr)*            #orderedParamList  
           | nameValue (',' nameValue)*  #namedParamList

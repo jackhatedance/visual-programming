@@ -225,6 +225,19 @@ public class GooBaseListener implements GooListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterReplySubject(@NotNull GooParser.ReplySubjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitReplySubject(@NotNull GooParser.ReplySubjectContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterObjectLink(@NotNull GooParser.ObjectLinkContext ctx) { }
 	/**
 	 * {@inheritDoc}
