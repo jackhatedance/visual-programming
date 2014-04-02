@@ -30,7 +30,7 @@ public class SendMessage extends Instruction {
 		String syncDesc = sync ? "sync" : "async";
 		String replySubjectStr = "";
 		if (replySubjectVar != null && replySubjectVar != "") {
-			replySubjectStr = replySubjectVar;
+			replySubjectStr = "#" + replySubjectVar;
 		}
 
 		return String.format("[send_message] %s %s = %s.$%s%s(%s)", syncDesc,

@@ -15,7 +15,6 @@ import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
@@ -166,7 +165,7 @@ public class TimerService implements Service {
 
 	private void notify1(Set<_Object> objects) {
 		for (_Object timer : objects) {
-			Message msg = new Message(false, null, timer, "action", null,
+			Message msg = new Message(null, timer, "action", null,
 					ParameterStyle.ByName, null, MessageType.SyncRequest);
 
 			VirtualMachine.getInstance().getPostService().sendMessage(msg);

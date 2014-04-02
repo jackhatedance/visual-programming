@@ -177,7 +177,7 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is a reply");
 
-				Message replyMsg = new Message(false,
+				Message replyMsg = new Message(
 						lastExternalRequestMessage.receiver, lastExternalRequestMessage.sender,
 						"RE:" + lastExternalRequestMessage.getSubject(), returnValue,
 						ParameterStyle.ByName, null, MessageType.SyncReply);
@@ -206,7 +206,7 @@ public class XmppAgent {
 
 				// TODO convert msg.body to _Object
 
-				Message normalMsg = new Message(true, senderLink, receiverLink,
+				Message normalMsg = new Message(senderLink, receiverLink,
 						msg.getBody(), null, ParameterStyle.ByName, null,
 						MessageType.SyncRequest);
 

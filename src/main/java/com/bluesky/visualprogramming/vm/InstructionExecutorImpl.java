@@ -212,12 +212,16 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
 			_Object receiver = ctx.getObject(instruction.receiverVar);
+			
+			
 			if (receiver == null)
 				throw new RuntimeException("receiver object not exist:"
 						+ instruction.receiverVar);
 
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
+			StringValue replySubject = (StringValue)ctx.getObject(instruction.replySubjectVar);
+			
 			if (messageSubject == null)
 				throw new RuntimeException("subject object not exist:"
 						+ instruction.messageSubjectVar);
@@ -226,37 +230,44 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			if("getChild".equals(messageSubject.getValue()))
 				System.out.println("bingo");
 
-			MessageType msgType = MessageType.SyncRequest;
+			
 			/*
 			 * if (sender == receiver) msgType = MessageType.Recursive;
 			 */
-			Message msg = new Message(instruction.sync, sender, receiver,
-					messageSubject.getValue(), messageBody,
-					instruction.paramStyle, null, msgType);
-
-			ctx.step = 1;
-
-			// sender.sleep();
-			postService.sendMessage(msg);
-
+			
+			ExecutionStatus executionStatus = null;
+			Message msg = null;
 			if (instruction.sync) {
 				if (logger.isDebugEnabled())
 					logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
 
-				return ExecutionStatus.WAITING;
+				msg = new Message(sender, receiver,
+						messageSubject.getValue(), messageBody,
+						instruction.paramStyle, null, MessageType.SyncRequest);
+
+				ctx.step = 1;
+
+				executionStatus = ExecutionStatus.WAITING;
 			} else {
 				// async
 				if (logger.isDebugEnabled())
 					logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
 
+				msg = Message.newAsyncRequestMessage(sender, receiver,
+							messageSubject.getValue(), messageBody,
+							instruction.paramStyle,  instruction.callback);
+				
 				ctx.step = 0;
 
 				// reply is null.
 				ctx.setObject(instruction.replyVar, null);
 
-				return ExecutionStatus.COMPLETE;
+				executionStatus = ExecutionStatus.COMPLETE;
 
 			}
+			postService.sendMessage(msg);
+			
+			return executionStatus;
 		} else if (ctx.step == 1) {
 			// it is the reply(return value) from the call.
 			_Object reply = ctx.reply;

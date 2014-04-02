@@ -600,7 +600,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		// only one child, either Id or String. return procedure name
 		ins.messageSubjectVar = (String) ctx.messgeSubject().accept(this);
-		ins.replySubjectVar = (String) ctx.replySubject().accept(this);
+
+		if (ctx.replySubject() != null)
+			ins.replySubjectVar = (String) ctx.replySubject().accept(this);
+
 		ins.messageBodyVar = parametersVar;
 
 		String tempVar2 = getNextTempVar("sendMsgReply");
@@ -737,7 +740,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	}
 
 	protected String trimQuotationMarks(String s) {
-		return s.substring(1, s.length() - 1);
+		if (s.startsWith("\"") && s.endsWith("\""))
+			return s.substring(1, s.length() - 1);
+		else
+			return s;
 	}
 
 	@Override

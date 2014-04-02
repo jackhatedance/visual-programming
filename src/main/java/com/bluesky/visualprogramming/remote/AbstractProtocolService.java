@@ -74,7 +74,7 @@ public class AbstractProtocolService {
 
 		VirtualMachine vm = VirtualMachine.getInstance();
 
-		Message replyMsg = new Message(false, requestMessage.receiver,
+		Message replyMsg = new Message(requestMessage.receiver,
 				requestMessage.sender, "RE:" + requestMessage.getSubject(),
 				response, ParameterStyle.ByName, null, MessageType.SyncReply);
 
@@ -96,7 +96,7 @@ public class AbstractProtocolService {
 		vex.setMessage(ex.getMessage());
 		vex.addTrace(ex);
 
-		Message replyMsg = new Message(false, requestMessage.receiver,
+		Message replyMsg = new Message(requestMessage.receiver,
 				requestMessage.sender, "RE:" + requestMessage.getSubject(),
 				vex, ParameterStyle.ByName, null,
 				requestMessage.messageType.getReplyType());

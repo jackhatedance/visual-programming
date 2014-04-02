@@ -15,7 +15,6 @@ public class Message {
 	 */
 	public String id;
 
-	public boolean sync;
 	public _Object sender;
 	/**
 	 * receiver could be real object or link(UOI)
@@ -47,10 +46,55 @@ public class Message {
 	/**
 	 * if async, the callback procedure name, pass the reply or message
 	 */
-	public String callback;
+	public String replySubject;
 
 	public MessageStatus status = MessageStatus.NOT_STARTED;
 
+	/**
+	 * an async request, may need a callback.
+	 * 
+	 * @param sender
+	 * @param receiver
+	 * @param subject
+	 * @param body
+	 * @param parameterStyle
+	 * @param replySubject
+	 *            could be null
+	 * @return
+	 */
+	public static Message newAsyncRequestMessage(_Object sender,
+			_Object receiver, String subject, _Object body,
+			ParameterStyle parameterStyle,
+			String replySubject) {
+
+		Message msg = new Message(sender, receiver, subject, body,
+				parameterStyle, null, MessageType.AsyncRequest);
+		msg.replySubject = replySubject;
+
+		return msg;
+	}
+
+	/**
+	 * a async reply , which obviously don't need a callback again.
+	 * 
+	 * @param sender
+	 * @param receiver
+	 * @param subject
+	 * @param body
+	 * @param parameterStyle
+	 * @return
+	 */
+	public static Message newAsyncReplyMessage(_Object sender,
+			_Object receiver, String subject, _Object body,
+			ParameterStyle parameterStyle, ReplyStatus replyStatus) {
+
+		Message msg = new Message(sender, receiver, subject, body,
+				parameterStyle, null, MessageType.AsyncReply);
+
+		msg.replyStatus = replyStatus;
+
+		return msg;
+	}
 	/**
 	 * sync or aync
 	 * 
@@ -60,10 +104,10 @@ public class Message {
 	 * @param subject
 	 * @param body
 	 */
-	public Message(boolean sync, _Object sender, _Object receiver,
+	public Message(_Object sender, _Object receiver,
 			String subject, _Object body, ParameterStyle parameterStyle,
 			Message previousMessage, MessageType messageType) {
-		this.sync = sync;
+
 		this.sender = sender;
 		this.receiver = receiver;
 
@@ -80,29 +124,6 @@ public class Message {
 		 */
 		// if (body != null)
 		// body.setScope(ObjectScope.ExecutionContext);
-	}
-
-	/**
-	 * async call with callback
-	 * 
-	 * @param callback
-	 * @param sender
-	 * @param receiver
-	 * @param subject
-	 * @param body
-	 */
-	public Message(String callback, _Object sender, _Object receiver,
-			String subject, _Object body, ParameterStyle paramStyle) {
-		this.callback = callback;
-		this.sender = sender;
-		this.receiver = receiver;
-
-		this.subject = new StringValue(-1);
-		this.subject.setValue(subject);
-
-		this.body = body;
-		this.parameterStyle = paramStyle;
-
 	}
 
 	/**
@@ -166,7 +187,7 @@ public class Message {
 	}
 
 	public boolean needCallback() {
-		return callback != null && (!callback.isEmpty());
+		return replySubject != null && (!replySubject.isEmpty());
 	}
 
 	public boolean isReply() {

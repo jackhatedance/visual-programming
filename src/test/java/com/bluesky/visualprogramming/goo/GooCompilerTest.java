@@ -2,8 +2,6 @@ package com.bluesky.visualprogramming.goo;
 
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -59,7 +57,7 @@ public class GooCompilerTest {
 
 		}
 
-	@Ignore
+
 	@Test
 	public void testSendMessage() {
 		InputStream is = GooCompilerTest.class

@@ -93,54 +93,12 @@ public class Worker implements Runnable {
 
 				if (msg.isSyncReply()) {
 
-					if (logger.isDebugEnabled()) {
-						String previousMessage = "n/a";
-						if (msg.previous != null)
-							previousMessage = msg.previous.toString();
-						logger.debug(String.format(
-								"comes reply of '%s', value: %s",
-								previousMessage, replyValue));
-					}
-					/**
-					 * pick the reply body from current message, put into the
-					 * pending procedure.
-					 */
-					_Object reply = msg.body;
-
-					if (logger.isDebugEnabled())
-						obj.printMessageQueue();
-
-					if (logger.isDebugEnabled())
-						System.out.println("remove the sync reply message");
-
-					if (!obj.removeMessage(msg))
-						throw new RuntimeException("remove message failed:"
-								+ msg.toString());
-
-					if (logger.isDebugEnabled())
-						obj.printMessageQueue();
-
-					// push reply to the blocking message
-					Message lastMessage = obj.peekFirstMessage();
-
-					if (logger.isDebugEnabled())
-						logger.debug("last message:" + lastMessage.toString());
-					if (lastMessage.executionContext == null)
-						throw new RuntimeException(
-								"error: last message's execution context is null.");
-
-					// put return value
-					obj.peekFirstMessage().executionContext.reply = reply;
-
-					// set flag
-					if (msg.replyStatus == ReplyStatus.Normal)
-						obj.peekFirstMessage().executionContext
-								.setExecutionStatus(ExecutionStatus.ON_GOING);
-					else
-						obj.peekFirstMessage().executionContext
-								.setExecutionStatus(ExecutionStatus.ERROR);
+					processSyncReply(obj, msg, replyValue);
 
 				} else {
+					// it is new request or a async reply.
+					// note that a async reply is just like an async request. it
+					// need process.
 
 					Procedure proc = obj.lookupProcedure(msg);
 					if (proc == null) {
@@ -159,78 +117,10 @@ public class Worker implements Runnable {
 						logger.debug("procedureExecutionStatus "
 								+ procedureExecutionStatus);
 
-					if (procedureExecutionStatus == ExecutionStatus.COMPLETE
-							|| procedureExecutionStatus == ExecutionStatus.ERROR) {
+					if (procedureExecutionStatus.isTerminated()) {
 
-						if (logger.isDebugEnabled())
-							obj.printMessageQueue();
-
-						if (logger.isDebugEnabled())
-							System.out.println("remove the sync reply message");
-
-						// remove from queue
-						obj.removeMessage(msg);
-
-						if (logger.isDebugEnabled())
-							obj.printMessageQueue();
-
-						if (msg.sync) {// wake up the sender, let it continue.
-
-							if (msg.sender != null) {
-								Message replyMsg = new Message(false, obj,
-										msg.sender, "RE:" + msg.getSubject(),
-										msg.reply, ParameterStyle.ByName, msg,
-										MessageType.SyncReply);
-
-								if (procedureExecutionStatus == ExecutionStatus.ERROR) {
-									replyMsg.setSubject("Error "
-											+ replyMsg.getSubject());
-									replyMsg.replyStatus = ReplyStatus.Error;
-								} else
-									replyMsg.replyStatus = ReplyStatus.Normal;
-
-								replyMsg.urgent = true;
-
-								postService.sendMessage(replyMsg);
-							}
-
-							// print exception when the sender is NULL or
-							// remote(callback link is also remote).
-							if (msg.reply instanceof VException) {
-								boolean isRemote = false;
-								if (msg.sender != null
-										&& (msg.sender instanceof Link)) {
-									Link senderLink = (Link) msg.sender;
-									isRemote = !postService.isLocal(senderLink);
-
-								}
-								if (msg.sender == null || isRemote) {
-									// print VException if any
-									VException ex = (VException) msg.reply;
-
-									System.err.println(ex.getTrace());
-
-								}
-							}
-						} else {
-							// notify the sender
-
-							if (msg.needCallback()) {
-
-								Message replyMsg = new Message(false,
-										msg.receiver, msg.sender, msg.callback,
-										msg.reply, ParameterStyle.ByName, msg,
-										MessageType.AsyncReply);
-
-								if (procedureExecutionStatus == ExecutionStatus.ERROR)
-									replyMsg.replyStatus = ReplyStatus.Error;
-								else
-									replyMsg.replyStatus = ReplyStatus.Normal;
-
-								postService.sendMessage(replyMsg);
-
-							}
-						}
+						afterProcedureTerminated(obj, msg,
+								procedureExecutionStatus);
 
 					} else if (procedureExecutionStatus == ExecutionStatus.WAITING) {
 
@@ -243,27 +133,28 @@ public class Worker implements Runnable {
 						 * the reply come very soon. so that we can reuse
 						 * current worker for the same customer.
 						 */
-						synchronized (obj) {
-							if (obj.hasNewerMessageArrived(msg)) {
-								// continue work on reply
 
-								if (logger.isDebugEnabled())
-									logger.debug("newer messages arrived before worker leaves");
+						if (obj.hasNewerMessageArrived(msg)) {
+							// continue work on reply
 
-								// check
-								// if(obj.peekFirstMessage().previous!=msg)
-								// throw new
-								// RuntimeException("the newer message is not the SYNC-REPLY.");
+							if (logger.isDebugEnabled())
+								logger.debug("newer messages arrived before worker leaves");
 
-							} else {
-								// worker leaves
-								obj.removeWorker();
-								break;
+							// check
+							// if(obj.peekFirstMessage().previous!=msg)
+							// throw new
+							// RuntimeException("the newer message is not the SYNC-REPLY.");
 
-							}
+						} else {
+							// worker leaves
+							obj.removeWorker();
+							break;
+
 						}
+
 					}
 				}
+
 			}// end of process one message
 
 			if (logger.isDebugEnabled())
@@ -274,6 +165,132 @@ public class Worker implements Runnable {
 
 		if (logger.isDebugEnabled())
 			logger.debug("finish work for customer:" + obj.getName());
+	}
+
+	private void afterProcedureTerminated(_Object obj, Message msg,
+			ExecutionStatus procedureExecutionStatus) {
+
+		if (logger.isDebugEnabled())
+			obj.printMessageQueue();
+
+		if (logger.isDebugEnabled())
+			System.out.println("remove the sync reply message");
+
+		// remove from queue
+		obj.removeMessage(msg);
+
+		if (logger.isDebugEnabled())
+			obj.printMessageQueue();
+
+		if (msg.messageType.isSync()) {
+
+			// wake up the sender,
+			// let it continue.
+
+			if (msg.sender != null) {
+				Message replyMsg = new Message(obj, msg.sender, "RE:"
+						+ msg.getSubject(), msg.reply, ParameterStyle.ByName,
+						msg, MessageType.SyncReply);
+
+				if (procedureExecutionStatus == ExecutionStatus.ERROR) {
+					replyMsg.setSubject("Error " + replyMsg.getSubject());
+					replyMsg.replyStatus = ReplyStatus.Error;
+				} else
+					replyMsg.replyStatus = ReplyStatus.Normal;
+
+				replyMsg.urgent = true;
+
+				postService.sendMessage(replyMsg);
+			}
+
+			// print exception when the sender is NULL or
+			// remote(callback link is also remote).
+			if (msg.reply instanceof VException) {
+				boolean isRemote = false;
+				if (msg.sender != null && (msg.sender instanceof Link)) {
+					Link senderLink = (Link) msg.sender;
+					isRemote = !postService.isLocal(senderLink);
+
+				}
+				if (msg.sender == null || isRemote) {
+					// print VException if any
+					VException ex = (VException) msg.reply;
+
+					System.err.println(ex.getTrace());
+
+				}
+			}
+		} else {
+			// notify the sender
+
+			if (msg.needCallback()) {
+
+				ReplyStatus replayStatus = (procedureExecutionStatus == ExecutionStatus.ERROR) ? ReplyStatus.Error
+						: ReplyStatus.Normal;
+
+				Message replyMsg = Message.newAsyncReplyMessage(msg.receiver,
+						msg.sender, msg.replySubject, msg.reply,
+						ParameterStyle.ByName, replayStatus);
+
+				postService.sendMessage(replyMsg);
+
+			}
+		}
+	}
+
+	/**
+	 * get return value. continue blocking process.
+	 * 
+	 * @param obj
+	 * @param msg
+	 * @param replyValue
+	 */
+	private void processSyncReply(_Object obj, Message msg, String replyValue) {
+		if (logger.isDebugEnabled()) {
+			String previousMessage = "n/a";
+			if (msg.previous != null)
+				previousMessage = msg.previous.toString();
+			logger.debug(String.format("comes reply of '%s', value: %s",
+					previousMessage, replyValue));
+		}
+		/**
+		 * pick the reply body from current message, put into the pending
+		 * procedure.
+		 */
+		_Object reply = msg.body;
+
+		if (logger.isDebugEnabled())
+			obj.printMessageQueue();
+
+		if (logger.isDebugEnabled())
+			System.out.println("remove the sync reply message");
+
+		if (!obj.removeMessage(msg))
+			throw new RuntimeException("remove message failed:"
+					+ msg.toString());
+
+		if (logger.isDebugEnabled())
+			obj.printMessageQueue();
+
+		// push reply to the blocking message
+		Message lastMessage = obj.peekFirstMessage();
+
+		if (logger.isDebugEnabled())
+			logger.debug("last message:" + lastMessage.toString());
+		if (lastMessage.executionContext == null)
+			throw new RuntimeException(
+					"error: last message's execution context is null.");
+
+		// put return value
+		obj.peekFirstMessage().executionContext.reply = reply;
+
+		// set flag
+		if (msg.replyStatus == ReplyStatus.Normal)
+			obj.peekFirstMessage().executionContext
+					.setExecutionStatus(ExecutionStatus.ON_GOING);
+		else
+			obj.peekFirstMessage().executionContext
+					.setExecutionStatus(ExecutionStatus.ERROR);
 	}
 
 	private void executeUnknowMessage(Message msg, _Object obj, Procedure proc) {
@@ -320,14 +337,15 @@ public class Worker implements Runnable {
 		try {
 			cp = obj.getCompiledProcedure(proc);
 		} catch (Exception e) {
-			/*TODO for some legacy reason, later code will check execution context anyhow.
-			We can think parse error is one kind of execution error.
-			so, I initialize it.
-			*/
-			msg.initExecutionContext(objectRepository.getRootObject(), new String[0]);
-			msg.executionContext
-					.setExecutionStatus(ExecutionStatus.ERROR);
-			
+			/*
+			 * TODO for some legacy reason, later code will check execution
+			 * context anyhow. We can think parse error is one kind of execution
+			 * error. so, I initialize it.
+			 */
+			msg.initExecutionContext(objectRepository.getRootObject(),
+					new String[0]);
+			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
+
 			// compile error
 			CodePosition position = new CodePosition(obj.getPath(),
 					proc.getName(), null, 0);
@@ -336,7 +354,7 @@ public class Worker implements Runnable {
 
 			ex.setMessage("parse error:" + e.getMessage());
 			ex.addTrace(position);
-			
+
 			return ex;
 		}
 

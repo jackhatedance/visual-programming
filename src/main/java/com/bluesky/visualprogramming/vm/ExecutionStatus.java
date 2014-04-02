@@ -7,5 +7,17 @@ package com.bluesky.visualprogramming.vm;
  * 
  */
 public enum ExecutionStatus {
-	ON_GOING, WAITING, COMPLETE, ERROR;
+	ON_GOING(false), WAITING(false), COMPLETE(true)
+
+	, ERROR(true);
+
+	private boolean isFinished;
+
+	private ExecutionStatus(boolean isFinished) {
+		this.isFinished = isFinished;
+	}
+
+	public boolean isTerminated() {
+		return isFinished;
+	}
 }

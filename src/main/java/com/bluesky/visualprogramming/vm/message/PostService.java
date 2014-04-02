@@ -163,7 +163,7 @@ public class PostService extends ThreadService implements Runnable {
 
 		cbSvc.setCallback(senderLink.getAddress(), callback);
 
-		Message msg = new Message(true, senderLink, receiver, subject, body,
+		Message msg = new Message(senderLink, receiver, subject, body,
 				ParameterStyle.ByName, null, MessageType.SyncRequest);
 		sendMessage(msg);
 	}

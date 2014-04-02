@@ -167,7 +167,7 @@ public class MessageServlet extends HttpServlet {
 		 * middle agent which will call the real receiver and convert the result
 		 * to html.
 		 */
-		Message incomingMsg = new Message(true, senderLink, receiverLink,
+		Message incomingMsg = new Message(senderLink, receiverLink,
 				subject, parameters, ParameterStyle.ByName, null,
 				MessageType.SyncRequest);
 

@@ -154,7 +154,7 @@ public class SshAgent {
 			returnValue.setField("status", status, true);
 			returnValue.setField("output", outputValue, true);
 
-			Message replyMsg = new Message(false, lastRequestMessage.receiver,
+			Message replyMsg = new Message( lastRequestMessage.receiver,
 					lastRequestMessage.sender, "RE:"
 							+ lastRequestMessage.getSubject(), returnValue,
 					ParameterStyle.ByName, null, MessageType.SyncReply);
