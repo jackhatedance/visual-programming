@@ -6,7 +6,6 @@ import com.bluesky.visualprogramming.vm.InstructionType;
 public class SendMessage extends Instruction {
 
 	public boolean sync = true;
-	public String callback;
 	public String replyVar;
 	public String receiverVar;
 	

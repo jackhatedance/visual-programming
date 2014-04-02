@@ -12,6 +12,7 @@ import com.bluesky.visualprogramming.core.ObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
+import com.bluesky.visualprogramming.core.ReplyStatus;
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.utils.Config;
@@ -73,12 +74,26 @@ public class AbstractProtocolService {
 			_Object response) {
 
 		VirtualMachine vm = VirtualMachine.getInstance();
+		Message replyMsg = null;
+		if (requestMessage.messageType == MessageType.SyncRequest) {
 
-		Message replyMsg = new Message(requestMessage.receiver,
-				requestMessage.sender, "RE:" + requestMessage.getSubject(),
-				response, ParameterStyle.ByName, null, MessageType.SyncReply);
+			replyMsg = new Message(requestMessage.receiver,
+					requestMessage.sender, "RE:" + requestMessage.getSubject(),
+					response, ParameterStyle.ByName, null,
+					MessageType.SyncReply);
 
-		replyMsg.urgent = true;
+			replyMsg.urgent = true;
+		} else if (requestMessage.messageType == MessageType.AsyncRequest
+				&& requestMessage.needCallback()) {
+			// TODO populate the response body to a normal object and with only
+			// child.
+			// getObjectFactory().
+
+			replyMsg = Message.newAsyncReplyMessage(requestMessage.receiver,
+					requestMessage.sender, requestMessage.replySubject,
+					response, ParameterStyle.ByOrder, ReplyStatus.Normal);
+
+		}
 
 		vm.getPostService().sendMessage(replyMsg);
 
@@ -96,10 +111,19 @@ public class AbstractProtocolService {
 		vex.setMessage(ex.getMessage());
 		vex.addTrace(ex);
 
-		Message replyMsg = new Message(requestMessage.receiver,
-				requestMessage.sender, "RE:" + requestMessage.getSubject(),
-				vex, ParameterStyle.ByName, null,
-				requestMessage.messageType.getReplyType());
+		Message replyMsg = null;
+		if (requestMessage.messageType == MessageType.SyncRequest) {
+			replyMsg = new Message(requestMessage.receiver,
+					requestMessage.sender, "RE:" + requestMessage.getSubject(),
+					vex, ParameterStyle.ByName, null,
+					requestMessage.messageType.getReplyType());
+		} else if (requestMessage.messageType == MessageType.AsyncRequest
+				&& requestMessage.needCallback()) {
+			replyMsg = Message.newAsyncReplyMessage(requestMessage.receiver,
+					requestMessage.sender, requestMessage.replySubject, vex,
+					ParameterStyle.ByName, ReplyStatus.Error);
+
+		}
 
 		replyMsg.urgent = true;
 

@@ -255,7 +255,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				msg = Message.newAsyncRequestMessage(sender, receiver,
 							messageSubject.getValue(), messageBody,
-							instruction.paramStyle,  instruction.callback);
+						instruction.paramStyle, replySubject.getValue());
 				
 				ctx.step = 0;
 
