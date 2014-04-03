@@ -15,6 +15,7 @@ import com.bluesky.visualprogramming.core.serialization.ConfigurableObjectSerial
 import com.bluesky.visualprogramming.core.serialization.MessageFormat;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.utils.Config;
 
@@ -85,6 +86,15 @@ public class ObjectRepository {
 			public BooleanValue createBoolean() {
 				return (BooleanValue) ObjectRepository.this.createObject(
 						ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
+			}
+
+			@Override
+			public Link createLink(String address) {
+				Link link = (Link) ObjectRepository.this.createObject(
+						ObjectType.LINK, ObjectScope.ExecutionContext);
+				link.setValue(address);
+
+				return link;
 			}
 
 			@Override

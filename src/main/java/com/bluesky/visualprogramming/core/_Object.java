@@ -401,9 +401,12 @@ public class _Object implements Serializable {
 	 * a owning relationship become pointer relationship.
 	 */
 	public void downgradeLinkFromOwner() {
-		ownerField.detachTarget();
-		ownerField.setType(FieldType.WEAK);
-		ownerField.attachTarget(this);
+		Field theOwnerField = ownerField;
+
+		detachFromOwner();
+
+		theOwnerField.setType(FieldType.WEAK);
+		theOwnerField.attachTarget(this);
 
 	}
 

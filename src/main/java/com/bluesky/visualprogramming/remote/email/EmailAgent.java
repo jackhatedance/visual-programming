@@ -20,7 +20,7 @@ public class EmailAgent {
 
 	static Logger logger = Logger.getLogger(EmailAgent.class);
 
-	//String server;
+	String address;
 	String username;
 	String password;
 
@@ -28,6 +28,7 @@ public class EmailAgent {
 
 	public EmailAgent(String address, _Object obj, Config config) {
 
+		this.address = address;
 		
 
 		if (config.containsKey("username"))
@@ -77,7 +78,7 @@ public class EmailAgent {
 		try {
 
 			javax.mail.Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from-email@gmail.com"));
+			message.setFrom(new InternetAddress(address));
 			message.setRecipients(javax.mail.Message.RecipientType.TO,
 					InternetAddress.parse(receiverAddress));
 			

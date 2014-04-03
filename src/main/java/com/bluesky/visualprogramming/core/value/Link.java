@@ -74,5 +74,21 @@ public class Link extends ValueObject {
 
 	}
 
+	/**
+	 * check link. protocol and address must not be empty
+	 * 
+	 * @return
+	 */
+	public boolean isValid() {
+		boolean result = true;
+
+		if (getProtocol() == null)
+			result = false;
+
+		if (getAddress() == null)
+			result = false;
+
+		return result;
+	}
 
 }

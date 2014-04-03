@@ -26,7 +26,9 @@ public class Message {
 	public ParameterStyle parameterStyle;
 
 	public ProcedureExecutionContext executionContext;
-
+	/**
+	 * after a incoming message being processed, the result is stored here.
+	 */
 	public _Object reply;
 
 	// used only when it is a reply.

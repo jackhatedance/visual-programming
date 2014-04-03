@@ -92,11 +92,10 @@ public class Worker implements Runnable {
 				if (msg.body != null)
 					replyValue = msg.body.getValue();
 
-				if (msg.messageType.isReply()
-						&& msg.reply instanceof VException) {
+				if (msg.messageType.isReply() && msg.body instanceof VException) {
 					// just print the exception
 					// TODO how to handle error and propagation solution???
-					VException vex = (VException) msg.reply;
+					VException vex = (VException) msg.body;
 					logger.error("error captured:" + vex.getTrace());
 				}
 
