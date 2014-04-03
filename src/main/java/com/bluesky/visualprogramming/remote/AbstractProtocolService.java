@@ -9,8 +9,6 @@ import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectFactory;
-import com.bluesky.visualprogramming.core.ObjectScope;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.ReplyStatus;
 import com.bluesky.visualprogramming.core.VException;
@@ -105,8 +103,7 @@ public class AbstractProtocolService {
 		}
 
 		VirtualMachine vm = VirtualMachine.getInstance();
-		VException vex = (VException) vm.getObjectRepository().createObject(
-				ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+		VException vex = getObjectFactory().createException();
 
 		vex.setMessage(ex.getMessage());
 		vex.addTrace(ex);

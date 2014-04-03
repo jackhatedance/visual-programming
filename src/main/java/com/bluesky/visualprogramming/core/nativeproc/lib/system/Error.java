@@ -1,8 +1,6 @@
 package com.bluesky.visualprogramming.core.nativeproc.lib.system;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.ObjectScope;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
@@ -23,8 +21,7 @@ public class Error extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		StringValue messageSV = (StringValue) ctx.get("message");
 
-		VException ex = (VException) getRepo().createObject(
-				ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+		VException ex = getObjectFactory().createException();
 		ex.setMessage(messageSV.getValue());
 
 		return ex;

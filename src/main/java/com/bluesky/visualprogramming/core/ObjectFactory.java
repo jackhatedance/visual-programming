@@ -13,4 +13,5 @@ public interface ObjectFactory {
 
 	BooleanValue createBoolean();
 
+	VException createException();
 }

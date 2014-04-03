@@ -40,12 +40,6 @@ public class EmailService extends AbstractProtocolService implements
 		String senderAddress = getPrimaryAddress(message.sender);
 		EmailAgent agent = agents.get(senderAddress);
 
-		try {
-			agent.send(receiverAddress, message);
-		} catch (Exception e) {
-			replyFailureInternalRequest(message, e);
-
-		}
 		
 		try {
 			agent.send(receiverAddress, message);

@@ -86,6 +86,13 @@ public class ObjectRepository {
 				return (BooleanValue) ObjectRepository.this.createObject(
 						ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
 			}
+
+			@Override
+			public VException createException() {
+				return (VException) ObjectRepository.this.createObject(
+						ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+
+			}
 		};
 	}
 

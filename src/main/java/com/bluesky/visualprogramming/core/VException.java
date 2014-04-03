@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.core;
 
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +40,23 @@ public class VException extends _Object {
 	}
 
 	public String getTrace() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Exception:" + message + "\r\n");
+		StringWriter w = new StringWriter();
+		printTrace(w);
+		return w.toString();
+	}
 
-		for (CodePosition pos : traces) {
-			sb.append("\tat ");
-			sb.append(pos.toString());
-			sb.append("\r\n");
+	public void printTrace(Writer writer) {
+		try {
+			writer.write("Exception:" + message + "\r\n");
+
+			for (CodePosition pos : traces) {
+				writer.write("\tat ");
+				writer.write(pos.toString());
+				writer.write("\r\n");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return sb.toString();
-
 	}
 
 }

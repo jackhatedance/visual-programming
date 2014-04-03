@@ -278,7 +278,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				// set the exception as result
 				ctx.setResult(ex);
 
-				throw new RuntimeException("received exception");
+				System.out.println(ex.getTrace());
+
+				throw new RuntimeException("received exception:"
+						+ ex.getMessage());
 			}
 
 			if (logger.isDebugEnabled()) {

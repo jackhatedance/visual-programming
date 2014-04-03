@@ -7,6 +7,7 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
+import com.bluesky.visualprogramming.core.ObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -91,6 +92,14 @@ public class Worker implements Runnable {
 				if (msg.body != null)
 					replyValue = msg.body.getValue();
 
+				if (msg.messageType.isReply()
+						&& msg.reply instanceof VException) {
+					// just print the exception
+					// TODO how to handle error and propagation solution???
+					VException vex = (VException) msg.reply;
+					logger.error("error captured:" + vex.getTrace());
+				}
+
 				if (msg.isSyncReply()) {
 
 					processSyncReply(obj, msg, replyValue);
@@ -98,7 +107,7 @@ public class Worker implements Runnable {
 				} else {
 					// it is new request or a async reply.
 					// note that a async reply is just like an async request. it
-					// need process.
+					// needs to be processed.
 
 					Procedure proc = obj.lookupProcedure(msg);
 					if (proc == null) {
@@ -308,6 +317,24 @@ public class Worker implements Runnable {
 
 	}
 
+	// private void executeErrorReplyMessage(Message msg, _Object obj,
+	// Procedure proc) {
+	//
+	// msg.initExecutionContext(objectRepository.getRootObject(),
+	// new String[0]);
+	//
+	// VException ex = getObjectFactory().createException();
+	//
+	// ex.setMessage("NativeProcedure execution error:" + e.getMessage());
+	// CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
+	// null, msg.executionContext.executionErrorLine);
+	//
+	// msg.reply = ex;
+	//
+	// msg.executionContext.executionStatus = ExecutionStatus.COMPLETE;
+	//
+	// }
+
 	private void executeProcedure(Message msg, _Object obj, Procedure proc) {
 
 		if (proc.isNative()) {
@@ -349,8 +376,7 @@ public class Worker implements Runnable {
 			// compile error
 			CodePosition position = new CodePosition(obj.getPath(),
 					proc.getName(), null, 0);
-			VException ex = (VException) objectRepository.createObject(
-					ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+			VException ex = getObjectFactory().createException();
 
 			ex.setMessage("parse error:" + e.getMessage());
 			ex.addTrace(position);
@@ -425,8 +451,7 @@ public class Worker implements Runnable {
 
 			// error handling, convert error to VException and set it as return
 			// value
-			VException ex = (VException) objectRepository.createObject(
-					ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+			VException ex = getObjectFactory().createException();
 
 			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
 			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
@@ -439,6 +464,10 @@ public class Worker implements Runnable {
 		}
 
 		return result;
+	}
+
+	protected ObjectFactory getObjectFactory() {
+		return objectRepository.getFactory();
 	}
 
 	@Override

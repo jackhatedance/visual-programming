@@ -25,7 +25,6 @@ public class Message {
 	public _Object body;
 	public ParameterStyle parameterStyle;
 
-
 	public ProcedureExecutionContext executionContext;
 
 	public _Object reply;
@@ -64,8 +63,7 @@ public class Message {
 	 */
 	public static Message newAsyncRequestMessage(_Object sender,
 			_Object receiver, String subject, _Object body,
-			ParameterStyle parameterStyle,
-			String replySubject) {
+			ParameterStyle parameterStyle, String replySubject) {
 
 		Message msg = new Message(sender, receiver, subject, body,
 				parameterStyle, null, MessageType.AsyncRequest);
@@ -95,6 +93,7 @@ public class Message {
 
 		return msg;
 	}
+
 	/**
 	 * sync or aync
 	 * 
@@ -104,8 +103,8 @@ public class Message {
 	 * @param subject
 	 * @param body
 	 */
-	public Message(_Object sender, _Object receiver,
-			String subject, _Object body, ParameterStyle parameterStyle,
+	public Message(_Object sender, _Object receiver, String subject,
+			_Object body, ParameterStyle parameterStyle,
 			Message previousMessage, MessageType messageType) {
 
 		this.sender = sender;
@@ -149,39 +148,49 @@ public class Message {
 				getParamStyleSV());
 		// executionContext.setObject("sender", receiver);
 
-		if (body != null) {
-			if (parameterStyle == ParameterStyle.ByName) {
-				for (String name : paramNames) {
+		if (messageType == MessageType.AsyncReply) {
+			// special for async reply. it is not a normal request.
+			if (paramNames.length > 0)
+				executionContext.setObject(paramNames[0], body);
 
-					if (logger.isDebugEnabled())
-						logger.debug("push parameter to context:" + name);
+		} else {
 
-					_Object p = body.getChild(name);
-					executionContext.setObject(name, p);
-				}
-			} else {
-				// by order
-				int prefixLen = GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX.length();
-				int paramLen = paramNames.length;
-				for(String fieldName :body.getFieldNames()){
-					int idx = Integer.valueOf(fieldName.substring(prefixLen));
-					
-					if(idx>=paramLen)
-					{
-						logger.warn("too many parameters than required"+toString());
-						continue;
+			_Object parameters = body;
+			if (parameters != null) {
+				if (parameterStyle == ParameterStyle.ByName) {
+					for (String name : paramNames) {
+
+						if (logger.isDebugEnabled())
+							logger.debug("push parameter to context:" + name);
+
+						_Object p = parameters.getChild(name);
+						executionContext.setObject(name, p);
 					}
-					
-					String name = paramNames[idx];
-					_Object p = body.getChild(fieldName);
+				} else {
+					// by order
+					int prefixLen = GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX
+							.length();
+					int paramLen = paramNames.length;
+					for (String fieldName : parameters.getFieldNames()) {
+						int idx = Integer.valueOf(fieldName
+								.substring(prefixLen));
 
-					if (logger.isDebugEnabled())
-						logger.debug("push parameter to context:" + name);
+						if (idx >= paramLen) {
+							logger.warn("too many parameters than required"
+									+ toString());
+							continue;
+						}
 
-					executionContext.setObject(name, p);
+						String name = paramNames[idx];
+						_Object p = parameters.getChild(fieldName);
+
+						if (logger.isDebugEnabled())
+							logger.debug("push parameter to context:" + name);
+
+						executionContext.setObject(name, p);
+					}
+
 				}
-				
-				
 			}
 		}
 	}
