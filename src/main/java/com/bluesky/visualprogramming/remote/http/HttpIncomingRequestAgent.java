@@ -68,7 +68,9 @@ public class HttpIncomingRequestAgent {
 			StringWriter sw = new StringWriter();
 
 			try {
-				serializer.serialize(msg.body, sw, config);
+				if (msg.body != null)
+					serializer.serialize(msg.body, sw, config);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
