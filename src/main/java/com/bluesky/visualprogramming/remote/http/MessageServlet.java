@@ -81,13 +81,17 @@ public class MessageServlet extends HttpServlet {
 		if (target.indexOf('/') == 0)
 			target = target.substring(1);
 
+		String username;
+		String subject;
 		int index = target.indexOf('/');
 		if (index < 0) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return;
+			username = "ROOT";
+			subject = target;
+		} else {
+			username = target.substring(0, index);
+			subject = target.substring(index + 1);
 		}
-		String username = target.substring(0, index);
-		String subject = target.substring(index + 1);
+
 		String server = request.getServerName();
 
 		String sessionId = request.getSession(true).getId();
