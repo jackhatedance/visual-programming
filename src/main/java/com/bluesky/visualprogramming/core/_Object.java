@@ -766,7 +766,7 @@ public class _Object implements Serializable {
 			messageQueue = new ArrayDeque<Message>();
 
 		String pos = "";
-		if (msg.urgent || msg.isReply() || msg.sender == this) {
+		if (msg.urgent || msg.isSyncReply() || msg.sender == this) {
 			pos = "head";
 			messageQueue.addFirst(msg);
 		} else {

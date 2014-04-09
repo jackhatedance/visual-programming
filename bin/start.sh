@@ -1,11 +1,13 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo $DIR
-cd $DIR
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo bin dir:$BIN_DIR
+cd $BIN_DIR
 cd ..
 
-JAR=$(ls lib/cooby*.jar)
+BASE_DIR="$( pwd )"
+echo base dir:$BASE_DIR
+#JAR=$(ls lib/cooby*.jar)
 #echo $JAR
-java -jar $JAR
+java -cp $BASE_DIR/conf:$BASE_DIR/lib/*:. com.bluesky.visualprogramming.ui.Main
 
