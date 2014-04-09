@@ -24,6 +24,7 @@ import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
+import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 import com.bluesky.visualprogramming.vm.message.Worker;
 
@@ -82,7 +83,17 @@ public class _Object implements Serializable {
 	private Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
 	private Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
 
+	/**
+	 * the normal message queue, which are OK to run
+	 * 
+	 * the worker only work on this queue.
+	 */
 	private Deque<Message> messageQueue;
+	/**
+	 * blocking procedures,
+	 */
+	private Deque<Message> messageQueueBlocking;
+	
 	private Worker worker = null;
 
 	/**
@@ -808,10 +819,10 @@ public class _Object implements Serializable {
 		return this.worker != null;
 	}
 
-	public synchronized boolean hasNewerMessageArrived(
-			Message currentWorkingMessage) {
 
-		return messageQueue.peekFirst() != currentWorkingMessage;
+
+	public synchronized boolean hasWorkableMessage() {
+		return !messageQueue.isEmpty();
 	}
 
 	public synchronized Message peekFirstMessage() {
@@ -841,6 +852,22 @@ public class _Object implements Serializable {
 			Message m = it.next();
 			System.out.println(m.toString());
 		}
+	}
+
+	public synchronized void moveMessageToBlockingQueue(Message msg) {
+		// lazy init
+		if (messageQueueBlocking == null)
+			messageQueueBlocking = new ArrayDeque<Message>();
+
+		messageQueue.remove(msg);
+		msg.executionContext.setExecutionStatus(ExecutionStatus.WAITING);
+		messageQueueBlocking.add(msg);
+	}
+
+	public synchronized void moveMessageToRunnableQueue(Message msg) {
+		messageQueueBlocking.remove(msg);
+		msg.executionContext.setExecutionStatus(ExecutionStatus.RUNNING);
+		messageQueue.add(msg);
 	}
 
 	public boolean owns(_Object child) {

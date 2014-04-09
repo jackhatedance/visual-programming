@@ -41,16 +41,18 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	ObjectRepository objectRepository;
 	CompiledProcedure procedure;
 	ProcedureExecutionContext ctx;
+	Message message;
 	PostService postService;
 
 	public InstructionExecutorImpl(ObjectRepository objectRepository,
 			PostService postService, CompiledProcedure procedure,
-			ProcedureExecutionContext ctx) {
+			ProcedureExecutionContext ctx, Message msg) {
 
 		this.objectRepository = objectRepository;
 		this.postService = postService;
 		this.procedure = procedure;
 		this.ctx = ctx;
+		this.message = msg;
 	}
 
 	/**
@@ -212,38 +214,37 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
 			_Object receiver = ctx.getObject(instruction.receiverVar);
-			
-			
+
 			if (receiver == null)
 				throw new RuntimeException("receiver object not exist:"
 						+ instruction.receiverVar);
 
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
-			StringValue replySubject = (StringValue)ctx.getObject(instruction.replySubjectVar);
-			
+			StringValue replySubject = (StringValue) ctx
+					.getObject(instruction.replySubjectVar);
+
 			if (messageSubject == null)
 				throw new RuntimeException("subject object not exist:"
 						+ instruction.messageSubjectVar);
 
 			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-			if("getChild".equals(messageSubject.getValue()))
+			if ("getChild".equals(messageSubject.getValue()))
 				System.out.println("bingo");
 
-			
 			/*
 			 * if (sender == receiver) msgType = MessageType.Recursive;
 			 */
-			
+
 			ExecutionStatus executionStatus = null;
 			Message msg = null;
 			if (instruction.sync) {
 				if (logger.isDebugEnabled())
 					logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
 
-				msg = new Message(sender, receiver,
-						messageSubject.getValue(), messageBody,
-						instruction.paramStyle, null, MessageType.SyncRequest);
+				msg = new Message(sender, receiver, messageSubject.getValue(),
+						messageBody, instruction.paramStyle, message,
+						MessageType.SyncRequest);
 
 				ctx.step = 1;
 
@@ -254,9 +255,9 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
 
 				msg = Message.newAsyncRequestMessage(sender, receiver,
-							messageSubject.getValue(), messageBody,
+						messageSubject.getValue(), messageBody,
 						instruction.paramStyle, replySubject.getValue());
-				
+
 				ctx.step = 0;
 
 				// reply is null.
@@ -266,7 +267,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			}
 			postService.sendMessage(msg);
-			
+
 			return executionStatus;
 		} else if (ctx.step == 1) {
 			// it is the reply(return value) from the call.

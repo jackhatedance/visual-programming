@@ -136,17 +136,18 @@ public class Worker implements Runnable {
 							logger.debug(String.format(
 									"[%s] is waiting for reply", obj));
 
+						obj.moveMessageToBlockingQueue(msg);
+
 						/*
 						 * TODO let the worker thread wait for a while, maybe
 						 * the reply come very soon. so that we can reuse
 						 * current worker for the same customer.
 						 */
 
-						if (obj.hasNewerMessageArrived(msg)) {
-							// continue work on reply
+						if (obj.hasWorkableMessage()) {
 
 							if (logger.isDebugEnabled())
-								logger.debug("newer messages arrived before worker leaves");
+								logger.debug("continue work on next message");
 
 							// check
 							// if(obj.peekFirstMessage().previous!=msg)
@@ -247,7 +248,7 @@ public class Worker implements Runnable {
 	}
 
 	/**
-	 * get return value. continue blocking process.
+	 * get return value. set the blocking procedure to be runnable.
 	 * 
 	 * @param obj
 	 * @param msg
@@ -281,7 +282,8 @@ public class Worker implements Runnable {
 			obj.printMessageQueue();
 
 		// push reply to the blocking message
-		Message lastMessage = obj.peekFirstMessage();
+		Message replyToMessage = msg.previous;
+		Message lastMessage = replyToMessage.previous;
 
 		if (logger.isDebugEnabled())
 			logger.debug("last message:" + lastMessage.toString());
@@ -290,15 +292,17 @@ public class Worker implements Runnable {
 					"error: last message's execution context is null.");
 
 		// put return value
-		obj.peekFirstMessage().executionContext.reply = reply;
+		lastMessage.executionContext.reply = reply;
 
 		// set flag
 		if (msg.replyStatus == ReplyStatus.Normal)
-			obj.peekFirstMessage().executionContext
-					.setExecutionStatus(ExecutionStatus.ON_GOING);
+			lastMessage.executionContext
+					.setExecutionStatus(ExecutionStatus.RUNNING);
 		else
-			obj.peekFirstMessage().executionContext
+			lastMessage.executionContext
 					.setExecutionStatus(ExecutionStatus.ERROR);
+
+		obj.moveMessageToRunnableQueue(lastMessage);
 	}
 
 	private void executeUnknowMessage(Message msg, _Object obj, Procedure proc) {
@@ -391,7 +395,7 @@ public class Worker implements Runnable {
 		}
 
 		InstructionExecutorImpl executor = new InstructionExecutorImpl(
-				objectRepository, postService, cp, msg.executionContext);
+				objectRepository, postService, cp, msg.executionContext, msg);
 		// e.setPolicy(step);
 
 		executor.execute();

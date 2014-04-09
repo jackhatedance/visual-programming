@@ -32,6 +32,14 @@ public class Message {
 	public _Object reply;
 
 	// used only when it is a reply.
+	// public Message replyTo;
+	/**
+	 * 2 usages,
+	 * 
+	 * 1 is as replyTo,
+	 * 
+	 * 2 is as message of execution context
+	 */
 	public Message previous;
 
 	public MessageType messageType;
@@ -136,7 +144,7 @@ public class Message {
 	public void initExecutionContext(_Object root, String[] paramNames) {
 		executionContext = new ProcedureExecutionContext();
 
-		executionContext.setExecutionStatus(ExecutionStatus.ON_GOING);
+		executionContext.setExecutionStatus(ExecutionStatus.RUNNING);
 
 		executionContext.setObject(ObjectRepository.ROOT, root);
 		executionContext

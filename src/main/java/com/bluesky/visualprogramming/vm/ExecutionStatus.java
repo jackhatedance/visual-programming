@@ -7,9 +7,23 @@ package com.bluesky.visualprogramming.vm;
  * 
  */
 public enum ExecutionStatus {
-	ON_GOING(false), WAITING(false), COMPLETE(true)
-
-	, ERROR(true);
+	/**
+	 * means OK to be executed
+	 */
+	RUNNING(false),
+	/**
+	 * blocking, wait for sync reply
+	 */
+	WAITING(false),
+	/**
+	 * execution completed, no error.
+	 */
+	COMPLETE(true)
+	,
+	/**
+	 * execution occurs error
+	 */
+	ERROR(true);
 
 	private boolean isFinished;
 

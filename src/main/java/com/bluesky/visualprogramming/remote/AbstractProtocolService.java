@@ -77,7 +77,7 @@ public class AbstractProtocolService {
 
 			replyMsg = new Message(requestMessage.receiver,
 					requestMessage.sender, "RE:" + requestMessage.getSubject(),
-					response, ParameterStyle.ByName, null,
+					response, ParameterStyle.ByName, requestMessage,
 					MessageType.SyncReply);
 
 			replyMsg.urgent = true;
