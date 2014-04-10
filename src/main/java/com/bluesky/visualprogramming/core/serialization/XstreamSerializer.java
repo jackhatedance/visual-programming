@@ -86,6 +86,7 @@ public class XstreamSerializer implements ConfigurableObjectSerializer {
 		Class cls = _Object.class;
 
 		xstream.omitField(cls, "messageQueue");
+		xstream.omitField(cls, "messageQueueBlocking");
 		xstream.omitField(cls, "asynMessageMap");
 		
 		xstream.omitField(cls, "worker");		
