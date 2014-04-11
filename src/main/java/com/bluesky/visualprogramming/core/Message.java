@@ -38,7 +38,7 @@ public class Message {
 	 * 
 	 * 1 is as replyTo,
 	 * 
-	 * 2 is as message of execution context
+	 * 2 is as message of execution context, similar to call stack
 	 */
 	public Message previous;
 
@@ -209,9 +209,7 @@ public class Message {
 		return replySubject != null && (!replySubject.isEmpty());
 	}
 
-	public boolean isReply() {
-		return previous != null;
-	}
+
 
 	/**
 	 * a reply of a sync invoke

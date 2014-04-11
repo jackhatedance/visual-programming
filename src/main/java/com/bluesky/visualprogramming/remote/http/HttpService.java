@@ -168,7 +168,7 @@ public class HttpService extends AbstractProtocolService implements
 	@Override
 	public void send(String receiverAddress, Message message) {
 
-		if (message.isReply()) {
+		if (message.messageType.isReply()) {
 			sendReply(receiverAddress, message);
 		} else {
 			// it is a active HTTP request to remote web server.
