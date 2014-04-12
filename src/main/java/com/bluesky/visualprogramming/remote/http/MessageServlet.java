@@ -86,11 +86,13 @@ public class MessageServlet extends HttpServlet {
 		int index = target.indexOf('/');
 		if (index < 0) {
 			username = "ROOT";
-			subject = target;
+			subject = target;			
 		} else {
 			username = target.substring(0, index);
 			subject = target.substring(index + 1);
 		}
+		if(subject.isEmpty())
+			subject = "NO_SUBJECT";
 
 		String server = request.getServerName();
 
