@@ -56,7 +56,8 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 			_Object kvObj = repo.createObject(ObjectType.NORMAL,
 					ObjectScope.ExecutionContext);
 
-			_Object list = repo.getObjectByPath("_root.core.prototype.list");
+			_Object list = repo.getObjectByPath(ObjectRepository.ROOT_OBJECT
+					+ ".core.prototype.list");
 
 			kvObj.setPrototype(list);
 			ListObject kvListObject = new ListObject(kvObj);

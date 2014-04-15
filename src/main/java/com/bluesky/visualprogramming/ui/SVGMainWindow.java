@@ -98,7 +98,7 @@ public class SVGMainWindow extends JPanel {
 	private void createTreePanel() {
 
 		Field rootField = new Field(getVM().getObjectRepository()
-				.getRootObject(), ObjectRepository.ROOT, true);
+				.getRootObject(), ObjectRepository.ROOT_OBJECT, true);
 
 		// just create the root node at first.
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(rootField);

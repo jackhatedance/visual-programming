@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.remote;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +10,6 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.ObjectRepositoryListener;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -22,7 +20,6 @@ import com.bluesky.visualprogramming.remote.path.PathService;
 import com.bluesky.visualprogramming.remote.ssh.SshService;
 import com.bluesky.visualprogramming.remote.xmpp.XmppService;
 import com.bluesky.visualprogramming.utils.Config;
-import com.bluesky.visualprogramming.vm.AppProperties;
 
 /**
  * all in one service
@@ -205,9 +202,10 @@ public class RemoteCommunicationService {
 
 	public static void main(String[] args) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("_root.name", "jack");
-		map.put("_root.password", "123");
-		String str = "name=${_root.name};pass=${_root.password}";
+		map.put("world.name", "jack");
+		map.put("world.password", "123");
+		String str = "name=${world.name};pass=${"
+				+ ObjectRepository.ROOT_OBJECT + ".password}";
 		Pattern p = Pattern.compile("\\$\\{([^}]+)\\}");
 		Matcher m = p.matcher(str);
 

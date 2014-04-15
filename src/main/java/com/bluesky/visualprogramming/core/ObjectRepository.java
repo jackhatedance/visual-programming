@@ -25,8 +25,8 @@ public class ObjectRepository {
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
-	public static String ROOT = "_root";
-	public static String PROTOTYPE_PATH = ROOT + ".core.prototype";
+	public static String ROOT_OBJECT = "world";
+	public static String PROTOTYPE_PATH = ROOT_OBJECT + ".core.prototype";
 
 	volatile long objectId;
 
@@ -46,7 +46,7 @@ public class ObjectRepository {
 		objectId = 0;
 
 		rootObject = createObject(ObjectType.NORMAL, ObjectScope.Persistent);
-		rootObject.setName(ObjectRepository.ROOT);
+		rootObject.setName(ObjectRepository.ROOT_OBJECT);
 
 		// my listeners
 		ObjectRepositoryListener migrationListener = new AbstractObjectRepositoryListener() {
@@ -218,9 +218,9 @@ public class ObjectRepository {
 	public _Object getObjectByPath(String path) {
 		String[] ss = path.split("\\.");
 
-		if (!ss[0].equals(ObjectRepository.ROOT))
+		if (!ss[0].equals(ObjectRepository.ROOT_OBJECT))
 			throw new RuntimeException("the first object must be '"
-					+ ObjectRepository.ROOT + "':" + path);
+					+ ObjectRepository.ROOT_OBJECT + "':" + path);
 
 		int index = path.indexOf('.');
 		if (index < 0)
@@ -248,12 +248,12 @@ public class ObjectRepository {
 		// runtime
 		loadAndAttach("", runtimeFileName);
 
-		loadAndAttach("_root", userFileName);
+		loadAndAttach(ROOT_OBJECT, userFileName);
 	}
 
 	public void save(String runtimeFileName, String userFileName) {
-		detachAndSave("_root.users", userFileName);
-		detachAndSave("_root", runtimeFileName);
+		detachAndSave(ROOT_OBJECT + ".users", userFileName);
+		detachAndSave(ROOT_OBJECT, runtimeFileName);
 	}
 
 	private void loadAndAttach(String mountOwnerPath, String fileName) {
@@ -408,7 +408,7 @@ public class ObjectRepository {
 									.println("weak reference but path is null");
 						}
 
-						if (!f.pointerPath.startsWith("_root"))
+						if (!f.pointerPath.startsWith(ROOT_OBJECT))
 							System.out.println(f.pointerPath);
 
 						f.setWeakTarget(null);
@@ -503,7 +503,7 @@ public class ObjectRepository {
 
 						// restore pointer field
 						if (f.pointerPath != null
-								&& f.pointerPath.startsWith("_root")) {
+								&& f.pointerPath.startsWith(ROOT_OBJECT)) {
 
 							f.setWeakTarget(ObjectRepository.this
 									.getObjectByPath(f.pointerPath));

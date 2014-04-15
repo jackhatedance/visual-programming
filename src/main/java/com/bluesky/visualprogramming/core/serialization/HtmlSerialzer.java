@@ -34,7 +34,8 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 		VirtualMachine vm = VirtualMachine.getInstance();
 		ObjectRepository repo = vm.getObjectRepository();
 
-		String address = "path://_root.lib.web.render@local";
+		String address = "path://" + ObjectRepository.ROOT_OBJECT
+				+ ".lib.web.render@local";
 		Link receiverLink = (Link) repo.createObject(ObjectType.LINK,
 				ObjectScope.ExecutionContext);
 		receiverLink.setValue(address);
