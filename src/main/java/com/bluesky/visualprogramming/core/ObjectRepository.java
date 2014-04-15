@@ -25,7 +25,7 @@ public class ObjectRepository {
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
-	public static String ROOT_OBJECT = "world";
+	public static String ROOT_OBJECT = "_world";
 	public static String PROTOTYPE_PATH = ROOT_OBJECT + ".core.prototype";
 
 	volatile long objectId;

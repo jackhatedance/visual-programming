@@ -202,9 +202,10 @@ public class RemoteCommunicationService {
 
 	public static void main(String[] args) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("world.name", "jack");
-		map.put("world.password", "123");
-		String str = "name=${world.name};pass=${"
+		map.put(ObjectRepository.ROOT_OBJECT + ".name", "jack");
+		map.put(ObjectRepository.ROOT_OBJECT + ".password", "123");
+		String str = "name=${" + ObjectRepository.ROOT_OBJECT
+				+ ".name};pass=${"
 				+ ObjectRepository.ROOT_OBJECT + ".password}";
 		Pattern p = Pattern.compile("\\$\\{([^}]+)\\}");
 		Matcher m = p.matcher(str);

@@ -1,8 +1,8 @@
 procedure foo()
 {
 	//usual
-	//world.console.print(self."1 2,3");
+	//_world.console.print(self."1 2,3");
 	//var field name
 	a = "foo";
-	world.core.console.print(self.$a);
+	_world.core.console.print(self.$a);
 }
