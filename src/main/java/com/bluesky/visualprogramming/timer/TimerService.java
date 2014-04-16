@@ -1,9 +1,7 @@
 package com.bluesky.visualprogramming.timer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
@@ -43,7 +41,7 @@ public class TimerService implements Service {
 		this.repo = repo;
 
 		repo.addListener(new AbstractObjectRepositoryListener() {
-		
+
 			@Override
 			public void afterLoadFromFile(_Object obj) {
 				StringValue type = (StringValue) obj.getSystemChild("type");
@@ -69,7 +67,6 @@ public class TimerService implements Service {
 
 			}
 
-		
 		});
 	}
 
@@ -130,7 +127,7 @@ public class TimerService implements Service {
 
 	}
 
-	public void subscribe(_Object client) {
+	public synchronized void subscribe(_Object client) {
 		IntegerValue intervalObj = (IntegerValue) client.getChild("interval");
 
 		int interval = (int) intervalObj.getIntValue();
@@ -147,20 +144,18 @@ public class TimerService implements Service {
 
 	}
 
-	public void unsubscribe(_Object client) {
+	public synchronized void unsubscribe(_Object client) {
 
-		List<Integer> emptyIntervals = new ArrayList<Integer>();
 		for (Integer interval : subscribers.keySet()) {
 			Set<_Object> set = subscribers.get(interval);
 
-			set.remove(client);
+			if (set.contains(client)) {
+				set.remove(client);
 
-			if (set.isEmpty())
-				emptyIntervals.add(interval);
+				if (set.isEmpty())
+					subscribers.remove(interval);
+			}
 		}
-
-		for (Integer interval : emptyIntervals)
-			subscribers.remove(interval);
 	}
 
 	private void notify1(Set<_Object> objects) {
