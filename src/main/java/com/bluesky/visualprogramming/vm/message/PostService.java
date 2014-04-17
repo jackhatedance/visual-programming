@@ -44,6 +44,11 @@ public class PostService extends ThreadService implements Runnable {
 	}
 
 	public void sendMessage(Message msg) {
+		if (msg.receiver == null) {
+			logger.error("msg has no receiver:" + msg.toString());
+			return;
+		}
+
 		try {
 			messageQueue.put(msg);
 
