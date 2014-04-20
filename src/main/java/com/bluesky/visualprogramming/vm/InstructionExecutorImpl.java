@@ -221,8 +221,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
-			StringValue replySubject = (StringValue) ctx
+			StringValue replySubjectSV = (StringValue) ctx
 					.getObject(instruction.replySubjectVar);
+			String replySubject = replySubjectSV != null ? replySubjectSV
+					.getValue() : null;
 
 			if (messageSubject == null)
 				throw new RuntimeException("subject object not exist:"
@@ -256,7 +258,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				msg = Message.newAsyncRequestMessage(sender, receiver,
 						messageSubject.getValue(), messageBody,
-						instruction.paramStyle, replySubject.getValue());
+						instruction.paramStyle, replySubject);
 
 				ctx.step = 0;
 
