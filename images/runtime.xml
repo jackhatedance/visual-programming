@@ -25833,14 +25833,14 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                         <name>enabled</name>
                         <strongTarget class="boolean" id="4269">
                           <type>BOOLEAN</type>
-                          <id>109464378</id>
+                          <id>109464925</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="4270">
                             <field id="4271">
                               <name>_system</name>
                               <strongTarget id="4272">
                                 <type>NORMAL</type>
-                                <id>109464379</id>
+                                <id>109464926</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="4273">
@@ -25879,7 +25879,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="4276"/>
-                          <booleanValue>true</booleanValue>
+                          <booleanValue>false</booleanValue>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
