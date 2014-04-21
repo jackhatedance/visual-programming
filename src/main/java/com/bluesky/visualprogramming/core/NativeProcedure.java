@@ -5,5 +5,6 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public interface NativeProcedure {
 
-	public void execute(VirtualMachine virtualMachine, _Object self,  ProcedureExecutionContext ctx, Message msg);
+	public void execute(VirtualMachine virtualMachine, _Object self,
+			ProcedureExecutionContext ctx);
 }

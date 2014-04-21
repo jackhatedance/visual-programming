@@ -1,6 +1,5 @@
 package com.bluesky.visualprogramming.core.nativeproc;
 
-import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
@@ -11,15 +10,15 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public abstract class BaseNativeProcedure implements NativeProcedure {
 
 	public void execute(VirtualMachine virtualMachine, _Object self,
-			ProcedureExecutionContext ctx, Message msg) {
+			ProcedureExecutionContext ctx) {
 
-		_Object reply = execute(virtualMachine, self, ctx);
+		_Object reply = execute(self, ctx);
 
-		msg.executionContext.setResult(reply);
+		ctx.setResult(reply);
 		
 	};
 
-	protected abstract _Object execute(VirtualMachine virtualMachine,
+	protected abstract _Object execute(
 			_Object self, ProcedureExecutionContext ctx);
 	
 	protected VirtualMachine getVM(){

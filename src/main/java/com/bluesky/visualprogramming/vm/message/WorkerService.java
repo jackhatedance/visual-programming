@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.vm.message;
 
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,12 +22,19 @@ import com.bluesky.visualprogramming.core._Object;
 public class WorkerService extends ThreadService implements Runnable  {
 
 	static Logger logger = Logger.getLogger(WorkerService.class);
-
+	/**
+	 * thread pool that drive every worker.
+	 */
 	private ExecutorService executorServie;
 	/**
 	 * awake customers with messages in queue.
 	 */
 	private BlockingQueue<_Object> customers;
+
+	/**
+	 * working workers, will be removed after the work is done
+	 */
+	private Set<Worker> workers;
 
 	private ObjectRepository objectRepository;
 	private PostService postService;
@@ -34,6 +43,8 @@ public class WorkerService extends ThreadService implements Runnable  {
 
 		customers = new LinkedBlockingQueue<_Object>();
 		executorServie = Executors.newFixedThreadPool(5);
+
+		workers = new TreeSet<Worker>();
 	}
 
 	public void setup(ObjectRepository objectRepository,
@@ -86,6 +97,7 @@ public class WorkerService extends ThreadService implements Runnable  {
 		Worker worker = new Worker(objectRepository, this, postService, cust);
 
 		executorServie.execute(worker);
+
 	}
 
 	@Override
@@ -94,5 +106,26 @@ public class WorkerService extends ThreadService implements Runnable  {
 		super.init();		
 	}
 
+	/**
+	 * when work is done, get retired.
+	 * 
+	 * @param worker
+	 */
+	public synchronized void removeWorker(Worker worker) {
+		workers.remove(worker);
+	}
 
+	public synchronized void pause() {
+		for (Worker worker : workers) {
+			worker.pause();
+		}
+	}
+
+	public synchronized void resume() {
+		for (Worker worker : workers) {
+
+			// TODO
+			// worker.resume();
+		}
+	}
 }

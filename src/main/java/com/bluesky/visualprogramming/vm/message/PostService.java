@@ -31,7 +31,7 @@ public class PostService extends ThreadService implements Runnable {
 
 	private BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
 
-	// rpc sender threads
+	// threads for RPC
 	ExecutorService executorService = Executors.newFixedThreadPool(5);
 
 	private volatile boolean running = true;

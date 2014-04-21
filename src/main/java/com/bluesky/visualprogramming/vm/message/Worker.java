@@ -74,14 +74,6 @@ public class Worker implements Runnable {
 					break;
 				}
 
-				// obj.checkMessageType(msg.messageType);
-
-				if (msg.executionContext != null
-						&& msg.executionContext.getExecutionStatus() == ExecutionStatus.WAITING) {
-					obj.removeWorker();
-					break;
-				}
-
 				if (logger.isDebugEnabled())
 					logger.debug(String.format(
 							"start processing msg '%s', msg.count %d ",
@@ -99,11 +91,9 @@ public class Worker implements Runnable {
 					logger.error("error captured:" + vex.getTrace());
 				}
 
-				if (msg.isSyncReply()) {
-
+				if (msg.isSyncReply())
 					processSyncReply(obj, msg, replyValue);
-
-				} else {
+				else {
 					// it is new request or a async reply.
 					// note that a async reply is just like an async request. it
 					// needs to be processed.
@@ -396,7 +386,7 @@ public class Worker implements Runnable {
 
 		InstructionExecutorImpl executor = new InstructionExecutorImpl(
 				objectRepository, postService, cp, msg.executionContext, msg);
-		// e.setPolicy(step);
+		// executor.setPolicy(step);
 
 		executor.execute();
 
@@ -443,7 +433,7 @@ public class Worker implements Runnable {
 
 			VirtualMachine vm = VirtualMachine.getInstance();
 
-			nativeP.execute(vm, obj, msg.executionContext, msg);
+			nativeP.execute(vm, obj, msg.executionContext);
 
 			msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
 
@@ -476,5 +466,11 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		processMessages(customer);
+
+		workerManager.removeWorker(this);
+	}
+
+	public void pause() {
+
 	}
 }

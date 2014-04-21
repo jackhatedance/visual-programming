@@ -1,15 +1,22 @@
 package com.bluesky.visualprogramming.vm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.CodePosition;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethod;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
@@ -44,6 +51,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	Message message;
 	PostService postService;
 
+	private volatile boolean paused;
+	private Lock statusLock;
+	private Condition runningCondition;
+
 	public InstructionExecutorImpl(ObjectRepository objectRepository,
 			PostService postService, CompiledProcedure procedure,
 			ProcedureExecutionContext ctx, Message msg) {
@@ -53,6 +64,26 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		this.procedure = procedure;
 		this.ctx = ctx;
 		this.message = msg;
+
+		paused = false;
+		statusLock = new ReentrantLock();
+		runningCondition = statusLock.newCondition();
+	}
+
+	public synchronized void pause() {
+		paused = true;
+	}
+
+	public synchronized void resume() {
+		paused = false;
+
+		statusLock.lock();
+		try {
+			runningCondition.signal();
+		} finally {
+			statusLock.unlock();
+		}
+
 	}
 
 	/**
@@ -65,7 +96,22 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	public void execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
+		loop1:
 		while (true) {
+			while (paused)
+			{
+				statusLock.lock();
+				try{
+					runningCondition.await();
+				} catch (InterruptedException ex) {
+					break loop1;
+				}
+				finally{
+					statusLock.unlock();
+				}
+				
+			}
+			
 			InstructionExecutionResult instructionExecutionResult = executeOneStep(instructions);
 			ExecutionStatus instructionExecutionStatus = instructionExecutionResult
 					.getStatus();
@@ -208,8 +254,55 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		return ExecutionStatus.COMPLETE;
 	}
 
+	private _Object executeNativeMethod(String fullClassName,
+			String methodName, _Object parameters) {
+		_Object result = null;
+
+		try {
+			Class cls = Class.forName(fullClassName);
+			NativeMethod nativeMethod = (NativeMethod) cls.newInstance();
+
+			Map<String, _Object> parametersMap = new HashMap<String, _Object>();
+
+			VirtualMachine vm = VirtualMachine.getInstance();
+
+			result = nativeMethod.execute(vm, parametersMap);
+
+		} catch (Exception e) {
+
+			// error handling, convert error to VException and set it as return
+			// value
+			VException ex = objectRepository.getFactory().createException();
+
+			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
+			CodePosition pos = new CodePosition(fullClassName, methodName,
+					null, 0);
+
+			ex.addTrace(e);
+
+			ex.addTrace(pos);
+			result = ex;
+		}
+
+		return result;
+	}
+
 	@Override
 	public ExecutionStatus executeSendMessage(SendMessage instruction) {
+		
+		//native method
+		String nativeMethodVarPrefix = "_java_";
+		if (instruction.receiverVar.startsWith(nativeMethodVarPrefix)) {
+			String fullClassName = instruction.receiverVar
+					.substring(nativeMethodVarPrefix.length()).replace("_", ".");
+			
+			String methodName = instruction.messageSubjectVar;
+			_Object result = executeNativeMethod(fullClassName, methodName,
+					ctx.getObject(instruction.messageBodyVar));
+
+			ctx.setObject(instruction.replyVar, result);
+		}
+		
 		if (ctx.step == 0) {
 
 			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
@@ -268,6 +361,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				executionStatus = ExecutionStatus.COMPLETE;
 
 			}
+			
 			postService.sendMessage(msg);
 
 			return executionStatus;

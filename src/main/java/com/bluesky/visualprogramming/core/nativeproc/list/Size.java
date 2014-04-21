@@ -12,7 +12,7 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class Size extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
-	protected _Object execute(VirtualMachine virtualMachine, _Object self,
+	protected _Object execute(_Object self,
 			ProcedureExecutionContext ctx) {
 
 		ListObject lo = new ListObject(self);

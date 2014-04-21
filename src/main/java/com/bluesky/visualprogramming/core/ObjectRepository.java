@@ -17,6 +17,7 @@ import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.core.value.TimeValue;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class ObjectRepository {
@@ -66,8 +67,7 @@ public class ObjectRepository {
 			@Override
 			public StringValue createString() {
 				return (StringValue) ObjectRepository.this.createObject(
-						ObjectType.STRING,
-						ObjectScope.ExecutionContext);
+						ObjectType.STRING, ObjectScope.ExecutionContext);
 			}
 
 			@Override
@@ -95,6 +95,14 @@ public class ObjectRepository {
 				link.setValue(address);
 
 				return link;
+			}
+
+			@Override
+			public TimeValue createTime() {
+				TimeValue time = (TimeValue) ObjectRepository.this
+						.createObject(ObjectType.TIME,
+								ObjectScope.ExecutionContext);
+				return time;
 			}
 
 			@Override
@@ -395,7 +403,7 @@ public class ObjectRepository {
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
-			 
+
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
@@ -498,7 +506,6 @@ public class ObjectRepository {
 					// restore owner of field
 					f.owner = obj;
 
-					 
 					if (f.getType() == FieldType.WEAK) {
 
 						// restore pointer field
@@ -516,7 +523,6 @@ public class ObjectRepository {
 					} else if (f.getType() == FieldType.STRONG) {
 						// restore field of child object.
 						if (f.getTarget() != null) {
-
 
 							f.getTarget().setOwnerField(f);
 

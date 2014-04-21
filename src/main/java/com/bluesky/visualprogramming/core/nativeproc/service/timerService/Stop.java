@@ -4,16 +4,15 @@ import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Stop extends BaseNativeProcedure implements NativeProcedure {
 
 	@Override
-	protected _Object execute(VirtualMachine virtualMachine, _Object self,
+	protected _Object execute(_Object self,
 			ProcedureExecutionContext ctx) {
 		
 		
-		virtualMachine.getTimerService().stop();
+		getVM().getTimerService().stop();
 		
 		return null;
 	}
