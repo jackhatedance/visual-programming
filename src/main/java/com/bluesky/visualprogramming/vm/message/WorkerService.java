@@ -1,7 +1,7 @@
 package com.bluesky.visualprogramming.vm.message;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,7 +44,7 @@ public class WorkerService extends ThreadService implements Runnable  {
 		customers = new LinkedBlockingQueue<_Object>();
 		executorServie = Executors.newFixedThreadPool(5);
 
-		workers = new TreeSet<Worker>();
+		workers = new HashSet<Worker>();
 	}
 
 	public void setup(ObjectRepository objectRepository,

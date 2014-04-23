@@ -14,12 +14,14 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
+import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.NativeMethod;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
+import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -96,22 +98,19 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	public void execute() {
 		List<Instruction> instructions = procedure.getInstructions();
 
-		loop1:
-		while (true) {
-			while (paused)
-			{
+		loop1: while (true) {
+			while (paused) {
 				statusLock.lock();
-				try{
+				try {
 					runningCondition.await();
 				} catch (InterruptedException ex) {
 					break loop1;
-				}
-				finally{
+				} finally {
 					statusLock.unlock();
 				}
-				
+
 			}
-			
+
 			InstructionExecutionResult instructionExecutionResult = executeOneStep(instructions);
 			ExecutionStatus instructionExecutionStatus = instructionExecutionResult
 					.getStatus();
@@ -254,19 +253,64 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		return ExecutionStatus.COMPLETE;
 	}
 
+	private Map<String, _Object> parametersToMap(_Object parameters,
+			ParameterStyle parameterStyle, String[] paramNames) {
+		Map<String, _Object> parametersMap = new HashMap<String, _Object>();
+
+		if (parameters != null) {
+			if (parameterStyle == ParameterStyle.ByName) {
+				for (String name : paramNames) {
+
+					if (logger.isDebugEnabled())
+						logger.debug("push parameter to context:" + name);
+
+					_Object p = parameters.getChild(name);
+					parametersMap.put(name, p);
+				}
+			} else {
+				// by order
+				int prefixLen = GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX
+						.length();
+				int paramLen = paramNames.length;
+				for (String fieldName : parameters.getFieldNames()) {
+					int idx = Integer.valueOf(fieldName.substring(prefixLen));
+
+					if (idx >= paramLen) {
+						logger.warn("too many parameters than required"
+								+ toString());
+						continue;
+					}
+
+					String name = paramNames[idx];
+					_Object p = parameters.getChild(fieldName);
+
+					if (logger.isDebugEnabled())
+						logger.debug("push parameter to context:" + name);
+
+					parametersMap.put(name, p);
+				}
+
+			}
+		}
+
+		return parametersMap;
+	}
+
 	private _Object executeNativeMethod(String fullClassName,
-			String methodName, _Object parameters) {
+			_Object parameters, ParameterStyle parameterStyle) {
 		_Object result = null;
 
 		try {
 			Class cls = Class.forName(fullClassName);
 			NativeMethod nativeMethod = (NativeMethod) cls.newInstance();
 
-			Map<String, _Object> parametersMap = new HashMap<String, _Object>();
+			String[] paramNames = nativeMethod.getParameterNames();
+			Map<String, _Object> ctx = parametersToMap(parameters,
+					parameterStyle, paramNames);
 
 			VirtualMachine vm = VirtualMachine.getInstance();
 
-			result = nativeMethod.execute(vm, parametersMap);
+			result = nativeMethod.execute(vm, ctx);
 
 		} catch (Exception e) {
 
@@ -275,7 +319,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			VException ex = objectRepository.getFactory().createException();
 
 			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
-			CodePosition pos = new CodePosition(fullClassName, methodName,
+			CodePosition pos = new CodePosition(fullClassName, "execute",
 					null, 0);
 
 			ex.addTrace(e);
@@ -289,116 +333,127 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 	@Override
 	public ExecutionStatus executeSendMessage(SendMessage instruction) {
-		
-		//native method
+
+		// native method
 		String nativeMethodVarPrefix = "_java_";
 		if (instruction.receiverVar.startsWith(nativeMethodVarPrefix)) {
-			String fullClassName = instruction.receiverVar
-					.substring(nativeMethodVarPrefix.length()).replace("_", ".");
-			
-			String methodName = instruction.messageSubjectVar;
-			_Object result = executeNativeMethod(fullClassName, methodName,
-					ctx.getObject(instruction.messageBodyVar));
-
-			ctx.setObject(instruction.replyVar, result);
-		}
-		
-		if (ctx.step == 0) {
-
-			_Object sender = ctx.getObject(ProcedureExecutionContext.VAR_SELF);
-			_Object receiver = ctx.getObject(instruction.receiverVar);
-
-			if (receiver == null)
-				throw new RuntimeException("receiver object not exist:"
-						+ instruction.receiverVar);
+			String fullPackageName = instruction.receiverVar.substring(
+					nativeMethodVarPrefix.length()).replace("_", ".");
 
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
-			StringValue replySubjectSV = (StringValue) ctx
-					.getObject(instruction.replySubjectVar);
-			String replySubject = replySubjectSV != null ? replySubjectSV
-					.getValue() : null;
+			String methodName = messageSubject.getValue();
 
-			if (messageSubject == null)
-				throw new RuntimeException("subject object not exist:"
-						+ instruction.messageSubjectVar);
+			String fullClassName = fullPackageName + "." + methodName;
 
-			_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-			if ("getChild".equals(messageSubject.getValue()))
-				System.out.println("bingo");
+			_Object result = executeNativeMethod(fullClassName,
+					ctx.getObject(instruction.messageBodyVar),
+					instruction.paramStyle);
 
-			/*
-			 * if (sender == receiver) msgType = MessageType.Recursive;
-			 */
-
-			ExecutionStatus executionStatus = null;
-			Message msg = null;
-			if (instruction.sync) {
-				if (logger.isDebugEnabled())
-					logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
-
-				msg = new Message(sender, receiver, messageSubject.getValue(),
-						messageBody, instruction.paramStyle, message,
-						MessageType.SyncRequest);
-
-				ctx.step = 1;
-
-				executionStatus = ExecutionStatus.WAITING;
-			} else {
-				// async
-				if (logger.isDebugEnabled())
-					logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
-
-				msg = Message.newAsyncRequestMessage(sender, receiver,
-						messageSubject.getValue(), messageBody,
-						instruction.paramStyle, replySubject);
-
-				ctx.step = 0;
-
-				// reply is null.
-				ctx.setObject(instruction.replyVar, null);
-
-				executionStatus = ExecutionStatus.COMPLETE;
-
-			}
-			
-			postService.sendMessage(msg);
-
-			return executionStatus;
-		} else if (ctx.step == 1) {
-			// it is the reply(return value) from the call.
-			_Object reply = ctx.reply;
-
-			// check if reply is exception, append trace source
-			if (reply instanceof VException) {
-				VException ex = (VException) reply;
-				// set the exception as result
-				ctx.setResult(ex);
-
-				System.out.println(ex.getTrace());
-
-				throw new RuntimeException("received exception:"
-						+ ex.getMessage());
-			}
-
-			if (logger.isDebugEnabled()) {
-				String replyValue = "";
-				if (reply != null)
-					replyValue = reply.getValue();
-
-				logger.debug(String.format("executeSendMessage, step 2; %s=%s",
-						instruction.replyVar, replyValue));
-			}
-
-			ctx.setObject(instruction.replyVar, reply);
-
-			// reset to 0
-			ctx.step = 0;
+			ctx.setObject(instruction.replyVar, result);
 
 			return ExecutionStatus.COMPLETE;
-		} else
-			throw new RuntimeException("invalid step:" + ctx.step);
+		} else {
 
+			if (ctx.step == 0) {
+
+				_Object sender = ctx
+						.getObject(ProcedureExecutionContext.VAR_SELF);
+				_Object receiver = ctx.getObject(instruction.receiverVar);
+
+				if (receiver == null)
+					throw new RuntimeException("receiver object not exist:"
+							+ instruction.receiverVar);
+
+				StringValue messageSubject = (StringValue) ctx
+						.getObject(instruction.messageSubjectVar);
+				StringValue replySubjectSV = (StringValue) ctx
+						.getObject(instruction.replySubjectVar);
+				String replySubject = replySubjectSV != null ? replySubjectSV
+						.getValue() : null;
+
+				if (messageSubject == null)
+					throw new RuntimeException("subject object not exist:"
+							+ instruction.messageSubjectVar);
+
+				_Object messageBody = ctx.getObject(instruction.messageBodyVar);
+				if ("getChild".equals(messageSubject.getValue()))
+					System.out.println("bingo");
+
+				/*
+				 * if (sender == receiver) msgType = MessageType.Recursive;
+				 */
+
+				ExecutionStatus executionStatus = null;
+				Message msg = null;
+				if (instruction.sync) {
+					if (logger.isDebugEnabled())
+						logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
+
+					msg = new Message(sender, receiver,
+							messageSubject.getValue(), messageBody,
+							instruction.paramStyle, message,
+							MessageType.SyncRequest);
+
+					ctx.step = 1;
+
+					executionStatus = ExecutionStatus.WAITING;
+				} else {
+					// async
+					if (logger.isDebugEnabled())
+						logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
+
+					msg = Message.newAsyncRequestMessage(sender, receiver,
+							messageSubject.getValue(), messageBody,
+							instruction.paramStyle, replySubject);
+
+					ctx.step = 0;
+
+					// reply is null.
+					ctx.setObject(instruction.replyVar, null);
+
+					executionStatus = ExecutionStatus.COMPLETE;
+
+				}
+
+				postService.sendMessage(msg);
+
+				return executionStatus;
+			} else if (ctx.step == 1) {
+				// it is the reply(return value) from the call.
+				_Object reply = ctx.reply;
+
+				// check if reply is exception, append trace source
+				if (reply instanceof VException) {
+					VException ex = (VException) reply;
+					// set the exception as result
+					ctx.setResult(ex);
+
+					System.out.println(ex.getTrace());
+
+					throw new RuntimeException("received exception:"
+							+ ex.getMessage());
+				}
+
+				if (logger.isDebugEnabled()) {
+					String replyValue = "";
+					if (reply != null)
+						replyValue = reply.getValue();
+
+					logger.debug(String.format(
+							"executeSendMessage, step 2; %s=%s",
+							instruction.replyVar, replyValue));
+				}
+
+				ctx.setObject(instruction.replyVar, reply);
+
+				// reset to 0
+				ctx.step = 0;
+
+				return ExecutionStatus.COMPLETE;
+			} else
+				throw new RuntimeException("invalid step:" + ctx.step);
+		}
 	}
 
 	@Override
