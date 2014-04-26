@@ -14,9 +14,10 @@ public class IsFalse extends BaseNativeProcedure implements NativeProcedure {
 
 		BooleanValue selfValue = (BooleanValue) self;
 
-		BooleanValue bv = getObjectFactory().createBoolean();
+		BooleanValue bv = getObjectFactory().createBoolean(
+				!selfValue.getBooleanValue());
 
-		bv.setBooleanValue(!selfValue.getBooleanValue());
+
 
 		return bv;
 	}

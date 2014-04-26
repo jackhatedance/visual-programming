@@ -206,8 +206,7 @@ public class XmlDomVisitor extends VisitorSupport {
 											true);
 								}
 								// add the element to list
-								ListObject listObj = new ListObject(list);
-								listObj.add(childObj);
+								ListObject.add(list, childObj);
 							} else {
 								childOwner.setField(childObj.getName(),
 										childObj, true);
@@ -220,7 +219,6 @@ public class XmlDomVisitor extends VisitorSupport {
 					 * list in the case, a dedicated field is must.
 					 */
 					childNodes = Prototypes.List.createInstance();
-					ListObject childNodeList = new ListObject(childNodes);
 
 					childNodes.setName(CHILDREN_FIELD);
 					obj.setField(CHILDREN_FIELD, childNodes, true);
@@ -231,7 +229,7 @@ public class XmlDomVisitor extends VisitorSupport {
 						visit(cnode);
 						_Object childObj = pop();
 						if (childObj != null)
-							childNodeList.add(childObj);
+							ListObject.add(childNodes, childObj);
 					}
 				}
 

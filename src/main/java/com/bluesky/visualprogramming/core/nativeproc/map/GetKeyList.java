@@ -23,7 +23,7 @@ public class GetKeyList extends BaseNativeProcedure implements NativeProcedure {
 		List<String> keyList = mo.getKeyList();
 
 		_Object list = Prototypes.List.createInstance();
-		ListObject listObject = new ListObject(list);
+
 
 		for (String key : keyList) {
 			StringValue keySV = (StringValue) getRepo().createObject(
@@ -31,7 +31,7 @@ public class GetKeyList extends BaseNativeProcedure implements NativeProcedure {
 			
 			keySV.setValue(key);
 			
-			listObject.add(keySV);
+			ListObject.add(list, keySV);
 		}
 
 		return list;

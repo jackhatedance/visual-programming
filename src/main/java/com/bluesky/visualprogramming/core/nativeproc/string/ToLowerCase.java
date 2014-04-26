@@ -13,9 +13,10 @@ public class ToLowerCase extends BaseNativeProcedure implements NativeProcedure 
 			ProcedureExecutionContext ctx) {
 		StringValue selfValue = (StringValue) self;
 
-		StringValue result = getObjectFactory().createString();
+		StringValue result = getObjectFactory().createString(
+				String.valueOf(selfValue.getValue().toLowerCase()));
 
-		result.setValue(String.valueOf(selfValue.getValue().toLowerCase()));
+
 
 		return result;
 	}

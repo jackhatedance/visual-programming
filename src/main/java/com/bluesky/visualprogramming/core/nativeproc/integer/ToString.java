@@ -14,9 +14,10 @@ public class ToString extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		IntegerValue selfInt = (IntegerValue) self;
 
-		StringValue result = getObjectFactory().createString();
+		StringValue result = getObjectFactory().createString(
+				String.valueOf(selfInt.getIntValue()));
 
-		result.setValue(String.valueOf(selfInt.getIntValue()));
+
 
 		return result;
 	}

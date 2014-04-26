@@ -16,11 +16,11 @@ public class StartWith extends BaseNativeProcedure implements NativeProcedure {
 
 		StringValue selfStr = (StringValue) self;
 
-		BooleanValue resultObj = getObjectFactory().createBoolean();
-
 		boolean result = selfStr.getValue().startsWith(strSV.getValue());
-		resultObj.setBooleanValue(result);
+		BooleanValue resultObj = getObjectFactory().createBoolean(result);
+
 		
+
 		return resultObj;
 	}
 }

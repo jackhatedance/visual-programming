@@ -14,9 +14,10 @@ public class Divide extends BaseNativeProcedure implements NativeProcedure {
 
 		IntegerValue selfInt = (IntegerValue) self;
 
-		IntegerValue result = getObjectFactory().createInteger();
+		IntegerValue result = getObjectFactory().createInteger(
+				selfInt.getIntValue() / num.getIntValue());
 
-		result.setIntValue(selfInt.getIntValue() / num.getIntValue());
+
 
 		return result;
 	}

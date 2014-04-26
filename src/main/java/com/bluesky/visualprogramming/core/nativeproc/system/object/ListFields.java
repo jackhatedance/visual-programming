@@ -26,7 +26,6 @@ public class ListFields extends BaseNativeProcedure implements NativeProcedure {
 		String[] fieldNames = obj.getFieldNames();
 
 		_Object list = Prototypes.List.createInstance();
-		ListObject listObject = new ListObject(list);
 
 		for (String field : fieldNames) {
 			StringValue fieldNameSV = (StringValue) getRepo().createObject(
@@ -34,7 +33,7 @@ public class ListFields extends BaseNativeProcedure implements NativeProcedure {
 
 			fieldNameSV.setValue(field);
 
-			listObject.add(fieldNameSV);
+			ListObject.add(list, fieldNameSV);
 		}
 
 		return list;

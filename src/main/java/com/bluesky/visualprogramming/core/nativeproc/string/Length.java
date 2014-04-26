@@ -14,9 +14,10 @@ public class Length extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		StringValue selfValue = (StringValue) self;
 
-		IntegerValue result = getObjectFactory().createInteger();
+		IntegerValue result = getObjectFactory().createInteger(
+				Integer.valueOf(selfValue.getValue().length()));
 
-		result.setIntValue(Integer.valueOf(selfValue.getValue().length()));
+
 
 		return result;
 	}

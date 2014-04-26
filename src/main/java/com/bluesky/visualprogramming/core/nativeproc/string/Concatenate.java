@@ -15,7 +15,7 @@ public class Concatenate extends BaseNativeProcedure implements NativeProcedure 
 
 		StringValue selfStr = (StringValue) self;
 
-		StringValue result = getObjectFactory().createString();
+
 
 		
 		String str = null;
@@ -27,7 +27,7 @@ public class Concatenate extends BaseNativeProcedure implements NativeProcedure 
 			
 		String newStr = selfStr.getValue().concat(str);
 
-		result.setValue(newStr);
+		StringValue result = getObjectFactory().createString(newStr);
 
 		return result;
 	}

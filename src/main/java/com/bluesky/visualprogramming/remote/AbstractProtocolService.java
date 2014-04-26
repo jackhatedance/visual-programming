@@ -103,9 +103,9 @@ public class AbstractProtocolService {
 		}
 
 		VirtualMachine vm = VirtualMachine.getInstance();
-		VException vex = getObjectFactory().createException();
+		VException vex = getObjectFactory().createException(ex.getMessage());
 
-		vex.setMessage(ex.getMessage());
+
 		vex.addTrace(ex);
 
 		Message replyMsg = null;

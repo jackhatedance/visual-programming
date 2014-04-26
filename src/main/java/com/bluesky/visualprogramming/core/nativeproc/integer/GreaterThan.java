@@ -16,9 +16,10 @@ public class GreaterThan extends BaseNativeProcedure implements NativeProcedure 
 
 		IntegerValue selfInt = (IntegerValue) self;
 
-		BooleanValue bv = getObjectFactory().createBoolean();
+		BooleanValue bv = getObjectFactory().createBoolean(
+				selfInt.getIntValue() > num.getIntValue());
 
-		bv.setBooleanValue(selfInt.getIntValue() > num.getIntValue());
+
 
 		return bv;
 	}

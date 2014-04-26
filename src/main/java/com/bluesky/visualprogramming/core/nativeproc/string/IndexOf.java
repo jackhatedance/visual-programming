@@ -16,11 +16,11 @@ public class IndexOf extends BaseNativeProcedure implements NativeProcedure {
 
 		StringValue selfStr = (StringValue) self;
 
-		IntegerValue indexObj = getObjectFactory().createInteger();
+
 
 		int index = selfStr.getValue().indexOf(strSV.getValue());
-		indexObj.setIntValue(index);
-		
+
+		IntegerValue indexObj = getObjectFactory().createInteger(index);
 		return indexObj;
 	}
 }

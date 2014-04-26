@@ -9,15 +9,15 @@ import com.bluesky.visualprogramming.core.value.TimeValue;
 public interface ObjectFactory {
 	_Object createObject();
 
-	IntegerValue createInteger();
+	IntegerValue createInteger(long value);
 
-	StringValue createString();
+	StringValue createString(String value);
 
-	BooleanValue createBoolean();
+	BooleanValue createBoolean(boolean value);
 
 	Link createLink(String address);
 
 	TimeValue createTime();
 
-	VException createException();
+	VException createException(String message);
 }

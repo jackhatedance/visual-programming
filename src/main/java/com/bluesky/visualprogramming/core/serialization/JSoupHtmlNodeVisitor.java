@@ -13,12 +13,14 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
+import com.bluesky.visualprogramming.core.ObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototypes;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.list.ListObject;
+import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -35,6 +37,9 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	VirtualMachine vm;
 	ObjectRepository repo;
 
+	protected ObjectFactory getObjectFactory() {
+		return repo.getFactory();
+	}
 	public JSoupHtmlNodeVisitor() {
 		vm = VirtualMachine.getInstance();
 		repo = vm.getObjectRepository();
@@ -64,7 +69,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			stack.push(childList);
 		} else {
 			_Object parent = stack.peek();
-			ListObject parentObj = new ListObject(parent);
+
 			_Object obj = null;
 			if (node instanceof Element) {
 				// System.out.println("element");
@@ -79,30 +84,30 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 				_Object childList = Prototypes.List.createInstance();
 				self.setField(CHILD_NODES, childList, true);
 
-				addChildObject(parentObj, self);
+				addChildObject(parent, self);
 
 				obj = childList;
 			} else if (node instanceof Comment) {
 				Comment comment = (Comment) node;
 				obj = createLeafNodeObject(node.nodeName(), comment.getData());
-				addChildObject(parentObj, obj);
+				addChildObject(parent, obj);
 			} else if (node instanceof TextNode) {
 				TextNode text = (TextNode) node;
 				String textValue = text.text();
 				if (!textValue.trim().isEmpty()) {
 					obj = createLeafNodeObject(node.nodeName(), text.text());
-					addChildObject(parentObj, obj);
+					addChildObject(parent, obj);
 				} else
 					obj = null;
 
 			} else if (node instanceof DataNode) {
 				DataNode data = (DataNode) node;
 				obj = createLeafNodeObject(node.nodeName(), data.getWholeData());
-				parentObj.add(obj);
+				ListObject.add(parent,obj);
 			} else if (node instanceof DocumentType) {
 				obj = createLeafNodeObject(node.nodeName(), "DocumentType");
 
-				addChildObject(parentObj, obj);
+				addChildObject(parent, obj);
 			}
 
 			stack.push(obj);
@@ -115,9 +120,9 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	 * @param parent
 	 * @param child
 	 */
-	private void addChildObject(ListObject parent, _Object child) {
+	private void addChildObject(_Object parent, _Object child) {
 		if (parent != null)
-			parent.add(child);
+			ListObject.add(parent, child);
 	}
 
 	private _Object createLeafNodeObject(String nodeType, String value) {
@@ -150,9 +155,12 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			// if a list contains only one leaf node(text, data,etc). then
 			// convert it to a leaf
 			// node.
-			ListObject listObject = new ListObject(obj);
-			if (listObject.size() == 1) {
-				_Object firstElement = listObject.get(0);
+			IntegerValue sizeObj = ListObject.size(obj);
+			int size = (int) sizeObj.getIntValue();
+			if (size == 1) {
+
+				_Object firstElement = ListObject.get(obj, getObjectFactory()
+						.createInteger(0));
 				_Object type = firstElement.getChild("type");
 				if (type != null && type instanceof StringValue
 						&& isLeafNode(((StringValue) type).getValue())) {
@@ -166,7 +174,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			}
 
 			// eliminate empty list
-			if (listObject.size() == 0) {
+			if (ListObject.size(obj).getIntValue() == 0) {
 				obj.getOwner().removeField(CHILD_NODES);
 			}
 

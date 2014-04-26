@@ -15,9 +15,10 @@ public class Ticks extends BaseNativeProcedure implements NativeProcedure {
 		TimeValue selfTime = (TimeValue) self;
 
 		
-		IntegerValue result = getObjectFactory().createInteger();
+		IntegerValue result = getObjectFactory().createInteger(
+				selfTime.getLongValue());
 
-		result.setIntValue(selfTime.getLongValue());
+
 
 		return result;
 	}

@@ -5,110 +5,120 @@ import java.util.List;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
+import com.bluesky.visualprogramming.core.value.IntegerValue;
 
-public class ListObject {
+public class ListObject extends NativeClassSupport {
 	static String ListItemPrefix= "LI"; 
 
-	private _Object obj;
+	@ParameterList({ "self", "element" })
+	public static void add(_Object self, _Object element) {
 
-	public ListObject(_Object obj) {
-		this.obj = obj;
-
-		obj.sortFields();
-	}
-
-	public void add(_Object item) {
-
-		int size = obj.getUserFieldsCount();
+		int size = self.getUserFieldsCount();
 		String fieldName = String.format("%s%d",ListItemPrefix,size);
-		obj.setField(fieldName, item, true);
+		self.setField(fieldName, element, true);
 
 	}
 
-	public void clear() {
-
+	@ParameterList({ "self" })
+	public static void clear(_Object self) {
 
 		List<Field> listElements = new ArrayList<Field>();
 
-		for(Field f :obj.getFields()){
+		for (Field f : self.getFields()) {
 			if(f.getName().startsWith(ListItemPrefix))
 				listElements.add(f);
 		}
 		
 		for(Field f : listElements)
-			obj.removeField(f.name);
+			self.removeField(f.name);
 
 	}
 
-	public _Object get(int index) {
-		String fieldName = String.format("%s%d",ListItemPrefix,index);
+	@ParameterList({ "self", "index" })
+	public static _Object get(_Object self, IntegerValue index) {
 
-		return obj.getChild(fieldName);
+		String fieldName = String.format("%s%d", ListItemPrefix,
+				index.getIntValue());
+
+		return self.getChild(fieldName);
 
 	}
 
-	private String getItemName(int index){
-		return String.format("%s%d",ListItemPrefix,index);
+	
+
+	@ParameterList({ "self", "index", "element" })
+	public static void insert(_Object self, IntegerValue index, _Object element) {
+
+		int intIndex = (int) index.getIntValue();
+		
+		int size = self.getUserFieldsCount();
+		
+		if (intIndex > size + 1)
+			throw new RuntimeException("index not exsit");
+		
+		//shift items to tail
+		for (int i = size - 1; i >= intIndex; i--)
+		{	 
+			self.renameField(getItemName(i), getItemName(i + 1));
+		}
+		
+		
+		self.setField(getItemName(intIndex), element, true);
 	}
 
-	private int parseItemName(String name) {
+	@ParameterList({ "self", "index", "element" })
+	public static void replace(_Object self, IntegerValue index, _Object newItem) {
+		int intIndex = (int) index.getIntValue();
+		self.setField(getItemName(intIndex), newItem, true);
+	}
+
+	@ParameterList({ "self", "index" })
+	public static _Object remove(_Object self, IntegerValue index) {
+		int intIndex = (int) index.getIntValue();
+		
+		int size = (int) self.getUserFieldsCount();
+		
+		if (intIndex > size - 1)
+			throw new RuntimeException("index not exsit");
+
+		self.removeField(getItemName(intIndex));
+		
+		//shift items 
+		for (int i = intIndex + 1; i < size; i++)
+		{	 
+			self.renameField(getItemName(i), getItemName(i - 1));
+		}
+
+		return null;
+	}
+
+	@ParameterList({ "self" })
+	public static IntegerValue size(_Object self) {
+
+		int size = self.getUserFieldsCount();
+
+		IntegerValue result = getObjectFactory().createInteger(size);
+
+		return result;
+
+	}
+
+	public static int indexOf(_Object item) {
+		int listIndex = parseItemName(item.getOwnerField().name);
+		return listIndex;
+		
+	}
+
+	private static String getItemName(int index) {
+		return String.format("%s%d", ListItemPrefix, index);
+	}
+
+	private static int parseItemName(String name) {
 		int len = ListItemPrefix.length();
 		String number = name.substring(len);
 
 		return Integer.valueOf(number);
-	}
-	
-	public _Object insert(int index, _Object item) {		
-		
-		int size = obj.getUserFieldsCount();
-		
-		if(index >size+1)
-			throw new RuntimeException("index not exsit");
-		
-		//shift items to tail
-		for(int i=size-1;i>=index;i--)
-		{	 
-			obj.renameField(getItemName(i), getItemName(i+1));
-		}
-		
-		
-		obj.setField(getItemName(index), item, true);
-
-		return null;
-	}
-
-	public void replace(int index, _Object newItem) {
-		obj.setField(getItemName(index), newItem, true);
-	}
-
-	public _Object remove(int index) {
-		
-		int size = obj.getUserFieldsCount();
-		
-		if(index >size-1)
-			throw new RuntimeException("index not exsit");
-
-		obj.removeField(getItemName(index));
-		
-		//shift items 
-		for(int i=index+1;i<size;i++)
-		{	 
-			obj.renameField(getItemName(i), getItemName(i-1));
-		}
-
-		return null;
-	}
-
-	public int size() {
-
-		int size = obj.getUserFieldsCount();
-
-		return size;
-	}
-
-	public int indexOf(_Object item){		
-		int listIndex = parseItemName(item.getOwnerField().name);
-		return listIndex;
-		
 	}
 }

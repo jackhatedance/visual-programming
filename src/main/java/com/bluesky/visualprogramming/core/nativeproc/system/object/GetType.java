@@ -20,9 +20,9 @@ public class GetType extends BaseNativeProcedure implements NativeProcedure {
 
 		_Object obj = ctx.get("obj");
 
-		StringValue sv = getObjectFactory().createString();
+		StringValue sv = getObjectFactory().createString(obj.getType().name());
 
-		sv.setValue(obj.getType().name());
+
 
 		return sv;
 	}

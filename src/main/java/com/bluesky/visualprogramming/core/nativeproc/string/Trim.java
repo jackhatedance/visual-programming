@@ -13,9 +13,10 @@ public class Trim extends BaseNativeProcedure implements NativeProcedure {
 			ProcedureExecutionContext ctx) {
 		StringValue selfValue = (StringValue) self;
 
-		StringValue result = getObjectFactory().createString();
+		StringValue result = getObjectFactory().createString(
+				String.valueOf(selfValue.getValue().trim()));
 
-		result.setValue(String.valueOf(selfValue.getValue().trim()));
+
 
 		return result;
 	}

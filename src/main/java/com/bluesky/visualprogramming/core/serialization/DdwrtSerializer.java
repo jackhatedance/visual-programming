@@ -60,7 +60,7 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 					+ ".core.prototype.list");
 
 			kvObj.setPrototype(list);
-			ListObject kvListObject = new ListObject(kvObj);
+
 
 			for (String value : values) {
 
@@ -69,7 +69,7 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 
 				valueObj.setValue(value);
 
-				kvListObject.add(valueObj);
+				ListObject.add(list, valueObj);
 			}
 
 			result.setField(key, kvObj, true);

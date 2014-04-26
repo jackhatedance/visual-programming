@@ -369,9 +369,10 @@ public class Worker implements Runnable {
 			// compile error
 			CodePosition position = new CodePosition(obj.getPath(),
 					proc.getName(), null, 0);
-			VException ex = getObjectFactory().createException();
+			VException ex = getObjectFactory().createException(
+					"parse error:" + e.getMessage());
 
-			ex.setMessage("parse error:" + e.getMessage());
+
 			ex.addTrace(position);
 
 			return ex;
@@ -444,9 +445,10 @@ public class Worker implements Runnable {
 
 			// error handling, convert error to VException and set it as return
 			// value
-			VException ex = getObjectFactory().createException();
+			VException ex = getObjectFactory().createException(
+					"NativeProcedure execution error:" + e.getMessage());
 
-			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
+
 			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
 					null, msg.executionContext.executionErrorLine);
 

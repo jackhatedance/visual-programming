@@ -15,10 +15,10 @@ public class NotEquals extends BaseNativeProcedure implements NativeProcedure {
 
 		BooleanValue selfValue = (BooleanValue) self;
 
-		BooleanValue bv = getObjectFactory().createBoolean();
-
-		bv.setBooleanValue(selfValue.getBooleanValue() != bValue
+		BooleanValue bv = getObjectFactory().createBoolean(
+				selfValue.getBooleanValue() != bValue
 				.getBooleanValue());
+
 
 		return bv;
 	}

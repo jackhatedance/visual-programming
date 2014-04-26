@@ -44,8 +44,8 @@ public class EmailService extends AbstractProtocolService implements
 		try {
 			agent.send(receiverAddress, message);
 			String response = "sent successfully.";
-			StringValue responseBody = getObjectFactory().createString();
-			responseBody.setValue(response);
+			StringValue responseBody = getObjectFactory()
+					.createString(response);
 
 			replySuccessfulInternalRequest(message, responseBody);
 

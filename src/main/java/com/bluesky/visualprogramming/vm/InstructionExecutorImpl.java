@@ -17,7 +17,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeMethod;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodHelper;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
@@ -297,29 +297,25 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	}
 
 	private _Object executeNativeMethod(String fullClassName,
+			String methodName,
 			_Object parameters, ParameterStyle parameterStyle) {
 		_Object result = null;
 
 		try {
-			Class cls = Class.forName(fullClassName);
-			NativeMethod nativeMethod = (NativeMethod) cls.newInstance();
-
-			String[] paramNames = nativeMethod.getParameterNames();
-			Map<String, _Object> ctx = parametersToMap(parameters,
-					parameterStyle, paramNames);
-
-			VirtualMachine vm = VirtualMachine.getInstance();
-
-			result = nativeMethod.execute(vm, ctx);
+			
+			result = NativeMethodHelper.executeNativeMethod(fullClassName,
+					methodName, parameters, parameterStyle);
+			
 
 		} catch (Exception e) {
 
 			// error handling, convert error to VException and set it as return
 			// value
-			VException ex = objectRepository.getFactory().createException();
+			VException ex = objectRepository.getFactory().createException(
+					"NativeProcedure execution error:" + e.getMessage());
 
-			ex.setMessage("NativeProcedure execution error:" + e.getMessage());
-			CodePosition pos = new CodePosition(fullClassName, "execute",
+
+			CodePosition pos = new CodePosition(fullClassName, methodName,
 					null, 0);
 
 			ex.addTrace(e);
@@ -337,16 +333,16 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		// native method
 		String nativeMethodVarPrefix = "_java_";
 		if (instruction.receiverVar.startsWith(nativeMethodVarPrefix)) {
-			String fullPackageName = instruction.receiverVar.substring(
+			String fullClassName = instruction.receiverVar.substring(
 					nativeMethodVarPrefix.length()).replace("_", ".");
 
 			StringValue messageSubject = (StringValue) ctx
 					.getObject(instruction.messageSubjectVar);
 			String methodName = messageSubject.getValue();
 
-			String fullClassName = fullPackageName + "." + methodName;
+			 
 
-			_Object result = executeNativeMethod(fullClassName,
+			_Object result = executeNativeMethod(fullClassName,methodName,
 					ctx.getObject(instruction.messageBodyVar),
 					instruction.paramStyle);
 

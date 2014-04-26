@@ -18,16 +18,16 @@ public class Substring extends BaseNativeProcedure implements NativeProcedure {
 		
 		StringValue selfStr = (StringValue) self;
 
-		StringValue result = getObjectFactory().createString();
 		
+
 		String substr =null;
 		if(endIndexObj==null)
 			substr = selfStr.getValue().substring((int)startIndexObj.getIntValue());
 		else
 			substr = selfStr.getValue().substring((int)startIndexObj.getIntValue(), (int)endIndexObj.getIntValue());
-
-		result.setValue(substr);
 		
+		StringValue result = getObjectFactory().createString(substr);
+
 		return result;
 	}
 }

@@ -2657,6 +2657,7 @@
                     <type>PROCEDURE</type>
                     <id>4641</id>
                     <name defined-in="object">now</name>
+                    <description></description>
                     <scope>ExecutionContext</scope>
                     <fieldList id="447"/>
                     <systemFieldsCount>0</systemFieldsCount>
@@ -2667,10 +2668,15 @@
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <__native>true</__native>
+                    <__native>false</__native>
                     <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.lib.system.Now</nativeProcedureClassName>
                     <nativeProcedureParameters></nativeProcedureParameters>
-                    <code></code>
+                    <language>goo</language>
+                    <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.now();
+	
+}</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -2959,6 +2965,7 @@
                     <type>PROCEDURE</type>
                     <id>20307</id>
                     <name defined-in="object">isNull</name>
+                    <description></description>
                     <scope>ExecutionContext</scope>
                     <fieldList id="498"/>
                     <systemFieldsCount>0</systemFieldsCount>
@@ -2969,10 +2976,15 @@
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <__native>true</__native>
+                    <__native>false</__native>
                     <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.lib.system.IsNull</nativeProcedureClassName>
                     <nativeProcedureParameters>var</nativeProcedureParameters>
-                    <code></code>
+                    <language>goo</language>
+                    <code>procedure(var)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.isNull(var);
+	
+}</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -3000,10 +3012,15 @@
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <__native>true</__native>
+                    <__native>false</__native>
                     <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.lib.system.Error</nativeProcedureClassName>
                     <nativeProcedureParameters>message</nativeProcedureParameters>
-                    <code></code>
+                    <language>goo</language>
+                    <code>procedure(message)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.error(message);
+	
+}</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -3312,11 +3329,15 @@ such as disable email aliases for object foo.</value>
                       <blue>0</blue>
                       <alpha>255</alpha>
                     </borderColor>
-                    <__native>true</__native>
+                    <__native>false</__native>
                     <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.lib.system.Sleep</nativeProcedureClassName>
                     <nativeProcedureParameters>time</nativeProcedureParameters>
                     <language>goo</language>
-                    <code></code>
+                    <code>procedure(time)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.sleep(time);
+	
+}</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -20181,7 +20202,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3340"/>
-                          <value>322</value>
+                          <value>324</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20196,14 +20217,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3358">
                           <type>STRING</type>
-                          <id>109459636</id>
+                          <id>109466670</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3359">
                             <field id="3360">
                               <name>_system</name>
                               <strongTarget id="3361">
                                 <type>NORMAL</type>
-                                <id>109459637</id>
+                                <id>109466671</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3362">

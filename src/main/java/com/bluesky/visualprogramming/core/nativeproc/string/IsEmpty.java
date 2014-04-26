@@ -16,9 +16,9 @@ public class IsEmpty extends BaseNativeProcedure implements NativeProcedure {
 
 		StringValue selfStr = (StringValue) self;
 
-		BooleanValue bv = getObjectFactory().createBoolean();
+		BooleanValue bv = getObjectFactory().createBoolean(
+				selfStr.getValue().isEmpty());
 
-		bv.setBooleanValue(selfStr.getValue().isEmpty());
 
 		return bv;
 	}

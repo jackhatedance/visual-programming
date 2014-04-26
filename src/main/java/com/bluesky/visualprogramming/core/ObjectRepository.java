@@ -65,9 +65,12 @@ public class ObjectRepository {
 		factory = new ObjectFactory() {
 
 			@Override
-			public StringValue createString() {
-				return (StringValue) ObjectRepository.this.createObject(
+			public StringValue createString(String value) {
+				StringValue obj = (StringValue) ObjectRepository.this
+						.createObject(
 						ObjectType.STRING, ObjectScope.ExecutionContext);
+				obj.setValue(value);
+				return obj;
 			}
 
 			@Override
@@ -77,15 +80,20 @@ public class ObjectRepository {
 			}
 
 			@Override
-			public IntegerValue createInteger() {
-				return (IntegerValue) ObjectRepository.this.createObject(
+			public IntegerValue createInteger(long value) {
+				IntegerValue obj = (IntegerValue) ObjectRepository.this
+						.createObject(
 						ObjectType.INTEGER, ObjectScope.ExecutionContext);
+				obj.setIntValue(value);
+				return obj;
 			}
 
 			@Override
-			public BooleanValue createBoolean() {
-				return (BooleanValue) ObjectRepository.this.createObject(
+			public BooleanValue createBoolean(boolean value) {
+				BooleanValue obj = (BooleanValue) ObjectRepository.this.createObject(
 						ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
+				obj.setBooleanValue(value);
+				return obj;
 			}
 
 			@Override
@@ -106,10 +114,11 @@ public class ObjectRepository {
 			}
 
 			@Override
-			public VException createException() {
-				return (VException) ObjectRepository.this.createObject(
+			public VException createException(String message) {
+				VException obj= (VException) ObjectRepository.this.createObject(
 						ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
-
+				obj.setMessage(message);
+				return obj;
 			}
 		};
 	}

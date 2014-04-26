@@ -16,9 +16,10 @@ public class Equals extends BaseNativeProcedure implements NativeProcedure {
 
 		StringValue selfStr = (StringValue) self;
 
-		BooleanValue bv = getObjectFactory().createBoolean();
+		BooleanValue bv = getObjectFactory().createBoolean(
+				selfStr.getValue().equals(str.getValue()));
 
-		bv.setBooleanValue(selfStr.getValue().equals(str.getValue()));
+
 
 		return bv;
 	}

@@ -24,9 +24,10 @@ public class ToString extends BaseNativeProcedure implements NativeProcedure {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 
-		StringValue result = getObjectFactory().createString();
+		StringValue result = getObjectFactory().createString(
+				String.valueOf(sdf.format(selfTime.getDateValue())));
 
-		result.setValue(String.valueOf(sdf.format(selfTime.getDateValue())));
+
 
 		return result;
 	}
