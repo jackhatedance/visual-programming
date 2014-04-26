@@ -19,7 +19,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototypes;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListObject;
+import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListProto;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
@@ -103,7 +103,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			} else if (node instanceof DataNode) {
 				DataNode data = (DataNode) node;
 				obj = createLeafNodeObject(node.nodeName(), data.getWholeData());
-				ListObject.add(parent,obj);
+				ListProto.add(parent,obj);
 			} else if (node instanceof DocumentType) {
 				obj = createLeafNodeObject(node.nodeName(), "DocumentType");
 
@@ -122,7 +122,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	 */
 	private void addChildObject(_Object parent, _Object child) {
 		if (parent != null)
-			ListObject.add(parent, child);
+			ListProto.add(parent, child);
 	}
 
 	private _Object createLeafNodeObject(String nodeType, String value) {
@@ -155,11 +155,11 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			// if a list contains only one leaf node(text, data,etc). then
 			// convert it to a leaf
 			// node.
-			IntegerValue sizeObj = ListObject.size(obj);
+			IntegerValue sizeObj = ListProto.size(obj);
 			int size = (int) sizeObj.getIntValue();
 			if (size == 1) {
 
-				_Object firstElement = ListObject.get(obj, getObjectFactory()
+				_Object firstElement = ListProto.get(obj, getObjectFactory()
 						.createInteger(0));
 				_Object type = firstElement.getChild("type");
 				if (type != null && type instanceof StringValue
@@ -174,7 +174,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			}
 
 			// eliminate empty list
-			if (ListObject.size(obj).getIntValue() == 0) {
+			if (ListProto.size(obj).getIntValue() == 0) {
 				obj.getOwner().removeField(CHILD_NODES);
 			}
 

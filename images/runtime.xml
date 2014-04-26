@@ -40,6 +40,7 @@
                                 <type>PROCEDURE</type>
                                 <id>139</id>
                                 <name defined-in="object">notEquals</name>
+                                <description></description>
                                 <fieldList id="17"/>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
@@ -49,10 +50,15 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.NotEquals</nativeProcedureClassName>
                                 <nativeProcedureParameters>b</nativeProcedureParameters>
-                                <code></code>
+                                <language>goo</language>
+                                <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ObjectPrototype.notEquals(_self, b);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -69,6 +75,7 @@
                                 <type>PROCEDURE</type>
                                 <id>138</id>
                                 <name defined-in="object">equals</name>
+                                <description></description>
                                 <fieldList id="22"/>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
@@ -78,10 +85,15 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.Equals</nativeProcedureClassName>
                                 <nativeProcedureParameters>b</nativeProcedureParameters>
-                                <code></code>
+                                <language>goo</language>
+                                <code>procedure(b)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ObjectPrototype.equals(_self, b);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -98,6 +110,7 @@
                                 <type>PROCEDURE</type>
                                 <id>33629</id>
                                 <name defined-in="object">isFalse</name>
+                                <description></description>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="27"/>
                                 <systemFieldsCount>0</systemFieldsCount>
@@ -108,17 +121,21 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc._boolean.IsFalse</nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code></code>
+                                <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ObjectPrototype.isFalse(_self);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
                               <area id="29">
-                                <x>686</x>
-                                <y>1033</y>
+                                <x>752</x>
+                                <y>1061</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
@@ -1682,6 +1699,7 @@
                           <type>PROCEDURE</type>
                           <id>20559</id>
                           <name defined-in="object">put</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="289"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1692,11 +1710,15 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Put</nativeProcedureClassName>
                           <nativeProcedureParameters>key|value</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(key, value)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.put(_self, key, value);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1713,15 +1735,21 @@
                           <type>PROCEDURE</type>
                           <id>20560</id>
                           <name defined-in="object">get</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="294"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="290"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Get</nativeProcedureClassName>
                           <nativeProcedureParameters>key</nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure(key)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.get(_self, key);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1738,15 +1766,21 @@
                           <type>PROCEDURE</type>
                           <id>20561</id>
                           <name defined-in="object">contains</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="298"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="290"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Contains</nativeProcedureClassName>
                           <nativeProcedureParameters>key</nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure(key)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.contains(_self, key);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1763,15 +1797,21 @@
                           <type>PROCEDURE</type>
                           <id>20562</id>
                           <name defined-in="object">clear</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="302"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="290"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Clear</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.clear(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1788,15 +1828,21 @@
                           <type>PROCEDURE</type>
                           <id>20563</id>
                           <name defined-in="object">size</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="306"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="290"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Size</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.size(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1813,15 +1859,21 @@
                           <type>PROCEDURE</type>
                           <id>20564</id>
                           <name defined-in="object">remove</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="310"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="290"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.Remove</nativeProcedureClassName>
                           <nativeProcedureParameters>key</nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure(key)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.remove(_self, key);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1838,6 +1890,7 @@
                           <type>PROCEDURE</type>
                           <id>20858</id>
                           <name defined-in="object">getKeyList</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="314"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1848,10 +1901,15 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.map.GetKeyList</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
-                          <code></code>
+                          <language>goo</language>
+                          <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_MapObject.getKeyList(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20232,7 +20290,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3340"/>
-                          <value>326</value>
+                          <value>329</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20247,14 +20305,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3358">
                           <type>STRING</type>
-                          <id>109466756</id>
+                          <id>109470634</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3359">
                             <field id="3360">
                               <name>_system</name>
                               <strongTarget id="3361">
                                 <type>NORMAL</type>
-                                <id>109466757</id>
+                                <id>109470635</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3362">

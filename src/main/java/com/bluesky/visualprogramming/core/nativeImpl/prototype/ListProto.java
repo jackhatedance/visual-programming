@@ -9,7 +9,7 @@ import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 
-public class ListObject extends NativeClassSupport {
+public class ListProto extends NativeClassSupport {
 	static String ListItemPrefix= "LI"; 
 
 	@ParameterList({ "self", "element" })

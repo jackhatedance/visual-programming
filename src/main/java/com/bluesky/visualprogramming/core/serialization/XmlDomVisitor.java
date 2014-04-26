@@ -16,7 +16,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototypes;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListObject;
+import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListProto;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -206,7 +206,7 @@ public class XmlDomVisitor extends VisitorSupport {
 											true);
 								}
 								// add the element to list
-								ListObject.add(list, childObj);
+								ListProto.add(list, childObj);
 							} else {
 								childOwner.setField(childObj.getName(),
 										childObj, true);
@@ -229,7 +229,7 @@ public class XmlDomVisitor extends VisitorSupport {
 						visit(cnode);
 						_Object childObj = pop();
 						if (childObj != null)
-							ListObject.add(childNodes, childObj);
+							ListProto.add(childNodes, childObj);
 					}
 				}
 

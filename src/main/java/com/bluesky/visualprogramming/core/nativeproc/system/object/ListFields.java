@@ -5,7 +5,7 @@ import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototypes;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListObject;
+import com.bluesky.visualprogramming.core.nativeImpl.prototype.ListProto;
 import com.bluesky.visualprogramming.core.nativeproc.BaseNativeProcedure;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
@@ -33,7 +33,7 @@ public class ListFields extends BaseNativeProcedure implements NativeProcedure {
 
 			fieldNameSV.setValue(field);
 
-			ListObject.add(list, fieldNameSV);
+			ListProto.add(list, fieldNameSV);
 		}
 
 		return list;
