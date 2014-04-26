@@ -26,4 +26,8 @@ public abstract class ValueObject extends _Object {
 
 	}
 
+	@Override
+	public String toString() {		
+		return getValue();
+	}
 }

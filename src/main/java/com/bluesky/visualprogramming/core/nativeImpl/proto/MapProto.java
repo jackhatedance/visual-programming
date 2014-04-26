@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.nativeImpl.prototype;
+package com.bluesky.visualprogramming.core.nativeImpl.proto;
 
 import java.util.ArrayList;
 import java.util.List;

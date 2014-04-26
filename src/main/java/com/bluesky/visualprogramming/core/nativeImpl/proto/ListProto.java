@@ -1,4 +1,4 @@
-package com.bluesky.visualprogramming.core.nativeImpl.prototype;
+package com.bluesky.visualprogramming.core.nativeImpl.proto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +42,9 @@ public class ListProto extends NativeClassSupport {
 		String fieldName = String.format("%s%d", ListItemPrefix,
 				index.getIntValue());
 
-		return self.getChild(fieldName);
+		_Object element =  self.getChild(fieldName);
 
+		return element;
 	}
 
 	

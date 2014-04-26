@@ -332,6 +332,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ins.left = ProcedureExecutionContext.VAR_RESULT;
 			ins.right = var;
 			ins.comment = "return " + ctx.expr().getText();
+			
+			ins.assignmenType = AssignmentType.AUTO;
 
 			addInstruction(ins);
 		}
@@ -639,14 +641,13 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
 			ins.left = assignee.getText();
 
-			if (ctx.expr() instanceof VariableExprContext) {
+			if (ctx.expr() instanceof VariableExprContext) 
 				ins.right = ctx.expr().getText();
-
-			} else {
-
+			 else 
 				ins.right = (String) ctx.expr().accept(this);
-
-			}
+						
+			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(
+					this);
 
 			addInstruction(ins);
 		} else {
@@ -829,6 +830,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		VariableAssignment ins = new VariableAssignment(ctx.start.getLine());
 		ins.left = tempVar;
 		ins.right = (String) ctx.expr().accept(this);
+		
+		ins.assignmenType = AssignmentType.AUTO;
 
 		addInstruction(ins);
 

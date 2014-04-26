@@ -297,15 +297,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	}
 
 	private _Object executeNativeMethod(String fullClassName,
-			String methodName,
-			_Object parameters, ParameterStyle parameterStyle) {
+			String methodName, _Object parameters, ParameterStyle parameterStyle) {
 		_Object result = null;
 
 		try {
-			
+
 			result = NativeMethodHelper.executeNativeMethod(fullClassName,
 					methodName, parameters, parameterStyle);
-			
 
 		} catch (Exception e) {
 
@@ -313,7 +311,6 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			// value
 			VException ex = objectRepository.getFactory().createException(
 					"NativeProcedure execution error:" + e.getMessage());
-
 
 			CodePosition pos = new CodePosition(fullClassName, methodName,
 					null, 0);
@@ -340,9 +337,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					.getObject(instruction.messageSubjectVar);
 			String methodName = messageSubject.getValue();
 
-			 
-
-			_Object result = executeNativeMethod(fullClassName,methodName,
+			_Object result = executeNativeMethod(fullClassName, methodName,
 					ctx.getObject(instruction.messageBodyVar),
 					instruction.paramStyle);
 
@@ -546,15 +541,30 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				right.setName(instruction.left);
 		}
 
-		if (right instanceof ValueObject) {
-			ValueObject newObject = (ValueObject) objectRepository
-					.createObject(right.getType(), ObjectScope.ExecutionContext);
-
-			newObject.copyValue(right);
-			ctx.setVariable(instruction.left, newObject);
-		} else
+		if(instruction.assignmenType==null)
+		{
+			System.out.println("no type");
+		}
+		
+		switch (instruction.assignmenType) {
+		case OWN:
+			throw new RuntimeException("not support assignment operator.");			
+			
+		case REF:
 			ctx.setVariable(instruction.left, right);
+			break;
+		default:
+			if (right instanceof ValueObject) {
+				ValueObject cloneObject = (ValueObject) objectRepository
+						.createObject(right.getType(),
+								ObjectScope.ExecutionContext);
 
+				cloneObject.copyValue(right);
+				ctx.setVariable(instruction.left, cloneObject);
+			} else
+				ctx.setVariable(instruction.left, right);
+		}
+		
 		return ExecutionStatus.COMPLETE;
 	}
 

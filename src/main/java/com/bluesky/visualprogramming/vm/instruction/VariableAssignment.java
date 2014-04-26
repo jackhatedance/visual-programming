@@ -6,6 +6,8 @@ public class VariableAssignment extends Instruction {
 
 	public String left;
 	public String right;
+	public AssignmentType assignmenType;
+	
 
 	public VariableAssignment(int line) {
 		super(line);
@@ -16,7 +18,10 @@ public class VariableAssignment extends Instruction {
 	@Override
 	public String toString() {
 
-		return String.format("[variableAssignment] %s->%s", left, right);
+		return String.format("[variableAssignment] %s %s %s", left, assignmenType.getOperator(), right);
+		
+		 
+
 	}
 
 }

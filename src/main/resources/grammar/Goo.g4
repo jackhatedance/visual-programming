@@ -115,7 +115,7 @@ forStatement : FOR '(' forInit? ';' forCondition ';' forAfterthought? ')' blockO
 
 forInit: assignment|expr;
 forCondition : expr;
-forAfterthought : expr;
+forAfterthought : assignment | expr;
 
 blockOrStatment : block | statement;
 
