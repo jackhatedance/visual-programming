@@ -1,7 +1,9 @@
-package com.bluesky.visualprogramming.core.nativeproc;
+package com.bluesky.visualprogramming.core.nativeImpl;
 
 import com.bluesky.visualprogramming.core.VException;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;

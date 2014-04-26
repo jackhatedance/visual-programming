@@ -34,6 +34,17 @@ public class NativeMethodHelper {
 			ParameterList paramList = (ParameterList) ann;
 
 			String[] paramNames = paramList.value();
+			
+			if(logger.isDebugEnabled()){
+				logger.debug("native method:"+methodName);
+				StringBuilder sb = new StringBuilder();
+				
+				for(String name: paramNames){
+					sb.append(name);
+					sb.append(",");					
+				}
+				logger.debug(sb.toString());
+			}
 
 			_Object[] parameters = parameterObjectToArray(msgBody,
 					parameterStyle, paramNames);
@@ -62,20 +73,15 @@ public class NativeMethodHelper {
 				int prefixLen = GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX
 						.length();
 				int paramLen = paramNames.length;
-				for (String fieldName : parameters.getFieldNames()) {
-					int idx = Integer.valueOf(fieldName.substring(prefixLen));
-
-					if (idx >= paramLen) {
-						logger.warn("too many parameters than required"
-								+ parameters.toString());
-						continue;
-					}
-
-					String name = paramNames[idx];
+				
+				for(int i=0;i<paramLen;i++)
+				{
+					String fieldName = String.format("%s%d",GooCompiler.PARAMETER_BY_ORDER_NAME_PREFIX,i); 
+					 
 					_Object p = parameters.getChild(fieldName);
 
 					if (logger.isDebugEnabled())
-						logger.debug("find parameter:" + name);
+						logger.debug("find parameter:" + fieldName);
 
 					parameterList.add(p);
 				}

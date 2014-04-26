@@ -1426,6 +1426,7 @@
                           <type>PROCEDURE</type>
                           <id>4701</id>
                           <name defined-in="object">size</name>
+                          <description></description>
                           <fieldList id="252"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
@@ -1435,17 +1436,21 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Size</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.size(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
                         <area id="254">
-                          <x>615</x>
-                          <y>890</y>
+                          <x>681</x>
+                          <y>908</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -1456,6 +1461,7 @@
                           <type>PROCEDURE</type>
                           <id>5181</id>
                           <name defined-in="object">get</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="257"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1466,17 +1472,21 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Get</nativeProcedureClassName>
                           <nativeProcedureParameters>index</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(index)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.get(_self, index);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
                         <area id="259">
-                          <x>1505</x>
-                          <y>885</y>
+                          <x>1556</x>
+                          <y>918</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -1487,16 +1497,21 @@
                           <type>PROCEDURE</type>
                           <id>5198</id>
                           <name defined-in="object">add</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="262"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="258"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Add</nativeProcedureClassName>
                           <nativeProcedureParameters>element</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(element)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.add(_self, element);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1513,16 +1528,21 @@
                           <type>PROCEDURE</type>
                           <id>5207</id>
                           <name defined-in="object">remove</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="266"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="258"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Remove</nativeProcedureClassName>
                           <nativeProcedureParameters>index</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(index)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.remove(_self, index);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1539,22 +1559,27 @@
                           <type>PROCEDURE</type>
                           <id>5244</id>
                           <name defined-in="object">insert</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="270"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="258"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Insert</nativeProcedureClassName>
                           <nativeProcedureParameters>index|element</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(index, element)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.insert(_self, index, element);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
                         <area id="271">
-                          <x>2260</x>
-                          <y>1505</y>
+                          <x>2326</x>
+                          <y>1513</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -1565,22 +1590,27 @@
                           <type>PROCEDURE</type>
                           <id>5257</id>
                           <name defined-in="object">clear</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="274"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="258"/>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.list.Clear</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_prototype_ListObject.clear(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
                         <area id="275">
-                          <x>3780</x>
-                          <y>915</y>
+                          <x>3841</x>
+                          <y>938</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -2674,7 +2704,7 @@
                     <language>goo</language>
                     <code>procedure()
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.now();
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_System.now();
 	
 }</code>
                   </strongTarget>
@@ -2982,7 +3012,7 @@
                     <language>goo</language>
                     <code>procedure(var)
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.isNull(var);
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_System.isNull(var);
 	
 }</code>
                   </strongTarget>
@@ -3018,7 +3048,7 @@
                     <language>goo</language>
                     <code>procedure(message)
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.error(message);
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_System.error(message);
 	
 }</code>
                   </strongTarget>
@@ -3335,15 +3365,15 @@ such as disable email aliases for object foo.</value>
                     <language>goo</language>
                     <code>procedure(time)
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeproc_System.sleep(time);
+	_result =_java_com_bluesky_visualprogramming_core_nativeImpl_System.sleep(time);
 	
 }</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
                   <area id="556">
-                    <x>2938</x>
-                    <y>351</y>
+                    <x>3004</x>
+                    <y>379</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
@@ -20202,7 +20232,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3340"/>
-                          <value>324</value>
+                          <value>326</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20217,14 +20247,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3358">
                           <type>STRING</type>
-                          <id>109466670</id>
+                          <id>109466756</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3359">
                             <field id="3360">
                               <name>_system</name>
                               <strongTarget id="3361">
                                 <type>NORMAL</type>
-                                <id>109466671</id>
+                                <id>109466757</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3362">
