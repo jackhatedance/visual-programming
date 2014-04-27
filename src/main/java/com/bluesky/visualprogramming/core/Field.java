@@ -167,7 +167,11 @@ public class Field {
 				ele = scene.addObject(target.type, id, x, y, svgScale);
 		}
 
+		// for debug
+		// name += ",name=" + Long.toString(id);
+
 		scene.setName(id, name);
+
 
 		int maxLength = 50;
 		int length = value.length();

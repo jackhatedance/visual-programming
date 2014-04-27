@@ -501,7 +501,11 @@ public class _Object implements Serializable {
 
 		layout.preprocess(this);
 
+		//System.out.println("drawInternal:" + name + ",id=" + id);
+
 		for (Field field : fieldList) {
+
+			//System.out.println("drawInternal, fieldName=" + field.name);
 
 			boolean owns = field.getTarget() != null
 					&& field.getType() == FieldType.STRONG;

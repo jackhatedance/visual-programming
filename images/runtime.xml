@@ -1320,53 +1320,17 @@
                         </area>
                       </field>
                       <field id="204">
-                        <name>forceOwn</name>
+                        <name>attachTo</name>
                         <strongTarget class="procedure" id="205">
                           <type>PROCEDURE</type>
                           <id>16562</id>
-                          <name defined-in="object">forceOwn</name>
+                          <name defined-in="object">attachTo</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="206"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor id="207">
-                            <red>0</red>
-                            <green>0</green>
-                            <blue>0</blue>
-                            <alpha>255</alpha>
-                          </borderColor>
-                          <__native>false</__native>
-                          <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.ForceOwn</nativeProcedureClassName>
-                          <nativeProcedureParameters>name|child</nativeProcedureParameters>
-                          <language>goo</language>
-                          <code>procedure(name, child)
-{
-	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.forceOwn(_self, name, child);
-	
-}</code>
-                        </strongTarget>
-                        <type>STRONG</type>
-                        <svgScale>0.2</svgScale>
-                        <area id="208">
-                          <x>1920</x>
-                          <y>395</y>
-                          <width>100</width>
-                          <height>100</height>
-                        </area>
-                      </field>
-                      <field id="209">
-                        <name>attachTo</name>
-                        <strongTarget class="procedure" id="210">
-                          <type>PROCEDURE</type>
-                          <id>16562</id>
-                          <name defined-in="object">attachTo</name>
-                          <description></description>
-                          <scope>ExecutionContext</scope>
-                          <fieldList id="211"/>
-                          <systemFieldsCount>0</systemFieldsCount>
-                          <scaleRate>1.0</scaleRate>
-                          <borderColor id="212">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -1379,25 +1343,25 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="213">
-                          <x>1187</x>
-                          <y>1357</y>
+                        <area id="208">
+                          <x>2068</x>
+                          <y>775</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="214">
+                      <field id="209">
                         <name>getScope</name>
-                        <strongTarget class="procedure" id="215">
+                        <strongTarget class="procedure" id="210">
                           <type>PROCEDURE</type>
                           <id>16563</id>
                           <name defined-in="object">getScope</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="216"/>
+                          <fieldList id="211"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="217">
+                          <borderColor id="212">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -1415,25 +1379,25 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="218">
+                        <area id="213">
                           <x>775</x>
                           <y>2365</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="219">
+                      <field id="214">
                         <name>move</name>
-                        <strongTarget class="procedure" id="220">
+                        <strongTarget class="procedure" id="215">
                           <type>PROCEDURE</type>
                           <id>31831</id>
                           <name defined-in="object">move</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="221"/>
+                          <fieldList id="216"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="222">
+                          <borderColor id="217">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -1451,25 +1415,25 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="223">
+                        <area id="218">
                           <x>2030</x>
                           <y>1290</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="224">
+                      <field id="219">
                         <name>get</name>
-                        <strongTarget class="procedure" id="225">
+                        <strongTarget class="procedure" id="220">
                           <type>PROCEDURE</type>
                           <id>32971</id>
                           <name defined-in="object">get</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="226"/>
+                          <fieldList id="221"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="227">
+                          <borderColor id="222">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -1487,9 +1451,45 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="228">
+                        <area id="223">
                           <x>2090</x>
                           <y>2040</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="224">
+                        <name>forceOwn</name>
+                        <strongTarget class="procedure" id="225">
+                          <type>PROCEDURE</type>
+                          <id>109505487</id>
+                          <name defined-in="object">forceOwn</name>
+                          <description></description>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="226"/>
+                          <systemFieldsCount>0</systemFieldsCount>
+                          <scaleRate>1.0</scaleRate>
+                          <borderColor id="227">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <__native>false</__native>
+                          <nativeProcedureClassName></nativeProcedureClassName>
+                          <nativeProcedureParameters></nativeProcedureParameters>
+                          <language>goo</language>
+                          <code>procedure(name, child)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.forceOwn(_self, name, child);
+	
+}</code>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="228">
+                          <x>865</x>
+                          <y>1790</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -20444,7 +20444,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3335"/>
-                          <value>345</value>
+                          <value>357</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20459,14 +20459,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3353">
                           <type>STRING</type>
-                          <id>109505486</id>
+                          <id>109536059</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3354">
                             <field id="3355">
                               <name>_system</name>
                               <strongTarget id="3356">
                                 <type>NORMAL</type>
-                                <id>109505487</id>
+                                <id>109536060</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3357">
