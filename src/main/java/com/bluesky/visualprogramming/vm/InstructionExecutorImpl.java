@@ -496,8 +496,17 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			break;
 
 		case REF:
-			leftObject.setField(fieldName, rightObject, false);
+			if (rightObject == null) {
 
+				oldFieldObject = leftObject.getChild(fieldName);
+
+				// move to execution context
+				if (oldFieldObject != null)
+					leftObject.removeChild(oldFieldObject);
+
+			} else {
+				leftObject.setField(fieldName, rightObject, false);
+			}
 			break;
 		default:
 			// auto
