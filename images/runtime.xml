@@ -1325,6 +1325,7 @@
                           <type>PROCEDURE</type>
                           <id>16562</id>
                           <name defined-in="object">forceOwn</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="206"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1335,11 +1336,15 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.ForceOwn</nativeProcedureClassName>
                           <nativeProcedureParameters>name|child</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(name, child)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.forceOwn(_self, name, child);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1356,6 +1361,7 @@
                           <type>PROCEDURE</type>
                           <id>16562</id>
                           <name defined-in="object">attachTo</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="211"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1374,8 +1380,8 @@
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
                         <area id="213">
-                          <x>770</x>
-                          <y>1660</y>
+                          <x>1187</x>
+                          <y>1357</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
@@ -1386,6 +1392,7 @@
                           <type>PROCEDURE</type>
                           <id>16563</id>
                           <name defined-in="object">getScope</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="216"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1396,11 +1403,15 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.GetScope</nativeProcedureClassName>
                           <nativeProcedureParameters>owner</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(owner)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.getScope(_self);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1417,6 +1428,7 @@
                           <type>PROCEDURE</type>
                           <id>31831</id>
                           <name defined-in="object">move</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="221"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1431,7 +1443,11 @@
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.Move</nativeProcedureClassName>
                           <nativeProcedureParameters>fieldName|dstObj|dstFieldName</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(fieldName, dstObj, dstFieldName)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.move(_self, fieldName, dstObj, dstFieldName);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -1448,6 +1464,7 @@
                           <type>PROCEDURE</type>
                           <id>32971</id>
                           <name defined-in="object">get</name>
+                          <description></description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="226"/>
                           <systemFieldsCount>0</systemFieldsCount>
@@ -1458,11 +1475,15 @@
                             <blue>0</blue>
                             <alpha>255</alpha>
                           </borderColor>
-                          <__native>true</__native>
+                          <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.object.Get</nativeProcedureClassName>
                           <nativeProcedureParameters>name</nativeProcedureParameters>
                           <language>goo</language>
-                          <code></code>
+                          <code>procedure(name)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_ObjectProto.get(_self, name);
+	
+}</code>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
