@@ -2,13 +2,13 @@ package com.bluesky.visualprogramming.core.nativeImpl.proto;
 
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
-public class ObjectProto extends NativeClassSupport {
+public class ObjectProto extends NativeMethodSupport {
 
 	@ParameterList({ "self", "owner", "name" })
 	public static _Object attachTo(_Object self, _Object owner, StringValue name) {

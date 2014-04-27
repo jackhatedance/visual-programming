@@ -1,14 +1,14 @@
 package com.bluesky.visualprogramming.core.nativeImpl.proto.value;
 
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
-public class IntegerProto extends NativeClassSupport {
+public class IntegerProto extends NativeMethodSupport {
 
 	@ParameterList({ "self", "num" })
 	public static _Object increase(IntegerValue self, IntegerValue num) {

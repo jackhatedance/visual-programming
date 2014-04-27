@@ -1184,6 +1184,7 @@
                                 <type>PROCEDURE</type>
                                 <id>4709</id>
                                 <name defined-in="object">toString</name>
+                                <description></description>
                                 <fieldList id="184"/>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
@@ -1193,10 +1194,15 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.time.ToString</nativeProcedureClassName>
                                 <nativeProcedureParameters>format</nativeProcedureParameters>
-                                <code></code>
+                                <language>goo</language>
+                                <code>procedure(format)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_value_Time.toString(_self, format);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -1213,6 +1219,7 @@
                                 <type>PROCEDURE</type>
                                 <id>5349</id>
                                 <name defined-in="object">unnamed</name>
+                                <description></description>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="189"/>
                                 <systemFieldsCount>0</systemFieldsCount>
@@ -1223,17 +1230,21 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.time.Ticks</nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code></code>
+                                <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_proto_value_Time.ticks(_self);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
                               <area id="191">
-                                <x>2040</x>
-                                <y>1375</y>
+                                <x>466</x>
+                                <y>1383</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
@@ -3363,11 +3374,15 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Start</nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code></code>
+                                <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.start();
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -3390,11 +3405,15 @@
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="510"/>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Stop</nativeProcedureClassName>
                                 <nativeProcedureParameters></nativeProcedureParameters>
                                 <language>goo</language>
-                                <code></code>
+                                <code>procedure()
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.stop();
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -3422,11 +3441,15 @@
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Subscribe</nativeProcedureClassName>
                                 <nativeProcedureParameters>timer</nativeProcedureParameters>
                                 <language>goo</language>
-                                <code></code>
+                                <code>procedure(timer)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.subscribe(timer);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -3449,10 +3472,15 @@
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
                                 <borderColor reference="519"/>
-                                <__native>true</__native>
+                                <__native>false</__native>
                                 <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Unsubscribe</nativeProcedureClassName>
                                 <nativeProcedureParameters>timer</nativeProcedureParameters>
-                                <code></code>
+                                <language>goo</language>
+                                <code>procedure(timer)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.unsubscribe(timer);
+	
+}</code>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
@@ -20499,7 +20527,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3335"/>
-                          <value>358</value>
+                          <value>360</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20514,14 +20542,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3353">
                           <type>STRING</type>
-                          <id>109536114</id>
+                          <id>109539220</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3354">
                             <field id="3355">
                               <name>_system</name>
                               <strongTarget id="3356">
                                 <type>NORMAL</type>
-                                <id>109536115</id>
+                                <id>109539221</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3357">

@@ -1,10 +1,10 @@
 package com.bluesky.visualprogramming.core.nativeImpl.system;
 
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.StringValue;
 
-public class Console extends NativeClassSupport {
+public class Console extends NativeMethodSupport {
 
 	@ParameterList({ "content" })
 	public static void print(StringValue content){

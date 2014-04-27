@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 
-public class ListProto extends NativeClassSupport {
+public class ListProto extends NativeMethodSupport {
 	static String ListItemPrefix= "LI"; 
 
 	@ParameterList({ "self", "element" })

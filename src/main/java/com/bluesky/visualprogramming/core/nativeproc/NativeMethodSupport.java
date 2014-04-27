@@ -4,7 +4,7 @@ import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public abstract class NativeClassSupport {
+public abstract class NativeMethodSupport {
 
 
 	protected static VirtualMachine getVM() {

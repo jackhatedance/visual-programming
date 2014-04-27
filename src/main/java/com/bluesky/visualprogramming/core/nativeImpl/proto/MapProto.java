@@ -7,13 +7,13 @@ import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class MapProto extends NativeClassSupport{
+public class MapProto extends NativeMethodSupport{
 	static String MapItemPrefix = "KEY_";
 
 	 

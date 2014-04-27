@@ -1,12 +1,12 @@
 package com.bluesky.visualprogramming.core.nativeImpl.proto.value;
 
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
-public class BooleanProto extends NativeClassSupport {
+public class BooleanProto extends NativeMethodSupport {
 
 	@ParameterList({ "self", "b" })
 	public static _Object equals(_Object self, BooleanValue b) {

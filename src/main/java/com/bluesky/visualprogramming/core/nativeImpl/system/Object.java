@@ -6,13 +6,13 @@ import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototype;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
-import com.bluesky.visualprogramming.core.nativeproc.NativeClassSupport;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 
-public class Object extends NativeClassSupport {
+public class Object extends NativeMethodSupport {
 
 	@ParameterList({ "obj", "path" })
 	public static _Object getByPath(_Object obj, StringValue path) {
