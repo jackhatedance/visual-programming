@@ -1,4 +1,4 @@
-// Generated from Goo.g4 by ANTLR 4.1
+// Generated from Goo.g4 by ANTLR 4.2.2
 package com.bluesky.visualprogramming.dialect.goo.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -9,17 +9,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface GooListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link GooParser#expressionStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GooParser#expressionStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link GooParser#ObjectConst}.
 	 * @param ctx the parse tree
 	 */
@@ -29,6 +18,17 @@ public interface GooListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjectConst(@NotNull GooParser.ObjectConstContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GooParser#expressionStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GooParser#expressionStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link GooParser#returnStatement}.

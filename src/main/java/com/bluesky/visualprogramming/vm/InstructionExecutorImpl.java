@@ -35,6 +35,7 @@ import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.ProcedureEnd;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
+import com.bluesky.visualprogramming.vm.instruction.ValueObjectAssignmentPolicy;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 import com.bluesky.visualprogramming.vm.message.PostService;
 
@@ -470,7 +471,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 		String fieldName = ctx.get(instruction.fieldNameVar).getValue();
 		// ownership
-		switch (instruction.assignmenType) {
+		switch (instruction.assignmentType) {
 		case OWN:
 			if (rightObject == null) {
 
@@ -513,7 +514,8 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				leftObject.setField(fieldName, rightObject, true);
 			} else {
-				if (rightObject instanceof ValueObject) {
+				if (instruction.valueObjectAssignmentPolicy == ValueObjectAssignmentPolicy.Clone
+						&& (rightObject instanceof ValueObject)) {
 					ValueObject newObject = (ValueObject) objectRepository
 							.createObject(rightObject.getType(),
 									ObjectScope.ExecutionContext);
@@ -541,15 +543,14 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				right.setName(instruction.left);
 		}
 
-		if(instruction.assignmenType==null)
-		{
+		if (instruction.assignmenType == null) {
 			System.out.println("no type");
 		}
-		
+
 		switch (instruction.assignmenType) {
 		case OWN:
-			throw new RuntimeException("not support assignment operator.");			
-			
+			throw new RuntimeException("not support assignment operator.");
+
 		case REF:
 			ctx.setVariable(instruction.left, right);
 			break;
@@ -564,7 +565,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 			} else
 				ctx.setVariable(instruction.left, right);
 		}
-		
+
 		return ExecutionStatus.COMPLETE;
 	}
 

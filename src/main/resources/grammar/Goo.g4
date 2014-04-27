@@ -177,6 +177,6 @@ NULL : 'null';
 ID : [_a-zA-Z][_a-zA-Z0-9]*;
 
 //WS : [ \t\n\r]+ -> skip ;
- WS : [ \t\n\r]+ -> channel(WHITESPACE);
+WS : [ \t\n\r]+ -> channel(WHITESPACE);
 	
 	

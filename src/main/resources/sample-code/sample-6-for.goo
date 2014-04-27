@@ -1,7 +1,7 @@
 procedure foo(a,b,c)
 {
 
-	for(i=0;i.lt(100);){
+	for(i=0;i.lt(100);i=i.plus(1)){
 		bar.foo();		
 	}	
 	

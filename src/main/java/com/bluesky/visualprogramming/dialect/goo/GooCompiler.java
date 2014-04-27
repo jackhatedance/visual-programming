@@ -93,6 +93,7 @@ import com.bluesky.visualprogramming.vm.instruction.PopBlock;
 import com.bluesky.visualprogramming.vm.instruction.ProcedureEnd;
 import com.bluesky.visualprogramming.vm.instruction.PushBlock;
 import com.bluesky.visualprogramming.vm.instruction.SendMessage;
+import com.bluesky.visualprogramming.vm.instruction.ValueObjectAssignmentPolicy;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 
 /**
@@ -333,7 +334,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ins.right = var;
 			ins.comment = "return " + ctx.expr().getText();
 			
-			ins.assignmenType = AssignmentType.AUTO;
+			ins.assignmenType = AssignmentType.REF;
 
 			addInstruction(ins);
 		}
@@ -399,7 +400,8 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 				ins2.ownerVar = parametersVarName;
 				ins2.fieldNameVar = insFieldName.varName;
 				ins2.rightVar = paramVar;
-				ins2.assignmenType = AssignmentType.AUTO;
+				ins2.assignmentType = AssignmentType.AUTO;
+				ins2.valueObjectAssignmentPolicy = ValueObjectAssignmentPolicy.Reference;
 
 				addInstruction(ins2);
 
@@ -436,7 +438,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			ins2.ownerVar = parametersVarName;
 			ins2.fieldNameVar = createField.varName;
 			ins2.rightVar = paramVar;
-			ins2.assignmenType = AssignmentType.AUTO;
+			ins2.assignmentType = AssignmentType.AUTO;
+			//to support unary operation
+			ins2.valueObjectAssignmentPolicy = ValueObjectAssignmentPolicy.Reference;
 
 			addInstruction(ins2);
 		}
@@ -667,7 +671,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 			ins.rightVar = tempVar2;
 
-			ins.assignmenType = (AssignmentType) ctx.assignOperator().accept(
+			ins.assignmentType = (AssignmentType) ctx.assignOperator().accept(
 					this);
 
 			addInstruction(ins);
@@ -870,7 +874,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitForAfterthought(ForAfterthoughtContext ctx) {
-		return ctx.expr().accept(this);
+		return visitChildren(ctx);
 
 	}
 

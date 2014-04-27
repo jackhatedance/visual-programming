@@ -11,7 +11,9 @@ public class FieldAssignment extends Instruction {
 	public String fieldNameVar;
 	public String fieldNameConst;
 
-	public AssignmentType assignmenType;
+	public AssignmentType assignmentType;
+	
+	public ValueObjectAssignmentPolicy valueObjectAssignmentPolicy=ValueObjectAssignmentPolicy.Clone;
 
 	// right
 	public String rightVar;
@@ -27,7 +29,7 @@ public class FieldAssignment extends Instruction {
 	@Override
 	public String toString() {
 		return String.format("[field_assignment] %s.$%s %s %s", ownerVar,
-				fieldNameVar, assignmenType.getOperator(), rightVar);
+				fieldNameVar, assignmentType.getOperator(), rightVar);
 
 	}
 
