@@ -30,6 +30,11 @@ public class NativeMethodHelper {
 				}
 			}
 
+		if (m == null) {
+			throw new RuntimeException("native method not found: " + className
+					+ "." + methodName);
+		}
+
 			Annotation ann = m.getAnnotation(ParameterList.class);
 			ParameterList paramList = (ParameterList) ann;
 

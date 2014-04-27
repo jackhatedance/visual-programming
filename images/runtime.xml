@@ -3380,7 +3380,7 @@
                                 <language>goo</language>
                                 <code>procedure()
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.start();
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service_TimerService.start();
 	
 }</code>
                               </strongTarget>
@@ -3411,7 +3411,7 @@
                                 <language>goo</language>
                                 <code>procedure()
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.stop();
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service_TimerService.stop();
 	
 }</code>
                               </strongTarget>
@@ -3447,7 +3447,7 @@
                                 <language>goo</language>
                                 <code>procedure(timer)
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.subscribe(timer);
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service_TimerService.subscribe(timer);
 	
 }</code>
                               </strongTarget>
@@ -3478,7 +3478,7 @@
                                 <language>goo</language>
                                 <code>procedure(timer)
 {
-	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service.TimerService.unsubscribe(timer);
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_service_TimerService.unsubscribe(timer);
 	
 }</code>
                               </strongTarget>
@@ -26219,14 +26219,14 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                         <name>enabled</name>
                         <strongTarget class="boolean" id="4269">
                           <type>BOOLEAN</type>
-                          <id>109464925</id>
+                          <id>109539515</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="4270">
                             <field id="4271">
                               <name>_system</name>
                               <strongTarget id="4272">
                                 <type>NORMAL</type>
-                                <id>109464926</id>
+                                <id>109539516</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="4273">

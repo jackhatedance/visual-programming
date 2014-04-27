@@ -32,7 +32,7 @@ public class TimerService extends NativeMethodSupport {
 	}
 
 	@ParameterList({ "timer" })
-	public static void execute(_Object timer) {
+	public static void unsubscribe(_Object timer) {
 
 		getService().unsubscribe(timer);
 

@@ -158,7 +158,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 			result.setStatus(es);
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			result.setStatus(ExecutionStatus.ERROR);
 			result.setDesc(e.getMessage());
 			result.setLine(instruction.line);
@@ -419,8 +419,6 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					VException ex = (VException) reply;
 					// set the exception as result
 					ctx.setResult(ex);
-
-					System.out.println(ex.getTrace());
 
 					throw new RuntimeException("received exception:"
 							+ ex.getMessage());

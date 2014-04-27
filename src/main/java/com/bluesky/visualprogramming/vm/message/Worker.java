@@ -2,12 +2,12 @@ package com.bluesky.visualprogramming.vm.message;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.CodePosition;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -88,7 +88,7 @@ public class Worker implements Runnable {
 					// just print the exception
 					// TODO how to handle error and propagation solution???
 					VException vex = (VException) msg.body;
-					logger.error("error captured:" + vex.getTrace());
+					logger.debug("reply exception captured " + vex.getMessage());
 				}
 
 				if (msg.isSyncReply())
