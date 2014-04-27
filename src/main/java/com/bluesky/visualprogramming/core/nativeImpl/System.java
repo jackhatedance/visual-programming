@@ -42,9 +42,6 @@ public class System extends NativeClassSupport {
 
 
 
-		if (var != null) {
-			java.lang.System.out.println("IsNull: obj ID" + var.getId());
-		}
 
 		return result;
 	}

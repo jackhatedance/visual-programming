@@ -2575,12 +2575,12 @@
 
 		objId = SYSTEM.object.getId(obj);
 		objPath = SYSTEM.object.getPath(obj);
-		CONSOLE.println(&quot;obj ID:&quot;.concat(objId.toString()));
-		CONSOLE.println(&quot;obj ID:&quot;.concat(objPath));
+		//CONSOLE.println(&quot;obj ID:&quot;.concat(objId.toString()));
+		//CONSOLE.println(&quot;obj ID:&quot;.concat(objPath));
 
 		//below line cause bug.
 		_result = _self.getChild(obj._system,name);
-		CONSOLE.println(&quot;obj ID2:&quot;.concat(objId.toString()));
+		//CONSOLE.println(&quot;obj ID2:&quot;.concat(objId.toString()));
 		//_result = _self.getChild(_sys,name);
 	}
 	
@@ -19997,8 +19997,8 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
 	
 	objId = SYSTEM.object.getId(target.navigation);
 	objPath = SYSTEM.object.getPath(target.navigation);
-	CONSOLE.println(&quot;do objID:&quot;.concat(objId.toString()));
-	CONSOLE.println(&quot;do objPath:&quot;.concat(objPath));
+	//CONSOLE.println(&quot;do objID:&quot;.concat(objId.toString()));
+	//CONSOLE.println(&quot;do objPath:&quot;.concat(objPath));
 	
 	headerHtml = _self.renderObject(target.header, null);
 	navigationHtml = _self.renderObject(target.navigation, null);
@@ -20391,7 +20391,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3340"/>
-                          <value>335</value>
+                          <value>341</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20406,14 +20406,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3358">
                           <type>STRING</type>
-                          <id>109484106</id>
+                          <id>109497072</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3359">
                             <field id="3360">
                               <name>_system</name>
                               <strongTarget id="3361">
                                 <type>NORMAL</type>
-                                <id>109484107</id>
+                                <id>109497073</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3362">
@@ -27654,8 +27654,8 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
 
 	objId = SYSTEM.object.getId(target);
 	objPath = SYSTEM.object.getPath(target);
-	CONSOLE.println(&quot;renderObject objID:&quot;.concat(objId.toString()));
-	CONSOLE.println(&quot;renderObject objPath:&quot;.concat(objPath));
+	//CONSOLE.println(&quot;renderObject objID:&quot;.concat(objId.toString()));
+	//CONSOLE.println(&quot;renderObject objPath:&quot;.concat(objPath));
 
 	//use its own config if exists
 	selfConfig = SYSTEM.object.getMetaField(target, &quot;html&quot;);	
@@ -27716,6 +27716,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                 <type>PROCEDURE</type>
                                 <id>33845</id>
                                 <name defined-in="object">renderByStandardComponent</name>
+                                <description></description>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="4527"/>
                                 <systemFieldsCount>0</systemFieldsCount>
@@ -27787,50 +27788,17 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                     <scope>ExecutionContext</scope>
                     <fieldList id="4534">
                       <field id="4535">
-                        <name>_test</name>
-                        <strongTarget class="procedure" id="4536">
-                          <type>PROCEDURE</type>
-                          <id>33856</id>
-                          <name defined-in="object">_test</name>
-                          <scope>ExecutionContext</scope>
-                          <fieldList id="4537"/>
-                          <systemFieldsCount>0</systemFieldsCount>
-                          <scaleRate>1.0</scaleRate>
-                          <borderColor id="4538">
-                            <red>0</red>
-                            <green>0</green>
-                            <blue>0</blue>
-                            <alpha>255</alpha>
-                          </borderColor>
-                          <__native>false</__native>
-                          <nativeProcedureClassName></nativeProcedureClassName>
-                          <nativeProcedureParameters></nativeProcedureParameters>
-                          <language>goo</language>
-                          <code>procedure(){&#xd;
-_self._system.prototype = path://_world.lib.web.components.baseComponent@local;&#xd;
-}</code>
-                        </strongTarget>
-                        <type>STRONG</type>
-                        <svgScale>0.2</svgScale>
-                        <area id="4539">
-                          <x>0</x>
-                          <y>0</y>
-                          <width>100</width>
-                          <height>100</height>
-                        </area>
-                      </field>
-                      <field id="4540">
                         <name>do</name>
-                        <strongTarget class="procedure" id="4541">
+                        <strongTarget class="procedure" id="4536">
                           <type>PROCEDURE</type>
                           <id>33448</id>
                           <name defined-in="object">do</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4542"/>
+                          <fieldList id="4537"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
-                          <borderColor id="4543">
+                          <borderColor id="4538">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -27852,8 +27820,8 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
 
 	objId = SYSTEM.object.getId(target);
 	objPath = SYSTEM.object.getPath(target);
-	CONSOLE.println(&quot;do objID:&quot;.concat(objId.toString()));
-	CONSOLE.println(&quot;do objPath:&quot;.concat(objPath));
+	//CONSOLE.println(&quot;do objID:&quot;.concat(objId.toString()));
+	//CONSOLE.println(&quot;do objPath:&quot;.concat(objPath));
 
 	
 	_result = _self.renderObject(target, null);
@@ -27862,33 +27830,38 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4544">
-                          <x>840</x>
-                          <y>910</y>
+                        <area id="4539">
+                          <x>901</x>
+                          <y>933</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4545">
+                      <field id="4540">
                         <name>_system</name>
-                        <strongTarget id="4546">
+                        <strongTarget id="4541">
                           <type>NORMAL</type>
                           <id>33852</id>
                           <name>_system</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4547">
-                            <field id="4548">
+                          <fieldList id="4542">
+                            <field id="4543">
                               <name>prototype</name>
-                              <strongTarget class="link" id="4549">
+                              <strongTarget class="link" id="4544">
                                 <type>LINK</type>
                                 <id>33858</id>
                                 <name>t_0</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4550"/>
+                                <fieldList id="4545"/>
                                 <systemFieldsCount>0</systemFieldsCount>
                                 <scaleRate>1.0</scaleRate>
-                                <borderColor reference="4538"/>
-                                <remoteAddress id="4551">
+                                <borderColor id="4546">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <remoteAddress id="4547">
                                   <protocol>path</protocol>
                                   <userId>_world.lib.web.components.baseComponent</userId>
                                   <server>local</server>
@@ -27897,7 +27870,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4552">
+                              <area id="4548">
                                 <x>1545</x>
                                 <y>1595</y>
                                 <width>100</width>
@@ -27911,7 +27884,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4553">
+                        <area id="4549">
                           <x>2220</x>
                           <y>1730</y>
                           <width>100</width>
@@ -27921,11 +27894,11 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
                     </fieldList>
                     <systemFieldsCount>1</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="4543"/>
+                    <borderColor reference="4538"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4554">
+                  <area id="4550">
                     <x>250</x>
                     <y>1235</y>
                     <width>100</width>
@@ -27939,7 +27912,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="4555">
+            <area id="4551">
               <x>2155</x>
               <y>1430</y>
               <width>100</width>
@@ -27949,7 +27922,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
         </fieldList>
         <systemFieldsCount>1</systemFieldsCount>
         <scaleRate>1.0</scaleRate>
-        <borderColor id="4556">
+        <borderColor id="4552">
           <red>0</red>
           <green>0</green>
           <blue>255</blue>
@@ -27958,37 +27931,37 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="4557">
+      <area id="4553">
         <x>1180</x>
         <y>425</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="4558">
+    <field id="4554">
       <name>test</name>
-      <strongTarget id="4559">
+      <strongTarget id="4555">
         <type>NORMAL</type>
         <id>2638233</id>
         <name>test</name>
         <description></description>
         <scope>ExecutionContext</scope>
-        <fieldList id="4560">
-          <field id="4561">
+        <fieldList id="4556">
+          <field id="4557">
             <name>unnamed</name>
-            <strongTarget id="4562">
+            <strongTarget id="4558">
               <type>NORMAL</type>
               <id>2638234</id>
               <name>unnamed</name>
               <scope>ExecutionContext</scope>
-              <fieldList id="4563"/>
+              <fieldList id="4559"/>
               <systemFieldsCount>0</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
               <borderColor reference="4334"/>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="4564">
+            <area id="4560">
               <x>750</x>
               <y>955</y>
               <width>100</width>
@@ -28002,7 +27975,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="4565">
+      <area id="4561">
         <x>310</x>
         <y>2015</y>
         <width>100</width>
@@ -28012,7 +27985,7 @@ _self._system.prototype = path://_world.lib.web.components.baseComponent@local;&
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="4566">
+  <borderColor id="4562">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

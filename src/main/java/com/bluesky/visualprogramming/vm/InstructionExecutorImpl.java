@@ -369,8 +369,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 							+ instruction.messageSubjectVar);
 
 				_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-				if ("getChild".equals(messageSubject.getValue()))
-					System.out.println("bingo");
+				
 
 				/*
 				 * if (sender == receiver) msgType = MessageType.Recursive;
