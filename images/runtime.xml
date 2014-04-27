@@ -20391,7 +20391,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3340"/>
-                          <value>330</value>
+                          <value>335</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20406,14 +20406,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3358">
                           <type>STRING</type>
-                          <id>109470696</id>
+                          <id>109484106</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3359">
                             <field id="3360">
                               <name>_system</name>
                               <strongTarget id="3361">
                                 <type>NORMAL</type>
-                                <id>109470697</id>
+                                <id>109484107</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3362">
