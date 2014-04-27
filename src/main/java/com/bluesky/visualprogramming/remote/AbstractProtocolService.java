@@ -8,7 +8,7 @@ import org.apache.commons.collections.bidimap.DualHashBidiMap;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.ReplyStatus;
 import com.bluesky.visualprogramming.core.VException;
@@ -131,7 +131,7 @@ public class AbstractProtocolService {
 		return VirtualMachine.getInstance();
 	}
 
-	protected ObjectFactory getObjectFactory() {
+	protected BasicObjectFactory getObjectFactory() {
 		return getVM().getObjectRepository().getFactory();
 	}
 

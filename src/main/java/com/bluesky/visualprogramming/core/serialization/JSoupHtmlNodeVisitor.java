@@ -13,11 +13,12 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
+import com.bluesky.visualprogramming.core.ExtendedObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core.Prototypes;
+import com.bluesky.visualprogramming.core.Prototype;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -37,7 +38,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 	VirtualMachine vm;
 	ObjectRepository repo;
 
-	protected ObjectFactory getObjectFactory() {
+	protected BasicObjectFactory getObjectFactory() {
 		return repo.getFactory();
 	}
 	public JSoupHtmlNodeVisitor() {
@@ -62,7 +63,7 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 			_Object obj = repo.createObject(ObjectType.NORMAL,
 					ObjectScope.ExecutionContext);
 
-			_Object childList = Prototypes.List.createInstance();
+			_Object childList = ExtendedObjectFactory.create(Prototype.List);
 
 			obj.setField(CHILD_NODES, childList, true);
 			root = obj;
@@ -81,7 +82,8 @@ public class JSoupHtmlNodeVisitor implements NodeVisitor {
 				typeObj.setValue(node.nodeName());
 				self.setField("type", typeObj, true);
 
-				_Object childList = Prototypes.List.createInstance();
+				_Object childList = ExtendedObjectFactory
+						.create(Prototype.List);
 				self.setField(CHILD_NODES, childList, true);
 
 				addChildObject(parent, self);

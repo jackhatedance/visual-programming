@@ -6,7 +6,7 @@ import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.TimeValue;
 
-public interface ObjectFactory {
+public interface BasicObjectFactory {
 	_Object createObject();
 
 	IntegerValue createInteger(long value);

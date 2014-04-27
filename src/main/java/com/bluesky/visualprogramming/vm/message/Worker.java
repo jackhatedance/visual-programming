@@ -7,7 +7,7 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -461,7 +461,7 @@ public class Worker implements Runnable {
 		return result;
 	}
 
-	protected ObjectFactory getObjectFactory() {
+	protected BasicObjectFactory getObjectFactory() {
 		return objectRepository.getFactory();
 	}
 

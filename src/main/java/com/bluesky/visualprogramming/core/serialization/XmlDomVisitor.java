@@ -11,10 +11,11 @@ import org.dom4j.Node;
 import org.dom4j.Text;
 import org.dom4j.VisitorSupport;
 
+import com.bluesky.visualprogramming.core.ExtendedObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core.Prototypes;
+import com.bluesky.visualprogramming.core.Prototype;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -201,7 +202,8 @@ public class XmlDomVisitor extends VisitorSupport {
 								_Object list = childOwner
 										.getChild(listObjectName);
 								if (list == null) {
-									list = Prototypes.List.createInstance();
+									list = ExtendedObjectFactory
+											.create(Prototype.List);
 									childOwner.setField(listObjectName, list,
 											true);
 								}
@@ -218,7 +220,7 @@ public class XmlDomVisitor extends VisitorSupport {
 					/*
 					 * list in the case, a dedicated field is must.
 					 */
-					childNodes = Prototypes.List.createInstance();
+					childNodes = ExtendedObjectFactory.create(Prototype.List);
 
 					childNodes.setName(CHILDREN_FIELD);
 					obj.setField(CHILDREN_FIELD, childNodes, true);

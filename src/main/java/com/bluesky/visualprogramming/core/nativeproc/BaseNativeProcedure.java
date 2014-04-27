@@ -1,7 +1,7 @@
 package com.bluesky.visualprogramming.core.nativeproc;
 
 import com.bluesky.visualprogramming.core.NativeProcedure;
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
@@ -29,7 +29,7 @@ public abstract class BaseNativeProcedure implements NativeProcedure {
 		return getVM().getObjectRepository();
 	}
 	
-	protected ObjectFactory getObjectFactory() {
+	protected BasicObjectFactory getObjectFactory() {
 		return getRepo().getFactory();
 	}
 

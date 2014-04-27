@@ -1,6 +1,6 @@
 package com.bluesky.visualprogramming.core.nativeproc;
 
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -15,7 +15,7 @@ public abstract class NativeClassSupport {
 		return getVM().getObjectRepository();
 	}
 	
-	protected static ObjectFactory getObjectFactory() {
+	protected static BasicObjectFactory getObjectFactory() {
 		return getRepo().getFactory();
 	}
 

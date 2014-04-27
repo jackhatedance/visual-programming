@@ -3,7 +3,7 @@ package com.bluesky.visualprogramming.core.nativeproc;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import com.bluesky.visualprogramming.core.ObjectFactory;
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -12,7 +12,7 @@ public class NativeClass {
 		return VirtualMachine.getInstance();
 	}
 
-	static private ObjectFactory getObjectFactory() {
+	static private BasicObjectFactory getObjectFactory() {
 		return getVM().getObjectRepository().getFactory();
 	}
 

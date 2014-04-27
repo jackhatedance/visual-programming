@@ -38,7 +38,7 @@ public class ObjectRepository {
 	/**
 	 * a convenient way to create runtime object
 	 */
-	private ObjectFactory factory;
+	private BasicObjectFactory factory;
 
 	private ObjectTreeModel objectTreeModel = new ObjectTreeModelImpl();
 
@@ -62,7 +62,7 @@ public class ObjectRepository {
 		// purpose. enable it only when necessary.
 		listeners.add(migrationListener);
 
-		factory = new ObjectFactory() {
+		factory = new BasicObjectFactory() {
 
 			@Override
 			public StringValue createString(String value) {
@@ -576,7 +576,7 @@ public class ObjectRepository {
 		listeners.remove(listener);
 	}
 
-	public ObjectFactory getFactory() {
+	public BasicObjectFactory getFactory() {
 		return factory;
 	}
 }
