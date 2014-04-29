@@ -15,6 +15,7 @@ import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
 import com.bluesky.visualprogramming.remote.RemoteAddress;
 import com.bluesky.visualprogramming.utils.Config;
+import com.bluesky.visualprogramming.vm.AppProperties;
 
 public class HttpService extends AbstractProtocolService implements
 		ProtocolService {
@@ -36,7 +37,10 @@ public class HttpService extends AbstractProtocolService implements
 		supportedTypes = new ProtocolType[] { ProtocolType.HTTP,
 				ProtocolType.HTTPS };
 
-		Server server = new Server(8080);
+		Config config = AppProperties.getInstance().getAsConfig();
+		int port = config.getInteger("webServer.port", 80);
+
+		Server server = new Server(port);
 
 		ServletContextHandler context = new ServletContextHandler(
 				ServletContextHandler.SESSIONS);
