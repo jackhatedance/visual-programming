@@ -1,9 +1,13 @@
 package com.bluesky.visualprogramming.vm;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.timer.TimerService;
+import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.message.PostService;
 import com.bluesky.visualprogramming.vm.message.WorkerService;
 
@@ -16,7 +20,7 @@ import com.bluesky.visualprogramming.vm.message.WorkerService;
 public class VirtualMachine implements Service {
 	static Logger logger = Logger.getLogger(VirtualMachine.class);
 
-	private AppProperties appProperties;
+	private Config appConfig;
 
 	private ObjectRepository objectRepository;
 
@@ -27,6 +31,8 @@ public class VirtualMachine implements Service {
 	private TimerService timerService;
 
 	private ServiceStatus status;
+
+	Timer timer = new Timer("Image Saver");
 
 	private static VirtualMachine instance = null;
 
@@ -39,17 +45,17 @@ public class VirtualMachine implements Service {
 	}
 
 	public static VirtualMachine getInstance() {
-		if (instance == null)
-		{
-			//only for unit test. for normal use, it should be created intentionally.			
+		if (instance == null) {
+			// only for unit test. for normal use, it should be created
+			// intentionally.
 			instance = new VirtualMachine();
 		}
-		
+
 		return instance;
 	}
 
 	public VirtualMachine() {
-		appProperties = AppProperties.getInstance();
+		appConfig = AppProperties.getInstance().getAsConfig();
 
 		objectRepository = new ObjectRepository();
 
@@ -57,10 +63,8 @@ public class VirtualMachine implements Service {
 		workerService = new WorkerService();
 
 		timerServiceEnabled = true;
-		String timerServiceEnabledStr = appProperties
-				.getProperty("service.timer.enabled");
-		if (timerServiceEnabledStr != null)
-			timerServiceEnabled = Boolean.valueOf(timerServiceEnabledStr);
+		boolean timerServiceEnabled = appConfig.getBoolean(
+				"service.timer.enabled", true);
 		timerService = new TimerService(objectRepository);
 
 		/*
@@ -76,7 +80,30 @@ public class VirtualMachine implements Service {
 
 		status = ServiceStatus.Initialized;
 
+		if (appConfig.containsKey(AppProperties.AUTO_SAVE_INTERVAL)) {
+			int autoSaveInterval = appConfig.getInteger(
+					AppProperties.AUTO_SAVE_INTERVAL, 1000 * 60 * 10);
+			int minDelay = 1000 * 10;
+			int delay = autoSaveInterval < minDelay ? minDelay
+					: autoSaveInterval;
+
+			timer.schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					VirtualMachine vm = VirtualMachine.getInstance();
+
+					vm.pause();
+
+					logger.debug("auto saving");
+					vm.save();
+					vm.resume();
+
+				}
+			}, delay, autoSaveInterval);
+		}
 		logger.info("VM initialized");
+
 	}
 
 	public void loadFromImage(String runtimeFile, String userFile) {

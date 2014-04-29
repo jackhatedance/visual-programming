@@ -1,11 +1,17 @@
 package com.bluesky.visualprogramming.vm;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.utils.Config;
+
 public class AppProperties {
 	static Logger logger = Logger.getLogger(AppProperties.class);
+
+	public static final String AUTO_SAVE_INTERVAL = "autoSave.interval";
 	
 	static private AppProperties instance;
 
@@ -35,5 +41,17 @@ public class AppProperties {
 
 	public String getProperty(String key) {
 		return appProperties.getProperty(key);
+	}
+
+	public Config getAsConfig() {
+		Map<String, String> map = new HashMap<String, String>();
+
+		for (Object key : appProperties.keySet()) {
+			String value = appProperties.getProperty((String) key);
+
+			map.put((String) key, value);
+		}
+
+		return new Config(map);
 	}
 }

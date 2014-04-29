@@ -20527,7 +20527,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <systemFieldsCount>1</systemFieldsCount>
                           <scaleRate>1.0</scaleRate>
                           <borderColor reference="3335"/>
-                          <value>450</value>
+                          <value>465</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -20542,14 +20542,14 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="3353">
                           <type>STRING</type>
-                          <id>109793617</id>
+                          <id>109836387</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="3354">
                             <field id="3355">
                               <name>_system</name>
                               <strongTarget id="3356">
                                 <type>NORMAL</type>
-                                <id>109793618</id>
+                                <id>109836388</id>
                                 <name>_system</name>
                                 <scope>ExecutionContext</scope>
                                 <fieldList id="3357">
@@ -28136,11 +28136,16 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                     </fieldList>
                     <systemFieldsCount>0</systemFieldsCount>
                     <scaleRate>1.0</scaleRate>
-                    <borderColor reference="3360"/>
+                    <borderColor id="4564">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4564">
+                  <area id="4565">
                     <x>0</x>
                     <y>0</y>
                     <width>100</width>
@@ -28150,12 +28155,12 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
               </fieldList>
               <systemFieldsCount>1</systemFieldsCount>
               <scaleRate>1.0</scaleRate>
-              <borderColor reference="3360"/>
+              <borderColor reference="4564"/>
               <value>ffff</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="4565">
+            <area id="4566">
               <x>1845</x>
               <y>975</y>
               <width>100</width>
@@ -28169,7 +28174,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="4566">
+      <area id="4567">
         <x>310</x>
         <y>2015</y>
         <width>100</width>
@@ -28179,7 +28184,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
   <scaleRate>1.0</scaleRate>
-  <borderColor id="4567">
+  <borderColor id="4568">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
