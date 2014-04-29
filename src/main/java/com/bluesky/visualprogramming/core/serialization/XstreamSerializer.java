@@ -49,9 +49,6 @@ public class XstreamSerializer implements ConfigurableObjectSerializer {
 		// owner can be restored after deserialze.
 		//xstream.omitField(_Object.class, "owner");
 		
-		xstream.alias("field", Field.class);
-		xstream.omitField(Field.class, "selectedStatus");
-		xstream.omitField(Field.class, "weakTarget");
 		
 		
 		xstream.alias("boolean", BooleanValue.class);
@@ -88,12 +85,14 @@ public class XstreamSerializer implements ConfigurableObjectSerializer {
 		xstream.omitField(cls, "messageQueue");
 		xstream.omitField(cls, "messageQueueBlocking");
 		xstream.omitField(cls, "asynMessageMap");
+		xstream.omitField(cls, "worker");
 		
-		xstream.omitField(cls, "worker");		
 		
 		
-		Class fieldCls = Field.class;
-		xstream.omitField(fieldCls, "selectedStatus");
+		xstream.alias("field", Field.class);
+		xstream.omitField(Field.class, "selectedStatus");
+		xstream.omitField(Field.class, "weakTarget");
+		xstream.omitField(Field.class, "owner");
 		
 		
 		Class procedureCls = Procedure.class;

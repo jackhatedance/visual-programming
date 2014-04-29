@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.vm.message;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -112,20 +113,35 @@ public class WorkerService extends ThreadService implements Runnable  {
 	 * @param worker
 	 */
 	public synchronized void removeWorker(Worker worker) {
+		logger.debug("worker removed");
 		workers.remove(worker);
 	}
 
+	/**
+	 * wait until all workers get paused.
+	 */
 	public synchronized void pause() {
+		CountDownLatch latch = new CountDownLatch(workers.size());
 		for (Worker worker : workers) {
-			worker.pause();
+			worker.pause(latch);
 		}
+
+		try {
+			logger.debug("wait for all workers to pause");
+			latch.await();
+			logger.debug("all workers are paused");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	public synchronized void resume() {
-		for (Worker worker : workers) {
 
-			// TODO
-			// worker.resume();
+		for (Worker worker : workers) {
+			worker.resume();
 		}
+
+		logger.debug("all workers are resumed");
 	}
 }

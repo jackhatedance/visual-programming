@@ -1,9 +1,12 @@
-package com.bluesky.visualprogramming.core.nativeproc.collection;
+package com.bluesky.visualprogramming.core.nativeImpl.proto;
 
 import java.util.Comparator;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
+import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
+import com.bluesky.visualprogramming.core.value.StringValue;
 
 /**
  * collection is an object that let user put same kind of objects, names are not
@@ -24,23 +27,48 @@ import com.bluesky.visualprogramming.core._Object;
  * name, but internal Field List.
  * 
  * 
+ * TODO
  * 
  * @author jack
  * 
  */
-public class CollectionObject {
-	private _Object obj;
+public class CollectionProto extends NativeMethodSupport {
+	static String ItemPrefix = "CI";
 
-	public CollectionObject(_Object obj) {
-		this.obj = obj;
-	}
 
-	public void sort(String field, SortOrder order) {
+
+	protected static void sort(_Object self, String field, SortOrder order) {
 
 		// prepare comparator
 		Comparator<Field> comparator = new FieldComparator(field, order);
 
 
-		obj.sortFields(comparator);
+		self.sortFields(comparator);
+	}
+
+	@ParameterList({ "self", })
+	public static _Object sort(_Object self) {
+
+
+
+		_Object config = self.getSystemChild("collection");
+
+		String field = null;
+		SortOrder order = SortOrder.Asc;
+
+		// get config
+		if (config != null) {
+			StringValue fieldObj = (StringValue) config.getChild("field");
+			if (fieldObj != null)
+				field = fieldObj.getValue();
+
+			StringValue orderObj = (StringValue) config.getChild("order");
+			if (orderObj != null)
+				order = SortOrder.valueOf(orderObj.getValue());
+		}
+
+		sort(self, field, order);
+
+		return null;
 	}
 }

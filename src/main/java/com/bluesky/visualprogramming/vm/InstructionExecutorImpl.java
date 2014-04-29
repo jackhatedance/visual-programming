@@ -3,9 +3,6 @@ package com.bluesky.visualprogramming.vm;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
@@ -38,6 +35,8 @@ import com.bluesky.visualprogramming.vm.instruction.SendMessage;
 import com.bluesky.visualprogramming.vm.instruction.ValueObjectAssignmentPolicy;
 import com.bluesky.visualprogramming.vm.instruction.VariableAssignment;
 import com.bluesky.visualprogramming.vm.message.PostService;
+import com.bluesky.visualprogramming.vm.message.Worker;
+import com.bluesky.visualprogramming.vm.message.WorkerStatus;
 
 public class InstructionExecutorImpl implements InstructionExecutor {
 	static Logger logger = Logger.getLogger(InstructionExecutorImpl.class);
@@ -54,13 +53,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	Message message;
 	PostService postService;
 
-	private volatile boolean paused;
-	private Lock statusLock;
-	private Condition runningCondition;
+	// private volatile boolean paused;
+
+	private Worker worker;
 
 	public InstructionExecutorImpl(ObjectRepository objectRepository,
 			PostService postService, CompiledProcedure procedure,
-			ProcedureExecutionContext ctx, Message msg) {
+			ProcedureExecutionContext ctx, Message msg, Worker worker) {
 
 		this.objectRepository = objectRepository;
 		this.postService = postService;
@@ -68,25 +67,18 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		this.ctx = ctx;
 		this.message = msg;
 
-		paused = false;
-		statusLock = new ReentrantLock();
-		runningCondition = statusLock.newCondition();
+		// for pause operation
+		this.worker = worker;
+
 	}
 
-	public synchronized void pause() {
-		paused = true;
-	}
 
 	public synchronized void resume() {
-		paused = false;
+		notify();
+	}
 
-		statusLock.lock();
-		try {
-			runningCondition.signal();
-		} finally {
-			statusLock.unlock();
-		}
-
+	private boolean isPaused() {
+		return worker.getPauseFlag();
 	}
 
 	/**
@@ -100,16 +92,22 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		List<Instruction> instructions = procedure.getInstructions();
 
 		loop1: while (true) {
-			while (paused) {
-				statusLock.lock();
-				try {
-					runningCondition.await();
-				} catch (InterruptedException ex) {
-					break loop1;
-				} finally {
-					statusLock.unlock();
-				}
 
+			while (isPaused()) {
+				worker.updateRunningStatus(WorkerStatus.Paused);
+
+				synchronized (this) {
+					try {
+						logger.debug("paused");
+
+						// wait until someone resume me
+						wait();
+						logger.debug("resumed");
+					} catch (InterruptedException ex) {
+						logger.debug("interrupted, terminated.");
+						break loop1;
+					}
+				}
 			}
 
 			InstructionExecutionResult instructionExecutionResult = executeOneStep(instructions);
@@ -369,7 +367,6 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 							+ instruction.messageSubjectVar);
 
 				_Object messageBody = ctx.getObject(instruction.messageBodyVar);
-				
 
 				/*
 				 * if (sender == receiver) msgType = MessageType.Recursive;

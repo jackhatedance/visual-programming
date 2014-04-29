@@ -27,6 +27,7 @@ public class ObjectRepository {
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
 	public static String ROOT_OBJECT = "_world";
+	public static String USERS = "users";
 	public static String PROTOTYPE_PATH = ROOT_OBJECT + ".core.prototype";
 
 	volatile long objectId;
@@ -269,8 +270,15 @@ public class ObjectRepository {
 	}
 
 	public void save(String runtimeFileName, String userFileName) {
-		detachAndSave(ROOT_OBJECT + ".users", userFileName);
-		detachAndSave(ROOT_OBJECT, runtimeFileName);
+
+		_Object users = detach(ROOT_OBJECT + "." + USERS);
+		saveXml(users, userFileName);
+
+		_Object root = getObjectByPath(ROOT_OBJECT);
+		saveXml(root, runtimeFileName);
+
+		// attach users
+		root.setField(USERS, users, true);
 	}
 
 	private void loadAndAttach(String mountOwnerPath, String fileName) {
@@ -291,10 +299,8 @@ public class ObjectRepository {
 	 * 
 	 * @param fileName
 	 */
-	private void detachAndSave(String mountPointPath, String fileName) {
+	private _Object detach(String mountPointPath) {
 		_Object mountPoint = getObjectByPath(mountPointPath);
-
-		beforeSaveXml(mountPoint);
 
 		if (mountPoint.hasOwner()) {
 			_Object owner = mountPoint.getOwner();
@@ -306,7 +312,8 @@ public class ObjectRepository {
 			owner.removeField(fieldName);
 		}
 
-		saveXml(mountPoint, fileName);
+		// saveXml(mountPoint, fileName);
+		return mountPoint;
 	}
 
 	private void saveXml(_Object object, String fileName) {
@@ -328,6 +335,7 @@ public class ObjectRepository {
 	 * @param writer
 	 */
 	private void saveXml(_Object obj, Writer writer) {
+		beforeSaveXml(obj);
 
 		ConfigurableObjectSerializer serializer = MessageFormat.Xstream
 				.getSerializer();
@@ -428,8 +436,7 @@ public class ObjectRepository {
 						if (!f.pointerPath.startsWith(ROOT_OBJECT))
 							System.out.println(f.pointerPath);
 
-						f.setWeakTarget(null);
-
+						// f.setWeakTarget(null);
 					}
 
 				}
@@ -437,27 +444,6 @@ public class ObjectRepository {
 			}
 		});
 
-		treeWalk(mountPoint, new TreeWalker() {
-			@Override
-			public void walk(_Object obj) {
-
-				for (int i = 0; i < obj.getFields().size(); i++) {
-					Field f = obj.getField(i);
-
-					// remove target.ownerField backward pointer
-					if (f.getType() == FieldType.STRONG
-							&& f.getTarget() != null) {
-						if (f.getTarget().getOwnerField() != null)
-							f.getTarget().removeOwnerField();
-
-					}
-
-					// remove backward pointers
-					f.owner = null;
-				}
-
-			}
-		});
 
 		// notify
 		treeWalk(mountPoint, new TreeWalker() {

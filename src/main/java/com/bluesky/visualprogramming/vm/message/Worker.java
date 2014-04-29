@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.vm.message;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.BasicObjectFactory;
@@ -7,7 +9,6 @@ import com.bluesky.visualprogramming.core.CodePosition;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageStatus;
 import com.bluesky.visualprogramming.core.MessageType;
-import com.bluesky.visualprogramming.core.NativeProcedure;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -21,7 +22,6 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.InstructionExecutorImpl;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Worker implements Runnable {
 	static Logger logger = Logger.getLogger(Worker.class);
@@ -31,6 +31,16 @@ public class Worker implements Runnable {
 	private WorkerService workerManager;
 	private PostService postService;
 	private _Object customer;
+
+	private InstructionExecutorImpl executor;
+
+	/**
+	 * a flag to ask the work or executor to pause. cleared when paused
+	 * achieved.
+	 */
+	private volatile boolean pauseFlag = false;
+
+	public WorkerStatus status;
 
 	public Worker(ObjectRepository objectRepository,
 			WorkerService workerManager, PostService postService,
@@ -68,7 +78,9 @@ public class Worker implements Runnable {
 
 				msg = obj.peekFirstMessage();
 				if (msg == null) {
-					// work is leaving the customer
+					if (logger.isDebugEnabled())
+						logger.debug("no more workable message to be processed.");
+
 					obj.removeWorker();
 
 					break;
@@ -105,8 +117,10 @@ public class Worker implements Runnable {
 
 						executeUnknowMessage(msg, obj, proc);
 
-					} else
-						executeProcedure(msg, obj, proc);
+					} else {
+						_Object result = executeProcedure(msg, obj, proc);
+						msg.reply = result;
+					}
 
 					ExecutionStatus procedureExecutionStatus = msg.executionContext
 							.getExecutionStatus();
@@ -134,23 +148,9 @@ public class Worker implements Runnable {
 						 * current worker for the same customer.
 						 */
 
-						if (obj.hasWorkableMessage()) {
-
-							if (logger.isDebugEnabled())
-								logger.debug("continue work on next message");
-
-							// check
-							// if(obj.peekFirstMessage().previous!=msg)
-							// throw new
-							// RuntimeException("the newer message is not the SYNC-REPLY.");
-
-						} else {
-							// worker leaves
-							obj.removeWorker();
-							break;
-
-						}
-
+						// if (!obj.hasWorkableMessage()) {
+						// Thread.sleep(1000);
+						// }
 					}
 				}
 
@@ -310,39 +310,6 @@ public class Worker implements Runnable {
 
 	}
 
-	// private void executeErrorReplyMessage(Message msg, _Object obj,
-	// Procedure proc) {
-	//
-	// msg.initExecutionContext(objectRepository.getRootObject(),
-	// new String[0]);
-	//
-	// VException ex = getObjectFactory().createException();
-	//
-	// ex.setMessage("NativeProcedure execution error:" + e.getMessage());
-	// CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
-	// null, msg.executionContext.executionErrorLine);
-	//
-	// msg.reply = ex;
-	//
-	// msg.executionContext.executionStatus = ExecutionStatus.COMPLETE;
-	//
-	// }
-
-	private void executeProcedure(Message msg, _Object obj, Procedure proc) {
-
-		if (proc.isNative()) {
-
-			// native procedure always complete
-			msg.reply = executeNativeProcedure(msg, obj, proc);
-		} else {
-
-			msg.reply = executeNormalProcedure(msg, obj, proc);
-		}
-
-		// msg.status = MessageStatus.FINISHED;
-
-	}
-
 	/**
 	 * 
 	 * @param msg
@@ -350,8 +317,7 @@ public class Worker implements Runnable {
 	 * @param proc
 	 * @return the return value of the procedure
 	 */
-	private _Object executeNormalProcedure(Message msg, _Object obj,
-			Procedure proc) {
+	private _Object executeProcedure(Message msg, _Object obj, Procedure proc) {
 		CompiledProcedure cp = null;
 
 		try {
@@ -372,7 +338,6 @@ public class Worker implements Runnable {
 			VException ex = getObjectFactory().createException(
 					"parse error:" + e.getMessage());
 
-
 			ex.addTrace(position);
 
 			return ex;
@@ -385,11 +350,13 @@ public class Worker implements Runnable {
 			msg.status = MessageStatus.IN_PROGRESS;
 		}
 
-		InstructionExecutorImpl executor = new InstructionExecutorImpl(
-				objectRepository, postService, cp, msg.executionContext, msg);
+		executor = new InstructionExecutorImpl(objectRepository, postService,
+				cp, msg.executionContext, msg, this);
 		// executor.setPolicy(step);
 
 		executor.execute();
+
+		executor = null;
 
 		_Object result = msg.executionContext.getResult();
 		// error handling, convert error to VException and set it as return
@@ -406,11 +373,10 @@ public class Worker implements Runnable {
 				ex.addTrace(position);
 			} else {
 				// if there is no exception yet, create one.
-				VException ex = (VException) objectRepository.createObject(
-						ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+				VException ex = getObjectFactory().createException(
+						"execution error:"
+								+ msg.executionContext.executionErrorMessage);
 
-				ex.setMessage("execution error:"
-						+ msg.executionContext.executionErrorMessage);
 				ex.addTrace(position);
 				result = ex;
 			}
@@ -419,46 +385,6 @@ public class Worker implements Runnable {
 
 		return result;
 
-	}
-
-	private _Object executeNativeProcedure(Message msg, _Object obj,
-			Procedure proc) {
-		_Object result = null;
-
-		msg.initExecutionContext(objectRepository.getRootObject(),
-				proc.getNativeProcedureParameterNames());
-
-		try {
-			Class cls = Class.forName(proc.nativeProcedureClassName);
-			NativeProcedure nativeP = (NativeProcedure) cls.newInstance();
-
-			VirtualMachine vm = VirtualMachine.getInstance();
-
-			nativeP.execute(vm, obj, msg.executionContext);
-
-			msg.executionContext.setExecutionStatus(ExecutionStatus.COMPLETE);
-
-			result = msg.executionContext.getResult();
-		} catch (Exception e) {
-			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
-			e.printStackTrace();
-
-			// error handling, convert error to VException and set it as return
-			// value
-			VException ex = getObjectFactory().createException(
-					"NativeProcedure execution error:" + e.getMessage());
-
-
-			CodePosition pos = new CodePosition(obj.getPath(), proc.getName(),
-					null, msg.executionContext.executionErrorLine);
-
-			ex.addTrace(e);
-
-			ex.addTrace(pos);
-			result = ex;
-		}
-
-		return result;
 	}
 
 	protected BasicObjectFactory getObjectFactory() {
@@ -470,9 +396,66 @@ public class Worker implements Runnable {
 		processMessages(customer);
 
 		workerManager.removeWorker(this);
+
+		updateRunningStatus(WorkerStatus.Finished);
 	}
 
-	public void pause() {
+	public synchronized void updateRunningStatus(WorkerStatus newStatus) {
+		status = newStatus;
 
+		if (pauseFlag) {
+			pausedOrFinishedLatch.countDown();
+
+			// reset the flag
+			pauseFlag = false;
+		}
+
+	}
+
+	public boolean getPauseFlag() {
+		return pauseFlag;
+	}
+
+	public CountDownLatch pausedOrFinishedLatch;
+
+	public synchronized void pause(CountDownLatch latch) {
+		/**
+		 * wait for pausedOrTerminated.await();
+		 */
+
+		switch (status) {
+		case Running:
+
+			/*
+			 * switch the flag on, so that the worker thread(not this one) will
+			 * check it at 2 places. at each place, it will countDown the latch.
+			 */
+			pauseFlag = true;
+			pausedOrFinishedLatch = new CountDownLatch(1);
+			try {
+				pausedOrFinishedLatch.await();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+
+			break;
+		case Paused:
+			throw new RuntimeException("already paused");
+
+		case Finished:
+			// throw new RuntimeException("already finished");
+
+		}
+
+		latch.countDown();
+	}
+
+	public synchronized void resume() {
+		switch (status) {
+		case Paused:
+			// awake the sleep thread
+			executor.resume();
+
+		}
 	}
 }
