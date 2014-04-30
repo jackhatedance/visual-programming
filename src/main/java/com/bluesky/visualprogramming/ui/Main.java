@@ -10,6 +10,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -24,6 +27,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.utils.Config;
+import com.bluesky.visualprogramming.vm.AppProperties;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class Main extends JFrame {
@@ -34,6 +38,51 @@ public class Main extends JFrame {
 	static String USER_IMAGE_ENVIRONMENT_NAME = "COOBY_USER_IMAGE";
 
 	SVGMainWindow mainWindow = null;
+
+	/**
+	 * periodic timer save objects to file
+	 */
+	private static ScheduledExecutorService autoSaveService = Executors
+			.newScheduledThreadPool(1);
+
+
+	private static void startAutoSaveService() {
+		logger.debug("start auto-saving service");
+		Config appConfig = AppProperties.getInstance().getAsConfig();
+		if (appConfig.containsKey(AppProperties.AUTO_SAVE_INTERVAL)) {
+
+			int autoSaveInterval = appConfig.getInteger(
+					AppProperties.AUTO_SAVE_INTERVAL, 1000 * 60 * 10);
+			int minDelay = 1000 * 10;
+			int delay = autoSaveInterval < minDelay ? minDelay
+					: autoSaveInterval;
+
+			autoSaveService.scheduleAtFixedRate(new Runnable() {
+				@Override
+				public void run() {
+					VirtualMachine vm = VirtualMachine.getInstance();
+
+					vm.pause();
+
+					logger.debug("auto saving");
+					vm.save();
+					vm.resume();
+
+				}
+			}, delay, autoSaveInterval, TimeUnit.MILLISECONDS);
+		}
+	}
+
+	private static void stopAutoSaveService() {
+		logger.debug("stop auto-saving service");
+
+		autoSaveService.shutdown();
+		try {
+			autoSaveService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public Main() {
 
@@ -109,9 +158,13 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
+				stopAutoSaveService();
+
 				vm.pause();
 				vm.save();
 				vm.resume();
+
+				startAutoSaveService();
 			}
 
 		});
@@ -122,6 +175,12 @@ public class Main extends JFrame {
 		eMenuItem = new JMenuItem("Exit");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				VirtualMachine vm = VirtualMachine.getInstance();
+
+				stopAutoSaveService();
+
+				vm.stop();
+
 				System.exit(0);
 			}
 
@@ -133,10 +192,14 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				VirtualMachine vm = VirtualMachine.getInstance();
 
+				stopAutoSaveService();
+
 				vm.pause();
 				vm.save();
-
 				vm.resume();
+
+				vm.stop();
+
 
 				System.exit(0);
 			}
@@ -212,6 +275,8 @@ public class Main extends JFrame {
 		vm.loadFromImage(runtimeImageFile, userImageFile);
 
 		vm.start();
+
+		startAutoSaveService();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
