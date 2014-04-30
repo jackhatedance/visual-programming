@@ -112,8 +112,8 @@ public class Worker implements Runnable {
 
 					Procedure proc = obj.lookupProcedure(msg);
 					if (proc == null) {
-						logger.warn("message not understand:"
-								+ msg.getSubject());
+						logger.warn("message not understand:" + obj.getName()
+								+ "." + msg.getSubject());
 
 						executeUnknowMessage(msg, obj, proc);
 

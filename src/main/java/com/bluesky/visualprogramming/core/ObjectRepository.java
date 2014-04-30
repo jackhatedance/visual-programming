@@ -271,6 +271,9 @@ public class ObjectRepository {
 
 	public void save(String runtimeFileName, String userFileName) {
 
+		// to update fields , such as pointer path
+		beforeSaveXml(rootObject);
+
 		_Object users = detach(ROOT_OBJECT + "." + USERS);
 		saveXml(users, userFileName);
 
@@ -335,7 +338,6 @@ public class ObjectRepository {
 	 * @param writer
 	 */
 	private void saveXml(_Object obj, Writer writer) {
-		beforeSaveXml(obj);
 
 		ConfigurableObjectSerializer serializer = MessageFormat.Xstream
 				.getSerializer();
