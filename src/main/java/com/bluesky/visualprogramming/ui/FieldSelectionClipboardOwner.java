@@ -18,15 +18,23 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
  */
 public class FieldSelectionClipboardOwner implements ClipboardOwner {
 	private boolean lostOwnership;
-
-	public void setObject(_Object owner, String fieldName) {
+	private ClipboardActionType type;
+	
+	public void setObject(_Object owner, String fieldName, ClipboardActionType type) {
 		StringSelection stringSelection = new StringSelection(owner.getPath()
 				+ "|" + fieldName);
 
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(stringSelection, this);
+		
 
+		
 		lostOwnership = false;
+		this.type = type;
+	}
+
+	public ClipboardActionType getType() {
+		return type;
 	}
 
 	public FieldSelection getObject() {

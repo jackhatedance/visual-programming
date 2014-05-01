@@ -33,6 +33,7 @@ import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core.FieldType;
 import com.bluesky.visualprogramming.core.ObjectLayout;
@@ -274,7 +275,23 @@ public class SVGMainWindow extends JPanel {
 				if (getActiveChildField() != null) {
 					// save to clipboard
 					objectSelection.setObject(getSelectedTreeField()
-							.getTarget(), getActiveChildField().name);
+							.getTarget(), getActiveChildField().name,
+							ClipboardActionType.Cut);
+				}
+			}
+		});
+		menu.add(eMenuItem);
+
+		eMenuItem = new JMenuItem("Copy");
+		eMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Point p = diagramPanel.getMousePosition();
+				// updateSelectedChildObject(p, SelectedStatus.Selected);
+				if (getActiveChildField() != null) {
+					// save to clipboard
+					objectSelection.setObject(getSelectedTreeField()
+							.getTarget(), getActiveChildField().name,
+							ClipboardActionType.Copy);
 				}
 			}
 		});
@@ -466,11 +483,19 @@ public class SVGMainWindow extends JPanel {
 					_Object child = oldOwner.getChild(fieldName);
 					boolean ownership = oldOwner.owns(child);
 
-					oldOwner.removeField(fieldName);
+					switch (objectSelection.getType()) {
+					case Cut:
+						oldOwner.removeField(fieldName);
+						break;
+					case Copy:
+						BasicObjectFactory factory = VirtualMachine
+								.getInstance().getObjectRepository()
+								.getFactory();
+						child = child.clone(true, factory);
+					}
+
 					newOwner.setField(fieldName, child, ownership);
-
 					addChildObjectToTree(child);
-
 				}
 
 			}

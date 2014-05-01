@@ -129,18 +129,25 @@ public class _Object implements Serializable {
 	 * @param newObj
 	 */
 	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
-		//this.id = id;
 
 		this.type = src.type;
-		// this.id
+		//this.id = id;
 		this.name = src.name;
-		// this.owner
+		this.description = src.description;
+		this.scope = src.scope;
+		
+		for (Field oldField : src.fieldList) {
 
-		for (Field p : src.fieldList) {
+			//boolean owns = oldField.getType() == FieldType.STRONG;
 
-			boolean owns = p.getType() == FieldType.STRONG;
-
-			setField(p.name, p.getTarget(), owns);
+			_Object target=null;
+			if(deep)
+				target = oldField.getTarget().clone(deep, factory);
+			else
+				target = oldField.getTarget();
+			
+			Field newField = new Field(oldField,target);
+			addField(newField, target);
 		}
 
 		// messageQueue is skipped
@@ -153,8 +160,15 @@ public class _Object implements Serializable {
 		this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
 
+		
 	}
 
+	public _Object clone(boolean deep, BasicObjectFactory factory){		
+		_Object obj = factory.create(type);
+		obj.copy(this, deep, factory);
+		return obj;
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -290,6 +304,12 @@ public class _Object implements Serializable {
 
 	}
 
+	public void addField(Field field, _Object target){
+		fieldList.add(field);
+		field.owner = this;
+		field.setTarget(target);
+		sortFields();
+	}
 	/**
 	 * only for list(no name element)
 	 * 

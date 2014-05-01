@@ -1,5 +1,6 @@
 package com.bluesky.visualprogramming.core.value;
 
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core._Object;
 
 public abstract class ValueObject extends _Object {
@@ -8,10 +9,16 @@ public abstract class ValueObject extends _Object {
 		super(id);
 	}
 
+	@Override
+	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
+	
+		super.copy(src, deep, factory);
+		
+		setValue(src.getValue());		
+	}
 
 	public void copyValue(_Object src) {
 		setValue(src.getValue());
-
 
 	}
 
@@ -27,7 +34,7 @@ public abstract class ValueObject extends _Object {
 	}
 
 	@Override
-	public String toString() {		
+	public String toString() {
 		return getValue();
 	}
 }

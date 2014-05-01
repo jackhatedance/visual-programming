@@ -64,6 +64,13 @@ public class ObjectRepository {
 		listeners.add(migrationListener);
 
 		factory = new BasicObjectFactory() {
+			@Override
+			public _Object create(ObjectType type) {
+				return ObjectRepository.this
+				.createObject(
+				type, ObjectScope.ExecutionContext);
+				
+			}
 
 			@Override
 			public StringValue createString(String value) {

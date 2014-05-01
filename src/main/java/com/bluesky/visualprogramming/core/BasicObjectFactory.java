@@ -7,6 +7,8 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.TimeValue;
 
 public interface BasicObjectFactory {
+	_Object create(ObjectType type);
+	
 	_Object createObject();
 
 	IntegerValue createInteger(long value);

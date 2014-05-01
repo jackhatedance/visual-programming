@@ -70,6 +70,15 @@ public class Field {
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
+	public Field(Field src, _Object target){
+		this.name = src.name;
+		this.type = src.type;
+		this.svgScale = src.svgScale;
+		this.selectedStatus = SelectedStatus.NotSelected;
+		this.area = new Rectangle(src.area);
+		
+		attachTarget(target);
+	}
 	@Override
 	public String toString() {
 
