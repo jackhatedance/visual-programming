@@ -128,8 +128,8 @@ public class _Object implements Serializable {
 	 * 
 	 * @param newObj
 	 */
-	public _Object(long id, _Object src) {
-		this.id = id;
+	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
+		//this.id = id;
 
 		this.type = src.type;
 		// this.id
