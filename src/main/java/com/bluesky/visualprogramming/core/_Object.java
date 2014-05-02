@@ -65,7 +65,7 @@ public class _Object implements Serializable {
 	 * only not null if it has owner.
 	 */
 	private Field ownerField;
-
+	
 	/**
 	 * only those has root in persistent repository are persistent. messages are
 	 * not persistent.
@@ -111,9 +111,7 @@ public class _Object implements Serializable {
 	 */
 	private boolean applyingWorker = false;
 
-	// this scale is about the interal diagram of the object we are watching,
-	// not the svg shape from the orginal size.
-	public float scaleRate = 1f;
+	
 	public Color borderColor;
 
 	public _Object(long id) {
@@ -141,8 +139,11 @@ public class _Object implements Serializable {
 			//boolean owns = oldField.getType() == FieldType.STRONG;
 
 			_Object target=null;
-			if(deep)
-				target = oldField.getTarget().clone(deep, factory);
+			
+			if(deep){				
+				if(oldField.getTarget()!=null)
+					target = oldField.getTarget().clone(deep, factory);
+			}
 			else
 				target = oldField.getTarget();
 			
@@ -157,7 +158,7 @@ public class _Object implements Serializable {
 
 		// this.area = new Rectangle(src.area);
 
-		this.scaleRate = src.scaleRate;
+		//this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
 
 		
@@ -539,7 +540,7 @@ public class _Object implements Serializable {
 				} else
 					objName = field.name;
 
-				field.draw(diagramPanel, scene, canvasOffset, scaleRate, owns);
+				field.draw(diagramPanel, scene, canvasOffset, owns);
 			}
 		}
 	}

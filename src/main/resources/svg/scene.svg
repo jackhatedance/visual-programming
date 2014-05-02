@@ -51,6 +51,7 @@
      </filter>
      
    </defs>
+   <g id="wrapper" transform="scale(2.00000)">
    <rect id="background" x="0" y="0" width="1000" height="1000" style="fill:#00589d;fill-opacity:1;opacity:0.11934156000000000" />
     <g
      id="transform-object"><rect
@@ -87,5 +88,5 @@
        </g>
        
    	
-     
+     </g>
      </svg>

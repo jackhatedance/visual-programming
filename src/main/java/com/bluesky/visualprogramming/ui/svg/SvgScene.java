@@ -13,12 +13,18 @@ import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.ObjectType;
-
+/**
+ * represent the SVG file of the whole diagram canvas.
+ * 
+ * @author jack
+ *
+ */
 public class SvgScene {
 
 	Document doc;
 	Element svg;
-
+	Element wrapper;
+	
 	Element defs;
 	Element script;
 	Element background;
@@ -34,13 +40,15 @@ public class SvgScene {
 
 		// Make the text look nice.
 		svg.setAttributeNS(null, "text-rendering", "geometricPrecision");
-
+		
 		defs = doc.getElementById("defs");
 		script = doc.getElementById("script");
 		background = doc.getElementById("background");
 		transformObjectElement = (SVGOMGElement) doc
 				.getElementById("transform-object");
 
+		wrapper = doc.getElementById("wrapper");		
+		
 		transformBox = new SvgTransformBox(doc, transformObjectElement);
 		transformBox.setVisible(false);
 	}
@@ -59,7 +67,7 @@ public class SvgScene {
 			Node newDefstElement = doc
 					.importNode(svgObject.getDefsNode(), true);
 
-			svg.appendChild(newDefstElement);
+			wrapper.appendChild(newDefstElement);
 
 		}
 
@@ -70,7 +78,7 @@ public class SvgScene {
 		String transform = scaleStr + " " + translate;
 		newObjectElement.setAttribute("transform", transform);
 
-		svg.appendChild(newObjectElement);
+		wrapper.appendChild(newObjectElement);
 
 		return newObjectElement;
 
@@ -93,7 +101,7 @@ public class SvgScene {
 		String transform = scaleStr + " " + translate;
 		ele2.setAttribute("transform", transform);
 
-		svg.appendChild(ele2);
+		wrapper.appendChild(ele2);
 
 		return ele2;
 
@@ -107,18 +115,25 @@ public class SvgScene {
 			svg.removeChild(c);
 		}
 
+		//clear objects
+		while (wrapper.hasChildNodes()) {
+			Node c = wrapper.getFirstChild();
+			wrapper.removeChild(c);
+		}
+
 		// add back
 		if (defs != null)
 			svg.appendChild(defs);
 
 		if (script != null)
 			svg.appendChild(script);
-
-		if (background != null)
-			svg.appendChild(background);
+		
+		if (wrapper != null)
+			svg.appendChild(wrapper);
 
 		if (transformObjectElement != null)
 			svg.appendChild(transformObjectElement);
+		
 	}
 
 	public Element getElement(long id, SvgElementType type) {
@@ -173,6 +188,11 @@ public class SvgScene {
 		
 	public SvgTransformBox getTransformBox() {
 		return transformBox;
+	}
+	
+	public void setZoom(float rate){
+		String scaleStr = String.format("scale(%f)", rate);
+		wrapper.setAttribute("transform", scaleStr);
 	}
 
 }

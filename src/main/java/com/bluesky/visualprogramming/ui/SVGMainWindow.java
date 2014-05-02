@@ -57,7 +57,7 @@ public class SVGMainWindow extends JPanel {
 
 	static Logger logger = Logger.getLogger(SVGMainWindow.class);
 
-	private JFrame owner;
+	private Main owner;
 
 	public DefaultTreeModel treeModel;
 	private JTree tree;
@@ -74,7 +74,7 @@ public class SVGMainWindow extends JPanel {
 		return VirtualMachine.getInstance();
 	}
 
-	public SVGMainWindow(JFrame frame) {
+	public SVGMainWindow(Main frame) {
 		super(new GridLayout(1, 0));
 
 		owner = frame;
@@ -146,6 +146,7 @@ public class SVGMainWindow extends JPanel {
 						field.name, field.getSelectedStatus()));
 
 			SvgScene scene = new SvgScene();
+			scene.setZoom(owner.getZoomRate());
 
 			_Object target = field.getTarget();
 			if (target != null) {
@@ -170,7 +171,6 @@ public class SVGMainWindow extends JPanel {
 
 	public void reloadDiagram() {
 		final Field field = getSelectedTreeField();
-
 		loadDiagram(field);
 	}
 
@@ -259,7 +259,7 @@ public class SVGMainWindow extends JPanel {
 					treeModel.valueForPathChanged(new TreePath(
 							selectedChildNode), activeChildField);
 
-					diagramPanel.reload();
+					reloadDiagram();
 				}
 
 			}
@@ -331,7 +331,7 @@ public class SVGMainWindow extends JPanel {
 									getActiveChildField().getTarget());
 						}
 
-						diagramPanel.reload();
+						reloadDiagram();
 					}
 				}
 			}
@@ -485,6 +485,7 @@ public class SVGMainWindow extends JPanel {
 
 					switch (objectSelection.getType()) {
 					case Cut:
+
 						oldOwner.removeField(fieldName);
 						break;
 					case Copy:
@@ -492,6 +493,9 @@ public class SVGMainWindow extends JPanel {
 								.getInstance().getObjectRepository()
 								.getFactory();
 						child = child.clone(true, factory);
+
+						if (oldOwner == newOwner)
+							fieldName = fieldName + "(Copy)";
 					}
 
 					newOwner.setField(fieldName, child, ownership);
@@ -559,14 +563,14 @@ public class SVGMainWindow extends JPanel {
 
 		SVGOMPoint elePosition = SVGUtils.screenToElement(mat, screenPosition);
 
-		f.setStartPosition(elePosition.getX() / f.svgScale, elePosition.getY()
-				/ f.svgScale);
+		float startX = elePosition.getX() / ( f.svgScale);
+		float startY =elePosition.getY() / ( f.svgScale); 
+		f.setStartPosition(startX, startY);
 
 		treeModel.insertNodeInto(new DefaultMutableTreeNode(f),
 				getSelectedTreeNode(), getSelectedTreeNode().getChildCount());
 
-		diagramPanel.reload();
-
+		reloadDiagram();
 		return f;
 	}
 
@@ -613,99 +617,17 @@ public class SVGMainWindow extends JPanel {
 		return (Field) node.getUserObject();
 	}
 
-	protected void updateSelectedChildObject(Point mousePos,
-			SelectedStatus newStatus) {
-		Field field = getSelectedTreeField();
-		if (field == null)
-			return;
+	
 
-		Field activeChildField = getActiveChildField();
-		Field oldActiveChildField = activeChildField;
-
-		if (activeChildField != null) {
-			if (activeChildField.getName() != null
-					&& activeChildField.getName().equals("helloWorld")
-					&& activeChildField.getSelectedStatus() == SelectedStatus.NotSelected)
-				System.out
-						.println(String.format(
-								"old active child field %s status %s",
-								activeChildField,
-								activeChildField.getSelectedStatus()));
-		}
-		activeChildField = null;
-		Point p = CanvasUtils.scaleBack(mousePos, getSelectedTreeField()
-				.getTarget().scaleRate);
-
-		_Object obj = field.getTarget();
-		// step 1. find the hovering child field
-		for (int i = 0; i < obj.getChildCount(); i++) {
-			Field f = obj.getField(i);
-			// keep the last hovered object, the last has highest z order
-			if (f.getArea().contains(p))
-				activeChildField = f;
-		}
-
-		boolean sameActiveChildField = (oldActiveChildField == activeChildField);
-
-		// step 2: save old status
-		SelectedStatus oldStatus = null;
-		if (activeChildField != null)
-			oldStatus = activeChildField.getSelectedStatus();
-
-		// step 3: update status
-		for (int i = 0; i < obj.getChildCount(); i++) {
-			Field f = obj.getField(i);
-
-			if (f == activeChildField)
-				f.setSelectedStatus(newStatus);
-			else
-				f.setSelectedStatus(SelectedStatus.NotSelected);
-		}
-
-		// step 4: update status of new active field.
-		if (activeChildField != null) {
-
-			if (oldStatus != newStatus) {
-				if (logger.isDebugEnabled())
-					logger.debug(String.format(
-							"field %s's status from %s to %s",
-							activeChildField.getName(), oldStatus, newStatus));
-
-			}
-			// check if cursor is near borders, adjust to resize cursor
-		}
-
-		if ((oldActiveChildField != activeChildField)) {
-			String oldField = oldActiveChildField == null ? ""
-					: oldActiveChildField.name;
-			String newField = activeChildField == null ? ""
-					: activeChildField.name;
-
-			if (logger.isDebugEnabled())
-				logger.debug(String.format(
-						"active child field changed from %s to %s", oldField,
-						newField));
-
-			diagramPanel.reload();
-		} else if ((sameActiveChildField && activeChildField != null && oldStatus != newStatus)) {
-			if (logger.isDebugEnabled())
-				logger.debug(String.format("status changed from %s to %s",
-						oldStatus, newStatus));
-			diagramPanel.repaint();
-		}
-	}
-
-	public void setDiagramScaleRate(float diagramScaleRate) {
-		// this.diagramScaleRate =diagramScaleRate;
-		getSelectedTreeField().getTarget().scaleRate = diagramScaleRate;
-		diagramPanel.reload();
+	public void setDiagramScaleRate(float zoomRate) {
+		reloadDiagram();
 	}
 
 	private Field getActiveChildField() {
 		return diagramPanel.getpopupTargetField();
 	}
 
-	public JFrame getOwner() {
+	public Main getOwner() {
 		return owner;
 	}
 }

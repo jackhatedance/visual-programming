@@ -11,18 +11,18 @@ import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Field {
-	
-	static int BORDER_WIDTH_THIN=2;
+
+	static int BORDER_WIDTH_THIN = 2;
 
 	public String name;
-	
+
 	/**
 	 * it is strong reference
 	 */
 	private _Object strongTarget;
 	/**
 	 * the weak reference, aka. pointer.
-	 */	
+	 */
 	private WeakReference<_Object> weakTarget;
 
 	private FieldType type;
@@ -37,7 +37,10 @@ public class Field {
 	 */
 	public String pointerPath;
 
-	// scale of a svg shape.
+	/**
+	 * if the original size of a SVG is 100*100. then this scale is to resize it.
+	 * the transform box is used to change this value.
+	 */
 	public float svgScale = 0.2f;
 
 	/**
@@ -58,27 +61,26 @@ public class Field {
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
-
-
 	public Field(_Object target, String name, boolean own) {
-		
+
 		this.name = name;
 		this.type = FieldType.getType(own);
-		
+
 		attachTarget(target);
-		
+
 		area = new Rectangle(0, 0, 100, 100);
 	}
 
-	public Field(Field src, _Object target){
+	public Field(Field src, _Object target) {
 		this.name = src.name;
 		this.type = src.type;
 		this.svgScale = src.svgScale;
 		this.selectedStatus = SelectedStatus.NotSelected;
 		this.area = new Rectangle(src.area);
-		
+
 		attachTarget(target);
 	}
+
 	@Override
 	public String toString() {
 
@@ -150,18 +152,18 @@ public class Field {
 	 * @param own
 	 */
 	public void draw(SVGDiagramPanel diagramPanel, SvgScene scene,
-			Point canvasOffset, double zoom, boolean own) {
+			Point canvasOffset, boolean own) {
 
 		// System.out.println("draw:"+getName());
 
 		// draw border
 		// g.setColor(borderColor);
 
-		int x = (int) (area.x * zoom) + canvasOffset.x;
-		int y = (int) (area.y * zoom) + canvasOffset.y;
+		int x = (int) ((area.x + canvasOffset.x) );
+		int y = (int) ((area.y + canvasOffset.y) );
 
 		_Object target = getTarget();
-		
+
 		long id = target.getId();
 		String value = target.getHumanReadableText();
 
@@ -170,17 +172,16 @@ public class Field {
 			_Object graphic = target.getSystemChild(_Object.GRAPHIC);
 			if (graphic != null && graphic instanceof StringValue) {
 				StringValue sv = (StringValue) graphic;
-				ele = scene.addObject(sv.getValue(), id, x, y, svgScale);
+				ele = scene.addObject(sv.getValue(), id, x, y,  svgScale);
 
 			} else
-				ele = scene.addObject(target.type, id, x, y, svgScale);
+				ele = scene.addObject(target.type, id, x, y,  svgScale);
 		}
 
 		// for debug
 		// name += ",name=" + Long.toString(id);
 
 		scene.setName(id, name);
-
 
 		int maxLength = 50;
 		int length = value.length();
@@ -193,10 +194,9 @@ public class Field {
 		scene.setDescription(id, value);
 
 		scene.setBorderColor(id, target.borderColor);
-		
-		if(!own)
-			scene.setBorderWidth(id,BORDER_WIDTH_THIN );	
-		
+
+		if (!own)
+			scene.setBorderWidth(id, BORDER_WIDTH_THIN);
 
 		ele.setUserData("field", this, null);
 		diagramPanel.addMouseListener(ele);
@@ -206,15 +206,15 @@ public class Field {
 	public void accept(ObjectVisitor visitor) {
 		Object status = visitor.enter(this);
 		if (status instanceof Boolean && (Boolean) status == true) {
-			
-			//notice: only visit strong field?
-			_Object target = getTarget(); 
+
+			// notice: only visit strong field?
+			_Object target = getTarget();
 			if (target != null)
 				target.accept(visitor);
 		}
 		visitor.leave(this);
 	}
-		
+
 	public WeakReference<_Object> getWeakTarget() {
 		return weakTarget;
 	}
@@ -222,18 +222,17 @@ public class Field {
 	public void setWeakTarget(_Object target) {
 		this.weakTarget = new WeakReference<_Object>(target);
 	}
-	
-	public _Object getTarget(){
+
+	public _Object getTarget() {
 		return type.getTarget(this);
 	}
-
 
 	/**
 	 * force update
 	 * 
 	 * @param target
 	 */
-	public void setTarget(_Object target){
+	public void setTarget(_Object target) {
 		if (getTarget() != null)
 			detachTarget();
 
@@ -261,7 +260,6 @@ public class Field {
 
 			this.type = type;
 		}
-
 
 	}
 

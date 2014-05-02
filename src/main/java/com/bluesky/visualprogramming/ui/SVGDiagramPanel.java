@@ -73,7 +73,7 @@ public class SVGDiagramPanel extends JPanel {
 	private SvgScene scene;
 	private JTextArea textAreaScript;
 	private JButton btnExecute;
-
+		
 	private SVGMainWindow mainWindow;
 	private JPopupMenu objectPopupMenu;
 	private JPopupMenu backgroundPopupMenu;
@@ -229,6 +229,7 @@ public class SVGDiagramPanel extends JPanel {
 						// logger.debug(String.format("old xy: %f,%f", oldX,
 						// oldY));
 
+						
 						float tranlsateX = (float) (droppt.getX() + oldX - dragOffset
 								.getX());
 						float tranlsateY = (float) (droppt.getY() + oldY - dragOffset
@@ -243,6 +244,7 @@ public class SVGDiagramPanel extends JPanel {
 						// update field.area
 						Field field = (Field) ele.getUserData("field");
 
+						//float zoom = mainFrame.getZoomRate();
 						field.setStartPosition(tranlsateX, tranlsateY);
 
 						// update transform box
@@ -468,9 +470,6 @@ public class SVGDiagramPanel extends JPanel {
 		return (Field) popupTarget.getUserData("field");
 	}
 
-	public void reload() {
-		mainWindow.reloadDiagram();
-	}
 
 	public Point getPopupMenuPosition() {
 		return popupMenuPosition;

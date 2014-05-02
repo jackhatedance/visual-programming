@@ -14,7 +14,6 @@
         <scope>ExecutionContext</scope>
         <fieldList id="5"/>
         <systemFieldsCount>0</systemFieldsCount>
-        <scaleRate>1.0</scaleRate>
         <borderColor id="6">
           <red>0</red>
           <green>0</green>
@@ -33,7 +32,6 @@
     </field>
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
-  <scaleRate>1.0</scaleRate>
   <borderColor id="8">
     <red>0</red>
     <green>0</green>

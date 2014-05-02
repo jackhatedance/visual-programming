@@ -37,6 +37,8 @@ public class Main extends JFrame {
 	static String DEFAULT_USER_IMAGE_FILE_NAME = "users.xml";
 	static String USER_IMAGE_ENVIRONMENT_NAME = "COOBY_USER_IMAGE";
 
+	JComboBox cmbZoom;
+
 	SVGMainWindow mainWindow = null;
 
 	/**
@@ -44,7 +46,6 @@ public class Main extends JFrame {
 	 */
 	private static ScheduledExecutorService autoSaveService = Executors
 			.newScheduledThreadPool(1);
-
 
 	private static void startAutoSaveService() {
 		logger.debug("start auto-saving service");
@@ -100,25 +101,23 @@ public class Main extends JFrame {
 		toolBar.setLayout(gl_toolBar);
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 
-		JLabel lblScale = new JLabel("Scale:");
-		toolBar.add(lblScale);
+		JLabel lblZoom = new JLabel("Zoom:");
+		toolBar.add(lblZoom);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setEditable(true);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "1000",
-				"500", "200", "100", "75", "50", "25", "10" }));
-		comboBox.setSelectedIndex(3);
-		toolBar.add(comboBox);
-		comboBox.addItemListener(new ItemListener() {
+		cmbZoom = new JComboBox();
+		cmbZoom.setEditable(true);
+		cmbZoom.setModel(new DefaultComboBoxModel(new String[] { "1000", "500",
+				"200", "100", "75", "50", "25", "10" }));
+		cmbZoom.setSelectedIndex(3);
+		toolBar.add(cmbZoom);
+		cmbZoom.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == e.SELECTED) {
 
-					// System.out.println("scale changed to:"
-					// + (String) e.getItem());
-					float rate = 1f;
-					rate = Integer.valueOf((String) e.getItem()) / 100f;
+					float rate = getZoomRate();
+					
 					mainWindow.setDiagramScaleRate(rate);
 				}
 			}
@@ -200,7 +199,6 @@ public class Main extends JFrame {
 
 				vm.stop();
 
-
 				System.exit(0);
 			}
 
@@ -226,12 +224,14 @@ public class Main extends JFrame {
 		}
 		return map;
 	}
-	
-	private static void printUsage(){
+
+	private static void printUsage() {
 		System.out.println("Usage:");
 		System.out.println("java -jar cooby.jar HomeDir=~/cooby/");
-		System.out.println("You can set environment variable to set the user image file in another folder:");
-		System.out.println("$export COOBY_USER_IMAGE=/home/jack/cooby/users.xml");
+		System.out
+				.println("You can set environment variable to set the user image file in another folder:");
+		System.out
+				.println("$export COOBY_USER_IMAGE=/home/jack/cooby/users.xml");
 	}
 
 	/**
@@ -241,31 +241,30 @@ public class Main extends JFrame {
 	 */
 	public static void main(String[] args) {
 
-		if(args.length==1 && args[0].toLowerCase().contains("help")){
+		if (args.length == 1 && args[0].toLowerCase().contains("help")) {
 			printUsage();
 			return;
 		}
-		
+
 		Map<String, String> map = processArguments(args);
 		Config config = new Config(map);
 
 		String homeDir = config.getString("HomeDir", "images/");
-		
+
 		logger.debug("home directory: " + homeDir);
-		
-		//default value
+
+		// default value
 		String runtimeImageFile = homeDir + DEFAULT_RUNTIME_IMAGE_FILE_NAME;
 		String userImageFile = homeDir + DEFAULT_USER_IMAGE_FILE_NAME;
 
-		//environment value has higher priority
+		// environment value has higher priority
 		String userImageFileFromEnv = System
 				.getenv(USER_IMAGE_ENVIRONMENT_NAME);
-		if (userImageFileFromEnv != null && !userImageFileFromEnv.isEmpty())
-		{
-			logger.debug("user image file set by environment variable:"+userImageFileFromEnv);
+		if (userImageFileFromEnv != null && !userImageFileFromEnv.isEmpty()) {
+			logger.debug("user image file set by environment variable:"
+					+ userImageFileFromEnv);
 			userImageFile = userImageFileFromEnv;
 		}
-				
 
 		// init Object Repository
 		VirtualMachine vm = new VirtualMachine();
@@ -284,5 +283,10 @@ public class Main extends JFrame {
 				ex.setVisible(true);
 			}
 		});
+	}
+
+	public float getZoomRate() {
+		float rate = Integer.valueOf((String) cmbZoom.getSelectedItem()) / 100f;
+		return rate;
 	}
 }
