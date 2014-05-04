@@ -23,7 +23,7 @@ public class Time extends NativeMethodSupport {
 	@ParameterList({ "self", "format" })
 	public static _Object toString(TimeValue self, StringValue format) {
 
-		String strFormat = "yyMMddHHmmssZ";
+		String strFormat = "yyyy-MM-dd HH:mm:ss Z";
 		if (format != null)
 			strFormat = format.getValue();
 

@@ -6,7 +6,6 @@ import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 
 public class StringProto extends NativeMethodSupport {
 
@@ -31,6 +30,15 @@ public class StringProto extends NativeMethodSupport {
 
 		BooleanValue bv = getObjectFactory().createBoolean(
 				self.getValue().equals(str.getValue()));
+
+		return bv;
+	}
+
+	@ParameterList({ "self", "str" })
+	public static BooleanValue contains(StringValue self, StringValue str) {
+
+		BooleanValue bv = getObjectFactory().createBoolean(
+				self.getValue().contains(str.getValue()));
 
 		return bv;
 	}

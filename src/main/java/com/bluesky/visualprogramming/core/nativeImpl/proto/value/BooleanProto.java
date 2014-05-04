@@ -4,7 +4,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
-import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
+import com.bluesky.visualprogramming.core.value.StringValue;
 
 public class BooleanProto extends NativeMethodSupport {
 
@@ -33,6 +33,15 @@ public class BooleanProto extends NativeMethodSupport {
 
 		BooleanValue result = getObjectFactory().createBoolean(
 				self.getBooleanValue() != b.getBooleanValue());
+
+		return result;
+	}
+
+	@ParameterList({ "self" })
+	public static _Object toString(BooleanValue self) {
+
+		StringValue result = getObjectFactory().createString(
+				String.valueOf(self.getBooleanValue()));
 
 		return result;
 	}
