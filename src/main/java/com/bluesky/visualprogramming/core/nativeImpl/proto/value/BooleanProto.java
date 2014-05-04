@@ -9,6 +9,28 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 public class BooleanProto extends NativeMethodSupport {
 
 	@ParameterList({ "self", "b" })
+	public static _Object and(_Object self, BooleanValue b) {
+
+		BooleanValue selfValue = (BooleanValue) self;
+
+		BooleanValue result = getObjectFactory().createBoolean(
+				selfValue.getBooleanValue() && b.getBooleanValue());
+
+		return result;
+	}
+
+	@ParameterList({ "self", "b" })
+	public static _Object or(_Object self, BooleanValue b) {
+
+		BooleanValue selfValue = (BooleanValue) self;
+
+		BooleanValue result = getObjectFactory().createBoolean(
+				selfValue.getBooleanValue() && b.getBooleanValue());
+
+		return result;
+	}
+
+	@ParameterList({ "self", "b" })
 	public static _Object equals(_Object self, BooleanValue b) {
 
 		BooleanValue selfValue = (BooleanValue) self;
