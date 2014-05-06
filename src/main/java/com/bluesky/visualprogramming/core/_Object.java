@@ -264,7 +264,7 @@ public class _Object implements Serializable {
 	 */
 	public void setField(String name, _Object child, boolean owns) {
 
-		if (child.hasOwner() && owns) {
+		if (child!=null && child.hasOwner() && owns) {
 
 			if (child.getScope() == ObjectScope.ExecutionContext)
 				child.downgradeLinkFromOwner();
