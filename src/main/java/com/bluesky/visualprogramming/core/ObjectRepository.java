@@ -66,17 +66,16 @@ public class ObjectRepository {
 		factory = new BasicObjectFactory() {
 			@Override
 			public _Object create(ObjectType type) {
-				return ObjectRepository.this
-				.createObject(
-				type, ObjectScope.ExecutionContext);
-				
+				return ObjectRepository.this.createObject(type,
+						ObjectScope.ExecutionContext);
+
 			}
 
 			@Override
 			public StringValue createString(String value) {
 				StringValue obj = (StringValue) ObjectRepository.this
-						.createObject(
-						ObjectType.STRING, ObjectScope.ExecutionContext);
+						.createObject(ObjectType.STRING,
+								ObjectScope.ExecutionContext);
 				obj.setValue(value);
 				return obj;
 			}
@@ -90,16 +89,17 @@ public class ObjectRepository {
 			@Override
 			public IntegerValue createInteger(long value) {
 				IntegerValue obj = (IntegerValue) ObjectRepository.this
-						.createObject(
-						ObjectType.INTEGER, ObjectScope.ExecutionContext);
+						.createObject(ObjectType.INTEGER,
+								ObjectScope.ExecutionContext);
 				obj.setIntValue(value);
 				return obj;
 			}
 
 			@Override
 			public BooleanValue createBoolean(boolean value) {
-				BooleanValue obj = (BooleanValue) ObjectRepository.this.createObject(
-						ObjectType.BOOLEAN, ObjectScope.ExecutionContext);
+				BooleanValue obj = (BooleanValue) ObjectRepository.this
+						.createObject(ObjectType.BOOLEAN,
+								ObjectScope.ExecutionContext);
 				obj.setBooleanValue(value);
 				return obj;
 			}
@@ -123,8 +123,9 @@ public class ObjectRepository {
 
 			@Override
 			public VException createException(String message) {
-				VException obj= (VException) ObjectRepository.this.createObject(
-						ObjectType.EXCEPTION, ObjectScope.ExecutionContext);
+				VException obj = (VException) ObjectRepository.this
+						.createObject(ObjectType.EXCEPTION,
+								ObjectScope.ExecutionContext);
 				obj.setMessage(message);
 				return obj;
 			}
@@ -438,8 +439,10 @@ public class ObjectRepository {
 
 						f.pointerPath = f.getTarget().getPath();
 						if (f.pointerPath == null) {
-							System.out
-									.println("weak reference but path is null");
+
+							System.out.println(String
+									.format("weak reference but path is null, %s.%s(#%d)",
+											obj.getPath(), f.getName()));
 						}
 
 						if (!f.pointerPath.startsWith(ROOT_OBJECT))
@@ -452,7 +455,6 @@ public class ObjectRepository {
 
 			}
 		});
-
 
 		// notify
 		treeWalk(mountPoint, new TreeWalker() {
