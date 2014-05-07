@@ -5,15 +5,13 @@ import java.util.List;
 
 import com.bluesky.visualprogramming.core.ExtendedObjectFactory;
 import com.bluesky.visualprogramming.core.Field;
-import com.bluesky.visualprogramming.core.ObjectScope;
-import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.Prototype;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
+import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class MapProto extends NativeMethodSupport {
 	static String MapItemPrefix = "KEY_";
@@ -38,10 +36,12 @@ public class MapProto extends NativeMethodSupport {
 	}
 
 	@ParameterList({ "self", "key" })
-	public static boolean contains(_Object self, StringValue key) {
+	public static BooleanValue contains(_Object self, StringValue key) {
 		String strKey = key.getValue();
 		_Object value = self.getChild(getItemName(strKey));
-		return value != null;
+
+		BooleanValue result = getObjectFactory().createBoolean(value != null);
+		return result;
 
 	}
 
