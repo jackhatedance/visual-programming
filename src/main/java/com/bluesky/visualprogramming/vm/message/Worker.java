@@ -273,6 +273,12 @@ public class Worker implements Runnable {
 
 		// push reply to the blocking message
 		Message replyToMessage = msg.previous;
+
+		if (replyToMessage == null) {
+			logger.error("received a SyncReply message, but without its previous(replyTo) message. the message is: "
+					+ msg.toString());
+
+		}
 		Message lastMessage = replyToMessage.previous;
 
 		if (logger.isDebugEnabled())
