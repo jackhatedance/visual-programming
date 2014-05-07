@@ -27426,18 +27426,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4604">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4605">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="675"/>
@@ -27654,18 +27643,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4632">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4633">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="701"/>
@@ -27859,18 +27837,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4656">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4657">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28064,18 +28031,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4680">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4681">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28269,18 +28225,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4704">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4705">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="675"/>
@@ -28474,18 +28419,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4728">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4729">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28679,18 +28613,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4752">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4753">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                 
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28884,18 +28807,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4776">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4777">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -29089,18 +29001,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="4800">
-                                    <name>_prototype</name>
-                                    <type>WEAK</type>
-                                    <pointerPath>string</pointerPath>
-                                    <svgScale>0.2</svgScale>
-                                    <area id="4801">
-                                      <x>0</x>
-                                      <y>0</y>
-                                      <width>100</width>
-                                      <height>100</height>
-                                    </area>
-                                  </field>
+                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
