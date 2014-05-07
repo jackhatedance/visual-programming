@@ -68,11 +68,6 @@ public class Main extends JFrame {
 
 					logger.debug("start auto saving");
 					vm.save();
-					try {
-						Thread.sleep(30000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 					logger.debug("finish auto saving");
 					vm.resume();
 
