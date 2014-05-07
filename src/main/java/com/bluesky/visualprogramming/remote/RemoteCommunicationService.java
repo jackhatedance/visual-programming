@@ -95,7 +95,7 @@ public class RemoteCommunicationService {
 									+ "://" + address.getValue();
 
 							if (logger.isInfoEnabled())
-								logger.info("create remote agent for "
+								logger.debug("create remote agent for "
 										+ owner.getName()
 										+ " binding address is " + fullAddress);
 						} catch (Exception e) {

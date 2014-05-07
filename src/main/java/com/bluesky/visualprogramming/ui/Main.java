@@ -132,12 +132,14 @@ public class Main extends JFrame {
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(Main.this,
-						"Are you sure to close this window?",
-						"Really Closing?", JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+				int choice = JOptionPane.showConfirmDialog(Main.this,
+						"Save the world?", "Exit", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+
+				if (choice == JOptionPane.YES_OPTION)
+					saveAndExit();
+				else
 					exit();
-				}
 			}
 		});
 

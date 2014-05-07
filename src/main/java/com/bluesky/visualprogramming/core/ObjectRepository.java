@@ -434,21 +434,26 @@ public class ObjectRepository {
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
-					// remove pointer reference, replace with softlink
-					if (f.getTarget() != null && f.getType() == FieldType.WEAK) {
+					// calculate field target path so that we can serialize it
+					if (f.getType() == FieldType.WEAK) {
+						if (f.getTarget() != null) {
+							f.pointerPath = f.getTarget().getPath();
+							if (f.pointerPath == null) {
 
-						f.pointerPath = f.getTarget().getPath();
-						if (f.pointerPath == null) {
+								System.out.println(String
+										.format("weak reference but path is null, %s.%s(#%d)",
+												obj.getPath(), f.getName()));
+							}
 
-							System.out.println(String
-									.format("weak reference but path is null, %s.%s(#%d)",
-											obj.getPath(), f.getName()));
+							if (!f.pointerPath.startsWith(ROOT_OBJECT))
+								System.out.println(f.pointerPath);
+
+							// f.setWeakTarget(null);
+						} else {
+							// maybe the target has been destroyed.
+							logger.warn("empty weak reference found:"
+									+ obj.getPath() + "." + f.getName());
 						}
-
-						if (!f.pointerPath.startsWith(ROOT_OBJECT))
-							System.out.println(f.pointerPath);
-
-						// f.setWeakTarget(null);
 					}
 
 				}
@@ -521,9 +526,9 @@ public class ObjectRepository {
 							f.setWeakTarget(ObjectRepository.this
 									.getObjectByPath(f.pointerPath));
 						} else {
-							System.out.println("wrong pointer:" + f.pointerPath
-									+ ",object ID:" + obj.getId()
-									+ ",field name:" + f.name);
+							System.out.println("invalid target path:"
+									+ f.pointerPath + ",owner object ID:"
+									+ obj.getId() + ",field name:" + f.name);
 						}
 
 					} else if (f.getType() == FieldType.STRONG) {

@@ -27426,7 +27426,6 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="675"/>
@@ -27508,7 +27507,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4606">
+                              <area id="4604">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -27521,21 +27520,21 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4607">
+                        <area id="4605">
                           <x>725</x>
                           <y>830</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4608">
+                      <field id="4606">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4609">
+                        <strongTarget class="procedure" id="4607">
                           <type>PROCEDURE</type>
                           <id>109840158</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4610"/>
+                          <fieldList id="4608"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="677"/>
                           <__native>false</__native>
@@ -27544,7 +27543,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4611">
+                        <area id="4609">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -27557,28 +27556,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4612">
+                  <area id="4610">
                     <x>3584</x>
                     <y>95</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4613">
+                <field id="4611">
                   <name>帅</name>
-                  <strongTarget id="4614">
+                  <strongTarget id="4612">
                     <type>NORMAL</type>
                     <id>109840159</id>
                     <name>帅</name>
-                    <fieldList id="4615">
-                      <field id="4616">
+                    <fieldList id="4613">
+                      <field id="4614">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4617">
+                        <strongTarget class="procedure" id="4615">
                           <type>PROCEDURE</type>
                           <id>109840160</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4618"/>
+                          <fieldList id="4616"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -27587,43 +27586,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4619">
+                        <area id="4617">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4620">
+                      <field id="4618">
                         <name>_system</name>
-                        <strongTarget id="4621">
+                        <strongTarget id="4619">
                           <type>NORMAL</type>
                           <id>109840161</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4622">
-                            <field id="4623">
+                          <fieldList id="4620">
+                            <field id="4621">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4624">
+                              <strongTarget class="string" id="4622">
                                 <type>STRING</type>
                                 <id>109840162</id>
                                 <name>_graphic</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4625">
-                                  <field id="4626">
+                                <fieldList id="4623">
+                                  <field id="4624">
                                     <name>_system</name>
-                                    <strongTarget id="4627">
+                                    <strongTarget id="4625">
                                       <type>NORMAL</type>
                                       <id>109840163</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4628">
-                                        <field id="4629">
+                                      <fieldList id="4626">
+                                        <field id="4627">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4630">
+                                          <area id="4628">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -27636,14 +27635,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4631">
+                                    <area id="4629">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="701"/>
@@ -27725,7 +27723,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4634">
+                              <area id="4630">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -27738,7 +27736,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4635">
+                        <area id="4631">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -27751,28 +27749,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4636">
+                  <area id="4632">
                     <x>2520</x>
                     <y>229</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4637">
+                <field id="4633">
                   <name>馬</name>
-                  <strongTarget id="4638">
+                  <strongTarget id="4634">
                     <type>NORMAL</type>
                     <id>109840177</id>
                     <name>Horse1</name>
-                    <fieldList id="4639">
-                      <field id="4640">
+                    <fieldList id="4635">
+                      <field id="4636">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4641">
+                        <strongTarget class="procedure" id="4637">
                           <type>PROCEDURE</type>
                           <id>109840178</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4642"/>
+                          <fieldList id="4638"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -27781,43 +27779,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4643">
+                        <area id="4639">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4644">
+                      <field id="4640">
                         <name>_system</name>
-                        <strongTarget id="4645">
+                        <strongTarget id="4641">
                           <type>NORMAL</type>
                           <id>109840179</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4646">
-                            <field id="4647">
+                          <fieldList id="4642">
+                            <field id="4643">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4648">
+                              <strongTarget class="string" id="4644">
                                 <type>STRING</type>
                                 <id>109840180</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4649">
-                                  <field id="4650">
+                                <fieldList id="4645">
+                                  <field id="4646">
                                     <name>_system</name>
-                                    <strongTarget id="4651">
+                                    <strongTarget id="4647">
                                       <type>NORMAL</type>
                                       <id>109840181</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4652">
-                                        <field id="4653">
+                                      <fieldList id="4648">
+                                        <field id="4649">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4654">
+                                          <area id="4650">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -27830,14 +27828,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4655">
+                                    <area id="4651">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -27919,7 +27916,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4658">
+                              <area id="4652">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -27932,7 +27929,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4659">
+                        <area id="4653">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -27945,28 +27942,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4660">
+                  <area id="4654">
                     <x>2230</x>
                     <y>1205</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4661">
+                <field id="4655">
                   <name>象</name>
-                  <strongTarget id="4662">
+                  <strongTarget id="4656">
                     <type>NORMAL</type>
                     <id>109840195</id>
                     <name>Primary2</name>
-                    <fieldList id="4663">
-                      <field id="4664">
+                    <fieldList id="4657">
+                      <field id="4658">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4665">
+                        <strongTarget class="procedure" id="4659">
                           <type>PROCEDURE</type>
                           <id>109840196</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4666"/>
+                          <fieldList id="4660"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -27975,43 +27972,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4667">
+                        <area id="4661">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4668">
+                      <field id="4662">
                         <name>_system</name>
-                        <strongTarget id="4669">
+                        <strongTarget id="4663">
                           <type>NORMAL</type>
                           <id>109840197</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4670">
-                            <field id="4671">
+                          <fieldList id="4664">
+                            <field id="4665">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4672">
+                              <strongTarget class="string" id="4666">
                                 <type>STRING</type>
                                 <id>109840198</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4673">
-                                  <field id="4674">
+                                <fieldList id="4667">
+                                  <field id="4668">
                                     <name>_system</name>
-                                    <strongTarget id="4675">
+                                    <strongTarget id="4669">
                                       <type>NORMAL</type>
                                       <id>109840199</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4676">
-                                        <field id="4677">
+                                      <fieldList id="4670">
+                                        <field id="4671">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4678">
+                                          <area id="4672">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28024,14 +28021,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4679">
+                                    <area id="4673">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28113,7 +28109,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4682">
+                              <area id="4674">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -28126,7 +28122,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4683">
+                        <area id="4675">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -28139,28 +28135,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4684">
+                  <area id="4676">
                     <x>2523</x>
                     <y>2929</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4685">
+                <field id="4677">
                   <name>車</name>
-                  <strongTarget id="4686">
+                  <strongTarget id="4678">
                     <type>NORMAL</type>
                     <id>109840213</id>
                     <name>Car1</name>
-                    <fieldList id="4687">
-                      <field id="4688">
+                    <fieldList id="4679">
+                      <field id="4680">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4689">
+                        <strongTarget class="procedure" id="4681">
                           <type>PROCEDURE</type>
                           <id>109840214</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4690"/>
+                          <fieldList id="4682"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -28169,43 +28165,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4691">
+                        <area id="4683">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4692">
+                      <field id="4684">
                         <name>_system</name>
-                        <strongTarget id="4693">
+                        <strongTarget id="4685">
                           <type>NORMAL</type>
                           <id>109840215</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4694">
-                            <field id="4695">
+                          <fieldList id="4686">
+                            <field id="4687">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4696">
+                              <strongTarget class="string" id="4688">
                                 <type>STRING</type>
                                 <id>109840216</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4697">
-                                  <field id="4698">
+                                <fieldList id="4689">
+                                  <field id="4690">
                                     <name>_system</name>
-                                    <strongTarget id="4699">
+                                    <strongTarget id="4691">
                                       <type>NORMAL</type>
                                       <id>109840217</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4700">
-                                        <field id="4701">
+                                      <fieldList id="4692">
+                                        <field id="4693">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4702">
+                                          <area id="4694">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28218,14 +28214,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4703">
+                                    <area id="4695">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="675"/>
@@ -28307,7 +28302,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4706">
+                              <area id="4696">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -28320,7 +28315,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4707">
+                        <area id="4697">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -28333,28 +28328,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4708">
+                  <area id="4698">
                     <x>109</x>
                     <y>190</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4709">
+                <field id="4699">
                   <name>士</name>
-                  <strongTarget id="4710">
+                  <strongTarget id="4700">
                     <type>NORMAL</type>
                     <id>109840231</id>
                     <name>Guard1</name>
-                    <fieldList id="4711">
-                      <field id="4712">
+                    <fieldList id="4701">
+                      <field id="4702">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4713">
+                        <strongTarget class="procedure" id="4703">
                           <type>PROCEDURE</type>
                           <id>109840232</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4714"/>
+                          <fieldList id="4704"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -28363,43 +28358,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4715">
+                        <area id="4705">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4716">
+                      <field id="4706">
                         <name>_system</name>
-                        <strongTarget id="4717">
+                        <strongTarget id="4707">
                           <type>NORMAL</type>
                           <id>109840233</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4718">
-                            <field id="4719">
+                          <fieldList id="4708">
+                            <field id="4709">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4720">
+                              <strongTarget class="string" id="4710">
                                 <type>STRING</type>
                                 <id>109840234</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4721">
-                                  <field id="4722">
+                                <fieldList id="4711">
+                                  <field id="4712">
                                     <name>_system</name>
-                                    <strongTarget id="4723">
+                                    <strongTarget id="4713">
                                       <type>NORMAL</type>
                                       <id>109840235</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4724">
-                                        <field id="4725">
+                                      <fieldList id="4714">
+                                        <field id="4715">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4726">
+                                          <area id="4716">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28412,14 +28407,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4727">
+                                    <area id="4717">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28501,7 +28495,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4730">
+                              <area id="4718">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -28514,7 +28508,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4731">
+                        <area id="4719">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -28527,28 +28521,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4732">
+                  <area id="4720">
                     <x>874</x>
                     <y>225</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4733">
+                <field id="4721">
                   <name>马</name>
-                  <strongTarget id="4734">
+                  <strongTarget id="4722">
                     <type>NORMAL</type>
                     <id>109840249</id>
                     <name>Horse2</name>
-                    <fieldList id="4735">
-                      <field id="4736">
+                    <fieldList id="4723">
+                      <field id="4724">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4737">
+                        <strongTarget class="procedure" id="4725">
                           <type>PROCEDURE</type>
                           <id>109840250</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4738"/>
+                          <fieldList id="4726"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -28557,43 +28551,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4739">
+                        <area id="4727">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4740">
+                      <field id="4728">
                         <name>_system</name>
-                        <strongTarget id="4741">
+                        <strongTarget id="4729">
                           <type>NORMAL</type>
                           <id>109840251</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4742">
-                            <field id="4743">
+                          <fieldList id="4730">
+                            <field id="4731">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4744">
+                              <strongTarget class="string" id="4732">
                                 <type>STRING</type>
                                 <id>109840252</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4745">
-                                  <field id="4746">
+                                <fieldList id="4733">
+                                  <field id="4734">
                                     <name>_system</name>
-                                    <strongTarget id="4747">
+                                    <strongTarget id="4735">
                                       <type>NORMAL</type>
                                       <id>109840253</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4748">
-                                        <field id="4749">
+                                      <fieldList id="4736">
+                                        <field id="4737">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4750">
+                                          <area id="4738">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28606,14 +28600,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4751">
+                                    <area id="4739">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                 
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28695,7 +28688,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4754">
+                              <area id="4740">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -28708,7 +28701,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4755">
+                        <area id="4741">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -28721,28 +28714,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4756">
+                  <area id="4742">
                     <x>2479</x>
                     <y>1921</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4757">
+                <field id="4743">
                   <name>车</name>
-                  <strongTarget id="4758">
+                  <strongTarget id="4744">
                     <type>NORMAL</type>
                     <id>109840267</id>
                     <name>Car2</name>
-                    <fieldList id="4759">
-                      <field id="4760">
+                    <fieldList id="4745">
+                      <field id="4746">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4761">
+                        <strongTarget class="procedure" id="4747">
                           <type>PROCEDURE</type>
                           <id>109840268</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4762"/>
+                          <fieldList id="4748"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -28751,43 +28744,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4763">
+                        <area id="4749">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4764">
+                      <field id="4750">
                         <name>_system</name>
-                        <strongTarget id="4765">
+                        <strongTarget id="4751">
                           <type>NORMAL</type>
                           <id>109840269</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4766">
-                            <field id="4767">
+                          <fieldList id="4752">
+                            <field id="4753">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4768">
+                              <strongTarget class="string" id="4754">
                                 <type>STRING</type>
                                 <id>109840270</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4769">
-                                  <field id="4770">
+                                <fieldList id="4755">
+                                  <field id="4756">
                                     <name>_system</name>
-                                    <strongTarget id="4771">
+                                    <strongTarget id="4757">
                                       <type>NORMAL</type>
                                       <id>109840271</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4772">
-                                        <field id="4773">
+                                      <fieldList id="4758">
+                                        <field id="4759">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4774">
+                                          <area id="4760">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28800,14 +28793,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4775">
+                                    <area id="4761">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -28889,7 +28881,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4778">
+                              <area id="4762">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -28902,7 +28894,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4779">
+                        <area id="4763">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -28915,28 +28907,28 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4780">
+                  <area id="4764">
                     <x>4470</x>
                     <y>495</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4781">
+                <field id="4765">
                   <name>仕</name>
-                  <strongTarget id="4782">
+                  <strongTarget id="4766">
                     <type>NORMAL</type>
                     <id>109840285</id>
                     <name>Guard2</name>
-                    <fieldList id="4783">
-                      <field id="4784">
+                    <fieldList id="4767">
+                      <field id="4768">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="4785">
+                        <strongTarget class="procedure" id="4769">
                           <type>PROCEDURE</type>
                           <id>109840286</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4786"/>
+                          <fieldList id="4770"/>
                           <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="691"/>
                           <__native>false</__native>
@@ -28945,43 +28937,43 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4787">
+                        <area id="4771">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4788">
+                      <field id="4772">
                         <name>_system</name>
-                        <strongTarget id="4789">
+                        <strongTarget id="4773">
                           <type>NORMAL</type>
                           <id>109840287</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4790">
-                            <field id="4791">
+                          <fieldList id="4774">
+                            <field id="4775">
                               <name>graphic</name>
-                              <strongTarget class="string" id="4792">
+                              <strongTarget class="string" id="4776">
                                 <type>STRING</type>
                                 <id>109840288</id>
                                 <name>unnamed</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="4793">
-                                  <field id="4794">
+                                <fieldList id="4777">
+                                  <field id="4778">
                                     <name>_system</name>
-                                    <strongTarget id="4795">
+                                    <strongTarget id="4779">
                                       <type>NORMAL</type>
                                       <id>109840289</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="4796">
-                                        <field id="4797">
+                                      <fieldList id="4780">
+                                        <field id="4781">
                                           <name>prototype</name>
                                           <type>WEAK</type>
                                           <pointerPath>_world.core.prototype.value.string</pointerPath>
                                           <svgScale>0.2</svgScale>
-                                          <area id="4798">
+                                          <area id="4782">
                                             <x>0</x>
                                             <y>0</y>
                                             <width>100</width>
@@ -28994,14 +28986,13 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="4799">
+                                    <area id="4783">
                                       <x>0</x>
                                       <y>0</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  
                                 </fieldList>
                                 <systemFieldsCount>2</systemFieldsCount>
                                 <borderColor reference="721"/>
@@ -29083,7 +29074,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="4802">
+                              <area id="4784">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -29096,7 +29087,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4803">
+                        <area id="4785">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -29109,35 +29100,35 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4804">
+                  <area id="4786">
                     <x>3245</x>
                     <y>3939</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="4805">
+                <field id="4787">
                   <name>description</name>
-                  <strongTarget class="string" id="4806">
+                  <strongTarget class="string" id="4788">
                     <type>STRING</type>
                     <id>109840303</id>
                     <name>description</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="4807">
-                      <field id="4808">
+                    <fieldList id="4789">
+                      <field id="4790">
                         <name>_system</name>
-                        <strongTarget id="4809">
+                        <strongTarget id="4791">
                           <type>NORMAL</type>
                           <id>109840304</id>
                           <name>_system</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4810">
-                            <field id="4811">
+                          <fieldList id="4792">
+                            <field id="4793">
                               <name>prototype</name>
                               <type>WEAK</type>
                               <pointerPath>_world.core.prototype.value.string</pointerPath>
                               <svgScale>0.2</svgScale>
-                              <area id="4812">
+                              <area id="4794">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -29150,27 +29141,27 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4813">
+                        <area id="4795">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4814">
+                      <field id="4796">
                         <name>_system</name>
-                        <strongTarget id="4815">
+                        <strongTarget id="4797">
                           <type>NORMAL</type>
                           <id>109840305</id>
                           <name>_system</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="4816">
-                            <field id="4817">
+                          <fieldList id="4798">
+                            <field id="4799">
                               <name>prototype</name>
                               <type>WEAK</type>
                               <pointerPath>string</pointerPath>
                               <svgScale>0.2</svgScale>
-                              <area id="4818">
+                              <area id="4800">
                                 <x>0</x>
                                 <y>0</y>
                                 <width>100</width>
@@ -29183,7 +29174,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="4819">
+                        <area id="4801">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -29201,7 +29192,7 @@ chess pieces and chess board can be made by svg files.</value>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4820">
+                  <area id="4802">
                     <x>310</x>
                     <y>1520</y>
                     <width>100</width>
@@ -29214,7 +29205,7 @@ chess pieces and chess board can be made by svg files.</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="4821">
+            <area id="4803">
               <x>1430</x>
               <y>1565</y>
               <width>100</width>
@@ -29227,7 +29218,7 @@ chess pieces and chess board can be made by svg files.</value>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="4822">
+      <area id="4804">
         <x>53</x>
         <y>1303</y>
         <width>100</width>
@@ -29236,7 +29227,7 @@ chess pieces and chess board can be made by svg files.</value>
     </field>
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
-  <borderColor id="4823">
+  <borderColor id="4805">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
