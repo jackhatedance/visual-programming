@@ -65,8 +65,14 @@ public class Main extends JFrame {
 
 					vm.pause();
 
-					logger.debug("auto saving");
+					logger.debug("start auto saving");					
 					vm.save();
+					try {
+						Thread.sleep(30000);
+					} catch (InterruptedException e) {						
+						e.printStackTrace();
+					}
+					logger.debug("finish auto saving");
 					vm.resume();
 
 				}
@@ -75,11 +81,13 @@ public class Main extends JFrame {
 	}
 
 	private static void stopAutoSaveService() {
-		logger.debug("stop auto-saving service");
+		logger.debug("stoping auto-saving service");
 
 		autoSaveService.shutdown();
 		try {
+			logger.debug("waiting for auto-saving service to stop.");
 			autoSaveService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+			logger.debug("auto-saving service stopped.");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}

@@ -67,7 +67,8 @@ public abstract class ThreadService implements Runnable, Service {
 						pauseFlag = false;
 
 						wait();
-						setStatus(ServiceStatus.Running);
+						//already updated the status in resume function
+						//setStatus(ServiceStatus.Running);
 					}
 
 				}
@@ -127,7 +128,7 @@ public abstract class ThreadService implements Runnable, Service {
 		notify();
 
 		// status updated in run()
-		// setStatus( ServiceStatus.Running);
+		setStatus( ServiceStatus.Running);
 	}
 
 	@Override
