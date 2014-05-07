@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
@@ -65,11 +66,11 @@ public class Main extends JFrame {
 
 					vm.pause();
 
-					logger.debug("start auto saving");					
+					logger.debug("start auto saving");
 					vm.save();
 					try {
 						Thread.sleep(30000);
-					} catch (InterruptedException e) {						
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					logger.debug("finish auto saving");
@@ -125,13 +126,25 @@ public class Main extends JFrame {
 				if (e.getStateChange() == e.SELECTED) {
 
 					float rate = getZoomRate();
-					
+
 					mainWindow.setDiagramScaleRate(rate);
 				}
 			}
 		});
 
 		setMinimumSize(new Dimension(1200, 800));
+
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(Main.this,
+						"Are you sure to close this window?",
+						"Really Closing?", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					exit();
+				}
+			}
+		});
 
 		// Display the window.
 		pack();
@@ -182,13 +195,7 @@ public class Main extends JFrame {
 		eMenuItem = new JMenuItem("Exit");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				VirtualMachine vm = VirtualMachine.getInstance();
-
-				stopAutoSaveService();
-
-				vm.stop();
-
-				System.exit(0);
+				exit();
 			}
 
 		});
@@ -197,17 +204,7 @@ public class Main extends JFrame {
 		eMenuItem = new JMenuItem("Save&Exit");
 		eMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				VirtualMachine vm = VirtualMachine.getInstance();
-
-				stopAutoSaveService();
-
-				vm.pause();
-				vm.save();
-				vm.resume();
-
-				vm.stop();
-
-				System.exit(0);
+				saveAndExit();
 			}
 
 		});
@@ -219,6 +216,30 @@ public class Main extends JFrame {
 		setSize(1600, 900);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+
+	private void saveAndExit() {
+		VirtualMachine vm = VirtualMachine.getInstance();
+
+		stopAutoSaveService();
+
+		vm.pause();
+		vm.save();
+		vm.resume();
+
+		vm.stop();
+
+		System.exit(0);
+	}
+
+	private void exit() {
+		VirtualMachine vm = VirtualMachine.getInstance();
+
+		stopAutoSaveService();
+
+		vm.stop();
+
+		System.exit(0);
 	}
 
 	private static Map<String, String> processArguments(String[] args) {
