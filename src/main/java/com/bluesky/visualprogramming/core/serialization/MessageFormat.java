@@ -1,5 +1,8 @@
 package com.bluesky.visualprogramming.core.serialization;
 
+import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.vm.VirtualMachine;
+
 
 
 public enum MessageFormat {
@@ -17,21 +20,38 @@ public enum MessageFormat {
 		@Override
 		public ConfigurableObjectSerializer getSerializer() {
 			 
-			return new DdwrtSerializer();
+			DdwrtSerializer s =  new DdwrtSerializer();
+			
+			ObjectRepository repo= VirtualMachine.getInstance().getObjectRepository();
+			s.setRepo(repo);
+			
+			return s;
 		}
 	},
 	XML{
 		@Override
 		public ConfigurableObjectSerializer getSerializer() {
 			
-			return new XmlSerialzer();
+			 
+			XmlSerialzer s =  new XmlSerialzer();
+			
+			ObjectRepository repo= VirtualMachine.getInstance().getObjectRepository();
+			s.setRepo(repo);
+			
+			return s;
 		}
 	},
 	HTML {
 		@Override
 		public ConfigurableObjectSerializer getSerializer() {
 
-			return new HtmlSerialzer();
+			 
+			HtmlSerialzer s =  new HtmlSerialzer();
+			
+			ObjectRepository repo= VirtualMachine.getInstance().getObjectRepository();
+			s.setRepo(repo);
+			
+			return s;
 		}
 	};
 	

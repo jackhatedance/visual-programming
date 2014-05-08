@@ -19,20 +19,22 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.callback.Callback;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
+import com.bluesky.visualprogramming.vm.message.PostService;
 
-public class HtmlSerialzer implements ConfigurableObjectSerializer {
+public class HtmlSerialzer extends AbstractConfigurableObjectSerializer {
 	static Logger logger = Logger.getLogger(HtmlSerialzer.class);
+
+ 
 
 	private Semaphore responseReady = new Semaphore(0);
 	private _Object html;
 
+	 
 	@Override
-	public void serialize(_Object obj, Writer writer, Config config)
- {
+	public void serialize(_Object obj, Writer writer, Config config) {
 
 		// convert to _Object to HTML
-		VirtualMachine vm = VirtualMachine.getInstance();
-		ObjectRepository repo = vm.getObjectRepository();
+		ObjectRepository repo = getRepo();
 
 		String address = "path://" + ObjectRepository.ROOT_OBJECT
 				+ ".lib.web.render@local";
@@ -44,6 +46,7 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 				ObjectScope.ExecutionContext);
 		params.setField("target", obj, false);
 
+		VirtualMachine vm = VirtualMachine.getInstance();
 		vm.getPostService().sendMessageFromNobody(receiverLink, "do", params,
 				new Callback() {
 
@@ -79,15 +82,14 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 		}
 	}
 
-
 	@Override
 	public _Object deserialize(Reader reader, Config config) {
 		StringBuilder sb = new StringBuilder();
 		char[] buff = new char[100];
 		int len;
 		try {
-		while ((len = reader.read(buff)) > 0)
-			sb.append(buff, 0, len);
+			while ((len = reader.read(buff)) > 0)
+				sb.append(buff, 0, len);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -98,6 +100,5 @@ public class HtmlSerialzer implements ConfigurableObjectSerializer {
 		traversor.traverse(doc);
 		return visitor.getObject();
 	}
-
 
 }

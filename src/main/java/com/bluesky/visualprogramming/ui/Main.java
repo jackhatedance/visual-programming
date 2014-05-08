@@ -34,9 +34,9 @@ import com.bluesky.visualprogramming.vm.VirtualMachine;
 public class Main extends JFrame {
 	static Logger logger = Logger.getLogger(Main.class);
 
-	static String DEFAULT_RUNTIME_IMAGE_FILE_NAME = "runtime.xml";
-	static String DEFAULT_USER_IMAGE_FILE_NAME = "users.xml";
-	static String USER_IMAGE_ENVIRONMENT_NAME = "COOBY_USER_IMAGE";
+	public static String DEFAULT_RUNTIME_IMAGE_FILE_NAME = "runtime.xml";
+	public static String DEFAULT_USER_IMAGE_FILE_NAME = "users.xml";
+	public static String USER_IMAGE_ENVIRONMENT_NAME = "COOBY_USER_IMAGE";
 
 	JComboBox cmbZoom;
 

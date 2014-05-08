@@ -5,6 +5,8 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Map;
 
+import javax.naming.spi.ObjectFactory;
+
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -13,8 +15,10 @@ import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class DdwrtSerializer implements ConfigurableObjectSerializer {
+public class DdwrtSerializer extends  AbstractConfigurableObjectSerializer {
 
+	 
+	
 	@Override
 	public void serialize(_Object obj, Writer writer, Config config) {
 		throw new RuntimeException("not supported");
@@ -43,9 +47,8 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 
 		DDwrtValues d = new DDwrtValues(sb.toString());
 
-		// create a list object
-		VirtualMachine virtualMachine = VirtualMachine.getInstance();
-		ObjectRepository repo = virtualMachine.getObjectRepository();
+		// create a list object		
+		ObjectRepository repo = getRepo();
 		_Object result = repo.createObject(ObjectType.NORMAL,
 				ObjectScope.ExecutionContext);
 
@@ -53,13 +56,13 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 		for (String key : map.keySet()) {
 			String[] values = d.getMap().get(key);
 
-			_Object kvObj = repo.createObject(ObjectType.NORMAL,
+			_Object items = repo.createObject(ObjectType.NORMAL,
 					ObjectScope.ExecutionContext);
 
-			_Object list = repo.getObjectByPath(ObjectRepository.ROOT_OBJECT
+			_Object listProto = repo.getObjectByPath(ObjectRepository.ROOT_OBJECT
 					+ ".core.prototype.list");
 
-			kvObj.setPrototype(list);
+			items.setPrototype(listProto);
 
 
 			for (String value : values) {
@@ -69,10 +72,10 @@ public class DdwrtSerializer implements ConfigurableObjectSerializer {
 
 				valueObj.setValue(value);
 
-				ListProto.add(list, valueObj);
+				ListProto.add(items, valueObj);
 			}
 
-			result.setField(key, kvObj, true);
+			result.setField(key, items, true);
 		}
 
 		return result;

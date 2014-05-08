@@ -253,7 +253,10 @@ public class Message {
 					&& executionContext.executionStatus != null)
 				executionStatus = executionContext.executionStatus.toString();
 
-			String from = sender.getPath();
+			String from = "[nobody]";
+			if(sender!=null)
+				from = sender.getPath();
+				
 			String to = receiver.getPath();
 			return String.format("from: %s, to:%s, subject:%s, body:%s, status: %s",  from, to, subject, parameters,
 					executionStatus);

@@ -10,7 +10,7 @@ import org.dom4j.io.SAXReader;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.utils.Config;
 
-public class XmlSerialzer implements ConfigurableObjectSerializer {
+public class XmlSerialzer extends  AbstractConfigurableObjectSerializer {
 
 	private boolean dedicatedAttributeField;
 	private boolean dedicatedChildNodeField;
