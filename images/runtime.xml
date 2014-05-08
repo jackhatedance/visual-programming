@@ -29175,39 +29175,6 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="4800">
-                        <name>_system</name>
-                        <strongTarget id="4801">
-                          <type>NORMAL</type>
-                          <id>109840305</id>
-                          <name>_system</name>
-                          <scope>ExecutionContext</scope>
-                          <fieldList id="4802">
-                            <field id="4803">
-                              <name>prototype</name>
-                              <type>WEAK</type>
-                              <pointerPath>string</pointerPath>
-                              <svgScale>0.2</svgScale>
-                              <area id="4804">
-                                <x>0</x>
-                                <y>0</y>
-                                <width>100</width>
-                                <height>100</height>
-                              </area>
-                            </field>
-                          </fieldList>
-                          <systemFieldsCount>0</systemFieldsCount>
-                          <borderColor reference="550"/>
-                        </strongTarget>
-                        <type>STRONG</type>
-                        <svgScale>0.2</svgScale>
-                        <area id="4805">
-                          <x>0</x>
-                          <y>0</y>
-                          <width>100</width>
-                          <height>100</height>
-                        </area>
-                      </field>
                     </fieldList>
                     <systemFieldsCount>2</systemFieldsCount>
                     <borderColor reference="550"/>
@@ -29219,7 +29186,7 @@ chess pieces and chess board can be made by svg files.</value>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="4806">
+                  <area id="4800">
                     <x>310</x>
                     <y>1520</y>
                     <width>100</width>
@@ -29232,7 +29199,7 @@ chess pieces and chess board can be made by svg files.</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="4807">
+            <area id="4801">
               <x>1430</x>
               <y>1565</y>
               <width>100</width>
@@ -29245,7 +29212,7 @@ chess pieces and chess board can be made by svg files.</value>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="4808">
+      <area id="4802">
         <x>53</x>
         <y>1303</y>
         <width>100</width>
@@ -29254,7 +29221,7 @@ chess pieces and chess board can be made by svg files.</value>
     </field>
   </fieldList>
   <systemFieldsCount>0</systemFieldsCount>
-  <borderColor id="4809">
+  <borderColor id="4803">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
