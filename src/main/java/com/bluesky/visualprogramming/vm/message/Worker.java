@@ -245,6 +245,7 @@ public class Worker implements Runnable {
 	 * @param replyValue
 	 */
 	private void processSyncReply(_Object obj, Message msg, String replyValue) {
+
 		if (logger.isDebugEnabled()) {
 			String previousMessage = "n/a";
 			if (msg.previous != null)
@@ -272,14 +273,25 @@ public class Worker implements Runnable {
 			obj.printMessageQueue();
 
 		// push reply to the blocking message
+
+		// check if it has replyTo message, otherwise we don't know which
+		// blocking message is it for.
 		Message replyToMessage = msg.previous;
 
 		if (replyToMessage == null) {
-			logger.error("received a SyncReply message, but without its previous(replyTo) message. the message is: "
+			logger.error("received a invalid SyncReply message, it has no previous(replyTo) message. the message is: "
 					+ msg.toString());
 
+			return;
 		}
+
 		Message lastMessage = replyToMessage.previous;
+		if (lastMessage == null) {
+			logger.error("the replyTo message has no parent, that means it may not be a sync message."
+					+ msg.toString());
+
+			return;
+		}
 
 		if (logger.isDebugEnabled())
 			logger.debug("last message:" + lastMessage.toString());
