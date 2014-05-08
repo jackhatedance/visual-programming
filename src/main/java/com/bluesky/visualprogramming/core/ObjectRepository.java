@@ -266,10 +266,12 @@ public class ObjectRepository {
 		beforeSaveXml(rootObject);
 
 		_Object users = detach(ROOT_OBJECT + "." + USERS);
-		saveXml(users, userFileName);
+		if (userFileName != null)
+			saveXml(users, userFileName);
 
 		_Object root = getObjectByPath(ROOT_OBJECT);
-		saveXml(root, runtimeFileName);
+		if (runtimeFileName != null)
+			saveXml(root, runtimeFileName);
 
 		// attach users
 		root.setField(USERS, users, true);

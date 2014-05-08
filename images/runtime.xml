@@ -16649,7 +16649,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                         <name>_test</name>
                         <strongTarget class="procedure" id="2729">
                           <type>PROCEDURE</type>
-                          <id>109840820</id>
+                          <id>109840935</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2730"/>
@@ -16665,8 +16665,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                           <nativeProcedureParameters></nativeProcedureParameters>
                           <language>goo</language>
                           <code>procedure(){&#xd;
-_self.disable();
-&#xd;
+_self.disable();&#xd;
 }</code>
                         </strongTarget>
                         <type>STRONG</type>
@@ -16704,10 +16703,10 @@ _self.disable();
                         <name>enabled</name>
                         <strongTarget class="boolean" id="2738">
                           <type>BOOLEAN</type>
-                          <id>109840838</id>
+                          <id>109840946</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2739"/>
-                          <systemFieldsCount>1</systemFieldsCount>
+                          <systemFieldsCount>0</systemFieldsCount>
                           <borderColor reference="2731"/>
                           <booleanValue>false</booleanValue>
                         </strongTarget>

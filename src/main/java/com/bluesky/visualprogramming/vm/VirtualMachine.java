@@ -58,8 +58,7 @@ public class VirtualMachine implements Service {
 		postService = new PostService();
 		workerService = new WorkerService();
 
-		timerServiceEnabled = true;
-		boolean timerServiceEnabled = appConfig.getBoolean(
+		timerServiceEnabled = appConfig.getBoolean(
 				"service.timer.enabled", true);
 		timerService = new TimerService(objectRepository);
 
@@ -99,7 +98,14 @@ public class VirtualMachine implements Service {
 	}
 
 	public void save() {
-		getObjectRepository().save(runtimeFile, userFile);
+		boolean saveRuntimeXml = appConfig.getBoolean("autoSave.runtime.xml",
+				false);
+
+		String runtimeFile2 = null;
+		if (saveRuntimeXml)
+			runtimeFile2 = runtimeFile;
+
+		getObjectRepository().save(runtimeFile2, userFile);
 	}
 
 	/**
