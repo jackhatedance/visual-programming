@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
@@ -84,9 +85,11 @@ public class WorkerService extends ThreadService implements Runnable  {
 	@Override
 	public void doTask() throws InterruptedException {
 
-		_Object cust = customers.take();
-		assign(cust);
+		_Object cust = customers
+				.poll(TASK_POLL_TIME_OUT, TimeUnit.MILLISECONDS);
 
+		if (cust != null)
+			assign(cust);
 
 	}
 
@@ -121,6 +124,9 @@ public class WorkerService extends ThreadService implements Runnable  {
 	 * wait until all workers get paused.
 	 */
 	public synchronized void pause() {
+
+
+		// stop the worker threads
 		CountDownLatch latch = new CountDownLatch(workers.size());
 		for (Worker worker : workers) {
 			worker.pause(latch);
@@ -134,14 +140,19 @@ public class WorkerService extends ThreadService implements Runnable  {
 			throw new RuntimeException(e);
 		}
 
+		// stop the main thread of the service
+		super.pause();
 	}
 
 	public synchronized void resume() {
+		super.resume();
 
 		for (Worker worker : workers) {
 			worker.resume();
 		}
 
 		logger.debug("all workers are resumed");
+
+
 	}
 }

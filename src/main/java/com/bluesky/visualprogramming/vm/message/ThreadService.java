@@ -20,6 +20,11 @@ public abstract class ThreadService implements Runnable, Service {
 
 	protected String name = "abstractService";
 	protected Thread thread;
+
+	/**
+	 * in milliseconds
+	 */
+	protected final int TASK_POLL_TIME_OUT = 1000;
 	/**
 	 * set by other, if it is true, then thread try to wait.
 	 */
@@ -105,8 +110,6 @@ public abstract class ThreadService implements Runnable, Service {
 
 		pauseFlag = true;
 
-		// in case it waits on the queue.take()
-		thread.interrupt();
 
 		// wait until it really paused
 		while (getStatus() != ServiceStatus.Paused) {

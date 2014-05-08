@@ -6,11 +6,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -175,9 +175,11 @@ public class PostService extends ThreadService implements Runnable {
 
 	@Override
 	protected void doTask() throws InterruptedException {
-		Message msg = messageQueue.take();
-		_sendMessage(msg);
-
+		// set timeout, so that this task won't block forever when pausing.
+		Message msg = messageQueue.poll(TASK_POLL_TIME_OUT,
+				TimeUnit.MILLISECONDS);
+		if (msg != null)
+			_sendMessage(msg);
 	}
 
 	@Override

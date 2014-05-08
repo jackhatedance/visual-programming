@@ -126,7 +126,7 @@ public class VirtualMachine implements Service {
 	public void pause() {
 
 
-		// logger.info("VM pause begin...");
+		logger.info("VM pause begin...");
 		workerService.pause();
 
 		postService.pause();
