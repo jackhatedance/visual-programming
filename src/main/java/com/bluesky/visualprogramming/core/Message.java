@@ -225,7 +225,7 @@ public class Message {
 
 		if (messageType == MessageType.SyncReply) {
 			// remote communication may lost previous message.
-			String previousMsg = "n/a";
+			String previousMsg = "null";
 			if (previous != null)
 				previousMsg = previous.toString();
 
@@ -253,7 +253,9 @@ public class Message {
 					&& executionContext.executionStatus != null)
 				executionStatus = executionContext.executionStatus.toString();
 
-			return String.format("%s(%s) -- %s", subject, parameters,
+			String from = sender.getPath();
+			String to = receiver.getPath();
+			return String.format("from: %s, to:%s, subject:%s, body:%s, status: %s",  from, to, subject, parameters,
 					executionStatus);
 		}
 	}
