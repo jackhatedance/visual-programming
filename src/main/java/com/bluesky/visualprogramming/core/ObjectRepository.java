@@ -444,18 +444,6 @@ public class ObjectRepository {
 			}
 		});
 
-		// remove _system field of value object
-		treeWalk(mountPoint, new TreeWalker() {
-			@Override
-			public void walk(_Object obj) {
-				if (obj.type.getPrototypeEL() != null)
- {
-					if (obj.getChild("_system") != null)
-						obj.removeField("_system");
-				}
-			}
-		});
-
 		// notify
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
