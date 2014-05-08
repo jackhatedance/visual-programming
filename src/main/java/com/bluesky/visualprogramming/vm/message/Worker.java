@@ -110,7 +110,7 @@ public class Worker implements Runnable {
 					// note that a async reply is just like an async request. it
 					// needs to be processed.
 
-					Procedure proc = obj.lookupProcedure(msg);
+					Procedure proc = obj.lookupProcedure(msg, objectRepository);
 					if (proc == null) {
 						logger.warn("message not understand:" + obj.getName()
 								+ "." + msg.getSubject());

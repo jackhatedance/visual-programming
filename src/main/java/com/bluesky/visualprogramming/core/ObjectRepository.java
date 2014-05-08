@@ -172,23 +172,6 @@ public class ObjectRepository {
 		_Object newObject = type.create(objectId++);
 		newObject.setScope(scope);
 
-		// set prototype for value objects
-		String prototypeEl = type.getPrototypeEL();
-		if (prototypeEl != null) {
-
-			try {
-				_Object prototype = getObjectByPath(prototypeEl);
-				if (prototype != null)
-					newObject.setPrototype(prototype);
-
-			} catch (InvalidELException e) {
-
-				logger.warn(
-						"the prototype object is not loaded. if it is in loading process, then it is ok."
-								+ prototypeEl, e);
-			}
-		}
-
 		for (ObjectRepositoryListener l : listeners) {
 			l.afterCreate(newObject);
 		}
@@ -458,6 +441,18 @@ public class ObjectRepository {
 
 				}
 
+			}
+		});
+
+		// remove _system field of value object
+		treeWalk(mountPoint, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				if (obj.type.getPrototypeEL() != null)
+ {
+					if (obj.getChild("_system") != null)
+						obj.removeField("_system");
+				}
 			}
 		});
 

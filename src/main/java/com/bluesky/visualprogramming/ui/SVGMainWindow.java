@@ -10,7 +10,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,7 +39,6 @@ import com.bluesky.visualprogramming.core.ObjectLayout;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
-import com.bluesky.visualprogramming.core.SelectedStatus;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
@@ -150,7 +148,8 @@ public class SVGMainWindow extends JPanel {
 
 			_Object target = field.getTarget();
 			if (target != null) {
-				target.drawInternal(diagramPanel, scene, new Point(0, 0));
+				target.drawInternal(diagramPanel, scene, new Point(0, 0),
+						getVM().getObjectRepository());
 
 				diagramPanel.setScene(scene);
 				Element background = scene.getDocument().getElementById(

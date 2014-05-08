@@ -65,7 +65,7 @@ public class _Object implements Serializable {
 	 * only not null if it has owner.
 	 */
 	private Field ownerField;
-	
+
 	/**
 	 * only those has root in persistent repository are persistent. messages are
 	 * not persistent.
@@ -93,7 +93,7 @@ public class _Object implements Serializable {
 	 * blocking procedures,
 	 */
 	private Deque<Message> messageQueueBlocking;
-	
+
 	private Worker worker = null;
 
 	/**
@@ -111,7 +111,6 @@ public class _Object implements Serializable {
 	 */
 	private boolean applyingWorker = false;
 
-	
 	public Color borderColor;
 
 	public _Object(long id) {
@@ -129,25 +128,24 @@ public class _Object implements Serializable {
 	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
 
 		this.type = src.type;
-		//this.id = id;
+		// this.id = id;
 		this.name = src.name;
 		this.description = src.description;
 		this.scope = src.scope;
-		
+
 		for (Field oldField : src.fieldList) {
 
-			//boolean owns = oldField.getType() == FieldType.STRONG;
+			// boolean owns = oldField.getType() == FieldType.STRONG;
 
-			_Object target=null;
-			
-			if(deep){				
-				if(oldField.getTarget()!=null)
+			_Object target = null;
+
+			if (deep) {
+				if (oldField.getTarget() != null)
 					target = oldField.getTarget().clone(deep, factory);
-			}
-			else
+			} else
 				target = oldField.getTarget();
-			
-			Field newField = new Field(oldField,target);
+
+			Field newField = new Field(oldField, target);
 			addField(newField, target);
 		}
 
@@ -158,18 +156,17 @@ public class _Object implements Serializable {
 
 		// this.area = new Rectangle(src.area);
 
-		//this.scaleRate = src.scaleRate;
+		// this.scaleRate = src.scaleRate;
 		this.borderColor = src.borderColor;
 
-		
 	}
 
-	public _Object clone(boolean deep, BasicObjectFactory factory){		
+	public _Object clone(boolean deep, BasicObjectFactory factory) {
 		_Object obj = factory.create(type);
 		obj.copy(this, deep, factory);
 		return obj;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -264,7 +261,7 @@ public class _Object implements Serializable {
 	 */
 	public void setField(String name, _Object child, boolean owns) {
 
-		if (child!=null && child.hasOwner() && owns) {
+		if (child != null && child.hasOwner() && owns) {
 
 			if (child.getScope() == ObjectScope.ExecutionContext)
 				child.downgradeLinkFromOwner();
@@ -291,8 +288,6 @@ public class _Object implements Serializable {
 				if (f.getTarget() != null)
 					f.detachTarget();
 
-				
-
 				// re-assure
 				f.owner = this;
 				// set type
@@ -305,12 +300,13 @@ public class _Object implements Serializable {
 
 	}
 
-	public void addField(Field field, _Object target){
+	public void addField(Field field, _Object target) {
 		fieldList.add(field);
 		field.owner = this;
 		field.setTarget(target);
 		sortFields();
 	}
+
 	/**
 	 * only for list(no name element)
 	 * 
@@ -508,7 +504,7 @@ public class _Object implements Serializable {
 	 * @param canvasOffset
 	 */
 	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
-			Point canvasOffset) {
+			Point canvasOffset, ObjectRepository repo) {
 
 		ObjectLayout layout = ObjectLayout.XY;
 		StringValue layoutSV = (StringValue) getSystemChild(OBJECT_LAYOUT);
@@ -522,18 +518,18 @@ public class _Object implements Serializable {
 
 		layout.preprocess(this);
 
-		//System.out.println("drawInternal:" + name + ",id=" + id);
+		// System.out.println("drawInternal:" + name + ",id=" + id);
 
 		for (Field field : fieldList) {
 
-			//System.out.println("drawInternal, fieldName=" + field.name);
+			// System.out.println("drawInternal, fieldName=" + field.name);
 
 			boolean owns = field.getTarget() != null
 					&& field.getType() == FieldType.STRONG;
 
 			_Object target = field.getTarget();
 			if (target != null) {
-				_Object proto = target.getPrototype();
+				_Object proto = target.getPrototype(repo);
 				String objName = null;
 				if (proto != null) {
 					objName = String.format("%s<%s>", field.name, proto.name);
@@ -611,7 +607,7 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @return
 	 */
-	public Procedure lookupProcedure(Message message) {
+	public Procedure lookupProcedure(Message message, ObjectRepository repo) {
 		String subject = message.getSubject();
 		// first try match the procedure name
 		Procedure p = (Procedure) getChild(subject);
@@ -696,9 +692,8 @@ public class _Object implements Serializable {
 
 		// still not found, try prototype
 		if (p == null) {
-			if (hasPrototype()) {
-				_Object prototype = getPrototype();
-
+			_Object prototype = getPrototype(repo);
+			if (prototype != null) {
 				// prototype field only support local object.
 				// finding procedure on remote machine is too slow.
 				if (prototype instanceof Link) {
@@ -708,8 +703,6 @@ public class _Object implements Serializable {
 					if (link.getRemoteAddress() != null
 							&& ProtocolType.PATH.toString().equalsIgnoreCase(
 									link.getRemoteAddress().protocol)) {
-						ObjectRepository repo = VirtualMachine.getInstance()
-								.getObjectRepository();
 						_Object target = repo.getObjectByPath(link
 								.getRemoteAddress().userId);
 
@@ -719,7 +712,7 @@ public class _Object implements Serializable {
 				}
 				// else find procedure on link object, obviously get nothing.
 
-				p = prototype.lookupProcedure(message);
+				p = prototype.lookupProcedure(message, repo);
 			}
 		}
 
@@ -730,15 +723,23 @@ public class _Object implements Serializable {
 		return getChild(SYSTEM);
 	}
 
-	public _Object getPrototype() {
+	public _Object getPrototype(ObjectRepository repo) {
+
+		_Object proto = null;
 
 		_Object system = getSystem();
 		if (system != null) {
-			return system.getChild(PROTOTYPE);
-
+			proto = system.getChild(PROTOTYPE);
 		}
 
-		return null;
+		if (proto == null) {
+			// optimization for predefined objects
+			String path = type.getPrototypeEL();
+			if (path != null) {
+				proto = repo.getObjectByPath(path);
+			}
+		}
+		return proto;
 	}
 
 	private _Object createSystemField() {
@@ -754,10 +755,6 @@ public class _Object implements Serializable {
 
 		system.setField(PROTOTYPE, obj, false);
 
-	}
-
-	private boolean hasPrototype() {
-		return getPrototype() != null;
 	}
 
 	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
@@ -843,8 +840,6 @@ public class _Object implements Serializable {
 	public synchronized boolean hasWorker() {
 		return this.worker != null;
 	}
-
-
 
 	public synchronized boolean hasWorkableMessage() {
 		return !messageQueue.isEmpty();
@@ -1026,7 +1021,6 @@ public class _Object implements Serializable {
 	}
 
 	public void removeOwnerField() {
-		
 
 		if (this.ownerField == null)
 			throw new RuntimeException(
