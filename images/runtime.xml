@@ -12766,7 +12766,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <fieldList id="2096"/>
                           <systemFieldsCount>1</systemFieldsCount>
                           <borderColor reference="2087"/>
-                          <value>467</value>
+                          <value>468</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -12781,10 +12781,10 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="2099">
                           <type>STRING</type>
-                          <id>109840139</id>
+                          <id>109840979</id>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2100"/>
-                          <systemFieldsCount>1</systemFieldsCount>
+                          <systemFieldsCount>0</systemFieldsCount>
                           <borderColor id="2101">
                             <red>0</red>
                             <green>0</green>

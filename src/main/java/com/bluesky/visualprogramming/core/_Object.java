@@ -693,7 +693,8 @@ public class _Object implements Serializable {
 		// still not found, try prototype
 		if (p == null) {
 			_Object prototype = getPrototype(repo);
-			if (prototype != null) {
+			//prototype cannot be itself.
+			if (prototype != null && prototype!=this) {
 				// prototype field only support local object.
 				// finding procedure on remote machine is too slow.
 				if (prototype instanceof Link) {
