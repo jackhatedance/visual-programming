@@ -94,7 +94,7 @@ public class RemoteCommunicationService {
 							String fullAddress = pt.toString().toLowerCase()
 									+ "://" + address.getValue();
 
-							if (logger.isInfoEnabled())
+							if (logger.isDebugEnabled())
 								logger.debug("create remote agent for "
 										+ owner.getName()
 										+ " binding address is " + fullAddress);

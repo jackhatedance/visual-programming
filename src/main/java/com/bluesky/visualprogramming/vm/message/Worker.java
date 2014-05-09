@@ -100,7 +100,9 @@ public class Worker implements Runnable {
 					// just print the exception
 					// TODO how to handle error and propagation solution???
 					VException vex = (VException) msg.body;
-					logger.debug("reply exception captured " + vex.getMessage());
+					if (logger.isDebugEnabled())
+						logger.debug("reply exception captured "
+								+ vex.getMessage());
 				}
 
 				if (msg.isSyncReply())
