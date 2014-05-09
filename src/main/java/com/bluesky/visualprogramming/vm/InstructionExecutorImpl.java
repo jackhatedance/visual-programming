@@ -305,6 +305,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					methodName, parameters, parameterStyle);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 
 			// error handling, convert error to VException and set it as return
 			// value

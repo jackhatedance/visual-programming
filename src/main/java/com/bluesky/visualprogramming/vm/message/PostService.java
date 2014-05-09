@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.Message;
+import com.bluesky.visualprogramming.core.MessageType;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -168,8 +169,12 @@ public class PostService extends ThreadService implements Runnable {
 
 		cbSvc.setCallback(senderLink.getAddress(), callback);
 
-		Message msg = Message.newAsyncRequestMessage(senderLink, receiver,
-				subject, body, ParameterStyle.ByName, null);
+//		Message msg = Message.newAsyncRequestMessage(senderLink, receiver,
+//				subject, body, ParameterStyle.ByName, null);
+		Message msg = new Message(senderLink, receiver, subject, body,
+				ParameterStyle.ByName, null, MessageType.SyncRequest);
+	
+		
 		sendMessage(msg);
 	}
 

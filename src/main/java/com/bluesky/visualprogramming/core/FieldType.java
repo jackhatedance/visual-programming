@@ -10,16 +10,17 @@ public enum FieldType {
 		public _Object getTarget(Field f) {
 			return f.getStrongTarget();
 		}
-		
+
 		@Override
 		public void attachTarget(Field field, _Object target) {
-			if (target == null)
-				throw new RuntimeException("cannot attach to a null target");
+			// if (target == null)
+			// throw new RuntimeException("cannot attach to a null target");
 
 			field.setStrongTarget(target);
 
 			// update backward pointer
-			target.setOwnerField(field);
+			if (target != null)
+				target.setOwnerField(field);
 		}
 
 		@Override
@@ -40,12 +41,12 @@ public enum FieldType {
 	WEAK {
 		@Override
 		public _Object getTarget(Field f) {
-			if(f.getWeakTarget()!=null)
+			if (f.getWeakTarget() != null)
 				return f.getWeakTarget().get();
-			
+
 			return null;
 		}
-		
+
 		@Override
 		public void attachTarget(Field field, _Object target) {
 			field.setWeakTarget(target);
@@ -69,6 +70,5 @@ public enum FieldType {
 	public static FieldType getType(boolean owns) {
 		return owns ? STRONG : WEAK;
 	}
-
 
 }
