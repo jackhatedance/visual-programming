@@ -11,6 +11,14 @@ public class Procedure extends _Object {
 		super(id);
 		type = ObjectType.PROCEDURE;
 	}
+	
+	@Override
+	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
+	
+		super.copy(src, deep, factory);
+		
+		setValue(src.getValue());		
+	}
 
 	public String name;
 
