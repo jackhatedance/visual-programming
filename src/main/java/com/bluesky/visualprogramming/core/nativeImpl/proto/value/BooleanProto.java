@@ -25,7 +25,7 @@ public class BooleanProto extends NativeMethodSupport {
 		BooleanValue selfValue = (BooleanValue) self;
 
 		BooleanValue result = getObjectFactory().createBoolean(
-				selfValue.getBooleanValue() && b.getBooleanValue());
+				selfValue.getBooleanValue() || b.getBooleanValue());
 
 		return result;
 	}
