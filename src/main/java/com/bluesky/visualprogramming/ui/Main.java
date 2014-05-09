@@ -45,8 +45,7 @@ public class Main extends JFrame {
 	/**
 	 * periodic timer save objects to file
 	 */
-	private static ScheduledExecutorService autoSaveService = Executors
-			.newScheduledThreadPool(1);
+	private static ScheduledExecutorService autoSaveService = null;
 
 	private static void startAutoSaveService() {
 		logger.debug("start auto-saving service");
@@ -58,6 +57,9 @@ public class Main extends JFrame {
 			int minDelay = 1000 * 10;
 			int delay = autoSaveInterval < minDelay ? minDelay
 					: autoSaveInterval;
+
+			// create new one to avoid RejectedExecutionException
+			autoSaveService = Executors.newScheduledThreadPool(1);
 
 			autoSaveService.scheduleAtFixedRate(new Runnable() {
 				@Override
@@ -79,13 +81,16 @@ public class Main extends JFrame {
 	private static void stopAutoSaveService() {
 		logger.debug("stoping auto-saving service");
 
-		autoSaveService.shutdown();
-		try {
-			logger.debug("waiting for auto-saving service to stop.");
-			autoSaveService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
-			logger.debug("auto-saving service stopped.");
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+		if (autoSaveService != null) {
+			autoSaveService.shutdown();
+			try {
+				logger.debug("waiting for auto-saving service to stop.");
+				autoSaveService.awaitTermination(Long.MAX_VALUE,
+						TimeUnit.MINUTES);
+				logger.debug("auto-saving service stopped.");
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
