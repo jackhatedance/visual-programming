@@ -94,7 +94,7 @@ public class VirtualMachine implements Service {
 		// resume();
 
 		logger.info("VM loaded runtime image file:" + runtimeFile);
-		logger.info("VM loaded user image file:" + runtimeFile);
+		logger.info("VM loaded user image file:" + userFile);
 	}
 
 	public void save() {
