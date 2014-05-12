@@ -261,18 +261,44 @@ public class ObjectRepository {
 	}
 
 	public void save(String runtimeFileName, String userFileName) {
-
+		if(logger.isDebugEnabled())
+			logger.debug("enter save()");
+		
 		// to update fields , such as pointer path
+		
+		
+		if(logger.isDebugEnabled())
+			logger.debug("before beforeSaveXml()");
+		
 		beforeSaveXml(rootObject);
+		
+		if(logger.isDebugEnabled())
+			logger.debug("after beforeSaveXml()");
 
 		_Object users = detach(ROOT_OBJECT + "." + USERS);
 		if (userFileName != null)
+		{
+			if(logger.isDebugEnabled())
+				logger.debug("before saveXml(): users.xml");
+			
 			saveXml(users, userFileName);
-
+			
+			if(logger.isDebugEnabled())
+				logger.debug("after saveXml(): users.xml");
+		}
+		
 		_Object root = getObjectByPath(ROOT_OBJECT);
 		if (runtimeFileName != null)
+		{
+			if(logger.isDebugEnabled())
+				logger.debug("before saveXml() : runtime.xml");
+		
 			saveXml(root, runtimeFileName);
-
+			
+			if(logger.isDebugEnabled())
+				logger.debug("after saveXml(): runtime.xml");
+		}
+		
 		// attach users
 		root.setField(USERS, users, true);
 	}
