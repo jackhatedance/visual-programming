@@ -404,7 +404,7 @@ public class ObjectRepository {
 					if (f.getType() == FieldType.STRONG
 							&& f.getTarget() != null) {
 						if (f.getTarget().getOwnerField() == null)
-							System.out.println("target.ownerField is null."
+							logger.warn("target.ownerField is null."
 									+ obj.getPath() + "." + f.getName());
 					}
 				}
@@ -412,6 +412,7 @@ public class ObjectRepository {
 			}
 		});
 
+		logger.debug("calculate field target path.");
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
@@ -425,7 +426,7 @@ public class ObjectRepository {
 							f.pointerPath = f.getTarget().getPath();
 							if (f.pointerPath == null) {
 
-								System.out.println(String
+								logger.warn(String
 										.format("weak reference but path is null, %s.%s(#%d)",
 												obj.getPath(), f.getName()));
 							}
@@ -446,7 +447,9 @@ public class ObjectRepository {
 			}
 		});
 
+
 		// notify
+		logger.debug("notify registered listener.");
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
