@@ -261,44 +261,41 @@ public class ObjectRepository {
 	}
 
 	public void save(String runtimeFileName, String userFileName) {
-		if(logger.isDebugEnabled())
+		if (logger.isDebugEnabled())
 			logger.debug("enter save()");
-		
+
 		// to update fields , such as pointer path
-		
-		
-		if(logger.isDebugEnabled())
+
+		if (logger.isDebugEnabled())
 			logger.debug("before beforeSaveXml()");
-		
+
 		beforeSaveXml(rootObject);
-		
-		if(logger.isDebugEnabled())
+
+		if (logger.isDebugEnabled())
 			logger.debug("after beforeSaveXml()");
 
 		_Object users = detach(ROOT_OBJECT + "." + USERS);
-		if (userFileName != null)
-		{
-			if(logger.isDebugEnabled())
+		if (userFileName != null) {
+			if (logger.isDebugEnabled())
 				logger.debug("before saveXml(): users.xml");
-			
+
 			saveXml(users, userFileName);
-			
-			if(logger.isDebugEnabled())
+
+			if (logger.isDebugEnabled())
 				logger.debug("after saveXml(): users.xml");
 		}
-		
+
 		_Object root = getObjectByPath(ROOT_OBJECT);
-		if (runtimeFileName != null)
-		{
-			if(logger.isDebugEnabled())
+		if (runtimeFileName != null) {
+			if (logger.isDebugEnabled())
 				logger.debug("before saveXml() : runtime.xml");
-		
+
 			saveXml(root, runtimeFileName);
-			
-			if(logger.isDebugEnabled())
+
+			if (logger.isDebugEnabled())
 				logger.debug("after saveXml(): runtime.xml");
 		}
-		
+
 		// attach users
 		root.setField(USERS, users, true);
 	}
@@ -473,7 +470,6 @@ public class ObjectRepository {
 			}
 		});
 
-
 		// notify
 		logger.debug("notify registered listener.");
 		treeWalk(mountPoint, new TreeWalker() {
@@ -562,6 +558,14 @@ public class ObjectRepository {
 					}
 				}
 
+			}
+		});
+
+		// re-sort fields
+		treeWalk(obj, new TreeWalker() {
+			@Override
+			public void walk(_Object obj) {
+				obj.sortFields();
 			}
 		});
 
