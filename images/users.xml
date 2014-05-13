@@ -13,7 +13,6 @@
         <description></description>
         <scope>ExecutionContext</scope>
         <fieldList id="5"/>
-        <systemFieldsCount>0</systemFieldsCount>
         <borderColor id="6">
           <red>0</red>
           <green>0</green>
@@ -31,7 +30,6 @@
       </area>
     </field>
   </fieldList>
-  <systemFieldsCount>1</systemFieldsCount>
   <borderColor id="8">
     <red>0</red>
     <green>0</green>

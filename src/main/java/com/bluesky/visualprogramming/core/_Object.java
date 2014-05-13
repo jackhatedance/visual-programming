@@ -77,7 +77,7 @@ public class _Object implements Serializable {
 
 	// in Z order
 	private List<Field> fieldList = new ArrayList<Field>();
-	private int systemFieldsCount = 0;
+	private int systemFieldsCount = -1;
 
 	// index names to accelerate access speed
 	private Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
@@ -950,6 +950,9 @@ public class _Object implements Serializable {
 	}
 
 	public int getSystemFieldsCount() {
+		if(this.systemFieldsCount<0)
+			sortFields();
+		
 		return this.systemFieldsCount;
 	}
 
