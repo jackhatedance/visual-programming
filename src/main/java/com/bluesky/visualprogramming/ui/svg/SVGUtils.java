@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.DocumentLoader;
@@ -14,7 +16,6 @@ import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.dom.svg.SVGOMCircleElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
 import org.apache.batik.dom.svg.SVGOMRectElement;
-import org.apache.batik.ext.awt.image.spi.ImageTagRegistry;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
@@ -27,6 +28,8 @@ import com.bluesky.visualprogramming.core.ObjectType;
 public class SVGUtils {
 
 	public static String SCENE = "svg/scene.svg";
+
+	private static Map<ObjectType, Document> objectDocCache = new HashMap<ObjectType, Document>();
 
 	public static Document createScene() {
 		return createDocumentFromResource(SCENE);
@@ -107,11 +110,20 @@ public class SVGUtils {
 	}
 
 	public static Document createObjectDocument(ObjectType objectType) {
-		Document doc = createDocumentFromResource(objectType.getSvgResource());
 
-		return doc;
+		Document doc = objectDocCache.get(objectType);
+		if (doc == null) {
+			doc = createDocumentFromResource(objectType.getSvgResource());
+			objectDocCache.put(objectType, doc);
+		}
+
+		SVGDocument doc2 = (SVGDocument) doc.cloneNode(true);
+
+		return doc2;
 	}
 
+
+	
 	public static Document createObjectDocument(String svgContent) {
 		Document doc = createDocumentFromString(svgContent);
 

@@ -1,16 +1,12 @@
 package com.bluesky.visualprogramming.ui.svg;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 
 import org.apache.batik.dom.svg.SVGOMGElement;
-import org.apache.batik.dom.svg.SVGOMRectElement;
-import org.apache.batik.dom.svg.SVGOMScriptElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.svg.SVGStylable;
-import org.w3c.dom.svg.SVGTransform;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 /**
