@@ -413,11 +413,18 @@ public class Worker implements Runnable {
 
 	@Override
 	public void run() {
-		processMessages(customer);
-
-		workerManager.removeWorker(this);
-
-		updateRunningStatus(WorkerStatus.Finished);
+		
+		try{
+			processMessages(customer);
+	
+			workerManager.removeWorker(this);
+	
+			updateRunningStatus(WorkerStatus.Finished);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public synchronized void updateRunningStatus(WorkerStatus newStatus) {

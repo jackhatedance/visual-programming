@@ -64,15 +64,21 @@ public class Main extends JFrame {
 			autoSaveService.scheduleAtFixedRate(new Runnable() {
 				@Override
 				public void run() {
-					VirtualMachine vm = VirtualMachine.getInstance();
 
-					vm.pause();
+					try {
+						VirtualMachine vm = VirtualMachine.getInstance();
 
-					logger.debug("start auto saving");
-					vm.save();
-					logger.debug("finish auto saving");
-					vm.resume();
+						vm.pause();
 
+						logger.debug("start auto saving");
+						vm.save();
+						logger.debug("finish auto saving");
+						vm.resume();
+					} catch (Exception e) {
+						logger.error("exception occurs.");
+						e.printStackTrace();
+
+					}
 				}
 			}, delay, autoSaveInterval, TimeUnit.MILLISECONDS);
 		}

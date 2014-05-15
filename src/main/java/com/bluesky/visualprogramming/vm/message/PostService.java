@@ -123,8 +123,15 @@ public class PostService extends ThreadService implements Runnable {
 		executorService.submit(new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
+
+				try {
 				remoteCommunicationService.send(protocol,
 						receiverLink.getAddress(), msg);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}
+
 				return null;
 			}
 		});
