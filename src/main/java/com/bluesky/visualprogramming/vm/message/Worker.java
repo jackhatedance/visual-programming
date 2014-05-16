@@ -423,7 +423,7 @@ public class Worker implements Runnable {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			throw e;
+			throw new RuntimeException(e);
 		}
 	}
 

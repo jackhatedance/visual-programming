@@ -451,7 +451,7 @@ public class ObjectRepository {
 
 								logger.warn(String
 										.format("weak reference but path is null, %s.%s(#%d)",
-												obj.getPath(), f.getName()));
+												obj.getPath(), f.getName(), obj.getId()));
 							}
 
 							if (!f.pointerPath.startsWith(ROOT_OBJECT))
