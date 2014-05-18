@@ -452,11 +452,11 @@ public class ObjectRepository {
 								logger.warn(String
 										.format("weak reference but path is null, %s.%s(#%d)",
 												obj.getPath(), f.getName(), obj.getId()));
+							} else {
+								if (!f.pointerPath.startsWith(ROOT_OBJECT))
+									System.out.println("invalid path:"
+											+ f.pointerPath);
 							}
-
-							if (!f.pointerPath.startsWith(ROOT_OBJECT))
-								System.out.println(f.pointerPath);
-
 							// f.setWeakTarget(null);
 						} else {
 							// maybe the target has been destroyed.
