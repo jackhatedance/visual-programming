@@ -11,10 +11,14 @@ public enum ObjectScope {
 	}
 
 
-	public boolean stableThan(ObjectScope scope) {
+	private boolean stableThan(ObjectScope scope) {
 		if (scope == null)
 			throw new RuntimeException("param scope is null");
 
 		return this.level > scope.level;
+	}
+
+	public boolean canGrabOwnership(ObjectScope targetScope) {
+		return this.stableThan(targetScope) || targetScope == ExecutionContext;
 	}
 }

@@ -72,7 +72,6 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 	}
 
-
 	public synchronized void resume() {
 		notify();
 	}
@@ -511,7 +510,8 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 				// move to execution context
 				if (oldFieldObject != null)
 					leftObject.removeChild(oldFieldObject);
-			} else if (leftObject.scope.stableThan(rightObject.getScope())) {
+			} else if (leftObject.scope
+					.canGrabOwnership(rightObject.getScope())) {
 
 				if (rightObject.hasOwner())
 					rightObject.downgradeLinkFromOwner();
@@ -526,7 +526,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					newObject.copyValue(rightObject);
 					leftObject.setField(fieldName, newObject, true);
 				} else {
-					boolean owns = leftObject.getScope().stableThan(
+					boolean owns = leftObject.getScope().canGrabOwnership(
 							rightObject.getScope());
 					leftObject.setField(fieldName, rightObject, owns);
 				}

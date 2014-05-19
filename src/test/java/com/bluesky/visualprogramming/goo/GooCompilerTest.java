@@ -31,6 +31,19 @@ public class GooCompilerTest {
 
 	}
 	
+
+	@Test
+	public void testConstantObject() {
+		InputStream is = GooCompilerTest.class
+				.getResourceAsStream("/sample-code/sample-2-1-constant-object.goo");
+		compiler.compile(is);
+
+		for (Instruction ins : compiler.getInstructions()) {
+			System.out.println(ins.toString());
+		}
+
+	}
+
 	@Ignore
 	@Test
 	public void testAssignment2_1() {
