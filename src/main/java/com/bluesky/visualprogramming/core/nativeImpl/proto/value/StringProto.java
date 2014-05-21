@@ -90,9 +90,18 @@ public class StringProto extends NativeMethodSupport {
 	}
 
 	@ParameterList({ "self", "str" })
-	public static _Object startWith(StringValue self, StringValue str) {
+	public static _Object startsWith(StringValue self, StringValue str) {
 
 		boolean result = self.getValue().startsWith(str.getValue());
+		BooleanValue resultObj = getObjectFactory().createBoolean(result);
+
+		return resultObj;
+	}
+
+	@ParameterList({ "self", "str" })
+	public static _Object endsWith(StringValue self, StringValue str) {
+
+		boolean result = self.getValue().endsWith(str.getValue());
 		BooleanValue resultObj = getObjectFactory().createBoolean(result);
 
 		return resultObj;
