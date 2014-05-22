@@ -64,7 +64,9 @@ public class HttpClientAgent {
 	CredentialsProvider credsProvider;
 
 	String messageFormat;
+	String charset;
 	ConfigurableObjectSerializer serializer;
+
 
 	Config config;
 
@@ -104,6 +106,7 @@ public class HttpClientAgent {
 		}
 
 		messageFormat = config.getString("messageFormat", "");
+		charset = config.getString("charset", "utf-8");
 
 		MessageFormat type = MessageFormat.getFormat(messageFormat);
 		if (type != null)
@@ -145,7 +148,8 @@ public class HttpClientAgent {
 					int status = response.getStatusLine().getStatusCode();
 					if (status >= 200 && status < 300) {
 						HttpEntity entity = response.getEntity();
-						return entity != null ? EntityUtils.toString(entity)
+						return entity != null ? EntityUtils.toString(entity,
+								charset)
 								: null;
 					} else {
 						throw new ClientProtocolException(
