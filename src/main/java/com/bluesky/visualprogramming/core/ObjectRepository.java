@@ -19,6 +19,7 @@ import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.TimeValue;
 import com.bluesky.visualprogramming.utils.Config;
+import com.bluesky.visualprogramming.vm.AppProperties;
 
 public class ObjectRepository {
 
@@ -163,7 +164,9 @@ public class ObjectRepository {
 	 * create object without owner. mostly it belongs to runtime execution
 	 * context.
 	 * 
-	 * @param type
+	 * @param typeConfig
+	 *            config = AppProperties.getInstance().getAsConfig(); int port =
+	 *            config.getInteger("webServer.port", 80);
 	 * @param scope
 	 * @return
 	 */
@@ -440,7 +443,14 @@ public class ObjectRepository {
 			@Override
 			public void walk(_Object obj) {
 				//set pathForDebug
-				obj.pathForDebug = obj.getPath();
+
+				Config config = AppProperties.getInstance().getAsConfig();
+				boolean enableObjectPathForDebug = config.getBoolean(
+						"object.pathForDebug.enable", false);
+				if (enableObjectPathForDebug)
+					obj.pathForDebug = obj.getPath();
+				else
+					obj.pathForDebug = null;
 
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
