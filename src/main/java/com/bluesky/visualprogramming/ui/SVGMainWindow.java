@@ -39,6 +39,7 @@ import com.bluesky.visualprogramming.core.ObjectLayout;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.SystemField;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.ui.dialog.ObjectPropertyDialog;
@@ -517,8 +518,8 @@ public class SVGMainWindow extends JPanel {
 						.createObject(ObjectType.STRING,
 								ObjectScope.ExecutionContext);
 				sv.setValue(ObjectLayout.List.toString());
-				getSelectedTreeField().getTarget().setSystemField(
-						_Object.OBJECT_LAYOUT, sv, true);
+				getSelectedTreeField().getTarget().setSystemTopField(
+						SystemField.Layout, sv, true);
 
 				// refresh UI
 				loadDiagram(field);

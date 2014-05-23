@@ -169,7 +169,7 @@ public class Field {
 
 		SVGOMGElement ele = null;
 		if (target != null) {
-			_Object graphic = target.getSystemChild(_Object.GRAPHIC);
+			_Object graphic = target.getSystemTopChild(SystemField.Graphic);
 			if (graphic != null && graphic instanceof StringValue) {
 				StringValue sv = (StringValue) graphic;
 				ele = scene.addObject(sv.getValue(), id, x, y,  svgScale);

@@ -34,18 +34,18 @@ public class _Object implements Serializable {
 	// keep system in one folder.
 	static public final String SYSTEM = "_system";
 
-	static private final String PROTOTYPE = "prototype";
-	static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
-	static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
+	//static private final String PROTOTYPE = "prototype";
+	//static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
+	//static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
 
 	// it is defined by the object, and is for its procedures.
-	static public final String DEFAULT_SUBJECT_MATCH_TYPE = "defaultSubjectMatchType";
+	//static public final String DEFAULT_SUBJECT_MATCH_TYPE = "defaultSubjectMatchType";
 	// it is defined by the procedure itself, to override the default value of
 	// the owner object.
-	static public final String SUBJECT_MATCH_TYPE = "subjectMatchType";
+	//static public final String SUBJECT_MATCH_TYPE = "subjectMatchType";
 
-	static public final String GRAPHIC = "graphic";
-	static public final String OBJECT_LAYOUT = "layout";
+	//static public final String GRAPHIC = "graphic";
+	//static public final String OBJECT_LAYOUT = "layout";
 	/**
 	 * 
 	 */
@@ -66,6 +66,11 @@ public class _Object implements Serializable {
 	 */
 	private Field ownerField;
 
+	/**
+	 * just for editing image XML.
+	 */
+	public String pathForDebug;
+	
 	/**
 	 * only those has root in persistent repository are persistent. messages are
 	 * not persistent.
@@ -507,7 +512,7 @@ public class _Object implements Serializable {
 			Point canvasOffset, ObjectRepository repo) {
 
 		ObjectLayout layout = ObjectLayout.XY;
-		StringValue layoutSV = (StringValue) getSystemChild(OBJECT_LAYOUT);
+		StringValue layoutSV = (StringValue) getSystemTopChild(SystemField.Layout);
 		if (layoutSV != null) {
 			try {
 				layout = ObjectLayout.valueOf(layoutSV.getValue());
@@ -565,7 +570,19 @@ public class _Object implements Serializable {
 			return fieldList.get(index).getTarget();
 	}
 
-	public _Object getSystemChild(String name) {
+	public _Object getSystemConfig(SystemField systemField, String name) {
+		_Object field = getSystemTopChild(systemField);
+		if(field!=null)
+			return field.getChild(name);
+		else
+			return null;
+	}
+	
+	public _Object getSystemTopChild(SystemField systemField) {
+		return getSystemChild(systemField.getFieldName());
+	}
+	
+	protected _Object getSystemChild(String name) {
 		_Object systemObject = getSystem();
 		if (systemObject != null)
 			return systemObject.getChild(name);
@@ -573,7 +590,11 @@ public class _Object implements Serializable {
 			return null;
 	}
 
-	public void setSystemField(String name, _Object obj, boolean owner) {
+	public void setSystemTopField(SystemField systemField, _Object obj, boolean owner) {
+		setSystemField(systemField.getFieldName(), obj, owner);
+	}
+	
+	protected void setSystemField(String name, _Object obj, boolean owner) {
 		_Object systemObject = getSystem();
 		if (systemObject == null)
 			systemObject = createSystemField();
@@ -616,8 +637,8 @@ public class _Object implements Serializable {
 		if (p == null) {
 			if (logger.isDebugEnabled())
 				logger.debug("no procedure found by message subject " + subject);
-
-			BooleanValue enableMatch = (BooleanValue) getSystemChild(ENABLE_SUBJECT_MATCH);
+			
+			BooleanValue enableMatch = (BooleanValue) getSystemConfig(SystemField.SubjectMatch, "enable");
 
 			if (enableMatch != null && enableMatch.getBooleanValue() == true) {
 				if (logger.isDebugEnabled())
@@ -625,7 +646,7 @@ public class _Object implements Serializable {
 
 				// default setting of the object
 				SubjectMatchType defaultSubjectMatchType = SubjectMatchType.RegularExpression;
-				StringValue defaultSubjectMatchTypeSV = (StringValue) getSystemChild(DEFAULT_SUBJECT_MATCH_TYPE);
+				StringValue defaultSubjectMatchTypeSV = (StringValue) getSystemConfig(SystemField.SubjectMatch, "type");
 				if (defaultSubjectMatchTypeSV != null)
 					defaultSubjectMatchType = SubjectMatchType
 							.valueOf(defaultSubjectMatchTypeSV.getValue());
@@ -637,14 +658,14 @@ public class _Object implements Serializable {
 				for (Field field : fieldList) {
 					_Object child = field.getTarget();
 
-					StringValue messageSubjectMatchRule = (StringValue) child
-							.getSystemChild(SUBJECT_MATCH_RULE);
+					//_Object childSubjectMatch = child.getSystemChild(SystemField.SubjectMatch);
+					
+					StringValue messageSubjectMatchRule = (StringValue) child.getSystemConfig(SystemField.SubjectMatch,"rule");
 
 					if (messageSubjectMatchRule != null) {
 						// procedure specific setting
 						SubjectMatchType subjectMatchType = defaultSubjectMatchType;
-						StringValue subjectMatchTypeSV = (StringValue) child
-								.getSystemChild(SUBJECT_MATCH_TYPE);
+						StringValue subjectMatchTypeSV = (StringValue) child.getSystemConfig(SystemField.SubjectMatch,"type");
 
 						if (subjectMatchTypeSV != null)
 							subjectMatchType = SubjectMatchType
@@ -726,13 +747,8 @@ public class _Object implements Serializable {
 
 	public _Object getPrototype(ObjectRepository repo) {
 
-		_Object proto = null;
-
-		_Object system = getSystem();
-		if (system != null) {
-			proto = system.getChild(PROTOTYPE);
-		}
-
+		_Object proto = getSystemTopChild(SystemField.Prototype);
+		
 		if (proto == null) {
 			// optimization for predefined objects
 			String path = type.getPrototypeEL();
@@ -750,12 +766,7 @@ public class _Object implements Serializable {
 	}
 
 	public void setPrototype(_Object obj) {
-		_Object system = getSystem();
-		if (system == null)
-			system = createSystemField();
-
-		system.setField(PROTOTYPE, obj, false);
-
+		setSystemTopField(SystemField.Prototype, obj, false);		
 	}
 
 	public CompiledProcedure getCompiledProcedure(Procedure procedure) {

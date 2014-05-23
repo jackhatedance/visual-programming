@@ -18,6 +18,7 @@ import org.quartz.Trigger;
 
 import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.SystemField;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
@@ -52,7 +53,7 @@ public class TimerService implements Service {
 
 			@Override
 			public void afterLoadFromFile(_Object obj) {
-				StringValue type = (StringValue) obj.getSystemChild("type");
+				StringValue type = (StringValue) obj.getSystemTopChild(SystemField.Type);
 				if (type != null && type.getValue().equals("timer")) {
 
 					BooleanValue enabledObj = (BooleanValue) obj

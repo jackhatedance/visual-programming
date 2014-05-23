@@ -2,6 +2,7 @@
   <type>NORMAL</type>
   <id>4644</id>
   <name>users</name>
+  <pathForDebug>_world.users</pathForDebug>
   <scope>ExecutionContext</scope>
   <fieldList id="2">
     <field id="3">
@@ -11,6 +12,7 @@
         <id>1255658</id>
         <name>demo</name>
         <description></description>
+        <pathForDebug>_world.users.demo</pathForDebug>
         <scope>ExecutionContext</scope>
         <fieldList id="5"/>
         <borderColor id="6">

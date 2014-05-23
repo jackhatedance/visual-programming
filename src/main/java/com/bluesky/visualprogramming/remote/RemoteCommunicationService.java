@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
+import com.bluesky.visualprogramming.core.SystemField;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -54,7 +55,7 @@ public class RemoteCommunicationService {
 
 			@Override
 			public void onStartService(_Object obj) {
-				_Object aliases = obj.getSystemChild(ALIASES);
+				_Object aliases = obj.getSystemTopChild(SystemField.Aliases);
 
 				_Object owner = obj;
 

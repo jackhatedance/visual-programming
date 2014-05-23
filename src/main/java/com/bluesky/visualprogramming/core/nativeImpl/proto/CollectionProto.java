@@ -3,6 +3,7 @@ package com.bluesky.visualprogramming.core.nativeImpl.proto;
 import java.util.Comparator;
 
 import com.bluesky.visualprogramming.core.Field;
+import com.bluesky.visualprogramming.core.SystemField;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
@@ -51,7 +52,7 @@ public class CollectionProto extends NativeMethodSupport {
 
 
 
-		_Object config = self.getSystemChild("collection");
+		_Object config = self.getSystemTopChild(SystemField.Collection);
 
 		String field = null;
 		SortOrder order = SortOrder.Asc;

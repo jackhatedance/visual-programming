@@ -414,7 +414,7 @@ public class ObjectRepository {
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
-				// System.out.println("beforeSave" + obj.getPath());
+				// System.out.println("beforeSave" + obj.getPath());				
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
@@ -439,6 +439,8 @@ public class ObjectRepository {
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
+				//set pathForDebug
+				obj.pathForDebug = obj.getPath();
 
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
