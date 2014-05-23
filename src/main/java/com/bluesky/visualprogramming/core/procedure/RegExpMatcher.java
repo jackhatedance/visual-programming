@@ -11,6 +11,7 @@ import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
+import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -95,6 +96,8 @@ public class RegExpMatcher extends SubjectMatcher {
 				body.setField(paramName, child, true);
 			}
 			msg.body = body;
+			// support ByName only so far.
+			msg.parameterStyle = ParameterStyle.ByName;
 		}
 	}
 
