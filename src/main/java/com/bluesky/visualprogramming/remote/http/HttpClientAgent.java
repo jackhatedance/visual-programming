@@ -152,8 +152,12 @@ public class HttpClientAgent {
 								charset)
 								: null;
 					} else {
+						HttpEntity entity = response.getEntity();
+						String errorMessage = entity != null ? EntityUtils
+								.toString(entity, charset) : null;
 						throw new ClientProtocolException(
-								"Unexpected response status: " + status);
+								"Unexpected response status: " + status
+										+ ", error message:" + errorMessage);
 					}
 				}
 
