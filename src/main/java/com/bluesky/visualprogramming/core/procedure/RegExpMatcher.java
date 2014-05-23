@@ -56,15 +56,21 @@ public class RegExpMatcher extends SubjectMatcher {
 	@Override
 	public void postProcess(Message msg) {
 		// extract parameter from subject if it has named groups.
-		if (msg.body != null)
-			return;
+		// if (msg.body != null)
+		// return;
 
 		VirtualMachine vm = VirtualMachine.getInstance();
 		ObjectRepository repo = vm.getObjectRepository();
 
+		_Object body = null;
 		if (matcher.groupCount() > 0) {
-			_Object body = repo.createObject(ObjectType.NORMAL,
+			if (msg.body != null)
+				body = msg.body;
+			else {
+				body = repo.createObject(ObjectType.NORMAL,
 					ObjectScope.ExecutionContext);
+				msg.body = body;
+			}
 
 			for (int i = 0; i < matcher.groupCount(); i++) {
 				String groupName = groupNames[i];
@@ -95,7 +101,7 @@ public class RegExpMatcher extends SubjectMatcher {
 
 				body.setField(paramName, child, true);
 			}
-			msg.body = body;
+
 			// support ByName only so far.
 			msg.parameterStyle = ParameterStyle.ByName;
 		}

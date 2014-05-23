@@ -6,9 +6,9 @@ import java.util.Map;
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
 
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core.MessageType;
-import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ParameterStyle;
 import com.bluesky.visualprogramming.core.ReplyStatus;
 import com.bluesky.visualprogramming.core.VException;
@@ -112,7 +112,7 @@ public class AbstractProtocolService {
 		if (requestMessage.messageType == MessageType.SyncRequest) {
 			replyMsg = new Message(requestMessage.receiver,
 					requestMessage.sender, "RE:" + requestMessage.getSubject(),
-					vex, ParameterStyle.ByName, null,
+					vex, ParameterStyle.ByName, requestMessage,
 					requestMessage.messageType.getReplyType());
 		} else if (requestMessage.messageType == MessageType.AsyncRequest
 				&& requestMessage.needCallback()) {
