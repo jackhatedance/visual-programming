@@ -439,14 +439,16 @@ public class ObjectRepository {
 		});
 
 		logger.debug("calculate field target path.");
+		Config config = AppProperties.getInstance().getAsConfig();
+		final boolean enableObjectPathForDebug = config.getBoolean(
+				"object.pathForDebug.enable", false);
+
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
 				//set pathForDebug
 
-				Config config = AppProperties.getInstance().getAsConfig();
-				boolean enableObjectPathForDebug = config.getBoolean(
-						"object.pathForDebug.enable", false);
+
 				if (enableObjectPathForDebug)
 					obj.pathForDebug = obj.getPath();
 				else
