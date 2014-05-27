@@ -17142,8 +17142,73 @@ _self.disable();&#xd;
               <height>100</height>
             </area>
           </field>
+          <field id="2919">
+            <name>language</name>
+            <strongTarget id="2920">
+              <type>NORMAL</type>
+              <id>538643758</id>
+              <name>language</name>
+              <description></description>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2921">
+                <field id="2922">
+                  <name>while</name>
+                  <strongTarget class="procedure" id="2923">
+                    <type>PROCEDURE</type>
+                    <id>538643759</id>
+                    <name defined-in="object">while</name>
+                    <description></description>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="2924"/>
+                    <borderColor id="2925">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure()
+{
+	i=0;
+	while(true)
+	{
+		i.inc(1);
+		
+		if(i.equals(10))
+			break;
+		
+	}
+
+	_world.core.system.console.println(i.toString());
+	
+}</code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="2926">
+                    <x>1045</x>
+                    <y>575</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor reference="2925"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2927">
+              <x>2785</x>
+              <y>2180</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
         </fieldList>
-        <borderColor id="2919">
+        <borderColor id="2928">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -17152,35 +17217,35 @@ _self.disable();&#xd;
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="2920">
+      <area id="2929">
         <x>1058</x>
         <y>108</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="2921">
+    <field id="2930">
       <name>lib</name>
-      <strongTarget id="2922">
+      <strongTarget id="2931">
         <type>NORMAL</type>
         <id>280</id>
         <name>lib</name>
-        <fieldList id="2923">
-          <field id="2924">
+        <fieldList id="2932">
+          <field id="2933">
             <name>math</name>
-            <strongTarget id="2925">
+            <strongTarget id="2934">
               <type>NORMAL</type>
               <id>281</id>
               <name>math</name>
-              <fieldList id="2926">
-                <field id="2927">
+              <fieldList id="2935">
+                <field id="2936">
                   <name>fibonacci</name>
-                  <strongTarget class="procedure" id="2928">
+                  <strongTarget class="procedure" id="2937">
                     <type>PROCEDURE</type>
                     <id>282</id>
                     <name defined-in="object">fibonacci</name>
-                    <fieldList id="2929"/>
-                    <borderColor id="2930">
+                    <fieldList id="2938"/>
+                    <borderColor id="2939">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17213,21 +17278,21 @@ procedure fibonacci(x)
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="2931">
+                  <area id="2940">
                     <x>1215</x>
                     <y>1325</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2932">
+                <field id="2941">
                   <name>sum</name>
-                  <strongTarget class="procedure" id="2933">
+                  <strongTarget class="procedure" id="2942">
                     <type>PROCEDURE</type>
                     <id>4631</id>
                     <name defined-in="object">sum</name>
-                    <fieldList id="2934"/>
-                    <borderColor id="2935">
+                    <fieldList id="2943"/>
+                    <borderColor id="2944">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -17258,7 +17323,7 @@ procedure sum(n)
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="2936">
+                  <area id="2945">
                     <x>2335</x>
                     <y>1325</y>
                     <width>100</width>
@@ -17266,7 +17331,7 @@ procedure sum(n)
                   </area>
                 </field>
               </fieldList>
-              <borderColor id="2937">
+              <borderColor id="2946">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -17275,38 +17340,38 @@ procedure sum(n)
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="2938">
+            <area id="2947">
               <x>1085</x>
               <y>1105</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="2939">
+          <field id="2948">
             <name>device</name>
-            <strongTarget id="2940">
+            <strongTarget id="2949">
               <type>NORMAL</type>
               <id>4972</id>
               <name>unnamed</name>
               <scope>ExecutionContext</scope>
-              <fieldList id="2941">
-                <field id="2942">
+              <fieldList id="2950">
+                <field id="2951">
                   <name>LinkSysE3000</name>
-                  <strongTarget id="2943">
+                  <strongTarget id="2952">
                     <type>NORMAL</type>
                     <id>4973</id>
                     <name>unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2944">
-                      <field id="2945">
+                    <fieldList id="2953">
+                      <field id="2954">
                         <name>statusWirelessLiveGetMacList</name>
-                        <strongTarget class="procedure" id="2946">
+                        <strongTarget class="procedure" id="2955">
                           <type>PROCEDURE</type>
                           <id>4974</id>
                           <name defined-in="object">unnamed</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2947"/>
-                          <borderColor id="2948">
+                          <fieldList id="2956"/>
+                          <borderColor id="2957">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -17319,7 +17384,7 @@ procedure sum(n)
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="2949">
+                        <area id="2958">
                           <x>1535</x>
                           <y>1540</y>
                           <width>100</width>
@@ -17327,11 +17392,11 @@ procedure sum(n)
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor reference="2948"/>
+                    <borderColor reference="2957"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="2950">
+                  <area id="2959">
                     <x>1035</x>
                     <y>1345</y>
                     <width>100</width>
@@ -17339,92 +17404,92 @@ procedure sum(n)
                   </area>
                 </field>
               </fieldList>
-              <borderColor reference="2948"/>
+              <borderColor reference="2957"/>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="2951">
+            <area id="2960">
               <x>1100</x>
               <y>1915</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="2952">
+          <field id="2961">
             <name>web</name>
-            <strongTarget id="2953">
+            <strongTarget id="2962">
               <type>NORMAL</type>
               <id>33365</id>
               <name>web</name>
               <scope>ExecutionContext</scope>
-              <fieldList id="2954">
-                <field id="2955">
+              <fieldList id="2963">
+                <field id="2964">
                   <name>frames</name>
-                  <strongTarget id="2956">
+                  <strongTarget id="2965">
                     <type>NORMAL</type>
                     <id>33366</id>
                     <name>frames</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2957">
-                      <field id="2958">
+                    <fieldList id="2966">
+                      <field id="2967">
                         <name>myFrame</name>
-                        <strongTarget id="2959">
+                        <strongTarget id="2968">
                           <type>NORMAL</type>
                           <id>33368</id>
                           <name>myFrame</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2960">
-                            <field id="2961">
+                          <fieldList id="2969">
+                            <field id="2970">
                               <name>header</name>
-                              <strongTarget id="2962">
+                              <strongTarget id="2971">
                                 <type>NORMAL</type>
                                 <id>33369</id>
                                 <name>header</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2963"/>
+                                <fieldList id="2972"/>
                                 <borderColor reference="2087"/>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="2964">
+                              <area id="2973">
                                 <x>630</x>
                                 <y>690</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="2965">
+                            <field id="2974">
                               <name>body</name>
-                              <strongTarget id="2966">
+                              <strongTarget id="2975">
                                 <type>NORMAL</type>
                                 <id>33370</id>
                                 <name>body</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2967"/>
+                                <fieldList id="2976"/>
                                 <borderColor reference="2087"/>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="2968">
+                              <area id="2977">
                                 <x>710</x>
                                 <y>1425</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="2969">
+                            <field id="2978">
                               <name>footer</name>
-                              <strongTarget id="2970">
+                              <strongTarget id="2979">
                                 <type>NORMAL</type>
                                 <id>33371</id>
                                 <name>footer</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2971"/>
+                                <fieldList id="2980"/>
                                 <borderColor reference="2087"/>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="2972">
+                              <area id="2981">
                                 <x>795</x>
                                 <y>2145</y>
                                 <width>100</width>
@@ -17436,7 +17501,7 @@ procedure sum(n)
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="2973">
+                        <area id="2982">
                           <x>615</x>
                           <y>600</y>
                           <width>100</width>
@@ -17448,48 +17513,48 @@ procedure sum(n)
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="2974">
+                  <area id="2983">
                     <x>2005</x>
                     <y>965</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2975">
+                <field id="2984">
                   <name>filters</name>
-                  <strongTarget id="2976">
+                  <strongTarget id="2985">
                     <type>NORMAL</type>
                     <id>33367</id>
                     <name>filters</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2977"/>
+                    <fieldList id="2986"/>
                     <borderColor reference="554"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="2978">
+                  <area id="2987">
                     <x>2085</x>
                     <y>1660</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="2979">
+                <field id="2988">
                   <name>components</name>
-                  <strongTarget id="2980">
+                  <strongTarget id="2989">
                     <type>NORMAL</type>
                     <id>33373</id>
                     <name>components</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="2981">
-                      <field id="2982">
+                    <fieldList id="2990">
+                      <field id="2991">
                         <name>_test</name>
-                        <strongTarget class="procedure" id="2983">
+                        <strongTarget class="procedure" id="2992">
                           <type>PROCEDURE</type>
                           <id>33396</id>
                           <name defined-in="object">_test</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2984"/>
+                          <fieldList id="2993"/>
                           <borderColor reference="2087"/>
                           <__native>false</__native>
                           <nativeProcedureClassName></nativeProcedureClassName>
@@ -17501,80 +17566,80 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="2985">
+                        <area id="2994">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="2986">
+                      <field id="2995">
                         <name>basic</name>
-                        <strongTarget id="2987">
+                        <strongTarget id="2996">
                           <type>NORMAL</type>
                           <id>33375</id>
                           <name>basic</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="2988">
-                            <field id="2989">
+                          <fieldList id="2997">
+                            <field id="2998">
                               <name>paragraph</name>
-                              <strongTarget id="2990">
+                              <strongTarget id="2999">
                                 <type>NORMAL</type>
                                 <id>33374</id>
                                 <name>paragraph</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2991"/>
+                                <fieldList id="3000"/>
                                 <borderColor reference="2087"/>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="2992">
+                              <area id="3001">
                                 <x>135</x>
                                 <y>175</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="2993">
+                            <field id="3002">
                               <name>formElements</name>
-                              <strongTarget id="2994">
+                              <strongTarget id="3003">
                                 <type>NORMAL</type>
                                 <id>33408</id>
                                 <name>formElements</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="2995">
-                                  <field id="2996">
+                                <fieldList id="3004">
+                                  <field id="3005">
                                     <name>textField</name>
-                                    <strongTarget id="2997">
+                                    <strongTarget id="3006">
                                       <type>NORMAL</type>
                                       <id>33409</id>
                                       <name>textField</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="2998"/>
+                                      <fieldList id="3007"/>
                                       <borderColor reference="2087"/>
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="2999">
+                                    <area id="3008">
                                       <x>800</x>
                                       <y>680</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="3000">
+                                  <field id="3009">
                                     <name>button</name>
-                                    <strongTarget id="3001">
+                                    <strongTarget id="3010">
                                       <type>NORMAL</type>
                                       <id>33410</id>
                                       <name>button</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3002"/>
+                                      <fieldList id="3011"/>
                                       <borderColor reference="2087"/>
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3003">
+                                    <area id="3012">
                                       <x>1595</x>
                                       <y>620</y>
                                       <width>100</width>
@@ -17586,30 +17651,30 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3004">
+                              <area id="3013">
                                 <x>2985</x>
                                 <y>1405</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3005">
+                            <field id="3014">
                               <name>link</name>
-                              <strongTarget id="3006">
+                              <strongTarget id="3015">
                                 <type>NORMAL</type>
                                 <id>33411</id>
                                 <name>link</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3007">
-                                  <field id="3008">
+                                <fieldList id="3016">
+                                  <field id="3017">
                                     <name>toHtml</name>
-                                    <strongTarget class="procedure" id="3009">
+                                    <strongTarget class="procedure" id="3018">
                                       <type>PROCEDURE</type>
                                       <id>33440</id>
                                       <name defined-in="object">toHtml</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3010"/>
-                                      <borderColor id="3011">
+                                      <fieldList id="3019"/>
+                                      <borderColor id="3020">
                                         <red>0</red>
                                         <green>0</green>
                                         <blue>0</blue>
@@ -17629,7 +17694,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3012">
+                                    <area id="3021">
                                       <x>705</x>
                                       <y>735</y>
                                       <width>100</width>
@@ -17641,29 +17706,29 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3013">
+                              <area id="3022">
                                 <x>870</x>
                                 <y>165</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3014">
+                            <field id="3023">
                               <name>list</name>
-                              <strongTarget id="3015">
+                              <strongTarget id="3024">
                                 <type>NORMAL</type>
                                 <id>33418</id>
                                 <name>list</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3016">
-                                  <field id="3017">
+                                <fieldList id="3025">
+                                  <field id="3026">
                                     <name>toHtml</name>
-                                    <strongTarget class="procedure" id="3018">
+                                    <strongTarget class="procedure" id="3027">
                                       <type>PROCEDURE</type>
                                       <id>33419</id>
                                       <name defined-in="object">toHtml</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3019"/>
+                                      <fieldList id="3028"/>
                                       <borderColor reference="2087"/>
                                       <__native>false</__native>
                                       <nativeProcedureClassName></nativeProcedureClassName>
@@ -17690,7 +17755,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3020">
+                                    <area id="3029">
                                       <x>665</x>
                                       <y>1100</y>
                                       <width>100</width>
@@ -17702,30 +17767,30 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3021">
+                              <area id="3030">
                                 <x>180</x>
                                 <y>945</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3022">
+                            <field id="3031">
                               <name>text</name>
-                              <strongTarget id="3023">
+                              <strongTarget id="3032">
                                 <type>NORMAL</type>
                                 <id>33441</id>
                                 <name>text</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3024">
-                                  <field id="3025">
+                                <fieldList id="3033">
+                                  <field id="3034">
                                     <name>toHtml</name>
-                                    <strongTarget class="procedure" id="3026">
+                                    <strongTarget class="procedure" id="3035">
                                       <type>PROCEDURE</type>
                                       <id>33442</id>
                                       <name defined-in="object">toHtml</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3027"/>
-                                      <borderColor reference="3011"/>
+                                      <fieldList id="3036"/>
+                                      <borderColor reference="3020"/>
                                       <__native>false</__native>
                                       <nativeProcedureClassName></nativeProcedureClassName>
                                       <nativeProcedureParameters></nativeProcedureParameters>
@@ -17742,7 +17807,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3028">
+                                    <area id="3037">
                                       <x>1375</x>
                                       <y>1500</y>
                                       <width>100</width>
@@ -17750,11 +17815,11 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </area>
                                   </field>
                                 </fieldList>
-                                <borderColor reference="3011"/>
+                                <borderColor reference="3020"/>
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3029">
+                              <area id="3038">
                                 <x>320</x>
                                 <y>1730</y>
                                 <width>100</width>
@@ -17766,47 +17831,47 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="3030">
+                        <area id="3039">
                           <x>1015</x>
                           <y>1580</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3031">
+                      <field id="3040">
                         <name>generic</name>
-                        <strongTarget id="3032">
+                        <strongTarget id="3041">
                           <type>NORMAL</type>
                           <id>33602</id>
                           <name>generic</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3033">
-                            <field id="3034">
+                          <fieldList id="3042">
+                            <field id="3043">
                               <name>container</name>
-                              <strongTarget id="3035">
+                              <strongTarget id="3044">
                                 <type>NORMAL</type>
                                 <id>33603</id>
                                 <name>container</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3036">
-                                  <field id="3037">
+                                <fieldList id="3045">
+                                  <field id="3046">
                                     <name>_system</name>
-                                    <strongTarget id="3038">
+                                    <strongTarget id="3047">
                                       <type>NORMAL</type>
                                       <id>33607</id>
                                       <name>_system</name>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3039">
-                                        <field id="3040">
+                                      <fieldList id="3048">
+                                        <field id="3049">
                                           <name>prototype</name>
-                                          <strongTarget class="link" id="3041">
+                                          <strongTarget class="link" id="3050">
                                             <type>LINK</type>
                                             <id>33608</id>
                                             <name>prototype</name>
                                             <scope>ExecutionContext</scope>
-                                            <fieldList id="3042"/>
+                                            <fieldList id="3051"/>
                                             <borderColor reference="2101"/>
-                                            <remoteAddress id="3043">
+                                            <remoteAddress id="3052">
                                               <protocol>path</protocol>
                                               <userId>_world.lib.web.components.baseComponent</userId>
                                               <server>local</server>
@@ -17815,7 +17880,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                           </strongTarget>
                                           <type>STRONG</type>
                                           <svgScale>0.2</svgScale>
-                                          <area id="3044">
+                                          <area id="3053">
                                             <x>1410</x>
                                             <y>1335</y>
                                             <width>100</width>
@@ -17827,22 +17892,22 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3045">
+                                    <area id="3054">
                                       <x>1225</x>
                                       <y>1580</y>
                                       <width>100</width>
                                       <height>100</height>
                                     </area>
                                   </field>
-                                  <field id="3046">
+                                  <field id="3055">
                                     <name>toHtml</name>
-                                    <strongTarget class="procedure" id="3047">
+                                    <strongTarget class="procedure" id="3056">
                                       <type>PROCEDURE</type>
                                       <id>33604</id>
                                       <name defined-in="object">toHtml</name>
                                       <description></description>
                                       <scope>ExecutionContext</scope>
-                                      <fieldList id="3048"/>
+                                      <fieldList id="3057"/>
                                       <borderColor reference="2101"/>
                                       <__native>false</__native>
                                       <nativeProcedureClassName></nativeProcedureClassName>
@@ -17897,7 +17962,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                     </strongTarget>
                                     <type>STRONG</type>
                                     <svgScale>0.2</svgScale>
-                                    <area id="3049">
+                                    <area id="3058">
                                       <x>925</x>
                                       <y>905</y>
                                       <width>100</width>
@@ -17909,7 +17974,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3050">
+                              <area id="3059">
                                 <x>660</x>
                                 <y>945</y>
                                 <width>100</width>
@@ -17921,30 +17986,30 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="3051">
+                        <area id="3060">
                           <x>2010</x>
                           <y>1495</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3052">
+                      <field id="3061">
                         <name>baseComponent</name>
-                        <strongTarget id="3053">
+                        <strongTarget id="3062">
                           <type>NORMAL</type>
                           <id>33605</id>
                           <name>baseComponent</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3054">
-                            <field id="3055">
+                          <fieldList id="3063">
+                            <field id="3064">
                               <name>renderObject</name>
-                              <strongTarget class="procedure" id="3056">
+                              <strongTarget class="procedure" id="3065">
                                 <type>PROCEDURE</type>
                                 <id>33606</id>
                                 <name defined-in="object">renderObject</name>
                                 <description></description>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3057"/>
+                                <fieldList id="3066"/>
                                 <borderColor reference="2101"/>
                                 <__native>false</__native>
                                 <nativeProcedureClassName></nativeProcedureClassName>
@@ -18012,23 +18077,23 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3058">
+                              <area id="3067">
                                 <x>1080</x>
                                 <y>1210</y>
                                 <width>100</width>
                                 <height>100</height>
                               </area>
                             </field>
-                            <field id="3059">
+                            <field id="3068">
                               <name>renderByStandardComponent</name>
-                              <strongTarget class="procedure" id="3060">
+                              <strongTarget class="procedure" id="3069">
                                 <type>PROCEDURE</type>
                                 <id>33845</id>
                                 <name defined-in="object">renderByStandardComponent</name>
                                 <description></description>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3061"/>
-                                <borderColor id="3062">
+                                <fieldList id="3070"/>
+                                <borderColor id="3071">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
@@ -18051,7 +18116,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3063">
+                              <area id="3072">
                                 <x>2230</x>
                                 <y>1320</y>
                                 <width>100</width>
@@ -18063,7 +18128,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="3064">
+                        <area id="3073">
                           <x>1265</x>
                           <y>2405</y>
                           <width>100</width>
@@ -18075,44 +18140,44 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="3065">
+                  <area id="3074">
                     <x>2850</x>
                     <y>920</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="3066">
+                <field id="3075">
                   <name>render</name>
-                  <strongTarget id="3067">
+                  <strongTarget id="3076">
                     <type>NORMAL</type>
                     <id>33447</id>
                     <name>render</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="3068">
-                      <field id="3069">
+                    <fieldList id="3077">
+                      <field id="3078">
                         <name>_system</name>
-                        <strongTarget id="3070">
+                        <strongTarget id="3079">
                           <type>NORMAL</type>
                           <id>33852</id>
                           <name>_system</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3071">
-                            <field id="3072">
+                          <fieldList id="3080">
+                            <field id="3081">
                               <name>prototype</name>
-                              <strongTarget class="link" id="3073">
+                              <strongTarget class="link" id="3082">
                                 <type>LINK</type>
                                 <id>33858</id>
                                 <name>t_0</name>
                                 <scope>ExecutionContext</scope>
-                                <fieldList id="3074"/>
-                                <borderColor id="3075">
+                                <fieldList id="3083"/>
+                                <borderColor id="3084">
                                   <red>0</red>
                                   <green>0</green>
                                   <blue>0</blue>
                                   <alpha>255</alpha>
                                 </borderColor>
-                                <remoteAddress id="3076">
+                                <remoteAddress id="3085">
                                   <protocol>path</protocol>
                                   <userId>_world.lib.web.components.baseComponent</userId>
                                   <server>local</server>
@@ -18121,7 +18186,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </strongTarget>
                               <type>STRONG</type>
                               <svgScale>0.2</svgScale>
-                              <area id="3077">
+                              <area id="3086">
                                 <x>1545</x>
                                 <y>1595</y>
                                 <width>100</width>
@@ -18129,27 +18194,27 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                               </area>
                             </field>
                           </fieldList>
-                          <borderColor reference="3062"/>
+                          <borderColor reference="3071"/>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="3078">
+                        <area id="3087">
                           <x>2220</x>
                           <y>1730</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="3079">
+                      <field id="3088">
                         <name>do</name>
-                        <strongTarget class="procedure" id="3080">
+                        <strongTarget class="procedure" id="3089">
                           <type>PROCEDURE</type>
                           <id>33448</id>
                           <name defined-in="object">do</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="3081"/>
-                          <borderColor id="3082">
+                          <fieldList id="3090"/>
+                          <borderColor id="3091">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -18181,7 +18246,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="3083">
+                        <area id="3092">
                           <x>901</x>
                           <y>933</y>
                           <width>100</width>
@@ -18189,11 +18254,11 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor reference="3082"/>
+                    <borderColor reference="3091"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="3084">
+                  <area id="3093">
                     <x>250</x>
                     <y>1235</y>
                     <width>100</width>
@@ -18205,7 +18270,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="3085">
+            <area id="3094">
               <x>2155</x>
               <y>1430</y>
               <width>100</width>
@@ -18213,7 +18278,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
             </area>
           </field>
         </fieldList>
-        <borderColor id="3086">
+        <borderColor id="3095">
           <red>0</red>
           <green>0</green>
           <blue>255</blue>
@@ -18222,51 +18287,51 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="3087">
+      <area id="3096">
         <x>1180</x>
         <y>425</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="3088">
+    <field id="3097">
       <name>test</name>
-      <strongTarget id="3089">
+      <strongTarget id="3098">
         <type>NORMAL</type>
         <id>2638233</id>
         <name>test</name>
         <description></description>
         <scope>ExecutionContext</scope>
-        <fieldList id="3090">
-          <field id="3091">
+        <fieldList id="3099">
+          <field id="3100">
             <name>unnamed</name>
-            <strongTarget id="3092">
+            <strongTarget id="3101">
               <type>NORMAL</type>
               <id>2638234</id>
               <name>unnamed</name>
               <scope>ExecutionContext</scope>
-              <fieldList id="3093"/>
+              <fieldList id="3102"/>
               <borderColor reference="2845"/>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="3094">
+            <area id="3103">
               <x>750</x>
               <y>955</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="3095">
+          <field id="3104">
             <name>unnamed1</name>
-            <strongTarget class="string" id="3096">
+            <strongTarget class="string" id="3105">
               <type>STRING</type>
               <id>109796614</id>
               <name>unnamed1</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="3097"/>
-              <borderColor id="3098">
+              <fieldList id="3106"/>
+              <borderColor id="3107">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -18276,7 +18341,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="3099">
+            <area id="3108">
               <x>1845</x>
               <y>975</y>
               <width>100</width>
@@ -18288,7 +18353,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="3100">
+      <area id="3109">
         <x>53</x>
         <y>1303</y>
         <width>100</width>
@@ -18296,7 +18361,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
       </area>
     </field>
   </fieldList>
-  <borderColor id="3101">
+  <borderColor id="3110">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

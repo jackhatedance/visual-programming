@@ -83,6 +83,7 @@ import com.bluesky.visualprogramming.vm.Compiler;
 import com.bluesky.visualprogramming.vm.ProcedureExecutionContext;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
 import com.bluesky.visualprogramming.vm.instruction.AssignmentType;
+import com.bluesky.visualprogramming.vm.instruction.BlockType;
 import com.bluesky.visualprogramming.vm.instruction.CreateObject;
 import com.bluesky.visualprogramming.vm.instruction.FieldAssignment;
 import com.bluesky.visualprogramming.vm.instruction.Goto;
@@ -117,7 +118,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	// let the child node know the current block name, so that it knows how to
 	// goto begin/end of block
-	private Stack<String> blockStack = new Stack<String>();
+	private Stack<BlockItem> blockStack = new Stack<BlockItem>();
 
 	private int tempVarCount = 0;
 	private int blockCount = 0;
@@ -136,13 +137,24 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	}
 
 	private String getNextBlockName(String type) {
-		// String name = "temp_" + type + "_" + tempVarCount;
-		String name = "blk_" + blockCount;
+		String name = "blk" + blockCount + "_" + type;
+		// String name = "blk_" + blockCount;
 		blockCount++;
 
 		return name;
 	}
 
+	protected BlockItem findNearestBlock(BlockType type) {
+		int size = blockStack.size();
+		for (int i = 0; i < blockStack.size(); i++) {
+			BlockItem bi = blockStack.get(size - i - 1);
+			if (bi.type == type)
+				return bi;
+		}
+
+		throw new RuntimeException("no desired type of block found:"
+				+ type.name());
+	}
 	private Instruction getLastInstruction() {
 		return instructions.get(instructions.size() - 1);
 	}
@@ -151,9 +163,10 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		instructions.add(ins);
 	}
 
-	private void pushBlock(String blockName, ParserRuleContext ctx) {
+	private void pushBlock(BlockItem item,
+			ParserRuleContext ctx) {
 		instructions.add(new PushBlock(ctx.start.getLine()));
-		blockStack.push(blockName);
+		blockStack.push(item);
 	}
 
 	private void popBlock(ParserRuleContext ctx) {
@@ -262,7 +275,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 	public Object visitForStatement(ForStatementContext ctx) {
 		String blockName = getNextBlockName("For");
 
-		pushBlock(blockName, ctx);
+		pushBlock(new BlockItem(BlockType.Loop, blockName), ctx);
 
 		getLastInstruction().comment = String.format("for(%s;%s;%s)", ctx
 				.forInit() == null ? "" : ctx.forInit().getText(), ctx
@@ -510,7 +523,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String blockName = getNextBlockName("If");
 
-		pushBlock(blockName, ctx);
+		pushBlock(new BlockItem(BlockType.Default, blockName), ctx);
 
 		String conditionVar = (String) ctx.expr().accept(this);
 
@@ -699,7 +712,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String blockName = getNextBlockName("While");
 
-		pushBlock(blockName, ctx);
+		pushBlock(new BlockItem(BlockType.Loop, blockName), ctx);
 
 		NoOperation entry = new NoOperation(ctx.start.getLine());
 		entry.label = blockName + "Entry";
@@ -855,22 +868,25 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 	@Override
 	public Object visitContinueStatement(ContinueStatementContext ctx) {
-		String block = blockStack.peek();
+
+		BlockItem loopBlockItem = findNearestBlock(BlockType.Loop);
 
 		Goto ins = new Goto(ctx.start.getLine());
-		ins.destinationLabel = block + "Entry";
+		ins.destinationLabel = loopBlockItem.name + "Entry";
 
 		addInstruction(ins);
 
 		return null;
 	}
 
+
 	@Override
 	public Object visitBreakStatement(BreakStatementContext ctx) {
-		String block = blockStack.peek();
+
+		BlockItem loopBlockItem = findNearestBlock(BlockType.Loop);
 
 		Goto ins = new Goto(ctx.start.getLine());
-		ins.destinationLabel = block + "End";
+		ins.destinationLabel = loopBlockItem.name + "End";
 
 		addInstruction(ins);
 

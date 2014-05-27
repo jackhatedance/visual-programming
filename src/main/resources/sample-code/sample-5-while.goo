@@ -6,8 +6,12 @@ procedure foo(a,b,c)
 		
 		//bar.foo();
 		i.inc(1);	
-		//break;
-		//continue;	
+		
+		if(i.equals(10))
+			break;
+		
+		if(i.equals(20))	
+			continue;	
 	}	
 	
 	SYS.console.print(i);
