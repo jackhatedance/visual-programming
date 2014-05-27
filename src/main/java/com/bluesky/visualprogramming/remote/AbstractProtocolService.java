@@ -78,7 +78,7 @@ public class AbstractProtocolService {
 			replyMsg = new Message(requestMessage.receiver,
 					requestMessage.sender, "RE:" + requestMessage.getSubject(),
 					response, ParameterStyle.ByName, requestMessage,
-					MessageType.SyncReply);
+					MessageType.SyncReply, requestMessage.sessionUser);
 
 			replyMsg.urgent = true;
 		} else if (requestMessage.messageType == MessageType.AsyncRequest
@@ -113,7 +113,7 @@ public class AbstractProtocolService {
 			replyMsg = new Message(requestMessage.receiver,
 					requestMessage.sender, "RE:" + requestMessage.getSubject(),
 					vex, ParameterStyle.ByName, requestMessage,
-					requestMessage.messageType.getReplyType());
+					requestMessage.messageType.getReplyType(), requestMessage.sessionUser);
 		} else if (requestMessage.messageType == MessageType.AsyncRequest
 				&& requestMessage.needCallback()) {
 			replyMsg = Message.newAsyncReplyMessage(requestMessage.receiver,

@@ -381,7 +381,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					msg = new Message(sender, receiver,
 							messageSubject.getValue(), messageBody,
 							instruction.paramStyle, message,
-							MessageType.SyncRequest);
+							MessageType.SyncRequest, message.sessionUser);
 
 					ctx.step = 1;
 

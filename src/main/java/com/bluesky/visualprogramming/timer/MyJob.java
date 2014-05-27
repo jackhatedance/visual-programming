@@ -27,7 +27,7 @@ public class MyJob implements Job {
 	private void notify1(_Object timer) {
 
 		Message msg = new Message(null, timer, "action", null,
-				ParameterStyle.ByName, null, MessageType.SyncRequest);
+				ParameterStyle.ByName, null, MessageType.SyncRequest, null);
 
 		VirtualMachine.getInstance().getPostService().sendMessage(msg);
 

@@ -191,7 +191,7 @@ public class Worker implements Runnable {
 			if (msg.sender != null) {
 				Message replyMsg = new Message(obj, msg.sender, "RE:"
 						+ msg.getSubject(), msg.reply, ParameterStyle.ByName,
-						msg, MessageType.SyncReply);
+						msg, MessageType.SyncReply,msg.sessionUser);
 
 				if (procedureExecutionStatus == ExecutionStatus.ERROR) {
 					replyMsg.setSubject("Error " + replyMsg.getSubject());

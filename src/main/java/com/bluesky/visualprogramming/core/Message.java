@@ -2,6 +2,7 @@ package com.bluesky.visualprogramming.core;
 
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
@@ -41,6 +42,12 @@ public class Message {
 	 * 2 is as message of execution context, similar to call stack
 	 */
 	public Message previous;
+	
+	/**
+	 * the remote user ID, such as xmpp://foo@bar.com. used in session enabled mode of remote communication.
+	 *
+	 */
+	public Link sessionUser;
 
 	public MessageType messageType;
 
@@ -76,7 +83,7 @@ public class Message {
 			ParameterStyle parameterStyle, String replySubject) {
 
 		Message msg = new Message(sender, receiver, subject, body,
-				parameterStyle, null, MessageType.AsyncRequest);
+				parameterStyle, null, MessageType.AsyncRequest,null);
 		msg.replySubject = replySubject;
 
 		return msg;
@@ -97,7 +104,7 @@ public class Message {
 			ParameterStyle parameterStyle, ReplyStatus replyStatus) {
 
 		Message msg = new Message(sender, receiver, subject, body,
-				parameterStyle, null, MessageType.AsyncReply);
+				parameterStyle, null, MessageType.AsyncReply,null);
 
 		msg.replyStatus = replyStatus;
 
@@ -115,7 +122,7 @@ public class Message {
 	 */
 	public Message(_Object sender, _Object receiver, String subject,
 			_Object body, ParameterStyle parameterStyle,
-			Message previousMessage, MessageType messageType) {
+			Message previousMessage, MessageType messageType, Link sessionUser) {
 
 		this.sender = sender;
 		this.receiver = receiver;
@@ -128,6 +135,7 @@ public class Message {
 		this.previous = previousMessage;
 		this.messageType = messageType;
 
+		this.sessionUser = sessionUser;
 		/**
 		 * message body is always stand alone, temporarily
 		 */
@@ -156,6 +164,9 @@ public class Message {
 		executionContext.setObject(
 				ProcedureExecutionContext.VAR_PARAMETER_STYLE,
 				getParamStyleSV());
+		executionContext
+		.setObject(ProcedureExecutionContext.VAR_SESSION_USER, sessionUser);
+		
 		// executionContext.setObject("sender", receiver);
 
 		if (messageType == MessageType.AsyncReply) {

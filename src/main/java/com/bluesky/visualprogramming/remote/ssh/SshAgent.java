@@ -157,7 +157,7 @@ public class SshAgent {
 			Message replyMsg = new Message( lastRequestMessage.receiver,
 					lastRequestMessage.sender, "RE:"
 							+ lastRequestMessage.getSubject(), returnValue,
-					ParameterStyle.ByName, null, MessageType.SyncReply);
+					ParameterStyle.ByName, null, MessageType.SyncReply,lastRequestMessage.sessionUser);
 
 			replyMsg.urgent = true;
 

@@ -161,6 +161,12 @@ public class XmppAgent {
 		chat.sendMessage(msgBody);
 	}
 
+	/**
+	 * remove last slash?
+	 * 
+	 * @param addr
+	 * @return
+	 */
 	private String reviseAddress(String addr) {
 		int idx = addr.lastIndexOf("/");
 		if (idx >= 0)
@@ -191,6 +197,10 @@ public class XmppAgent {
 			returnValue.setValue(msg.getBody());
 
 			String senderAddress = reviseAddress(msg.getFrom());
+			Link senderLink = repo.getFactory().createLink(
+					getFullAddress(reviseAddress(senderAddress)));
+
+			Message newMsg = null;
 
 			Message blockedOutgoingRequest = blockedOutgoingRequests
 					.get(senderAddress);
@@ -202,46 +212,46 @@ public class XmppAgent {
 				Message replyMsg = new Message(blockedOutgoingRequest.receiver,
 						blockedOutgoingRequest.sender, "RE:"
 								+ blockedOutgoingRequest.getSubject(),
-						returnValue, ParameterStyle.ByName, null,
-						MessageType.SyncReply);
+						returnValue, ParameterStyle.ByName,
+						blockedOutgoingRequest, MessageType.SyncReply,
+						blockedOutgoingRequest.sessionUser);
 
 				replyMsg.urgent = true;
 
 				// it can only be replied once.
 				removeBlockedOutgoingRequest(senderAddress);
 
-				vm.getPostService().sendMessage(replyMsg);
+				newMsg = replyMsg;
 			} else {// not a reply. it is a request.
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
-				Link senderLink = (Link) repo.createObject(ObjectType.LINK,
-						ObjectScope.ExecutionContext);
-				senderLink.setValue("xmpp://"
-						+ reviseAddress(reviseAddress(msg.getFrom())));
-
-				Link receiverLink = (Link) repo.createObject(
-
-				ObjectType.LINK, ObjectScope.ExecutionContext);
-
-				receiverLink.setValue("xmpp://"
-						+ reviseAddress(reviseAddress(msg.getTo())));
+				Link receiverLink = repo.getFactory()
+						.createLink(
+								getFullAddress(reviseAddress(reviseAddress(msg
+										.getTo()))));
 
 				// TODO convert msg.body to _Object
 
 				Message normalMsg = new Message(senderLink, receiverLink,
 						msg.getBody(), null, ParameterStyle.ByName, null,
-						MessageType.SyncRequest);
+						MessageType.SyncRequest, senderLink);
 
 				normalMsg.urgent = false;
 
-				vm.getPostService().sendMessage(normalMsg);
-
+				newMsg = normalMsg;
 			}
+
+			// send it.
+			vm.getPostService().sendMessage(newMsg);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected String getFullAddress(String shortAddress) {
+		return "xmpp://" + shortAddress;
 	}
 
 	protected MessageListener getMessageListener() {

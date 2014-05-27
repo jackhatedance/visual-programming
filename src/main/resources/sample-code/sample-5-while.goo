@@ -1,13 +1,14 @@
 procedure foo(a,b,c)
 {		
+	SYS = _world.core.system;
 	i = 0;
 	while(i.lt(100)){
 		
-		bar.foo();
+		//bar.foo();
 		i.inc(1);	
-		break;
-		continue;	
+		//break;
+		//continue;	
 	}	
 	
-	out.print(i);
+	SYS.console.print(i);
 }

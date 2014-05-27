@@ -175,7 +175,7 @@ public class MessageServlet extends HttpServlet {
 		 */
 		Message incomingMsg = new Message(senderLink, receiverLink,
 				subject, parameters, ParameterStyle.ByName, null,
-				MessageType.SyncRequest);
+				MessageType.SyncRequest,null);
 
 		vm.getPostService().sendMessage(incomingMsg);
 

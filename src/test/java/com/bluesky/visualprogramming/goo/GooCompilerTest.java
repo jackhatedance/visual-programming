@@ -97,7 +97,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+	
 	@Test
 	public void testWhile() {
 		InputStream is = GooCompilerTest.class
@@ -111,7 +111,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+	
 	@Test
 	public void testFor() {
 		InputStream is = GooCompilerTest.class

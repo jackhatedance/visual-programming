@@ -179,7 +179,7 @@ public class PostService extends ThreadService implements Runnable {
 //		Message msg = Message.newAsyncRequestMessage(senderLink, receiver,
 //				subject, body, ParameterStyle.ByName, null);
 		Message msg = new Message(senderLink, receiver, subject, body,
-				ParameterStyle.ByName, null, MessageType.SyncRequest);
+				ParameterStyle.ByName, null, MessageType.SyncRequest,null);
 	
 		
 		sendMessage(msg);

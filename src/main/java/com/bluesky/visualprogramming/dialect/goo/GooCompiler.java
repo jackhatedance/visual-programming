@@ -711,13 +711,18 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		GotoIf gotoFalse = new GotoIf(ctx.start.getLine());
 		gotoFalse.expected = false;
 		gotoFalse.actualVarName = conditionVar;
-		gotoFalse.destinationLabel = blockName + "Begin";
+		gotoFalse.destinationLabel = blockName + "End";
 
 		addInstruction(gotoFalse);
 
 		// true begin
 		ctx.blockOrStatment().accept(this);
 
+		// goto begin
+		Goto gotoEntry = new Goto(ctx.start.getLine());
+		gotoEntry.destinationLabel = blockName + "Entry";
+		addInstruction(gotoEntry);
+		
 		// label
 		NoOperation trueEnd = new NoOperation(ctx.start.getLine());
 		trueEnd.label = blockName + "End";
