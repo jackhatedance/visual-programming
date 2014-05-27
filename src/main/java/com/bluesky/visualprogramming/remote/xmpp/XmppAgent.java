@@ -1,5 +1,8 @@
 package com.bluesky.visualprogramming.remote.xmpp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -21,6 +24,12 @@ import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
+/**
+ * each agent has its unique UserID.
+ * 
+ * @author jack
+ * 
+ */
 public class XmppAgent {
 
 	static Logger logger = Logger.getLogger(XmppAgent.class);
@@ -36,16 +45,17 @@ public class XmppAgent {
 	// private SessionStatus sessionStatus=SessionStatus.Normal;
 
 	/**
-	 * it is a sync request.
+	 * a request sent from system object, wait for remote user response. that
+	 * any incoming message from that userid(TODO or sessionID) is assumed to be
+	 * it response.
 	 */
-	Message lastExternalRequestMessage;
+	Map<String, Message> blockedOutgoingRequests = new HashMap<String, Message>();
 
 	AbstractProtocolService service;
 
 	public XmppAgent(AbstractProtocolService service, String address,
 			_Object obj, Config config) {
 		this.service = service;
-
 
 		if (config.containsKey("server"))
 			server = config.get("server");
@@ -103,10 +113,24 @@ public class XmppAgent {
 		connection.disconnect();
 	}
 
+	protected void setBlockedOutgoingRequest(String receiverAddress,
+			Message request) {
+		if (blockedOutgoingRequests.containsKey(receiverAddress))
+			throw new RuntimeException(
+					"a blocked outgoing request already exsits for "
+							+ receiverAddress);
+
+		blockedOutgoingRequests.put(receiverAddress, request);
+	}
+
+	protected void removeBlockedOutgoingRequest(String receiverAddress) {
+		blockedOutgoingRequests.remove(receiverAddress);
+	}
+
 	public void send(String receiverAddress, Message msg) throws XMPPException {
 
-		if (!msg.messageType.isReply())
-			lastExternalRequestMessage = msg;
+		if (msg.messageType == MessageType.SyncRequest)
+			setBlockedOutgoingRequest(receiverAddress, msg);
 
 		ChatManager chatManager = connection.getChatManager();
 		Chat chat = chatManager.createChat(receiverAddress,
@@ -130,11 +154,10 @@ public class XmppAgent {
 			}
 
 		}
-		
-		
-		//String response = String.format("[%s] %s", msg.getSubject(), msgBody);
-		
-	
+
+		// String response = String.format("[%s] %s", msg.getSubject(),
+		// msgBody);
+
 		chat.sendMessage(msgBody);
 	}
 
@@ -169,23 +192,23 @@ public class XmppAgent {
 
 			String senderAddress = reviseAddress(msg.getFrom());
 
-			if (lastExternalRequestMessage != null
-					&& lastExternalRequestMessage.receiver instanceof Link
-					&& ((Link) lastExternalRequestMessage.receiver).getAddress()
-							.equals(senderAddress)) {
+			Message blockedOutgoingRequest = blockedOutgoingRequests
+					.get(senderAddress);
+			if (blockedOutgoingRequest != null) {
 				// address match. it must be reply.
 				if (logger.isDebugEnabled())
 					logger.debug("it is a reply");
 
-				Message replyMsg = new Message(
-						lastExternalRequestMessage.receiver, lastExternalRequestMessage.sender,
-						"RE:" + lastExternalRequestMessage.getSubject(), returnValue,
-						ParameterStyle.ByName, null, MessageType.SyncReply);
+				Message replyMsg = new Message(blockedOutgoingRequest.receiver,
+						blockedOutgoingRequest.sender, "RE:"
+								+ blockedOutgoingRequest.getSubject(),
+						returnValue, ParameterStyle.ByName, null,
+						MessageType.SyncReply);
 
 				replyMsg.urgent = true;
 
 				// it can only be replied once.
-				lastExternalRequestMessage = null;
+				removeBlockedOutgoingRequest(senderAddress);
 
 				vm.getPostService().sendMessage(replyMsg);
 			} else {// not a reply. it is a request.
@@ -200,7 +223,7 @@ public class XmppAgent {
 				Link receiverLink = (Link) repo.createObject(
 
 				ObjectType.LINK, ObjectScope.ExecutionContext);
-				
+
 				receiverLink.setValue("xmpp://"
 						+ reviseAddress(reviseAddress(msg.getTo())));
 
