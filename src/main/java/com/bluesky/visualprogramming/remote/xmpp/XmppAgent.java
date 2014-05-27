@@ -21,6 +21,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
+import com.bluesky.visualprogramming.remote.session.Session;
 import com.bluesky.visualprogramming.utils.Config;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
@@ -199,7 +200,13 @@ public class XmppAgent {
 			String senderAddress = reviseAddress(msg.getFrom());
 			Link senderLink = repo.getFactory().createLink(
 					getFullAddress(reviseAddress(senderAddress)));
-
+			
+			Link receiverLink = repo.getFactory()
+					.createLink(
+							getFullAddress(reviseAddress(reviseAddress(msg
+									.getTo()))));
+			Session session = new Session(receiverLink, senderLink);
+			
 			Message newMsg = null;
 
 			Message blockedOutgoingRequest = blockedOutgoingRequests
@@ -209,12 +216,13 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is a reply");
 
+				
 				Message replyMsg = new Message(blockedOutgoingRequest.receiver,
 						blockedOutgoingRequest.sender, "RE:"
 								+ blockedOutgoingRequest.getSubject(),
 						returnValue, ParameterStyle.ByName,
 						blockedOutgoingRequest, MessageType.SyncReply,
-						blockedOutgoingRequest.sessionUser);
+						session);
 
 				replyMsg.urgent = true;
 
@@ -226,16 +234,11 @@ public class XmppAgent {
 				if (logger.isDebugEnabled())
 					logger.debug("it is not a reply");
 
-				Link receiverLink = repo.getFactory()
-						.createLink(
-								getFullAddress(reviseAddress(reviseAddress(msg
-										.getTo()))));
 
-				// TODO convert msg.body to _Object
-
+				// TODO convert msg.body to _Object				
 				Message normalMsg = new Message(senderLink, receiverLink,
 						msg.getBody(), null, ParameterStyle.ByName, null,
-						MessageType.SyncRequest, senderLink);
+						MessageType.SyncRequest, session);
 
 				normalMsg.urgent = false;
 

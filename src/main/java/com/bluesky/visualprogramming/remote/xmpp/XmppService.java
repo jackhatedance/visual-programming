@@ -7,6 +7,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import com.bluesky.visualprogramming.core.Message;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
@@ -37,8 +38,16 @@ public class XmppService extends AbstractProtocolService implements
 
 	@Override
 	public void send(String receiverAddress, Message message) {
-
-		String senderAddress = getPrimaryAddress(message.sender);
+		
+		_Object localObj = message.getSenderForRemoteCommunication();
+		if(localObj instanceof Link)
+		{
+			Link link = (Link)localObj;
+			String addr = link.getAddress();
+			localObj = getLocalObject(addr); 
+		}		
+		
+		String senderAddress = getPrimaryAddress(localObj);
 		XmppAgent agent = agents.get(senderAddress);
 
 		try {
