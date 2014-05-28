@@ -151,13 +151,14 @@ public class Message {
 	 * @param root
 	 * @param paramNames
 	 */
-	public void initExecutionContext(_Object root, String[] paramNames) {
+	public void initExecutionContext(_Object root, _Object globalLinks, String[] paramNames) {
 		executionContext = new ProcedureExecutionContext();
 
 		executionContext.setExecutionStatus(ExecutionStatus.RUNNING);
 
-		executionContext.setObject(ObjectRepository.ROOT_OBJECT, root);
-		executionContext
+		executionContext.setObject(ProcedureExecutionContext.VAR_ROOT, root);		
+		executionContext.setObject(ProcedureExecutionContext.VAR_GLOBAL_LINKS, globalLinks);
+		executionContext		
 				.setObject(ProcedureExecutionContext.VAR_SELF, receiver);
 		executionContext.setObject(ProcedureExecutionContext.VAR_SUBJECT,
 				subject);

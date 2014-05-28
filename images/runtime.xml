@@ -1,7 +1,7 @@
 <object id="1">
   <type>NORMAL</type>
   <id>0</id>
-  <name>_world</name>
+  <name>world</name>
   <scope>Persistent</scope>
   <fieldList id="2">
     <field id="3">
@@ -1620,7 +1620,7 @@
                                 </borderColor>
                                 <remoteAddress id="263">
                                   <protocol>PATH</protocol>
-                                  <userId>_world.core.prototype.object</userId>
+                                  <userId>world.core.prototype.object</userId>
                                   <server>local</server>
                                   <port>-1</port>
                                 </remoteAddress>
@@ -1870,7 +1870,7 @@
                             <field id="301">
                               <name>prototype</name>
                               <type>WEAK</type>
-                              <pointerPath>_world.core.prototype.list</pointerPath>
+                              <pointerPath>world.core.prototype.list</pointerPath>
                               <svgScale>0.2</svgScale>
                               <area id="302">
                                 <x>565</x>
@@ -2149,7 +2149,7 @@
                           <language>goo</language>
                           <code>procedure()
 {
-	a = {_prototype:path://_world.core.prototype.list@local};
+	a = {_prototype:path://world.core.prototype.list@local};
 	_self.a =a;
 	a.add(&quot;foo&quot;);
 	_world.lib.console.println(a.get(0));
@@ -2191,7 +2191,7 @@
                                 </borderColor>
                                 <remoteAddress id="351">
                                   <protocol>PATH</protocol>
-                                  <userId>_world.core.prototype.list</userId>
+                                  <userId>world.core.prototype.list</userId>
                                   <server>local</server>
                                   <port>-1</port>
                                 </remoteAddress>
@@ -2215,7 +2215,7 @@
                                   <field id="356">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="357">
                                       <x>0</x>
@@ -2248,7 +2248,7 @@
                                   <field id="362">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="363">
                                       <x>0</x>
@@ -2976,7 +2976,7 @@
                             <field id="473">
                               <name>_prototype</name>
                               <type>WEAK</type>
-                              <pointerPath>_world.core.prototype.value.integer</pointerPath>
+                              <pointerPath>world.core.prototype.value.integer</pointerPath>
                               <svgScale>0.2</svgScale>
                               <area id="474">
                                 <x>0</x>
@@ -3014,7 +3014,7 @@
                             <field id="480">
                               <name>_prototype</name>
                               <type>WEAK</type>
-                              <pointerPath>_world.core.prototype.value.boolean</pointerPath>
+                              <pointerPath>world.core.prototype.value.boolean</pointerPath>
                               <svgScale>0.2</svgScale>
                               <area id="481">
                                 <x>0</x>
@@ -3584,18 +3584,18 @@ such as disable email aliases for object foo.</value>
             </area>
           </field>
           <field id="569">
-            <name>shortLinks</name>
+            <name>globalLinks</name>
             <strongTarget id="570">
               <type>NORMAL</type>
               <id>546517472</id>
-              <name>shortLinks</name>
+              <name>globalLinks</name>
               <description>these links will be added to execution context, prefixed with &apos;_&apos;. such as system will be accessed as &apos;_system&apos; to avoid naming conflict from normal variable.</description>
               <scope>ExecutionContext</scope>
               <fieldList id="571">
                 <field id="572">
                   <name>world</name>
                   <type>WEAK</type>
-                  <pointerPath>_world</pointerPath>
+                  <pointerPath>world</pointerPath>
                   <svgScale>0.2</svgScale>
                   <area id="573">
                     <x>425</x>
@@ -3607,7 +3607,7 @@ such as disable email aliases for object foo.</value>
                 <field id="574">
                   <name>system</name>
                   <type>WEAK</type>
-                  <pointerPath>_world.core.system</pointerPath>
+                  <pointerPath>world.core.system</pointerPath>
                   <svgScale>0.2</svgScale>
                   <area id="575">
                     <x>1545</x>
@@ -3619,7 +3619,7 @@ such as disable email aliases for object foo.</value>
                 <field id="576">
                   <name>console</name>
                   <type>WEAK</type>
-                  <pointerPath>_world.core.system.console</pointerPath>
+                  <pointerPath>world.core.system.console</pointerPath>
                   <svgScale>0.2</svgScale>
                   <area id="577">
                     <x>560</x>
@@ -3631,7 +3631,7 @@ such as disable email aliases for object foo.</value>
                 <field id="578">
                   <name>prototype</name>
                   <type>WEAK</type>
-                  <pointerPath>_world.core.prototype</pointerPath>
+                  <pointerPath>world.core.prototype</pointerPath>
                   <svgScale>0.2</svgScale>
                   <area id="579">
                     <x>2425</x>
@@ -3643,7 +3643,7 @@ such as disable email aliases for object foo.</value>
                 <field id="580">
                   <name>lib</name>
                   <type>WEAK</type>
-                  <pointerPath>_world.lib</pointerPath>
+                  <pointerPath>world.lib</pointerPath>
                   <svgScale>0.2</svgScale>
                   <area id="581">
                     <x>545</x>
@@ -4098,7 +4098,7 @@ Users should get start without any other documents.</description>
                                   <field id="680">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="681">
                                       <x>0</x>
@@ -4317,7 +4317,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="706">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="707">
                                       <x>0</x>
@@ -4500,7 +4500,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="726">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="727">
                                       <x>0</x>
@@ -4683,7 +4683,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="746">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="747">
                                       <x>0</x>
@@ -4861,7 +4861,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="765">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="766">
                                       <x>0</x>
@@ -5039,7 +5039,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="784">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="785">
                                       <x>0</x>
@@ -5217,7 +5217,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="803">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="804">
                                       <x>0</x>
@@ -5395,7 +5395,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="822">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="823">
                                       <x>0</x>
@@ -5573,7 +5573,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system,&quot;gr
                                   <field id="841">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="842">
                                       <x>0</x>
@@ -6671,7 +6671,7 @@ user should be able to input linux command on Jabber client and get response.
                                                   <value>gh_2e981ce74a34</value>
                                                 </strongTarget>
                                                 <type>STRONG</type>
-                                                <pointerPath>_world.examples.remote.byProtocol.http.wechat</pointerPath>
+                                                <pointerPath>world.examples.remote.byProtocol.http.wechat</pointerPath>
                                                 <svgScale>0.2</svgScale>
                                                 <area id="1022">
                                                   <x>435</x>
@@ -6683,7 +6683,7 @@ user should be able to input linux command on Jabber client and get response.
                                               <field id="1023">
                                                 <name>ToUserName</name>
                                                 <type>WEAK</type>
-                                                <pointerPath>_world.examples.remote.byProtocol.http.wechat.request._postContent.FromUserName</pointerPath>
+                                                <pointerPath>world.examples.remote.byProtocol.http.wechat.request._postContent.FromUserName</pointerPath>
                                                 <svgScale>0.2</svgScale>
                                                 <area id="1024">
                                                   <x>480</x>
@@ -7517,7 +7517,7 @@ _result = _self.responseTemplate._postContent;
                                                           <field id="1187">
                                                             <name>prototype</name>
                                                             <type>WEAK</type>
-                                                            <pointerPath>_world.core.prototype.list</pointerPath>
+                                                            <pointerPath>world.core.prototype.list</pointerPath>
                                                             <svgScale>0.2</svgScale>
                                                             <area id="1188">
                                                               <x>0</x>
@@ -12409,7 +12409,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                                                   </borderColor>
                                                   <remoteAddress id="2137">
                                                     <protocol>path</protocol>
-                                                    <userId>_world.lib.web.components.baseComponent</userId>
+                                                    <userId>world.lib.web.components.baseComponent</userId>
                                                     <server>local</server>
                                                     <port>-1</port>
                                                   </remoteAddress>
@@ -12762,7 +12762,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2175"/>
                           <borderColor reference="2166"/>
-                          <value>474</value>
+                          <value>477</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -12777,7 +12777,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="2178">
                           <type>STRING</type>
-                          <id>109848187</id>
+                          <id>546521227</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2179"/>
@@ -13000,7 +13000,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                       <field id="2217">
                         <name>main</name>
                         <type>WEAK</type>
-                        <pointerPath>_world.examples.webapp.posts</pointerPath>
+                        <pointerPath>world.examples.webapp.posts</pointerPath>
                         <svgScale>0.2</svgScale>
                         <area id="2218">
                           <x>0</x>
@@ -13464,7 +13464,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                             <field id="2302">
                               <name>prototype</name>
                               <type>WEAK</type>
-                              <pointerPath>_world.core.prototype.list</pointerPath>
+                              <pointerPath>world.core.prototype.list</pointerPath>
                               <svgScale>0.2</svgScale>
                               <area id="2303">
                                 <x>0</x>
@@ -14049,7 +14049,7 @@ _self.html.component={};
                       <field id="2413">
                         <name>prototype</name>
                         <type>WEAK</type>
-                        <pointerPath>_world.core.prototype.list</pointerPath>
+                        <pointerPath>world.core.prototype.list</pointerPath>
                         <svgScale>0.2</svgScale>
                         <area id="2414">
                           <x>0</x>
@@ -14569,7 +14569,7 @@ for(i=0;i.lt(array1.size());i.inc(1)){
                                   <field id="2496">
                                     <name>_prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.value.string</pointerPath>
+                                    <pointerPath>world.core.prototype.value.string</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="2497">
                                       <x>0</x>
@@ -14967,7 +14967,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                       <field id="2521">
                         <name>_prototype</name>
                         <type>WEAK</type>
-                        <pointerPath>_world.core.prototype.value.boolean</pointerPath>
+                        <pointerPath>world.core.prototype.value.boolean</pointerPath>
                         <svgScale>0.2</svgScale>
                         <area id="2522">
                           <x>0</x>
@@ -15077,7 +15077,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                   <field id="2543">
                                     <name>prototype</name>
                                     <type>WEAK</type>
-                                    <pointerPath>_world.core.prototype.list</pointerPath>
+                                    <pointerPath>world.core.prototype.list</pointerPath>
                                     <svgScale>0.2</svgScale>
                                     <area id="2544">
                                       <x>0</x>
@@ -15199,7 +15199,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                               <field id="2571">
                                                 <name>prototype</name>
                                                 <type>WEAK</type>
-                                                <pointerPath>_world.core.prototype.list</pointerPath>
+                                                <pointerPath>world.core.prototype.list</pointerPath>
                                                 <svgScale>0.2</svgScale>
                                                 <area id="2572">
                                                   <x>0</x>
@@ -15264,7 +15264,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                                           <field id="2587">
                                                             <name>prototype</name>
                                                             <type>WEAK</type>
-                                                            <pointerPath>_world.core.prototype.list</pointerPath>
+                                                            <pointerPath>world.core.prototype.list</pointerPath>
                                                             <svgScale>0.2</svgScale>
                                                             <area id="2588">
                                                               <x>0</x>
@@ -15650,7 +15650,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                                           <field id="2661">
                                                             <name>prototype</name>
                                                             <type>WEAK</type>
-                                                            <pointerPath>_world.core.prototype.list</pointerPath>
+                                                            <pointerPath>world.core.prototype.list</pointerPath>
                                                             <svgScale>0.2</svgScale>
                                                             <area id="2662">
                                                               <x>0</x>
@@ -15715,7 +15715,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                                                       <field id="2677">
                                                                         <name>prototype</name>
                                                                         <type>WEAK</type>
-                                                                        <pointerPath>_world.core.prototype.list</pointerPath>
+                                                                        <pointerPath>world.core.prototype.list</pointerPath>
                                                                         <svgScale>0.2</svgScale>
                                                                         <area id="2678">
                                                                           <x>0</x>
@@ -15894,7 +15894,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                                                                                   <field id="2717">
                                                                                     <name>prototype</name>
                                                                                     <type>WEAK</type>
-                                                                                    <pointerPath>_world.core.prototype.list</pointerPath>
+                                                                                    <pointerPath>world.core.prototype.list</pointerPath>
                                                                                     <svgScale>0.2</svgScale>
                                                                                     <area id="2718">
                                                                                       <x>0</x>
@@ -16521,7 +16521,7 @@ _world.core.system.object.move(_self,&quot;_graphic&quot;,_self._system);&#xd;
                             <field id="2812">
                               <name>prototype</name>
                               <type>WEAK</type>
-                              <pointerPath>_world.core.prototype.timer</pointerPath>
+                              <pointerPath>world.core.prototype.timer</pointerPath>
                               <svgScale>0.2</svgScale>
                               <area id="2813">
                                 <x>0</x>
@@ -17959,7 +17959,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                             <borderColor reference="2116"/>
                                             <remoteAddress id="3067">
                                               <protocol>path</protocol>
-                                              <userId>_world.lib.web.components.baseComponent</userId>
+                                              <userId>world.lib.web.components.baseComponent</userId>
                                               <server>local</server>
                                               <port>-1</port>
                                             </remoteAddress>
@@ -18265,7 +18265,7 @@ _world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
                                 </borderColor>
                                 <remoteAddress id="3100">
                                   <protocol>path</protocol>
-                                  <userId>_world.lib.web.components.baseComponent</userId>
+                                  <userId>world.lib.web.components.baseComponent</userId>
                                   <server>local</server>
                                   <port>-1</port>
                                 </remoteAddress>

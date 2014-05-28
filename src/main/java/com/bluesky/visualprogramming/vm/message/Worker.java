@@ -317,7 +317,7 @@ public class Worker implements Runnable {
 
 	private void executeUnknowMessage(Message msg, _Object obj, Procedure proc) {
 
-		msg.initExecutionContext(objectRepository.getRootObject(),
+		msg.initExecutionContext(objectRepository.getRootObject(),objectRepository.getGlobalLinks(),
 				new String[0]);
 
 		StringValue result = (StringValue) objectRepository.createObject(
@@ -348,7 +348,7 @@ public class Worker implements Runnable {
 			 * context anyhow. We can think parse error is one kind of execution
 			 * error. so, I initialize it.
 			 */
-			msg.initExecutionContext(objectRepository.getRootObject(),
+			msg.initExecutionContext(objectRepository.getRootObject(),objectRepository.getGlobalLinks(),
 					new String[0]);
 			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
 
@@ -364,7 +364,7 @@ public class Worker implements Runnable {
 		}
 
 		if (msg.status == MessageStatus.NOT_STARTED) {
-			msg.initExecutionContext(objectRepository.getRootObject(), cp
+			msg.initExecutionContext(objectRepository.getRootObject(),objectRepository.getGlobalLinks(), cp
 					.getParameters().toArray(new String[0]));
 
 			msg.status = MessageStatus.IN_PROGRESS;

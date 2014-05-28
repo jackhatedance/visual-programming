@@ -27,13 +27,15 @@ public class ObjectRepository {
 
 	static String DEFAULT_VIEW_POSITION = "DEFAULT_VIEW_POSITION";
 
-	public static String ROOT_OBJECT = "_world";
+	public static String ROOT_OBJECT = "world";
+	public static String GLOBAL_LINKS_PATH = "core.globalLinks";
 	public static String USERS = "users";
 	public static String PROTOTYPE_PATH = ROOT_OBJECT + ".core.prototype";
 
 	volatile long objectId;
 
 	_Object rootObject;
+	_Object globalLinks;
 
 	private List<ObjectRepositoryListener> listeners = new ArrayList<ObjectRepositoryListener>();
 
@@ -255,7 +257,11 @@ public class ObjectRepository {
 	public _Object getRootObject() {
 		return rootObject;
 	}
-
+	
+	public _Object getGlobalLinks() {
+		return globalLinks;
+	}
+	
 	public void load(String runtimeFileName, String userFileName) {
 		// runtime
 		loadAndAttach("", runtimeFileName);
@@ -305,15 +311,22 @@ public class ObjectRepository {
 
 	private void loadAndAttach(String mountOwnerPath, String fileName) {
 		_Object mountPoint = loadXml(fileName);
+		boolean isRootMounted = false;
 		if (mountOwnerPath != null && !mountOwnerPath.isEmpty()) {
 			_Object mountOwner = getObjectByPath(mountOwnerPath);
 
 			mountOwner.setField(mountPoint.getName(), mountPoint, true);
 		} else {
 			rootObject = mountPoint;
+			isRootMounted=true;
 		}
 
 		afterLoadXml(mountPoint);
+		
+		if(isRootMounted)
+		{
+			globalLinks = rootObject.getObjectByPath(GLOBAL_LINKS_PATH);
+		}
 	}
 
 	/**

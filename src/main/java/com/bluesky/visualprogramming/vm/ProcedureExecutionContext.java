@@ -15,6 +15,8 @@ public class ProcedureExecutionContext {
 	 */
 	public final static String VAR_RESULT = "_result";	
 	public final static String VAR_SELF = "_self";
+	public final static String VAR_ROOT = "_world";
+	public final static String VAR_GLOBAL_LINKS = "_g";
 	public final static String VAR_SUBJECT = "_subject";
 	public final static String VAR_SESSION_USER = "_sessionUser";
 
