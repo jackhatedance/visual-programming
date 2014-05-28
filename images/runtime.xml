@@ -11593,8 +11593,8 @@ _result = _self.responseTemplate._postContent;
 	ok=false;
 	while(ok.isFalse())
 	{
-		name = someone.talk(&quot;please login first\nusername:&quot;);	
-		password = someone.talk(&quot;password:&quot;);
+		name = someone.getUsername(&quot;please login first\nusername:&quot;);	
+		password = someone.getPassword(&quot;password:&quot;);
 
 		if(&quot;pass&quot;.equals(password))
 			ok = true;
@@ -12762,7 +12762,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2175"/>
                           <borderColor reference="2166"/>
-                          <value>477</value>
+                          <value>480</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
@@ -12777,7 +12777,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                         <name>title</name>
                         <strongTarget class="string" id="2178">
                           <type>STRING</type>
-                          <id>546521227</id>
+                          <id>557108245</id>
                           <name>t_0</name>
                           <scope>ExecutionContext</scope>
                           <fieldList id="2179"/>
