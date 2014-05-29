@@ -7,7 +7,7 @@ cd ..
 
 BASE_DIR="$( pwd )"
 echo base dir:$BASE_DIR
-#JAR=$(ls lib/cooby*.jar)
-#echo $JAR
-java -cp $BASE_DIR/conf:$BASE_DIR/lib/*:. com.bluesky.visualprogramming.ui.Main
+JAR=$(ls lib/cooby*.jar)
+echo $JAR
+java -jar $JAR
 

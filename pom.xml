@@ -28,6 +28,9 @@
                         <classpathPrefix>lib/</classpathPrefix>
                         <mainClass>com.bluesky.visualprogramming.ui.Main</mainClass>
                     </manifest>
+                    <manifestEntries>
+                		<Class-Path>conf/</Class-Path>
+            		</manifestEntries>
                 </archive>                 
                 <outputDirectory>${basedir}</outputDirectory>                 
             </configuration>

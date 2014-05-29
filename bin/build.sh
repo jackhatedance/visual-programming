@@ -5,9 +5,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 cd ..
 
-mvn package
-
-mkdir -p lib
-cp target/cooby*.jar lib
+mvn clean install
 
 echo run bin/start.sh
