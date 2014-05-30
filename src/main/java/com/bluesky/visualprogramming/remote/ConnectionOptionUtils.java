@@ -9,7 +9,7 @@ public class ConnectionOptionUtils {
 	public static Map<String, String> parse(String options) {
 		Map<String, String> map = new HashMap<String, String>();
 
-		String[] kvs = options.split(";");
+		String[] kvs = options.split(";|\\r?\\n");
 		for (String kv : kvs) {
 			if (kv.trim().isEmpty())
 				continue;
