@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -89,7 +90,13 @@ public class XmppAgent {
 	public void connect() {
 		try {
 
-			connection = new XMPPConnection(server);
+			ConnectionConfiguration config = new ConnectionConfiguration(server, 5222);
+			config.setCompressionEnabled(true);
+			config.setSASLAuthenticationEnabled(true);
+			config.setReconnectionAllowed(true);
+			
+			
+			connection = new XMPPConnection(config);
 
 			connection.connect();
 
