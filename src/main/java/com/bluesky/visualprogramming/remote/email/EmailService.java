@@ -14,19 +14,12 @@ import org.quartz.SchedulerFactory;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 
-import com.bluesky.visualprogramming.core.AbstractObjectRepositoryListener;
 import com.bluesky.visualprogramming.core.Message;
-import com.bluesky.visualprogramming.core.ObjectRepository;
-import com.bluesky.visualprogramming.core.SystemField;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.core.value.BooleanValue;
-import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.AbstractProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolService;
 import com.bluesky.visualprogramming.remote.ProtocolType;
-import com.bluesky.visualprogramming.timer.MyJob;
-import com.bluesky.visualprogramming.timer.TimerService;
 import com.bluesky.visualprogramming.utils.Config;
 
 public class EmailService extends AbstractProtocolService implements
@@ -36,6 +29,8 @@ public class EmailService extends AbstractProtocolService implements
 	public static final String CHECK_ENABLED = "check.enabled";
 	public static final String CHECK_INTERVAL = "check.interval";
 	public static final String CHECK_FOLDER = "check.folder";
+	public static final String USER = "user";
+	public static final String PASSWORD = "password";
 
 	Map<String, EmailAgent> agents = new HashMap<String, EmailAgent>();
 

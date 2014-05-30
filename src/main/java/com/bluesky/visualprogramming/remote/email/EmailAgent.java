@@ -26,12 +26,18 @@ public class EmailAgent {
 	static Logger logger = Logger.getLogger(EmailAgent.class);
 
 	 
+	String user;
+	String password;
+
 	String folder;
 	
 	
 	Properties props;
 
 	public EmailAgent(String address, _Object obj, Config config) {
+		user = config.getString(EmailService.USER, "");
+		password = config.getString(EmailService.PASSWORD, "");
+
 		folder = config.getString(EmailService.CHECK_FOLDER, "inbox");
 				
 		/*
@@ -63,8 +69,12 @@ public class EmailAgent {
 
 	public void send(String receiverAddress, Message msg) {
 
-		//username and password is in props.
-		Session session = Session.getInstance(props);
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(user, password);
+					}
+				});
 
 		try {
 

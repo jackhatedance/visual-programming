@@ -74,8 +74,10 @@ public class RemoteCommunicationService {
 									.valueOf(((StringValue) alias
 											.getChild("protocol")).getValue()
 											.toUpperCase());
-							StringValue address = (StringValue) alias
+							StringValue addressSV = (StringValue) alias
 									.getChild("address");
+							String address = addressSV.getValue();
+
 							StringValue connectionOptionsSV = (StringValue) alias
 									.getChild("connectionOptions");
 							String connectionOptions = "";
@@ -86,14 +88,18 @@ public class RemoteCommunicationService {
 							 * replace security info, such as password place
 							 * holders
 							 */
+							if (address.contains("${"))
+								address = replaceVariables(address);
+
 							if (connectionOptions.contains("${"))
 								connectionOptions = replaceVariables(connectionOptions);
+
 							Config config = new Config(ConnectionOptionUtils
 									.parse(connectionOptions));
-							register(pt, address.getValue(), owner, config);
+							register(pt, address, owner, config);
 
 							String fullAddress = pt.toString().toLowerCase()
-									+ "://" + address.getValue();
+									+ "://" + address;
 
 							if (logger.isDebugEnabled())
 								logger.debug("create remote agent for "
