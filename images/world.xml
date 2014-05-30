@@ -1,0 +1,69 @@
+<object id="1">
+  <type>NORMAL</type>
+  <id>0</id>
+  <name>world</name>
+  <scope>Persistent</scope>
+  <fieldList id="2">
+    <field id="3">
+      <name>core</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="4">
+        <x>800</x>
+        <y>390</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="5">
+      <name>lib</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="6">
+        <x>1670</x>
+        <y>395</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="7">
+      <name>examples</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="8">
+        <x>2495</x>
+        <y>435</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="9">
+      <name>examplesConf</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="10">
+        <x>2540</x>
+        <y>1135</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="11">
+      <name>users</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="12">
+        <x>870</x>
+        <y>1735</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+  </fieldList>
+  <borderColor id="13">
+    <red>0</red>
+    <green>0</green>
+    <blue>0</blue>
+    <alpha>255</alpha>
+  </borderColor>
+</object>

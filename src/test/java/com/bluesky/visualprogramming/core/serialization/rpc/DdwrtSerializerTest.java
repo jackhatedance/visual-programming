@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bluesky.visualprogramming.core.MountEntry;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
@@ -20,12 +21,11 @@ public class DdwrtSerializerTest {
 	@Before
 	public void setUp() {
 		ObjectRepository objectRepository = new ObjectRepository(); 
+				
+		MountEntry world = new MountEntry("images/world.xml","","world",false);
+		MountEntry core = new MountEntry("images/core.xml","world","core",false);
 		
-		String runtimeXml = "images/"+Main.DEFAULT_RUNTIME_IMAGE_FILE_NAME;
-		String userXml = "images/"+Main.DEFAULT_USER_IMAGE_FILE_NAME;
-		
-		objectRepository.load(runtimeXml,
-				userXml);
+		objectRepository.load(new MountEntry[]{world,core});
 		
 		serializer = new DdwrtSerializer();
 		serializer.setRepo(objectRepository);

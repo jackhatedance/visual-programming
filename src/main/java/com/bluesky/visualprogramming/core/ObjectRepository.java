@@ -1,13 +1,17 @@
 package com.bluesky.visualprogramming.core;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -257,19 +261,22 @@ public class ObjectRepository {
 	public _Object getRootObject() {
 		return rootObject;
 	}
-	
+
 	public _Object getGlobalLinks() {
 		return globalLinks;
 	}
-	
-	public void load(String runtimeFileName, String userFileName) {
-		// runtime
-		loadAndAttach("", runtimeFileName);
 
-		loadAndAttach(ROOT_OBJECT, userFileName);
+	public void load(MountEntry[] entries) {
+
+		for (MountEntry entry : entries) {
+			loadAndAttach(entry.ownerPath, entry.fieldName, entry.fileName);
+		}
+
+		globalLinks = rootObject.getObjectByPath(GLOBAL_LINKS_PATH);
 	}
 
-	public void save(String runtimeFileName, String userFileName) {
+	// String runtimeFileName, String userFileName
+	public void save(MountEntry[] entries) {
 		if (logger.isDebugEnabled())
 			logger.debug("enter save()");
 
@@ -280,75 +287,103 @@ public class ObjectRepository {
 
 		beforeSaveXml(rootObject);
 
-		if (logger.isDebugEnabled())
-			logger.debug("after beforeSaveXml()");
+		// reverse order
+		for (int i = entries.length - 1; i >= 0; i--) {
+			MountEntry entry = entries[i];
 
-		_Object users = detach(ROOT_OBJECT + "." + USERS);
-		if (userFileName != null) {
-			if (logger.isDebugEnabled())
-				logger.debug("before saveXml(): users.xml");
+			if (entry.autoSave) {
+				_Object node = getObjectByPath(entry.getPath());
 
-			saveXml(users, userFileName);
+				if (node != null) {
+					boolean isRoot=(!node.hasOwner());
+					
+					if(isRoot)
+					{
+						//cut links to child.						
+						Map<Field, _Object> targetMap = new HashMap<Field, _Object>();
+						int size = node.getFields().size();
+						//save target
+						for(int j=0;j<size;j++)
+						{							
+							Field field = node.getField(j);
+							if(!field.isSystemField())
+							{
+								targetMap.put(field, field.getTarget());
+								field.detachTarget();
+							}
+						}
 
-			if (logger.isDebugEnabled())
-				logger.debug("after saveXml(): users.xml");
+						//save to file
+						saveXml(node, entry.fileName);
+						
+						//restore target
+						for(int j=0;j<size;j++)
+						{							
+							Field field = node.getField(j);
+							if(!field.isSystemField())
+							{							
+								_Object target=targetMap.get(field);
+								field.attachTarget(target);
+							}
+
+						}
+
+					}
+					else
+					{						
+						Field ownerField = node.getOwnerField();
+						// remove ownerField so that xstream lost connection upward.
+						node.removeOwnerField();
+	
+						saveXml(node, entry.fileName);
+	
+						// restore
+						node.setOwnerField(ownerField);
+					}
+				}
+			}
 		}
-
-		_Object root = getObjectByPath(ROOT_OBJECT);
-		if (runtimeFileName != null) {
-			if (logger.isDebugEnabled())
-				logger.debug("before saveXml() : runtime.xml");
-
-			saveXml(root, runtimeFileName);
-
-			if (logger.isDebugEnabled())
-				logger.debug("after saveXml(): runtime.xml");
-		}
-
-		// attach users
-		root.setField(USERS, users, true);
 	}
 
-	private void loadAndAttach(String mountOwnerPath, String fileName) {
-		_Object mountPoint = loadXml(fileName);
-		boolean isRootMounted = false;
-		if (mountOwnerPath != null && !mountOwnerPath.isEmpty()) {
-			_Object mountOwner = getObjectByPath(mountOwnerPath);
+	private void loadAndAttach(String mountOwnerPath, String fieldName,
+			String fileName) {
+		try {
+			_Object mountPoint = loadXml(fileName);
 
-			mountOwner.setField(mountPoint.getName(), mountPoint, true);
-		} else {
-			rootObject = mountPoint;
-			isRootMounted=true;
-		}
+			if (mountOwnerPath != null && !mountOwnerPath.isEmpty()) {
+				_Object mountOwner = getObjectByPath(mountOwnerPath);
 
-		afterLoadXml(mountPoint);
-		
-		if(isRootMounted)
-		{
-			globalLinks = rootObject.getObjectByPath(GLOBAL_LINKS_PATH);
+				mountOwner.setField(fieldName, mountPoint, true);
+			} else {
+				rootObject = mountPoint;
+			}
+
+			afterLoadXml(mountPoint);
+
+		} catch (FileNotFoundException e) {
+			logger.warn("file not found:"+fileName);
 		}
 	}
 
 	/**
-	 * pre-process user objects, detach and save.
+	 * temporarily remove owner field. so that xstream only save the sub nodes
+	 * of the mount point.
 	 * 
 	 * @param fileName
 	 */
-	private _Object detach(String mountPointPath) {
+	private Field removeOwnerField(String mountPointPath) {
+
 		_Object mountPoint = getObjectByPath(mountPointPath);
+		Field ownerField = mountPoint.getOwnerField();
+		mountPoint.setOwnerField(null);
 
-		if (mountPoint.hasOwner()) {
-			_Object owner = mountPoint.getOwner();
-			Field ownerField = mountPoint.getOwnerField();
+		return ownerField;
+	}
 
-			mountPoint.detachFromOwner();
+	private void restoreOwnerField(String mountPointPath, Field ownerField) {
+		_Object mountPoint = getObjectByPath(mountPointPath);
+		mountPoint.setOwnerField(ownerField);
 
-			String fieldName = ownerField.name;
-			owner.removeField(fieldName);
-		}
-
-		// saveXml(mountPoint, fileName);
-		return mountPoint;
 	}
 
 	private void saveXml(_Object object, String fileName) {
@@ -382,20 +417,23 @@ public class ObjectRepository {
 		}
 	}
 
-	private _Object loadXml(String fileName) {
+	private _Object loadXml(String fileName) throws FileNotFoundException {
 		ConfigurableObjectSerializer serializer = MessageFormat.Xstream
 				.getSerializer();
-		try {
-			Reader r = new InputStreamReader(new FileInputStream(fileName),
-					"utf-8");
+		
+
+			Reader r;
+			try {
+				r = new InputStreamReader(new FileInputStream(fileName),
+						"utf-8");
+			} catch (UnsupportedEncodingException e) {				
+				throw new RuntimeException(e);
+			} 
 
 			_Object root = serializer.deserialize(r, new Config());
 			return root;
 			// registerObject(rootObject);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
+		
 	}
 
 	interface TreeWalker {
@@ -430,7 +468,7 @@ public class ObjectRepository {
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
-				// System.out.println("beforeSave" + obj.getPath());				
+				// System.out.println("beforeSave" + obj.getPath());
 				for (int i = 0; i < obj.getFields().size(); i++) {
 					Field f = obj.getField(i);
 
@@ -459,8 +497,7 @@ public class ObjectRepository {
 		treeWalk(mountPoint, new TreeWalker() {
 			@Override
 			public void walk(_Object obj) {
-				//set pathForDebug
-
+				// set pathForDebug
 
 				if (enableObjectPathForDebug)
 					obj.pathForDebug = obj.getPath();
@@ -478,7 +515,8 @@ public class ObjectRepository {
 
 								logger.warn(String
 										.format("weak reference but path is null, %s.%s(#%d)",
-												obj.getPath(), f.getName(), obj.getId()));
+												obj.getPath(), f.getName(),
+												obj.getId()));
 							} else {
 								if (!f.pointerPath.startsWith(ROOT_OBJECT))
 									System.out.println("invalid path:"

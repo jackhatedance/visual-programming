@@ -1,7 +1,11 @@
 package com.bluesky.visualprogramming.vm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import com.bluesky.visualprogramming.core.MountEntry;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.timer.TimerService;
 import com.bluesky.visualprogramming.utils.Config;
@@ -32,10 +36,7 @@ public class VirtualMachine implements Service {
 	 
 	private static VirtualMachine instance = null;
 
-	// image files
-	private String runtimeFile;
-	private String userFile;
-
+	 
 	public static void setInstance(VirtualMachine inst) {
 		instance = inst;
 	}
@@ -79,33 +80,39 @@ public class VirtualMachine implements Service {
 
 	}
 
-	public void loadFromImage(String runtimeFile, String userFile) {
-
-		// keep it. for later saving.
-		this.runtimeFile = runtimeFile;
-		this.userFile = userFile;
+	private MountEntry[] getMountEntries(){
+		List<MountEntry> list = new ArrayList<MountEntry>();
+		
+		int i=0;
+		while(true){
+			i++;
+			String key = "mount"+i;
+			if(!appConfig.containsKey(key))
+				break;
+		
+			String str = appConfig.get(key);
+			MountEntry entry = new MountEntry(str);
+	
+			list.add(entry);
+		}
+		
+		return list.toArray(new MountEntry[0]);
+	}
+	
+	public void loadFromImage() {
 
 		if (status == ServiceStatus.Running || status == ServiceStatus.Paused)
 			throw new RuntimeException("cannot load while running or suspended");
 		// pause();
 
-		objectRepository.load(runtimeFile, userFile);
+		objectRepository.load(getMountEntries());
 
 		// resume();
-
-		logger.info("VM loaded runtime image file:" + runtimeFile);
-		logger.info("VM loaded user image file:" + userFile);
+		
 	}
 
 	public void save() {
-		boolean saveRuntimeXml = appConfig.getBoolean("autoSave.runtime.xml",
-				false);
-
-		String runtimeFile2 = null;
-		if (saveRuntimeXml)
-			runtimeFile2 = runtimeFile;
-
-		getObjectRepository().save(runtimeFile2, userFile);
+		getObjectRepository().save(getMountEntries());
 	}
 
 	/**

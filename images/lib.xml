@@ -1,0 +1,1074 @@
+<object id="1">
+  <type>NORMAL</type>
+  <id>280</id>
+  <name>lib</name>
+  <fieldList id="2">
+    <field id="3">
+      <name>math</name>
+      <strongTarget id="4">
+        <type>NORMAL</type>
+        <id>281</id>
+        <name>math</name>
+        <fieldList id="5">
+          <field id="6">
+            <name>fibonacci</name>
+            <strongTarget class="procedure" id="7">
+              <type>PROCEDURE</type>
+              <id>282</id>
+              <name defined-in="object">fibonacci</name>
+              <fieldList id="8"/>
+              <borderColor id="9">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure fibonacci(x)
+{
+	//root.console.print(x.toString());
+	if(x.lt(2))
+	{
+		if(x.equals(0))		
+			_result=0;
+		else
+			_result=1;		
+	}	
+	else
+		_result = _self.fibonacci(x.min(1)).plus( _self.fibonacci(x.min(2)) );			
+}</code>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="10">
+              <x>1215</x>
+              <y>1325</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="11">
+            <name>sum</name>
+            <strongTarget class="procedure" id="12">
+              <type>PROCEDURE</type>
+              <id>4631</id>
+              <name defined-in="object">sum</name>
+              <fieldList id="13"/>
+              <borderColor id="14">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>
+
+
+
+
+
+
+procedure sum(n)
+{
+	if(n.equals(1))
+		_result = 1;
+	else
+	{
+		n2 = n.min(1);
+		s2 = _self.sum(n2);
+		_result = n.plus(s2);
+	}
+}</code>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="15">
+              <x>2335</x>
+              <y>1325</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+        </fieldList>
+        <borderColor id="16">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+      </strongTarget>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="17">
+        <x>1085</x>
+        <y>1105</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="18">
+      <name>device</name>
+      <strongTarget id="19">
+        <type>NORMAL</type>
+        <id>4972</id>
+        <name>unnamed</name>
+        <scope>ExecutionContext</scope>
+        <fieldList id="20">
+          <field id="21">
+            <name>LinkSysE3000</name>
+            <strongTarget id="22">
+              <type>NORMAL</type>
+              <id>4973</id>
+              <name>unnamed</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="23">
+                <field id="24">
+                  <name>statusWirelessLiveGetMacList</name>
+                  <strongTarget class="procedure" id="25">
+                    <type>PROCEDURE</type>
+                    <id>4974</id>
+                    <name defined-in="object">unnamed</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="26"/>
+                    <borderColor id="27">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>true</__native>
+                    <nativeProcedureClassName>com.bluesky.jack.jackap.StatusWirelessLiveGetMacList</nativeProcedureClassName>
+                    <nativeProcedureParameters>data</nativeProcedureParameters>
+                    <code></code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="28">
+                    <x>1535</x>
+                    <y>1540</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor reference="27"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="29">
+              <x>1035</x>
+              <y>1345</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+        </fieldList>
+        <borderColor reference="27"/>
+      </strongTarget>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="30">
+        <x>1100</x>
+        <y>1915</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="31">
+      <name>web</name>
+      <strongTarget id="32">
+        <type>NORMAL</type>
+        <id>33365</id>
+        <name>web</name>
+        <scope>ExecutionContext</scope>
+        <fieldList id="33">
+          <field id="34">
+            <name>frames</name>
+            <strongTarget id="35">
+              <type>NORMAL</type>
+              <id>33366</id>
+              <name>frames</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="36">
+                <field id="37">
+                  <name>myFrame</name>
+                  <strongTarget id="38">
+                    <type>NORMAL</type>
+                    <id>33368</id>
+                    <name>myFrame</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="39">
+                      <field id="40">
+                        <name>header</name>
+                        <strongTarget id="41">
+                          <type>NORMAL</type>
+                          <id>33369</id>
+                          <name>header</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="42"/>
+                          <borderColor id="43">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="44">
+                          <x>630</x>
+                          <y>690</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="45">
+                        <name>body</name>
+                        <strongTarget id="46">
+                          <type>NORMAL</type>
+                          <id>33370</id>
+                          <name>body</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="47"/>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="48">
+                          <x>710</x>
+                          <y>1425</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="49">
+                        <name>footer</name>
+                        <strongTarget id="50">
+                          <type>NORMAL</type>
+                          <id>33371</id>
+                          <name>footer</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="51"/>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="52">
+                          <x>795</x>
+                          <y>2145</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <borderColor reference="43"/>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="53">
+                    <x>615</x>
+                    <y>600</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor id="54">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="55">
+              <x>2005</x>
+              <y>965</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="56">
+            <name>filters</name>
+            <strongTarget id="57">
+              <type>NORMAL</type>
+              <id>33367</id>
+              <name>filters</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="58"/>
+              <borderColor reference="54"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="59">
+              <x>2085</x>
+              <y>1660</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="60">
+            <name>components</name>
+            <strongTarget id="61">
+              <type>NORMAL</type>
+              <id>33373</id>
+              <name>components</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="62">
+                <field id="63">
+                  <name>_test</name>
+                  <strongTarget class="procedure" id="64">
+                    <type>PROCEDURE</type>
+                    <id>33396</id>
+                    <name defined-in="object">_test</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="65"/>
+                    <borderColor reference="43"/>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure(){&#xd;
+_world.core.system.object.move(_self,&quot;paragraph&quot;,_self.basic);&#xd;
+}</code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="66">
+                    <x>0</x>
+                    <y>0</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="67">
+                  <name>basic</name>
+                  <strongTarget id="68">
+                    <type>NORMAL</type>
+                    <id>33375</id>
+                    <name>basic</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="69">
+                      <field id="70">
+                        <name>paragraph</name>
+                        <strongTarget id="71">
+                          <type>NORMAL</type>
+                          <id>33374</id>
+                          <name>paragraph</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="72"/>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="73">
+                          <x>135</x>
+                          <y>175</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="74">
+                        <name>formElements</name>
+                        <strongTarget id="75">
+                          <type>NORMAL</type>
+                          <id>33408</id>
+                          <name>formElements</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="76">
+                            <field id="77">
+                              <name>textField</name>
+                              <strongTarget id="78">
+                                <type>NORMAL</type>
+                                <id>33409</id>
+                                <name>textField</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="79"/>
+                                <borderColor reference="43"/>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="80">
+                                <x>800</x>
+                                <y>680</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="81">
+                              <name>button</name>
+                              <strongTarget id="82">
+                                <type>NORMAL</type>
+                                <id>33410</id>
+                                <name>button</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="83"/>
+                                <borderColor reference="43"/>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="84">
+                                <x>1595</x>
+                                <y>620</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="85">
+                          <x>2985</x>
+                          <y>1405</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="86">
+                        <name>link</name>
+                        <strongTarget id="87">
+                          <type>NORMAL</type>
+                          <id>33411</id>
+                          <name>link</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="88">
+                            <field id="89">
+                              <name>toHtml</name>
+                              <strongTarget class="procedure" id="90">
+                                <type>PROCEDURE</type>
+                                <id>33440</id>
+                                <name defined-in="object">toHtml</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="91"/>
+                                <borderColor id="92">
+                                  <red>0</red>
+                                  <green>0</green>
+                                  <blue>0</blue>
+                                  <alpha>255</alpha>
+                                </borderColor>
+                                <__native>false</__native>
+                                <nativeProcedureClassName></nativeProcedureClassName>
+                                <nativeProcedureParameters></nativeProcedureParameters>
+                                <language>goo</language>
+                                <code>procedure(obj, config){
+
+	fieldName = config.name;
+	
+
+
+}</code>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="93">
+                                <x>705</x>
+                                <y>735</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="94">
+                          <x>870</x>
+                          <y>165</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="95">
+                        <name>list</name>
+                        <strongTarget id="96">
+                          <type>NORMAL</type>
+                          <id>33418</id>
+                          <name>list</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="97">
+                            <field id="98">
+                              <name>toHtml</name>
+                              <strongTarget class="procedure" id="99">
+                                <type>PROCEDURE</type>
+                                <id>33419</id>
+                                <name defined-in="object">toHtml</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="100"/>
+                                <borderColor reference="43"/>
+                                <__native>false</__native>
+                                <nativeProcedureClassName></nativeProcedureClassName>
+                                <nativeProcedureParameters></nativeProcedureParameters>
+                                <language>goo</language>
+                                <code>procedure(obj, config)
+{
+	html = &quot;&lt;UL&gt;&quot;;
+	for(i=0;i.lt(obj.size();i.inc(1)))
+	{
+		html.concat(&quot;&lt;LI&gt;&quot;);
+		item = obj.get(i);
+		itemComponentPath = &quot;_world.lib.web.components.&quot;.concat(item._system.html.component);
+		itemComponent = _world.core.system.object.getByPath(world, itemComponentPath);
+		itemConfig = item._system.html.config;
+		html.concat(itemComponent.toHtml(item,itemConfig):
+		html.concat(&quot;&lt;/LI&gt;&quot;);
+	}
+
+	html.concat(&quot;&lt;/UL&gt;&quot;);
+
+	_result = html;
+}</code>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="101">
+                                <x>665</x>
+                                <y>1100</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <borderColor reference="43"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="102">
+                          <x>180</x>
+                          <y>945</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="103">
+                        <name>text</name>
+                        <strongTarget id="104">
+                          <type>NORMAL</type>
+                          <id>33441</id>
+                          <name>text</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="105">
+                            <field id="106">
+                              <name>toHtml</name>
+                              <strongTarget class="procedure" id="107">
+                                <type>PROCEDURE</type>
+                                <id>33442</id>
+                                <name defined-in="object">toHtml</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="108"/>
+                                <borderColor reference="92"/>
+                                <__native>false</__native>
+                                <nativeProcedureClassName></nativeProcedureClassName>
+                                <nativeProcedureParameters></nativeProcedureParameters>
+                                <language>goo</language>
+                                <code>procedure(obj, config)
+{
+	displayFieldName = config.displayFieldName;
+	content = obj.$displayFieldName;
+
+	//the content must be string.
+	//clone the string object.
+	_result = &quot;&quot;.concat(content);
+}</code>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="109">
+                                <x>1375</x>
+                                <y>1500</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <borderColor reference="92"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="110">
+                          <x>320</x>
+                          <y>1730</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <borderColor reference="43"/>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="111">
+                    <x>1015</x>
+                    <y>1580</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="112">
+                  <name>generic</name>
+                  <strongTarget id="113">
+                    <type>NORMAL</type>
+                    <id>33602</id>
+                    <name>generic</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="114">
+                      <field id="115">
+                        <name>container</name>
+                        <strongTarget id="116">
+                          <type>NORMAL</type>
+                          <id>33603</id>
+                          <name>container</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="117">
+                            <field id="118">
+                              <name>_system</name>
+                              <strongTarget id="119">
+                                <type>NORMAL</type>
+                                <id>33607</id>
+                                <name>_system</name>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="120">
+                                  <field id="121">
+                                    <name>prototype</name>
+                                    <strongTarget class="link" id="122">
+                                      <type>LINK</type>
+                                      <id>33608</id>
+                                      <name>prototype</name>
+                                      <scope>ExecutionContext</scope>
+                                      <fieldList id="123"/>
+                                      <borderColor id="124">
+                                        <red>0</red>
+                                        <green>0</green>
+                                        <blue>0</blue>
+                                        <alpha>255</alpha>
+                                      </borderColor>
+                                      <remoteAddress id="125">
+                                        <protocol>path</protocol>
+                                        <userId>world.lib.web.components.baseComponent</userId>
+                                        <server>local</server>
+                                        <port>-1</port>
+                                      </remoteAddress>
+                                    </strongTarget>
+                                    <type>STRONG</type>
+                                    <svgScale>0.2</svgScale>
+                                    <area id="126">
+                                      <x>1410</x>
+                                      <y>1335</y>
+                                      <width>100</width>
+                                      <height>100</height>
+                                    </area>
+                                  </field>
+                                </fieldList>
+                                <borderColor reference="124"/>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="127">
+                                <x>1225</x>
+                                <y>1580</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                            <field id="128">
+                              <name>toHtml</name>
+                              <strongTarget class="procedure" id="129">
+                                <type>PROCEDURE</type>
+                                <id>33604</id>
+                                <name defined-in="object">toHtml</name>
+                                <description></description>
+                                <scope>ExecutionContext</scope>
+                                <fieldList id="130"/>
+                                <borderColor reference="124"/>
+                                <__native>false</__native>
+                                <nativeProcedureClassName></nativeProcedureClassName>
+                                <nativeProcedureParameters></nativeProcedureParameters>
+                                <language>goo</language>
+                                <code>procedure(obj, config)
+{		
+	SYSTEM = _world.core.system;
+	CONSOLE = SYSTEM.console;
+	WEB = _world.lib.web;
+
+	componentConfig = config.componentConfig;
+
+	tag = componentConfig.tag;
+	startTag = &quot;&lt;&quot;.concat(tag).concat(&quot;&gt;&quot;);
+	endTag = &quot;&lt;/&quot;.concat(tag).concat(&quot;&gt;&quot;);
+
+	elementTag = componentConfig.elementTag;
+	startElementTag = &quot;&lt;&quot;.concat(elementTag).concat(&quot;&gt;&quot;);
+	endElementTag = &quot;&lt;/&quot;.concat(elementTag).concat(&quot;&gt;&quot;);
+
+
+	html = startTag;
+	//iterate elements
+	size = obj.size();
+	for(i=0;i.lt(size);i.inc(1))
+	{
+		html = html.concat(startElementTag);
+		
+		element = obj.get(i);
+		
+		elementHtml = _self.renderObject(element, config.elementConfig);
+
+/*
+		if(SYSTEM.isNull(config.elementConfig))
+		{	
+			CONSOLE.println(&quot;elementConfig is null&quot;.concat(config._objectName));
+		}
+		else
+		{	
+			CONSOLE.println(&quot;elementConfig is not null&quot;);
+		}
+*/			
+		html = html.concat(elementHtml);
+
+		html =  html.concat(endElementTag);
+	}
+
+	html =  html.concat(endTag);
+	_result = html;
+}</code>
+                              </strongTarget>
+                              <type>STRONG</type>
+                              <svgScale>0.2</svgScale>
+                              <area id="131">
+                                <x>925</x>
+                                <y>905</y>
+                                <width>100</width>
+                                <height>100</height>
+                              </area>
+                            </field>
+                          </fieldList>
+                          <borderColor reference="124"/>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="132">
+                          <x>660</x>
+                          <y>945</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <borderColor reference="124"/>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="133">
+                    <x>2010</x>
+                    <y>1495</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="134">
+                  <name>baseComponent</name>
+                  <strongTarget id="135">
+                    <type>NORMAL</type>
+                    <id>33605</id>
+                    <name>baseComponent</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="136">
+                      <field id="137">
+                        <name>renderObject</name>
+                        <strongTarget class="procedure" id="138">
+                          <type>PROCEDURE</type>
+                          <id>33606</id>
+                          <name defined-in="object">renderObject</name>
+                          <description></description>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="139"/>
+                          <borderColor reference="124"/>
+                          <__native>false</__native>
+                          <nativeProcedureClassName></nativeProcedureClassName>
+                          <nativeProcedureParameters></nativeProcedureParameters>
+                          <language>goo</language>
+                          <code>procedure(target, config)
+{
+	SYSTEM = _world.core.system;
+	CONSOLE = SYSTEM.console;
+	COMPONENTS = _world.lib.web.components;
+
+	if(SYSTEM.isNull(target))
+	{
+		return SYSTEM.error(&quot;target is null&quot;);
+	}
+
+	objId = SYSTEM.object.getId(target);
+	objPath = SYSTEM.object.getPath(target);
+	//CONSOLE.println(&quot;renderObject objID:&quot;.concat(objId.toString()));
+	//CONSOLE.println(&quot;renderObject objPath:&quot;.concat(objPath));
+
+	//use its own config if exists
+	selfConfig = SYSTEM.object.getMetaField(target, &quot;html&quot;);	
+	if(SYSTEM.isNull(selfConfig).isFalse())
+	{
+		config = selfConfig;
+	}
+	
+	if(SYSTEM.isNull(config).isFalse())
+	{
+		component = config.component;
+		if(SYSTEM.isNull(component).isFalse())
+		{
+			_result = component.toHtml(target,null);
+		}
+		else
+		{
+			component = config.generatedComponent;
+			if(SYSTEM.isNull(component).isFalse())
+			{
+				_result = component.toHtml(target);
+			}
+			else
+			{
+				//try to generate component from clue
+				if(SYSTEM.isNull(config.componentName).isFalse())
+				{
+					
+					_result = _self.renderByStandardComponent(target, config);
+				}
+			}
+	
+			
+		}		
+	}
+	else
+	{
+		if(SYSTEM.object.getType(target).toLowerCase().equals(&quot;string&quot;))
+		{
+			_result = target;
+		}
+	}
+	//_world.core.system.console.println(&quot;html=&quot;.concat(_result));
+}</code>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="140">
+                          <x>1080</x>
+                          <y>1210</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                      <field id="141">
+                        <name>renderByStandardComponent</name>
+                        <strongTarget class="procedure" id="142">
+                          <type>PROCEDURE</type>
+                          <id>33845</id>
+                          <name defined-in="object">renderByStandardComponent</name>
+                          <description></description>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="143"/>
+                          <borderColor id="144">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <__native>false</__native>
+                          <nativeProcedureClassName></nativeProcedureClassName>
+                          <nativeProcedureParameters></nativeProcedureParameters>
+                          <language>goo</language>
+                          <code>procedure(target, config)
+{
+	SYSTEM = _world.core.system;
+	COMPONENTS = _world.lib.web.components;
+
+	//config = SYSTEM.object.getMetaField(target, &quot;html&quot;);
+	
+	component = SYSTEM.object.getByPath(COMPONENTS, config.componentName);
+	_result = component.toHtml(target, config);
+}</code>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="145">
+                          <x>2230</x>
+                          <y>1320</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <borderColor reference="124"/>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="146">
+                    <x>1265</x>
+                    <y>2405</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor reference="43"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="147">
+              <x>2850</x>
+              <y>920</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="148">
+            <name>render</name>
+            <strongTarget id="149">
+              <type>NORMAL</type>
+              <id>33447</id>
+              <name>render</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="150">
+                <field id="151">
+                  <name>_system</name>
+                  <strongTarget id="152">
+                    <type>NORMAL</type>
+                    <id>33852</id>
+                    <name>_system</name>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="153">
+                      <field id="154">
+                        <name>prototype</name>
+                        <strongTarget class="link" id="155">
+                          <type>LINK</type>
+                          <id>33858</id>
+                          <name>t_0</name>
+                          <scope>ExecutionContext</scope>
+                          <fieldList id="156"/>
+                          <borderColor id="157">
+                            <red>0</red>
+                            <green>0</green>
+                            <blue>0</blue>
+                            <alpha>255</alpha>
+                          </borderColor>
+                          <remoteAddress id="158">
+                            <protocol>path</protocol>
+                            <userId>world.lib.web.components.baseComponent</userId>
+                            <server>local</server>
+                            <port>-1</port>
+                          </remoteAddress>
+                        </strongTarget>
+                        <type>STRONG</type>
+                        <svgScale>0.2</svgScale>
+                        <area id="159">
+                          <x>1545</x>
+                          <y>1595</y>
+                          <width>100</width>
+                          <height>100</height>
+                        </area>
+                      </field>
+                    </fieldList>
+                    <borderColor reference="144"/>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="160">
+                    <x>2220</x>
+                    <y>1730</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="161">
+                  <name>do</name>
+                  <strongTarget class="procedure" id="162">
+                    <type>PROCEDURE</type>
+                    <id>33448</id>
+                    <name defined-in="object">do</name>
+                    <description></description>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="163"/>
+                    <borderColor id="164">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure(target)
+{
+	SYSTEM = _world.core.system;
+	CONSOLE = SYSTEM.console;
+
+	if(SYSTEM.isNull(target))
+	{
+		return SYSTEM.error(&quot;target is null&quot;);
+	}
+
+	objId = SYSTEM.object.getId(target);
+	objPath = SYSTEM.object.getPath(target);
+	//CONSOLE.println(&quot;do objID:&quot;.concat(objId.toString()));
+	//CONSOLE.println(&quot;do objPath:&quot;.concat(objPath));
+
+	
+	_result = _self.renderObject(target, null);
+	
+}</code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="165">
+                    <x>901</x>
+                    <y>933</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor reference="164"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="166">
+              <x>250</x>
+              <y>1235</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+        </fieldList>
+        <borderColor reference="54"/>
+      </strongTarget>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="167">
+        <x>2155</x>
+        <y>1430</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+  </fieldList>
+  <borderColor id="168">
+    <red>0</red>
+    <green>0</green>
+    <blue>255</blue>
+    <alpha>255</alpha>
+  </borderColor>
+</object>

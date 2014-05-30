@@ -290,25 +290,12 @@ public class Main extends JFrame {
 
 		logger.debug("home directory: " + homeDir);
 
-		// default value
-		String runtimeImageFile = homeDir + DEFAULT_RUNTIME_IMAGE_FILE_NAME;
-		String userImageFile = homeDir + DEFAULT_USER_IMAGE_FILE_NAME;
-
-		// environment value has higher priority
-		String userImageFileFromEnv = System
-				.getenv(USER_IMAGE_ENVIRONMENT_NAME);
-		if (userImageFileFromEnv != null && !userImageFileFromEnv.isEmpty()) {
-			logger.debug("user image file set by environment variable:"
-					+ userImageFileFromEnv);
-			userImageFile = userImageFileFromEnv;
-		}
-
 		// init Object Repository
 		VirtualMachine vm = new VirtualMachine();
 		VirtualMachine.setInstance(vm);
 
 		// vm.loadFromImage(DEFAULT_IMAGE_FILE_NAME);
-		vm.loadFromImage(runtimeImageFile, userImageFile);
+		vm.loadFromImage();
 
 		vm.start();
 

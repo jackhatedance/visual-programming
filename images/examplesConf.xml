@@ -1,0 +1,35 @@
+<object id="1">
+  <type>NORMAL</type>
+  <id>557111720</id>
+  <name>t_0</name>
+  <scope>ExecutionContext</scope>
+  <fieldList id="2">
+    <field id="3">
+      <name>foo</name>
+      <strongTarget class="string" id="4">
+        <type>STRING</type>
+        <id>557111722</id>
+        <name>foo</name>
+        <description></description>
+        <scope>ExecutionContext</scope>
+        <fieldList id="5"/>
+        <borderColor id="6">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </borderColor>
+        <value>123</value>
+      </strongTarget>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="7">
+        <x>1230</x>
+        <y>775</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+  </fieldList>
+  <borderColor reference="6"/>
+</object>

@@ -6,11 +6,7 @@ import java.util.Set;
 
 public class Config {
 	private Map<String, String> map;
-
-	public Config(String str) {
-		this.map = map;
-	}
-
+	
 	public Config(Map<String, String> map) {
 		this.map = map;
 	}
