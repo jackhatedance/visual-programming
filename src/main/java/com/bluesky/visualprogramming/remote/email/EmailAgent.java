@@ -2,9 +2,14 @@ package com.bluesky.visualprogramming.remote.email;
 
 import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Folder;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -20,25 +25,15 @@ public class EmailAgent {
 
 	static Logger logger = Logger.getLogger(EmailAgent.class);
 
-	String address;
-	String username;
-	String password;
-
+	 
+	String folder;
+	
+	
 	Properties props;
 
 	public EmailAgent(String address, _Object obj, Config config) {
-
-		this.address = address;
-		
-
-		if (config.containsKey("username"))
-			username = config.get("username");
-		else {
-			int idx = address.indexOf('@');
-			username = address.substring(0, idx);
-		}
-		password = config.getString("password", "");
-
+		folder = config.getString(EmailService.CHECK_FOLDER, "inbox");
+				
 		/*
 		 * TLS example: 
 		 * props.put("mail.smtp.auth", "true");
@@ -56,7 +51,7 @@ public class EmailAgent {
 		// move smtp options to prop object.
 		props = new Properties();
 		for (String key : config.keySet()) {
-			if (key.startsWith("mail.smtp.")) {
+			if (key.startsWith("mail.")) {
 				String value = config.get(key);
 				props.put(key, value);
 				if (logger.isDebugEnabled())
@@ -68,17 +63,15 @@ public class EmailAgent {
 
 	public void send(String receiverAddress, Message msg) {
 
-		Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				});
+		//username and password is in props.
+		Session session = Session.getInstance(props);
 
 		try {
 
 			javax.mail.Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(address));
+			//set by "mail.from" in props
+			//message.setFrom(new InternetAddress(address));
+			
 			message.setRecipients(javax.mail.Message.RecipientType.TO,
 					InternetAddress.parse(receiverAddress));
 			
@@ -126,6 +119,29 @@ public class EmailAgent {
 			return addr.substring(0, idx);
 		else
 			return addr;
+	}
+	
+	public void checkNewMessage(){
+		 Properties props = new Properties();	        
+	        try {
+	            Session session = Session.getInstance(props, null);
+	            Store store = session.getStore();
+	            store.connect();
+	            Folder inbox = store.getFolder(folder);
+	            inbox.open(Folder.READ_ONLY);
+	            javax.mail.Message msg = inbox.getMessage(inbox.getMessageCount());
+	            Address[] in = msg.getFrom();
+	            for (Address address : in) {
+	                System.out.println("FROM:" + address.toString());
+	            }
+	            Multipart mp = (Multipart) msg.getContent();
+	            BodyPart bp = mp.getBodyPart(0);
+	            System.out.println("SENT DATE:" + msg.getSentDate());
+	            System.out.println("SUBJECT:" + msg.getSubject());
+	            System.out.println("CONTENT:" + bp.getContent());
+	        } catch (Exception mex) {
+	            mex.printStackTrace();
+	        }
 	}
 
 }
