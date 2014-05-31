@@ -36,7 +36,7 @@ public class EmailAgent {
 
 	public EmailAgent(String address, _Object obj, Config config) {
 		user = config.getString(EmailService.USER, "");
-		password = config.getString(EmailService.PASSWORD, "");
+		password = config.getString(EmailService.PASS, "");
 
 		folder = config.getString(EmailService.CHECK_FOLDER, "inbox");
 				

@@ -29,8 +29,8 @@ public class EmailService extends AbstractProtocolService implements
 	public static final String CHECK_ENABLED = "check.enabled";
 	public static final String CHECK_INTERVAL = "check.interval";
 	public static final String CHECK_FOLDER = "check.folder";
-	public static final String USER = "user";
-	public static final String PASSWORD = "password";
+	public static final String USER = "mail.user";
+	public static final String PASS = "mail.pass";
 
 	Map<String, EmailAgent> agents = new HashMap<String, EmailAgent>();
 
