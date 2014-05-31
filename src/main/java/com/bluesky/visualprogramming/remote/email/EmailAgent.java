@@ -60,8 +60,8 @@ public class EmailAgent {
 			if (key.startsWith("mail.")) {
 				String value = config.get(key);
 				props.put(key, value);
-				if (logger.isDebugEnabled())
-					logger.debug(String.format("%s:%s", key, value));
+				//if (logger.isDebugEnabled())
+					//logger.debug(String.format("%s:%s", key, value));
 			}
 		}
 
@@ -132,6 +132,7 @@ public class EmailAgent {
 	}
 	
 	public void checkNewMessage(){
+		 logger.debug("check new message...");
 		 Properties props = new Properties();	        
 	        try {
 	            Session session = Session.getInstance(props, null);

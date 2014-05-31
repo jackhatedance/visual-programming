@@ -47,6 +47,7 @@ public class EmailService extends AbstractProtocolService implements
 
 		try {
 			scheduler = schedFact.getScheduler();
+			scheduler.start();
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 			logger.error("create quartz scheduler failed.");
