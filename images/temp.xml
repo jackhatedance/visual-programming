@@ -1,0 +1,14 @@
+<object id="1">
+  <type>NORMAL</type>
+  <id>557111731</id>
+  <name>temp</name>
+  <description>put anything here. usually won&apos;t be saved</description>
+  <scope>ExecutionContext</scope>
+  <fieldList id="2"/>
+  <borderColor id="3">
+    <red>0</red>
+    <green>0</green>
+    <blue>0</blue>
+    <alpha>255</alpha>
+  </borderColor>
+</object>

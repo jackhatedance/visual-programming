@@ -17,7 +17,11 @@ public class MountEntry {
 	public MountEntry(String config) {
 		String[] values = config.split(",");
 		fileName = values[0];
+		
 		ownerPath = values[1];
+		if("<none>".equals(ownerPath))
+			ownerPath="";
+		
 		fieldName = values[2];
 		autoSave = Boolean.valueOf(values[3]);
 	}

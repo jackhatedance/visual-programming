@@ -349,14 +349,14 @@ public class ObjectRepository {
 			String fileName) {
 		try {
 			_Object mountPoint = loadXml(fileName);
-
-			if (mountOwnerPath != null && !mountOwnerPath.isEmpty()) {
-				_Object mountOwner = getObjectByPath(mountOwnerPath);
-
-				mountOwner.setField(fieldName, mountPoint, true);
-			} else {
+			
+			if (mountOwnerPath==null || mountOwnerPath.isEmpty()) {
 				rootObject = mountPoint;
 			}
+			else{
+				_Object mountOwner = getObjectByPath(mountOwnerPath);
+				mountOwner.setField(fieldName, mountPoint, true);
+			} 
 
 			afterLoadXml(mountPoint);
 

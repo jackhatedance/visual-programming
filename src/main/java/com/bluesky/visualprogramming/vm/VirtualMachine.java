@@ -82,18 +82,16 @@ public class VirtualMachine implements Service {
 
 	private MountEntry[] getMountEntries(){
 		List<MountEntry> list = new ArrayList<MountEntry>();
+				
+		for(int i=0;i<100;i++){
+			String key = "mount."+i;
+			if(appConfig.containsKey(key))
+			{	
+				String str = appConfig.get(key);
+				MountEntry entry = new MountEntry(str);
 		
-		int i=0;
-		while(true){
-			i++;
-			String key = "mount"+i;
-			if(!appConfig.containsKey(key))
-				break;
-		
-			String str = appConfig.get(key);
-			MountEntry entry = new MountEntry(str);
-	
-			list.add(entry);
+				list.add(entry);
+			}
 		}
 		
 		return list.toArray(new MountEntry[0]);

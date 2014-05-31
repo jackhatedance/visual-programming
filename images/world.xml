@@ -31,30 +31,30 @@
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="8">
-        <x>2495</x>
-        <y>435</y>
+        <x>1725</x>
+        <y>1125</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
     <field id="9">
-      <name>examplesConf</name>
+      <name>users</name>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="10">
-        <x>2540</x>
-        <y>1135</y>
+        <x>895</x>
+        <y>2305</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
     <field id="11">
-      <name>users</name>
+      <name>temp</name>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="12">
-        <x>870</x>
-        <y>1735</y>
+        <x>830</x>
+        <y>1110</y>
         <width>100</width>
         <height>100</height>
       </area>
