@@ -25,24 +25,23 @@ public class EmailAgent {
 
 	static Logger logger = Logger.getLogger(EmailAgent.class);
 
-	 
 	String user;
 	String password;
 
-	String folder;
-	
-	
+	String checkFolder;
+	String processedFolder;
+
 	Properties props;
 
 	public EmailAgent(String address, _Object obj, Config config) {
 		user = config.getString(EmailService.USER, "");
 		password = config.getString(EmailService.PASS, "");
 
-		folder = config.getString(EmailService.CHECK_FOLDER, "inbox");
-				
+		checkFolder = config.getString(EmailService.CHECK_FOLDER, "inbox");
+		processedFolder = config.getString(EmailService.PROCESSED_FOLDER,
+				"processed");
 		/*
-		 * TLS example: 
-		 * props.put("mail.smtp.auth", "true");
+		 * TLS example: props.put("mail.smtp.auth", "true");
 		 * props.put("mail.smtp.starttls.enable", "true");
 		 * props.put("mail.smtp.host", "smtp.gmail.com");
 		 * props.put("mail.smtp.port", "587");
@@ -60,8 +59,8 @@ public class EmailAgent {
 			if (key.startsWith("mail.")) {
 				String value = config.get(key);
 				props.put(key, value);
-				//if (logger.isDebugEnabled())
-					//logger.debug(String.format("%s:%s", key, value));
+				// if (logger.isDebugEnabled())
+				// logger.debug(String.format("%s:%s", key, value));
 			}
 		}
 
@@ -79,13 +78,12 @@ public class EmailAgent {
 		try {
 
 			javax.mail.Message message = new MimeMessage(session);
-			//set by "mail.from" in props
-			//message.setFrom(new InternetAddress(address));
-			
+			// set by "mail.from" in props
+			// message.setFrom(new InternetAddress(address));
+
 			message.setRecipients(javax.mail.Message.RecipientType.TO,
 					InternetAddress.parse(receiverAddress));
-			
-			
+
 			message.setSubject(msg.getSubject());
 			String body = createPlainMessageBody(msg);
 			message.setText(body);
@@ -108,11 +106,11 @@ public class EmailAgent {
 						msgBody.append(";");
 
 					_Object param = msg.body.getChild(i);
-					msgBody.append( param.getName() + ":" + param.getValue());
+					msgBody.append(param.getName() + ":" + param.getValue());
 
 				}
 			} else if (msg.body.getType().isValueObject()) {
-				msgBody.append( msg.body.getValue());
+				msgBody.append(msg.body.getValue());
 
 			}
 
@@ -130,29 +128,50 @@ public class EmailAgent {
 		else
 			return addr;
 	}
-	
-	public void checkNewMessage(){
-		 logger.debug("check new message...");
-		 Properties props = new Properties();	        
-	        try {
-	            Session session = Session.getInstance(props, null);
-	            Store store = session.getStore();
-	            store.connect();
-	            Folder inbox = store.getFolder(folder);
-	            inbox.open(Folder.READ_ONLY);
-	            javax.mail.Message msg = inbox.getMessage(inbox.getMessageCount());
-	            Address[] in = msg.getFrom();
-	            for (Address address : in) {
-	                System.out.println("FROM:" + address.toString());
-	            }
-	            Multipart mp = (Multipart) msg.getContent();
-	            BodyPart bp = mp.getBodyPart(0);
-	            System.out.println("SENT DATE:" + msg.getSentDate());
-	            System.out.println("SUBJECT:" + msg.getSubject());
-	            System.out.println("CONTENT:" + bp.getContent());
-	        } catch (Exception mex) {
-	            mex.printStackTrace();
-	        }
+
+	protected void processMail(javax.mail.Message msg) {
+		try {
+			Address[] in = msg.getFrom();
+			for (Address address : in) {
+				System.out.println("FROM:" + address.toString());
+			}
+
+			String textContent = null;
+			if (msg.getContent() instanceof String) {
+				textContent = (String) msg.getContent();
+			} else if (msg.getContent() instanceof Multipart) {
+				Multipart mp = (Multipart) msg.getContent();
+				BodyPart bp = mp.getBodyPart(0);
+
+				textContent = bp.getContent().toString();
+			}
+
+			System.out.println("SENT DATE:" + msg.getSentDate());
+			System.out.println("SUBJECT:" + msg.getSubject());
+			System.out.println("CONTENT TYPE:" + msg.getContentType());
+			System.out.println("CONTENT:" + textContent);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void checkNewMessage() {
+		logger.debug("check new message...");
+
+		try {
+			Session session = Session.getInstance(props, null);
+			Store store = session.getStore();
+			store.connect(user, password);
+			Folder inbox = store.getFolder(checkFolder);
+			inbox.open(Folder.READ_ONLY);
+			
+			for (javax.mail.Message msg : inbox.getMessages()) {
+				processMail(msg);
+			}
+
+		} catch (Exception mex) {
+			mex.printStackTrace();
+		}
 	}
 
 }

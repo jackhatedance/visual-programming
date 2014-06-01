@@ -29,6 +29,7 @@ public class EmailService extends AbstractProtocolService implements
 	public static final String CHECK_ENABLED = "check.enabled";
 	public static final String CHECK_INTERVAL = "check.interval";
 	public static final String CHECK_FOLDER = "check.folder";
+	public static final String PROCESSED_FOLDER = "processed.folder";
 	public static final String USER = "mail.user";
 	public static final String PASS = "mail.pass";
 
@@ -72,7 +73,8 @@ public class EmailService extends AbstractProtocolService implements
 			JobDetail job = JobBuilder.newJob(CheckMailJob.class).build();
 
 			job.getJobDataMap().put(CheckMailJob.CLIENT, obj);
-
+			job.getJobDataMap().put(CheckMailJob.AGENT, agent);
+			
 			int interval = config.getInteger(CHECK_INTERVAL, 900);
 
 			Trigger trigger = newTrigger().withSchedule(
