@@ -150,6 +150,7 @@ public class EmailAgent {
 			System.out.println("SUBJECT:" + msg.getSubject());
 			System.out.println("CONTENT TYPE:" + msg.getContentType());
 			System.out.println("CONTENT:" + textContent);
+
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -163,11 +164,12 @@ public class EmailAgent {
 			Store store = session.getStore();
 			store.connect(user, password);
 			Folder inbox = store.getFolder(checkFolder);
-			inbox.open(Folder.READ_ONLY);
+			inbox.open(Folder.READ_WRITE);
 			
 			for (javax.mail.Message msg : inbox.getMessages()) {
 				processMail(msg);
 			}
+			// inbox.
 
 		} catch (Exception mex) {
 			mex.printStackTrace();
