@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.remote.email;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -37,6 +39,11 @@ public class EmailAgent {
 	String processedFolder;
 
 	Properties props;
+	
+	/**
+	 * key is email message ID, value is outgoing message that are waiting for reply.
+	 */
+	Map<String, Message> blockingMessages=new HashMap<String, Message>();
 
 	public EmailAgent(String address, _Object obj, Config config) {
 		user = config.getString(EmailService.USER, "");
@@ -94,6 +101,8 @@ public class EmailAgent {
 			message.setText(body);
 
 			Transport.send(message);
+			
+			//if(msg.messageType.isReply() && msg.messageType.isSync())
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
@@ -163,6 +172,16 @@ public class EmailAgent {
 			System.out.println("SUBJECT:" + msg.getSubject());
 			System.out.println("CONTENT TYPE:" + msg.getContentType());
 			System.out.println("CONTENT:" + textContent);
+			
+			
+			if(inReplyTo==null || inReplyTo.isEmpty())
+			{
+				//a reply
+			}
+			else
+			{
+				//a request
+			}
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
