@@ -24,6 +24,11 @@ import com.bluesky.visualprogramming.utils.Config;
 public class EmailAgent {
 
 	static Logger logger = Logger.getLogger(EmailAgent.class);
+	
+	public static final String MESSAGE_ID = "Message-ID";
+	public static final String IN_REPLY_TO = "In-Reply-To";
+	public static final String SUPERSEDES = "Supersedes";
+	
 
 	String user;
 	String password;
@@ -146,6 +151,14 @@ public class EmailAgent {
 				textContent = bp.getContent().toString();
 			}
 
+			String msgId = arrayToString(msg.getHeader(MESSAGE_ID));
+			String inReplyTo = arrayToString(msg.getHeader(IN_REPLY_TO));
+			String supersedes = arrayToString(msg.getHeader(SUPERSEDES));
+			
+			System.out.println("MSG ID:" + msgId);
+			System.out.println("In reply to:" + inReplyTo);
+			System.out.println("supersedes:" + supersedes);
+			
 			System.out.println("SENT DATE:" + msg.getSentDate());
 			System.out.println("SUBJECT:" + msg.getSubject());
 			System.out.println("CONTENT TYPE:" + msg.getContentType());
@@ -174,6 +187,24 @@ public class EmailAgent {
 		} catch (Exception mex) {
 			mex.printStackTrace();
 		}
+	}
+	
+	protected String arrayToString(String[] array){
+		StringBuilder sb = new StringBuilder();
+		if(array!=null)
+		{
+			int i=0;
+			for(String item : array){
+				if(i>0)
+					sb.append(";");
+				
+				sb.append(item);
+				i++;
+				
+			}
+		}
+		
+		return sb.toString();
 	}
 
 }
