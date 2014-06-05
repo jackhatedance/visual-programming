@@ -353,8 +353,9 @@ public class Worker implements Runnable {
 			msg.executionContext.setExecutionStatus(ExecutionStatus.ERROR);
 
 			// compile error
+			String physicalPosition = obj.owns(proc) ? "" : proc.getPath();
 			CodePosition position = new CodePosition(obj.getPath(),
-					proc.getName(), null, 0);
+					proc.getName(), physicalPosition, 0);
 			VException ex = getObjectFactory().createException(
 					"parse error:" + e.getMessage());
 
@@ -383,8 +384,9 @@ public class Worker implements Runnable {
 		// value
 		if (msg.executionContext.executionStatus == ExecutionStatus.ERROR) {
 
+			String physicalPosition = obj.owns(proc) ? "" : proc.getPath();
 			CodePosition position = new CodePosition(obj.getPath(),
-					proc.getName(), null,
+					proc.getName(), physicalPosition,
 					msg.executionContext.executionErrorLine);
 
 			if (result != null && result instanceof VException) {

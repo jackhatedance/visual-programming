@@ -3,13 +3,18 @@ package com.bluesky.visualprogramming.core;
 public class CodePosition {
 	private String object;
 	private String procedure;
-	private String file;
+	/**
+	 * for native java code, it is java file name;
+	 * 
+	 * for Cooby code, it is path of prototype object(if it is from prototype)
+	 */
+	private String physicalPosition;
 	private int line;
 
 	public CodePosition(String object, String procedure, String file, int line) {
 		this.object = object;
 		this.procedure = procedure;
-		this.file = file;
+		this.physicalPosition = file;
 		this.line = line;
 
 	}
@@ -31,11 +36,11 @@ public class CodePosition {
 	}
 
 	public String getFile() {
-		return file;
+		return physicalPosition;
 	}
 
 	public void setFile(String file) {
-		this.file = file;
+		this.physicalPosition = file;
 	}
 
 	public int getLine() {
@@ -48,8 +53,8 @@ public class CodePosition {
 
 	@Override
 	public String toString() {
-		String file2 = file;
-		if (file == null)
+		String file2 = physicalPosition;
+		if (physicalPosition == null)
 			file2 = "";
 		return String.format("%s.%s(%s:%d)", object, procedure, file2,line);
 	}

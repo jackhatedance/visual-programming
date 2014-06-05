@@ -12,6 +12,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.log4j.Logger;
 
@@ -34,18 +38,6 @@ public class _Object implements Serializable {
 	// keep system in one folder.
 	static public final String SYSTEM = "_system";
 
-	//static private final String PROTOTYPE = "prototype";
-	//static private final String ENABLE_SUBJECT_MATCH = "enableSubjectMatch";
-	//static private final String SUBJECT_MATCH_RULE = "subjectMatchRule";
-
-	// it is defined by the object, and is for its procedures.
-	//static public final String DEFAULT_SUBJECT_MATCH_TYPE = "defaultSubjectMatchType";
-	// it is defined by the procedure itself, to override the default value of
-	// the owner object.
-	//static public final String SUBJECT_MATCH_TYPE = "subjectMatchType";
-
-	//static public final String GRAPHIC = "graphic";
-	//static public final String OBJECT_LAYOUT = "layout";
 	/**
 	 * 
 	 */
@@ -70,7 +62,7 @@ public class _Object implements Serializable {
 	 * just for editing image XML.
 	 */
 	public String pathForDebug;
-	
+
 	/**
 	 * only those has root in persistent repository are persistent. messages are
 	 * not persistent.
@@ -85,8 +77,14 @@ public class _Object implements Serializable {
 	private int systemFieldsCount = 0;
 
 	// index names to accelerate access speed
-	private Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
-	private Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
+	private class FieldIndex {
+		Map<String, Integer> fieldNameMap = new HashMap<String, Integer>();
+		Map<_Object, Integer> childrenObjectMap = new HashMap<_Object, Integer>();
+	}
+
+	private volatile FieldIndex fieldIndex;
+
+	private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 	/**
 	 * the normal message queue, which are OK to run
@@ -138,7 +136,7 @@ public class _Object implements Serializable {
 		this.description = src.description;
 		this.scope = src.scope;
 
-		for (Field oldField : src.fieldList) {
+		for (Field oldField : src.getFields()) {
 
 			// boolean owns = oldField.getType() == FieldType.STRONG;
 
@@ -219,22 +217,17 @@ public class _Object implements Serializable {
 	 * re-create indexes.
 	 */
 	protected void recreateFieldIndexes() {
-		fieldNameMap = new HashMap<String, Integer>();
-		childrenObjectMap = new HashMap<_Object, Integer>();
+
+		FieldIndex newIndex = new FieldIndex();
+
 		for (int i = 0; i < fieldList.size(); i++) {
 			Field f = fieldList.get(i);
-			fieldNameMap.put(f.name, i);
-			childrenObjectMap.put(f.getTarget(), i);
+			newIndex.fieldNameMap.put(f.name, i);
+			newIndex.childrenObjectMap.put(f.getTarget(), i);
 		}
-	}
 
-	/**
-	 * if there is no named field. then it become an array.
-	 * 
-	 * @return
-	 */
-	public boolean hasNamedField() {
-		return !fieldNameMap.isEmpty();
+		this.fieldIndex = newIndex;
+
 	}
 
 	public _Object getChild(int index) {
@@ -242,19 +235,23 @@ public class _Object implements Serializable {
 	}
 
 	public Field getField(int index) {
-		return fieldList.get(index);
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			return fieldList.get(index);
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public int getChildCount() {
-		return fieldList.size();
-	}
-
-	public int getChildIndex(_Object child) {
-		Integer indexObject = childrenObjectMap.get(child);
-		if (indexObject != null)
-			return indexObject.intValue();
-		else
-			return -1;
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			return fieldList.size();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -265,51 +262,65 @@ public class _Object implements Serializable {
 	 * @param own
 	 */
 	public void setField(String name, _Object child, boolean owns) {
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
 
-		if (child != null && child.hasOwner() && owns) {
+			if (child != null && child.hasOwner() && owns) {
 
-			if (child.getScope() == ObjectScope.ExecutionContext)
-				child.downgradeLinkFromOwner();
-			else
-				throw new RuntimeException(
-						"can not own an object which has persistent owner.");
-		}
-
-		// name must be unique if is not null
-		if (name != null) {
-			Field f = getField(name);
-
-			if (f == null) {
-				f = new Field(name, owns);
-				fieldList.add(f);
-
-				f.owner = this;
-
-				f.setTarget(child);
-
-				sortFields();
-
-			} else {
-				if (f.getTarget() != null)
-					f.detachTarget();
-
-				// re-assure
-				f.owner = this;
-				// set type
-				f.setType(FieldType.getType(owns));
-				f.attachTarget(child);
+				if (child.getScope() == ObjectScope.ExecutionContext)
+					child.downgradeLinkFromOwner();
+				else
+					throw new RuntimeException(
+							"can not own an object which has persistent owner.");
 			}
 
-		} else
-			throw new RuntimeException("field name cannot be null");
+			// name must be unique if is not null
+			if (name != null) {
+				Field f = getField(name);
+
+				if (f == null) {
+					f = new Field(name, owns);
+					fieldList.add(f);
+
+					f.owner = this;
+
+					f.setTarget(child);
+
+					sortFields();
+
+				} else {
+					if (f.getTarget() != null)
+						f.detachTarget();
+
+					// re-assure
+					f.owner = this;
+					// set type
+					f.setType(FieldType.getType(owns));
+					f.attachTarget(child);
+				}
+
+			} else
+				throw new RuntimeException("field name cannot be null");
+
+		} finally {
+			lock.unlock();
+		}
 
 	}
 
 	public void addField(Field field, _Object target) {
-		fieldList.add(field);
-		field.owner = this;
-		field.setTarget(target);
-		sortFields();
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
+
+			fieldList.add(field);
+			field.owner = this;
+			field.setTarget(target);
+			sortFields();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -320,20 +331,25 @@ public class _Object implements Serializable {
 	 * @param own
 	 */
 	public void insertChild(int index, _Object child, boolean own) {
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
+			Field p = new Field(child, name, own);
 
-		Field p = new Field(child, name, own);
+			fieldList.add(index, p);
+			recreateFieldIndexes();
 
-		fieldList.add(index, p);
-		recreateFieldIndexes();
+			if (own) {
+				if (child.getScope() != ObjectScope.ExecutionContext)
+					throw new RuntimeException(
+							String.format(
+									"cannot own object(#%d) because it's scope is not ExecutionContext",
+									child.id));
 
-		if (own) {
-			if (child.getScope() != ObjectScope.ExecutionContext)
-				throw new RuntimeException(
-						String.format(
-								"cannot own object(#%d) because it's scope is not ExecutionContext",
-								child.id));
-
-			child.attachTo(p);
+				child.attachTo(p);
+			}
+		} finally {
+			lock.unlock();
 		}
 	}
 
@@ -356,39 +372,48 @@ public class _Object implements Serializable {
 	}
 
 	public void renameField(String old, String _new) {
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
+			FieldIndex fi = getFieldIndex();
+			Map<String, Integer> fieldNameMapSnapshot = fi.fieldNameMap;
 
-		if (fieldNameMap == null) {
-			if (logger.isDebugEnabled())
-				logger.debug("warnning: field index not created.");
+			Integer index = fieldNameMapSnapshot.get(old);
+			if (index == null)
+				throw new RuntimeException("source field not exist:" + old);
 
-			recreateFieldIndexes();
+			if (fieldNameMapSnapshot.containsKey(_new)) {
+				throw new RuntimeException("destination field already exist:"
+						+ _new);
+			}
+
+			fieldList.get(index).setName(_new);
+
+			fieldNameMapSnapshot.remove(old);
+			fieldNameMapSnapshot.put(_new, index);
+		} finally {
+			lock.unlock();
 		}
-
-		Integer index = fieldNameMap.get(old);
-		if (index == null)
-			throw new RuntimeException("source field not exist:" + old);
-
-		if (fieldNameMap.containsKey(_new)) {
-			throw new RuntimeException("destination field already exist:"
-					+ _new);
-		}
-
-		fieldList.get(index).setName(_new);
-
-		fieldNameMap.remove(old);
-		fieldNameMap.put(_new, index);
 	}
 
 	public void removeChild(_Object object) {
-		Integer idx = childrenObjectMap.get(object);
-		if (idx == null)
-			throw new RuntimeException("field not exist");
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
 
-		removeField(idx);
+			Integer idx = getFieldIndex().childrenObjectMap.get(object);
+			if (idx == null)
+				throw new RuntimeException("field not exist");
+
+			removeField(idx);
+
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public void removeField(String name) {
-		Integer childIndex = fieldNameMap.get(name);
+		Integer childIndex = getFieldIndex().fieldNameMap.get(name);
 		if (childIndex == null)
 			throw new RuntimeException("child not found:" + name);
 
@@ -396,19 +421,25 @@ public class _Object implements Serializable {
 	}
 
 	public void removeField(Integer index) {
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
+			if (index == null)
+				return;
 
-		if (index == null)
-			return;
+			int idx = index.intValue();
 
-		int idx = index.intValue();
+			Field field = fieldList.get(idx);
+			fieldList.remove(idx);
 
-		Field field = fieldList.get(idx);
-		fieldList.remove(idx);
+			recreateFieldIndexes();
 
-		recreateFieldIndexes();
+			if (field.getTarget() != null && owns(field.getTarget()))
+				detachOwnedChild(field.getTarget());
 
-		if (field.getTarget() != null && owns(field.getTarget()))
-			detachOwnedChild(field.getTarget());
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -459,17 +490,26 @@ public class _Object implements Serializable {
 		// this.scope = null;
 	}
 
-	public void clearChildren() {
-		while (!fieldList.isEmpty())
-			removeField(0);
-	}
-
 	public boolean hasChildren() {
-		return !fieldList.isEmpty();
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			return !fieldList.isEmpty();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public List<Field> getFields() {
-		return this.fieldList;
+		Lock lock = getReadLock();
+		lock.lock();
+
+		try {
+			return this.fieldList;
+
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -510,78 +550,90 @@ public class _Object implements Serializable {
 	 */
 	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
 			Point canvasOffset, ObjectRepository repo) {
+		Lock lock = getReadLock();
+		lock.lock();
 
-		ObjectLayout layout = ObjectLayout.XY;
-		StringValue layoutSV = (StringValue) getSystemTopChild(SystemField.Layout);
-		if (layoutSV != null) {
-			try {
-				layout = ObjectLayout.valueOf(layoutSV.getValue());
-			} catch (Exception e) {
-				layout = ObjectLayout.XY;// default layout
+		try {
+
+			ObjectLayout layout = ObjectLayout.XY;
+			StringValue layoutSV = (StringValue) getSystemTopChild(SystemField.Layout);
+			if (layoutSV != null) {
+				try {
+					layout = ObjectLayout.valueOf(layoutSV.getValue());
+				} catch (Exception e) {
+					layout = ObjectLayout.XY;// default layout
+				}
 			}
-		}
 
-		layout.preprocess(this);
+			layout.preprocess(this);
 
-		// System.out.println("drawInternal:" + name + ",id=" + id);
+			// System.out.println("drawInternal:" + name + ",id=" + id);
 
-		for (Field field : fieldList) {
+			for (Field field : fieldList) {
 
-			// System.out.println("drawInternal, fieldName=" + field.name);
+				// System.out.println("drawInternal, fieldName=" + field.name);
 
-			boolean owns = field.getTarget() != null
-					&& field.getType() == FieldType.STRONG;
+				boolean owns = field.getTarget() != null
+						&& field.getType() == FieldType.STRONG;
 
-			_Object target = field.getTarget();
-			if (target != null) {
-				_Object proto = target.getPrototype(repo);
-				String objName = null;
-				if (proto != null) {
-					objName = String.format("%s<%s>", field.name, proto.name);
-				} else
-					objName = field.name;
+				_Object target = field.getTarget();
+				if (target != null) {
+					_Object proto = target.getPrototype(repo);
+					String objName = null;
+					if (proto != null) {
+						objName = String.format("%s<%s>", field.name,
+								proto.name);
+					} else
+						objName = field.name;
 
-				field.draw(diagramPanel, scene, canvasOffset, owns);
+					field.draw(diagramPanel, scene, canvasOffset, owns);
+				}
 			}
+
+		} finally {
+			lock.unlock();
 		}
 	}
 
 	protected Field getField(String name) {
-		Integer index = fieldNameMap.get(name);
+
+		Integer index = getFieldIndex().fieldNameMap.get(name);
 		if (index != null)
 			return fieldList.get(index);
 		else
 			return null;
+
 	}
 
 	public _Object getChild(String name) {
 
-		if (fieldNameMap == null) {
-			recreateFieldIndexes();
-			if (logger.isDebugEnabled())
-				logger.debug("field index not created when lookup field:"
-						+ name);
-		}
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
 
-		Integer index = fieldNameMap.get(name);
-		if (index == null)
-			return null;
-		else
-			return fieldList.get(index).getTarget();
+			Integer index = getFieldIndex().fieldNameMap.get(name);
+			if (index == null)
+				return null;
+			else
+				return fieldList.get(index).getTarget();
+
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	public _Object getSystemConfig(SystemField systemField, String name) {
 		_Object field = getSystemTopChild(systemField);
-		if(field!=null)
+		if (field != null)
 			return field.getChild(name);
 		else
 			return null;
 	}
-	
+
 	public _Object getSystemTopChild(SystemField systemField) {
 		return getSystemChild(systemField.getFieldName());
 	}
-	
+
 	protected _Object getSystemChild(String name) {
 		_Object systemObject = getSystem();
 		if (systemObject != null)
@@ -590,10 +642,11 @@ public class _Object implements Serializable {
 			return null;
 	}
 
-	public void setSystemTopField(SystemField systemField, _Object obj, boolean owner) {
+	public void setSystemTopField(SystemField systemField, _Object obj,
+			boolean owner) {
 		setSystemField(systemField.getFieldName(), obj, owner);
 	}
-	
+
 	protected void setSystemField(String name, _Object obj, boolean owner) {
 		_Object systemObject = getSystem();
 		if (systemObject == null)
@@ -604,22 +657,19 @@ public class _Object implements Serializable {
 	}
 
 	public String[] getFieldNames() {
-		List<String> names = new ArrayList<String>();
-		for (String fieldName : fieldNameMap.keySet()) {
-			if (!Field.isSystemField(fieldName))
-				names.add(fieldName);
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			List<String> names = new ArrayList<String>();
+			for (String fieldName : getFieldIndex().fieldNameMap.keySet()) {
+				if (!Field.isSystemField(fieldName))
+					names.add(fieldName);
+			}
+
+			return names.toArray(new String[0]);
+		} finally {
+			lock.unlock();
 		}
-
-		return names.toArray(new String[0]);
-	}
-
-	/**
-	 * include system field
-	 * 
-	 * @return
-	 */
-	public String[] getAllFieldNames() {
-		return fieldNameMap.keySet().toArray(new String[0]);
 	}
 
 	/**
@@ -629,116 +679,135 @@ public class _Object implements Serializable {
 	 * @return
 	 */
 	public Procedure lookupProcedure(Message message, ObjectRepository repo) {
-		String subject = message.getSubject();
-		// first try match the procedure name
-		Procedure p = (Procedure) getChild(subject);
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			String subject = message.getSubject();
+			// first try match the procedure name
+			Procedure p = (Procedure) getChild(subject);
 
-		// not found, try match rule
-		if (p == null) {
-			if (logger.isDebugEnabled())
-				logger.debug("no procedure found by message subject " + subject);
-			
-			BooleanValue enableMatch = (BooleanValue) getSystemConfig(SystemField.SubjectMatch, "enable");
-
-			if (enableMatch != null && enableMatch.getBooleanValue() == true) {
+			// not found, try match rule
+			if (p == null) {
 				if (logger.isDebugEnabled())
-					logger.debug("extended subject match is enabled...");
+					logger.debug("no procedure found by message subject "
+							+ subject);
 
-				// default setting of the object
-				SubjectMatchType defaultSubjectMatchType = SubjectMatchType.RegularExpression;
-				StringValue defaultSubjectMatchTypeSV = (StringValue) getSystemConfig(SystemField.SubjectMatch, "type");
-				if (defaultSubjectMatchTypeSV != null)
-					defaultSubjectMatchType = SubjectMatchType
-							.valueOf(defaultSubjectMatchTypeSV.getValue());
+				BooleanValue enableMatch = (BooleanValue) getSystemConfig(
+						SystemField.SubjectMatch, "enable");
 
-				if (logger.isDebugEnabled())
-					logger.debug("object match type is"
-							+ defaultSubjectMatchType);
+				if (enableMatch != null
+						&& enableMatch.getBooleanValue() == true) {
+					if (logger.isDebugEnabled())
+						logger.debug("extended subject match is enabled...");
 
-				for (Field field : fieldList) {
-					_Object child = field.getTarget();
+					// default setting of the object
+					SubjectMatchType defaultSubjectMatchType = SubjectMatchType.RegularExpression;
+					StringValue defaultSubjectMatchTypeSV = (StringValue) getSystemConfig(
+							SystemField.SubjectMatch, "type");
+					if (defaultSubjectMatchTypeSV != null)
+						defaultSubjectMatchType = SubjectMatchType
+								.valueOf(defaultSubjectMatchTypeSV.getValue());
 
-					//_Object childSubjectMatch = child.getSystemChild(SystemField.SubjectMatch);
-					
-					StringValue messageSubjectMatchRule = (StringValue) child.getSystemConfig(SystemField.SubjectMatch,"rule");
+					if (logger.isDebugEnabled())
+						logger.debug("object match type is"
+								+ defaultSubjectMatchType);
 
-					if (messageSubjectMatchRule != null) {
-						// procedure specific setting
-						SubjectMatchType subjectMatchType = defaultSubjectMatchType;
-						StringValue subjectMatchTypeSV = (StringValue) child.getSystemConfig(SystemField.SubjectMatch,"type");
+					for (Field field : fieldList) {
+						_Object child = field.getTarget();
 
-						if (subjectMatchTypeSV != null)
-							subjectMatchType = SubjectMatchType
-									.valueOf(subjectMatchTypeSV.getValue());
+						// _Object childSubjectMatch =
+						// child.getSystemChild(SystemField.SubjectMatch);
 
-						if (logger.isDebugEnabled())
-							logger.debug("procedure match type is"
-									+ subjectMatchType);
+						StringValue messageSubjectMatchRule = (StringValue) child
+								.getSystemConfig(SystemField.SubjectMatch,
+										"rule");
 
-						if (logger.isDebugEnabled())
-							logger.debug("try matching "
-									+ messageSubjectMatchRule.getValue());
+						if (messageSubjectMatchRule != null) {
+							// procedure specific setting
+							SubjectMatchType subjectMatchType = defaultSubjectMatchType;
+							StringValue subjectMatchTypeSV = (StringValue) child
+									.getSystemConfig(SystemField.SubjectMatch,
+											"type");
 
-						try {
+							if (subjectMatchTypeSV != null)
+								subjectMatchType = SubjectMatchType
+										.valueOf(subjectMatchTypeSV.getValue());
 
-							SubjectMatcher subjectMatcher = subjectMatchType
-									.getMatcher(messageSubjectMatchRule
-											.getValue());
+							if (logger.isDebugEnabled())
+								logger.debug("procedure match type is"
+										+ subjectMatchType);
 
-							boolean result = subjectMatcher.matches(subject);
+							if (logger.isDebugEnabled())
+								logger.debug("try matching "
+										+ messageSubjectMatchRule.getValue());
 
-							if (result == true) {
+							try {
 
-								subjectMatcher.postProcess(message);
+								SubjectMatcher subjectMatcher = subjectMatchType
+										.getMatcher(messageSubjectMatchRule
+												.getValue());
 
-								p = (Procedure) child;
+								boolean result = subjectMatcher
+										.matches(subject);
 
-								if (logger.isDebugEnabled())
-									logger.debug("procedure matched:"
-											+ field.name);
+								if (result == true) {
 
-								break;
+									subjectMatcher.postProcess(message);
+
+									p = (Procedure) child;
+
+									if (logger.isDebugEnabled())
+										logger.debug("procedure matched:"
+												+ field.name);
+
+									break;
+								}
+							} catch (Exception e) {
+								// error when evaluate:
+								logger.warn(
+										"failed to evaluate message subject match rule.",
+										e);
+								continue;
 							}
-						} catch (Exception e) {
-							// error when evaluate:
-							logger.warn(
-									"failed to evaluate message subject match rule.",
-									e);
-							continue;
 						}
 					}
 				}
 			}
-		}
 
-		// still not found, try prototype
-		if (p == null) {
-			_Object prototype = getPrototype(repo);
-			//prototype cannot be itself.
-			if (prototype != null && prototype!=this) {
-				// prototype field only support local object.
-				// finding procedure on remote machine is too slow.
-				if (prototype instanceof Link) {
+			// still not found, try prototype
+			if (p == null) {
+				_Object prototype = getPrototype(repo);
+				// prototype cannot be itself.
+				if (prototype != null && prototype != this) {
+					// prototype field only support local object.
+					// finding procedure on remote machine is too slow.
+					if (prototype instanceof Link) {
 
-					Link link = (Link) prototype;
+						Link link = (Link) prototype;
 
-					if (link.getRemoteAddress() != null
-							&& ProtocolType.PATH.toString().equalsIgnoreCase(
-									link.getRemoteAddress().protocol)) {
-						_Object target = repo.getObjectByPath(link
-								.getRemoteAddress().userId);
+						if (link.getRemoteAddress() != null
+								&& ProtocolType.PATH
+										.toString()
+										.equalsIgnoreCase(
+												link.getRemoteAddress().protocol)) {
+							_Object target = repo.getObjectByPath(link
+									.getRemoteAddress().userId);
 
-						prototype = target;
+							prototype = target;
+						}
+
 					}
+					// else find procedure on link object, obviously get
+					// nothing.
 
+					p = prototype.lookupProcedure(message, repo);
 				}
-				// else find procedure on link object, obviously get nothing.
-
-				p = prototype.lookupProcedure(message, repo);
 			}
-		}
 
-		return p;
+			return p;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	private _Object getSystem() {
@@ -748,7 +817,7 @@ public class _Object implements Serializable {
 	public _Object getPrototype(ObjectRepository repo) {
 
 		_Object proto = getSystemTopChild(SystemField.Prototype);
-		
+
 		if (proto == null) {
 			// optimization for predefined objects
 			String path = type.getPrototypeEL();
@@ -766,7 +835,7 @@ public class _Object implements Serializable {
 	}
 
 	public void setPrototype(_Object obj) {
-		setSystemTopField(SystemField.Prototype, obj, false);		
+		setSystemTopField(SystemField.Prototype, obj, false);
 	}
 
 	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
@@ -909,6 +978,13 @@ public class _Object implements Serializable {
 			return false;
 	}
 
+	protected FieldIndex getFieldIndex() {
+		if (this.fieldIndex == null)
+			recreateFieldIndexes();
+
+		return this.fieldIndex;
+	}
+
 	/**
 	 * rearrange the field list, system field are on top. user fields are sorted
 	 * with comparator. and update the system field count.
@@ -916,7 +992,7 @@ public class _Object implements Serializable {
 	 * @param comparator
 	 */
 
-	public void sortFields() {
+	protected void sortFields() {
 		List<Field> systemFields = new ArrayList<Field>();
 
 		List<Field> userFields = new ArrayList<Field>();
@@ -939,29 +1015,42 @@ public class _Object implements Serializable {
 	}
 
 	public void sortFields(Comparator<Field> comparator) {
-		List<Field> systemFields = new ArrayList<Field>();
 
-		TreeSet<Field> userFields = new TreeSet<Field>(comparator);
+		Lock lock = getWriteLock();
+		lock.lock();
+		try {
+			List<Field> systemFields = new ArrayList<Field>();
 
-		for (Field f : fieldList) {
-			if (f.isSystemField())
-				systemFields.add(f);
-			else
-				userFields.add(f);
+			TreeSet<Field> userFields = new TreeSet<Field>(comparator);
+
+			for (Field f : fieldList) {
+				if (f.isSystemField())
+					systemFields.add(f);
+				else
+					userFields.add(f);
+			}
+
+			fieldList.clear();
+
+			fieldList.addAll(systemFields);
+			fieldList.addAll(userFields);
+
+			systemFieldsCount = systemFields.size();
+
+			recreateFieldIndexes();
+		} finally {
+			lock.unlock();
 		}
-
-		fieldList.clear();
-
-		fieldList.addAll(systemFields);
-		fieldList.addAll(userFields);
-
-		systemFieldsCount = systemFields.size();
-
-		recreateFieldIndexes();
 	}
-	
+
 	public int getUserFieldsCount() {
-		return fieldList.size() - systemFieldsCount;
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
+			return fieldList.size() - systemFieldsCount;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -998,16 +1087,22 @@ public class _Object implements Serializable {
 	 * @param visitor
 	 */
 	public void accept(ObjectVisitor visitor) {
+		Lock lock = getReadLock();
+		lock.lock();
+		try {
 
-		visitor.enter(this);
+			visitor.enter(this);
 
-		// children
-		for (Field f : fieldList) {
-			f.accept(visitor);
+			// children
+			for (Field f : fieldList) {
+				f.accept(visitor);
 
+			}
+
+			visitor.leave(this);
+		} finally {
+			lock.unlock();
 		}
-
-		visitor.leave(this);
 	}
 
 	public Field getOwnerField() {
@@ -1035,5 +1130,22 @@ public class _Object implements Serializable {
 					"no owner field linked to this object, ID:" + getId());
 
 		this.ownerField = null;
+	}
+
+	protected ReentrantReadWriteLock getReadWriteLock() {
+		if (readWriteLock == null)
+			readWriteLock = new ReentrantReadWriteLock();
+
+		return readWriteLock;
+	}
+
+	protected ReadLock getReadLock() {
+
+		return getReadWriteLock().readLock();
+	}
+
+	protected WriteLock getWriteLock() {
+
+		return getReadWriteLock().writeLock();
 	}
 }
