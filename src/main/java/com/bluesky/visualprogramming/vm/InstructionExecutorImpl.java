@@ -19,6 +19,7 @@ import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
+import com.bluesky.visualprogramming.vm.debug.Debugger;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
 import com.bluesky.visualprogramming.vm.instruction.AccessField;
@@ -52,24 +53,32 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	ProcedureExecutionContext ctx;
 	Message message;
 	PostService postService;
+	
+	//for debug
+	String procedurePath;
+	
+	Debugger debugger;
 
 	// private volatile boolean paused;
 
 	private Worker worker;
 
 	public InstructionExecutorImpl(ObjectRepository objectRepository,
-			PostService postService, CompiledProcedure procedure,
-			ProcedureExecutionContext ctx, Message msg, Worker worker) {
+			PostService postService, CompiledProcedure compiledProcedure,
+			ProcedureExecutionContext ctx, Message msg, Worker worker, Debugger debugger) {
 
 		this.objectRepository = objectRepository;
 		this.postService = postService;
-		this.procedure = procedure;
+		this.procedure = compiledProcedure;
 		this.ctx = ctx;
 		this.message = msg;
 
 		// for pause operation
 		this.worker = worker;
 
+		this.debugger = debugger;
+		
+		procedurePath = compiledProcedure.procedure.getPath();
 	}
 
 	public synchronized void resume() {
@@ -138,6 +147,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
+		//debug trap
+		if(debugger.isEnabled() && debugger.needBreak(procedurePath, instruction.line))
+		{
+			//add java break point here. to check variables in eclipse.
+			System.out.println("break at:"+procedurePath+":"+instruction.line);
+		}
+		
 		// execute it
 		if (logger.isDebugEnabled())
 			logger.debug(instruction.toString());

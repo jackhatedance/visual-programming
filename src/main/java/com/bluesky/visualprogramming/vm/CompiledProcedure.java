@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bluesky.visualprogramming.core.Procedure;
 import com.bluesky.visualprogramming.vm.instruction.Instruction;
 
 /**
@@ -15,6 +16,11 @@ import com.bluesky.visualprogramming.vm.instruction.Instruction;
  */
 public class CompiledProcedure {
 
+	/**
+	 * it is for debug
+	 */
+	public Procedure procedure;
+	
 	List<String> parameters= new ArrayList<String>();
 	List<Instruction> instructions;
 
@@ -63,5 +69,6 @@ public class CompiledProcedure {
 	public List<String> getParameters() {
 		return parameters;
 	}
+	
 	
 }

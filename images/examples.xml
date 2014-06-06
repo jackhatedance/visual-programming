@@ -8760,7 +8760,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
 	page.visitCounter.inc(1);
 
 	page.title= &quot;blog&quot;;
-	page.main = null;
+	//page.main = null;
 	
 	page.main = _self.posts;
 	_result = page;
@@ -8955,6 +8955,9 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
 	
 	headerHtml = _self.renderObject(target.header, null);
 	navigationHtml = _self.renderObject(target.navigation, null);
+	if(_g.system.isNull(target.main)){
+		_g.console.println(&quot;target.main is null.&quot;);
+	}
 	mainHtml = _self.renderObject(target.main, null);
 	sidebarHtml = _self.renderObject(target.sidebar, null);
 	footerHtml = _self.renderObject(target.footer, null);
@@ -9254,7 +9257,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                     <scope>ExecutionContext</scope>
                     <fieldList id="1621"/>
                     <borderColor reference="1612"/>
-                    <value>484</value>
+                    <value>6512</value>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -9269,7 +9272,7 @@ http://localhost:8080/exampleRemoteByFormatXml/test</description>
                   <name>title</name>
                   <strongTarget class="string" id="1624">
                     <type>STRING</type>
-                    <id>557111717</id>
+                    <id>567305881</id>
                     <name>t_0</name>
                     <scope>ExecutionContext</scope>
                     <fieldList id="1625"/>

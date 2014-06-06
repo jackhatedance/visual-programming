@@ -9,6 +9,7 @@ import com.bluesky.visualprogramming.core.MountEntry;
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.timer.TimerService;
 import com.bluesky.visualprogramming.utils.Config;
+import com.bluesky.visualprogramming.vm.debug.Debugger;
 import com.bluesky.visualprogramming.vm.message.PostService;
 import com.bluesky.visualprogramming.vm.message.WorkerService;
 
@@ -33,6 +34,8 @@ public class VirtualMachine implements Service {
 
 	private ServiceStatus status;
 
+	private Debugger debugger;
+	 
 	 
 	private static VirtualMachine instance = null;
 
@@ -55,6 +58,9 @@ public class VirtualMachine implements Service {
 		appConfig = AppProperties.getInstance().getAsConfig();
 
 		objectRepository = new ObjectRepository();
+		
+		debugger = new Debugger(true);
+		
 
 		postService = new PostService();
 		workerService = new WorkerService();
@@ -66,7 +72,7 @@ public class VirtualMachine implements Service {
 		/*
 		 * workerManager and postService only need each other at runtime.
 		 */
-		workerService.setup(objectRepository, postService);
+		workerService.setup(objectRepository, postService, debugger);
 		workerService.init();
 
 		postService.setup(objectRepository, workerService);

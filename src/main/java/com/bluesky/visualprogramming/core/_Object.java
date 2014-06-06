@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -73,7 +74,30 @@ public class _Object implements Serializable {
 	private int systemFieldsCount = 0;
 	// index names to accelerate access speed
 	private Map<String, Integer> fieldNameMap;
+	
 
+	private volatile ObjectFields objectFields;
+	private ObjectFields getObjectFieldsSnapshot(){
+		if(objectFields==null)
+			objectFields = new ObjectFields(fieldList, systemFieldsCount, fieldNameMap);
+		
+		//update field name map.
+		if(fieldNameMap==null)
+			setObjectFields(objectFields);
+		
+		
+		return objectFields;
+	}
+	
+	private void setObjectFields(ObjectFields objectFields){
+		this.objectFields = objectFields;
+		
+		//update to object itself. this is needed by xstream dumpping.
+		this.fieldList = objectFields.fieldList;
+		this.systemFieldsCount = objectFields.systemFieldsCount;
+		this.fieldNameMap = objectFields.fieldNameMap;
+	}
+	
 
 	/**
 	 * the normal message queue, which are OK to run
@@ -117,7 +141,7 @@ public class _Object implements Serializable {
 	 * 
 	 * @param newObj
 	 */
-	public void copy(_Object src, boolean deep, BasicObjectFactory factory) {
+	protected void copy(_Object src, boolean deep, BasicObjectFactory factory) {
 
 		this.type = src.type;
 		// this.id = id;
@@ -153,7 +177,7 @@ public class _Object implements Serializable {
 
 	}
 
-	public _Object clone(boolean deep, BasicObjectFactory factory) {
+	public synchronized  _Object clone(boolean deep, BasicObjectFactory factory) {
 		_Object obj = factory.create(type);
 		obj.copy(this, deep, factory);
 		return obj;
@@ -205,23 +229,14 @@ public class _Object implements Serializable {
 	/**
 	 * re-create indexes.
 	 */
-	protected void rebuildFieldIndexes() {
-		fieldNameMap = new HashMap<String, Integer>();
-
-
-		for (int i = 0; i < fieldList.size(); i++) {
-			Field f = fieldList.get(i);
-			fieldNameMap.put(f.name, i);
-
-		}
-
-	}
+	
 
 	public Field getField(int index) {
-		return fieldList.get(index);
+		return getObjectFieldsSnapshot().getField(index);		
 	}
 
 	public int getFieldCount() {
+		List<Field> fieldList = getObjectFieldsSnapshot().fieldList;
 		return fieldList.size();
 	}
 
@@ -232,8 +247,12 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @param own
 	 */
-	public void setField(String name, _Object child, boolean owns) {
-
+	public  void setField(String name, _Object child, boolean owns) {
+		ObjectFields newObjectFields = getObjectFieldsSnapshot().makeACopy();
+		
+		
+		List<Field> fieldList = newObjectFields.fieldList;
+		
 		if (child != null && child.hasOwner() && owns) {
 
 			if (child.getScope() == ObjectScope.ExecutionContext)
@@ -245,7 +264,7 @@ public class _Object implements Serializable {
 
 		// name must be unique if is not null
 		if (name != null) {
-			Field f = getField(name);
+			Field f = newObjectFields.getField(name);
 
 			if (f == null) {
 				f = new Field(name, owns);
@@ -255,7 +274,7 @@ public class _Object implements Serializable {
 
 				f.setTarget(child);
 
-				sortFields();
+				newObjectFields.sortFields();
 
 			} else {
 				if (f.getTarget() != null)
@@ -270,16 +289,18 @@ public class _Object implements Serializable {
 
 		} else
 			throw new RuntimeException("field name cannot be null");
-
+		
+		
+		setObjectFields(newObjectFields);		
 	}
 
 	private void addField(Field field, _Object target) {
-
-		fieldList.add(field);
+		ObjectFields newObjectFields =  getObjectFieldsSnapshot().makeACopy();
+		
 		field.owner = this;
-		field.setTarget(target);
-		sortFields();
-
+		newObjectFields.addField(field, target);	
+		
+		setObjectFields(newObjectFields);			
 	}
 
 	public ObjectScope getScope() {
@@ -296,12 +317,15 @@ public class _Object implements Serializable {
 	}
 
 	public boolean hasOwner() {
-
 		return ownerField != null && ownerField.owner != null;
 	}
 
-	public void renameField(String old, String _new) {
-
+	public   void renameField(String old, String _new) {
+		ObjectFields newObjectFields = getObjectFieldsSnapshot().makeACopy();
+		
+		List<Field> fieldList = getObjectFieldsSnapshot().fieldList;
+		Map<String, Integer> fieldNameMap= getObjectFieldsSnapshot().fieldNameMap;
+		
 		Integer index = fieldNameMap.get(old);
 		if (index == null)
 			throw new RuntimeException("source field not exist:" + old);
@@ -316,33 +340,23 @@ public class _Object implements Serializable {
 		fieldNameMap.remove(old);
 		fieldNameMap.put(_new, index);
 
+		setObjectFields(newObjectFields);
 	}
 
 
 	public void removeField(String name) {
-		Integer childIndex = fieldNameMap.get(name);
-		if (childIndex == null)
-			throw new RuntimeException("child not found:" + name);
-
-		removeField(childIndex);
-	}
-
-	public void removeField(Integer index) {
-
-		if (index == null)
-			return;
-
-		int idx = index.intValue();
-
-		Field field = fieldList.get(idx);
-		fieldList.remove(idx);
-
-		rebuildFieldIndexes();
-
+		ObjectFields newObjectFields = getObjectFieldsSnapshot().makeACopy();
+		
+		Field field = newObjectFields.removeField(name);
+		
 		if (field.getTarget() != null && owns(field.getTarget()))
 			detachOwnedChild(field.getTarget());
 
+		
+		setObjectFields(newObjectFields);
 	}
+
+	
 
 	/**
 	 * it won't remove the original field. just remove the owner.
@@ -351,7 +365,7 @@ public class _Object implements Serializable {
 	 * 
 	 * @param child
 	 */
-	public void detachOwnedChild(_Object child) {
+	public    void detachOwnedChild(_Object child) {
 		if (owns(child)) {
 			// child.setOwner(null);
 			child.detachFromOwner();
@@ -359,7 +373,7 @@ public class _Object implements Serializable {
 		}
 	}
 
-	public void detachFromOwner() {
+	protected void detachFromOwner() {
 		ownerField.detachTarget();
 	}
 
@@ -393,14 +407,15 @@ public class _Object implements Serializable {
 	}
 
 	public boolean hasFields() {
-
-		return !fieldList.isEmpty();
-
+		return !getObjectFieldsSnapshot().isEmpty();
 	}
-
+/**
+ * not thread safe
+ * @return
+ */
 	public List<Field> getFields() {
 
-		return this.fieldList;
+		return getObjectFieldsSnapshot().fieldList;
 
 	}
 
@@ -440,7 +455,7 @@ public class _Object implements Serializable {
 	 * @param doc
 	 * @param canvasOffset
 	 */
-	public void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
+	public  void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
 			Point canvasOffset, ObjectRepository repo) {
 
 		ObjectLayout layout = ObjectLayout.XY;
@@ -456,7 +471,7 @@ public class _Object implements Serializable {
 		layout.preprocess(this);
 
 		// System.out.println("drawInternal:" + name + ",id=" + id);
-
+		List<Field> fieldList= getObjectFieldsSnapshot().fieldList;
 		for (Field field : fieldList) {
 
 			// System.out.println("drawInternal, fieldName=" + field.name);
@@ -479,14 +494,8 @@ public class _Object implements Serializable {
 
 	}
 
-	protected Field getField(String name) {
-
-		Integer index = getFieldNameMap().get(name);
-		if (index != null)
-			return fieldList.get(index);
-		else
-			return null;
-
+	protected  Field getField(String name) {
+		return getObjectFieldsSnapshot().getField(name);		
 	}
 
 	public _Object getChild(String name) {
@@ -533,15 +542,7 @@ public class _Object implements Serializable {
 	}
 
 	public String[] getFieldNames() {
-
-		List<String> names = new ArrayList<String>();
-		for (Field field : fieldList) {
-			if (!field.isSystemField())
-				names.add(field.name);
-		}
-
-		return names.toArray(new String[0]);
-
+		return getObjectFieldsSnapshot().getFieldNames();		
 	}
 
 	/**
@@ -550,7 +551,7 @@ public class _Object implements Serializable {
 	 * @param name
 	 * @return
 	 */
-	public Procedure lookupProcedure(Message message, ObjectRepository repo) {
+	public  Procedure lookupProcedure(Message message, ObjectRepository repo) {
 
 		String subject = message.getSubject();
 		// first try match the procedure name
@@ -580,6 +581,8 @@ public class _Object implements Serializable {
 					logger.debug("object match type is"
 							+ defaultSubjectMatchType);
 
+				List<Field> fieldList = getObjectFieldsSnapshot().fieldList;
+				
 				for (Field field : fieldList) {
 					_Object child = field.getTarget();
 
@@ -700,10 +703,11 @@ public class _Object implements Serializable {
 		setSystemTopField(SystemField.Prototype, obj, false);
 	}
 
-	public CompiledProcedure getCompiledProcedure(Procedure procedure) {
+	public  CompiledProcedure getCompiledProcedure(Procedure procedure) {
 		if (procedure.compiled == null) {
 			compiledProcedure(procedure);
 		}
+		
 		return procedure.compiled;
 	}
 
@@ -717,7 +721,8 @@ public class _Object implements Serializable {
 
 		try {
 			CompiledProcedure cp = type.getCompiler().compile(procedure.code);
-
+			cp.procedure = procedure;
+			
 			if (logger.isDebugEnabled())
 				logger.debug(cp.getInstructionText());
 
@@ -838,66 +843,27 @@ public class _Object implements Serializable {
 			return child.getOwner() == this;
 		else
 			return false;
+	} 
+
+	public  void sortFields(Comparator<Field> comparator) {
+		ObjectFields newObjectFields =  getObjectFieldsSnapshot().makeACopy();
+		
+		newObjectFields.sortFields(comparator);
+		
+		setObjectFields(newObjectFields);
+	}
+	
+	public  void sortFields() {
+		ObjectFields newObjectFields =  getObjectFieldsSnapshot().makeACopy();
+		
+		newObjectFields.sortFields();
+		
+		setObjectFields(newObjectFields);
 	}
 
-	/**
-	 * rearrange the field list, system field are on top. user fields are sorted
-	 * with comparator. and update the system field count.
-	 * 
-	 * @param comparator
-	 */
-
-	protected void sortFields() {
-		List<Field> systemFields = new ArrayList<Field>();
-
-		List<Field> userFields = new ArrayList<Field>();
-
-		for (Field f : fieldList) {
-			if (f.isSystemField())
-				systemFields.add(f);
-			else
-				userFields.add(f);
+	public   int getUserFieldsCount() {
+		return getObjectFieldsSnapshot().getUserFieldsCount();
 		}
-
-		fieldList.clear();
-
-		fieldList.addAll(systemFields);
-		fieldList.addAll(userFields);
-
-		systemFieldsCount = systemFields.size();
-
-		rebuildFieldIndexes();
-	}
-
-	public void sortFields(Comparator<Field> comparator) {
-
-		List<Field> systemFields = new ArrayList<Field>();
-
-		TreeSet<Field> userFields = new TreeSet<Field>(comparator);
-
-		for (Field f : fieldList) {
-			if (f.isSystemField())
-				systemFields.add(f);
-			else
-				userFields.add(f);
-		}
-
-		fieldList.clear();
-
-		fieldList.addAll(systemFields);
-		fieldList.addAll(userFields);
-
-		systemFieldsCount = systemFields.size();
-
-		rebuildFieldIndexes();
-
-	}
-
-	public int getUserFieldsCount() {
-
-		return fieldList.size() - systemFieldsCount;
-
-	}
 
 	/**
 	 * 
@@ -926,11 +892,13 @@ public class _Object implements Serializable {
 	 * @param visitor
 	 */
 	public void accept(ObjectVisitor visitor) {
+		//get snapshot
+		ObjectFields objectFields = this.getObjectFieldsSnapshot();
 
 		visitor.enter(this);
 
 		// children
-		for (Field f : fieldList) {
+		for (Field f : objectFields.fieldList) {
 			f.accept(visitor);
 
 		}
@@ -966,13 +934,6 @@ public class _Object implements Serializable {
 		this.ownerField = null;
 	}
 
-	private Map<String, Integer> getFieldNameMap() {
-		if (fieldNameMap == null)
-			rebuildFieldIndexes();
-
-		return fieldNameMap;
-	}
-
-
+	
 
 }

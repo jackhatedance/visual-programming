@@ -22,6 +22,7 @@ import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
 import com.bluesky.visualprogramming.vm.InstructionExecutorImpl;
+import com.bluesky.visualprogramming.vm.debug.Debugger;
 
 public class Worker implements Runnable {
 	static Logger logger = Logger.getLogger(Worker.class);
@@ -33,6 +34,7 @@ public class Worker implements Runnable {
 	private _Object customer;
 
 	private InstructionExecutorImpl executor;
+	private Debugger debugger;
 
 	/**
 	 * a flag to ask the work or executor to pause. cleared when paused
@@ -44,11 +46,13 @@ public class Worker implements Runnable {
 
 	public Worker(ObjectRepository objectRepository,
 			WorkerService workerManager, PostService postService,
-			_Object customer) {
+			_Object customer, Debugger debugger) {
 		this.objectRepository = objectRepository;
 		this.workerManager = workerManager;
 		this.postService = postService;
 		this.customer = customer;
+		this.debugger = debugger;
+		
 
 		if (customer.hasWorker())
 			throw new RuntimeException("customer already has worker.");
@@ -372,7 +376,7 @@ public class Worker implements Runnable {
 		}
 
 		executor = new InstructionExecutorImpl(objectRepository, postService,
-				cp, msg.executionContext, msg, this);
+				cp, msg.executionContext, msg, this, debugger);
 		// executor.setPolicy(step);
 
 		executor.execute();

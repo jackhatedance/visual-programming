@@ -131,7 +131,7 @@ public class HttpService extends AbstractProtocolService implements
 			incomingRequestAgents.remove(requestAgent);
 		} else {
 			// missing agent, timeout?
-			throw new RuntimeException("missing agent");
+			throw new RuntimeException("missing agent of "+receiverAddress);
 		}
 	}
 

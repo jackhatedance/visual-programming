@@ -41,10 +41,18 @@ public enum FieldType {
 	WEAK {
 		@Override
 		public _Object getTarget(Field f) {
+			
+				
+			_Object target = null;
+			
 			if (f.getWeakTarget() != null)
-				return f.getWeakTarget().get();
+				target = f.getWeakTarget().get();
 
-			return null;
+			if(f.name.equals("main") && target==null){
+				System.out.println("bingo");
+			}
+				
+			return target;
 		}
 
 		@Override

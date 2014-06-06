@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectRepository;
 import com.bluesky.visualprogramming.core._Object;
+import com.bluesky.visualprogramming.vm.debug.Debugger;
 
 /**
  * manage workers(aka thread to execute code). accept request from any object
@@ -40,6 +41,7 @@ public class WorkerService extends ThreadService implements Runnable  {
 
 	private ObjectRepository objectRepository;
 	private PostService postService;
+	private Debugger debugger;
 
 	public WorkerService() {
 
@@ -50,9 +52,10 @@ public class WorkerService extends ThreadService implements Runnable  {
 	}
 
 	public void setup(ObjectRepository objectRepository,
-			PostService postService) {
+			PostService postService, Debugger debugger) {
 		this.objectRepository = objectRepository;
 		this.postService = postService;
+		this.debugger = debugger;
 	}
 
 	/**
@@ -98,7 +101,7 @@ public class WorkerService extends ThreadService implements Runnable  {
 		if (logger.isDebugEnabled())
 			logger.debug("assign worker for " + cust.getName());
 
-		Worker worker = new Worker(objectRepository, this, postService, cust);
+		Worker worker = new Worker(objectRepository, this, postService, cust, debugger);
 
 		executorServie.execute(worker);
 
