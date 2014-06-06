@@ -250,14 +250,6 @@ public class ObjectRepository {
 		}
 	}
 
-	public void destroyObject(_Object obj) {
-		if (obj.getOwner() != null) {
-			obj.getOwner().removeChild(obj);
-			// obj.setOwner(null);
-		}
-
-	}
-
 	public _Object getRootObject() {
 		return rootObject;
 	}
@@ -442,7 +434,7 @@ public class ObjectRepository {
 
 	private void treeWalk(_Object obj, TreeWalker walker) {
 		walker.walk(obj);
-		if (obj.hasChildren()) {
+		if (obj.hasFields()) {
 			for (Field f : obj.getFields()) {
 
 				if (f.getType() == FieldType.STRONG && f.getTarget() != null)

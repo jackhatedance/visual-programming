@@ -22,7 +22,6 @@ import javax.swing.border.LineBorder;
 
 import com.bluesky.visualprogramming.core.Field;
 import com.bluesky.visualprogramming.core._Object;
-import com.bluesky.visualprogramming.vm.VirtualMachine;
 
 public class ObjectPropertyDialog extends JDialog {
 
@@ -331,8 +330,7 @@ public class ObjectPropertyDialog extends JDialog {
 				JButton btnDelete = new JButton("Delete");
 				btnDelete.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						VirtualMachine.getInstance().getObjectRepository()
-								.destroyObject(field.getTarget());
+						field.owner.removeField(field.name);
 						dispose();
 					}
 				});

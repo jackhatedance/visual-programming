@@ -148,11 +148,11 @@ public class XmppAgent {
 		String msgBody = "";
 		if (msg.body != null) {
 			if (msg.body.getType() == ObjectType.NORMAL) {
-				for (int i = 0; i < msg.body.getChildCount(); i++) {
+				for (int i = 0; i < msg.body.getFieldCount(); i++) {
 					if (i != 0)
 						msgBody += ";";
 
-					_Object param = msg.body.getChild(i);
+					_Object param = msg.body.getField(i).getTarget();
 					msgBody += param.getName() + ":" + param.getValue();
 
 				}

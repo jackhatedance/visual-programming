@@ -468,12 +468,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		switch (instruction.assignmentType) {
 		case OWN:
 			if (rightObject == null) {
-
 				oldFieldObject = leftObject.getChild(fieldName);
-
 				// move to execution context
 				if (oldFieldObject != null)
-					leftObject.removeChild(oldFieldObject);
+					leftObject.removeField(fieldName);
 
 			} else {
 				if (rightObject.getScope() != ObjectScope.ExecutionContext)
@@ -483,7 +481,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				// move to execution context
 				if (oldFieldObject != null)
-					leftObject.removeChild(oldFieldObject);
+					leftObject.removeField(fieldName);
 
 				leftObject.setField(fieldName, rightObject, true);
 			}
@@ -496,7 +494,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				// move to execution context
 				if (oldFieldObject != null)
-					leftObject.removeChild(oldFieldObject);
+					leftObject.removeField(fieldName);
 
 			} else {
 				leftObject.setField(fieldName, rightObject, false);
@@ -509,7 +507,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 				// move to execution context
 				if (oldFieldObject != null)
-					leftObject.removeChild(oldFieldObject);
+					leftObject.removeField(fieldName);
 			} else if (leftObject.scope
 					.canGrabOwnership(rightObject.getScope())) {
 

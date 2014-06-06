@@ -48,7 +48,7 @@ public class XmlSerialzerTest {
 
 		_Object obj = s.deserialize(new StringReader(xml), config);
 
-		Assert.assertTrue(obj.getChildCount() > 0);
+		Assert.assertTrue(obj.getFieldCount() > 0);
 		// _Object xml = obj.getChild("xml");
 		_Object content = obj.getChild("Content");
 
@@ -71,7 +71,7 @@ public class XmlSerialzerTest {
 
 		_Object obj = s.deserialize(new StringReader(xml2), config);
 
-		Assert.assertTrue(obj.getChildCount() > 0);
+		Assert.assertTrue(obj.getFieldCount() > 0);
 		// _Object xml = obj.getChild("xml");
 		_Object temperatureValue = obj
 				.getObjectByPath("temperature.attributes.value");

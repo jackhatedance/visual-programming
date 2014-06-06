@@ -60,8 +60,8 @@ public class RemoteCommunicationService {
 				_Object owner = obj;
 
 				if (aliases != null) {
-					for (int i = 0; i < aliases.getChildCount(); i++) {
-						_Object alias = aliases.getChild(i);
+					for (int i = 0; i < aliases.getFieldCount(); i++) {
+						_Object alias = aliases.getField(i).getTarget();
 
 						BooleanValue enabled = (BooleanValue) alias
 								.getChild("enabled");

@@ -327,8 +327,8 @@ public class SVGMainWindow extends JPanel {
 						// destroy object if it owns it.
 						if (ownerObject.owns(childObject)) {
 							// remove from object repository
-							getVM().getObjectRepository().destroyObject(
-									getActiveChildField().getTarget());
+							Field field = getActiveChildField();
+							field.owner.removeField(field.name);
 						}
 
 						reloadDiagram();

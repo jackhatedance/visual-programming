@@ -2,7 +2,6 @@ package com.bluesky.visualprogramming.core;
 
 import org.apache.log4j.Logger;
 
-import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
 import com.bluesky.visualprogramming.remote.session.Session;
@@ -248,13 +247,13 @@ public class Message {
 			StringBuilder sb = new StringBuilder();
 
 			if (body != null) {
-				for (int i = 0; i < body.getChildCount(); i++) {
+				for (int i = 0; i < body.getFieldCount(); i++) {
 					if (i > 0)
 						sb.append(",");
 
 					String childValue = "";
-					if (body.getChild(i) != null)
-						childValue = body.getChild(i).getValue();
+					if (body.getField(i).getTarget() != null)
+						childValue = body.getField(i).getTarget().getValue();
 
 					sb.append(childValue);
 

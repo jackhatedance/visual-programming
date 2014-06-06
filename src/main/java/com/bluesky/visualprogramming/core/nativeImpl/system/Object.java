@@ -89,7 +89,7 @@ public class Object extends NativeMethodSupport {
 			dstFieldName = srcFieldName;// same name
 
 		_Object childObj = srcObj.getChild(srcFieldName.getValue());
-		srcObj.removeChild(childObj);
+		srcObj.removeField(srcFieldName.getValue());
 
 		dstObj.setField(dstFieldName.getValue(), childObj, true);
 
