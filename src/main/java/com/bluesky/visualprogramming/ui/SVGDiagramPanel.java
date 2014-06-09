@@ -46,7 +46,7 @@ import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.ui.svg.TransformIndex;
 import com.bluesky.visualprogramming.vm.VirtualMachine;
 
-public class SVGDiagramPanel extends JPanel {
+public class SVGDiagramPanel extends JPanel implements SVGEventProcessor {
 	static Logger logger = Logger.getLogger(SVGDiagramPanel.class);
 	/**
 	 * the object node that has been clicked, a transform box is arrounded.

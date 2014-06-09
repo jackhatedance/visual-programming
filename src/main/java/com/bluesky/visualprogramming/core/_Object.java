@@ -5,14 +5,12 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -22,7 +20,7 @@ import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.remote.ProtocolType;
-import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.SVGEventProcessor;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 import com.bluesky.visualprogramming.vm.CompiledProcedure;
 import com.bluesky.visualprogramming.vm.ExecutionStatus;
@@ -455,7 +453,7 @@ public class _Object implements Serializable {
 	 * @param doc
 	 * @param canvasOffset
 	 */
-	public  void drawInternal(SVGDiagramPanel diagramPanel, SvgScene scene,
+	public void drawInternal(SVGEventProcessor eventProcessor, SvgScene scene,
 			Point canvasOffset, ObjectRepository repo) {
 
 		ObjectLayout layout = ObjectLayout.XY;
@@ -488,7 +486,7 @@ public class _Object implements Serializable {
 				} else
 					objName = field.name;
 
-				field.draw(diagramPanel, scene, canvasOffset, owns);
+				field.draw(eventProcessor, scene, canvasOffset, owns);
 			}
 		}
 

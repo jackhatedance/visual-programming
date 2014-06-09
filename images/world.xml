@@ -27,32 +27,43 @@
       </area>
     </field>
     <field id="7">
-      <name>examples</name>
+      <name>app</name>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
       <area id="8">
+        <x>1880</x>
+        <y>2075</y>
+        <width>100</width>
+        <height>100</height>
+      </area>
+    </field>
+    <field id="9">
+      <name>examples</name>
+      <type>STRONG</type>
+      <svgScale>0.2</svgScale>
+      <area id="10">
         <x>1725</x>
         <y>1125</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="9">
+    <field id="11">
       <name>users</name>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="10">
+      <area id="12">
         <x>895</x>
         <y>2305</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="11">
+    <field id="13">
       <name>temp</name>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="12">
+      <area id="14">
         <x>830</x>
         <y>1110</y>
         <width>100</width>
@@ -60,7 +71,7 @@
       </area>
     </field>
   </fieldList>
-  <borderColor id="13">
+  <borderColor id="15">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

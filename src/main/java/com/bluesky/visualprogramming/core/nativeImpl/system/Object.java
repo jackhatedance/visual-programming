@@ -1,5 +1,12 @@
 package com.bluesky.visualprogramming.core.nativeImpl.system;
 
+import java.awt.Point;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import org.apache.batik.dom.util.DOMUtilities;
+
 import com.bluesky.visualprogramming.core.ExtendedObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -11,13 +18,18 @@ import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
+import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Object extends NativeMethodSupport {
 
 	@ParameterList({ "obj", "path" })
 	public static _Object getByPath(_Object obj, StringValue path) {
 
-		_Object value = obj.getObjectByPath(path.getValue());
+		_Object value = null;
+		if (path != null && !path.getValue().isEmpty())
+			value = obj.getObjectByPath(path.getValue());
+		else
+			value = obj;
 
 		return value;
 	}
@@ -131,6 +143,33 @@ public class Object extends NativeMethodSupport {
 			}
 		}
 
+	}
+	
+	@ParameterList({ "obj" })
+	public static _Object getSvg(_Object obj) {
+
+		SvgScene scene = new SvgScene();
+		scene.setZoom(0.75f);
+
+		_Object target = obj;
+		String svg = null;
+		if (target != null) {
+			target.drawInternal(null, scene, new Point(0, 0),
+					getVM().getObjectRepository());
+			
+			Writer sw = new StringWriter();
+			try {
+				DOMUtilities.writeDocument(scene.getDocument(), sw);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// System.out.println(sw.toString());
+			svg = sw.toString();
+		}
+
+		StringValue sv = getObjectFactory().createString(svg);
+		return sv;
 	}
 
 }

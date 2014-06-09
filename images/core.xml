@@ -2904,28 +2904,57 @@
                     <height>100</height>
                   </area>
                 </field>
+                <field id="458">
+                  <name>getSvg</name>
+                  <strongTarget class="procedure" id="459">
+                    <type>PROCEDURE</type>
+                    <id>567305911</id>
+                    <name defined-in="object">getSvg</name>
+                    <description></description>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="460"/>
+                    <borderColor reference="416"/>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure(obj)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_Object.getSvg(obj);
+	
+}</code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="461">
+                    <x>4145</x>
+                    <y>1805</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
               </fieldList>
               <borderColor reference="397"/>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="458">
+            <area id="462">
               <x>635</x>
               <y>1425</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="459">
+          <field id="463">
             <name>now</name>
-            <strongTarget class="procedure" id="460">
+            <strongTarget class="procedure" id="464">
               <type>PROCEDURE</type>
               <id>4641</id>
               <name defined-in="object">now</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="461"/>
-              <borderColor id="462">
+              <fieldList id="465"/>
+              <borderColor id="466">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -2943,34 +2972,34 @@
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="463">
+            <area id="467">
               <x>1353</x>
               <y>285</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="464">
+          <field id="468">
             <name>timer</name>
-            <strongTarget id="465">
+            <strongTarget id="469">
               <type>NORMAL</type>
               <id>4977</id>
               <name>timer</name>
-              <fieldList id="466">
-                <field id="467">
+              <fieldList id="470">
+                <field id="471">
                   <name>interval</name>
-                  <strongTarget class="integer" id="468">
+                  <strongTarget class="integer" id="472">
                     <type>INTEGER</type>
                     <id>4978</id>
                     <name>unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="469">
-                      <field id="470">
+                    <fieldList id="473">
+                      <field id="474">
                         <name>_prototype</name>
                         <type>WEAK</type>
                         <pointerPath>world.core.prototype.value.integer</pointerPath>
                         <svgScale>0.2</svgScale>
-                        <area id="471">
+                        <area id="475">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -2978,7 +3007,7 @@
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor id="472">
+                    <borderColor id="476">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -2988,27 +3017,27 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="473">
+                  <area id="477">
                     <x>525</x>
                     <y>1010</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="474">
+                <field id="478">
                   <name>enabled</name>
-                  <strongTarget class="boolean" id="475">
+                  <strongTarget class="boolean" id="479">
                     <type>BOOLEAN</type>
                     <id>4979</id>
                     <name>unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="476">
-                      <field id="477">
+                    <fieldList id="480">
+                      <field id="481">
                         <name>_prototype</name>
                         <type>WEAK</type>
                         <pointerPath>world.core.prototype.value.boolean</pointerPath>
                         <svgScale>0.2</svgScale>
-                        <area id="478">
+                        <area id="482">
                           <x>0</x>
                           <y>0</y>
                           <width>100</width>
@@ -3016,27 +3045,27 @@
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor reference="472"/>
+                    <borderColor reference="476"/>
                     <booleanValue>false</booleanValue>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="479">
+                  <area id="483">
                     <x>2445</x>
                     <y>995</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="480">
+                <field id="484">
                   <name>action</name>
-                  <strongTarget class="procedure" id="481">
+                  <strongTarget class="procedure" id="485">
                     <type>PROCEDURE</type>
                     <id>4980</id>
                     <name defined-in="object">unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="482"/>
-                    <borderColor reference="472"/>
+                    <fieldList id="486"/>
+                    <borderColor reference="476"/>
                     <__native>false</__native>
                     <nativeProcedureClassName></nativeProcedureClassName>
                     <nativeProcedureParameters></nativeProcedureParameters>
@@ -3049,22 +3078,22 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="483">
+                  <area id="487">
                     <x>1460</x>
                     <y>1025</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="484">
+                <field id="488">
                   <name>turnOn</name>
-                  <strongTarget class="procedure" id="485">
+                  <strongTarget class="procedure" id="489">
                     <type>PROCEDURE</type>
                     <id>5058</id>
                     <name defined-in="object">unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="486"/>
-                    <borderColor id="487">
+                    <fieldList id="490"/>
+                    <borderColor id="491">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3078,22 +3107,22 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="488">
+                  <area id="492">
                     <x>2613</x>
                     <y>1876</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="489">
+                <field id="493">
                   <name>turnOff</name>
-                  <strongTarget class="procedure" id="490">
+                  <strongTarget class="procedure" id="494">
                     <type>PROCEDURE</type>
                     <id>5079</id>
                     <name defined-in="object">unnamed</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="491"/>
-                    <borderColor id="492">
+                    <fieldList id="495"/>
+                    <borderColor id="496">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3106,7 +3135,7 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="493">
+                  <area id="497">
                     <x>2480</x>
                     <y>2450</y>
                     <width>100</width>
@@ -3114,34 +3143,34 @@
                   </area>
                 </field>
               </fieldList>
-              <borderColor reference="472"/>
+              <borderColor reference="476"/>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="494">
+            <area id="498">
               <x>1520</x>
               <y>1405</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="495">
+          <field id="499">
             <name>console</name>
-            <strongTarget id="496">
+            <strongTarget id="500">
               <type>NORMAL</type>
               <id>44</id>
               <name>console</name>
               <scope>ExecutionContext</scope>
-              <fieldList id="497">
-                <field id="498">
+              <fieldList id="501">
+                <field id="502">
                   <name>print</name>
-                  <strongTarget class="procedure" id="499">
+                  <strongTarget class="procedure" id="503">
                     <type>PROCEDURE</type>
                     <id>45</id>
                     <name defined-in="object">print</name>
                     <description></description>
-                    <fieldList id="500"/>
-                    <borderColor id="501">
+                    <fieldList id="504"/>
+                    <borderColor id="505">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3159,22 +3188,22 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="502">
+                  <area id="506">
                     <x>665</x>
                     <y>1245</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="503">
+                <field id="507">
                   <name>println</name>
-                  <strongTarget class="procedure" id="504">
+                  <strongTarget class="procedure" id="508">
                     <type>PROCEDURE</type>
                     <id>4808</id>
                     <name defined-in="object">unnamed</name>
                     <description></description>
-                    <fieldList id="505"/>
-                    <borderColor id="506">
+                    <fieldList id="509"/>
+                    <borderColor id="510">
                       <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
@@ -3192,7 +3221,7 @@
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="507">
+                  <area id="511">
                     <x>1920</x>
                     <y>1565</y>
                     <width>100</width>
@@ -3200,7 +3229,7 @@
                   </area>
                 </field>
               </fieldList>
-              <borderColor id="508">
+              <borderColor id="512">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3209,23 +3238,23 @@
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="509">
+            <area id="513">
               <x>2440</x>
               <y>1400</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="510">
+          <field id="514">
             <name>isNull</name>
-            <strongTarget class="procedure" id="511">
+            <strongTarget class="procedure" id="515">
               <type>PROCEDURE</type>
               <id>20307</id>
               <name defined-in="object">isNull</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="512"/>
-              <borderColor id="513">
+              <fieldList id="516"/>
+              <borderColor id="517">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3243,23 +3272,23 @@
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="514">
+            <area id="518">
               <x>642</x>
               <y>216</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="515">
+          <field id="519">
             <name>error</name>
-            <strongTarget class="procedure" id="516">
+            <strongTarget class="procedure" id="520">
               <type>PROCEDURE</type>
               <id>2647777</id>
               <name defined-in="object">error</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="517"/>
-              <borderColor id="518">
+              <fieldList id="521"/>
+              <borderColor id="522">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3277,41 +3306,41 @@
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="519">
+            <area id="523">
               <x>2115</x>
               <y>310</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="520">
+          <field id="524">
             <name>service</name>
-            <strongTarget id="521">
+            <strongTarget id="525">
               <type>NORMAL</type>
               <id>109459640</id>
               <name>service</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="522">
-                <field id="523">
+              <fieldList id="526">
+                <field id="527">
                   <name>timerService</name>
-                  <strongTarget id="524">
+                  <strongTarget id="528">
                     <type>NORMAL</type>
                     <id>109459638</id>
                     <name>timerService</name>
                     <description></description>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="525">
-                      <field id="526">
+                    <fieldList id="529">
+                      <field id="530">
                         <name>start</name>
-                        <strongTarget class="procedure" id="527">
+                        <strongTarget class="procedure" id="531">
                           <type>PROCEDURE</type>
                           <id>109459639</id>
                           <name defined-in="object">start</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="528"/>
-                          <borderColor id="529">
+                          <fieldList id="532"/>
+                          <borderColor id="533">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3329,23 +3358,23 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="530">
+                        <area id="534">
                           <x>930</x>
                           <y>1130</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="531">
+                      <field id="535">
                         <name>stop</name>
-                        <strongTarget class="procedure" id="532">
+                        <strongTarget class="procedure" id="536">
                           <type>PROCEDURE</type>
                           <id>109459640</id>
                           <name defined-in="object">stop</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="533"/>
-                          <borderColor reference="529"/>
+                          <fieldList id="537"/>
+                          <borderColor reference="533"/>
                           <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Stop</nativeProcedureClassName>
                           <nativeProcedureParameters></nativeProcedureParameters>
@@ -3358,23 +3387,23 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="534">
+                        <area id="538">
                           <x>1876</x>
                           <y>1158</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="535">
+                      <field id="539">
                         <name>subscribe</name>
-                        <strongTarget class="procedure" id="536">
+                        <strongTarget class="procedure" id="540">
                           <type>PROCEDURE</type>
                           <id>109459641</id>
                           <name defined-in="object">subscribe</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="537"/>
-                          <borderColor id="538">
+                          <fieldList id="541"/>
+                          <borderColor id="542">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3392,23 +3421,23 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="539">
+                        <area id="543">
                           <x>955</x>
                           <y>1830</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="540">
+                      <field id="544">
                         <name>unsubscribe</name>
-                        <strongTarget class="procedure" id="541">
+                        <strongTarget class="procedure" id="545">
                           <type>PROCEDURE</type>
                           <id>109459642</id>
                           <name defined-in="object">unsubscribe</name>
                           <description></description>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="542"/>
-                          <borderColor reference="538"/>
+                          <fieldList id="546"/>
+                          <borderColor reference="542"/>
                           <__native>false</__native>
                           <nativeProcedureClassName>com.bluesky.visualprogramming.core.nativeproc.service.timerService.Unsubscribe</nativeProcedureClassName>
                           <nativeProcedureParameters>timer</nativeProcedureParameters>
@@ -3421,7 +3450,7 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="543">
+                        <area id="547">
                           <x>1775</x>
                           <y>1865</y>
                           <width>100</width>
@@ -3429,34 +3458,34 @@
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor reference="529"/>
+                    <borderColor reference="533"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="544">
+                  <area id="548">
                     <x>820</x>
                     <y>1420</y>
                     <width>100</width>
                     <height>100</height>
                   </area>
                 </field>
-                <field id="545">
+                <field id="549">
                   <name>remoteService</name>
-                  <strongTarget id="546">
+                  <strongTarget id="550">
                     <type>NORMAL</type>
                     <id>33343</id>
                     <name>remoteService</name>
                     <scope>ExecutionContext</scope>
-                    <fieldList id="547">
-                      <field id="548">
+                    <fieldList id="551">
+                      <field id="552">
                         <name>start</name>
-                        <strongTarget class="procedure" id="549">
+                        <strongTarget class="procedure" id="553">
                           <type>PROCEDURE</type>
                           <id>33344</id>
                           <name defined-in="object">start</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="550"/>
-                          <borderColor id="551">
+                          <fieldList id="554"/>
+                          <borderColor id="555">
                             <red>0</red>
                             <green>0</green>
                             <blue>0</blue>
@@ -3470,22 +3499,22 @@
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="552">
+                        <area id="556">
                           <x>1071</x>
                           <y>973</y>
                           <width>100</width>
                           <height>100</height>
                         </area>
                       </field>
-                      <field id="553">
+                      <field id="557">
                         <name>description</name>
-                        <strongTarget class="string" id="554">
+                        <strongTarget class="string" id="558">
                           <type>STRING</type>
                           <id>33345</id>
                           <name>description</name>
                           <scope>ExecutionContext</scope>
-                          <fieldList id="555"/>
-                          <borderColor reference="551"/>
+                          <fieldList id="559"/>
+                          <borderColor reference="555"/>
                           <value>this remote service exposes the internal remote service of VM.
 allows programmers to start|stop a service, or enable/disable agent for certain object.
 
@@ -3493,7 +3522,7 @@ such as disable email aliases for object foo.</value>
                         </strongTarget>
                         <type>STRONG</type>
                         <svgScale>0.2</svgScale>
-                        <area id="556">
+                        <area id="560">
                           <x>1020</x>
                           <y>425</y>
                           <width>100</width>
@@ -3501,11 +3530,11 @@ such as disable email aliases for object foo.</value>
                         </area>
                       </field>
                     </fieldList>
-                    <borderColor reference="551"/>
+                    <borderColor reference="555"/>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
-                  <area id="557">
+                  <area id="561">
                     <x>1970</x>
                     <y>1205</y>
                     <width>100</width>
@@ -3513,7 +3542,7 @@ such as disable email aliases for object foo.</value>
                   </area>
                 </field>
               </fieldList>
-              <borderColor id="558">
+              <borderColor id="562">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3522,23 +3551,23 @@ such as disable email aliases for object foo.</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="559">
+            <area id="563">
               <x>1790</x>
               <y>2355</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="560">
+          <field id="564">
             <name>sleep</name>
-            <strongTarget class="procedure" id="561">
+            <strongTarget class="procedure" id="565">
               <type>PROCEDURE</type>
               <id>109464799</id>
               <name defined-in="object">sleep</name>
               <description>time is in milliseconds</description>
               <scope>ExecutionContext</scope>
-              <fieldList id="562"/>
-              <borderColor id="563">
+              <fieldList id="566"/>
+              <borderColor id="567">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
@@ -3556,7 +3585,7 @@ such as disable email aliases for object foo.</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="564">
+            <area id="568">
               <x>3004</x>
               <y>379</y>
               <width>100</width>
@@ -3568,76 +3597,76 @@ such as disable email aliases for object foo.</value>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="565">
+      <area id="569">
         <x>255</x>
         <y>845</y>
         <width>100</width>
         <height>100</height>
       </area>
     </field>
-    <field id="566">
+    <field id="570">
       <name>globalLinks</name>
-      <strongTarget id="567">
+      <strongTarget id="571">
         <type>NORMAL</type>
         <id>546517472</id>
         <name>globalLinks</name>
         <description>these links will be added to execution context, prefixed with &apos;_&apos;. such as system will be accessed as &apos;_system&apos; to avoid naming conflict from normal variable.</description>
         <scope>ExecutionContext</scope>
-        <fieldList id="568">
-          <field id="569">
+        <fieldList id="572">
+          <field id="573">
             <name>world</name>
             <type>WEAK</type>
             <pointerPath>world</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="570">
+            <area id="574">
               <x>425</x>
               <y>425</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="571">
+          <field id="575">
             <name>system</name>
             <type>WEAK</type>
             <pointerPath>world.core.system</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="572">
+            <area id="576">
               <x>1545</x>
               <y>405</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="573">
+          <field id="577">
             <name>console</name>
             <type>WEAK</type>
             <pointerPath>world.core.system.console</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="574">
+            <area id="578">
               <x>560</x>
               <y>1140</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="575">
+          <field id="579">
             <name>prototype</name>
             <type>WEAK</type>
             <pointerPath>world.core.prototype</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="576">
+            <area id="580">
               <x>2425</x>
               <y>390</y>
               <width>100</width>
               <height>100</height>
             </area>
           </field>
-          <field id="577">
+          <field id="581">
             <name>lib</name>
             <type>WEAK</type>
             <pointerPath>lib</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="578">
+            <area id="582">
               <x>545</x>
               <y>1855</y>
               <width>100</width>
@@ -3645,7 +3674,7 @@ such as disable email aliases for object foo.</value>
             </area>
           </field>
         </fieldList>
-        <borderColor id="579">
+        <borderColor id="583">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -3654,7 +3683,7 @@ such as disable email aliases for object foo.</value>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="580">
+      <area id="584">
         <x>360</x>
         <y>1700</y>
         <width>100</width>
@@ -3662,7 +3691,7 @@ such as disable email aliases for object foo.</value>
       </area>
     </field>
   </fieldList>
-  <borderColor id="581">
+  <borderColor id="585">
     <red>255</red>
     <green>0</green>
     <blue>0</blue>

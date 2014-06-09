@@ -7,7 +7,7 @@ import java.lang.ref.WeakReference;
 import org.apache.batik.dom.svg.SVGOMGElement;
 
 import com.bluesky.visualprogramming.core.value.StringValue;
-import com.bluesky.visualprogramming.ui.SVGDiagramPanel;
+import com.bluesky.visualprogramming.ui.SVGEventProcessor;
 import com.bluesky.visualprogramming.ui.svg.SvgScene;
 
 public class Field {
@@ -151,7 +151,7 @@ public class Field {
 	 * @param zoom
 	 * @param own
 	 */
-	public void draw(SVGDiagramPanel diagramPanel, SvgScene scene,
+	public void draw(SVGEventProcessor eventProcessor, SvgScene scene,
 			Point canvasOffset, boolean own) {
 
 		// System.out.println("draw:"+getName());
@@ -199,7 +199,9 @@ public class Field {
 			scene.setBorderWidth(id, BORDER_WIDTH_THIN);
 
 		ele.setUserData("field", this, null);
-		diagramPanel.addMouseListener(ele);
+
+		if (eventProcessor != null)
+			eventProcessor.addMouseListener(ele);
 
 	}
 

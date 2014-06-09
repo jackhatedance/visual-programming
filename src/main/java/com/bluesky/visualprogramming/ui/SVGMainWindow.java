@@ -166,6 +166,7 @@ public class SVGMainWindow extends JPanel {
 			} else {
 				System.out.println("selected field is null");
 			}
+
 		}
 	}
 
