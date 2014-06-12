@@ -321,8 +321,8 @@ public class _Object implements Serializable {
 	public   void renameField(String old, String _new) {
 		ObjectFields newObjectFields = getObjectFieldsSnapshot().makeACopy();
 		
-		List<Field> fieldList = getObjectFieldsSnapshot().fieldList;
-		Map<String, Integer> fieldNameMap= getObjectFieldsSnapshot().fieldNameMap;
+		List<Field> fieldList = newObjectFields.fieldList;
+		Map<String, Integer> fieldNameMap= newObjectFields.fieldNameMap;
 		
 		Integer index = fieldNameMap.get(old);
 		if (index == null)
