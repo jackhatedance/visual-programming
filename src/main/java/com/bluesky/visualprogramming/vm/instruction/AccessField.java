@@ -1,5 +1,7 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
+import com.bluesky.visualprogramming.dialect.goo.FieldName;
+import com.bluesky.visualprogramming.dialect.goo.FieldName.FieldType;
 import com.bluesky.visualprogramming.vm.InstructionType;
 
 /**
@@ -12,18 +14,30 @@ public class AccessField extends Instruction {
 
 	public String varName;
 	public String objName;
-	public String fieldName;
+
+	public FieldName fieldName;
 
 	public AccessField(int line) {
 		super(line);
-		
+
 		this.type = InstructionType.ACCESS_FIELD;
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format("[access_field] %s ~>%s.%s", varName,objName, fieldName
-				);
+		String str = null;
+		if (fieldName.getType() == FieldType.Constant)
+			str = String.format("[access_field] %s ~>%s.%s", varName, objName,
+					fieldName.getValue());
+		else
+			str = String.format("[access_field] %s ~>%s.$%s", varName, objName,
+					fieldName.getValue());
 
+		return str;
+	}
+
+
+	public boolean isFieldNameConst() {
+		return fieldName.getType() == FieldType.Constant;
 	}
 }

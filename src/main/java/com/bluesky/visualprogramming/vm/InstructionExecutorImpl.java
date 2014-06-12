@@ -19,6 +19,7 @@ import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
+import com.bluesky.visualprogramming.dialect.goo.SubjectName.SubjectType;
 import com.bluesky.visualprogramming.vm.debug.Debugger;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
@@ -53,10 +54,10 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	ProcedureExecutionContext ctx;
 	Message message;
 	PostService postService;
-	
-	//for debug
+
+	// for debug
 	String procedurePath;
-	
+
 	Debugger debugger;
 
 	// private volatile boolean paused;
@@ -65,7 +66,8 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 	public InstructionExecutorImpl(ObjectRepository objectRepository,
 			PostService postService, CompiledProcedure compiledProcedure,
-			ProcedureExecutionContext ctx, Message msg, Worker worker, Debugger debugger) {
+			ProcedureExecutionContext ctx, Message msg, Worker worker,
+			Debugger debugger) {
 
 		this.objectRepository = objectRepository;
 		this.postService = postService;
@@ -77,7 +79,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		this.worker = worker;
 
 		this.debugger = debugger;
-		
+
 		procedurePath = compiledProcedure.procedure.getPath();
 	}
 
@@ -147,13 +149,14 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 		Instruction instruction = instructions.get(ctx.currentInstructionIndex);
 
-		//debug trap
-		if(debugger.isEnabled() && debugger.needBreak(procedurePath, instruction.line))
-		{
-			//add java break point here. to check variables in eclipse.
-			System.out.println("break at:"+procedurePath+":"+instruction.line);
+		// debug trap
+		if (debugger.isEnabled()
+				&& debugger.needBreak(procedurePath, instruction.line)) {
+			// add java break point here. to check variables in eclipse.
+			System.out.println("break at:" + procedurePath + ":"
+					+ instruction.line);
 		}
-		
+
 		// execute it
 		if (logger.isDebugEnabled())
 			logger.debug(instruction.toString());
@@ -184,18 +187,28 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	public ExecutionStatus executeAccessField(AccessField instruction) {
 
 		_Object obj = ctx.getObject(instruction.objName);
+
+		String fieldName;
+		if (instruction.isFieldNameConst())
+			fieldName = instruction.fieldName.getValue();
+		else {
+			StringValue svFieldName = (StringValue) ctx
+					.getObject(instruction.fieldName.getValue());
+			fieldName = svFieldName.getValue();
+		}
+
 		if (obj == null)
 			throw new RuntimeException("object not exist:"
 					+ instruction.toString());
 
 		_Object result;
-		if (instruction.fieldName.equals(IMPLICT_FIELD_OWNER))
+		if (fieldName.equals(IMPLICT_FIELD_OWNER))
 			result = obj.getOwner();
-		else if (instruction.fieldName.equals(IMPLICT_FIELD_NAME)) {
+		else if (fieldName.equals(IMPLICT_FIELD_NAME)) {
 			result = new StringValue(-1);
 			result.setValue(obj.getName());
 		} else
-			result = obj.getChild(instruction.fieldName);
+			result = obj.getChild(fieldName);
 
 		ctx.setObject(instruction.varName, result);
 
@@ -342,15 +355,24 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 	@Override
 	public ExecutionStatus executeSendMessage(SendMessage instruction) {
 
+		String messageSubject = null;
+
+		if (instruction.messageSubjectName.getType() == SubjectType.Constant)
+			messageSubject = instruction.messageSubjectName.getValue();
+		else {
+			StringValue svMessageSubjectName = (StringValue) ctx
+					.getObject(instruction.messageSubjectName.getValue());
+			if (svMessageSubjectName != null)
+				messageSubject = svMessageSubjectName.getValue();
+		}
+
 		// native method
 		String nativeMethodVarPrefix = "_java_";
 		if (instruction.receiverVar.startsWith(nativeMethodVarPrefix)) {
 			String fullClassName = instruction.receiverVar.substring(
 					nativeMethodVarPrefix.length()).replace("_", ".");
 
-			StringValue messageSubject = (StringValue) ctx
-					.getObject(instruction.messageSubjectVar);
-			String methodName = messageSubject.getValue();
+			String methodName = messageSubject;
 
 			_Object result = executeNativeMethod(fullClassName, methodName,
 					ctx.getObject(instruction.messageBodyVar),
@@ -371,16 +393,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					throw new RuntimeException("receiver object not exist:"
 							+ instruction.receiverVar);
 
-				StringValue messageSubject = (StringValue) ctx
-						.getObject(instruction.messageSubjectVar);
 				StringValue replySubjectSV = (StringValue) ctx
 						.getObject(instruction.replySubjectVar);
 				String replySubject = replySubjectSV != null ? replySubjectSV
 						.getValue() : null;
 
 				if (messageSubject == null)
-					throw new RuntimeException("subject object not exist:"
-							+ instruction.messageSubjectVar);
+					throw new RuntimeException("subject is null");
 
 				_Object messageBody = ctx.getObject(instruction.messageBodyVar);
 
@@ -394,9 +413,8 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 					if (logger.isDebugEnabled())
 						logger.debug("executeSendMessage (SYNC), step 1 end; waiting...");
 
-					msg = new Message(sender, receiver,
-							messageSubject.getValue(), messageBody,
-							instruction.paramStyle, message,
+					msg = new Message(sender, receiver, messageSubject,
+							messageBody, instruction.paramStyle, message,
 							MessageType.SyncRequest, message.session);
 
 					ctx.step = 1;
@@ -408,7 +426,7 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 						logger.debug("executeSendMessage (ASYNC). finished, no reponse.");
 
 					msg = Message.newAsyncRequestMessage(sender, receiver,
-							messageSubject.getValue(), messageBody,
+							messageSubject, messageBody,
 							instruction.paramStyle, replySubject);
 
 					ctx.step = 0;

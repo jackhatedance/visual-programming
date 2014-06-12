@@ -13776,12 +13776,71 @@ _self.disable();&#xd;
               <height>100</height>
             </area>
           </field>
+          <field id="2388">
+            <name>fieldAccess</name>
+            <strongTarget class="procedure" id="2389">
+              <type>PROCEDURE</type>
+              <id>567305930</id>
+              <name defined-in="object">fieldAccess</name>
+              <description></description>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2390"/>
+              <borderColor id="2391">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <__native>false</__native>
+              <nativeProcedureClassName></nativeProcedureClassName>
+              <nativeProcedureParameters></nativeProcedureParameters>
+              <language>goo</language>
+              <code>procedure()
+{
+	name = _self.&quot;my name&quot;;
+	_g.console.println(name);
+
+	field = &quot;my name&quot;;
+	name2 = _self.$field;
+	_g.console.println(name2);
+}</code>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2392">
+              <x>1181</x>
+              <y>1673</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="2393">
+            <name>my name</name>
+            <strongTarget class="string" id="2394">
+              <type>STRING</type>
+              <id>567305931</id>
+              <name>my name</name>
+              <description></description>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2395"/>
+              <borderColor reference="2391"/>
+              <value>bar</value>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2396">
+              <x>225</x>
+              <y>165</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
         </fieldList>
         <borderColor reference="2386"/>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="2388">
+      <area id="2397">
         <x>2785</x>
         <y>2180</y>
         <width>100</width>
@@ -13789,7 +13848,7 @@ _self.disable();&#xd;
       </area>
     </field>
   </fieldList>
-  <borderColor id="2389">
+  <borderColor id="2398">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>
