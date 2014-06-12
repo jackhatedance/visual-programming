@@ -1,8 +1,8 @@
 package com.bluesky.visualprogramming.vm.instruction;
 
 import com.bluesky.visualprogramming.core.ParameterStyle;
-import com.bluesky.visualprogramming.dialect.goo.SubjectName;
-import com.bluesky.visualprogramming.dialect.goo.SubjectName.SubjectType;
+import com.bluesky.visualprogramming.dialect.goo.Name;
+import com.bluesky.visualprogramming.dialect.goo.NameType;
 import com.bluesky.visualprogramming.vm.InstructionType;
 
 public class SendMessage extends Instruction {
@@ -12,7 +12,7 @@ public class SendMessage extends Instruction {
 	public String receiverVar;
 	
 	
-	public SubjectName messageSubjectName;
+	public Name messageSubjectName;
 	public String replySubjectVar;
 	
 	public String messageBodyVar;
@@ -34,15 +34,9 @@ public class SendMessage extends Instruction {
 			replySubjectStr = "#" + replySubjectVar;
 		}
 
-		String subject = null;
-		if (messageSubjectName.getType() == SubjectType.Constant)
-			subject = messageSubjectName.getValue();
-		else
-			subject = "$" + messageSubjectName.getValue();
-
 		return String
 				.format("[send_message] %s %s = %s.%s%s(%s)", syncDesc,
-						replyVar, receiverVar, subject, replySubjectStr,
+						replyVar, receiverVar, messageSubjectName.getLiteral(), replySubjectStr,
 				messageBodyVar);
 	}
 }

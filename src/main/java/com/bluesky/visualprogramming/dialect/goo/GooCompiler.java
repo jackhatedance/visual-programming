@@ -23,8 +23,6 @@ import org.apache.log4j.Logger;
 
 import com.bluesky.visualprogramming.core.ObjectType;
 import com.bluesky.visualprogramming.core.ParameterStyle;
-import com.bluesky.visualprogramming.dialect.goo.FieldName.FieldType;
-import com.bluesky.visualprogramming.dialect.goo.SubjectName.SubjectType;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooLexer;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser;
 import com.bluesky.visualprogramming.dialect.goo.parser.GooParser.AccessFieldContext;
@@ -401,19 +399,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 				String paramVar = (String) nvc.accept(this);
 
-				// create field name var
-				CreateObject insFieldName = new CreateObject(
-						ctx.start.getLine());
-
-				insFieldName.varName = getNextTempVar("varField");
-				insFieldName.objType = ObjectType.STRING;
-				insFieldName.value = nvc.ID().getText();
-
-				addInstruction(insFieldName);
-
 				FieldAssignment ins2 = new FieldAssignment(ctx.start.getLine());
 				ins2.ownerVar = parametersVarName;
-				ins2.fieldNameVar = insFieldName.varName;
+				ins2.fieldName = new Name(nvc.ID().getText(), NameType.ID);				
 				ins2.rightVar = paramVar;
 				ins2.assignmentType = AssignmentType.AUTO;
 				ins2.valueObjectAssignmentPolicy = ValueObjectAssignmentPolicy.Reference;
@@ -441,17 +429,9 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		for (int i = 0; i < paramVars.length; i++) {
 			String paramVar = (String) paramVars[i];
 
-			CreateObject createField = new CreateObject(ctx.start.getLine());
-
-			createField.varName = getNextTempVar("string");
-			createField.objType = ObjectType.STRING;
-			createField.value = PARAMETER_BY_ORDER_NAME_PREFIX + i;
-
-			addInstruction(createField);
-
 			FieldAssignment ins2 = new FieldAssignment(ctx.start.getLine());
-			ins2.ownerVar = parametersVarName;
-			ins2.fieldNameVar = createField.varName;
+			ins2.ownerVar = parametersVarName;			
+			ins2.fieldName = new Name(PARAMETER_BY_ORDER_NAME_PREFIX + i, NameType.ID);
 			ins2.rightVar = paramVar;
 			ins2.assignmentType = AssignmentType.AUTO;
 			//to support unary operation
@@ -497,7 +477,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		AccessField ins = new AccessField(ctx.start.getLine());
 		ins.objName = (String) ctx.expr().accept(this);
 		// ins.fieldName = (String) ctx.field().getText();
-		ins.fieldName = (FieldName) ctx.field().accept(this);
+		ins.fieldName = (Name) ctx.field().accept(this);
 
 		ins.varName = var;
 
@@ -620,7 +600,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		ins.sync = (ctx.DOTDOT() == null);
 
 		// only one child, either Id or String. return procedure name
-		ins.messageSubjectName = (SubjectName) ctx.messgeSubject().accept(this);
+		ins.messageSubjectName = (Name) ctx.messgeSubject().accept(this);
 
 		if (ctx.replySubject() != null)
 			ins.replySubjectVar = (String) ctx.replySubject().accept(this);
@@ -681,7 +661,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 			FieldAssignment ins = new FieldAssignment(ctx.start.getLine());
 			ins.ownerVar = tempVar;
 
-			ins.fieldNameVar = (String) assigneeFieldContext.field().accept(
+			ins.fieldName = (Name) assigneeFieldContext.field().accept(
 					this);
 
 			ins.rightVar = tempVar2;
@@ -998,7 +978,7 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
 				.getText()));
 
-		FieldName fn = new FieldName(str, FieldType.Constant);
+		Name fn = new Name(str, NameType.String_);
 		return fn;
 	}
 
@@ -1007,32 +987,32 @@ public class GooCompiler implements GooVisitor<Object>, Compiler {
 
 		String str = StringEscapeUtils.unescapeJava(trimQuotationMarks(ctx
 				.getText()));
-		SubjectName sn = new SubjectName(str, SubjectType.Constant);
+		Name sn = new Name(str, NameType.String_);
 		return sn;
 	}
 
 	@Override
 	public Object visitIdMessageSubject(IdMessageSubjectContext ctx) {
-		SubjectName sn = new SubjectName(ctx.getText(), SubjectType.Constant);
+		Name sn = new Name(ctx.getText(), NameType.ID);
 		return sn;
 	}
 
 	@Override
 	public Object visitIdField(IdFieldContext ctx) {
-		FieldName fn = new FieldName(ctx.getText(), FieldType.Constant);
+		Name fn = new Name(ctx.getText(), NameType.String_);
 		return fn;
 	}
 
 	@Override
 	public Object visitVarField(VarFieldContext ctx) {
-		FieldName fn = new FieldName(ctx.ID().getText(), FieldType.Variable);
+		Name fn = new Name(ctx.ID().getText(), NameType.Variable);
 		return fn;
 	}
 
 	@Override
 	public Object visitVarMessageSubject(VarMessageSubjectContext ctx) {
-		SubjectName sn = new SubjectName(ctx.ID().getText(),
-				SubjectType.Variable);
+		Name sn = new Name(ctx.ID().getText(),
+				NameType.Variable);
 		return sn;
 	}
 

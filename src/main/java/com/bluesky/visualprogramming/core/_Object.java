@@ -727,8 +727,14 @@ public class _Object implements Serializable {
 			procedure.compiled = cp;
 
 		} catch (Exception e) {
+			
+			
 			String msg2 = String.format("compile failed for %s.%s(): %s",
 					getPath(), procedure.getName(), e.getMessage());
+			
+			
+			logger.error(msg2, e);
+			
 			throw new RuntimeException(msg2, e);
 
 		}

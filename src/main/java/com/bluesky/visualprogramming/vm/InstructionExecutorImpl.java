@@ -19,7 +19,7 @@ import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.StringValue;
 import com.bluesky.visualprogramming.core.value.ValueObject;
 import com.bluesky.visualprogramming.dialect.goo.GooCompiler;
-import com.bluesky.visualprogramming.dialect.goo.SubjectName.SubjectType;
+import com.bluesky.visualprogramming.dialect.goo.NameType;
 import com.bluesky.visualprogramming.vm.debug.Debugger;
 import com.bluesky.visualprogramming.vm.exceptions.CannotObtainOwnershipException;
 import com.bluesky.visualprogramming.vm.exceptions.LabelNotFoundException;
@@ -189,13 +189,12 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 		_Object obj = ctx.getObject(instruction.objName);
 
 		String fieldName;
-		if (instruction.isFieldNameConst())
-			fieldName = instruction.fieldName.getValue();
-		else {
+		if (instruction.fieldName.isVariable()) {
 			StringValue svFieldName = (StringValue) ctx
 					.getObject(instruction.fieldName.getValue());
 			fieldName = svFieldName.getValue();
-		}
+		} else
+			fieldName = instruction.fieldName.getValue();
 
 		if (obj == null)
 			throw new RuntimeException("object not exist:"
@@ -357,14 +356,13 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 		String messageSubject = null;
 
-		if (instruction.messageSubjectName.getType() == SubjectType.Constant)
-			messageSubject = instruction.messageSubjectName.getValue();
-		else {
+		if (instruction.messageSubjectName.isVariable()) {
 			StringValue svMessageSubjectName = (StringValue) ctx
 					.getObject(instruction.messageSubjectName.getValue());
 			if (svMessageSubjectName != null)
 				messageSubject = svMessageSubjectName.getValue();
-		}
+		} else
+			messageSubject = instruction.messageSubjectName.getValue();
 
 		// native method
 		String nativeMethodVarPrefix = "_java_";
@@ -497,7 +495,15 @@ public class InstructionExecutorImpl implements InstructionExecutor {
 
 		_Object oldFieldObject = null;
 
-		String fieldName = ctx.get(instruction.fieldNameVar).getValue();
+		String fieldName = null;
+		if (instruction.fieldName.isVariable()) {
+			StringValue svFieldName = (StringValue) ctx
+					.get(instruction.fieldName.getValue());
+			if (svFieldName != null)
+				fieldName = svFieldName.getValue();
+		} else
+			fieldName = instruction.fieldName.getValue();
+
 		// ownership
 		switch (instruction.assignmentType) {
 		case OWN:

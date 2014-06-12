@@ -197,6 +197,9 @@ public class Message {
 							.length();
 					int paramLen = paramNames.length;
 					for (String fieldName : parameters.getFieldNames()) {
+						if(fieldName.length() < prefixLen)
+							System.out.println("error");
+						
 						int idx = Integer.valueOf(fieldName
 								.substring(prefixLen));
 
