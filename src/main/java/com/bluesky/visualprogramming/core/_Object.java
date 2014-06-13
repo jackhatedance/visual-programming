@@ -210,10 +210,10 @@ public class _Object implements Serializable {
 	}
 
 	public String getPath() {
-		String name = ownerField.name;
 
 		if (hasOwner()) {
-			return getOwner().getPath() + "." + ObjectPathUtils.escape(name);
+			return getOwner().getPath() + "."
+					+ ObjectPathUtils.escape(ownerField.name);
 		} else
 			return name;
 	}
