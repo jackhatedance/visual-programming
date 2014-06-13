@@ -13808,8 +13808,8 @@ _self.disable();&#xd;
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
             <area id="2392">
-              <x>1181</x>
-              <y>1673</y>
+              <x>1682</x>
+              <y>591</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -13835,12 +13835,38 @@ _self.disable();&#xd;
               <height>100</height>
             </area>
           </field>
+          <field id="2397">
+            <name>complicated field 1.0</name>
+            <strongTarget class="string" id="2398">
+              <type>STRING</type>
+              <id>567305933</id>
+              <name>complicated field 1.0</name>
+              <description></description>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2399"/>
+              <borderColor id="2400">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <value>xxx</value>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2401">
+              <x>330</x>
+              <y>1250</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
         </fieldList>
         <borderColor reference="2386"/>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="2397">
+      <area id="2402">
         <x>2785</x>
         <y>2180</y>
         <width>100</width>
@@ -13848,7 +13874,7 @@ _self.disable();&#xd;
       </area>
     </field>
   </fieldList>
-  <borderColor id="2398">
+  <borderColor id="2403">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

@@ -234,7 +234,7 @@ public class ObjectRepository {
 	 * @return
 	 */
 	public _Object getObjectByPath(String path) {
-		String[] ss = path.split("\\.");
+		String[] ss = ObjectPathUtils.parse(path);
 
 		if (!ss[0].equals(ObjectRepository.ROOT_OBJECT))
 			throw new RuntimeException("the first object must be '"
