@@ -161,7 +161,7 @@ AUTO_ASSIGN: '='| '~>';
 
 //LINK : [a-zA-Z0-9]+ '://' [a-zA-Z0-9.]+ '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;   
 LINK_PROTOCOL : [a-zA-Z0-9]+ '://';
-LINK_ADDRESS : ([a-zA-Z0-9._]+)? '@' [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
+LINK_ADDRESS : ([a-zA-Z0-9._-]+)? '@' [a-zA-Z0-9-]+ ('.' [a-zA-Z0-9-]+)*;
 //LINK_ID : [a-zA-Z0-9.]+;
 //LINK_DOMAIN : [a-zA-Z0-9]+ ('.' [a-zA-Z0-9]+)*;
 
