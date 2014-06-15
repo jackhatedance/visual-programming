@@ -18,7 +18,7 @@ public class GooCompilerTest {
 
 	}
 
-	@Ignore
+
 	@Test
 	public void testConstant() {
 		InputStream is = GooCompilerTest.class

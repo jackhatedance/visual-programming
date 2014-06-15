@@ -1,4 +1,4 @@
-// Generated from Goo.g4 by ANTLR 4.2.2
+// Generated from Goo.g4 by ANTLR 4.1
 package com.bluesky.visualprogramming.dialect.goo.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -12,18 +12,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface GooVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link GooParser#ObjectConst}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitObjectConst(@NotNull GooParser.ObjectConstContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link GooParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionStatement(@NotNull GooParser.ExpressionStatementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link GooParser#ObjectConst}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObjectConst(@NotNull GooParser.ObjectConstContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link GooParser#returnStatement}.

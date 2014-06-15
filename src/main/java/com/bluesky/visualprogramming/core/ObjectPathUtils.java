@@ -28,22 +28,62 @@ public class ObjectPathUtils {
 	}
 
 	public static String escape(String s) {
-		return s.replaceAll("\\.", "\\\\.");
+		if (s.indexOf('\\') >= 0)
+			s = s.replaceAll("\\\\", "\\\\b");
+		if (s.indexOf('.') >= 0)
+			s = s.replaceAll("\\.", "\\\\d");
+		if (s.indexOf(' ') >= 0)
+			s = s.replaceAll("\\s", "\\\\s");
+
+		return s;
 	}
 
 	public static String unescape(String s) {
-		return s.replaceAll("\\\\.", "\\.");
+		if (s.indexOf('\\') < 0)
+			return s;
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < s.length(); i++) {
+
+			char c = s.charAt(i);
+			if (c == '\\' && i != (s.length() - 1)) {
+				char c2 = s.charAt(i + 1);
+				switch (c2) {
+				case 'd':// dot
+					sb.append(".");
+					i++;
+					break;
+				case 's':// space
+					sb.append(" ");
+					i++;
+					break;
+				case 'b':// back slash
+					sb.append("\\");
+					i++;
+					break;
+				default:
+					throw new RuntimeException("failed to unescape string:" + s);
+				}
+
+			} else
+				sb.append(c);
+
+		}
+
+		return sb.toString();
 	}
 
 	public static void main(String[] args) {
 
-		String p = "a.b.c\\.d.e";
+		String p = "a.b.c\\d\\sd\\be.f.g";
 		String[] ss = parse(p);
 		for (String s : ss) {
 			System.out.println(s);
 		}
-		
+
 		String path = generate(ss);
+		System.out.println();
 		System.out.println(path);
 
 	}

@@ -13836,27 +13836,132 @@ _self.disable();&#xd;
             </area>
           </field>
           <field id="2397">
-            <name>complicated field 1.0</name>
-            <strongTarget class="string" id="2398">
-              <type>STRING</type>
-              <id>567305933</id>
-              <name>complicated field 1.0</name>
+            <name>complicated field_1.0</name>
+            <strongTarget id="2398">
+              <type>NORMAL</type>
+              <id>567305938</id>
+              <name>complicated field_1.0</name>
               <description></description>
               <scope>ExecutionContext</scope>
-              <fieldList id="2399"/>
-              <borderColor id="2400">
+              <fieldList id="2399">
+                <field id="2400">
+                  <name>x</name>
+                  <strongTarget class="string" id="2401">
+                    <type>STRING</type>
+                    <id>567305939</id>
+                    <name>x</name>
+                    <description></description>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="2402"/>
+                    <borderColor id="2403">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <value>this is x.</value>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="2404">
+                    <x>775</x>
+                    <y>1335</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+                <field id="2405">
+                  <name>getX</name>
+                  <strongTarget class="procedure" id="2406">
+                    <type>PROCEDURE</type>
+                    <id>567305963</id>
+                    <name defined-in="object">getX</name>
+                    <description></description>
+                    <scope>ExecutionContext</scope>
+                    <fieldList id="2407"/>
+                    <borderColor id="2408">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                      <alpha>255</alpha>
+                    </borderColor>
+                    <__native>false</__native>
+                    <nativeProcedureClassName></nativeProcedureClassName>
+                    <nativeProcedureParameters></nativeProcedureParameters>
+                    <language>goo</language>
+                    <code>procedure()
+{
+	_result = &quot;this is x&quot;;
+}</code>
+                  </strongTarget>
+                  <type>STRONG</type>
+                  <svgScale>0.2</svgScale>
+                  <area id="2409">
+                    <x>1190</x>
+                    <y>1885</y>
+                    <width>100</width>
+                    <height>100</height>
+                  </area>
+                </field>
+              </fieldList>
+              <borderColor reference="2403"/>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2410">
+              <x>740</x>
+              <y>1695</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="2411">
+            <name>y</name>
+            <strongTarget class="link" id="2412">
+              <type>LINK</type>
+              <id>567305957</id>
+              <name>t_0</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2413"/>
+              <borderColor reference="2408"/>
+              <remoteAddress id="2414">
+                <protocol>path</protocol>
+                <userId>world.examples.language.complicated\sfield_1\d0</userId>
+                <server>local</server>
+                <port>-1</port>
+              </remoteAddress>
+            </strongTarget>
+            <type>STRONG</type>
+            <svgScale>0.2</svgScale>
+            <area id="2415">
+              <x>1745</x>
+              <y>1805</y>
+              <width>100</width>
+              <height>100</height>
+            </area>
+          </field>
+          <field id="2416">
+            <name>foo</name>
+            <strongTarget class="string" id="2417">
+              <type>STRING</type>
+              <id>567305948</id>
+              <name>foo</name>
+              <description></description>
+              <scope>ExecutionContext</scope>
+              <fieldList id="2418"/>
+              <borderColor id="2419">
                 <red>0</red>
                 <green>0</green>
                 <blue>0</blue>
                 <alpha>255</alpha>
               </borderColor>
-              <value>xxx</value>
+              <value>foo</value>
             </strongTarget>
             <type>STRONG</type>
             <svgScale>0.2</svgScale>
-            <area id="2401">
-              <x>330</x>
-              <y>1250</y>
+            <area id="2420">
+              <x>315</x>
+              <y>1100</y>
               <width>100</width>
               <height>100</height>
             </area>
@@ -13866,7 +13971,7 @@ _self.disable();&#xd;
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="2402">
+      <area id="2421">
         <x>2785</x>
         <y>2180</y>
         <width>100</width>
@@ -13874,7 +13979,7 @@ _self.disable();&#xd;
       </area>
     </field>
   </fieldList>
-  <borderColor id="2403">
+  <borderColor id="2422">
     <red>0</red>
     <green>0</green>
     <blue>0</blue>

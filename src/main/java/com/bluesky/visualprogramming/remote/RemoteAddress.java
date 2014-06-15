@@ -38,7 +38,7 @@ public class RemoteAddress {
 	}
 
 	public static RemoteAddress valueOf(String fullAddress) {
-		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9\\-_.]+)?@(?<server>[a-zA-Z0-9.]+)(:(?<port>\\d+))?";
+		String patternStr = "((?<protocol>\\w+)://)?(?<username>[a-zA-Z0-9\\-\\\\_.]+)?@(?<server>[a-zA-Z0-9.]+)(:(?<port>\\d+))?";
 		Pattern pattern = Pattern.compile(patternStr,
 				Pattern.UNICODE_CHARACTER_CLASS);
 		Matcher matcher = pattern.matcher(fullAddress);
