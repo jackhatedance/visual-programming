@@ -3,11 +3,7 @@ package com.bluesky.visualprogramming.core;
 public abstract class AbstractObjectRepositoryListener implements
 		ObjectRepositoryListener {
 
-	@Override
-	public void beforeSave(_Object obj) {
 
-
-	}
 
 	@Override
 	public void afterCreate(_Object obj) {

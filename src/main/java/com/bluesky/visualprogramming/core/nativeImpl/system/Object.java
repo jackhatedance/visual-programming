@@ -7,6 +7,7 @@ import java.io.Writer;
 
 import org.apache.batik.dom.util.DOMUtilities;
 
+import com.bluesky.visualprogramming.core.BasicObjectFactory;
 import com.bluesky.visualprogramming.core.ExtendedObjectFactory;
 import com.bluesky.visualprogramming.core.ObjectScope;
 import com.bluesky.visualprogramming.core.ObjectType;
@@ -15,6 +16,7 @@ import com.bluesky.visualprogramming.core._Object;
 import com.bluesky.visualprogramming.core.nativeImpl.proto.ListProto;
 import com.bluesky.visualprogramming.core.nativeproc.NativeMethodSupport;
 import com.bluesky.visualprogramming.core.nativeproc.ParameterList;
+import com.bluesky.visualprogramming.core.value.BooleanValue;
 import com.bluesky.visualprogramming.core.value.IntegerValue;
 import com.bluesky.visualprogramming.core.value.Link;
 import com.bluesky.visualprogramming.core.value.StringValue;
@@ -105,6 +107,15 @@ public class Object extends NativeMethodSupport {
 
 		dstObj.setField(dstFieldName.getValue(), childObj, true);
 
+	}
+
+	@ParameterList({ "srcObj", "deep" })
+	public static _Object copy(_Object srcObj, BooleanValue deep) {
+
+		BasicObjectFactory factory = getObjectFactory();
+		_Object newObject = srcObj.clone(deep.getBooleanValue(), factory);
+
+		return newObject;
 	}
 
 	@ParameterList({ "address" })

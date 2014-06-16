@@ -1,8 +1,11 @@
 package com.bluesky.visualprogramming.core;
 
 public interface ObjectRepositoryListener {
-	
-	void beforeSave(_Object obj);
+	/**
+	 * remove it to reduce suspending time of auto-saving. and no one is really
+	 * using it so far.
+	 */
+	// void beforeSave(_Object obj);
 	
 	/**
 	 * after create an object by the repository

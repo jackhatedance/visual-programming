@@ -57,18 +57,6 @@ public class ObjectRepository {
 		rootObject = createObject(ObjectType.NORMAL, ObjectScope.Persistent);
 		rootObject.setName(ObjectRepository.ROOT_OBJECT);
 
-		// my listeners
-		ObjectRepositoryListener migrationListener = new AbstractObjectRepositoryListener() {
-			@Override
-			public void beforeSave(_Object obj) {
-
-			}
-
-		};
-
-		// this listener is used to modify object data in batch for migration
-		// purpose. enable it only when necessary.
-		listeners.add(migrationListener);
 
 		factory = new BasicObjectFactory() {
 			@Override
@@ -527,15 +515,15 @@ public class ObjectRepository {
 			}
 		});
 
-		// notify
-		logger.debug("notify registered listener.");
-		treeWalk(mountPoint, new TreeWalker() {
-			@Override
-			public void walk(_Object obj) {
-				for (ObjectRepositoryListener l : listeners)
-					l.beforeSave(obj);
-			}
-		});
+		// // notify
+		// logger.debug("notify registered listener.");
+		// treeWalk(mountPoint, new TreeWalker() {
+		// @Override
+		// public void walk(_Object obj) {
+		// for (ObjectRepositoryListener l : listeners)
+		// l.beforeSave(obj);
+		// }
+		// });
 
 	}
 

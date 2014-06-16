@@ -2494,6 +2494,7 @@
                     <type>PROCEDURE</type>
                     <id>31838</id>
                     <name defined-in="object">copy</name>
+                    <description></description>
                     <scope>ExecutionContext</scope>
                     <fieldList id="401"/>
                     <borderColor reference="397"/>
@@ -2501,7 +2502,11 @@
                     <nativeProcedureClassName></nativeProcedureClassName>
                     <nativeProcedureParameters></nativeProcedureParameters>
                     <language>goo</language>
-                    <code></code>
+                    <code>procedure(srcObj, deep)
+{
+	_result = _java_com_bluesky_visualprogramming_core_nativeImpl_system_Object.copy(srcObj, deep);
+	
+}</code>
                   </strongTarget>
                   <type>STRONG</type>
                   <svgScale>0.2</svgScale>
@@ -3663,10 +3668,29 @@ such as disable email aliases for object foo.</value>
           </field>
           <field id="581">
             <name>lib</name>
-            <type>WEAK</type>
+            <strongTarget class="link" id="582">
+              <type>LINK</type>
+              <id>567666703</id>
+              <name>t_0</name>
+              <scope>ExecutionContext</scope>
+              <fieldList id="583"/>
+              <borderColor id="584">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+              </borderColor>
+              <remoteAddress id="585">
+                <protocol>path</protocol>
+                <userId>world.lib</userId>
+                <server>local</server>
+                <port>-1</port>
+              </remoteAddress>
+            </strongTarget>
+            <type>STRONG</type>
             <pointerPath>lib</pointerPath>
             <svgScale>0.2</svgScale>
-            <area id="582">
+            <area id="586">
               <x>545</x>
               <y>1855</y>
               <width>100</width>
@@ -3674,7 +3698,7 @@ such as disable email aliases for object foo.</value>
             </area>
           </field>
         </fieldList>
-        <borderColor id="583">
+        <borderColor id="587">
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
@@ -3683,7 +3707,7 @@ such as disable email aliases for object foo.</value>
       </strongTarget>
       <type>STRONG</type>
       <svgScale>0.2</svgScale>
-      <area id="584">
+      <area id="588">
         <x>360</x>
         <y>1700</y>
         <width>100</width>
@@ -3691,7 +3715,7 @@ such as disable email aliases for object foo.</value>
       </area>
     </field>
   </fieldList>
-  <borderColor id="585">
+  <borderColor id="589">
     <red>255</red>
     <green>0</green>
     <blue>0</blue>
