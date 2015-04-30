@@ -186,4 +186,24 @@
 			<version>2.2.1</version>
 		</dependency>
 	</dependencies>
+	
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>Internal Releases</name>
+			<url>http://ci:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Internal Releases</name>
+			<url>http://ci:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	 
+	<scm>
+		<url>https://github.com/jackhatedance/oum</url>
+		<connection>scm:git:git://github.com/jackhatedance/visual-programming.git</connection>
+		<developerConnection>scm:git:git@github.com:jackhatedance/visual-programming.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 </project>
